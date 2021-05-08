@@ -63,7 +63,6 @@ const EditorConfig = () => {
 					path: '/custom-html-block-extension/v1/get_editor_config',
 					method: 'POST'
 			}).then( ( response ) => {
-				console.log( response );
 				setEditorSettings( response.editorSettings );
 				setEditorOptions( response.editorOptions );
 				setIsAPILoaded( true );
