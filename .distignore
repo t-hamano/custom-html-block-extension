@@ -5,7 +5,7 @@
 /vendor
 .distignore
 .editorconfig
-.editorconfig
+.eslintignore
 .eslintrc.js
 .gitignore
 .stylelintignore
