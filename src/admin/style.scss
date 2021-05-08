@@ -1,0 +1,427 @@
+// React notification component
+@import "../../node_modules/react-notifications-component/dist/scss/notification";
+
+// WordPress admin
+.auto-fold #wpcontent {
+	padding-left: 0;
+}
+
+// Modal component
+.chbe-modal {
+
+	.components-modal__content {
+		@media screen and (max-width: 782px) {
+			height: auto;
+		}
+	}
+
+	&__row {
+		display: flex;
+
+		@media screen and (max-width: 782px) {
+			display: block;
+		}
+
+		+ .chbe-modal__row {
+			margin-top: 40px;
+		}
+	}
+
+	&__col {
+		flex: 1;
+
+		&:not(:last-child) {
+			margin-right: 24px;
+
+			@media screen and (max-width: 782px) {
+				margin: 0 0 40px;
+			}
+		}
+
+		> *:first-child {
+			margin-top: 0;
+		}
+
+		> *:last-child {
+			margin-bottom: 0;
+		}
+
+		.components-button {
+			height: auto;
+			padding: 8px;
+
+			img {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	h3 {
+		font-size: 16px;
+	}
+
+	img {
+		display: block;
+		margin-bottom: 1em;
+	}
+
+	.components-modal__content > *:last-child {
+		margin-bottom: 0;
+	}
+
+	.components-form-toggle {
+
+		.components-form-toggle__track {
+			width: 54px;
+			height: 24px;
+			border-radius: 12px;
+		}
+
+		.components-form-toggle__thumb {
+			top: 4px;
+			left: 5px;
+			width: 16px;
+			height: 16px;
+		}
+
+		&.is-checked .components-form-toggle__thumb {
+			transform: translateX(28px);
+		}
+	}
+
+	.components-notice {
+		margin: 2em 0;
+		padding: 6px 12px;
+
+		&__content {
+			display: flex;
+			align-items: center;
+
+			.dashicon {
+				margin-right: 8px;
+			}
+		}
+	}
+
+	&__controls {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: 32px;
+
+		.components-button + .components-button {
+			margin-left: 32px;
+		}
+	}
+}
+
+// Welcome guide component
+.chbe-welcome-guide {
+	max-width: 350px;
+
+	h1 {
+		margin: 0 0 16px 0;
+		padding: 0 32px;
+		font-size: 24px;
+		line-height: 1.4;
+	}
+
+	p {
+		margin: 0 0 24px 0;
+		padding: 0 32px;
+		font-size: 13px;
+		line-height: 1.4;
+	}
+
+	.components-guide__footer {
+		box-sizing: border-box;
+	}
+}
+
+#custom-html-block-extension-admin {
+
+	// Common classes
+	.chbe-container {
+		position: relative;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 16px;
+	}
+
+	.chbe-help {
+		min-width: auto;
+		height: auto;
+		margin-left: 16px;
+		padding: 0;
+	}
+
+	// React notification component
+	.notifications-component {
+		margin-left: -80px;
+
+		.notification__message {
+			font-size: 16px;
+		}
+	}
+
+	// Disabled component
+	.components-disabled {
+		opacity: 0.3;
+	}
+
+	// Header component
+	.chbe-header {
+		padding: 16px 0 8px;
+		background-color: #fff;
+
+		&__ttl {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 0 8px;
+			line-height: 1;
+
+			@media screen and (max-width: 782px) {
+				font-size: 20px;
+			}
+
+			svg {
+				width: 30px;
+				margin-right: 8px;
+			}
+		}
+
+		&__info {
+			position: absolute;
+			top: 0;
+			right: 16px;
+			margin: 0;
+
+			@media screen and (max-width: 782px) {
+				position: static;
+				margin-top: 16px;
+			}
+		}
+	}
+
+	// Loading component
+	.chbe-loading {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		z-index: 1;
+		margin-left: 89px;
+
+		.components-spinner {
+			margin: 0;
+			transform: scale(1.5);
+		}
+	}
+
+	// TabPanel component
+	.chbe-tabs .components-tab-panel__tabs {
+		justify-content: center;
+		margin-bottom: 40px;
+		background: #fff;
+		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
+	}
+
+	// EditorConfig component
+	.chbe-config {
+
+		&__content {
+			display: flex;
+			flex-flow: row-reverse;
+
+			&--saving {
+				opacity: 0.2;
+			}
+
+			@media screen and (max-width: 782px) {
+				display: block;
+			}
+		}
+
+		&__settings {
+			flex: 1;
+
+			h3 {
+				margin: 24px 0 0;
+				padding-top: 24px;
+				border-top: 1px solid #d6e2ed;
+			}
+		}
+
+		&__preview {
+			position: sticky;
+			top: 40px;
+			width: 50%;
+			height: 100%;
+			margin-left: 24px;
+
+			@media screen and (max-width: 782px) {
+				position: static;
+				width: 100%;
+				margin: 0 0 32px;
+			}
+
+			h2 {
+				margin-top: 0;
+				margin-bottom: 16px;
+
+				+ * {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
+		&__controls--basic {
+			padding: 24px;
+			background: #fff;
+			border: 1px solid #d6e2ed;
+		}
+
+		&__controls-group {
+			margin-top: 16px;
+			padding: 16px;
+			border: 1px solid #007cba;
+		}
+
+		// Common classes
+		.components-input-control__container {
+			display: inline-flex;
+			width: auto;
+		}
+
+		// Panel component
+		.components-panel {
+
+			&__body {
+				margin-bottom: 16px;
+				background: #fff;
+				border: 1px solid #d6e2ed;
+				border-bottom: none;
+
+				&.is-opened > .components-panel__body-title {
+					margin-bottom: 16px;
+				}
+			}
+
+			&__body-toggle.components-button {
+				padding-top: 12px;
+				padding-bottom: 12px;
+				font-weight: bold;
+				font-size: 16px;
+			}
+
+			&__body-toggle {
+				border-bottom: 1px solid #d6e2ed;
+			}
+
+			&__row {
+				flex-wrap: wrap;
+				align-items: flex-start;
+				justify-content: flex-start;
+				min-height: auto;
+				margin-top: 16px;
+
+				label {
+					flex: 1;
+					max-width: 100%;
+					margin-right: 0;
+					overflow: initial;
+					text-overflow: initial;
+				}
+			}
+		}
+
+		// BaseControl component
+		.components-base-control {
+
+			label {
+				display: block;
+			}
+
+			&__help {
+				margin: 8px 0 0;
+				color: #757575;
+				font-size: 12px;
+			}
+		}
+
+		// TextControl component
+		.components-text-control__input {
+			width: auto;
+		}
+
+		// SelectControl component
+		.components-select-control__input {
+			line-height: initial;
+		}
+
+		// RangeControl component
+		.components-range-control {
+			flex: 1;
+			max-width: 300px;
+		}
+
+		// Monaco editor component
+		.chbe-monaco {
+			height: calc(100vh - 400px);
+
+			@media screen and (max-width: 782px) {
+				height: 50vh;
+			}
+
+			.components-disabled {
+				height: 100%;
+			}
+
+			.monaco-editor .inputarea {
+				box-shadow: none;
+			}
+		}
+
+		// Mode component
+		.chbe-mode {
+			display: block;
+			margin-bottom: 40px;
+			text-align: center;
+
+			.components-button {
+				justify-content: center;
+				width: 50%;
+				max-width: 150px;
+			}
+		}
+
+		// Shorcut component
+		.chbe-shortcut {
+			display: flex;
+			margin-top: 64px;
+			// margin-top: 16px;
+
+			.components-button {
+				margin-left: auto;
+			}
+		}
+
+		// Button menu component
+		.chbe-button-menu {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 40px;
+
+			&__submit {
+				padding-right: 56px;
+				padding-left: 56px;
+			}
+		}
+	}
+
+	// Tools component
+	.chbe-tools {
+		padding: 24px;
+		background: #fff;
+		border: 1px solid #d6e2ed;
+	}
+}

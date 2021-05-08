@@ -1,0 +1,50 @@
+{
+	"name": "custom-html-block-extension",
+	"author": "Tetsuaki Hamano",
+	"license": "GPL-2.0+",
+	"scripts": {
+		"wp-env": "wp-env",
+		"open": "wp-env start && opener http://localhost:8888",
+		"stop": "wp-env stop",
+		"start": "chokidar \"src/**/*\" -c \"npm-run-all -p js:sourcemap:* sass:sourcemap\" --initial",
+		"build": "npm-run-all -s clean js:compressed:* sass:compressed po2json",
+		"sass:sourcemap": "node-sass src --output build --source-map true",
+		"sass:compressed": "node-sass src --output build --output-style compressed",
+		"js:sourcemap:block": "cross-env NODE_ENV=development wp-scripts build src/block/index --output-path build/block",
+		"js:sourcemap:admin": "cross-env NODE_ENV=development wp-scripts build src/admin/index --output-path build/admin",
+		"js:compressed:block": "wp-scripts build src/block/index --output-path build/block",
+		"js:compressed:admin": "wp-scripts build src/admin/index --output-path build/admin",
+		"clean": "rimraf build",
+		"lint:php": "composer lint",
+		"lint:js": "wp-scripts lint-js",
+		"lint:style": "wp-scripts lint-style",
+		"po2json": "cross-conf-env po2json languages/npm_package_name-ja.po languages/npm_package_name-ja-npm_package_name-admin.json -f jed"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^4.0.3",
+		"@wordpress/icons": "^2.10.3",
+		"@wordpress/lazy-import": "^1.2.3",
+		"@wordpress/scripts": "^15.0.1",
+		"chokidar-cli": "^2.1.0",
+		"cross-conf-env": "^1.2.1",
+		"cross-env": "^7.0.3",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-config-wordpress": "^2.0.0",
+		"eslint-plugin-prettier": "^3.4.0",
+		"monaco-themes": "^0.3.3",
+		"node-sass": "^5.0.0",
+		"npm-run-all": "^4.1.5",
+		"opener": "^1.5.2",
+		"po2json": "^1.0.0-alpha",
+		"react-notifications-component": "^3.1.0",
+		"rimraf": "^3.0.2",
+		"stylelint-config-rational-order": "^0.1.2",
+		"stylelint-config-recommended-scss": "^4.2.0",
+		"stylelint-config-wordpress": "^17.0.0"
+	},
+	"dependencies": {
+		"@monaco-editor/react": "^4.1.3",
+		"emmet-monaco-es": "^4.6.2",
+		"webfontloader": "^1.6.28"
+	}
+}

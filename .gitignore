@@ -1,0 +1,6 @@
+.vscode
+build/
+node_modules/
+vendor/
+languages/*.json
+.wp-env.override.json

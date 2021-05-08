@@ -1,0 +1,1890 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Custom HTML Block Extension\n"
+"POT-Creation-Date: 2021-05-07 06:52+0000\n"
+"PO-Revision-Date: 2021-05-04 12:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: Tetsuaki Hamano\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: custom-html-block-extension.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: build\n"
+
+#: src/admin/editor-config/button-menu.jsx:26
+msgid "Save Settings"
+msgstr ""
+
+#: src/admin/editor-config/button-menu.jsx:36
+msgid "Reset"
+msgstr ""
+
+#: src/admin/editor-config/button-menu.jsx:42
+#: src/admin/editor-config/button-menu.jsx:55
+msgid "Reset Settings"
+msgstr ""
+
+#: src/admin/editor-config/button-menu.jsx:46
+msgid "Are you sure that reset all settings to default values ?"
+msgstr ""
+
+#: src/admin/editor-config/button-menu.jsx:61
+msgid "Cancel"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/accept-suggestion-on-enter.jsx:34
+#: src/admin/editor-config/editor-options/accept-suggestion-on-enter.jsx:40
+msgid "Accept suggestions on enter key"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/accept-suggestion-on-enter.jsx:44
+msgid "Accept suggestions on enter key in addition to tab key."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/accept-suggestion-on-enter.jsx:45
+#: src/admin/editor-config/editor-options/empty-selection-clipboard.jsx:44
+#: src/admin/editor-config/editor-options/find/loop.jsx:48
+#: src/admin/editor-config/editor-options/find/seed-search-string-from-selection.jsx:47
+#: src/admin/editor-config/editor-options/folding.jsx:45
+#: src/admin/editor-config/editor-options/hover.jsx:44
+#: src/admin/editor-config/editor-options/minimap/enabled.jsx:48
+#: src/admin/editor-config/editor-options/quick-suggestions.jsx:46
+#: src/admin/editor-config/editor-settings/emmet.jsx:48
+msgid "Defaults to enable."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/accept-suggestion-on-enter.jsx:58
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:104
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:104
+#: src/admin/editor-config/editor-options/auto-indent.jsx:107
+#: src/admin/editor-config/editor-options/auto-surround.jsx:123
+#: src/admin/editor-config/editor-options/column-selection.jsx:68
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:88
+#: src/admin/editor-config/editor-options/contextmenu.jsx:86
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:84
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:138
+#: src/admin/editor-config/editor-options/cursor-smooth-caret-animation.jsx:83
+#: src/admin/editor-config/editor-options/cursor-style.jsx:157
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines-style.jsx:83
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:70
+#: src/admin/editor-config/editor-options/drag-and-drop.jsx:61
+#: src/admin/editor-config/editor-options/empty-selection-clipboard.jsx:61
+#: src/admin/editor-config/editor-options/find/addextra-space-on-top.jsx:86
+#: src/admin/editor-config/editor-options/find/loop.jsx:65
+#: src/admin/editor-config/editor-options/find/seed-search-string-from-selection.jsx:64
+#: src/admin/editor-config/editor-options/folding-highlight.jsx:83
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:88
+#: src/admin/editor-config/editor-options/folding.jsx:62
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:84
+#: src/admin/editor-config/editor-options/format-on-paste.jsx:83
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:84
+#: src/admin/editor-config/editor-options/hide-cursor-in-overview-ruler.jsx:83
+#: src/admin/editor-config/editor-options/highlight-active-indent-guide.jsx:83
+#: src/admin/editor-config/editor-options/hover.jsx:61
+#: src/admin/editor-config/editor-options/line-decorations-width.jsx:57
+#: src/admin/editor-config/editor-options/line-numbers-min-chars.jsx:57
+#: src/admin/editor-config/editor-options/line-numbers.jsx:121
+#: src/admin/editor-config/editor-options/links.jsx:83
+#: src/admin/editor-config/editor-options/match-brackets.jsx:104
+#: src/admin/editor-config/editor-options/minimap/enabled.jsx:65
+#: src/admin/editor-config/editor-options/minimap/max-column.jsx:60
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:88
+#: src/admin/editor-config/editor-options/minimap/scale.jsx:60
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:90
+#: src/admin/editor-config/editor-options/minimap/side.jsx:101
+#: src/admin/editor-config/editor-options/minimap/size.jsx:110
+#: src/admin/editor-config/editor-options/mouse-wheel-zoom.jsx:61
+#: src/admin/editor-config/editor-options/multi-cursor-modifier.jsx:69
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:100
+#: src/admin/editor-config/editor-options/occurrences-highlight.jsx:83
+#: src/admin/editor-config/editor-options/overview-ruler-border.jsx:83
+#: src/admin/editor-config/editor-options/padding/bottom.jsx:62
+#: src/admin/editor-config/editor-options/padding/top.jsx:61
+#: src/admin/editor-config/editor-options/quick-suggestions-delay.jsx:69
+#: src/admin/editor-config/editor-options/quick-suggestions.jsx:63
+#: src/admin/editor-config/editor-options/render-control-characters.jsx:83
+#: src/admin/editor-config/editor-options/render-final-newline.jsx:83
+#: src/admin/editor-config/editor-options/render-indent-guides.jsx:83
+#: src/admin/editor-config/editor-options/render-line-highlight-only-when-focus.jsx:88
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:123
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:142
+#: src/admin/editor-config/editor-options/rounded-selection.jsx:83
+#: src/admin/editor-config/editor-options/rulers.jsx:58
+#: src/admin/editor-config/editor-options/scroll-beyond-last-column.jsx:69
+#: src/admin/editor-config/editor-options/scroll-beyond-last-line.jsx:83
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:88
+#: src/admin/editor-config/editor-options/scrollbar/arrow-size.jsx:72
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-has-arrows.jsx:86
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-scrollbar-size.jsx:72
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:107
+#: src/admin/editor-config/editor-options/scrollbar/scroll-by-page.jsx:65
+#: src/admin/editor-config/editor-options/scrollbar/use-shadows.jsx:86
+#: src/admin/editor-config/editor-options/scrollbar/vertical-has-arrows.jsx:86
+#: src/admin/editor-config/editor-options/scrollbar/vertical-scrollbar-size.jsx:72
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:107
+#: src/admin/editor-config/editor-options/select-on-line-numbers.jsx:83
+#: src/admin/editor-config/editor-options/selection-highlight.jsx:83
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:87
+#: src/admin/editor-config/editor-options/smooth-scrolling.jsx:83
+#: src/admin/editor-config/editor-options/sticky-tab-stops.jsx:83
+#: src/admin/editor-config/editor-options/suggest-font-size.jsx:69
+#: src/admin/editor-config/editor-options/suggest-line-height.jsx:69
+#: src/admin/editor-config/editor-options/suggest/show-icons.jsx:87
+#: src/admin/editor-config/editor-options/unfold-on-click-after-end-of-line.jsx:61
+#: src/admin/editor-config/editor-options/use-tab-stops.jsx:83
+#: src/admin/editor-config/editor-options/word-wrap-column.jsx:57
+#: src/admin/editor-config/editor-options/word-wrap.jsx:127
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:123
+#: src/admin/editor-config/editor-settings/emmet.jsx:73
+msgid "Information"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:34
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:45
+msgid "Auto closing brackets"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:37
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:37
+#: src/admin/editor-config/editor-options/match-brackets.jsx:37
+msgid "Always"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:38
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:67
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:78
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:38
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:67
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:78
+msgid "Only when there is whitespace right after the cursor"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:39
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:83
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:94
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:39
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:83
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:94
+#: src/admin/editor-config/editor-options/auto-surround.jsx:40
+#: src/admin/editor-config/editor-options/auto-surround.jsx:102
+#: src/admin/editor-config/editor-options/auto-surround.jsx:113
+#: src/admin/editor-config/editor-options/match-brackets.jsx:38
+#: src/admin/editor-config/editor-options/match-brackets.jsx:67
+#: src/admin/editor-config/editor-options/match-brackets.jsx:78
+msgid "Never"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:51
+#: src/admin/editor-config/editor-options/auto-closing-brackets.jsx:62
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:51
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:62
+#: src/admin/editor-config/editor-options/match-brackets.jsx:51
+#: src/admin/editor-config/editor-options/match-brackets.jsx:62
+msgid "Always (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:34
+#: src/admin/editor-config/editor-options/auto-closing-quotes.jsx:45
+msgid "Auto closing quotes"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-indent.jsx:37
+#: src/admin/editor-config/editor-options/auto-indent.jsx:48
+msgid "Auto indent"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-indent.jsx:40
+#: src/admin/editor-config/editor-options/auto-indent.jsx:54
+#: src/admin/editor-config/editor-options/auto-indent.jsx:65
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:40
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:102
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:113
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:41
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:37
+msgid "None"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-indent.jsx:41
+#: src/admin/editor-config/editor-options/auto-indent.jsx:70
+#: src/admin/editor-config/editor-options/auto-indent.jsx:81
+msgid "Keep"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-indent.jsx:42
+#: src/admin/editor-config/mode.jsx:27
+msgid "Advanced"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-indent.jsx:86
+#: src/admin/editor-config/editor-options/auto-indent.jsx:97
+msgid "Advanced (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-surround.jsx:34
+#: src/admin/editor-config/editor-options/auto-surround.jsx:46
+msgid "Automatically surround selection with quotes or brackets"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-surround.jsx:37
+msgid "Quotes and brackets"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-surround.jsx:38
+#: src/admin/editor-config/editor-options/auto-surround.jsx:68
+#: src/admin/editor-config/editor-options/auto-surround.jsx:79
+msgid "Quotes only"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-surround.jsx:39
+#: src/admin/editor-config/editor-options/auto-surround.jsx:86
+#: src/admin/editor-config/editor-options/auto-surround.jsx:97
+msgid "Brackets only"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/auto-surround.jsx:52
+#: src/admin/editor-config/editor-options/auto-surround.jsx:63
+msgid "Quotes and brackets (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:34
+#: src/admin/editor-config/editor-options/column-selection.jsx:40
+msgid "Enable column selection"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:44
+msgid ""
+"Always enable column selection. Following command can be used to select "
+"column selection even when disabled."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:46
+msgid "Windows:"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:47
+msgid "\"Shift + Alt + drag mouse\", or \"Ctrl + Shift + Alt + arrow key\""
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:48
+msgid "macOS:"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:49
+msgid ""
+"\"Shift + Option + drag mouse\", or \"Shift + Option + Command + arrow key\""
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:51
+#: src/admin/editor-config/editor-options/drag-and-drop.jsx:44
+#: src/admin/editor-config/editor-options/mouse-wheel-zoom.jsx:44
+#: src/admin/editor-config/editor-options/scrollbar/scroll-by-page.jsx:48
+#: src/admin/editor-config/editor-options/unfold-on-click-after-end-of-line.jsx:44
+msgid "Defaults to disable."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/column-selection.jsx:54
+msgid "Column selection"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:38
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:44
+msgid "Insert whitespace in comment"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:48
+msgid ""
+"Insert whitespace inside the comment tokens when comment out using the "
+"keyboard shortcut."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:51
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:62
+#: src/admin/editor-config/editor-options/contextmenu.jsx:47
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:47
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:58
+#: src/admin/editor-config/editor-options/find/addextra-space-on-top.jsx:49
+#: src/admin/editor-config/editor-options/find/addextra-space-on-top.jsx:60
+#: src/admin/editor-config/editor-options/folding-highlight.jsx:46
+#: src/admin/editor-config/editor-options/folding-highlight.jsx:57
+#: src/admin/editor-config/editor-options/highlight-active-indent-guide.jsx:46
+#: src/admin/editor-config/editor-options/highlight-active-indent-guide.jsx:57
+#: src/admin/editor-config/editor-options/links.jsx:46
+#: src/admin/editor-config/editor-options/links.jsx:57
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:49
+#: src/admin/editor-config/editor-options/occurrences-highlight.jsx:46
+#: src/admin/editor-config/editor-options/occurrences-highlight.jsx:57
+#: src/admin/editor-config/editor-options/overview-ruler-border.jsx:46
+#: src/admin/editor-config/editor-options/overview-ruler-border.jsx:57
+#: src/admin/editor-config/editor-options/render-final-newline.jsx:46
+#: src/admin/editor-config/editor-options/render-final-newline.jsx:57
+#: src/admin/editor-config/editor-options/render-indent-guides.jsx:46
+#: src/admin/editor-config/editor-options/render-indent-guides.jsx:57
+#: src/admin/editor-config/editor-options/scroll-beyond-last-line.jsx:46
+#: src/admin/editor-config/editor-options/scroll-beyond-last-line.jsx:57
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:49
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:60
+#: src/admin/editor-config/editor-options/scrollbar/use-shadows.jsx:49
+#: src/admin/editor-config/editor-options/scrollbar/use-shadows.jsx:60
+#: src/admin/editor-config/editor-options/select-on-line-numbers.jsx:46
+#: src/admin/editor-config/editor-options/select-on-line-numbers.jsx:57
+#: src/admin/editor-config/editor-options/selection-highlight.jsx:46
+#: src/admin/editor-config/editor-options/selection-highlight.jsx:57
+#: src/admin/editor-config/editor-options/suggest/show-icons.jsx:50
+#: src/admin/editor-config/editor-options/suggest/show-icons.jsx:61
+#: src/admin/editor-config/editor-options/use-tab-stops.jsx:46
+#: src/admin/editor-config/editor-options/use-tab-stops.jsx:57
+msgid "Enable (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:67
+#: src/admin/editor-config/editor-options/comments/insert-space.jsx:78
+#: src/admin/editor-config/editor-options/contextmenu.jsx:64
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:63
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:74
+#: src/admin/editor-config/editor-options/find/addextra-space-on-top.jsx:65
+#: src/admin/editor-config/editor-options/find/addextra-space-on-top.jsx:76
+#: src/admin/editor-config/editor-options/folding-highlight.jsx:62
+#: src/admin/editor-config/editor-options/folding-highlight.jsx:73
+#: src/admin/editor-config/editor-options/highlight-active-indent-guide.jsx:62
+#: src/admin/editor-config/editor-options/highlight-active-indent-guide.jsx:73
+#: src/admin/editor-config/editor-options/links.jsx:62
+#: src/admin/editor-config/editor-options/links.jsx:73
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:66
+#: src/admin/editor-config/editor-options/occurrences-highlight.jsx:62
+#: src/admin/editor-config/editor-options/occurrences-highlight.jsx:73
+#: src/admin/editor-config/editor-options/overview-ruler-border.jsx:62
+#: src/admin/editor-config/editor-options/overview-ruler-border.jsx:73
+#: src/admin/editor-config/editor-options/render-final-newline.jsx:62
+#: src/admin/editor-config/editor-options/render-final-newline.jsx:73
+#: src/admin/editor-config/editor-options/render-indent-guides.jsx:62
+#: src/admin/editor-config/editor-options/render-indent-guides.jsx:73
+#: src/admin/editor-config/editor-options/scroll-beyond-last-line.jsx:62
+#: src/admin/editor-config/editor-options/scroll-beyond-last-line.jsx:73
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:66
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:77
+#: src/admin/editor-config/editor-options/scrollbar/use-shadows.jsx:65
+#: src/admin/editor-config/editor-options/scrollbar/use-shadows.jsx:76
+#: src/admin/editor-config/editor-options/select-on-line-numbers.jsx:62
+#: src/admin/editor-config/editor-options/select-on-line-numbers.jsx:73
+#: src/admin/editor-config/editor-options/selection-highlight.jsx:62
+#: src/admin/editor-config/editor-options/selection-highlight.jsx:73
+#: src/admin/editor-config/editor-options/suggest/show-icons.jsx:66
+#: src/admin/editor-config/editor-options/suggest/show-icons.jsx:77
+#: src/admin/editor-config/editor-options/use-tab-stops.jsx:62
+#: src/admin/editor-config/editor-options/use-tab-stops.jsx:73
+msgid "Disable"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/contextmenu.jsx:34
+#: src/admin/editor-config/editor-options/contextmenu.jsx:40
+msgid "Enable context menu"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/contextmenu.jsx:44
+msgid "Sets the context menu when right-click in the editor."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/contextmenu.jsx:48
+#: src/admin/editor-config/editor-options/contextmenu.jsx:59
+msgid "Show the editor context menu."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/contextmenu.jsx:65
+#: src/admin/editor-config/editor-options/contextmenu.jsx:76
+msgid "Show the browser context menu."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:34
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:40
+msgid "Copy with syntax highlighting"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/copy-with-syntax-highlighting.jsx:44
+msgid "Example: How it looks when pasted into Microsoft Word"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:34
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:47
+msgid "Cursor animation style"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:37
+msgid "Blink"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:38
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:69
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:80
+msgid "Smooth"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:39
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:85
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:96
+msgid "Phase"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:40
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:101
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:112
+msgid "Expand"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:41
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:117
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:128
+msgid "Solid"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:53
+#: src/admin/editor-config/editor-options/cursor-blinking.jsx:64
+msgid "Blink (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-smooth-caret-animation.jsx:34
+#: src/admin/editor-config/editor-options/cursor-smooth-caret-animation.jsx:40
+msgid "Enable smooth cursor animation"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-smooth-caret-animation.jsx:46
+#: src/admin/editor-config/editor-options/cursor-smooth-caret-animation.jsx:57
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines-style.jsx:46
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines-style.jsx:57
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:47
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:58
+#: src/admin/editor-config/editor-options/format-on-paste.jsx:46
+#: src/admin/editor-config/editor-options/format-on-paste.jsx:57
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:47
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:58
+#: src/admin/editor-config/editor-options/hide-cursor-in-overview-ruler.jsx:46
+#: src/admin/editor-config/editor-options/hide-cursor-in-overview-ruler.jsx:57
+#: src/admin/editor-config/editor-options/mouse-wheel-zoom.jsx:47
+#: src/admin/editor-config/editor-options/render-control-characters.jsx:46
+#: src/admin/editor-config/editor-options/render-control-characters.jsx:57
+#: src/admin/editor-config/editor-options/render-line-highlight-only-when-focus.jsx:51
+#: src/admin/editor-config/editor-options/render-line-highlight-only-when-focus.jsx:62
+#: src/admin/editor-config/editor-options/rounded-selection.jsx:46
+#: src/admin/editor-config/editor-options/rounded-selection.jsx:57
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-has-arrows.jsx:49
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-has-arrows.jsx:60
+#: src/admin/editor-config/editor-options/scrollbar/vertical-has-arrows.jsx:49
+#: src/admin/editor-config/editor-options/scrollbar/vertical-has-arrows.jsx:60
+#: src/admin/editor-config/editor-options/smooth-scrolling.jsx:46
+#: src/admin/editor-config/editor-options/smooth-scrolling.jsx:57
+#: src/admin/editor-config/editor-options/sticky-tab-stops.jsx:46
+#: src/admin/editor-config/editor-options/sticky-tab-stops.jsx:57
+msgid "Enable"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-smooth-caret-animation.jsx:62
+#: src/admin/editor-config/editor-options/cursor-smooth-caret-animation.jsx:73
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines-style.jsx:62
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines-style.jsx:73
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:63
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:74
+#: src/admin/editor-config/editor-options/format-on-paste.jsx:62
+#: src/admin/editor-config/editor-options/format-on-paste.jsx:73
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:63
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:74
+#: src/admin/editor-config/editor-options/hide-cursor-in-overview-ruler.jsx:62
+#: src/admin/editor-config/editor-options/hide-cursor-in-overview-ruler.jsx:73
+#: src/admin/editor-config/editor-options/render-control-characters.jsx:62
+#: src/admin/editor-config/editor-options/render-control-characters.jsx:73
+#: src/admin/editor-config/editor-options/render-line-highlight-only-when-focus.jsx:67
+#: src/admin/editor-config/editor-options/render-line-highlight-only-when-focus.jsx:78
+#: src/admin/editor-config/editor-options/rounded-selection.jsx:62
+#: src/admin/editor-config/editor-options/rounded-selection.jsx:73
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-has-arrows.jsx:65
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-has-arrows.jsx:76
+#: src/admin/editor-config/editor-options/scrollbar/vertical-has-arrows.jsx:65
+#: src/admin/editor-config/editor-options/scrollbar/vertical-has-arrows.jsx:76
+#: src/admin/editor-config/editor-options/smooth-scrolling.jsx:62
+#: src/admin/editor-config/editor-options/smooth-scrolling.jsx:73
+#: src/admin/editor-config/editor-options/sticky-tab-stops.jsx:62
+#: src/admin/editor-config/editor-options/sticky-tab-stops.jsx:73
+msgid "Disable (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:34
+#: src/admin/editor-config/editor-options/cursor-style.jsx:48
+msgid "Cursor style"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:37
+msgid "Line"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:38
+#: src/admin/editor-config/editor-options/cursor-style.jsx:70
+#: src/admin/editor-config/editor-options/cursor-style.jsx:81
+msgid "Thin line"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:39
+#: src/admin/editor-config/editor-options/cursor-style.jsx:86
+#: src/admin/editor-config/editor-options/cursor-style.jsx:97
+msgid "Block"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:40
+#: src/admin/editor-config/editor-options/cursor-style.jsx:104
+#: src/admin/editor-config/editor-options/cursor-style.jsx:115
+msgid "Outline"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:41
+#: src/admin/editor-config/editor-options/cursor-style.jsx:120
+#: src/admin/editor-config/editor-options/cursor-style.jsx:131
+msgid "Underline"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:42
+#: src/admin/editor-config/editor-options/cursor-style.jsx:136
+#: src/admin/editor-config/editor-options/cursor-style.jsx:147
+msgid "Thin underline"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-style.jsx:54
+#: src/admin/editor-config/editor-options/cursor-style.jsx:65
+msgid "Line (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines-style.jsx:34
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines-style.jsx:40
+msgid ""
+"Keep lines before and after the cursor even when the cursor is moved by "
+"mouse click"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:35
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:44
+msgid "Number of lines to keep before and after the cursor"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:48
+msgid ""
+"Sets the number of lines to keep before and after the cursor when the cursor "
+"is moved up and down."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:51
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:54
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:58
+#: src/admin/editor-config/editor-options/cursor-surrounding-lines.jsx:61
+#: src/admin/editor-config/editor-options/quick-suggestions-delay.jsx:50
+#: src/admin/editor-config/editor-options/quick-suggestions-delay.jsx:53
+#: src/admin/editor-config/editor-options/quick-suggestions-delay.jsx:57
+#: src/admin/editor-config/editor-options/quick-suggestions-delay.jsx:60
+#: src/admin/editor-config/editor-options/scroll-beyond-last-column.jsx:50
+#: src/admin/editor-config/editor-options/scroll-beyond-last-column.jsx:53
+#: src/admin/editor-config/editor-options/scroll-beyond-last-column.jsx:57
+#: src/admin/editor-config/editor-options/scroll-beyond-last-column.jsx:60
+#: src/admin/editor-config/editor-options/scrollbar/arrow-size.jsx:53
+#: src/admin/editor-config/editor-options/scrollbar/arrow-size.jsx:56
+#: src/admin/editor-config/editor-options/scrollbar/arrow-size.jsx:60
+#: src/admin/editor-config/editor-options/scrollbar/arrow-size.jsx:63
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-scrollbar-size.jsx:53
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-scrollbar-size.jsx:56
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-scrollbar-size.jsx:60
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-scrollbar-size.jsx:63
+#: src/admin/editor-config/editor-options/scrollbar/vertical-scrollbar-size.jsx:53
+#: src/admin/editor-config/editor-options/scrollbar/vertical-scrollbar-size.jsx:56
+#: src/admin/editor-config/editor-options/scrollbar/vertical-scrollbar-size.jsx:60
+#: src/admin/editor-config/editor-options/scrollbar/vertical-scrollbar-size.jsx:63
+#: src/admin/editor-config/editor-options/suggest-font-size.jsx:50
+#: src/admin/editor-config/editor-options/suggest-font-size.jsx:53
+#: src/admin/editor-config/editor-options/suggest-font-size.jsx:57
+#: src/admin/editor-config/editor-options/suggest-font-size.jsx:60
+#: src/admin/editor-config/editor-options/suggest-line-height.jsx:50
+#: src/admin/editor-config/editor-options/suggest-line-height.jsx:53
+#: src/admin/editor-config/editor-options/suggest-line-height.jsx:57
+#: src/admin/editor-config/editor-options/suggest-line-height.jsx:60
+#, python-format
+msgid "Example: Set the value to %s"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/cursor-width.jsx:31
+msgid "Cursor width"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/drag-and-drop.jsx:34
+#: src/admin/editor-config/editor-options/drag-and-drop.jsx:40
+#: src/admin/editor-config/editor-options/drag-and-drop.jsx:47
+msgid "Moving selections via drag and drop"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/empty-selection-clipboard.jsx:34
+#: src/admin/editor-config/editor-options/empty-selection-clipboard.jsx:40
+#: src/admin/editor-config/editor-options/empty-selection-clipboard.jsx:47
+msgid "Copy the current line without selection"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/fast-scroll-sensitivity.jsx:28
+msgid "Mouse wheel scroll speed (when pressing Alt key)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/find/addextra-space-on-top.jsx:37
+#: src/admin/editor-config/editor-options/find/addextra-space-on-top.jsx:43
+msgid "Show search widget above the first line"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/find/loop.jsx:37
+#: src/admin/editor-config/editor-options/find/loop.jsx:43
+msgid "Loop"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/find/loop.jsx:47
+#: src/admin/editor-config/editor-options/find/loop.jsx:51
+msgid ""
+"Automatically restart the search from the beginning (or end) when no more "
+"matches are found."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/find/seed-search-string-from-selection.jsx:37
+#: src/admin/editor-config/editor-options/find/seed-search-string-from-selection.jsx:43
+#: src/admin/editor-config/editor-options/find/seed-search-string-from-selection.jsx:50
+msgid "Search string from selection"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding-highlight.jsx:34
+#: src/admin/editor-config/editor-options/folding-highlight.jsx:40
+msgid "Enable highlight for folded codes"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:34
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:44
+msgid "Folding range strategy"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:37
+msgid "Depends on documentation"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:38
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:67
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:78
+msgid "Depends on indentation"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:50
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:61
+msgid "Depends on documentation (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding-strategy.jsx:64
+msgid "This is effective for folding code that is not indented correctly."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding.jsx:34
+msgid "Enable code folding"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding.jsx:40
+#: src/admin/editor-config/editor-options/folding.jsx:48
+#: src/admin/editor-config/index.jsx:277
+msgid "Code folding"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/folding.jsx:44
+msgid ""
+"You can fold regions of source code using the folding icons between line "
+"numbers and line start. Move the mouse over the folding icon and click to "
+"fold and unfold regions. Use Shift + Click on the folding icon to fold or "
+"unfold the region and all regions inside."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/font-family.jsx:27
+msgid "Font family"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:34
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:40
+msgid "Enable font ligatures"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/font-ligatures.jsx:44
+msgid ""
+"Ligatures are special characters in a font that combine two or more "
+"characters into one. Only Fira Code font supports ligatures."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/font-size.jsx:28
+msgid "Font size (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/font-weight.jsx:29
+msgid "Font weight"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/format-on-paste.jsx:34
+#: src/admin/editor-config/editor-options/format-on-paste.jsx:40
+msgid "Enable format on paste"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:34
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:40
+msgid "Show left margin"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/glyph-margin.jsx:44
+msgid "Margin at the left edge of the editor."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/hide-cursor-in-overview-ruler.jsx:34
+#: src/admin/editor-config/editor-options/hide-cursor-in-overview-ruler.jsx:40
+msgid "Hide cursor position on scroll bar"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/highlight-active-indent-guide.jsx:34
+#: src/admin/editor-config/editor-options/highlight-active-indent-guide.jsx:40
+msgid "Highlight the active indent guide"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/hover.jsx:34
+#: src/admin/editor-config/editor-options/hover.jsx:40
+#: src/admin/editor-config/editor-options/hover.jsx:47
+msgid "Enable hover hints"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/letter-spacing.jsx:28
+msgid "Letter spacing (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-decorations-width.jsx:35
+#: src/admin/editor-config/editor-options/line-decorations-width.jsx:44
+#: src/admin/editor-config/editor-options/line-decorations-width.jsx:50
+msgid "Folding area width (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-height.jsx:28
+msgid "Line height (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-numbers-min-chars.jsx:35
+#: src/admin/editor-config/editor-options/line-numbers-min-chars.jsx:44
+#: src/admin/editor-config/editor-options/line-numbers-min-chars.jsx:50
+msgid "Line number width"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-numbers.jsx:34
+#: src/admin/editor-config/editor-options/line-numbers.jsx:46
+msgid "Show line numbers"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-numbers.jsx:37
+#: src/admin/editor-config/editor-options/line-numbers.jsx:52
+#: src/admin/editor-config/editor-options/line-numbers.jsx:63
+msgid "Hide"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-numbers.jsx:38
+msgid "Show"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-numbers.jsx:39
+#: src/admin/editor-config/editor-options/line-numbers.jsx:84
+#: src/admin/editor-config/editor-options/line-numbers.jsx:95
+msgid "Show number of lines to cursor position"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-numbers.jsx:40
+#: src/admin/editor-config/editor-options/line-numbers.jsx:100
+#: src/admin/editor-config/editor-options/line-numbers.jsx:111
+msgid "Show every 10 lines"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/line-numbers.jsx:68
+#: src/admin/editor-config/editor-options/line-numbers.jsx:79
+msgid "Show (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/links.jsx:34
+#: src/admin/editor-config/editor-options/links.jsx:40
+msgid "Enable detecting links and making them clickable"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/match-brackets.jsx:34
+#: src/admin/editor-config/editor-options/match-brackets.jsx:45
+msgid "Highlight matching brackets"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/match-brackets.jsx:39
+#: src/admin/editor-config/editor-options/match-brackets.jsx:83
+#: src/admin/editor-config/editor-options/match-brackets.jsx:94
+msgid "Only when the cursor is near the bracket"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/enabled.jsx:37
+msgid "Enable minimap"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/enabled.jsx:43
+#: src/admin/editor-config/editor-options/minimap/enabled.jsx:51
+#: src/admin/editor-config/index.jsx:235
+msgid "Minimap"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/enabled.jsx:47
+msgid ""
+"Minimap gives you a high-level overview of your source code, which is useful "
+"for quick navigation and code understanding. You can click or drag the "
+"shaded area to quickly jump to different sections."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/max-column.jsx:38
+#: src/admin/editor-config/editor-options/minimap/max-column.jsx:47
+#: src/admin/editor-config/editor-options/minimap/max-column.jsx:53
+msgid "Width"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:37
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:43
+msgid "Displays actual characters"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:50
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:61
+msgid "Show characters."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:67
+#: src/admin/editor-config/editor-options/minimap/render-characters.jsx:78
+msgid "Show blocks."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/scale.jsx:38
+#: src/admin/editor-config/editor-options/minimap/scale.jsx:47
+#: src/admin/editor-config/editor-options/minimap/scale.jsx:53
+msgid "Scale"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:37
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:47
+msgid "Show slider"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:40
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:53
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:64
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:37
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:50
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:61
+msgid "Always show"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:41
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:38
+msgid "Show on mouseover"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:69
+#: src/admin/editor-config/editor-options/minimap/show-slider.jsx:80
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:66
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:77
+msgid "Show on mouseover (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/side.jsx:39
+#: src/admin/editor-config/editor-options/minimap/side.jsx:58
+msgid "Position"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/side.jsx:46
+#: src/admin/editor-config/editor-options/minimap/side.jsx:64
+#: src/admin/editor-config/editor-options/minimap/side.jsx:75
+msgid "Left"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/side.jsx:52
+msgid "Right"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/side.jsx:80
+#: src/admin/editor-config/editor-options/minimap/side.jsx:91
+msgid "Right (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:37
+#: src/admin/editor-config/editor-options/minimap/size.jsx:48
+msgid "Size"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:40
+msgid "Same as editor's content"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:41
+#: src/admin/editor-config/editor-options/minimap/size.jsx:71
+#: src/admin/editor-config/editor-options/minimap/size.jsx:82
+msgid "Automatically zoom in or out"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:42
+#: src/admin/editor-config/editor-options/minimap/size.jsx:88
+#: src/admin/editor-config/editor-options/minimap/size.jsx:99
+msgid "Automatically shrink"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:54
+#: src/admin/editor-config/editor-options/minimap/size.jsx:65
+msgid "Same as editor's content (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:68
+msgid "Minimap size is the same as the contents (which may scroll) ."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:85
+msgid "Minimap will zoom in or out  as needed (not scroll) ."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/minimap/size.jsx:102
+msgid "Minimap will shrink as needed (not scroll) ."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/mouse-wheel-scroll-sensitivity.jsx:28
+msgid "Mouse wheel scroll speed"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/mouse-wheel-zoom.jsx:34
+#: src/admin/editor-config/editor-options/mouse-wheel-zoom.jsx:40
+msgid "Ctrl + mouse wheel to zoom in / out"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-modifier.jsx:36
+#: src/admin/editor-config/editor-options/multi-cursor-modifier.jsx:55
+#: src/admin/editor-config/editor-options/multi-cursor-modifier.jsx:62
+msgid "Multi cursor modifier key"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-modifier.jsx:43
+msgid "Alt (Option)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-modifier.jsx:49
+msgid "Ctrl (Command)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-modifier.jsx:59
+msgid ""
+"You can use multiple cursors for faster editing. Sets the key for applying "
+"multiple cursors with modifier key + Click."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:36
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:55
+msgid ""
+"Behaviour when pasting a text with the line count equal to the cursor count"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:43
+msgid "Spread"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:49
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:78
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:90
+msgid "Full"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:61
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:73
+msgid "Spread (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:62
+msgid "Pastes one line of text at each cursor."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/multi-cursor-paste.jsx:79
+msgid "Pastes the full text at each cursor."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/occurrences-highlight.jsx:34
+#: src/admin/editor-config/editor-options/occurrences-highlight.jsx:40
+msgid "Highlight matching tag"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/overview-ruler-border.jsx:34
+#: src/admin/editor-config/editor-options/overview-ruler-border.jsx:40
+msgid "Show border on scrollbar"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/padding/bottom.jsx:38
+#: src/admin/editor-config/editor-options/padding/bottom.jsx:47
+#: src/admin/editor-config/editor-options/padding/bottom.jsx:55
+msgid "Padding bottom (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/padding/bottom.jsx:51
+msgid "Spacing between bottom edge of editor and last line."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/padding/bottom.jsx:52
+msgid ""
+"Note: This setting will not work if \"Scroll past the last line\" is enabled "
+"in \"Mouse and Scroll\" category."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/padding/top.jsx:38
+#: src/admin/editor-config/editor-options/padding/top.jsx:47
+#: src/admin/editor-config/editor-options/padding/top.jsx:54
+msgid "Padding top (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/padding/top.jsx:51
+msgid "Spacing between top edge of editor and first line."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/quick-suggestions-delay.jsx:35
+#: src/admin/editor-config/editor-options/quick-suggestions-delay.jsx:44
+msgid "Time until suggestions are displayed (ms)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/quick-suggestions.jsx:35
+msgid "Enable suggest"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/quick-suggestions.jsx:41
+#: src/admin/editor-config/editor-options/quick-suggestions.jsx:49
+#: src/admin/editor-config/index.jsx:319
+msgid "Suggest"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/quick-suggestions.jsx:45
+msgid ""
+"Get suggestions as you type codes. Accepting suggestions will autocomplete "
+"code and help faster coding."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-control-characters.jsx:34
+#: src/admin/editor-config/editor-options/render-control-characters.jsx:40
+msgid "Show rendering of control characters"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-final-newline.jsx:34
+#: src/admin/editor-config/editor-options/render-final-newline.jsx:40
+msgid "Render last line number when the file ends with a newline"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-indent-guides.jsx:34
+#: src/admin/editor-config/editor-options/render-indent-guides.jsx:40
+msgid "Show indent guides"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-line-highlight-only-when-focus.jsx:34
+#: src/admin/editor-config/editor-options/render-line-highlight-only-when-focus.jsx:45
+msgid "Highlight current line only the editor is focused"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:34
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:46
+msgid "Highlight current line"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:37
+msgid "Line numbers and the editor content"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:38
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:68
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:79
+msgid "Only the editor content"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:39
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:86
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:97
+msgid "Only line numbers"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:52
+#: src/admin/editor-config/editor-options/render-line-highlight.jsx:63
+msgid "Line numbers and the editor content (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:34
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:47
+msgid "Rendering of whitespace"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:37
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:53
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:64
+msgid "All"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:38
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:69
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:80
+msgid "Render whitespace other than single spaces between words"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:39
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:87
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:98
+msgid "Render only whitespace in the selected text"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:40
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:103
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:114
+msgid "Render only trailing whitespace"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:121
+#: src/admin/editor-config/editor-options/render-whitespace.jsx:132
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:52
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:63
+msgid "None (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/rounded-selection.jsx:34
+#: src/admin/editor-config/editor-options/rounded-selection.jsx:40
+msgid "Rounding corners of selection"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/rulers.jsx:35
+#: src/admin/editor-config/editor-options/rulers.jsx:44
+#: src/admin/editor-config/editor-options/rulers.jsx:51
+msgid "Vertical line position"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/rulers.jsx:48
+msgid "Vertical line will be displayed if a value greater than 0 is set."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scroll-beyond-last-column.jsx:35
+#: src/admin/editor-config/editor-options/scroll-beyond-last-column.jsx:44
+msgid "Number of columns to scroll past the last column"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scroll-beyond-last-line.jsx:34
+#: src/admin/editor-config/editor-options/scroll-beyond-last-line.jsx:40
+msgid "Scroll past the last line"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:37
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:43
+msgid "Stop browser scroll"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:63
+msgid "Browser does not scroll when mouse wheel reaches the beginning or end."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/always-consume-mouse-wheel.jsx:80
+msgid "Browser will scroll when mouse wheel reaches the beginning or end."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/arrow-size.jsx:38
+#: src/admin/editor-config/editor-options/scrollbar/arrow-size.jsx:47
+msgid "Arrow area size"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-has-arrows.jsx:37
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-has-arrows.jsx:43
+msgid "Show arrows on horizontal scrollbar"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-scrollbar-size.jsx:38
+#: src/admin/editor-config/editor-options/scrollbar/horizontal-scrollbar-size.jsx:47
+msgid "Horizontal scrollbar size"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:37
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:48
+msgid "Horizontal scrollbar"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:40
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:40
+msgid "Auto"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:41
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:70
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:81
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:41
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:70
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:81
+msgid "Visible"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:42
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:86
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:97
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:42
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:86
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:97
+msgid "Hidden"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:54
+#: src/admin/editor-config/editor-options/scrollbar/horizontal.jsx:65
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:54
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:65
+msgid "Auto (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/scroll-by-page.jsx:37
+#: src/admin/editor-config/editor-options/scrollbar/scroll-by-page.jsx:43
+#: src/admin/editor-config/editor-options/scrollbar/scroll-by-page.jsx:51
+msgid "Scroll by page"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/scroll-by-page.jsx:47
+msgid "Scroll by page when the scroll bar is clicked."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/use-shadows.jsx:37
+#: src/admin/editor-config/editor-options/scrollbar/use-shadows.jsx:43
+msgid "Show subtle shadows to the left & top"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/vertical-has-arrows.jsx:37
+#: src/admin/editor-config/editor-options/scrollbar/vertical-has-arrows.jsx:43
+msgid "Show arrows on vertical scrollbar"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/vertical-scrollbar-size.jsx:38
+#: src/admin/editor-config/editor-options/scrollbar/vertical-scrollbar-size.jsx:47
+msgid "Vertical scrollbar size"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:37
+#: src/admin/editor-config/editor-options/scrollbar/vertical.jsx:48
+msgid "Vertical scrollbar"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/select-on-line-numbers.jsx:34
+#: src/admin/editor-config/editor-options/select-on-line-numbers.jsx:40
+msgid "Select the corresponding line when clicking on the line number"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/selection-highlight.jsx:34
+#: src/admin/editor-config/editor-options/selection-highlight.jsx:40
+msgid "Highlight all occurrences of a selected word"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:34
+#: src/admin/editor-config/editor-options/show-folding-controls.jsx:44
+msgid "Show code folding icon"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/smooth-scrolling.jsx:34
+#: src/admin/editor-config/editor-options/smooth-scrolling.jsx:40
+msgid "Enable smooth scroll"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/sticky-tab-stops.jsx:34
+#: src/admin/editor-config/editor-options/sticky-tab-stops.jsx:40
+msgid "Select according to spaces for indentation"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/suggest-font-size.jsx:35
+#: src/admin/editor-config/editor-options/suggest-font-size.jsx:44
+#: src/admin/editor-config/editor-options/suggest-line-height.jsx:44
+msgid "Suggest font size (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/suggest-line-height.jsx:35
+msgid "Suggest line height (px)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/suggest/show-icons.jsx:38
+#: src/admin/editor-config/editor-options/suggest/show-icons.jsx:44
+msgid "Show icons"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/unfold-on-click-after-end-of-line.jsx:34
+#: src/admin/editor-config/editor-options/unfold-on-click-after-end-of-line.jsx:40
+#: src/admin/editor-config/editor-options/unfold-on-click-after-end-of-line.jsx:47
+msgid "Expand folding line when clicking on empty content after a folded line"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/use-tab-stops.jsx:34
+#: src/admin/editor-config/editor-options/use-tab-stops.jsx:40
+msgid "Insert or delete whitespace according to tab position"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap-column.jsx:35
+#: src/admin/editor-config/editor-options/word-wrap-column.jsx:44
+#: src/admin/editor-config/editor-options/word-wrap-column.jsx:50
+msgid "Word wrap column"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:34
+#: src/admin/editor-config/editor-options/word-wrap.jsx:46
+msgid "Word wrap"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:37
+msgid "Off"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:38
+#: src/admin/editor-config/editor-options/word-wrap.jsx:69
+#: src/admin/editor-config/editor-options/word-wrap.jsx:80
+msgid "On"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:39
+#: src/admin/editor-config/editor-options/word-wrap.jsx:88
+#: src/admin/editor-config/editor-options/word-wrap.jsx:99
+msgid "Depends on word wrap column"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:40
+#: src/admin/editor-config/editor-options/word-wrap.jsx:105
+#: src/admin/editor-config/editor-options/word-wrap.jsx:116
+msgid "Flexible"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:52
+#: src/admin/editor-config/editor-options/word-wrap.jsx:63
+msgid "Off (default)"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:66
+msgid "The lines will never wrap."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:83
+msgid "The lines will always wrap."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:102
+msgid "The lines will be wrapped according to \"Word wrap column\" setting."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/word-wrap.jsx:119
+msgid ""
+"The lines will be wrapped at the lesser of editor's width or word wrap "
+"column setting."
+msgstr ""
+
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:34
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:46
+msgid "Word wrap indent"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:38
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:68
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:79
+msgid "Same"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:39
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:86
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:97
+msgid "Indent"
+msgstr ""
+
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:40
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:102
+#: src/admin/editor-config/editor-options/wrapping-indent.jsx:113
+msgid "Deep indent"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/emmet.jsx:37
+msgid "Enable Emmet"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/emmet.jsx:43
+#: src/admin/editor-config/editor-settings/emmet.jsx:52
+msgid "Emmet"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/emmet.jsx:47
+msgid ""
+"Emmet is a function for the editor that allow for high-speed coding via "
+"content assist. Only valid for HTML tags and does not support inline CSS."
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/emmet.jsx:49
+msgid "Check Cheat Sheet"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/emmet.jsx:66
+msgid ""
+"Save and reload the browser to reflect this settings in the preview editor "
+"area."
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/insert-spaces.jsx:33
+msgid "Indent type"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/insert-spaces.jsx:40
+msgid "Tab"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/insert-spaces.jsx:46
+msgid "Space"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/tab-size.jsx:27
+msgid "Indent width"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/theme.jsx:27
+msgid "Theme"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/theme.jsx:30
+msgid "Visual Studio Dark"
+msgstr ""
+
+#: src/admin/editor-config/editor-settings/theme.jsx:31
+msgid "Light"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:153 src/block/edit.js:193
+msgid "Preview"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:191
+msgid "Editor"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:204
+msgid "Font"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:215
+msgid "Word Wrap"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:260
+msgid "Cursor"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:300
+msgid "Line Number"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:342
+msgid "Auto Completion"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:352
+msgid "Mouse and Scroll"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:367
+msgid "Select, Cut, Copy, Paste"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:379
+msgid "Highlight and Rendering"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:405
+msgid "Find"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:413
+msgid "Scrollbar"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:452
+msgid ""
+"Settings in this group will be reflected in the preview area when you press "
+"the refresh editor button."
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:458
+msgid "Refresh editor"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:463
+msgid "Other"
+msgstr ""
+
+#: src/admin/editor-config/mode.jsx:22
+msgid "Mode"
+msgstr ""
+
+#: src/admin/editor-config/mode.jsx:26
+msgid "Basic"
+msgstr ""
+
+#: src/admin/editor-config/monaco-editor.jsx:111
+#: src/admin/editor-config/monaco-editor.jsx:197
+#, python-format
+msgid "Failed to load the font. (%s)"
+msgstr ""
+
+#: src/admin/editor-config/monaco-editor.jsx:237
+#: src/admin/editor-config/monaco-editor.jsx:248 src/block/edit.js:231
+msgid "Loading..."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: src/admin/index.jsx:50 classes/class-admin.php:29 classes/class-admin.php:30
+#: classes/class-admin.php:44
+msgid "Custom HTML Block Extension"
+msgstr ""
+
+#: src/admin/index.jsx:62
+msgid "Editor Config"
+msgstr ""
+
+#: src/admin/index.jsx:66
+msgid "Tools"
+msgstr ""
+
+#: src/admin/shortcut.jsx:26 src/admin/shortcut.jsx:30
+msgid "About shortcut"
+msgstr ""
+
+#: src/admin/shortcut.jsx:34
+msgid ""
+"This plugin is made with \"Monaco Editor\", the code editor behind VS Code."
+msgstr ""
+
+#: src/admin/shortcut.jsx:35
+msgid ""
+"So you can use many of keyboard shortcuts available in VS Code on custom "
+"HTML block."
+msgstr ""
+
+#: src/admin/shortcut.jsx:36
+msgid "Check the following link for a list of shortcuts."
+msgstr ""
+
+#: src/admin/shortcut.jsx:38
+msgid "https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf"
+msgstr ""
+
+#: src/admin/shortcut.jsx:38
+msgid "Keyboard shortcuts for Windows"
+msgstr ""
+
+#: src/admin/shortcut.jsx:39
+msgid "https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf"
+msgstr ""
+
+#: src/admin/shortcut.jsx:39
+msgid "Keyboard shortcuts for macOS"
+msgstr ""
+
+#: src/admin/tools/index.jsx:10
+msgid ""
+"I'm planning to add some features in future versions. For example, the "
+"ability to import/export settings."
+msgstr ""
+
+#: src/admin/tools/index.jsx:11
+msgid ""
+"Please contact us via the project page if you have any requests or comments."
+msgstr ""
+
+#: src/admin/tools/index.jsx:12
+msgid "https://github.com/t-hamano/custom-html-block-extension"
+msgstr ""
+
+#: src/admin/tools/index.jsx:12
+msgid "GitHub Project Page"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:41
+msgid "About this plugin"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:47 src/admin/welcome-guide.jsx:54
+msgid "About Custom HTML Block Extension"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:48
+msgid "Get started"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:55
+#, python-format
+msgid "Version: %s"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:56
+msgid ""
+"Custom HTML Block Extension extends \"Custom HTML block\" to evolve into an "
+"advanced code editor."
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:64
+msgid "Various color themes"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:65
+msgid ""
+"There are 50 different color themes to choose from, and you can select the "
+"one that best suits your taste."
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:73
+msgid "Faster coding with Emmet"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:74
+msgid ""
+"Emmet allows you to type shortcuts that are then expanded into full pieces "
+"of code. Type less, saving both keystrokes."
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:82
+msgid "High customizability"
+msgstr ""
+
+#: src/admin/welcome-guide.jsx:83
+msgid ""
+"You can change all kinds of settings to create your ideal editor in advanced "
+"mode."
+msgstr ""
+
+#: src/block/edit.js:186
+msgid "HTML"
+msgstr ""
+
+#: src/themes/index.js:9
+msgid "Active4D"
+msgstr ""
+
+#: src/themes/index.js:10
+msgid "All Hallows Eve"
+msgstr ""
+
+#: src/themes/index.js:11
+msgid "Amy"
+msgstr ""
+
+#: src/themes/index.js:12
+msgid "Birds of Paradise"
+msgstr ""
+
+#: src/themes/index.js:13
+msgid "Blackboard"
+msgstr ""
+
+#: src/themes/index.js:14
+msgid "Brilliance Black"
+msgstr ""
+
+#: src/themes/index.js:15
+msgid "Brilliance Dull"
+msgstr ""
+
+#: src/themes/index.js:16
+msgid "Chrome DevTools"
+msgstr ""
+
+#: src/themes/index.js:17
+msgid "Clouds Midnight"
+msgstr ""
+
+#: src/themes/index.js:18
+msgid "Clouds"
+msgstr ""
+
+#: src/themes/index.js:19
+msgid "Cobalt"
+msgstr ""
+
+#: src/themes/index.js:20
+msgid "Dawn"
+msgstr ""
+
+#: src/themes/index.js:21
+msgid "Dreamweaver"
+msgstr ""
+
+#: src/themes/index.js:22
+msgid "Eiffel"
+msgstr ""
+
+#: src/themes/index.js:23
+msgid "Espresso Libre"
+msgstr ""
+
+#: src/themes/index.js:24
+msgid "GitHub"
+msgstr ""
+
+#: src/themes/index.js:25
+msgid "IDLE"
+msgstr ""
+
+#: src/themes/index.js:26
+msgid "Katzenmilch"
+msgstr ""
+
+#: src/themes/index.js:27
+msgid "Kuroir Theme"
+msgstr ""
+
+#: src/themes/index.js:28
+msgid "LAZY"
+msgstr ""
+
+#: src/themes/index.js:29
+msgid "MagicWB (Amiga)"
+msgstr ""
+
+#: src/themes/index.js:30
+msgid "Merbivore Soft"
+msgstr ""
+
+#: src/themes/index.js:31
+msgid "Merbivore"
+msgstr ""
+
+#: src/themes/index.js:32
+msgid "Monokai Bright"
+msgstr ""
+
+#: src/themes/index.js:33
+msgid "Monokai"
+msgstr ""
+
+#: src/themes/index.js:34
+msgid "Night Owl"
+msgstr ""
+
+#: src/themes/index.js:35
+msgid "Oceanic Next"
+msgstr ""
+
+#: src/themes/index.js:36
+msgid "Pastels on Dark"
+msgstr ""
+
+#: src/themes/index.js:37
+msgid "Slush and Poppies"
+msgstr ""
+
+#: src/themes/index.js:38
+msgid "Solarized Dark"
+msgstr ""
+
+#: src/themes/index.js:39
+msgid "Solarized Light"
+msgstr ""
+
+#: src/themes/index.js:40
+msgid "SpaceCadet"
+msgstr ""
+
+#: src/themes/index.js:41
+msgid "Sunburst"
+msgstr ""
+
+#: src/themes/index.js:42
+msgid "Textmate (Mac Classic)"
+msgstr ""
+
+#: src/themes/index.js:43
+msgid "Tomorrow Night"
+msgstr ""
+
+#: src/themes/index.js:44
+msgid "Tomorrow Night Blue"
+msgstr ""
+
+#: src/themes/index.js:45
+msgid "Tomorrow Night Bright"
+msgstr ""
+
+#: src/themes/index.js:46
+msgid "Tomorrow Night Eighties"
+msgstr ""
+
+#: src/themes/index.js:47
+msgid "Tomorrow"
+msgstr ""
+
+#: src/themes/index.js:48
+msgid "Twilight"
+msgstr ""
+
+#: src/themes/index.js:49
+msgid "Upstream Sunburst"
+msgstr ""
+
+#: src/themes/index.js:50
+msgid "Vibrant Ink"
+msgstr ""
+
+#: src/themes/index.js:51
+msgid "Xcode Default"
+msgstr ""
+
+#: src/themes/index.js:52
+msgid "Zenburnesque"
+msgstr ""
+
+#: src/themes/index.js:53
+msgid "iPlastic"
+msgstr ""
+
+#: src/themes/index.js:54
+msgid "idleFingers"
+msgstr ""
+
+#: src/themes/index.js:55
+msgid "krTheme"
+msgstr ""
+
+#: src/themes/index.js:56
+msgid "Monoindustrial"
+msgstr ""
+
+#: classes/class-admin.php:49
+#, php-format
+msgid ""
+"Custom HTML Block Extension enabled. You can customize the editor in <a href="
+"\"%s\">setting page</a>."
+msgstr ""
+
+#: classes/class-admin.php:137 classes/class-admin.php:175
+msgid "Editor settings."
+msgstr ""
+
+#: classes/class-api.php:131 classes/class-api.php:140
+msgid "An unknown error occurred."
+msgstr ""
+
+#: classes/class-api.php:151
+msgid "Settings saved."
+msgstr ""
+
+#: classes/class-api.php:171
+msgid "Settings have been reset."
+msgstr ""
+
+#: classes/class-init.php:42
+msgid "Settings"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Extend custom HTML blocks to evolve into an advanced code editor."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Tetsuaki Hamano"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://github.com/t-hamano"
+msgstr ""
