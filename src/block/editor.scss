@@ -1,14 +1,15 @@
 .wp-block-html,
 .wp-block[data-type="core/html"] {
 
-	.components-placeholder {
-		align-items: center;
-		background-color: rgba(0, 0, 0, 0.1);
-		outline: none;
-		box-shadow: none;
+	.components-resizable-box__container {
+		padding-bottom: 24px;
+
+		> section {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
 	}
 
-	.components-resizable-box__container {
+	&.is-selected .components-resizable-box__container {
 		background-color: rgba(0, 0, 0, 0.1);
 	}
 
