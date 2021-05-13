@@ -27,7 +27,7 @@ const MaxColumn = () => {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				maxColumn: value ? toNumber( value, 0, 60 ) : 60
+				maxColumn: value ? toNumber( value, 10, 60 ) : 60
 			}
 		});
 	};
@@ -37,7 +37,7 @@ const MaxColumn = () => {
 			<RangeControl
 				label={ __( 'Width', 'custom-html-block-extension' ) }
 				value={ editorOptions.minimap.maxColumn }
-				min="0"
+				min="10"
 				max="60"
 				allowReset
 				onChange={ ( value ) => handleChange( value ) }
