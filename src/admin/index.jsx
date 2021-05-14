@@ -32,14 +32,14 @@ export const AdminContext = createContext();
 
 const Admin = () => {
 
-	const [ isAPILoaded, setIsAPILoaded ] = useState( false );
 	const [ isWaiting, setIsWaiting ] = useState( false );
 	const [ editorSettings, setEditorSettings ] = useState({
-		theme: null,
-		tabSize: null,
-		insertSpaces: null
+		theme: chbeObj.editorSettings.theme,
+		tabSize: chbeObj.editorSettings.tabSize,
+		insertSpaces: chbeObj.editorSettings.insertSpaces,
+		emmet: chbeObj.editorSettings.emmet
 	});
-	const [ editorOptions, setEditorOptions ] = useState();
+	const [ editorOptions, setEditorOptions ] = useState( chbeObj.editorOptions );
 	const [ code, setCode ] = useState( htmlCode );
 
 	return (
@@ -72,12 +72,10 @@ const Admin = () => {
 						<AdminContext.Provider
 							value={{
 								code,
-								isAPILoaded,
 								isWaiting,
 								editorSettings,
 								editorOptions,
 								setCode,
-								setIsAPILoaded,
 								setIsWaiting,
 								setEditorOptions,
 								setEditorSettings

@@ -11,6 +11,7 @@ import { store } from 'react-notifications-component';
  */
 import { AdminContext } from 'admin';
 import themes from 'themes';
+import { htmlCode } from 'admin/common/example-code';
 
 /**
 * WordPress dependencies
@@ -33,7 +34,6 @@ const MonacoEditor = ({
 	const editorRef = useRef( null );
 
 	const {
-		isAPILoaded,
 		code,
 		setCode,
 		editorSettings,
@@ -150,60 +150,57 @@ const MonacoEditor = ({
 			emmetHTML( monaco );
 		}
 
-		if ( isAPILoaded ) {
+		// Update editor settings.
+		if ( 'vs-dark' !== editorSettings.theme && 'light' !== editorSettings.theme ) {
+			const theme = themes.find( ( data ) => editorSettings.theme === data.value );
+			monaco.editor.defineTheme( theme.value, theme.data );
+			monaco.editor.setTheme( theme.value );
+		}
 
-			// Update editor settings.
-			if ( 'vs-dark' !== editorSettings.theme && 'light' !== editorSettings.theme ) {
-				const theme = themes.find( ( data ) => editorSettings.theme === data.value );
-				monaco.editor.defineTheme( theme.value, theme.data );
-				monaco.editor.setTheme( theme.value );
-			}
+		editor.getModel().updateOptions({
+			tabSize: editorSettings.tabSize,
+			insertSpaces: editorSettings.insertSpaces
+		});
 
-			editor.getModel().updateOptions({
-				tabSize: editorSettings.tabSize,
-				insertSpaces: editorSettings.insertSpaces
-			});
-
-			// Load webfont.
-			const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.fontFamily );
-			if ( undefined !== font && 'label' in font && 'fontFamily' in font ) {
-				const webfontConfig = {
-					custom: {
-						families: [ font.fontFamily ]
-					}
-				};
-
-				if ( 'styleSheet' in font ) {
-					webfontConfig.custom.urls = [ font.styleSheet ];
+		// Load webfont.
+		const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.fontFamily );
+		if ( undefined !== font && 'label' in font && 'fontFamily' in font ) {
+			const webfontConfig = {
+				custom: {
+					families: [ font.fontFamily ]
 				}
+			};
 
-				webfontloader.load({
-					timeout: 2000,
-					...webfontConfig,
-					active: () => {
-
-						// Update editor font weight variations.
-						setFontWeights( font.weight );
-
-						// Adjust the position of the cursor and space.
-						monaco.editor.remeasureFonts();
-					},
-					inactive: () => {
-
-						// Font loading failed.
-						addNotification(
-							sprintf(
-								__(
-									'Failed to load the font. (%s)',
-									'custom-html-block-extension'
-								),
-								font.label
-							),
-							'danger'
-						);
-					}
-				});
+			if ( 'styleSheet' in font ) {
+				webfontConfig.custom.urls = [ font.styleSheet ];
 			}
+
+			webfontloader.load({
+				timeout: 2000,
+				...webfontConfig,
+				active: () => {
+
+					// Update editor font weight variations.
+					setFontWeights( font.weight );
+
+					// Adjust the position of the cursor and space.
+					monaco.editor.remeasureFonts();
+				},
+				inactive: () => {
+
+					// Font loading failed.
+					addNotification(
+						sprintf(
+							__(
+								'Failed to load the font. (%s)',
+								'custom-html-block-extension'
+							),
+							font.label
+						),
+						'danger'
+					);
+				}
+			});
 		}
 	};
 
