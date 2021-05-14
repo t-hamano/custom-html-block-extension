@@ -83,37 +83,10 @@ class Api {
 	 * Function to get editor config.
 	 */
 	public function get_editor_config() {
-		// Override default editor settings with option values.
-		$default_editor_settings = array();
-
-		foreach ( Settings::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
-			$default_editor_settings[ $key ] = $value['default'];
-		}
-		$current_editor_settings = get_option( Settings::OPTION_NAME['editor_settings'] );
-		$editor_settings         = array_merge( $default_editor_settings, $current_editor_settings );
-
-		// Override default editor options with option values.
-		$default_editor_options = array();
-
-		foreach ( Settings::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
-			if ( $value['type'] === 'object' ) {
-				$default_editor_options[ $key ] = array();
-
-				foreach ( $value['items'] as $sub_key => $sub_value ) {
-					$default_editor_options[ $key ][ $sub_key ] = $sub_value['default'];
-				}
-			} else {
-				$default_editor_options[ $key ] = $value['default'];
-			}
-		}
-
-		$current_editor_options = get_option( Settings::OPTION_NAME['editor_options'] );
-		$editor_options         = array_merge( $default_editor_options, $current_editor_options );
-
 		return rest_ensure_response(
 			array(
-				'editorSettings' => $editor_settings,
-				'editorOptions'  => $editor_options,
+				'editorSettings' => Settings::get_editor_settings(),
+				'editorOptions'  => Settings::get_editor_options(),
 			)
 		);
 	}
@@ -161,16 +134,13 @@ class Api {
 		delete_option( Settings::OPTION_NAME['editor_settings'] );
 		delete_option( Settings::OPTION_NAME['editor_options'] );
 
-		// Get default editor config to return.
-		$editor_settings = get_option( Settings::OPTION_NAME['editor_settings'] );
-		$editor_options  = get_option( Settings::OPTION_NAME['editor_options'] );
-
+		// Return default editor config.
 		return rest_ensure_response(
 			array(
 				'success'        => true,
 				'message'        => __( 'Settings have been reset.', 'custom-html-block-extension' ),
-				'editorSettings' => $editor_settings,
-				'editorOptions'  => $editor_options,
+				'editorSettings' => Settings::get_editor_settings(),
+				'editorOptions'  => Settings::get_editor_options(),
 			)
 		);
 	}

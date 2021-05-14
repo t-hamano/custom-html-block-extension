@@ -488,6 +488,47 @@ class Settings {
 	 */
 	public function __construct() {
 	}
+
+	/**
+	 * Get editor config settings.
+	 */
+	public static function get_editor_settings() {
+		// Override default editor settings with option values.
+		$default_editor_settings = array();
+
+		foreach ( self::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
+			$default_editor_settings[ $key ] = $value['default'];
+		}
+		$current_editor_settings = get_option( self::OPTION_NAME['editor_settings'] );
+		$editor_settings         = array_merge( $default_editor_settings, $current_editor_settings );
+
+		return $editor_settings;
+	}
+
+	/**
+	 * Get editor config options.
+	 */
+	public static function get_editor_options() {
+		// Override default editor options with option values.
+		$default_editor_options = array();
+
+		foreach ( Settings::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
+			if ( $value['type'] === 'object' ) {
+				$default_editor_options[ $key ] = array();
+
+				foreach ( $value['items'] as $sub_key => $sub_value ) {
+					$default_editor_options[ $key ][ $sub_key ] = $sub_value['default'];
+				}
+			} else {
+				$default_editor_options[ $key ] = $value['default'];
+			}
+		}
+
+		$current_editor_options = get_option( Settings::OPTION_NAME['editor_options'] );
+		$editor_options         = array_merge( $default_editor_options, $current_editor_options );
+
+		return $editor_options;
+	}
 }
 
 new Settings();
