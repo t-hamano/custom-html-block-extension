@@ -11,3 +11,13 @@ export const toNumber = ( value, min = 0, max = null ) => {
 
 	return value;
 };
+
+export const rTabs = ( str ) => {
+	str = str.trim();
+
+	if ( chbeObj.editorSettings.insertSpaces ) {
+		str = str.replace( /\t/gm, ' '.repeat( chbeObj.editorSettings.tabSize ) );
+	}
+
+	return str;
+};
