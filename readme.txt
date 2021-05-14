@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
 Tested up to: 5.7
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,13 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 1.0.3 =
+* Fix: Indent of the sample code in the editor config preview is not consistent with the settings
+* Fix: Incorrect HTML syntax in the sample code of the editor config preview
+* Clean: Ajust internal logic
+* Change: the range of some setting items
+* Style: Add space between the horizontal scroll bar and the handle of resizable box
 
 = 1.0.2 =
 * Clean: Re-record and compress gif files
