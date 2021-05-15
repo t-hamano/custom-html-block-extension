@@ -50,9 +50,9 @@ class Block {
 			CHBE_NAMESPACE,
 			'chbeObj',
 			array(
-				'editorSettings' => get_option( Settings::OPTION_NAME['editor_settings'] ),
-				'editorOptions'  => get_option( Settings::OPTION_NAME['editor_options'] ),
-				'fontFamily'     => Settings::DEFAULT_FONT_FAMILIES,
+				'editorSettings' => Settings::get_editor_settings(),
+				'editorOptions'  => Settings::get_editor_options(),
+				'fontFamily'     => Settings::get_font_families(),
 			)
 		);
 

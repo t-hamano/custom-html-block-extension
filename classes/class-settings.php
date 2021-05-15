@@ -441,44 +441,44 @@ class Settings {
 	// Default font family variations.
 	const DEFAULT_FONT_FAMILIES = array(
 		array(
-			'label'      => 'Fira Code',
-			'fontFamily' => 'Fira Code',
-			'weight'     => array( 300, 400, 500, 600, 700 ),
+			'label'  => 'Fira Code',
+			'name'   => 'Fira Code',
+			'weight' => array( 300, 400, 500, 600, 700 ),
 		),
 		array(
 			'label'      => 'Source Code Pro',
-			'fontFamily' => 'Source Code Pro',
-			'styleSheet' => CHBE_URL . '/build/fonts/source-code-pro.css',
+			'name'       => 'Source Code Pro',
+			'stylesheet' => CHBE_URL . '/build/fonts/source-code-pro.css',
 			'weight'     => array( 200, 300, 400, 500, 600, 700, 900 ),
 		),
 		array(
 			'label'      => 'Source Code Pro (Italic)',
-			'fontFamily' => 'Source Code Pro Italic',
-			'styleSheet' => CHBE_URL . '/build/fonts/source-code-pro-italic.css',
+			'name'       => 'Source Code Pro Italic',
+			'stylesheet' => CHBE_URL . '/build/fonts/source-code-pro-italic.css',
 			'weight'     => array( 200, 300, 400, 500, 600, 700, 900 ),
 		),
 		array(
 			'label'      => 'Ubuntu Mono',
-			'fontFamily' => 'Ubuntu Mono',
-			'styleSheet' => CHBE_URL . '/build/fonts/ubuntu-mono.css',
+			'name'       => 'Ubuntu Mono',
+			'stylesheet' => CHBE_URL . '/build/fonts/ubuntu-mono.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Ubuntu Mono (Italic)',
-			'fontFamily' => 'Ubuntu Mono Italic',
-			'styleSheet' => CHBE_URL . '/build/fonts/ubuntu-mono-italic.css',
+			'name'       => 'Ubuntu Mono Italic',
+			'stylesheet' => CHBE_URL . '/build/fonts/ubuntu-mono-italic.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Anonymous Pro',
-			'fontFamily' => 'Anonymous Pro',
-			'styleSheet' => CHBE_URL . '/build/fonts/anonymous-pro.css',
+			'name'       => 'Anonymous Pro',
+			'stylesheet' => CHBE_URL . '/build/fonts/anonymous-pro.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Anonymous Pro (Italic)',
-			'fontFamily' => 'Anonymous Pro Italic',
-			'styleSheet' => CHBE_URL . '/build/fonts/anonymous-pro-italic.css',
+			'name'       => 'Anonymous Pro Italic',
+			'stylesheet' => CHBE_URL . '/build/fonts/anonymous-pro-italic.css',
 			'weight'     => array( 300, 700 ),
 		),
 	);
@@ -528,6 +528,15 @@ class Settings {
 		$editor_options         = array_merge( $default_editor_options, $current_editor_options );
 
 		return $editor_options;
+	}
+
+	/**
+	 * Get editor font family variations.
+	 */
+	public static function get_font_families() {
+		$default_font_families    = self::DEFAULT_FONT_FAMILIES;
+		$additional_font_families = apply_filters( 'chbe_additional_font_families', array() );
+		return array_merge( $default_font_families, $additional_font_families );
 	}
 }
 

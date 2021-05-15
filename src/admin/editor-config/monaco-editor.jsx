@@ -11,7 +11,6 @@ import { store } from 'react-notifications-component';
  */
 import { AdminContext } from 'admin';
 import themes from 'themes';
-import { htmlCode } from 'admin/common/example-code';
 
 /**
 * WordPress dependencies
@@ -69,19 +68,20 @@ const MonacoEditor = ({
 		if ( monaco && editorRef.current ) {
 
 			// Load webfont.
-			const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.fontFamily );
+			const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
-			if ( undefined !== font && 'label' in font && 'fontFamily' in font ) {
+			if ( undefined !== font && 'label' in font ) {
 				setIsWaiting( true );
 
 				const webfontConfig = {
 					custom: {
-						families: [ font.fontFamily ]
+						families: [ font.name ]
 					}
 				};
 
-				if ( 'styleSheet' in font ) {
-					webfontConfig.custom.urls = [ font.styleSheet ];
+
+				if ( 'stylesheet' in font ) {
+					webfontConfig.custom.urls = [ font.stylesheet ];
 				}
 
 				webfontloader.load({
@@ -93,7 +93,7 @@ const MonacoEditor = ({
 						setFontWeights( font.weight );
 						setEditorOptions({
 							...editorOptions,
-							fontFamily: font.fontFamily,
+							fontFamily: font.name,
 							fontWeight: 300
 						});
 
@@ -105,16 +105,7 @@ const MonacoEditor = ({
 					inactive: () => {
 
 						// Font loading failed.
-						addNotification(
-							sprintf(
-								__(
-									'Failed to load the font. (%s)',
-									'custom-html-block-extension'
-								),
-								font.label
-							),
-							'danger'
-						);
+						addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger' );
 
 						setFontWeights([ 300, 400, 500, 600, 700 ]);
 						setEditorOptions({
@@ -163,16 +154,16 @@ const MonacoEditor = ({
 		});
 
 		// Load webfont.
-		const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.fontFamily );
-		if ( undefined !== font && 'label' in font && 'fontFamily' in font ) {
+		const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
+		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
 				custom: {
-					families: [ font.fontFamily ]
+					families: [ font.name ]
 				}
 			};
 
-			if ( 'styleSheet' in font ) {
-				webfontConfig.custom.urls = [ font.styleSheet ];
+			if ( 'stylesheet' in font ) {
+				webfontConfig.custom.urls = [ font.stylesheet ];
 			}
 
 			webfontloader.load({
@@ -189,16 +180,14 @@ const MonacoEditor = ({
 				inactive: () => {
 
 					// Font loading failed.
-					addNotification(
-						sprintf(
-							__(
-								'Failed to load the font. (%s)',
-								'custom-html-block-extension'
-							),
-							font.label
-						),
-						'danger'
-					);
+					addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger' );
+
+					setFontWeights([ 300, 400, 500, 600, 700 ]);
+					setEditorOptions({
+						...editorOptions,
+						fontFamily: 'Fira Code',
+						fontWeight: 300
+					});
 				}
 			});
 		}

@@ -112,8 +112,8 @@ class Admin {
 				'version'             => CHBE_VERSION,
 				'editorSettings'      => Settings::get_editor_settings(),
 				'editorOptions'       => Settings::get_editor_options(),
+				'fontFamily'          => Settings::get_font_families(),
 				'dismissWelcomeGuide' => get_option( Settings::OPTION_NAME['dismiss_welcome_guide'] ),
-				'fontFamily'          => Settings::DEFAULT_FONT_FAMILIES,
 			)
 		);
 
