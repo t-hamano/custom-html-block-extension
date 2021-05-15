@@ -87,17 +87,17 @@ export default function HTMLEdit({
 		});
 
 		// Load webfont.
-		const font = chbeObj.fontFamily.find( ( data ) => chbeObj.editorOptions.fontFamily === data.fontFamily );
+		const font = chbeObj.fontFamily.find( ( data ) => chbeObj.editorOptions.fontFamily === data.name );
 
-		if ( undefined !== font && 'label' in font && 'fontFamily' in font ) {
+		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
 				custom: {
-					families: [ font.fontFamily ]
+					families: [ font.name ]
 				}
 			};
 
-			if ( 'styleSheet' in font ) {
-				webfontConfig.custom.urls = [ font.styleSheet ];
+			if ( 'stylesheet' in font ) {
+				webfontConfig.custom.urls = [ font.stylesheet ];
 			}
 
 			webfontloader.load({
