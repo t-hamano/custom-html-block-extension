@@ -44,7 +44,7 @@ const FontFamily = () => {
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
 					<p>{ __( 'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.', 'custom-html-block-extension' ) }</p>
-					<p><ExternalLink href={ __( 'https://github.com/t-hamano/custom-html-block-extension', 'custom-html-block-extension' ) }>{ __( 'GitHub Project Page', 'custom-html-block-extension' ) }</ExternalLink></p>
+					<p><ExternalLink href={ __( 'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts', 'custom-html-block-extension' ) }>{ __( 'GitHub Project Page', 'custom-html-block-extension' ) }</ExternalLink></p>
 				</Modal>
 			)}
 			<Button
