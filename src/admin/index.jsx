@@ -6,6 +6,7 @@ import ReactNotification from 'react-notifications-component';
 /**
  * Internal dependencies
  */
+import Loading from 'admin/common/loading';
 import { htmlCode } from 'admin/common/example-code';
 import BlockIcon from 'common/block-icon';
 import WelcomeGuide from 'admin/welcome-guide';
@@ -44,53 +45,56 @@ const Admin = () => {
 
 	return (
 		<>
-      <ReactNotification />
-			<header className="chbe-header">
-				<div className="chbe-container">
-					<h1 className="chbe-header__ttl">{ BlockIcon }{ __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) }</h1>
-					<ul className="chbe-header__info">
-						<li className="chbe-header__info-item"><WelcomeGuide /></li>
-						<li className="chbe-header__info-item"><Shortcut /></li>
-					</ul>
-				</div>
-			</header>
-			<TabPanel
-				className="chbe-tabs"
-				tabs={ [
-					{
-						name: 'editor-config',
-						title: __( 'Editor Config', 'custom-html-block-extension' )
-					},
-					{
-						name: 'tools',
-						title: __( 'Tools', 'custom-html-block-extension' )
-					}
-				] }
-			>
-				{ ( tab ) => (
+			{ isWaiting && ( <Loading /> )}
+			<div className={ 'chbe-wrap ' + ( isWaiting ? 'chbe-wrap--is-waiting' : '' ) }>
+				<ReactNotification />
+				<header className="chbe-header">
 					<div className="chbe-container">
-						<AdminContext.Provider
-							value={{
-								code,
-								isWaiting,
-								editorSettings,
-								editorOptions,
-								setCode,
-								setIsWaiting,
-								setEditorOptions,
-								setEditorSettings
-							}}
-						>
-							{ 'editor-config' === tab.name && (
-								<EditorConfig />
-							)}
-							{ 'tools' === tab.name && (
-								<Tools />
-							)}
-						</AdminContext.Provider>
+						<h1 className="chbe-header__ttl">{ BlockIcon }{ __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) }</h1>
+						<ul className="chbe-header__info">
+							<li className="chbe-header__info-item"><WelcomeGuide /></li>
+							<li className="chbe-header__info-item"><Shortcut /></li>
+						</ul>
 					</div>
-				)}
-			</TabPanel>
+				</header>
+				<TabPanel
+					className="chbe-tabs"
+					tabs={ [
+						{
+							name: 'editor-config',
+							title: __( 'Editor Config', 'custom-html-block-extension' )
+						},
+						{
+							name: 'tools',
+							title: __( 'Tools', 'custom-html-block-extension' )
+						}
+					] }
+				>
+					{ ( tab ) => (
+						<div className="chbe-container">
+							<AdminContext.Provider
+								value={{
+									code,
+									isWaiting,
+									editorSettings,
+									editorOptions,
+									setCode,
+									setIsWaiting,
+									setEditorOptions,
+									setEditorSettings
+								}}
+							>
+								{ 'editor-config' === tab.name && (
+									<EditorConfig />
+								)}
+								{ 'tools' === tab.name && (
+									<Tools />
+								)}
+							</AdminContext.Provider>
+						</div>
+					)}
+				</TabPanel>
+			</div>
 		</>
 	);
 };

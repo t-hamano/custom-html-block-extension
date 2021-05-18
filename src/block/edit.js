@@ -77,8 +77,10 @@ export default function HTMLEdit({
 		// Update editor settings.
 		if ( 'vs-dark' !== chbeObj.editorSettings.theme && 'light' !== chbeObj.editorSettings.theme ) {
 			const theme = themes.find( ( data ) => chbeObj.editorSettings.theme === data.value );
-			monaco.editor.defineTheme( theme.value, theme.data );
-			monaco.editor.setTheme( theme.value );
+			if ( undefined !== theme ) {
+				monaco.editor.defineTheme( theme.value, theme.data );
+				monaco.editor.setTheme( theme.value );
+			}
 		}
 
 		editor.getModel().updateOptions({

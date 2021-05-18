@@ -394,11 +394,7 @@ class Settings {
 		'suggest'                          => array(
 			'type'  => 'object',
 			'items' => array(
-				'insertMode' => array(
-					'type'    => 'string',
-					'default' => 'replace',
-				),
-				'showIcons'  => array(
+				'showIcons' => array(
 					'type'    => 'boolean',
 					'default' => true,
 				),
@@ -499,7 +495,7 @@ class Settings {
 		foreach ( self::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
 			$default_editor_settings[ $key ] = $value['default'];
 		}
-		$current_editor_settings = get_option( self::OPTION_NAME['editor_settings'] );
+		$current_editor_settings = (array) get_option( self::OPTION_NAME['editor_settings'] );
 		$editor_settings         = array_merge( $default_editor_settings, $current_editor_settings );
 
 		return $editor_settings;
@@ -524,7 +520,7 @@ class Settings {
 			}
 		}
 
-		$current_editor_options = get_option( Settings::OPTION_NAME['editor_options'] );
+		$current_editor_options = (array) get_option( Settings::OPTION_NAME['editor_options'] );
 		$editor_options         = array_merge( $default_editor_options, $current_editor_options );
 
 		return $editor_options;

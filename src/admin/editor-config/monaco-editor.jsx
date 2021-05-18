@@ -4,12 +4,12 @@
 import Editor, { useMonaco } from '@monaco-editor/react';
 import { emmetHTML } from 'emmet-monaco-es';
 import webfontloader from 'webfontloader';
-import { store } from 'react-notifications-component';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
+import { addNotification } from 'admin/common/helper';
 import themes from 'themes';
 
 /**
@@ -105,7 +105,7 @@ const MonacoEditor = ({
 					inactive: () => {
 
 						// Font loading failed.
-						addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger' );
+						addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger', 5000 );
 
 						setFontWeights([ 300, 400, 500, 600, 700 ]);
 						setEditorOptions({
@@ -144,8 +144,10 @@ const MonacoEditor = ({
 		// Update editor settings.
 		if ( 'vs-dark' !== editorSettings.theme && 'light' !== editorSettings.theme ) {
 			const theme = themes.find( ( data ) => editorSettings.theme === data.value );
-			monaco.editor.defineTheme( theme.value, theme.data );
-			monaco.editor.setTheme( theme.value );
+			if ( undefined !== theme ) {
+				monaco.editor.defineTheme( theme.value, theme.data );
+				monaco.editor.setTheme( theme.value );
+			}
 		}
 
 		editor.getModel().updateOptions({
@@ -180,7 +182,7 @@ const MonacoEditor = ({
 				inactive: () => {
 
 					// Font loading failed.
-					addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger' );
+					addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger', 5000 );
 
 					setFontWeights([ 300, 400, 500, 600, 700 ]);
 					setEditorOptions({
@@ -191,26 +193,6 @@ const MonacoEditor = ({
 				}
 			});
 		}
-	};
-
-	// Show notification.
-	const addNotification = ( message, type ) => {
-		store.addNotification({
-			message,
-			type,
-			animation: 'bounce-in',
-			insert: 'bottom',
-			container: 'top-center',
-			isMobile: true,
-			dismiss: {
-				duration: 5000,
-				showIcon: true
-			},
-			dismissable: {
-				click: true,
-				touch: true
-			}
-		});
 	};
 
 	return (

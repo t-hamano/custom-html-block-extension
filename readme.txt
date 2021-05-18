@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
 Tested up to: 5.7
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,11 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 1.2.0 =
+* Doc: Update translation file
+* Add: Import/Export editor config tool
+* Clean: Ajust internal logic
 
 = 1.1.0 =
 * Doc: Update translation file
