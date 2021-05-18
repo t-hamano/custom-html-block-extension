@@ -144,8 +144,10 @@ const MonacoEditor = ({
 		// Update editor settings.
 		if ( 'vs-dark' !== editorSettings.theme && 'light' !== editorSettings.theme ) {
 			const theme = themes.find( ( data ) => editorSettings.theme === data.value );
-			monaco.editor.defineTheme( theme.value, theme.data );
-			monaco.editor.setTheme( theme.value );
+			if ( undefined !== theme ) {
+				monaco.editor.defineTheme( theme.value, theme.data );
+				monaco.editor.setTheme( theme.value );
+			}
 		}
 
 		editor.getModel().updateOptions({

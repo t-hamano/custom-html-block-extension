@@ -140,6 +140,15 @@
 #custom-html-block-extension-admin {
 
 	// Common classes
+	h2 {
+		margin-top: 0;
+		margin-bottom: 16px;
+	}
+
+	.chbe-wrap--is-waiting {
+		opacity: 0.2;
+	}
+
 	.chbe-container {
 		position: relative;
 		max-width: 1200px;
@@ -152,6 +161,16 @@
 		height: auto;
 		margin-left: 16px;
 		padding: 0;
+	}
+
+	.chbe-file-upload {
+		display: flex;
+		align-items: center;
+		margin-bottom: 32px;
+
+		&__name {
+			margin: 0 0 0 16px;
+		}
 	}
 
 	// React notification component
@@ -225,20 +244,62 @@
 		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
 	}
 
+	// Panel component
+	.components-panel {
+
+		&__body {
+			margin-bottom: 16px;
+			background: #fff;
+			border: 1px solid #d6e2ed;
+
+			&.is-opened {
+				padding-top: 0;
+
+				> .components-panel__body-title {
+					margin-bottom: 16px;
+				}
+			}
+
+			&:not(.is-opened) {
+				border-bottom: none;
+			}
+		}
+
+		&__body-toggle.components-button {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			font-weight: bold;
+			font-size: 16px;
+		}
+
+		&__body-toggle {
+			border-bottom: 1px solid #d6e2ed;
+		}
+
+		&__row {
+			flex-wrap: wrap;
+			align-items: flex-start;
+			justify-content: flex-start;
+			min-height: auto;
+			margin-top: 16px;
+
+			label {
+				flex: 1;
+				max-width: 100%;
+				margin-right: 0;
+				overflow: initial;
+				text-overflow: initial;
+			}
+		}
+	}
+
 	// EditorConfig component
 	.chbe-config {
+		display: flex;
+		flex-flow: row-reverse;
 
-		&__content {
-			display: flex;
-			flex-flow: row-reverse;
-
-			&--saving {
-				opacity: 0.2;
-			}
-
-			@media screen and (max-width: 782px) {
-				display: block;
-			}
+		@media screen and (max-width: 782px) {
+			display: block;
 		}
 
 		&__settings {
@@ -263,15 +324,6 @@
 				width: 100%;
 				margin: 0 0 32px;
 			}
-
-			h2 {
-				margin-top: 0;
-				margin-bottom: 16px;
-
-				+ * {
-					margin-bottom: 10px;
-				}
-			}
 		}
 
 		&__controls--basic {
@@ -290,48 +342,6 @@
 		.components-input-control__container {
 			display: inline-flex;
 			width: auto;
-		}
-
-		// Panel component
-		.components-panel {
-
-			&__body {
-				margin-bottom: 16px;
-				background: #fff;
-				border: 1px solid #d6e2ed;
-				border-bottom: none;
-
-				&.is-opened > .components-panel__body-title {
-					margin-bottom: 16px;
-				}
-			}
-
-			&__body-toggle.components-button {
-				padding-top: 12px;
-				padding-bottom: 12px;
-				font-weight: bold;
-				font-size: 16px;
-			}
-
-			&__body-toggle {
-				border-bottom: 1px solid #d6e2ed;
-			}
-
-			&__row {
-				flex-wrap: wrap;
-				align-items: flex-start;
-				justify-content: flex-start;
-				min-height: auto;
-				margin-top: 16px;
-
-				label {
-					flex: 1;
-					max-width: 100%;
-					margin-right: 0;
-					overflow: initial;
-					text-overflow: initial;
-				}
-			}
 		}
 
 		// BaseControl component
@@ -416,12 +426,5 @@
 				padding-left: 56px;
 			}
 		}
-	}
-
-	// Tools component
-	.chbe-tools {
-		padding: 24px;
-		background: #fff;
-		border: 1px solid #d6e2ed;
 	}
 }
