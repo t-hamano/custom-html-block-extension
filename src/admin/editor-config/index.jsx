@@ -1,12 +1,8 @@
 /**
- * External dependencies
- */
-import { store } from 'react-notifications-component';
-
-/**
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
+import { addNotification } from 'admin/common/helper';
 import Loading from 'admin/common/loading';
 import MonacoEditor from 'admin/editor-config/monaco-editor';
 import Mode from 'admin/editor-config/mode';
@@ -103,24 +99,7 @@ const EditorConfig = () => {
 	};
 
 	// Show notification.
-	const addNotification = ( message, type ) => {
-		store.addNotification({
-			message,
-			type,
-			animation: 'bounce-in',
-			insert: 'bottom',
-			container: 'top-center',
-			isMobile: true,
-			dismiss: {
-				duration: 2000,
-				showIcon: true
-			},
-			dismissable: {
-				click: true,
-				touch: true
-			}
-		});
-	};
+
 
 	return (
 		<div className="chbe-config">
