@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Custom HTML Block Extension\n"
-"POT-Creation-Date: 2021-05-15 05:18+0000\n"
+"POT-Creation-Date: 2021-05-18 13:28+0000\n"
 "PO-Revision-Date: 2021-05-04 12:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: Tetsuaki Hamano\n"
@@ -694,7 +694,6 @@ msgstr ""
 
 #: src/admin/editor-config/editor-options/folding.jsx:40
 #: src/admin/editor-config/editor-options/folding.jsx:48
-#: src/admin/editor-config/index.jsx:255
 msgid "Code folding"
 msgstr ""
 
@@ -726,7 +725,6 @@ msgid ""
 msgstr ""
 
 #: src/admin/editor-config/editor-options/font-family.jsx:47
-#: src/admin/tools/index.jsx:12
 msgid "GitHub Project Page"
 msgstr ""
 
@@ -853,7 +851,7 @@ msgstr ""
 
 #: src/admin/editor-config/editor-options/minimap/enabled.jsx:43
 #: src/admin/editor-config/editor-options/minimap/enabled.jsx:51
-#: src/admin/editor-config/index.jsx:213
+#: src/admin/editor-config/index.jsx:188
 msgid "Minimap"
 msgstr ""
 
@@ -1080,7 +1078,7 @@ msgstr ""
 
 #: src/admin/editor-config/editor-options/quick-suggestions.jsx:41
 #: src/admin/editor-config/editor-options/quick-suggestions.jsx:49
-#: src/admin/editor-config/index.jsx:297
+#: src/admin/editor-config/index.jsx:272
 msgid "Suggest"
 msgstr ""
 
@@ -1473,65 +1471,73 @@ msgstr ""
 msgid "Light"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:131 src/block/edit.js:193
+#: src/admin/editor-config/index.jsx:83
+msgid "Settings have been reset."
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:106 src/block/edit.js:195
 msgid "Preview"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:169
+#: src/admin/editor-config/index.jsx:144
 msgid "Editor"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:182
+#: src/admin/editor-config/index.jsx:157
 msgid "Font"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:193
+#: src/admin/editor-config/index.jsx:168
 msgid "Word Wrap"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:238
+#: src/admin/editor-config/index.jsx:213
 msgid "Cursor"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:278
+#: src/admin/editor-config/index.jsx:230
+msgid "Code Folding"
+msgstr ""
+
+#: src/admin/editor-config/index.jsx:253
 msgid "Line Number"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:320
+#: src/admin/editor-config/index.jsx:295
 msgid "Auto Completion"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:330
+#: src/admin/editor-config/index.jsx:305
 msgid "Mouse and Scroll"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:345
+#: src/admin/editor-config/index.jsx:320
 msgid "Select, Cut, Copy, Paste"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:357
+#: src/admin/editor-config/index.jsx:332
 msgid "Highlight and Rendering"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:383
+#: src/admin/editor-config/index.jsx:358
 msgid "Find"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:391
+#: src/admin/editor-config/index.jsx:366
 msgid "Scrollbar"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:430
+#: src/admin/editor-config/index.jsx:405
 msgid ""
 "Settings in this group will be reflected in the preview area when you press "
 "the refresh editor button."
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:436
+#: src/admin/editor-config/index.jsx:411
 msgid "Refresh editor"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:441
+#: src/admin/editor-config/index.jsx:416
 msgid "Other"
 msgstr ""
 
@@ -1544,27 +1550,27 @@ msgid "Basic"
 msgstr ""
 
 #: src/admin/editor-config/monaco-editor.jsx:108
-#: src/admin/editor-config/monaco-editor.jsx:183
+#: src/admin/editor-config/monaco-editor.jsx:185
 #, python-format
 msgid "Failed to load the font. (%s)"
 msgstr ""
 
-#: src/admin/editor-config/monaco-editor.jsx:223
-#: src/admin/editor-config/monaco-editor.jsx:234 src/block/edit.js:231
+#: src/admin/editor-config/monaco-editor.jsx:205
+#: src/admin/editor-config/monaco-editor.jsx:216 src/block/edit.js:233
 msgid "Loading..."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-#: src/admin/index.jsx:50 classes/class-admin.php:29 classes/class-admin.php:30
+#: src/admin/index.jsx:53 classes/class-admin.php:29 classes/class-admin.php:30
 #: classes/class-admin.php:44
 msgid "Custom HTML Block Extension"
 msgstr ""
 
-#: src/admin/index.jsx:62
+#: src/admin/index.jsx:65
 msgid "Editor Config"
 msgstr ""
 
-#: src/admin/index.jsx:66
+#: src/admin/index.jsx:69
 msgid "Tools"
 msgstr ""
 
@@ -1603,19 +1609,48 @@ msgstr ""
 msgid "Keyboard shortcuts for macOS"
 msgstr ""
 
-#: src/admin/tools/index.jsx:10
-msgid ""
-"I'm planning to add some features in future versions. For example, the "
-"ability to import/export settings."
+#: src/admin/tools/export-editor-config.jsx:51
+msgid "Export Editor Config"
 msgstr ""
 
-#: src/admin/tools/index.jsx:11
+#: src/admin/tools/export-editor-config.jsx:54
 msgid ""
-"Please contact us via the project page if you have any requests or comments."
+"Use the download button to export the editor settings. You can restore the "
+"editor config by importing the exported file on another WordPress site."
 msgstr ""
 
-#: src/admin/tools/index.jsx:12
-msgid "https://github.com/t-hamano/custom-html-block-extension"
+#: src/admin/tools/export-editor-config.jsx:59
+msgid "Export"
+msgstr ""
+
+#: src/admin/tools/import-editor-config.jsx:39
+msgid "It is not a JSON file."
+msgstr ""
+
+#: src/admin/tools/import-editor-config.jsx:64
+msgid "Imported the editor config."
+msgstr ""
+
+#: src/admin/tools/import-editor-config.jsx:74
+msgid "The format of JSON file is not correct."
+msgstr ""
+
+#: src/admin/tools/import-editor-config.jsx:81
+msgid "Import Editor Config"
+msgstr ""
+
+#: src/admin/tools/import-editor-config.jsx:84
+msgid ""
+"Select the Custom HTML Block Extension JSON file you would like to import "
+"and click the import button below."
+msgstr ""
+
+#: src/admin/tools/import-editor-config.jsx:91
+msgid "Upload file"
+msgstr ""
+
+#: src/admin/tools/import-editor-config.jsx:104
+msgid "Import"
 msgstr ""
 
 #: src/admin/welcome-guide.jsx:41
@@ -1671,7 +1706,7 @@ msgid ""
 "mode."
 msgstr ""
 
-#: src/block/edit.js:186
+#: src/block/edit.js:188
 msgid "HTML"
 msgstr ""
 
@@ -1878,16 +1913,8 @@ msgstr ""
 msgid "Editor settings."
 msgstr ""
 
-#: classes/class-api.php:104 classes/class-api.php:113
-msgid "An unknown error occurred."
-msgstr ""
-
-#: classes/class-api.php:124
+#: classes/class-api.php:120
 msgid "Settings saved."
-msgstr ""
-
-#: classes/class-api.php:141
-msgid "Settings have been reset."
 msgstr ""
 
 #: classes/class-init.php:42
