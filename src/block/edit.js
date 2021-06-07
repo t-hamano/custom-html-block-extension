@@ -116,15 +116,19 @@ export default function HTMLEdit({
 		// Ctrl+X shortcut without a range selection will cut the block,
 		// so catch the command and execute custom action instead.
 		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_X, () => {
+			const selection = editor.getSelection();
+			const lineNumber = editor.getPosition().lineNumber;
+			const isEmptySelection = selection.startLineNumber === selection.endLineNumber && selection.startColumn === selection.endColumn;
+
 			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
-				const selection = editor.getSelection();
-				const lineNumber = editor.getPosition().lineNumber;
+				if ( isEmptySelection ) {
 
-				// Select the entire current line and next line first column if there is no range selection.
-				if ( selection.startLineNumber === selection.endLineNumber && selection.startColumn === selection.endColumn ) {
+					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
+					document.execCommand( 'cut' );
 				}
-
+				document.execCommand( 'cut' );
+			} else if ( ! isEmptySelection ) {
 				document.execCommand( 'cut' );
 			}
 		});
@@ -132,19 +136,20 @@ export default function HTMLEdit({
 		// Ctrl+C shortcut without a range selection will copy the block,
 		// so catch the command and execute custom action instead.
 		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_C, () => {
+			const selection = editor.getSelection();
+			const lineNumber = editor.getPosition().lineNumber;
+			const isEmptySelection = selection.startLineNumber === selection.endLineNumber && selection.startColumn === selection.endColumn;
+
 			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
-				const selection = editor.getSelection();
-				const lineNumber = editor.getPosition().lineNumber;
+				if ( isEmptySelection ) {
 
-				// Select the entire current line and next line first column if there is no range selection.
-				if ( selection.startLineNumber === selection.endLineNumber && selection.startColumn === selection.endColumn ) {
+					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
+					document.execCommand( 'copy' );
 				}
-
 				document.execCommand( 'copy' );
-
-				// Undo the state of a selection.
-				editor.setSelection( new monaco.Selection( selection.startLineNumber, selection.startColumn, selection.endLineNumber, selection.endColumn ) );
+			} else if ( ! isEmptySelection ) {
+				document.execCommand( 'copy' );
 			}
 		});
 	};
