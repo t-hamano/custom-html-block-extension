@@ -7,7 +7,7 @@
 
 namespace custom_html_block_extension;
 
-class Block {
+class BlockEditor {
 
 	/**
 	 * Constructor
@@ -23,13 +23,20 @@ class Block {
 	 * Enqueue block editor scripts
 	 */
 	public function enqueue_editor_scripts() {
-		$asset_file = include( CHBE_PATH . '/build/block/index.asset.php' );
+		$asset_file = include( CHBE_PATH . '/build/block-editor/index.asset.php' );
+
+		// Abort the process if permission is disabled.
+		$options = Settings::get_options();
+
+		if ( ! $options['permissionBlockEditor'] ) {
+			return;
+		}
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE,
-			CHBE_URL . '/build/block/editor.css',
+			CHBE_URL . '/build/block-editor/editor.css',
 			array(),
-			filemtime( CHBE_PATH . '/build/block/editor.css' )
+			filemtime( CHBE_PATH . '/build/block-editor/editor.css' )
 		);
 
 		wp_enqueue_style(
@@ -41,9 +48,9 @@ class Block {
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
-			CHBE_URL . '/build/block/index.js',
+			CHBE_URL . '/build/block-editor/index.js',
 			$asset_file['dependencies'],
-			filemtime( CHBE_PATH . '/build/block/index.js' )
+			filemtime( CHBE_PATH . '/build/block-editor/index.js' )
 		);
 
 		wp_localize_script(
@@ -73,4 +80,4 @@ class Block {
 	}
 }
 
-new Block();
+new BlockEditor();

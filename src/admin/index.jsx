@@ -13,6 +13,7 @@ import WelcomeGuide from 'admin/welcome-guide';
 import Shortcut from 'admin/shortcut';
 import EditorConfig from 'admin/editor-config';
 import Tools from 'admin/tools';
+import Options from 'admin/options';
 
 /**
  * WordPress dependencies
@@ -41,6 +42,7 @@ const Admin = () => {
 		emmet: chbeObj.editorSettings.emmet
 	});
 	const [ editorOptions, setEditorOptions ] = useState( chbeObj.editorOptions );
+	const [ options, setOptions ] = useState( chbeObj.options );
 	const [ code, setCode ] = useState( htmlCode );
 
 	return (
@@ -67,6 +69,10 @@ const Admin = () => {
 						{
 							name: 'tools',
 							title: __( 'Tools', 'custom-html-block-extension' )
+						},
+						{
+							name: 'options',
+							title: __( 'Options', 'custom-html-block-extension' )
 						}
 					] }
 				>
@@ -78,10 +84,12 @@ const Admin = () => {
 									isWaiting,
 									editorSettings,
 									editorOptions,
+									options,
 									setCode,
 									setIsWaiting,
 									setEditorOptions,
-									setEditorSettings
+									setEditorSettings,
+									setOptions
 								}}
 							>
 								{ 'editor-config' === tab.name && (
@@ -89,6 +97,9 @@ const Admin = () => {
 								)}
 								{ 'tools' === tab.name && (
 									<Tools />
+								)}
+								{ 'options' === tab.name && (
+									<Options />
 								)}
 							</AdminContext.Provider>
 						</div>

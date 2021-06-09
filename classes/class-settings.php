@@ -13,6 +13,7 @@ class Settings {
 	const OPTION_NAME = array(
 		'editor_settings'       => 'custom_html_block_extension_editor_settings',
 		'editor_options'        => 'custom_html_block_extension_editor_options',
+		'options'               => 'custom_html_block_extension_options',
 		'dismiss_welcome_guide' => 'custom_html_block_extension_dismiss_welcome_guilde',
 	);
 
@@ -434,6 +435,18 @@ class Settings {
 		),
 	);
 
+	// Default options.
+	const DEFAULT_OPTIONS = array(
+		'permissionBlockEditor'   => array(
+			'type'    => 'boolean',
+			'default' => true,
+		),
+		'permissionClassicEditor' => array(
+			'type'    => 'boolean',
+			'default' => true,
+		),
+	);
+
 	// Default font family variations.
 	const DEFAULT_FONT_FAMILIES = array(
 		array(
@@ -524,6 +537,22 @@ class Settings {
 		$editor_options         = array_merge( $default_editor_options, $current_editor_options );
 
 		return $editor_options;
+	}
+
+	/**
+	 * Get editor options.
+	 */
+	public static function get_options() {
+		// Override default options with option values.
+		$default_options = array();
+
+		foreach ( self::DEFAULT_OPTIONS as $key => $value ) {
+			$default_options[ $key ] = $value['default'];
+		}
+		$current_options = (array) get_option( self::OPTION_NAME['options'] );
+		$options         = array_merge( $default_options, $current_options );
+
+		return $options;
 	}
 
 	/**
