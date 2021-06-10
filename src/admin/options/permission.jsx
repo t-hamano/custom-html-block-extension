@@ -36,7 +36,7 @@ const Permission = () => {
 		<PanelBody title={ __( 'Permission', 'custom-html-block-extension' ) } >
 			<PanelRow>
 				<ToggleControl
-					label={ __( 'Enable on Gutenberg Block Editor', 'custom-html-block-extension' ) }
+					label={ __( 'Enable on Block Editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionBlockEditor }
 					onChange={ ( value ) => handleBlockEditorChange( value ) }
 				/>

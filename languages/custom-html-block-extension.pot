@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Custom HTML Block Extension\n"
-"POT-Creation-Date: 2021-05-18 13:28+0000\n"
+"POT-Creation-Date: 2021-06-10 15:08+0000\n"
 "PO-Revision-Date: 2021-05-04 12:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: Tetsuaki Hamano\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: custom-html-block-extension.php\n"
@@ -851,7 +851,7 @@ msgstr ""
 
 #: src/admin/editor-config/editor-options/minimap/enabled.jsx:43
 #: src/admin/editor-config/editor-options/minimap/enabled.jsx:51
-#: src/admin/editor-config/index.jsx:188
+#: src/admin/editor-config/index.jsx:185
 msgid "Minimap"
 msgstr ""
 
@@ -1078,7 +1078,7 @@ msgstr ""
 
 #: src/admin/editor-config/editor-options/quick-suggestions.jsx:41
 #: src/admin/editor-config/editor-options/quick-suggestions.jsx:49
-#: src/admin/editor-config/index.jsx:272
+#: src/admin/editor-config/index.jsx:269
 msgid "Suggest"
 msgstr ""
 
@@ -1475,69 +1475,69 @@ msgstr ""
 msgid "Settings have been reset."
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:106 src/block/edit.js:195
+#: src/admin/editor-config/index.jsx:103 src/block-editor/edit.js:200
 msgid "Preview"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:144
+#: src/admin/editor-config/index.jsx:141
 msgid "Editor"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:157
+#: src/admin/editor-config/index.jsx:154
 msgid "Font"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:168
+#: src/admin/editor-config/index.jsx:165
 msgid "Word Wrap"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:213
+#: src/admin/editor-config/index.jsx:210
 msgid "Cursor"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:230
+#: src/admin/editor-config/index.jsx:227
 msgid "Code Folding"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:253
+#: src/admin/editor-config/index.jsx:250
 msgid "Line Number"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:295
+#: src/admin/editor-config/index.jsx:292
 msgid "Auto Completion"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:305
+#: src/admin/editor-config/index.jsx:302
 msgid "Mouse and Scroll"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:320
+#: src/admin/editor-config/index.jsx:317
 msgid "Select, Cut, Copy, Paste"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:332
+#: src/admin/editor-config/index.jsx:329
 msgid "Highlight and Rendering"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:358
+#: src/admin/editor-config/index.jsx:355
 msgid "Find"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:366
+#: src/admin/editor-config/index.jsx:363
 msgid "Scrollbar"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:405
+#: src/admin/editor-config/index.jsx:402
 msgid ""
 "Settings in this group will be reflected in the preview area when you press "
 "the refresh editor button."
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:411
+#: src/admin/editor-config/index.jsx:408
 msgid "Refresh editor"
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:416
+#: src/admin/editor-config/index.jsx:413
 msgid "Other"
 msgstr ""
 
@@ -1556,22 +1556,42 @@ msgid "Failed to load the font. (%s)"
 msgstr ""
 
 #: src/admin/editor-config/monaco-editor.jsx:205
-#: src/admin/editor-config/monaco-editor.jsx:216 src/block/edit.js:233
+#: src/admin/editor-config/monaco-editor.jsx:216 src/block-editor/edit.js:238
 msgid "Loading..."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-#: src/admin/index.jsx:53 classes/class-admin.php:29 classes/class-admin.php:30
+#: src/admin/index.jsx:55 classes/class-admin.php:29 classes/class-admin.php:30
 #: classes/class-admin.php:44
 msgid "Custom HTML Block Extension"
 msgstr ""
 
-#: src/admin/index.jsx:65
+#: src/admin/index.jsx:67
 msgid "Editor Config"
 msgstr ""
 
-#: src/admin/index.jsx:69
+#: src/admin/index.jsx:71
 msgid "Tools"
+msgstr ""
+
+#: src/admin/index.jsx:75
+msgid "Options"
+msgstr ""
+
+#: src/admin/options/index.jsx:52
+msgid "Save Options"
+msgstr ""
+
+#: src/admin/options/permission.jsx:36
+msgid "Permission"
+msgstr ""
+
+#: src/admin/options/permission.jsx:39
+msgid "Enable on Block Editor"
+msgstr ""
+
+#: src/admin/options/permission.jsx:46
+msgid "Enable on Classic Editor"
 msgstr ""
 
 #: src/admin/shortcut.jsx:26 src/admin/shortcut.jsx:30
@@ -1706,7 +1726,7 @@ msgid ""
 "mode."
 msgstr ""
 
-#: src/block/edit.js:188
+#: src/block-editor/edit.js:193
 msgid "HTML"
 msgstr ""
 
@@ -1909,12 +1929,17 @@ msgid ""
 "\"%s\">setting page</a>."
 msgstr ""
 
-#: classes/class-admin.php:139 classes/class-admin.php:177
+#: classes/class-admin.php:141 classes/class-admin.php:180
+#: classes/class-admin.php:205
 msgid "Editor settings."
 msgstr ""
 
-#: classes/class-api.php:120
+#: classes/class-api.php:134
 msgid "Settings saved."
+msgstr ""
+
+#: classes/class-api.php:167
+msgid "Options saved."
 msgstr ""
 
 #: classes/class-init.php:42
