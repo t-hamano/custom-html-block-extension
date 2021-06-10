@@ -49,8 +49,9 @@ class Init {
 	 */
 	public function load_classes() {
 		require_once( CHBE_PATH . '/classes/class-settings.php' );
-		require_once( CHBE_PATH . '/classes/class-block.php' );
 		require_once( CHBE_PATH . '/classes/class-admin.php' );
+		require_once( CHBE_PATH . '/classes/class-block-editor.php' );
+		require_once( CHBE_PATH . '/classes/class-classic-editor.php' );
 		require_once( CHBE_PATH . '/classes/class-api.php' );
 	}
 }

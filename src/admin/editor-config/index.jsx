@@ -97,9 +97,6 @@ const EditorConfig = () => {
 		}, 300 );
 	};
 
-	// Show notification.
-
-
 	return (
 		<div className="chbe-config">
 			<div className="chbe-config__preview">

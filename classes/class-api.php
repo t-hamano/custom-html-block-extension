@@ -66,6 +66,20 @@ class Api {
 
 		register_rest_route(
 			CHBE_NAMESPACE . '/v1',
+			'/update_options',
+			array(
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'update_options' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				),
+			)
+		);
+
+		register_rest_route(
+			CHBE_NAMESPACE . '/v1',
 			'/dismiss_welcome_guide',
 			array(
 				array(
@@ -135,6 +149,22 @@ class Api {
 			array(
 				'editorSettings' => Settings::get_editor_settings(),
 				'editorOptions'  => Settings::get_editor_options(),
+			)
+		);
+	}
+
+	/**
+	 * Function to update options.
+	 */
+	public function update_options( $request ) {
+		$json_params = $request->get_json_params();
+
+		update_option( Settings::OPTION_NAME['options'], $json_params['options'] );
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'message' => __( 'Options saved.', 'custom-html-block-extension' ),
 			)
 		);
 	}

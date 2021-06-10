@@ -1,0 +1,22 @@
+#monaco-editor-container {
+	min-height: 300px;
+
+	.monaco-editor .inputarea {
+		padding: 0;
+		color: transparent;
+		box-shadow: none;
+	}
+}
+
+#ed_toolbar { /* stylelint-disable-line selector-id-pattern */
+	z-index: 1;
+}
+
+.wp-editor-container textarea.wp-editor-area {
+	position: fixed !important;
+	top: -9999px !important;
+	left: -9999px !important;
+	z-index: -1;
+	display: block !important;
+	opacity: 0 !important;
+}
