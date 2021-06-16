@@ -14,8 +14,8 @@ loader.init().then( monaco => {
 
 	let isMonacEditorEnabled = false;
 
-	const visualEditor = -1 !== document.cookie.indexOf( 'editor%3Dtinymce' ) ? true : false;
-	const visualEditorEnabled = null !== document.getElementById( 'content-tmce' ) ? true : false;
+	const isEditorEnabled = null !== document.getElementById( 'content-tmce' ) ? true : false;
+	const isVisualEditMode = -1 !== document.cookie.indexOf( 'editor%3Dtinymce' ) ? true : false;
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );
@@ -137,26 +137,27 @@ loader.init().then( monaco => {
 			runEditor( editorContainer );
 			tabTmce.onclick = toVisual;
 		}
+
+		setTimeout( () => {
+			updateToolbarMargin();
+		}, 300 );
 	};
 
 	// Window resize event.
 	const onWindowResize = () => {
 		setTimeout( () => {
-			updateToolbarMargin;
+			updateToolbarMargin();
 		}, 300 );
 	};
 
 	// Initialize
-	if ( visualEditor && visualEditorEnabled ) {
-
-		// If visual editor mode is enabled
+	if ( ! isEditorEnabled ) {
+		return;
+	}
+	if ( isVisualEditMode ) {
 		tabHtml.onclick = toHtml;
 	} else {
-
-		// If HTML editor mode is enabled
 		runEditor( editorContainer );
-		if ( visualEditorEnabled ) {
-			tabTmce.onclick = toVisual;
-		}
+		tabTmce.onclick = toVisual;
 	}
 });
