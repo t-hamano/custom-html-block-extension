@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
 Tested up to: 5.7
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,9 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 2.0.2 =
+* Fix: Error that occurs when the visual editor is disabled in the classic editor
 
 = 2.0.1 =
 * Fix: Problem about browser console error and incorrectly margin-top of the code editor at classic editor

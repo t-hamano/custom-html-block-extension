@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Custom HTML Block Extension
  * Description: Extend custom HTML blocks to evolve into an advanced code editor.
- * Version: 2.0.1
+ * Version: 2.0.2
  * Author: Tetsuaki Hamano
  * Author URI: https://github.com/t-hamano
  * License: GPL2 or later
