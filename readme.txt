@@ -26,6 +26,7 @@ You can change all kinds of settings to create your ideal editor in advanced mod
 2. Various color themes
 3. Faster coding with Emmet
 4. High customizability
+5. Classic Editor support
 
 == Resources ==
 
