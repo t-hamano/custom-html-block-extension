@@ -16,7 +16,7 @@ loader.init().then( monaco => {
 
 	const isEditorEnabled = null !== document.getElementById( 'content' );
 	const isVisualEditorEnabled = null !== document.getElementById( 'content-tmce' ) && null !== document.getElementById( 'content-html' );
-	const isVisualEditMode = -1 !== document.cookie.indexOf( 'editor%3Dtinymce' );
+	const isVisualEditMode = -1 === document.cookie.indexOf( 'editor%3Dhtml' );
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );
@@ -60,7 +60,7 @@ loader.init().then( monaco => {
 		monacoEditor.getModel().onDidChangeContent( ( event ) => {
 
 			// Apply changes in the editor to the original textarea.
-			textarea.textContent = monacoEditor.getModel().getValue();
+			textarea.value = monacoEditor.getModel().getValue();
 
 			// Change editor area height.
 			const contentHeight = Math.max( 300, monacoEditor.getContentHeight() );
@@ -135,7 +135,9 @@ loader.init().then( monaco => {
 	// Switch to html editor tab.
 	const toHtml = () => {
 		if ( ! isMonacEditorEnabled ) {
-			runEditor( editorContainer );
+			setTimeout( () => {
+				runEditor( editorContainer );
+			}, 300 );
 			tabTmce.onclick = toVisual;
 		}
 
