@@ -23,6 +23,8 @@ loader.init().then( monaco => {
 	const toolbar = document.getElementById( 'ed_toolbar' );
 	const textarea = document.getElementById( 'content' );
 	const editorContainer = document.getElementById( 'wp-content-editor-container' );
+	const draftButton = document.getElementById( 'save-post' );
+	const publishButton = document.getElementById( 'publish' );
 
 	// Setting up the monaco editor.
 	const runEditor = ( target ) => {
@@ -84,6 +86,15 @@ loader.init().then( monaco => {
 		monacoEditor.getModel().updateOptions({
 			tabSize: chbeObj.editorSettings.tabSize,
 			insertSpaces: chbeObj.editorSettings.insertSpaces
+		});
+
+		// Catch the Ctrl+S command to save draft or publish post.
+		monacoEditor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+			if ( !! draftButton ) {
+				draftButton.click();
+			} else {
+				publishButton.click();
+			}
 		});
 
 		// Load webfont.

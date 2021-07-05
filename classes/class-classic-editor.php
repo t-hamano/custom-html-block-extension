@@ -58,8 +58,8 @@ class ClassicEditor {
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/classic-editor/index.js',
-			filemtime( CHBE_PATH . '/build/classic-editor/index.js' ),
 			array(),
+			filemtime( CHBE_PATH . '/build/classic-editor/index.js' ),
 			true
 		);
 
