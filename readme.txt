@@ -68,6 +68,7 @@ Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 == Changelog ==
 
 = 2.1.0 =
+* Testes to WordPress 5.8
 * Fix: Issue with the correct block icon not being displayed
 * Clean: Update npm packages
 * Add: Ctrl+S shortcut action to the classic editor
