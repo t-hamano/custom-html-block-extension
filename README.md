@@ -20,6 +20,10 @@ Emmet allows you to type shortcuts that are then expanded into full pieces of co
 
 You can change all kinds of settings to create your ideal editor in advanced mode.
 
+## Note
+
+This plugin will not work on the "**Block Template**" editor, which is a new feature in WordPress 5.8.
+
 ## Add custom fonts
 
 You can use your own favorite fonts in addition to the default fonts.

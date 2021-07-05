@@ -17,6 +17,9 @@ There are 50 different color themes to choose from, and you can select the one t
 This plugin features Emmet that expand shortcut input into complete code. This reduces the number of times you have to type and saves keystrokes.
 You can change all kinds of settings to create your ideal editor in advanced mode.
 
+###Note
+This plugin will not work on the "Block Template" editor, which is a new feature in WordPress 5.8.
+
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the \'Plugins\' menu in WordPress.
