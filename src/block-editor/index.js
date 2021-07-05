@@ -11,7 +11,7 @@ import { addFilter } from '@wordpress/hooks';
 /**
  * Internal dependencies
  */
-import BlockIcon from 'common/block-icon';
+import icon from 'common/block-icon';
 import edit from './edit';
 
 const customHtmlBlockExtension = ( settings ) => {
@@ -21,7 +21,7 @@ const customHtmlBlockExtension = ( settings ) => {
 
 	const newSettings = {
 		...settings,
-		BlockIcon,
+		icon,
 		attributes: {
 			...settings.attributes,
 			height: {
