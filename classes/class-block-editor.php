@@ -15,8 +15,6 @@ class BlockEditor {
 	function __construct() {
 		// Enqueue block editor scripts
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
-		// Register block
-		add_action( 'init', array( $this, 'register_block' ) );
 	}
 
 	/**
@@ -64,19 +62,6 @@ class BlockEditor {
 		);
 
 		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE, CHBE_PATH . '/languages' );
-	}
-
-	/**
-	 * Register block
-	 */
-	public function register_block() {
-		register_block_type_from_metadata(
-			CHBE_PATH . '/src/block.json',
-			array(
-				'editor_script' => CHBE_NAMESPACE,
-				'editor_style'  => CHBE_NAMESPACE,
-			)
-		);
 	}
 }
 

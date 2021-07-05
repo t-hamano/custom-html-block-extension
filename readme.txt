@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
 Tested up to: 5.7
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,6 +17,9 @@ There are 50 different color themes to choose from, and you can select the one t
 This plugin features Emmet that expand shortcut input into complete code. This reduces the number of times you have to type and saves keystrokes.
 You can change all kinds of settings to create your ideal editor in advanced mode.
 
+###Note
+This plugin will not work on the "Block Template" editor, which is a new feature in WordPress 5.8.
+
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the \'Plugins\' menu in WordPress.
@@ -26,6 +29,7 @@ You can change all kinds of settings to create your ideal editor in advanced mod
 2. Various color themes
 3. Faster coding with Emmet
 4. High customizability
+5. Classic Editor support
 
 == Resources ==
 
@@ -62,6 +66,13 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 2.1.0 =
+* Testes to WordPress 5.8
+* Fix: Issue with the correct block icon not being displayed
+* Clean: Update npm packages
+* Add: Ctrl+S shortcut action to the classic editor
+* Fix: Editor mode is not detected correctly the first time the Classic Editor is used
 
 = 2.0.2 =
 * Fix: Error that occurs when the visual editor is disabled in the classic editor

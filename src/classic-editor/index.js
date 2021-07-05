@@ -16,13 +16,15 @@ loader.init().then( monaco => {
 
 	const isEditorEnabled = null !== document.getElementById( 'content' );
 	const isVisualEditorEnabled = null !== document.getElementById( 'content-tmce' ) && null !== document.getElementById( 'content-html' );
-	const isVisualEditMode = -1 !== document.cookie.indexOf( 'editor%3Dtinymce' );
+	const isVisualEditMode = -1 === document.cookie.indexOf( 'editor%3Dhtml' );
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );
 	const toolbar = document.getElementById( 'ed_toolbar' );
 	const textarea = document.getElementById( 'content' );
 	const editorContainer = document.getElementById( 'wp-content-editor-container' );
+	const draftButton = document.getElementById( 'save-post' );
+	const publishButton = document.getElementById( 'publish' );
 
 	// Setting up the monaco editor.
 	const runEditor = ( target ) => {
@@ -60,7 +62,7 @@ loader.init().then( monaco => {
 		monacoEditor.getModel().onDidChangeContent( ( event ) => {
 
 			// Apply changes in the editor to the original textarea.
-			textarea.textContent = monacoEditor.getModel().getValue();
+			textarea.value = monacoEditor.getModel().getValue();
 
 			// Change editor area height.
 			const contentHeight = Math.max( 300, monacoEditor.getContentHeight() );
@@ -84,6 +86,15 @@ loader.init().then( monaco => {
 		monacoEditor.getModel().updateOptions({
 			tabSize: chbeObj.editorSettings.tabSize,
 			insertSpaces: chbeObj.editorSettings.insertSpaces
+		});
+
+		// Catch the Ctrl+S command to save draft or publish post.
+		monacoEditor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+			if ( !! draftButton ) {
+				draftButton.click();
+			} else {
+				publishButton.click();
+			}
 		});
 
 		// Load webfont.
@@ -135,7 +146,9 @@ loader.init().then( monaco => {
 	// Switch to html editor tab.
 	const toHtml = () => {
 		if ( ! isMonacEditorEnabled ) {
-			runEditor( editorContainer );
+			setTimeout( () => {
+				runEditor( editorContainer );
+			}, 300 );
 			tabTmce.onclick = toVisual;
 		}
 
