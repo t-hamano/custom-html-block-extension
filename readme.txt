@@ -3,7 +3,7 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
-Tested up to: 5.7
+Tested up to: 5.8
 Stable tag: 2.1.0
 Requires PHP: 7.3
 License: GPLv2 or later
