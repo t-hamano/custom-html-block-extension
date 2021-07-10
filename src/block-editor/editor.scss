@@ -19,3 +19,54 @@
 		box-shadow: none;
 	}
 }
+
+.chbe-popover {
+	white-space: nowrap;
+
+	&__ttl {
+		margin: 0 0 1em;
+		font-size: 1.2em;
+		text-align: center;
+	}
+
+	&__subttl {
+		margin: 0 -16px 0.5em;
+		padding: 8px 16px;
+		color: #fff;
+		font-size: 1em;
+		text-align: center;
+		background: var(--wp-admin-theme-color);
+	}
+
+	&__row {
+		display: flex;
+	}
+
+	&__col {
+		flex: 1;
+
+		&--setting {
+			padding: 0 16px 8px;
+			border: 1px solid var(--wp-admin-theme-color);
+		}
+
+		&--arrow {
+			flex: auto;
+			align-self: center;
+			margin: 0 8px;
+
+			svg {
+				display: block;
+			}
+		}
+	}
+
+	&__submit {
+		display: block;
+		margin: 16px auto 0;
+	}
+
+	.components-base-control label {
+		display: block;
+	}
+}
