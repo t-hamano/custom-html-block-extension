@@ -50,22 +50,22 @@ loader.init().then( monaco => {
 		properties.scrollbar.alwaysConsumeMouseWheel = false;
 
 		// Create monaco editor.
-		const monacoEditor = monaco.editor.create(
+		window.editor = monaco.editor.create(
 			monacoEditorContainer,
 			properties,
 		);
 
 		// Change editor area height.
-		const contentHeight = Math.max( 300, monacoEditor.getContentHeight() );
+		const contentHeight = Math.max( 300, window.editor.getContentHeight() );
 		monacoEditorContainer.style.height = `${contentHeight}px`;
 
-		monacoEditor.getModel().onDidChangeContent( ( event ) => {
+		window.editor.getModel().onDidChangeContent( ( event ) => {
 
 			// Apply changes in the editor to the original textarea.
-			textarea.value = monacoEditor.getModel().getValue();
+			textarea.value = window.editor.getModel().getValue();
 
 			// Change editor area height.
-			const contentHeight = Math.max( 300, monacoEditor.getContentHeight() );
+			const contentHeight = Math.max( 300, window.editor.getContentHeight() );
 			monacoEditorContainer.style.height = `${contentHeight}px`;
 		});
 
@@ -83,13 +83,13 @@ loader.init().then( monaco => {
 			}
 		}
 
-		monacoEditor.getModel().updateOptions({
+		window.editor.getModel().updateOptions({
 			tabSize: chbeObj.editorSettings.tabSize,
 			insertSpaces: chbeObj.editorSettings.insertSpaces
 		});
 
 		// Catch the Ctrl+S command to save draft or publish post.
-		monacoEditor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+		window.editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
 			if ( !! draftButton ) {
 				draftButton.click();
 			} else {
