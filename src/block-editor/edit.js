@@ -191,6 +191,10 @@ export default function HTMLEdit({
 	};
 
 	function changeIndent() {
+		if ( undefined === content ) {
+			setIsReplacing( false );
+			return;
+		}
 
 		const lines = content.split( '\n' );
 		let newLines = '';
