@@ -278,6 +278,7 @@ export default function HTMLEdit({
 											<ButtonGroup>
 												<Button
 													isPrimary={ ! replaceSetting.beforeInsertSpaces }
+													isSmall
 													onClick={ () => {
 														setReplaceSetting({
 															...replaceSetting,
@@ -289,6 +290,7 @@ export default function HTMLEdit({
 												</Button>
 												<Button
 													isPrimary={ replaceSetting.beforeInsertSpaces }
+													isSmall
 													onClick={ () => {
 														setReplaceSetting({
 															...replaceSetting,
@@ -328,6 +330,7 @@ export default function HTMLEdit({
 											<ButtonGroup>
 												<Button
 													isPrimary={ ! replaceSetting.afterInsertSpaces }
+													isSmall
 													onClick={ () => {
 														setReplaceSetting({
 															...replaceSetting,
@@ -339,6 +342,7 @@ export default function HTMLEdit({
 												</Button>
 												<Button
 													isPrimary={ replaceSetting.afterInsertSpaces }
+													isSmall
 													onClick={ () => {
 														setReplaceSetting({
 															...replaceSetting,
