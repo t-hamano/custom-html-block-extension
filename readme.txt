@@ -16,6 +16,7 @@ Custom HTML Block Extension extends "Custom HTML block" to evolve into an advanc
 There are 50 different color themes to choose from, and you can select the one that best suits your taste.
 This plugin features Emmet that expand shortcut input into complete code. This reduces the number of times you have to type and saves keystrokes.
 You can change all kinds of settings to create your ideal editor in advanced mode.
+And supports the classic editor, import/export editor settings, and change indentation.
 
 ###Note
 This plugin will not work on the "Block Template" editor, which is a new feature in WordPress 5.8.

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Custom HTML Block Extension\n"
-"POT-Creation-Date: 2021-07-11 07:16+0000\n"
-"PO-Revision-Date: 2021-07-11 07:17+0000\n"
+"POT-Creation-Date: 2021-07-11 07:31+0000\n"
+"PO-Revision-Date: 2021-07-11 07:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: Tetsuaki Hamano\n"
 "Language: ja\n"
@@ -1789,6 +1789,18 @@ msgid ""
 msgstr ""
 "アドバンスモードでは、あらゆる設定を変更して、理想のエディターを作り上げるこ"
 "とができます。"
+
+#: src/admin/welcome-guide.jsx:91
+msgid "More tools"
+msgstr "さらなるツール"
+
+#: src/admin/welcome-guide.jsx:92
+msgid ""
+"Supports the classic editor, import/export editor settings, and change "
+"indentation."
+msgstr ""
+"クラシックエディタ、エディタの設定のインポート/エクスポート、インデントの変更"
+"などをサポートしています。"
 
 #: src/block-editor/edit.js:261 src/block-editor/edit.js:270
 #: classes/class-classic-editor.php:99 classes/class-classic-editor.php:119

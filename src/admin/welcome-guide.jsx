@@ -83,6 +83,15 @@ const WelcomeGuide = () => {
 									<p>{ __( 'You can change all kinds of settings to create your ideal editor in advanced mode.', 'custom-html-block-extension' ) }</p>
 								</>
 							)
+						},
+						{
+							image: <img src={ chbeObj.assetPath + '/assets/images/admin/welcome-guide/slide_5.jpg' } />,
+							content: (
+								<>
+									<h1>{ __( 'More tools', 'custom-html-block-extension' ) }</h1>
+									<p>{ __( 'Supports the classic editor, import/export editor settings, and change indentation.', 'custom-html-block-extension' ) }</p>
+								</>
+							)
 						}
 					] }
 				/>
