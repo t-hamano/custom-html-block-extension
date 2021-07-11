@@ -37,6 +37,11 @@ class ClassicEditor {
 			return;
 		}
 
+		// Abort the process if the editor is not supported.
+		if ( ! post_type_supports( get_post_type(), 'editor' ) ) {
+			return;
+		}
+
 		// Abort the process if block editor is enabled.
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return;
@@ -90,7 +95,13 @@ class ClassicEditor {
 	 * Add custom button
 	 */
 	public function media_buttons( $editor_id ) {
+		// Abort the process if this is not the main editor.
 		if ( 'content' !== $editor_id ) {
+			return;
+		}
+
+		// Abort the process if the editor is not supported.
+		if ( ! post_type_supports( get_post_type(), 'editor' ) ) {
 			return;
 		}
 
@@ -109,6 +120,11 @@ class ClassicEditor {
 			return;
 		}
 		if ( get_current_screen()->is_block_editor ) {
+			return;
+		}
+
+		// Abort the process if the editor is not supported.
+		if ( ! post_type_supports( get_post_type(), 'editor' ) ) {
 			return;
 		}
 
