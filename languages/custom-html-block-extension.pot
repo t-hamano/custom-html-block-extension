@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Custom HTML Block Extension\n"
-"POT-Creation-Date: 2021-06-10 15:08+0000\n"
+"POT-Creation-Date: 2021-07-11 07:16+0000\n"
 "PO-Revision-Date: 2021-05-04 12:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: Tetsuaki Hamano\n"
@@ -41,6 +41,7 @@ msgid "Are you sure that reset all settings to default values ?"
 msgstr ""
 
 #: src/admin/editor-config/button-menu.jsx:61
+#: classes/class-classic-editor.php:163
 msgid "Cancel"
 msgstr ""
 
@@ -1444,18 +1445,26 @@ msgid ""
 msgstr ""
 
 #: src/admin/editor-config/editor-settings/insert-spaces.jsx:33
+#: src/block-editor/edit.js:276 src/block-editor/edit.js:328
+#: classes/class-classic-editor.php:124 classes/class-classic-editor.php:145
 msgid "Indent type"
 msgstr ""
 
 #: src/admin/editor-config/editor-settings/insert-spaces.jsx:40
+#: src/block-editor/edit.js:289 src/block-editor/edit.js:341
+#: classes/class-classic-editor.php:130 classes/class-classic-editor.php:151
 msgid "Tab"
 msgstr ""
 
 #: src/admin/editor-config/editor-settings/insert-spaces.jsx:46
+#: src/block-editor/edit.js:301 src/block-editor/edit.js:353
+#: classes/class-classic-editor.php:126 classes/class-classic-editor.php:147
 msgid "Space"
 msgstr ""
 
 #: src/admin/editor-config/editor-settings/tab-size.jsx:27
+#: src/block-editor/edit.js:307 src/block-editor/edit.js:359
+#: classes/class-classic-editor.php:135 classes/class-classic-editor.php:156
 msgid "Indent width"
 msgstr ""
 
@@ -1475,7 +1484,7 @@ msgstr ""
 msgid "Settings have been reset."
 msgstr ""
 
-#: src/admin/editor-config/index.jsx:103 src/block-editor/edit.js:200
+#: src/admin/editor-config/index.jsx:103 src/block-editor/edit.js:398
 msgid "Preview"
 msgstr ""
 
@@ -1556,7 +1565,7 @@ msgid "Failed to load the font. (%s)"
 msgstr ""
 
 #: src/admin/editor-config/monaco-editor.jsx:205
-#: src/admin/editor-config/monaco-editor.jsx:216 src/block-editor/edit.js:238
+#: src/admin/editor-config/monaco-editor.jsx:216 src/block-editor/edit.js:436
 msgid "Loading..."
 msgstr ""
 
@@ -1726,7 +1735,24 @@ msgid ""
 "mode."
 msgstr ""
 
-#: src/block-editor/edit.js:193
+#: src/block-editor/edit.js:261 src/block-editor/edit.js:270
+#: classes/class-classic-editor.php:99 classes/class-classic-editor.php:119
+msgid "Change Indentation"
+msgstr ""
+
+#: src/block-editor/edit.js:273 classes/class-classic-editor.php:122
+msgid "Current Indent"
+msgstr ""
+
+#: src/block-editor/edit.js:325 classes/class-classic-editor.php:143
+msgid "New Indent"
+msgstr ""
+
+#: src/block-editor/edit.js:379 classes/class-classic-editor.php:162
+msgid "Apply"
+msgstr ""
+
+#: src/block-editor/edit.js:391
 msgid "HTML"
 msgstr ""
 
