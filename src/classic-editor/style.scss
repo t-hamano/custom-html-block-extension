@@ -25,14 +25,18 @@ $wp-admin-theme-color: #2271b1;
 }
 
 // Change indentation button
-.wp-media-buttons .chbe-replace-indent svg {
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin: 0 2px;
-	line-height: 1;
-	vertical-align: middle;
-	fill: $wp-admin-theme-color;
+.wp-media-buttons .chbe-replace-indent {
+	display: none;
+
+	svg {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		margin: 0 2px;
+		line-height: 1;
+		vertical-align: middle;
+		fill: $wp-admin-theme-color;
+	}
 }
 
 // Change indentation Dialog
