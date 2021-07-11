@@ -25,6 +25,7 @@ loader.init().then( monaco => {
 	const editorContainer = document.getElementById( 'wp-content-editor-container' );
 	const draftButton = document.getElementById( 'save-post' );
 	const publishButton = document.getElementById( 'publish' );
+	const replaceIndentButton = document.getElementById( 'chbe-replace-indent-button' );
 
 	// Setting up the monaco editor.
 	const runEditor = ( target ) => {
@@ -50,22 +51,22 @@ loader.init().then( monaco => {
 		properties.scrollbar.alwaysConsumeMouseWheel = false;
 
 		// Create monaco editor.
-		const monacoEditor = monaco.editor.create(
+		window.editor = monaco.editor.create(
 			monacoEditorContainer,
 			properties,
 		);
 
 		// Change editor area height.
-		const contentHeight = Math.max( 300, monacoEditor.getContentHeight() );
+		const contentHeight = Math.max( 300, window.editor.getContentHeight() );
 		monacoEditorContainer.style.height = `${contentHeight}px`;
 
-		monacoEditor.getModel().onDidChangeContent( ( event ) => {
+		window.editor.getModel().onDidChangeContent( ( event ) => {
 
 			// Apply changes in the editor to the original textarea.
-			textarea.value = monacoEditor.getModel().getValue();
+			textarea.value = window.editor.getModel().getValue();
 
 			// Change editor area height.
-			const contentHeight = Math.max( 300, monacoEditor.getContentHeight() );
+			const contentHeight = Math.max( 300, window.editor.getContentHeight() );
 			monacoEditorContainer.style.height = `${contentHeight}px`;
 		});
 
@@ -83,13 +84,13 @@ loader.init().then( monaco => {
 			}
 		}
 
-		monacoEditor.getModel().updateOptions({
+		window.editor.getModel().updateOptions({
 			tabSize: chbeObj.editorSettings.tabSize,
 			insertSpaces: chbeObj.editorSettings.insertSpaces
 		});
 
 		// Catch the Ctrl+S command to save draft or publish post.
-		monacoEditor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+		window.editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
 			if ( !! draftButton ) {
 				draftButton.click();
 			} else {
@@ -141,6 +142,8 @@ loader.init().then( monaco => {
 			isMonacEditorEnabled = false;
 			window.removeEventListener( 'resize', onWindowResize );
 		}
+
+		replaceIndentButton.style.display = 'none';
 	};
 
 	// Switch to html editor tab.
@@ -155,6 +158,8 @@ loader.init().then( monaco => {
 		setTimeout( () => {
 			updateToolbarMargin();
 		}, 300 );
+
+		replaceIndentButton.style.display = 'inline-block';
 	};
 
 	// Window resize event.
@@ -171,10 +176,12 @@ loader.init().then( monaco => {
 
 	if ( ! isVisualEditorEnabled ) {
 		runEditor( editorContainer );
+		replaceIndentButton.style.display = 'inline-block';
 	} else if ( isVisualEditMode ) {
 		tabHtml.onclick = toHtml;
 	} else {
 		runEditor( editorContainer );
+		replaceIndentButton.style.display = 'inline-block';
 		tabTmce.onclick = toVisual;
 	}
 });

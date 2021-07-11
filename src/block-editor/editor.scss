@@ -1,3 +1,4 @@
+// Block
 .wp-block-html,
 .wp-block[data-type="core/html"] {
 
@@ -17,5 +18,68 @@
 		padding: 0;
 		color: inherit;
 		box-shadow: none;
+	}
+}
+
+// Change indentation popover
+.chbe-popover {
+	white-space: nowrap;
+
+	&__ttl {
+		margin: 0 0 1em;
+		font-size: 1.2em;
+		text-align: center;
+	}
+
+	&__subttl {
+		margin: 0 -8px 0.5em;
+		padding: 4px 8px;
+		color: #fff;
+		font-size: 1em;
+		text-align: center;
+		background: var(--wp-admin-theme-color);
+	}
+
+	&__row {
+		display: flex;
+	}
+
+	&__col {
+		flex: 1;
+
+		&--setting {
+			min-width: 110px;
+			padding: 0 8px 4px;
+			border: 1px solid var(--wp-admin-theme-color);
+		}
+
+		&--arrow {
+			flex: auto;
+			align-self: center;
+			margin: 0 8px;
+
+			svg {
+				display: block;
+			}
+		}
+	}
+
+	&__buttons {
+		margin-top: 16px;
+		text-align: center;
+
+		button {
+			margin: 0 8px;
+		}
+	}
+
+	.components-base-control label {
+		display: block;
+	}
+
+	.components-text-control__input {
+		min-height: 24px;
+		padding: 3px 8px;
+		font-size: 12px;
 	}
 }

@@ -1,3 +1,6 @@
+// Monaco Editor
+$wp-admin-theme-color: #2271b1;
+
 #monaco-editor-container {
 	min-height: 300px;
 
@@ -6,15 +9,99 @@
 	}
 }
 
+// Toolbar
 #ed_toolbar { /* stylelint-disable-line selector-id-pattern */
 	z-index: 1;
 }
 
-.wp-editor-container textarea.wp-editor-area {
+// Original editor textarea
+#wp-content-editor-container textarea.wp-editor-area {
 	position: fixed !important;
 	top: -9999px !important;
 	left: -9999px !important;
 	z-index: -1;
 	display: block !important;
 	opacity: 0 !important;
+}
+
+// Change indentation button
+.wp-media-buttons .chbe-replace-indent {
+	display: none;
+
+	svg {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		margin: 0 2px;
+		line-height: 1;
+		vertical-align: middle;
+		fill: $wp-admin-theme-color;
+	}
+}
+
+// Change indentation Dialog
+.chbe-dialog {
+	z-index: 1002 !important;
+	display: none;
+	padding: 16px;
+	font-family: inherit;
+	background: #fff;
+	border: 1px solid #d3d3d3;
+	border-radius: 4px;
+
+	.ui-dialog-titlebar {
+		display: none;
+	}
+
+	p strong {
+		display: block;
+		margin: 0 0 8px;
+	}
+
+	&__ttl {
+		margin: 0 0 1em;
+		font-size: 1.2em;
+		text-align: center;
+	}
+
+	&__subttl {
+		margin: 0 -8px 0.5em;
+		padding: 4px 8px;
+		color: #fff;
+		font-size: 1em;
+		text-align: center;
+		background: $wp-admin-theme-color;
+	}
+
+	&__row {
+		display: flex;
+	}
+
+	&__col {
+		flex: 1;
+
+		&--setting {
+			padding: 0 8px 4px;
+			border: 1px solid $wp-admin-theme-color;
+		}
+
+		&--arrow {
+			flex: initial;
+			align-self: center;
+			margin: 0 8px;
+
+			svg {
+				display: block;
+			}
+		}
+	}
+
+	&__buttons {
+		margin-top: 16px;
+		text-align: center;
+
+		.button {
+			margin: 0 8px;
+		}
+	}
 }
