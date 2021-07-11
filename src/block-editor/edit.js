@@ -371,13 +371,20 @@ export default function HTMLEdit({
 										)}
 									</div>
 								</div>
-								<Button
-									className="chbe-popover__submit"
-									isPrimary={ true }
-									onClick={ changeIndent }
-								>
-									{ __( 'Apply', 'custom-html-block-extension' ) }
-								</Button>
+								<div className="chbe-popover__buttons">
+									<Button
+										isPrimary={ true }
+										onClick={ changeIndent }
+									>
+										{ __( 'Apply', 'custom-html-block-extension' ) }
+									</Button>
+									<Button
+										isSecondary={ true }
+										onClick={ () => setIsReplacing( false ) }
+									>
+										{ __( 'Cancel', 'custom-html-block-extension' ) }
+									</Button>
+								</div>
 							</div>
 						</Popover>
 					)}
