@@ -15,7 +15,7 @@ $wp-admin-theme-color: #2271b1;
 }
 
 // Original editor textarea
-.wp-editor-container textarea.wp-editor-area {
+#wp-content-editor-container textarea.wp-editor-area {
 	position: fixed !important;
 	top: -9999px !important;
 	left: -9999px !important;
