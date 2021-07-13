@@ -21,7 +21,7 @@ Emmet allows you to type shortcuts that are then expanded into full pieces of co
 You can change all kinds of settings to create your ideal editor in advanced mode.
 
 ### More tools
-![More tools](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_4.jpg)
+![More tools](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_5.jpg)
 
 Supports the classic editor, import/export editor settings, and change indentation.
 
