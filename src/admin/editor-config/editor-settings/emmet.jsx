@@ -44,7 +44,11 @@ const Emmet = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Emmet is a function for the editor that allow for high-speed coding via content assist. Only valid for HTML tags and does not support inline CSS.', 'custom-html-block-extension' ) }</p>
+					<p>{ __( 'Emmet is a function for the editor that allow for high-speed coding via content assist.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __( 'Only valid for HTML tags and does not support inline CSS in the block and classic editor.', 'custom-html-block-extension' ) }<br/>
+						{ __( 'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.', 'custom-html-block-extension' ) }
+					</p>
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<p><ExternalLink href="https://docs.emmet.io/cheat-sheet/">{ __( 'Check Cheat Sheet', 'custom-html-block-extension' ) }</ExternalLink></p>
 					<img
