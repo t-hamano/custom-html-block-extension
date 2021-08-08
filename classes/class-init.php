@@ -52,6 +52,7 @@ class Init {
 		require_once( CHBE_PATH . '/classes/class-admin.php' );
 		require_once( CHBE_PATH . '/classes/class-block-editor.php' );
 		require_once( CHBE_PATH . '/classes/class-classic-editor.php' );
+		require_once( CHBE_PATH . '/classes/class-theme-plugin-editor.php' );
 		require_once( CHBE_PATH . '/classes/class-api.php' );
 	}
 }

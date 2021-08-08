@@ -37,7 +37,7 @@ const QuickSuggestionsDelay = () => {
 				min="0"
 				max="1000"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

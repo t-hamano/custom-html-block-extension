@@ -54,7 +54,7 @@ const ExportEditorConfig = () => {
 					<p>{ __( 'Use the download button to export the editor settings. You can restore the editor config by importing the exported file on another WordPress site.', 'custom-html-block-extension' ) }</p>
 					<Button
 						isPrimary
-						onClick={ () => handleExportOptions() }
+						onClick={ handleExportOptions }
 					>
 						{ __( 'Export', 'custom-html-block-extension' ) }
 					</Button>

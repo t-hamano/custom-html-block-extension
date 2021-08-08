@@ -33,7 +33,7 @@ const SelectionHighlight = () => {
 			<ToggleControl
 				label={ __( 'Highlight all occurrences of a selected word', 'custom-html-block-extension' ) }
 				checked={ editorOptions.selectionHighlight }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

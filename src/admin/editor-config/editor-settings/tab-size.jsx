@@ -29,7 +29,7 @@ const TabSize = () => {
 				min="1"
 				max="8"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

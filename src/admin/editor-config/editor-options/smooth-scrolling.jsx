@@ -33,7 +33,7 @@ const SmoothScrolling = () => {
 			<ToggleControl
 				label={ __( 'Enable smooth scroll', 'custom-html-block-extension' ) }
 				checked={ editorOptions.smoothScrolling }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

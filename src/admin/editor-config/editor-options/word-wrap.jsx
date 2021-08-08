@@ -39,7 +39,7 @@ const WordWrap = () => {
 					{ label: __( 'Depends on word wrap column', 'custom-html-block-extension' ), value: 'wordWrapColumn' },
 					{ label: __( 'Flexible', 'custom-html-block-extension' ), value: 'bounded' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

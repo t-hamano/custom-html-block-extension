@@ -30,7 +30,7 @@ const LineHeight = () => {
 				min="10"
 				max="60"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

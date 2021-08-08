@@ -41,7 +41,7 @@ const Minimap = () => {
 					{ label: __( 'Automatically zoom in or out', 'custom-html-block-extension' ), value: 'fill' },
 					{ label: __( 'Automatically shrink', 'custom-html-block-extension' ), value: 'fit' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

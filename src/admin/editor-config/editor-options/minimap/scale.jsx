@@ -40,7 +40,7 @@ const Scale = () => {
 				min="1"
 				max="3"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

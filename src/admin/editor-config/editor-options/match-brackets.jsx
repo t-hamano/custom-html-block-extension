@@ -38,7 +38,7 @@ const MatchBrackets = () => {
 					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' },
 					{ label: __( 'Only when the cursor is near the bracket', 'custom-html-block-extension' ), value: 'near' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

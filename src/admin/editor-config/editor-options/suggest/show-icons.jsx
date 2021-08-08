@@ -37,7 +37,7 @@ const ShowIcons = () => {
 				<ToggleControl
 					label={ __( 'Show icons', 'custom-html-block-extension' ) }
 					checked={ editorOptions.suggest.showIcons }
-					onChange={ ( value ) => handleChange( value ) }
+					onChange={ handleChange }
 				/>
 				{ isModalOpen && (
 					<Modal

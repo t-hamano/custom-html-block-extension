@@ -437,11 +437,15 @@ class Settings {
 
 	// Default options.
 	const DEFAULT_OPTIONS = array(
-		'permissionBlockEditor'   => array(
+		'permissionBlockEditor'       => array(
 			'type'    => 'boolean',
 			'default' => true,
 		),
-		'permissionClassicEditor' => array(
+		'permissionClassicEditor'     => array(
+			'type'    => 'boolean',
+			'default' => true,
+		),
+		'permissionThemePluginEditor' => array(
 			'type'    => 'boolean',
 			'default' => true,
 		),

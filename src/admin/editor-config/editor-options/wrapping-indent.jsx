@@ -39,7 +39,7 @@ const WrappingIndent = () => {
 					{ label: __( 'Indent', 'custom-html-block-extension' ), value: 'indent' },
 					{ label: __( 'Deep indent', 'custom-html-block-extension' ), value: 'deepIndent' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

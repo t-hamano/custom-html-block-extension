@@ -33,7 +33,7 @@ const OverviewRulerBorder = () => {
 			<ToggleControl
 				label={ __( 'Show border on scrollbar', 'custom-html-block-extension' ) }
 				checked={ editorOptions.overviewRulerBorder }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

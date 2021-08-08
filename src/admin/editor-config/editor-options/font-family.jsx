@@ -35,7 +35,7 @@ const FontFamily = () => {
 				label={ __( 'Font family', 'custom-html-block-extension' ) }
 				value={ editorOptions.fontFamily }
 				options={ chbeObj.fontFamily.map( ({ label, name }) => ({ label: label, value: name }) ) }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

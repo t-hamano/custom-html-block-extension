@@ -33,7 +33,7 @@ const HideCursorInOverviewRuler = () => {
 			<ToggleControl
 				label={ __( 'Hide cursor position on scroll bar', 'custom-html-block-extension' ) }
 				checked={ editorOptions.hideCursorInOverviewRuler }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

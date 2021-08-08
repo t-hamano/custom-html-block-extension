@@ -36,7 +36,7 @@ const ScrollByPage = () => {
 			<ToggleControl
 				label={ __( 'Scroll by page', 'custom-html-block-extension' ) }
 				checked={ editorOptions.scrollbar.scrollByPage }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

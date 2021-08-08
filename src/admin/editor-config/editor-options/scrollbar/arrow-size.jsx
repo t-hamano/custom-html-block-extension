@@ -40,7 +40,7 @@ const ArrowSize = () => {
 				min="5"
 				max="50"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

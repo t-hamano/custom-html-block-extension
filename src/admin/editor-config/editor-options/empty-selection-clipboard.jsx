@@ -33,7 +33,7 @@ const EmptySelectionClipboard = () => {
 			<ToggleControl
 				label={ __( 'Copy the current line without selection', 'custom-html-block-extension' ) }
 				checked={ editorOptions.emptySelectionClipboard }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

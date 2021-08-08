@@ -40,7 +40,7 @@ const MaxColumn = () => {
 				min="10"
 				max="60"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

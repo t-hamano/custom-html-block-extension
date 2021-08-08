@@ -33,7 +33,7 @@ const SelectOnLineNumbers = () => {
 			<ToggleControl
 				label={ __( 'Select the corresponding line when clicking on the line number', 'custom-html-block-extension' ) }
 				checked={ editorOptions.selectOnLineNumbers }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

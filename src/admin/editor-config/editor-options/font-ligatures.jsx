@@ -33,7 +33,7 @@ const FontLigatures = () => {
 			<ToggleControl
 				label={ __( 'Enable font ligatures', 'custom-html-block-extension' ) }
 				checked={ editorOptions.fontLigatures }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

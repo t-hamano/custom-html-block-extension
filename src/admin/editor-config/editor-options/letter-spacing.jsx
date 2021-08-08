@@ -31,7 +31,7 @@ const LetterSpacing = () => {
 				max="2"
 				step="0.1"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

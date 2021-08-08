@@ -41,7 +41,7 @@ const Horizontal = () => {
 					{ label: __( 'Visible', 'custom-html-block-extension' ), value: 'visible' },
 					{ label: __( 'Hidden', 'custom-html-block-extension' ), value: 'hidden' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

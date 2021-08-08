@@ -33,7 +33,7 @@ const Contextmenu = () => {
 			<ToggleControl
 				label={ __( 'Enable context menu', 'custom-html-block-extension' ) }
 				checked={ editorOptions.contextmenu }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

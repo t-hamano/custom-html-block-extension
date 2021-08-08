@@ -128,7 +128,7 @@ const MonacoEditor = ({
 		}
 	}, [ editorOptions.fontWeight ]);
 
-	const handleOnChange = ( value ) => {
+	const handleChange = ( value ) => {
 		setCode( value );
 	};
 
@@ -205,7 +205,7 @@ const MonacoEditor = ({
 						loading={ __( 'Loading...', 'custom-html-block-extension' ) }
 						value={ code }
 						options={ editorOptions }
-						onChange={ handleOnChange }
+						onChange={ handleChange }
 						onMount={ handleEditorDidMount }
 					/>
 				</Disabled>
@@ -216,7 +216,7 @@ const MonacoEditor = ({
 					loading={ __( 'Loading...', 'custom-html-block-extension' ) }
 					value={ code }
 					options={ editorOptions }
-					onChange={ handleOnChange }
+					onChange={ handleChange }
 					onMount={ handleEditorDidMount }
 				/>
 			)}

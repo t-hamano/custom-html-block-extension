@@ -40,7 +40,7 @@ const CursorBlinking = () => {
 					{ label: __( 'Expand', 'custom-html-block-extension' ), value: 'expand' },
 					{ label: __( 'Solid', 'custom-html-block-extension' ), value: 'solid' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

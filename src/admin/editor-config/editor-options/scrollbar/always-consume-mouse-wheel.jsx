@@ -36,7 +36,7 @@ const AlwaysConsumeMouseWheel = () => {
 			<ToggleControl
 				label={ __( 'Stop browser scroll', 'custom-html-block-extension' ) }
 				checked={ editorOptions.scrollbar.alwaysConsumeMouseWheel }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

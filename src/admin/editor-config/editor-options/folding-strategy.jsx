@@ -37,7 +37,7 @@ const FoldingStrategy = () => {
 					{ label: __( 'Depends on documentation', 'custom-html-block-extension' ), value: 'auto' },
 					{ label: __( 'Depends on indentation', 'custom-html-block-extension' ), value: 'indentation' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

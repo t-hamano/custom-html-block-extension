@@ -36,7 +36,7 @@ const SeedSearchStringFromSelection = () => {
 			<ToggleControl
 				label={ __( 'Search string from selection', 'custom-html-block-extension' ) }
 				checked={ editorOptions.find.seedSearchStringFromSelection }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

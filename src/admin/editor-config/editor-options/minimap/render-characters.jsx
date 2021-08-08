@@ -36,7 +36,7 @@ const RenderCharacters = () => {
 			<ToggleControl
 				label={ __( 'Displays actual characters', 'custom-html-block-extension' ) }
 				checked={ editorOptions.minimap.renderCharacters }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ imsModalOpen && (
 				<Modal

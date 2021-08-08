@@ -33,7 +33,7 @@ const UnfoldOnClickAfterEndOfLine = () => {
 			<ToggleControl
 				label={ __( 'Expand folding line when clicking on empty content after a folded line', 'custom-html-block-extension' ) }
 				checked={ editorOptions.unfoldOnClickAfterEndOfLine }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

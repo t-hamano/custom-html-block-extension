@@ -33,7 +33,7 @@ const HighlightActiveIndentGuide = () => {
 			<ToggleControl
 				label={ __( 'Highlight the active indent guide', 'custom-html-block-extension' ) }
 				checked={ editorOptions.highlightActiveIndentGuide }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

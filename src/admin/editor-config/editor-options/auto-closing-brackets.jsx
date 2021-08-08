@@ -38,7 +38,7 @@ const AutoClosingBrackets = () => {
 					{ label: __( 'Only when there is whitespace right after the cursor', 'custom-html-block-extension' ), value: 'beforeWhitespace' },
 					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

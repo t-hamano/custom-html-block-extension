@@ -33,7 +33,7 @@ const DragAndDrop = () => {
 			<ToggleControl
 				label={ __( 'Moving selections via drag and drop', 'custom-html-block-extension' ) }
 				checked={ editorOptions.dragAndDrop }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal
