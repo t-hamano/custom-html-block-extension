@@ -36,7 +36,7 @@ const AddExtraSpaceOnTop = () => {
 			<ToggleControl
 				label={ __( 'Show search widget above the first line', 'custom-html-block-extension' ) }
 				checked={ editorOptions.find.addExtraSpaceOnTop }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

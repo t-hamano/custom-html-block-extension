@@ -33,7 +33,7 @@ const RenderFinalNewline = () => {
 			<ToggleControl
 				label={ __( 'Render last line number when the file ends with a newline', 'custom-html-block-extension' ) }
 				checked={ editorOptions.renderFinalNewline }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

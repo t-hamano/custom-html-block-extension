@@ -33,7 +33,7 @@ const Folding = () => {
 			<ToggleControl
 				label={ __( 'Enable code folding', 'custom-html-block-extension' ) }
 				checked={ editorOptions.folding }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

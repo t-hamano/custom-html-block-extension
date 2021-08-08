@@ -33,7 +33,7 @@ const CursorSurroundingLinesStyle = () => {
 			<ToggleControl
 				label={ __( 'Keep lines before and after the cursor even when the cursor is moved by mouse click', 'custom-html-block-extension' ) }
 				checked={ 'all' === editorOptions.cursorSurroundingLinesStyle }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

@@ -30,7 +30,7 @@ const FontSize = () => {
 				min="10"
 				max="30"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

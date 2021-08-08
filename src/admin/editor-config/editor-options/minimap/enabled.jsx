@@ -36,7 +36,7 @@ const Enabled = () => {
 			<ToggleControl
 				label={ __( 'Enable minimap', 'custom-html-block-extension' ) }
 				checked={ editorOptions.minimap.enabled }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

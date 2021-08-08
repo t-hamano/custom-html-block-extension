@@ -37,7 +37,7 @@ const WordWrapColumn = () => {
 				min="20"
 				max="200"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

@@ -40,7 +40,7 @@ const HorizontalScrollbarSize = () => {
 				min="5"
 				max="30"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

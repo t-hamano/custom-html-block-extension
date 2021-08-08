@@ -33,7 +33,7 @@ const OccurrencesHighlight = () => {
 			<ToggleControl
 				label={ __( 'Highlight matching tag', 'custom-html-block-extension' ) }
 				checked={ editorOptions.occurrencesHighlight }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

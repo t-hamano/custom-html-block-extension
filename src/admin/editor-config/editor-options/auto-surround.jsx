@@ -39,7 +39,7 @@ const AutoSurround = () => {
 					{ label: __( 'Brackets only', 'custom-html-block-extension' ), value: 'brackets' },
 					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

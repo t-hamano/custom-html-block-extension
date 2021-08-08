@@ -33,7 +33,7 @@ const GlyphMargin = () => {
 			<ToggleControl
 				label={ __( 'Show left margin', 'custom-html-block-extension' ) }
 				checked={ editorOptions.glyphMargin }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

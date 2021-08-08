@@ -29,7 +29,7 @@ const FontWeight = ({
 				label={ __( 'Font weight', 'custom-html-block-extension' ) }
 				value={ Number( editorOptions.fontWeight ) }
 				options={ fontWeights.map( ( fontWeight ) => ({ label: fontWeight, value: fontWeight }) ) }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

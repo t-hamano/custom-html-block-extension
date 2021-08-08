@@ -33,7 +33,7 @@ const AcceptSuggestionOnEnter = () => {
 			<ToggleControl
 				label={ __( 'Accept suggestions on enter key', 'custom-html-block-extension' ) }
 				checked={ editorOptions.acceptSuggestionOnEnter }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

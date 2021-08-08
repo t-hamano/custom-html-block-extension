@@ -33,7 +33,7 @@ const StickyTabStops = () => {
 			<ToggleControl
 				label={ __( 'Select according to spaces for indentation', 'custom-html-block-extension' ) }
 				checked={ editorOptions.stickyTabStops }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

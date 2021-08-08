@@ -21,7 +21,7 @@ const ButtonMenu = ({
 						className="chbe-button-menu__submit"
 						isPrimary
 						disabled={ isWaiting }
-						onClick={ () => handleUpdateOptions() }
+						onClick={ handleUpdateOptions }
 					>
 						{ __( 'Save Settings', 'custom-html-block-extension' ) }
 					</Button>

@@ -36,7 +36,7 @@ const Emmet = () => {
 			<ToggleControl
 				label={ __( 'Enable Emmet', 'custom-html-block-extension' ) }
 				checked={ editorSettings.emmet }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

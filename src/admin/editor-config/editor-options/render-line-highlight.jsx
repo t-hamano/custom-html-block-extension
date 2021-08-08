@@ -39,7 +39,7 @@ const RenderLineHighlight = () => {
 					{ label: __( 'Only line numbers', 'custom-html-block-extension' ), value: 'gutter' },
 					{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

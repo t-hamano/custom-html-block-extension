@@ -33,7 +33,7 @@ const RoundedSelection = () => {
 			<ToggleControl
 				label={ __( 'Rounding corners of selection', 'custom-html-block-extension' ) }
 				checked={ editorOptions.roundedSelection }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

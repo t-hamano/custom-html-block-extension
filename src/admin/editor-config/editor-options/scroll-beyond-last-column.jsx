@@ -37,7 +37,7 @@ const ScrollBeyondLastColumn = () => {
 				min="0"
 				max="20"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

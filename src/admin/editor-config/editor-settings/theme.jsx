@@ -31,7 +31,7 @@ const Theme = () => {
 					{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
 					...themes
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

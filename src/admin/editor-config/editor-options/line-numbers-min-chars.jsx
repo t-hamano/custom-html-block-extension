@@ -37,7 +37,7 @@ const LineNumbersMinChars = () => {
 				min="1"
 				max="10"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

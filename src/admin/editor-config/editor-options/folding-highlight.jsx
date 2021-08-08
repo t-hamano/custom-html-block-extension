@@ -33,7 +33,7 @@ const FoldingHighlight = () => {
 			<ToggleControl
 				label={ __( 'Enable highlight for folded codes', 'custom-html-block-extension' ) }
 				checked={ editorOptions.foldingHighlight }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

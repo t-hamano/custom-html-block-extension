@@ -33,7 +33,7 @@ const CopyWithSyntaxHighlighting = () => {
 			<ToggleControl
 				label={ __( 'Copy with syntax highlighting', 'custom-html-block-extension' ) }
 				checked={ editorOptions.copyWithSyntaxHighlighting }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

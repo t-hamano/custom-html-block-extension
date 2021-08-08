@@ -33,7 +33,7 @@ const ColumnSelection = () => {
 			<ToggleControl
 				label={ __( 'Enable column selection', 'custom-html-block-extension' ) }
 				checked={ editorOptions.columnSelection }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

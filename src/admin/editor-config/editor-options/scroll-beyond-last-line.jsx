@@ -33,7 +33,7 @@ const ScrollBeyondLastLine = () => {
 			<ToggleControl
 				label={ __( 'Scroll past the last line', 'custom-html-block-extension' ) }
 				checked={ editorOptions.scrollBeyondLastLine }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

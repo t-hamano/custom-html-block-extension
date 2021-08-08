@@ -39,7 +39,7 @@ const LineNumbers = () => {
 					{ label: __( 'Show number of lines to cursor position', 'custom-html-block-extension' ), value: 'relative' },
 					{ label: __( 'Show every 10 lines', 'custom-html-block-extension' ), value: 'interval' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

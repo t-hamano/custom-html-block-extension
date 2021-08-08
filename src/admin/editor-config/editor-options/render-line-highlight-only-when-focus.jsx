@@ -33,12 +33,7 @@ const RenderLineHighlightOnlyWhenFocus = () => {
 			<ToggleControl
 				label={ __( 'Highlight current line only the editor is focused', 'custom-html-block-extension' ) }
 				checked={ editorOptions.renderLineHighlightOnlyWhenFocus }
-				onChange={ ( value ) => {
-					setEditorOptions({
-						...editorOptions,
-						renderLineHighlightOnlyWhenFocus: value
-					});
-				}}
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

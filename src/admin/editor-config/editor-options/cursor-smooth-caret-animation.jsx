@@ -33,7 +33,7 @@ const CursorSmoothCaretAnimation = () => {
 			<ToggleControl
 				label={ __( 'Enable smooth cursor animation', 'custom-html-block-extension' ) }
 				checked={ editorOptions.cursorSmoothCaretAnimation }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

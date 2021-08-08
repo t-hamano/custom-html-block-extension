@@ -33,7 +33,7 @@ const Links = () => {
 			<ToggleControl
 				label={ __( 'Enable detecting links and making them clickable', 'custom-html-block-extension' ) }
 				checked={ editorOptions.links }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

@@ -40,7 +40,7 @@ const RenderWhitespace = () => {
 					{ label: __( 'Render only trailing whitespace', 'custom-html-block-extension' ), value: 'trailing' },
 					{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

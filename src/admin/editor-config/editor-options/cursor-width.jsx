@@ -33,7 +33,7 @@ const cursorWidth = () => {
 				min="2"
 				max="10"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

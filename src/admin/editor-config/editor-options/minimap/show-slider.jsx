@@ -40,7 +40,7 @@ const ShowSlider = () => {
 					{ label: __( 'Always show', 'custom-html-block-extension' ), value: 'always' },
 					{ label: __( 'Show on mouseover', 'custom-html-block-extension' ), value: 'mouseover' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

@@ -42,7 +42,7 @@ const WelcomeGuide = () => {
 			</Button>
 			{ ( isModalOpen ) && (
 				<Guide
-					onFinish={ () => handleOnFinish() }
+					onFinish={ handleOnFinish }
 					className="chbe-welcome-guide"
 					contentLabel={ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
 					finishButtonText={ __( 'Get started', 'custom-html-block-extension' ) }

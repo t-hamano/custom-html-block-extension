@@ -33,7 +33,7 @@ const FormatOnPaste = () => {
 			<ToggleControl
 				label={ __( 'Enable format on paste', 'custom-html-block-extension' ) }
 				checked={ editorOptions.formatOnPaste }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

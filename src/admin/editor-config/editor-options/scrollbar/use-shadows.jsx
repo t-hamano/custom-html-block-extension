@@ -36,7 +36,7 @@ const UseShadows = () => {
 			<ToggleControl
 				label={ __( 'Show subtle shadows to the left & top', 'custom-html-block-extension' ) }
 				checked={ editorOptions.scrollbar.useShadows }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

@@ -37,7 +37,7 @@ const InsertSpace = () => {
 				<ToggleControl
 					label={ __( 'Insert whitespace in comment', 'custom-html-block-extension' ) }
 					checked={ editorOptions.comments.insertSpace }
-					onChange={ ( value ) => handleChange( value ) }
+					onChange={ handleChange }
 				/>
 				{ isModalOpen && (
 					<Modal

@@ -33,7 +33,7 @@ const RenderControlCharacters = () => {
 			<ToggleControl
 				label={ __( 'Show rendering of control characters', 'custom-html-block-extension' ) }
 				checked={ editorOptions.renderControlCharacters }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

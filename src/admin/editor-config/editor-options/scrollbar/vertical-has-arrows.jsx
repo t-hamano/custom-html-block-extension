@@ -36,7 +36,7 @@ const VerticalHasArrows = () => {
 			<ToggleControl
 				label={ __( 'Show arrows on vertical scrollbar', 'custom-html-block-extension' ) }
 				checked={ editorOptions.scrollbar.verticalHasArrows }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

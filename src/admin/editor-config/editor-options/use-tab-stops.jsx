@@ -33,7 +33,7 @@ const UseTabStops = () => {
 			<ToggleControl
 				label={ __( 'Insert or delete whitespace according to tab position', 'custom-html-block-extension' ) }
 				checked={ editorOptions.useTabStops }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

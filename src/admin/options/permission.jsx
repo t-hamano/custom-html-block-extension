@@ -38,14 +38,14 @@ const Permission = () => {
 				<ToggleControl
 					label={ __( 'Enable on Block Editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionBlockEditor }
-					onChange={ ( value ) => handleBlockEditorChange( value ) }
+					onChange={ handleBlockEditorChange }
 				/>
 			</PanelRow>
 			<PanelRow>
 				<ToggleControl
 					label={ __( 'Enable on Classic Editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionClassicEditor }
-					onChange={ ( value ) => handleClassicEditorChange( value ) }
+					onChange={ handleClassicEditorChange }
 				/>
 			</PanelRow>
 		</PanelBody>

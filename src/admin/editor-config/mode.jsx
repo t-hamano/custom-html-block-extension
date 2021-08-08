@@ -20,7 +20,7 @@ const Mode = ({
 		<RadioGroup
 			className="chbe-mode"
 			label={ __( 'Mode', 'custom-html-block-extension' ) }
-			onChange={ ( value ) => handleChange( value ) }
+			onChange={ handleChange }
 			checked={ editorMode }
 		>
 			<Radio value="basic">{ __( 'Basic', 'custom-html-block-extension' ) }</Radio>

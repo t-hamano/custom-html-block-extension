@@ -30,7 +30,7 @@ const MouseWheelScrollSensitivity = () => {
 				max="10"
 				value={ editorOptions.mouseWheelScrollSensitivity }
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);

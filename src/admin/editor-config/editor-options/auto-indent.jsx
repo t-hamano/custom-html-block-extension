@@ -41,7 +41,7 @@ const AutoIndent = () => {
 					{ label: __( 'Keep', 'custom-html-block-extension' ), value: 'keep' },
 					{ label: __( 'Advanced', 'custom-html-block-extension' ), value: 'advanced' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

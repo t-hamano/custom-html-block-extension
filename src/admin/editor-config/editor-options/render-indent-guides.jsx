@@ -33,7 +33,7 @@ const RenderIndentGuides = () => {
 			<ToggleControl
 				label={ __( 'Show indent guides', 'custom-html-block-extension' ) }
 				checked={ editorOptions.renderIndentGuides }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

@@ -33,7 +33,7 @@ const MouseWheelZoom = () => {
 			<ToggleControl
 				label={ __( 'Ctrl + mouse wheel to zoom in / out', 'custom-html-block-extension' ) }
 				checked={ editorOptions.mouseWheelZoom }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

@@ -37,7 +37,7 @@ const Rulers = () => {
 				min="0"
 				max="80"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

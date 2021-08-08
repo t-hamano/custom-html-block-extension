@@ -36,7 +36,7 @@ const Loop = () => {
 			<ToggleControl
 				label={ __( 'Loop', 'custom-html-block-extension' ) }
 				checked={ editorOptions.find.loop }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

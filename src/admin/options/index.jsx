@@ -47,7 +47,7 @@ const Options = () => {
 			<Button
 				isPrimary
 				disabled={ isWaiting }
-				onClick={ () => handleUpdateOptions() }
+				onClick={ handleUpdateOptions }
 			>
 				{ __( 'Save Options', 'custom-html-block-extension' ) }
 			</Button>

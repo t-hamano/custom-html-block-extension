@@ -34,7 +34,7 @@ const QuickSuggestions = () => {
 			<ToggleControl
 				label={ __( 'Enable suggest', 'custom-html-block-extension' ) }
 				checked={ editorOptions.quickSuggestions }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

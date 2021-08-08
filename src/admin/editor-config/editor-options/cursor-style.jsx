@@ -41,7 +41,7 @@ const CursorStyle = () => {
 					{ label: __( 'Underline', 'custom-html-block-extension' ), value: 'underline' },
 					{ label: __( 'Thin underline', 'custom-html-block-extension' ), value: 'underline-thin' }
 				] }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

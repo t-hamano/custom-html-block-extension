@@ -40,7 +40,7 @@ const PaddingBottom = () => {
 				min="0"
 				max="50"
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

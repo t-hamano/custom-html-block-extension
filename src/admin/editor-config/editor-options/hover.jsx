@@ -33,7 +33,7 @@ const Hover = () => {
 			<ToggleControl
 				label={ __( 'Enable hover hints', 'custom-html-block-extension' ) }
 				checked={ editorOptions.hover }
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal

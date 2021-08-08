@@ -30,7 +30,7 @@ const FastScrollSensitivity = () => {
 				max="10"
 				value={ editorOptions.fastScrollSensitivity }
 				allowReset
-				onChange={ ( value ) => handleChange( value ) }
+				onChange={ handleChange }
 			/>
 		</PanelRow>
 	);
