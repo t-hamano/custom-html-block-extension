@@ -77,7 +77,7 @@ loader.init().then( monaco => {
 
 		// Enable Emmet.
 		if ( chbeObj.editorSettings.emmet ) {
-			emmetHTML( monaco );
+			emmetHTML();
 		}
 
 		// Update editor settings.

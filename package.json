@@ -46,7 +46,7 @@
 	},
 	"dependencies": {
 		"@monaco-editor/react": "^4.2.1",
-		"emmet-monaco-es": "^4.7.1",
+		"emmet-monaco-es": "^4.6.2",
 		"webfontloader": "^1.6.28"
 	}
 }
