@@ -1,0 +1,26 @@
+// Monaco Editor
+#monaco-editor-container {
+	height: calc(100vh - 295px);
+	min-height: 60vh;
+	margin-right: 4em;
+
+	.monaco-editor .inputarea {
+		box-shadow: none;
+
+		&.monaco-mouse-cursor-text {
+			min-height: auto;
+			background: transparent;
+			border: none;
+		}
+	}
+}
+
+// Original editor textarea
+#template textarea {
+	position: fixed !important;
+	top: -9999px !important;
+	left: -9999px !important;
+	z-index: -1;
+	display: block !important;
+	opacity: 0 !important;
+}

@@ -32,6 +32,13 @@ const Permission = () => {
 		});
 	};
 
+	const handleThemePluginEditorChange = ( value ) => {
+		setOptions({
+			...options,
+			permissionThemePluginEditor: value
+		});
+	};
+
 	return (
 		<PanelBody title={ __( 'Permission', 'custom-html-block-extension' ) } >
 			<PanelRow>
@@ -46,6 +53,13 @@ const Permission = () => {
 					label={ __( 'Enable on Classic Editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionClassicEditor }
 					onChange={ handleClassicEditorChange }
+				/>
+			</PanelRow>
+			<PanelRow>
+				<ToggleControl
+					label={ __( 'Enable on Theme and Plugin Editor', 'custom-html-block-extension' ) }
+					checked={ options.permissionThemePluginEditor }
+					onChange={ handleThemePluginEditorChange }
 				/>
 			</PanelRow>
 		</PanelBody>
