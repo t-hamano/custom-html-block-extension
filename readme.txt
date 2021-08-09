@@ -74,7 +74,7 @@ Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 * Clean: Update npm packages
 
 = 2.2.3 =
-* Fix: Emmet does not work in the classic editor
+* Fix: Quick tag insertion is not reflected in the classic editor
 
 = 2.2.2 =
 * Fix: Emmet does not work in the classic editor

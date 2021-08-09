@@ -4,8 +4,15 @@ $wp-admin-theme-color: #2271b1;
 #monaco-editor-container {
 	min-height: 300px;
 
-	.monaco-editor .inputarea {
-		box-shadow: none;
+	.monaco-editor {
+
+		.inputarea {
+			box-shadow: none;
+		}
+
+		.monaco-highlighted-label .highlight {
+			background: transparent;
+		}
 	}
 }
 
