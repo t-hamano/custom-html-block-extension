@@ -1,5 +1,4 @@
 module.exports = {
-	'extends': 'wordpress',
-	'parser': 'babel-eslint',
-	'vars-on-top': null
+	extends: 'wordpress',
+	parser: 'babel-eslint'
 };

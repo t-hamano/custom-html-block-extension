@@ -49,7 +49,7 @@ const Admin = () => {
 	return (
 		<>
 			{ isWaiting && ( <Loading /> )}
-			<div className={ classnames( 'chbe-wrap', { 'chbe-wrap--is-waiting' : isWaiting }) }>
+			<div className={ classnames( 'chbe-wrap', { 'chbe-wrap--is-waiting': isWaiting }) }>
 				<ReactNotification />
 				<header className="chbe-header">
 					<div className="chbe-container">

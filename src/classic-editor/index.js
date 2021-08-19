@@ -63,6 +63,7 @@ loader.init().then( monaco => {
 
 		// Event emitted when the contents of the editor have changed.
 		window.editor.getModel().onDidChangeContent( () => {
+
 			// Apply changes in the editor to the original textarea.
 			const editorValue = window.editor.getModel().getValue();
 			if ( textarea.value === editorValue ) {
@@ -158,7 +159,7 @@ loader.init().then( monaco => {
 		}
 
 		// Do nothing if keycode is not "enter" ( Tab key to move focus, etc ).
-		if ( e.type === 'keydown' && e.key !== 'Enter' ) {
+		if ( 'keydown' === e.type && 'Enter' !== e.key ) {
 			return;
 		}
 
@@ -171,22 +172,22 @@ loader.init().then( monaco => {
 
 		// Apply changes in the original textarea to the editor.
 		let checkCount = 0;
-		const checkForChanges = window.setInterval(function () {
-			if ( checkCount == 100 ) {
+		const checkForChanges = window.setInterval( function() {
+			if ( 100 == checkCount ) {
 				window.clearInterval( checkForChanges );
 			}
 			if ( model.getValue() !== textarea.value ) {
 				model.setValue( textarea.value );
 				window.clearInterval( checkForChanges );
 				const editorPosition = getEditorPosition( textarea );
-				window.editor.setPosition( {
+				window.editor.setPosition({
 					lineNumber: editorPosition.lineNumber,
 					column: editorPosition.column
-				})
+				});
 				window.editor.focus();
 			}
 			checkCount++;
-		}, 10);
+		}, 10 );
 	};
 
 	// Get cursor selection info for the original textarea.
@@ -197,7 +198,7 @@ loader.init().then( monaco => {
 		let end = 0;
 
 		for ( let i = 1; i <= linesContent.length; i++ ) {
-			const lineLength = model.getLineLength(i);
+			const lineLength = model.getLineLength( i );
 
 			if ( i === selection.startLineNumber ) {
 				start += selection.startColumn + i - 2;
@@ -221,7 +222,7 @@ loader.init().then( monaco => {
 
 	// Get cursor position info for the editor.
 	const getEditorPosition = ( textarea ) => {
-		const linesContent = textarea.value.split( "\n" );
+		const linesContent = textarea.value.split( '\n' );
 
 		let selectionStart = textarea.selectionStart;
 		let lineNumber = 1;
@@ -230,10 +231,10 @@ loader.init().then( monaco => {
 		for ( let i = 0; i < linesContent.length; i++ ) {
 			lineNumber = i + 1;
 
-			if ( selectionStart - linesContent[i].length <= 0 ) {
+			if ( 0 >= selectionStart - linesContent[i].length ) {
 				column = selectionStart - i + 1;
 				break;
-			} else if ( selectionStart - linesContent[i].length - i == 0 ) {
+			} else if ( 0 == selectionStart - linesContent[i].length - i ) {
 				column = selectionStart - i + 1;
 				break;
 			} else {
@@ -251,7 +252,7 @@ loader.init().then( monaco => {
 			new MutationObserver( function() {
 				const mediaInsertButtons = Array.from( document.getElementsByClassName( 'media-button-insert' ) );
 				if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
-					mediaInsertButtons.forEach( function ( button ) {
+					mediaInsertButtons.forEach( function( button ) {
 						button.removeEventListener( 'mouseup', syncTextareaToEditor );
 						button.addEventListener( 'mouseup', syncTextareaToEditor );
 						button.removeEventListener( 'keydown', syncTextareaToEditor );

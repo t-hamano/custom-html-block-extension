@@ -12,6 +12,7 @@ import themes from 'themes';
 
 loader.init().then( monaco => {
 	const textarea = document.getElementById( 'newcontent' );
+
 	// Setting up the monaco editor.
 	const runEditor = () => {
 
@@ -37,6 +38,7 @@ loader.init().then( monaco => {
 
 		// Event emitted when the contents of the editor have changed.
 		window.editor.getModel().onDidChangeContent( () => {
+
 			// Apply changes in the editor to the original textarea.
 			const editorValue = window.editor.getModel().getValue();
 			if ( textarea.value === editorValue ) {
