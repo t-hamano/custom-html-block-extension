@@ -55,16 +55,13 @@
 	}
 
 	&__col {
-		flex: 1;
 
 		&--setting {
-			min-width: 110px;
 			padding: 0 8px 4px;
 			border: 1px solid var(--wp-admin-theme-color);
 		}
 
 		&--arrow {
-			flex: auto;
 			align-self: center;
 			margin: 0 8px;
 

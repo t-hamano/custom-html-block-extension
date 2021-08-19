@@ -67,6 +67,7 @@ $wp-admin-theme-color: #2271b1;
 
 	&__ttl {
 		margin: 0 0 1em;
+		font-weight: bold;
 		font-size: 1.2em;
 		text-align: center;
 	}
@@ -82,10 +83,10 @@ $wp-admin-theme-color: #2271b1;
 
 	&__row {
 		display: flex;
+		justify-content: center;
 	}
 
 	&__col {
-		flex: 1;
 
 		&--setting {
 			padding: 0 8px 4px;
@@ -93,7 +94,6 @@ $wp-admin-theme-color: #2271b1;
 		}
 
 		&--arrow {
-			flex: initial;
 			align-self: center;
 			margin: 0 8px;
 
