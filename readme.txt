@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
 Tested up to: 5.8
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -67,6 +67,10 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 2.3.2 =
+* Clean: Update npm packages and run a lint check
+* Fix: Indent conversion tool style
 
 = 2.3.1 =
 * Fix: Wrong CSS for IntelliSense
