@@ -16,7 +16,7 @@ loader.init().then( monaco => {
 
 	const isEditorEnabled = null !== document.getElementById( 'content' );
 	const isVisualEditorEnabled = null !== document.getElementById( 'content-tmce' ) && null !== document.getElementById( 'content-html' );
-	const isVisualEditMode = -1 === document.cookie.indexOf( 'editor%3Dhtml' );
+	const isVisualEditMode = -1 === document.cookie.indexOf( 'editor%3Dhtml' ) || -1 !== document.cookie.indexOf( 'editor%3Dtinymce' );
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );
