@@ -1,4 +1,7 @@
 #  Custom HTML Block Extension
+
+[![Deploy to WordPress.org](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/wp-plugin-deploy.yml/badge.svg)](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/wp-plugin-deploy.yml)
+
 ![Custom HTML Block Extension](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_1.gif)
 
 Custom HTML Block Extension extends "Custom HTML block" to evolve into an advanced code editor.
