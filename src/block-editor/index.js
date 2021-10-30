@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import { emmetHTML } from 'emmet-monaco-es';
-
-/**
  * WordPress dependencies
  */
 import { addFilter } from '@wordpress/hooks';
@@ -26,10 +21,10 @@ const customHtmlBlockExtension = ( settings ) => {
 			...settings.attributes,
 			height: {
 				type: 'number',
-				default: 300
-			}
+				default: 300,
+			},
 		},
-		edit
+		edit,
 	};
 	return newSettings;
 };

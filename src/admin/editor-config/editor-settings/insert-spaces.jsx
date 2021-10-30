@@ -9,21 +9,16 @@ import { AdminContext } from 'admin';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
-import {
-	PanelRow,
-	BaseControl,
-	ButtonGroup,
-	Button
-} from '@wordpress/components';
+import { PanelRow, BaseControl, ButtonGroup, Button } from '@wordpress/components';
 
 const InsertSpaces = () => {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorSettings ({
+		setEditorSettings( {
 			...editorSettings,
-			insertSpaces: value
-		});
+			insertSpaces: value,
+		} );
 	};
 
 	return (
@@ -39,10 +34,7 @@ const InsertSpaces = () => {
 					>
 						{ __( 'Tab', 'custom-html-block-extension' ) }
 					</Button>
-					<Button
-						isPrimary={ editorSettings.insertSpaces }
-						onClick={ () => handleChange( true ) }
-					>
+					<Button isPrimary={ editorSettings.insertSpaces } onClick={ () => handleChange( true ) }>
 						{ __( 'Space', 'custom-html-block-extension' ) }
 					</Button>
 				</ButtonGroup>

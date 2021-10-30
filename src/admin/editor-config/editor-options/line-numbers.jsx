@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const LineNumbers = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			lineNumbers: value
-		});
+			lineNumbers: value,
+		} );
 	};
 
 	return (
@@ -36,8 +31,11 @@ const LineNumbers = () => {
 				options={ [
 					{ label: __( 'Hide', 'custom-html-block-extension' ), value: 'off' },
 					{ label: __( 'Show', 'custom-html-block-extension' ), value: 'on' },
-					{ label: __( 'Show number of lines to cursor position', 'custom-html-block-extension' ), value: 'relative' },
-					{ label: __( 'Show every 10 lines', 'custom-html-block-extension' ), value: 'interval' }
+					{
+						label: __( 'Show number of lines to cursor position', 'custom-html-block-extension' ),
+						value: 'relative',
+					},
+					{ label: __( 'Show every 10 lines', 'custom-html-block-extension' ), value: 'interval' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -56,10 +54,13 @@ const LineNumbers = () => {
 								onClick={ () => {
 									handleChange( 'off' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/line-numbers_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/line-numbers_1.jpg'
+									}
 									alt={ __( 'Hide', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -72,27 +73,38 @@ const LineNumbers = () => {
 								onClick={ () => {
 									handleChange( 'on' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/line-numbers_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/line-numbers_2.jpg'
+									}
 									alt={ __( 'Show (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 						<div className="chbe-modal__col">
-							<h3>{ __( 'Show number of lines to cursor position', 'custom-html-block-extension' ) }</h3>
+							<h3>
+								{ __( 'Show number of lines to cursor position', 'custom-html-block-extension' ) }
+							</h3>
 							<Button
 								isPrimary={ 'relative' === editorOptions.lineNumbers }
 								isTertiary={ 'relative' !== editorOptions.lineNumbers }
 								onClick={ () => {
 									handleChange( 'relative' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/line-numbers_3.gif' }
-									alt={ __( 'Show number of lines to cursor position', 'custom-html-block-extension' ) }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/line-numbers_3.gif'
+									}
+									alt={ __(
+										'Show number of lines to cursor position',
+										'custom-html-block-extension'
+									) }
 								/>
 							</Button>
 						</div>
@@ -104,17 +116,20 @@ const LineNumbers = () => {
 								onClick={ () => {
 									handleChange( 'interval' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/line-numbers_4.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/line-numbers_4.gif'
+									}
 									alt={ __( 'Show every 10 lines', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

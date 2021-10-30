@@ -11,16 +11,14 @@ import { useContext } from '@wordpress/element';
 
 import { PanelRow, SelectControl } from '@wordpress/components';
 
-const FontWeight = ({
-	fontWeights
-}) => {
+const FontWeight = ( { fontWeights } ) => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			fontWeight: value
-		});
+			fontWeight: value,
+		} );
 	};
 
 	return (
@@ -28,7 +26,10 @@ const FontWeight = ({
 			<SelectControl
 				label={ __( 'Font weight', 'custom-html-block-extension' ) }
 				value={ Number( editorOptions.fontWeight ) }
-				options={ fontWeights.map( ( fontWeight ) => ({ label: fontWeight, value: fontWeight }) ) }
+				options={ fontWeights.map( ( fontWeight ) => ( {
+					label: fontWeight,
+					value: fontWeight,
+				} ) ) }
 				onChange={ handleChange }
 			/>
 		</PanelRow>

@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const MouseWheelZoom = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			mouseWheelZoom: value
-		});
+			mouseWheelZoom: value,
+		} );
 	};
 
 	return (
@@ -43,7 +38,10 @@ const MouseWheelZoom = () => {
 				>
 					<p>{ __( 'Defaults to disable.', 'custom-html-block-extension' ) }</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/mouse-wheel-zoom.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/mouse-wheel-zoom.gif'
+						}
 						alt={ __( 'Enable', 'custom-html-block-extension' ) }
 					/>
 					<ToggleControl
@@ -51,10 +49,10 @@ const MouseWheelZoom = () => {
 						onChange={ ( value ) => {
 							handleChange( value );
 							setIsModalOpen( false );
-						}}
+						} }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

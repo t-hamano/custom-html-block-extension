@@ -11,25 +11,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	RangeControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, RangeControl, Button, Modal } from '@wordpress/components';
 
 const Padding = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			padding: {
 				...editorOptions.padding,
-				top: value ? toNumber( value, 0, 50 ) : 0
-			}
-		});
+				top: value ? toNumber( value, 0, 50 ) : 0,
+			},
+		} );
 	};
 
 	return (
@@ -48,13 +43,21 @@ const Padding = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Spacing between top edge of editor and first line.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'Spacing between top edge of editor and first line.',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/padding/top.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/padding/top.gif'
+						}
 						alt={ __( 'Padding top (px)', 'custom-html-block-extension' ) }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

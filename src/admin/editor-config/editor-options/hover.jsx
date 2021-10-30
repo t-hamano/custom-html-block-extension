@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const Hover = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			hover: value
-		});
+			hover: value,
+		} );
 	};
 
 	return (
@@ -43,7 +38,9 @@ const Hover = () => {
 				>
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/hover.gif' }
+						src={
+							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/hover.gif'
+						}
 						alt={ __( 'Enable hover hints', 'custom-html-block-extension' ) }
 					/>
 					<ToggleControl
@@ -51,10 +48,10 @@ const Hover = () => {
 						onChange={ ( value ) => {
 							handleChange( value );
 							setIsModalOpen( false );
-						}}
+						} }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

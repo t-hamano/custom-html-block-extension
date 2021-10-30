@@ -17,7 +17,7 @@ import {
 	Modal,
 	Notice,
 	Button,
-	Dashicon
+	Dashicon,
 } from '@wordpress/components';
 
 const Emmet = () => {
@@ -25,10 +25,10 @@ const Emmet = () => {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorSettings ({
+		setEditorSettings( {
 			...editorSettings,
-			emmet: value
-		});
+			emmet: value,
+		} );
 	};
 
 	return (
@@ -44,15 +44,33 @@ const Emmet = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Emmet is a function for the editor that allow for high-speed coding via content assist.', 'custom-html-block-extension' ) }</p>
 					<p>
-						{ __( 'Only valid for HTML tags and does not support inline CSS in the block and classic editor.', 'custom-html-block-extension' ) }<br/>
-						{ __( 'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.', 'custom-html-block-extension' ) }
+						{ __(
+							'Emmet is a function for the editor that allow for high-speed coding via content assist.',
+							'custom-html-block-extension'
+						) }
+					</p>
+					<p>
+						{ __(
+							'Only valid for HTML tags and does not support inline CSS in the block and classic editor.',
+							'custom-html-block-extension'
+						) }
+						<br />
+						{ __(
+							'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.',
+							'custom-html-block-extension'
+						) }
 					</p>
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
-					<p><ExternalLink href="https://docs.emmet.io/cheat-sheet/">{ __( 'Check Cheat Sheet', 'custom-html-block-extension' ) }</ExternalLink></p>
+					<p>
+						<ExternalLink href="https://docs.emmet.io/cheat-sheet/">
+							{ __( 'Check Cheat Sheet', 'custom-html-block-extension' ) }
+						</ExternalLink>
+					</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-settings/emmet.gif' }
+						src={
+							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-settings/emmet.gif'
+						}
 						alt={ __( 'Emmet', 'custom-html-block-extension' ) }
 					/>
 					<ToggleControl
@@ -60,17 +78,17 @@ const Emmet = () => {
 						onChange={ ( value ) => {
 							handleChange( value );
 							setIsModalOpen( false );
-						}}
+						} }
 					/>
-					<Notice
-						status="warning"
-						isDismissible={ false }
-					>
+					<Notice status="warning" isDismissible={ false }>
 						<Dashicon icon="update" />
-						{ __( 'Save and reload the browser to reflect this settings in the preview editor area.', 'custom-html-block-extension' ) }
+						{ __(
+							'Save and reload the browser to reflect this settings in the preview editor area.',
+							'custom-html-block-extension'
+						) }
 					</Notice>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

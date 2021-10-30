@@ -16,10 +16,10 @@ const MouseWheelScrollSensitivity = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			mouseWheelScrollSensitivity: value ? toNumber( value, 1, 10 ) : 1
-		});
+			mouseWheelScrollSensitivity: value ? toNumber( value, 1, 10 ) : 1,
+		} );
 	};
 
 	return (

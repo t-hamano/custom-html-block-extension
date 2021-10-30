@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const RenderWhitespace = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			renderWhitespace: value
-		});
+			renderWhitespace: value,
+		} );
 	};
 
 	return (
@@ -35,10 +30,25 @@ const RenderWhitespace = () => {
 				value={ editorOptions.renderWhitespace }
 				options={ [
 					{ label: __( 'All', 'custom-html-block-extension' ), value: 'all' },
-					{ label: __( 'Render whitespace other than single spaces between words', 'custom-html-block-extension' ), value: 'boundary' },
-					{ label: __( 'Render only whitespace in the selected text', 'custom-html-block-extension' ), value: 'selection' },
-					{ label: __( 'Render only trailing whitespace', 'custom-html-block-extension' ), value: 'trailing' },
-					{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' }
+					{
+						label: __(
+							'Render whitespace other than single spaces between words',
+							'custom-html-block-extension'
+						),
+						value: 'boundary',
+					},
+					{
+						label: __(
+							'Render only whitespace in the selected text',
+							'custom-html-block-extension'
+						),
+						value: 'selection',
+					},
+					{
+						label: __( 'Render only trailing whitespace', 'custom-html-block-extension' ),
+						value: 'trailing',
+					},
+					{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -57,45 +67,70 @@ const RenderWhitespace = () => {
 								onClick={ () => {
 									handleChange( 'all' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-whitespace_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-whitespace_1.jpg'
+									}
 									alt={ __( 'All', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 						<div className="chbe-modal__col">
-							<h3>{ __( 'Render whitespace other than single spaces between words', 'custom-html-block-extension' ) }</h3>
+							<h3>
+								{ __(
+									'Render whitespace other than single spaces between words',
+									'custom-html-block-extension'
+								) }
+							</h3>
 							<Button
 								isPrimary={ 'boundary' === editorOptions.renderWhitespace }
 								isTertiary={ 'boundary' !== editorOptions.renderWhitespace }
 								onClick={ () => {
 									handleChange( 'boundary' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-whitespace_2.jpg' }
-									alt={ __( 'Render whitespace other than single spaces between words', 'custom-html-block-extension' ) }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-whitespace_2.jpg'
+									}
+									alt={ __(
+										'Render whitespace other than single spaces between words',
+										'custom-html-block-extension'
+									) }
 								/>
 							</Button>
 						</div>
 					</div>
 					<div className="chbe-modal__row">
 						<div className="chbe-modal__col">
-							<h3>{ __( 'Render only whitespace in the selected text', 'custom-html-block-extension' ) }</h3>
+							<h3>
+								{ __(
+									'Render only whitespace in the selected text',
+									'custom-html-block-extension'
+								) }
+							</h3>
 							<Button
 								isPrimary={ 'selection' === editorOptions.renderWhitespace }
 								isTertiary={ 'selection' !== editorOptions.renderWhitespace }
 								onClick={ () => {
 									handleChange( 'selection' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-whitespace_3.jpg' }
-									alt={ __( 'Render only whitespace in the selected text', 'custom-html-block-extension' ) }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-whitespace_3.jpg'
+									}
+									alt={ __(
+										'Render only whitespace in the selected text',
+										'custom-html-block-extension'
+									) }
 								/>
 							</Button>
 						</div>
@@ -107,10 +142,13 @@ const RenderWhitespace = () => {
 								onClick={ () => {
 									handleChange( 'trailing' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-whitespace_4.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-whitespace_4.jpg'
+									}
 									alt={ __( 'Render only trailing whitespace', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -125,17 +163,20 @@ const RenderWhitespace = () => {
 								onClick={ () => {
 									handleChange( 'none' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-whitespace_5.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-whitespace_5.jpg'
+									}
 									alt={ __( 'None (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

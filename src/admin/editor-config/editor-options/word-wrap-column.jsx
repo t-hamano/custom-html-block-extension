@@ -11,22 +11,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	RangeControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, RangeControl, Button, Modal } from '@wordpress/components';
 
 const WordWrapColumn = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			wordWrapColumn: value ? toNumber( value, 20, 200 ) : 80
-		});
+			wordWrapColumn: value ? toNumber( value, 20, 200 ) : 80,
+		} );
 	};
 
 	return (
@@ -46,11 +41,14 @@ const WordWrapColumn = () => {
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/word-wrap-column.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/word-wrap-column.gif'
+						}
 						alt={ __( 'Word wrap column', 'custom-html-block-extension' ) }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

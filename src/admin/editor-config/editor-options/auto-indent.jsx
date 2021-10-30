@@ -11,12 +11,7 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const AutoIndent = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -24,10 +19,10 @@ const AutoIndent = () => {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			autoIndent: value
-		});
+			autoIndent: value,
+		} );
 		refreshEditor();
 	};
 
@@ -39,7 +34,7 @@ const AutoIndent = () => {
 				options={ [
 					{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' },
 					{ label: __( 'Keep', 'custom-html-block-extension' ), value: 'keep' },
-					{ label: __( 'Advanced', 'custom-html-block-extension' ), value: 'advanced' }
+					{ label: __( 'Advanced', 'custom-html-block-extension' ), value: 'advanced' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -58,10 +53,13 @@ const AutoIndent = () => {
 								onClick={ () => {
 									handleChange( 'always' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-indent_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-indent_1.gif'
+									}
 									alt={ __( 'None', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -74,10 +72,13 @@ const AutoIndent = () => {
 								onClick={ () => {
 									handleChange( 'keep' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-indent_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-indent_2.gif'
+									}
 									alt={ __( 'Keep', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -90,17 +91,20 @@ const AutoIndent = () => {
 								onClick={ () => {
 									handleChange( 'advanced' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-indent_3.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-indent_3.gif'
+									}
 									alt={ __( 'Advanced (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

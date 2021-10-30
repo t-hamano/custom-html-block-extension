@@ -15,10 +15,10 @@ const Theme = () => {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorSettings({
+		setEditorSettings( {
 			...editorSettings,
-			theme: value
-		});
+			theme: value,
+		} );
 	};
 
 	return (
@@ -29,7 +29,7 @@ const Theme = () => {
 				options={ [
 					{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
 					{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
-					...themes
+					...themes,
 				] }
 				onChange={ handleChange }
 			/>

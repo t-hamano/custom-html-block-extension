@@ -15,10 +15,10 @@ const TabSize = () => {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorSettings({
+		setEditorSettings( {
 			...editorSettings,
-			tabSize: value ? toNumber( value, 1, 8 ) : 2
-		});
+			tabSize: value ? toNumber( value, 1, 8 ) : 2,
+		} );
 	};
 
 	return (

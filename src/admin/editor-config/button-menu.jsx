@@ -1,16 +1,12 @@
 /**
-* WordPress dependencies
-*/
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 import { Button, Modal } from '@wordpress/components';
 
-const ButtonMenu = ({
-	isWaiting,
-	handleUpdateOptions,
-	handleResetOptions
-}) => {
+const ButtonMenu = ( { isWaiting, handleUpdateOptions, handleResetOptions } ) => {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	return (
@@ -43,7 +39,12 @@ const ButtonMenu = ({
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Are you sure that reset all settings to default values ?', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'Are you sure that reset all settings to default values ?',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<div className="chbe-modal__controls">
 						<Button
 							isPrimary
@@ -54,15 +55,12 @@ const ButtonMenu = ({
 						>
 							{ __( 'Reset Settings', 'custom-html-block-extension' ) }
 						</Button>
-						<Button
-							isSecondary
-							onClick={ () => setIsModalOpen( false ) }
-						>
+						<Button isSecondary onClick={ () => setIsModalOpen( false ) }>
 							{ __( 'Cancel', 'custom-html-block-extension' ) }
 						</Button>
 					</div>
 				</Modal>
-			)}
+			) }
 		</>
 	);
 };

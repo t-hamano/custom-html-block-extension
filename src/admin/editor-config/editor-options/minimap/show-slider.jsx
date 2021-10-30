@@ -10,25 +10,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const ShowSlider = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				showSlider: value
-			}
-		});
+				showSlider: value,
+			},
+		} );
 	};
 
 	return (
@@ -38,7 +33,7 @@ const ShowSlider = () => {
 				value={ editorOptions.minimap.showSlider }
 				options={ [
 					{ label: __( 'Always show', 'custom-html-block-extension' ), value: 'always' },
-					{ label: __( 'Show on mouseover', 'custom-html-block-extension' ), value: 'mouseover' }
+					{ label: __( 'Show on mouseover', 'custom-html-block-extension' ), value: 'mouseover' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -48,42 +43,48 @@ const ShowSlider = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-				<div className="chbe-modal__row">
-					<div className="chbe-modal__col">
-						<h3>{ __( 'Always show', 'custom-html-block-extension' ) }</h3>
-						<Button
-							isPrimary={ 'always' === editorOptions.minimap.showSlider }
-							isTertiary={ 'always' !== editorOptions.minimap.showSlider }
-							onClick={ () => {
-								handleChange( 'always' );
-								setIsModalOpen( false );
-							}}
-						>
-							<img
-								src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/minimap/show-slider_1.jpg' }
-								alt={ __( 'Always show', 'custom-html-block-extension' ) }
-							/>
-						</Button>
+					<div className="chbe-modal__row">
+						<div className="chbe-modal__col">
+							<h3>{ __( 'Always show', 'custom-html-block-extension' ) }</h3>
+							<Button
+								isPrimary={ 'always' === editorOptions.minimap.showSlider }
+								isTertiary={ 'always' !== editorOptions.minimap.showSlider }
+								onClick={ () => {
+									handleChange( 'always' );
+									setIsModalOpen( false );
+								} }
+							>
+								<img
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/minimap/show-slider_1.jpg'
+									}
+									alt={ __( 'Always show', 'custom-html-block-extension' ) }
+								/>
+							</Button>
+						</div>
+						<div className="chbe-modal__col">
+							<h3>{ __( 'Show on mouseover (default)', 'custom-html-block-extension' ) }</h3>
+							<Button
+								isPrimary={ 'mouseover' === editorOptions.minimap.showSlider }
+								isTertiary={ 'mouseover' !== editorOptions.minimap.showSlider }
+								onClick={ () => {
+									handleChange( 'mouseover' );
+									setIsModalOpen( false );
+								} }
+							>
+								<img
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/minimap/show-slider_2.gif'
+									}
+									alt={ __( 'Show on mouseover (default)', 'custom-html-block-extension' ) }
+								/>
+							</Button>
+						</div>
 					</div>
-					<div className="chbe-modal__col">
-						<h3>{ __( 'Show on mouseover (default)', 'custom-html-block-extension' ) }</h3>
-						<Button
-							isPrimary={ 'mouseover' === editorOptions.minimap.showSlider }
-							isTertiary={ 'mouseover' !== editorOptions.minimap.showSlider }
-							onClick={ () => {
-								handleChange( 'mouseover' );
-								setIsModalOpen( false );
-							}}
-						>
-							<img
-								src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/minimap/show-slider_2.gif' }
-								alt={ __( 'Show on mouseover (default)', 'custom-html-block-extension' ) }
-							/>
-						</Button>
-					</div>
-				</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

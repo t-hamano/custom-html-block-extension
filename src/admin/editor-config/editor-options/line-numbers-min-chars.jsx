@@ -11,22 +11,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	RangeControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, RangeControl, Button, Modal } from '@wordpress/components';
 
 const LineNumbersMinChars = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			lineNumbersMinChars: value ? toNumber( value, 1, 10 ) : 5
-		});
+			lineNumbersMinChars: value ? toNumber( value, 1, 10 ) : 5,
+		} );
 	};
 
 	return (
@@ -46,11 +41,14 @@ const LineNumbersMinChars = () => {
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/line-numbers-min-chars.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/line-numbers-min-chars.gif'
+						}
 						alt={ __( 'Line number width', 'custom-html-block-extension' ) }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

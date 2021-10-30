@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const CursorStyle = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			cursorStyle: value
-		});
+			cursorStyle: value,
+		} );
 	};
 
 	return (
@@ -39,7 +34,7 @@ const CursorStyle = () => {
 					{ label: __( 'Block', 'custom-html-block-extension' ), value: 'block' },
 					{ label: __( 'Outline', 'custom-html-block-extension' ), value: 'block-outline' },
 					{ label: __( 'Underline', 'custom-html-block-extension' ), value: 'underline' },
-					{ label: __( 'Thin underline', 'custom-html-block-extension' ), value: 'underline-thin' }
+					{ label: __( 'Thin underline', 'custom-html-block-extension' ), value: 'underline-thin' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -58,10 +53,13 @@ const CursorStyle = () => {
 								onClick={ () => {
 									handleChange( 'line' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-style_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-style_1.jpg'
+									}
 									alt={ __( 'Line (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -74,10 +72,13 @@ const CursorStyle = () => {
 								onClick={ () => {
 									handleChange( 'line-thin' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-style_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-style_2.jpg'
+									}
 									alt={ __( 'Thin line', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -90,10 +91,13 @@ const CursorStyle = () => {
 								onClick={ () => {
 									handleChange( 'block' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-style_3.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-style_3.jpg'
+									}
 									alt={ __( 'Block', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -108,10 +112,13 @@ const CursorStyle = () => {
 								onClick={ () => {
 									handleChange( 'block-outline' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-style_4.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-style_4.jpg'
+									}
 									alt={ __( 'Outline', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -124,10 +131,13 @@ const CursorStyle = () => {
 								onClick={ () => {
 									handleChange( 'underline' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-style_5.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-style_5.jpg'
+									}
 									alt={ __( 'Underline', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -140,17 +150,20 @@ const CursorStyle = () => {
 								onClick={ () => {
 									handleChange( 'underline-thin' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-style_6.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-style_6.jpg'
+									}
 									alt={ __( 'Thin underline', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

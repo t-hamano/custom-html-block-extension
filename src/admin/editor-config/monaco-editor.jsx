@@ -13,22 +13,14 @@ import { addNotification } from 'admin/common/helper';
 import themes from 'themes';
 
 /**
-* WordPress dependencies
-*/
-import { __ } from '@wordpress/i18n';
+ * WordPress dependencies
+ */
+import { __, sprintf } from '@wordpress/i18n';
 import { Disabled } from '@wordpress/components';
 
-import {
-	useEffect,
-	useContext,
-	useRef
-} from '@wordpress/element';
+import { useEffect, useContext, useRef } from '@wordpress/element';
 
-const MonacoEditor = ({
-	isEditorDisabled,
-	setFontWeights
-}) => {
-
+const MonacoEditor = ( { isEditorDisabled, setFontWeights } ) => {
 	const monaco = useMonaco();
 	const editorRef = useRef( null );
 
@@ -38,12 +30,11 @@ const MonacoEditor = ({
 		editorSettings,
 		editorOptions,
 		setEditorOptions,
-		setIsWaiting
+		setIsWaiting,
 	} = useContext( AdminContext );
 
 	useEffect( () => {
 		if ( monaco ) {
-
 			// Change theme.
 			if ( 'vs-dark' !== editorSettings.theme && 'light' !== editorSettings.theme ) {
 				const theme = themes.find( ( data ) => editorSettings.theme === data.value );
@@ -51,22 +42,20 @@ const MonacoEditor = ({
 				monaco.editor.setTheme( theme.value );
 			}
 		}
-	}, [ editorSettings.theme ]);
+	}, [ editorSettings.theme ] );
 
 	useEffect( () => {
 		if ( monaco && editorRef.current ) {
-
-				// Update editor settings.
-				editorRef.current.getModel().updateOptions({
+			// Update editor settings.
+			editorRef.current.getModel().updateOptions( {
 				tabSize: editorSettings.tabSize,
-				insertSpaces: editorSettings.insertSpaces
-			});
+				insertSpaces: editorSettings.insertSpaces,
+			} );
 		}
-	}, [ editorSettings.tabSize, editorSettings.insertSpaces ]);
+	}, [ editorSettings.tabSize, editorSettings.insertSpaces ] );
 
 	useEffect( () => {
 		if ( monaco && editorRef.current ) {
-
 			// Load webfont.
 			const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
@@ -75,27 +64,25 @@ const MonacoEditor = ({
 
 				const webfontConfig = {
 					custom: {
-						families: [ font.name ]
-					}
+						families: [ font.name ],
+					},
 				};
-
 
 				if ( 'stylesheet' in font ) {
 					webfontConfig.custom.urls = [ font.stylesheet ];
 				}
 
-				webfontloader.load({
+				webfontloader.load( {
 					timeout: 2000,
 					...webfontConfig,
 					active: () => {
-
 						// Update editor font family and font weight variations.
 						setFontWeights( font.weight );
-						setEditorOptions({
+						setEditorOptions( {
 							...editorOptions,
 							fontFamily: font.name,
-							fontWeight: 300
-						});
+							fontWeight: 300,
+						} );
 
 						setIsWaiting( false );
 
@@ -103,35 +90,42 @@ const MonacoEditor = ({
 						monaco.editor.remeasureFonts();
 					},
 					inactive: () => {
-
 						// Font loading failed.
-						addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger', 5000 );
+						addNotification(
+							sprintf(
+								/* translators: %d is replaced with the number of font name. */
+								__( 'Failed to load the font. (%s)', 'custom-html-block-extension' ),
+								font.label
+							),
+							'danger',
+							5000
+						);
 
-						setFontWeights([ 300, 400, 500, 600, 700 ]);
-						setEditorOptions({
+						setFontWeights( [ 300, 400, 500, 600, 700 ] );
+						setEditorOptions( {
 							...editorOptions,
 							fontFamily: 'Fira Code',
-							fontWeight: 300
-						});
+							fontWeight: 300,
+						} );
 						setIsWaiting( false );
-					}
-				});
+					},
+				} );
 			}
 		}
-	}, [ editorOptions.fontFamily ]);
+	}, [ editorOptions.fontFamily ] );
 
 	useEffect( () => {
 		if ( monaco && editorRef.current ) {
-
 			// Adjust the position of the cursor and space.
 			monaco.editor.remeasureFonts();
 		}
-	}, [ editorOptions.fontWeight ]);
+	}, [ editorOptions.fontWeight ] );
 
 	const handleChange = ( value ) => {
 		setCode( value );
 	};
 
+	// eslint-disable-next-line no-shadow
 	const handleEditorDidMount = ( editor, monaco ) => {
 		editorRef.current = editor;
 
@@ -150,29 +144,28 @@ const MonacoEditor = ({
 			}
 		}
 
-		editor.getModel().updateOptions({
+		editor.getModel().updateOptions( {
 			tabSize: editorSettings.tabSize,
-			insertSpaces: editorSettings.insertSpaces
-		});
+			insertSpaces: editorSettings.insertSpaces,
+		} );
 
 		// Load webfont.
 		const font = chbeObj.fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
 				custom: {
-					families: [ font.name ]
-				}
+					families: [ font.name ],
+				},
 			};
 
 			if ( 'stylesheet' in font ) {
 				webfontConfig.custom.urls = [ font.stylesheet ];
 			}
 
-			webfontloader.load({
+			webfontloader.load( {
 				timeout: 2000,
 				...webfontConfig,
 				active: () => {
-
 					// Update editor font weight variations.
 					setFontWeights( font.weight );
 
@@ -180,18 +173,25 @@ const MonacoEditor = ({
 					monaco.editor.remeasureFonts();
 				},
 				inactive: () => {
-
 					// Font loading failed.
-					addNotification( sprintf( __( 'Failed to load the font. (%s)', 'custom-html-block-extension' ), font.label ), 'danger', 5000 );
+					addNotification(
+						sprintf(
+							/* translators: %d is replaced with the number of font name. */
+							__( 'Failed to load the font. (%s)', 'custom-html-block-extension' ),
+							font.label
+						),
+						'danger',
+						5000
+					);
 
-					setFontWeights([ 300, 400, 500, 600, 700 ]);
-					setEditorOptions({
+					setFontWeights( [ 300, 400, 500, 600, 700 ] );
+					setEditorOptions( {
 						...editorOptions,
 						fontFamily: 'Fira Code',
-						fontWeight: 300
-					});
-				}
-			});
+						fontWeight: 300,
+					} );
+				},
+			} );
 		}
 	};
 
@@ -202,7 +202,7 @@ const MonacoEditor = ({
 					<Editor
 						theme={ editorSettings.theme }
 						language={ 'html' }
-						loading={ __( 'Loading...', 'custom-html-block-extension' ) }
+						loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 						value={ code }
 						options={ editorOptions }
 						onChange={ handleChange }
@@ -213,13 +213,13 @@ const MonacoEditor = ({
 				<Editor
 					theme={ editorSettings.theme }
 					language={ 'html' }
-					loading={ __( 'Loading...', 'custom-html-block-extension' ) }
+					loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 					value={ code }
 					options={ editorOptions }
 					onChange={ handleChange }
 					onMount={ handleEditorDidMount }
 				/>
-			)}
+			) }
 		</div>
 	);
 };

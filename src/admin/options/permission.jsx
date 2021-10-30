@@ -4,43 +4,39 @@
 import { AdminContext } from 'admin';
 
 /**
-* WordPress dependencies
-*/
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
-import {
-	PanelBody,
-	PanelRow,
-	ToggleControl
-} from '@wordpress/components';
+import { PanelBody, PanelRow, ToggleControl } from '@wordpress/components';
 
 const Permission = () => {
 	const { options, setOptions } = useContext( AdminContext );
 
 	const handleBlockEditorChange = ( value ) => {
-		setOptions({
+		setOptions( {
 			...options,
-			permissionBlockEditor: value
-		});
+			permissionBlockEditor: value,
+		} );
 	};
 
 	const handleClassicEditorChange = ( value ) => {
-		setOptions({
+		setOptions( {
 			...options,
-			permissionClassicEditor: value
-		});
+			permissionClassicEditor: value,
+		} );
 	};
 
 	const handleThemePluginEditorChange = ( value ) => {
-		setOptions({
+		setOptions( {
 			...options,
-			permissionThemePluginEditor: value
-		});
+			permissionThemePluginEditor: value,
+		} );
 	};
 
 	return (
-		<PanelBody title={ __( 'Permission', 'custom-html-block-extension' ) } >
+		<PanelBody title={ __( 'Permission', 'custom-html-block-extension' ) }>
 			<PanelRow>
 				<ToggleControl
 					label={ __( 'Enable on Block Editor', 'custom-html-block-extension' ) }

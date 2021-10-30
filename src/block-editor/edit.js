@@ -17,11 +17,7 @@ import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
-import {
-	BlockControls,
-	transformStyles,
-	useBlockProps
-} from '@wordpress/block-editor';
+import { BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
 
 import {
 	ResizableBox,
@@ -34,36 +30,25 @@ import {
 	BaseControl,
 	ButtonGroup,
 	Button,
-	TextControl
+	TextControl,
 } from '@wordpress/components';
 
-import {
-	replace,
-	arrowRight
-} from '@wordpress/icons';
+import { replace, arrowRight } from '@wordpress/icons';
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
 
-export default function HTMLEdit({
-	attributes,
-	isSelected,
-	setAttributes,
-	toggleSelection
-}) {
-	const {
-		content,
-		height
-	} = attributes;
+export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
+	const { content, height } = attributes;
 
 	const [ isPreview, setIsPreview ] = useState();
 	const [ isReplacing, setIsReplacing ] = useState( false );
-	const [ replaceSetting, setReplaceSetting ] = useState({
+	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: chbeObj.editorSettings.tabSize,
 		beforeInsertSpaces: chbeObj.editorSettings.insertSpaces,
 		afterTabSize: chbeObj.editorSettings.tabSize,
-		afterInsertSpaces: chbeObj.editorSettings.insertSpaces
-	});
+		afterInsertSpaces: chbeObj.editorSettings.insertSpaces,
+	} );
 
 	const styles = useSelect( ( select ) => {
 		const defaultStyles = `
@@ -77,14 +62,11 @@ export default function HTMLEdit({
 
 		return [
 			defaultStyles,
-			...transformStyles(
-				select( 'core/block-editor' ).getSettings().styles
-			)
+			...transformStyles( select( 'core/block-editor' ).getSettings().styles ),
 		];
-	}, []);
+	}, [] );
 
 	const handleEditorDidMount = ( editor, monaco ) => {
-
 		// Enable Emmet only once because monaco instances are common to all blocks.
 		if ( chbeObj.editorSettings.emmet && ! monaco.enabledEmmet ) {
 			monaco.enabledEmmet = true;
@@ -100,46 +82,49 @@ export default function HTMLEdit({
 			}
 		}
 
-		editor.getModel().updateOptions({
+		editor.getModel().updateOptions( {
 			tabSize: chbeObj.editorSettings.tabSize,
-			insertSpaces: chbeObj.editorSettings.insertSpaces
-		});
+			insertSpaces: chbeObj.editorSettings.insertSpaces,
+		} );
 
 		// Load webfont.
-		const font = chbeObj.fontFamily.find( ( data ) => chbeObj.editorOptions.fontFamily === data.name );
+		const font = chbeObj.fontFamily.find(
+			( data ) => chbeObj.editorOptions.fontFamily === data.name
+		);
 
 		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
 				custom: {
-					families: [ font.name ]
-				}
+					families: [ font.name ],
+				},
 			};
 
 			if ( 'stylesheet' in font ) {
 				webfontConfig.custom.urls = [ font.stylesheet ];
 			}
 
-			webfontloader.load({
+			webfontloader.load( {
 				timeout: 2000,
 				...webfontConfig,
 				active: () => {
-
 					// Adjust the position of the cursor and space.
 					monaco.editor.remeasureFonts();
-				}
-			});
+				},
+			} );
 		}
 
 		// Ctrl+X shortcut without a range selection will cut the block,
 		// so catch the command and execute custom action instead.
+		// eslint-disable-next-line no-bitwise
 		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_X, () => {
 			const selection = editor.getSelection();
 			const lineNumber = editor.getPosition().lineNumber;
-			const isEmptySelection = selection.startLineNumber === selection.endLineNumber && selection.startColumn === selection.endColumn;
+			const isEmptySelection =
+				selection.startLineNumber === selection.endLineNumber &&
+				selection.startColumn === selection.endColumn;
 
 			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
 				if ( isEmptySelection ) {
-
 					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
 					document.execCommand( 'cut' );
@@ -148,18 +133,20 @@ export default function HTMLEdit({
 			} else if ( ! isEmptySelection ) {
 				document.execCommand( 'cut' );
 			}
-		});
+		} );
 
 		// Ctrl+C shortcut without a range selection will copy the block,
 		// so catch the command and execute custom action instead.
+		// eslint-disable-next-line no-bitwise
 		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_C, () => {
 			const selection = editor.getSelection();
 			const lineNumber = editor.getPosition().lineNumber;
-			const isEmptySelection = selection.startLineNumber === selection.endLineNumber && selection.startColumn === selection.endColumn;
+			const isEmptySelection =
+				selection.startLineNumber === selection.endLineNumber &&
+				selection.startColumn === selection.endColumn;
 
 			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
 				if ( isEmptySelection ) {
-
 					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
 					document.execCommand( 'copy' );
@@ -168,26 +155,23 @@ export default function HTMLEdit({
 			} else if ( ! isEmptySelection ) {
 				document.execCommand( 'copy' );
 			}
-		});
+		} );
 	};
 
-	const handleResizeStart = ( ...args ) => {
+	const handleResizeStart = () => {
 		toggleSelection( false );
 	};
 
 	const handleResizeStop = ( event, direction, elt, delta ) => {
 		const newHeight = Math.min(
-			Math.max(
-				parseInt( height + delta.height, 10 ),
-				MIN_HEIGHT
-			),
+			Math.max( parseInt( height + delta.height, 10 ), MIN_HEIGHT ),
 			MAX_HEIGHT
 		);
-		setAttributes({ height: newHeight });
+		setAttributes( { height: newHeight } );
 	};
 
 	const handleChangeContent = ( value ) => {
-		setAttributes({ content: value });
+		setAttributes( { content: value } );
 	};
 
 	function changeIndent() {
@@ -203,78 +187,76 @@ export default function HTMLEdit({
 			let spaces, indentCount, searchValue, newValue;
 
 			if ( replaceSetting.beforeInsertSpaces ) {
-
 				// From space indent
-				spaces = lines[i].match( /^\s*/ )[0].length;
+				spaces = lines[ i ].match( /^\s*/ )[ 0 ].length;
 				indentCount = Math.floor( spaces / replaceSetting.beforeTabSize );
 				searchValue = '\x20'.repeat( replaceSetting.beforeTabSize * indentCount );
 
 				if ( replaceSetting.afterInsertSpaces ) {
-
 					// To space indent
 					newValue = '\x20'.repeat( replaceSetting.afterTabSize * indentCount );
 				} else {
-
 					// To tab indent
 					newValue = '\t'.repeat( indentCount );
 				}
 			} else {
-
 				// From tab indent
-				spaces = lines[i].match( /^\t*/ )[0].length;
+				spaces = lines[ i ].match( /^\t*/ )[ 0 ].length;
 				searchValue = '\t'.repeat( spaces );
 
 				if ( replaceSetting.afterInsertSpaces ) {
-
 					// To space indent
 					newValue = '\x20'.repeat( replaceSetting.afterTabSize * spaces );
 				} else {
-
 					// To tab indent (nothing)
 					newValue = searchValue;
 				}
 			}
 
-			let reg = new RegExp( '^' + searchValue  );
-			newLines += lines[i].replace( reg, newValue ) + ( i != lines.length - 1 ? '\n' : '' );
+			const reg = new RegExp( '^' + searchValue );
+			newLines += lines[ i ].replace( reg, newValue ) + ( i !== lines.length - 1 ? '\n' : '' );
 		}
 
-		setAttributes({ content: newLines });
-		setReplaceSetting({
+		setAttributes( { content: newLines } );
+		setReplaceSetting( {
 			...replaceSetting,
 			beforeInsertSpaces: replaceSetting.afterInsertSpaces,
-			beforeTabSize: replaceSetting.afterTabSize
-		});
+			beforeTabSize: replaceSetting.afterTabSize,
+		} );
 		setIsReplacing( false );
-	};
+	}
 
 	function switchToPreview() {
 		setIsPreview( true );
 	}
 
-	function switchToHTML()  {
+	function switchToHTML() {
 		setIsPreview( false );
 	}
 
 	return (
-		<div { ...useBlockProps({ className: 'block-library-html__edit' }) }>
+		<div { ...useBlockProps( { className: 'block-library-html__edit' } ) }>
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-							icon={ replace }
-							label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
-							onClick={ () => setIsReplacing( true ) }
+						icon={ replace }
+						label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
+						onClick={ () => setIsReplacing( true ) }
 					/>
-					{isReplacing && (
+					{ isReplacing && (
 						<Popover
 							className="components-inline-color-popover"
 							onClose={ () => setIsReplacing( false ) }
 						>
 							<div className="chbe-popover">
-								<h2 className="chbe-popover__ttl">{ __( 'Change Indentation', 'custom-html-block-extension' ) }</h2>
+								<h2 className="chbe-popover__ttl">
+									{ __( 'Change Indentation', 'custom-html-block-extension' ) }
+								</h2>
 								<div className="chbe-popover__row">
 									<div className="chbe-popover__col chbe-popover__col--setting">
-										<h3 className="chbe-popover__subttl">{ __( 'Current Indent', 'custom-html-block-extension' ) }</h3>
+										<h3 className="chbe-popover__subttl">
+											{ __( 'Current Indent', 'custom-html-block-extension' ) }
+										</h3>
 										<BaseControl
 											id="custom-html-block-extension/replace-indent-type"
 											label={ __( 'Indent type', 'custom-html-block-extension' ) }
@@ -284,11 +266,11 @@ export default function HTMLEdit({
 													isPrimary={ ! replaceSetting.beforeInsertSpaces }
 													isSmall
 													onClick={ () => {
-														setReplaceSetting({
+														setReplaceSetting( {
 															...replaceSetting,
-															beforeInsertSpaces: false
-														});
-													}}
+															beforeInsertSpaces: false,
+														} );
+													} }
 												>
 													{ __( 'Tab', 'custom-html-block-extension' ) }
 												</Button>
@@ -296,17 +278,17 @@ export default function HTMLEdit({
 													isPrimary={ replaceSetting.beforeInsertSpaces }
 													isSmall
 													onClick={ () => {
-														setReplaceSetting({
+														setReplaceSetting( {
 															...replaceSetting,
-															beforeInsertSpaces: true
-														});
-													}}
+															beforeInsertSpaces: true,
+														} );
+													} }
 												>
 													{ __( 'Space', 'custom-html-block-extension' ) }
 												</Button>
 											</ButtonGroup>
 										</BaseControl>
-										{replaceSetting.beforeInsertSpaces && (
+										{ replaceSetting.beforeInsertSpaces && (
 											<TextControl
 												label={ __( 'Indent width', 'custom-html-block-extension' ) }
 												value={ replaceSetting.beforeTabSize }
@@ -314,19 +296,21 @@ export default function HTMLEdit({
 												min="1"
 												max="8"
 												onChange={ ( value ) => {
-													setReplaceSetting({
+													setReplaceSetting( {
 														...replaceSetting,
-														beforeTabSize: value
-													});
-												}}
+														beforeTabSize: value,
+													} );
+												} }
 											/>
-										)}
+										) }
 									</div>
 									<div className="chbe-popover__col chbe-popover__col--arrow">
 										<Icon icon={ arrowRight } />
 									</div>
 									<div className="chbe-popover__col chbe-popover__col--setting">
-										<h3 className="chbe-popover__subttl">{ __( 'New Indent', 'custom-html-block-extension' ) }</h3>
+										<h3 className="chbe-popover__subttl">
+											{ __( 'New Indent', 'custom-html-block-extension' ) }
+										</h3>
 										<BaseControl
 											id="custom-html-block-extension/replace-indent-type"
 											label={ __( 'Indent type', 'custom-html-block-extension' ) }
@@ -336,11 +320,11 @@ export default function HTMLEdit({
 													isPrimary={ ! replaceSetting.afterInsertSpaces }
 													isSmall
 													onClick={ () => {
-														setReplaceSetting({
+														setReplaceSetting( {
 															...replaceSetting,
-															afterInsertSpaces: false
-														});
-													}}
+															afterInsertSpaces: false,
+														} );
+													} }
 												>
 													{ __( 'Tab', 'custom-html-block-extension' ) }
 												</Button>
@@ -348,17 +332,17 @@ export default function HTMLEdit({
 													isPrimary={ replaceSetting.afterInsertSpaces }
 													isSmall
 													onClick={ () => {
-														setReplaceSetting({
+														setReplaceSetting( {
 															...replaceSetting,
-															afterInsertSpaces: true
-														});
-													}}
+															afterInsertSpaces: true,
+														} );
+													} }
 												>
 													{ __( 'Space', 'custom-html-block-extension' ) }
 												</Button>
 											</ButtonGroup>
 										</BaseControl>
-										{replaceSetting.afterInsertSpaces && (
+										{ replaceSetting.afterInsertSpaces && (
 											<TextControl
 												label={ __( 'Indent width', 'custom-html-block-extension' ) }
 												value={ replaceSetting.afterTabSize }
@@ -366,32 +350,26 @@ export default function HTMLEdit({
 												min="1"
 												max="8"
 												onChange={ ( value ) => {
-													setReplaceSetting({
+													setReplaceSetting( {
 														...replaceSetting,
-														afterTabSize: value
-													});
-												}}
+														afterTabSize: value,
+													} );
+												} }
 											/>
-										)}
+										) }
 									</div>
 								</div>
 								<div className="chbe-popover__buttons">
-									<Button
-										isPrimary={ true }
-										onClick={ changeIndent }
-									>
+									<Button isPrimary={ true } onClick={ changeIndent }>
 										{ __( 'Apply', 'custom-html-block-extension' ) }
 									</Button>
-									<Button
-										isSecondary={ true }
-										onClick={ () => setIsReplacing( false ) }
-									>
+									<Button isSecondary={ true } onClick={ () => setIsReplacing( false ) }>
 										{ __( 'Cancel', 'custom-html-block-extension' ) }
 									</Button>
 								</div>
 							</div>
 						</Popover>
-					)}
+					) }
 				</ToolbarGroup>
 				<ToolbarGroup>
 					<ToolbarButton
@@ -414,17 +392,12 @@ export default function HTMLEdit({
 				{ ( isDisabled ) =>
 					isPreview || isDisabled ? (
 						<>
-							<SandBox
-								html={ content }
-								styles={ styles }
-							/>
-							{ ! isSelected && (
-								<div className="block-library-html__preview-overlay"></div>
-							) }
+							<SandBox html={ content } styles={ styles } />
+							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
 						</>
 					) : (
 						<ResizableBox
-							size={ { height: height } }
+							size={ { height } }
 							minHeight={ MIN_HEIGHT }
 							enable={ {
 								top: false,
@@ -434,7 +407,7 @@ export default function HTMLEdit({
 								topRight: false,
 								bottomRight: false,
 								bottomLeft: false,
-								topLeft: false
+								topLeft: false,
 							} }
 							onResizeStart={ handleResizeStart }
 							onResizeStop={ handleResizeStop }
@@ -444,10 +417,9 @@ export default function HTMLEdit({
 							<Editor
 								theme={ chbeObj.editorSettings.theme }
 								language="html"
-								loading={ __( 'Loading...', 'custom-html-block-extension' ) }
+								loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 								value={ content }
 								options={ chbeObj.editorOptions }
-
 								onChange={ handleChangeContent }
 								onMount={ handleEditorDidMount }
 							/>
@@ -457,4 +429,4 @@ export default function HTMLEdit({
 			</Disabled.Consumer>
 		</div>
 	);
-};
+}

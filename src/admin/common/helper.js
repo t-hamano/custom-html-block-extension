@@ -4,7 +4,7 @@
 import { store } from 'react-notifications-component';
 
 export const addNotification = ( message, type, duration = 2000 ) => {
-	store.addNotification({
+	store.addNotification( {
 		message,
 		type,
 		animation: 'bounce-in',
@@ -12,14 +12,14 @@ export const addNotification = ( message, type, duration = 2000 ) => {
 		container: 'top-center',
 		isMobile: true,
 		dismiss: {
-			duration: duration,
-			showIcon: true
+			duration,
+			showIcon: true,
 		},
 		dismissable: {
 			click: true,
-			touch: true
-		}
-	});
+			touch: true,
+		},
+	} );
 };
 
 export const toNumber = ( value, min = 0, max = null ) => {

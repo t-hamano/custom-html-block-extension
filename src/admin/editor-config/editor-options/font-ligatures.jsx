@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const FontLigatures = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			fontLigatures: value
-		});
+			fontLigatures: value,
+		} );
 	};
 
 	return (
@@ -41,7 +36,12 @@ const FontLigatures = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Ligatures are special characters in a font that combine two or more characters into one. Only Fira Code font supports ligatures.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'Ligatures are special characters in a font that combine two or more characters into one. Only Fira Code font supports ligatures.',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<div className="chbe-modal__row">
 						<div className="chbe-modal__col">
 							<h3>{ __( 'Enable', 'custom-html-block-extension' ) }</h3>
@@ -51,10 +51,13 @@ const FontLigatures = () => {
 								onClick={ () => {
 									handleChange( 'always' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/font-ligatures_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/font-ligatures_1.jpg'
+									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -67,17 +70,20 @@ const FontLigatures = () => {
 								onClick={ () => {
 									handleChange( 'always' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/font-ligatures_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/font-ligatures_2.jpg'
+									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

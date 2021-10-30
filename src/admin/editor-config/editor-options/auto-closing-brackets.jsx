@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const AutoClosingBrackets = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			autoClosingBrackets: value
-		});
+			autoClosingBrackets: value,
+		} );
 	};
 
 	return (
@@ -35,8 +30,14 @@ const AutoClosingBrackets = () => {
 				value={ editorOptions.autoClosingBrackets }
 				options={ [
 					{ label: __( 'Always', 'custom-html-block-extension' ), value: 'always' },
-					{ label: __( 'Only when there is whitespace right after the cursor', 'custom-html-block-extension' ), value: 'beforeWhitespace' },
-					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' }
+					{
+						label: __(
+							'Only when there is whitespace right after the cursor',
+							'custom-html-block-extension'
+						),
+						value: 'beforeWhitespace',
+					},
+					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -55,27 +56,41 @@ const AutoClosingBrackets = () => {
 								onClick={ () => {
 									handleChange( 'always' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-closing-brackets_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-closing-brackets_1.gif'
+									}
 									alt={ __( 'Always (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 						<div className="chbe-modal__col">
-							<h3>{ __( 'Only when there is whitespace right after the cursor', 'custom-html-block-extension' ) }</h3>
+							<h3>
+								{ __(
+									'Only when there is whitespace right after the cursor',
+									'custom-html-block-extension'
+								) }
+							</h3>
 							<Button
 								isPrimary={ 'beforeWhitespace' === editorOptions.autoClosingBrackets }
 								isTertiary={ 'beforeWhitespace' !== editorOptions.autoClosingBrackets }
 								onClick={ () => {
 									handleChange( 'beforeWhitespace' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-closing-brackets_2.gif' }
-									alt={ __( 'Only when there is whitespace right after the cursor', 'custom-html-block-extension' ) }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-closing-brackets_2.gif'
+									}
+									alt={ __(
+										'Only when there is whitespace right after the cursor',
+										'custom-html-block-extension'
+									) }
 								/>
 							</Button>
 						</div>
@@ -87,17 +102,20 @@ const AutoClosingBrackets = () => {
 								onClick={ () => {
 									handleChange( 'never' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-closing-brackets_3.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-closing-brackets_3.gif'
+									}
 									alt={ __( 'Never', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

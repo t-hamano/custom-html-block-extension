@@ -20,4 +20,3 @@ export const htmlCode = rTabs( `
 	</div>
 </div>
 ` );
-

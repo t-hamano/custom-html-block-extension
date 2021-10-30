@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const WrappingIndent = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			wrappingIndent: value
-		});
+			wrappingIndent: value,
+		} );
 	};
 
 	return (
@@ -37,7 +32,7 @@ const WrappingIndent = () => {
 					{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' },
 					{ label: __( 'Same', 'custom-html-block-extension' ), value: 'same' },
 					{ label: __( 'Indent', 'custom-html-block-extension' ), value: 'indent' },
-					{ label: __( 'Deep indent', 'custom-html-block-extension' ), value: 'deepIndent' }
+					{ label: __( 'Deep indent', 'custom-html-block-extension' ), value: 'deepIndent' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -56,10 +51,13 @@ const WrappingIndent = () => {
 								onClick={ () => {
 									handleChange( 'none' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/wrapping-indent_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/wrapping-indent_1.jpg'
+									}
 									alt={ __( 'None (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -72,10 +70,13 @@ const WrappingIndent = () => {
 								onClick={ () => {
 									handleChange( 'same' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/wrapping-indent_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/wrapping-indent_2.jpg'
+									}
 									alt={ __( 'Same', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -90,10 +91,13 @@ const WrappingIndent = () => {
 								onClick={ () => {
 									handleChange( 'indent' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/wrapping-indent_3.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/wrapping-indent_3.jpg'
+									}
 									alt={ __( 'Indent', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -106,17 +110,20 @@ const WrappingIndent = () => {
 								onClick={ () => {
 									handleChange( 'deepIndent' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/wrapping-indent_4.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/wrapping-indent_4.jpg'
+									}
 									alt={ __( 'Deep indent', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

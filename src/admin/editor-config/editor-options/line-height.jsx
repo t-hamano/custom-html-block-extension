@@ -16,10 +16,10 @@ const LineHeight = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			lineHeight: value ? toNumber( value, 10, 60 ) : 24
-		});
+			lineHeight: value ? toNumber( value, 10, 60 ) : 24,
+		} );
 	};
 
 	return (

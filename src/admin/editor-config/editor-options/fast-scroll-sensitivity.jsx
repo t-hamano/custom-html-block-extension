@@ -16,16 +16,19 @@ const FastScrollSensitivity = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			fastScrollSensitivity: value ? toNumber( value, 1, 10 ) : 5
-		});
+			fastScrollSensitivity: value ? toNumber( value, 1, 10 ) : 5,
+		} );
 	};
 
 	return (
 		<PanelRow>
 			<RangeControl
-				label={ __( 'Mouse wheel scroll speed (when pressing Alt key)', 'custom-html-block-extension' ) }
+				label={ __(
+					'Mouse wheel scroll speed (when pressing Alt key)',
+					'custom-html-block-extension'
+				) }
 				min="1"
 				max="10"
 				value={ editorOptions.fastScrollSensitivity }

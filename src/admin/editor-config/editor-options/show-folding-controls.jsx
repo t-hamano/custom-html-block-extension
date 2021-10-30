@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const ShowFoldingControls = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			showFoldingControls: value
-		});
+			showFoldingControls: value,
+		} );
 	};
 
 	return (
@@ -35,7 +30,7 @@ const ShowFoldingControls = () => {
 				value={ editorOptions.showFoldingControls }
 				options={ [
 					{ label: __( 'Always show', 'custom-html-block-extension' ), value: 'always' },
-					{ label: __( 'Show on mouseover', 'custom-html-block-extension' ), value: 'mouseover' }
+					{ label: __( 'Show on mouseover', 'custom-html-block-extension' ), value: 'mouseover' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -54,10 +49,13 @@ const ShowFoldingControls = () => {
 								onClick={ () => {
 									handleChange( true );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/show-folding-controls_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/show-folding-controls_1.jpg'
+									}
 									alt={ __( 'Always show', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -70,17 +68,20 @@ const ShowFoldingControls = () => {
 								onClick={ () => {
 									handleChange( true );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/show-folding-controls_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/show-folding-controls_2.gif'
+									}
 									alt={ __( 'Show on mouseover (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

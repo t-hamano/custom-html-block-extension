@@ -10,25 +10,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const AddExtraSpaceOnTop = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			find: {
 				...editorOptions.find,
-				addExtraSpaceOnTop: value
-			}
-		});
+				addExtraSpaceOnTop: value,
+			},
+		} );
 	};
 
 	return (
@@ -53,10 +48,13 @@ const AddExtraSpaceOnTop = () => {
 								onClick={ () => {
 									handleChange( true );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/find/addextra-space-on-top_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/find/addextra-space-on-top_1.jpg'
+									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -69,17 +67,20 @@ const AddExtraSpaceOnTop = () => {
 								onClick={ () => {
 									handleChange( false );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/find/addextra-space-on-top_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/find/addextra-space-on-top_2.jpg'
+									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

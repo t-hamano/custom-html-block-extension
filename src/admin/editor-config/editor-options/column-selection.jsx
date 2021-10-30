@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const ColumnSelection = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			columnSelection: value
-		});
+			columnSelection: value,
+		} );
 	};
 
 	return (
@@ -41,16 +36,34 @@ const ColumnSelection = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Always enable column selection. Following command can be used to select column selection even when disabled.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'Always enable column selection. Following command can be used to select column selection even when disabled.',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<dl>
 						<dt>{ __( 'Windows:', 'custom-html-block-extension' ) }</dt>
-						<dd>{ __( '"Shift + Alt + drag mouse", or "Ctrl + Shift + Alt + arrow key"', 'custom-html-block-extension' ) }</dd>
+						<dd>
+							{ __(
+								'"Shift + Alt + drag mouse", or "Ctrl + Shift + Alt + arrow key"',
+								'custom-html-block-extension'
+							) }
+						</dd>
 						<dt>{ __( 'macOS:', 'custom-html-block-extension' ) }</dt>
-						<dd>{ __( '"Shift + Option + drag mouse", or "Shift + Option + Command + arrow key"', 'custom-html-block-extension' ) }</dd>
+						<dd>
+							{ __(
+								'"Shift + Option + drag mouse", or "Shift + Option + Command + arrow key"',
+								'custom-html-block-extension'
+							) }
+						</dd>
 					</dl>
 					<p>{ __( 'Defaults to disable.', 'custom-html-block-extension' ) }</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/column-selection.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/column-selection.gif'
+						}
 						alt={ __( 'Column selection', 'custom-html-block-extension' ) }
 					/>
 					<ToggleControl
@@ -58,10 +71,10 @@ const ColumnSelection = () => {
 						onChange={ ( value ) => {
 							handleChange( value );
 							setIsModalOpen( false );
-						}}
+						} }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

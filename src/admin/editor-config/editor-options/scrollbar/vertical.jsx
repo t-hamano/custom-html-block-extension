@@ -10,25 +10,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const Vertical = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			scrollbar: {
 				...editorOptions.scrollbar,
-				vertical: value
-			}
-		});
+				vertical: value,
+			},
+		} );
 	};
 
 	return (
@@ -39,7 +34,7 @@ const Vertical = () => {
 				options={ [
 					{ label: __( 'Auto', 'custom-html-block-extension' ), value: 'auto' },
 					{ label: __( 'Visible', 'custom-html-block-extension' ), value: 'visible' },
-					{ label: __( 'Hidden', 'custom-html-block-extension' ), value: 'hidden' }
+					{ label: __( 'Hidden', 'custom-html-block-extension' ), value: 'hidden' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -58,10 +53,13 @@ const Vertical = () => {
 								onClick={ () => {
 									handleChange( 'auto' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/scrollbar/vertical_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/scrollbar/vertical_1.gif'
+									}
 									alt={ __( 'Auto (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -74,10 +72,13 @@ const Vertical = () => {
 								onClick={ () => {
 									handleChange( 'visible' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/scrollbar/vertical_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/scrollbar/vertical_2.jpg'
+									}
 									alt={ __( 'Visible', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -90,17 +91,20 @@ const Vertical = () => {
 								onClick={ () => {
 									handleChange( 'hidden' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/scrollbar/vertical_3.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/scrollbar/vertical_3.jpg'
+									}
 									alt={ __( 'Hidden', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }
