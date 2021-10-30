@@ -4,6 +4,7 @@ module.exports = {
 		chbeObj: true,
 		Blob: true,
 		FileReader: true,
+		jQuery: true,
 	},
 	rules: {
 		'import/no-extraneous-dependencies': 'off',

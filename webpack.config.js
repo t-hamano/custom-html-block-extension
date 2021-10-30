@@ -7,10 +7,10 @@ module.exports = {
 	resolve: {
 		...defaultConfig.resolve,
 		modules: [ 'node_modules', 'src' ],
-    extensions: [ '.js', '.jsx' ]
+		extensions: [ '.js', '.jsx' ],
 	},
-  performance: {
-    maxEntrypointSize: 1000000,
-    maxAssetSize: 1000000
-  }
+	performance: {
+		maxEntrypointSize: 1000000,
+		maxAssetSize: 1000000,
+	},
 };
