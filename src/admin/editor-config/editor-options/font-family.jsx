@@ -10,23 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	ExternalLink,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, ExternalLink, Modal } from '@wordpress/components';
 
 const FontFamily = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			fontFamily: value
-		});
+			fontFamily: value,
+		} );
 	};
 
 	return (
@@ -34,7 +28,10 @@ const FontFamily = () => {
 			<SelectControl
 				label={ __( 'Font family', 'custom-html-block-extension' ) }
 				value={ editorOptions.fontFamily }
-				options={ chbeObj.fontFamily.map( ({ label, name }) => ({ label: label, value: name }) ) }
+				options={ chbeObj.fontFamily.map( ( { label, name } ) => ( {
+					label,
+					value: name,
+				} ) ) }
 				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
@@ -43,10 +40,24 @@ const FontFamily = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.', 'custom-html-block-extension' ) }</p>
-					<p><ExternalLink href={ __( 'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts', 'custom-html-block-extension' ) }>{ __( 'GitHub Project Page', 'custom-html-block-extension' ) }</ExternalLink></p>
+					<p>
+						{ __(
+							'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.',
+							'custom-html-block-extension'
+						) }
+					</p>
+					<p>
+						<ExternalLink
+							href={ __(
+								'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
+								'custom-html-block-extension'
+							) }
+						>
+							{ __( 'GitHub Project Page', 'custom-html-block-extension' ) }
+						</ExternalLink>
+					</p>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

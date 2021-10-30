@@ -10,23 +10,18 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const QuickSuggestions = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			quickSuggestions: value,
-			suggestOnTriggerCharacters: value
-		});
+			suggestOnTriggerCharacters: value,
+		} );
 	};
 
 	return (
@@ -42,10 +37,18 @@ const QuickSuggestions = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Get suggestions as you type codes. Accepting suggestions will autocomplete code and help faster coding.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'Get suggestions as you type codes. Accepting suggestions will autocomplete code and help faster coding.',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/quick-suggestions.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/quick-suggestions.gif'
+						}
 						alt={ __( 'Suggest', 'custom-html-block-extension' ) }
 					/>
 					<ToggleControl
@@ -53,10 +56,10 @@ const QuickSuggestions = () => {
 						onChange={ ( value ) => {
 							handleChange( value );
 							setIsModalOpen( false );
-						}}
+						} }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

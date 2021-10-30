@@ -9,7 +9,7 @@
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: custom-html-block-extension
- * @package custom-html-block-extension
+ * @package Custom_Html_Block_Extension
  * @author Tetsuaki Hamano
  * @license GPL-2.0+
  */
@@ -35,4 +35,4 @@ define( 'CHBE_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'CHBE_BASENAME', plugin_basename( __FILE__ ) );
 
 require_once __DIR__ . '/classes/class-init.php';
-new custom_html_block_extension\Init();
+new Custom_Html_Block_Extension\Init();

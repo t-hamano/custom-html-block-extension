@@ -16,10 +16,10 @@ const FontSize = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			fontSize: value ? toNumber( value, 10, 30 ) : 14
-		});
+			fontSize: value ? toNumber( value, 10, 30 ) : 14,
+		} );
 	};
 
 	return (

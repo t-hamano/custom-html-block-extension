@@ -1,11 +1,11 @@
 <?php
 /**
- * @package custom-html-block-extension
+ * @package Custom_Html_Block_Extension
  * @author Tetsuaki Hamano
  * @license GPL-2.0+
  */
 
-namespace custom_html_block_extension;
+namespace Custom_Html_Block_Extension;
 
 class BlockEditor {
 
@@ -21,7 +21,7 @@ class BlockEditor {
 	 * Enqueue block editor scripts
 	 */
 	public function enqueue_editor_scripts() {
-		$asset_file = include( CHBE_PATH . '/build/block-editor/index.asset.php' );
+		$asset_file = include( CHBE_PATH . '/build/block-editor.asset.php' );
 
 		// Abort the process if permission is disabled.
 		$options = Settings::get_options();
@@ -32,23 +32,23 @@ class BlockEditor {
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE,
-			CHBE_URL . '/build/block-editor/editor.css',
+			CHBE_URL . '/build/style-block-editor.css',
 			array(),
-			filemtime( CHBE_PATH . '/build/block-editor/editor.css' )
+			filemtime( CHBE_PATH . '/build/style-block-editor.css' )
 		);
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE . '-font',
-			CHBE_URL . '/build/fonts/fira-code.css',
+			CHBE_URL . '/assets/css/fira-code.css',
 			array(),
-			filemtime( CHBE_PATH . '/build/fonts/fira-code.css' )
+			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
 		);
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
-			CHBE_URL . '/build/block-editor/index.js',
+			CHBE_URL . '/build/block-editor.js',
 			$asset_file['dependencies'],
-			filemtime( CHBE_PATH . '/build/block-editor/index.js' )
+			filemtime( CHBE_PATH . '/build/block-editor.js' )
 		);
 
 		wp_localize_script(

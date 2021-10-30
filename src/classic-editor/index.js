@@ -8,15 +8,19 @@ import { emmetHTML } from 'emmet-monaco-es';
 /**
  * Internal dependencies
  */
+import './style.scss';
 import themes from 'themes';
 
-loader.init().then( monaco => {
-
+loader.init().then( ( monaco ) => {
 	let isMonacoEditorEnabled = false;
 
 	const isEditorEnabled = null !== document.getElementById( 'content' );
-	const isVisualEditorEnabled = null !== document.getElementById( 'content-tmce' ) && null !== document.getElementById( 'content-html' );
-	const isVisualEditMode = -1 === document.cookie.indexOf( 'editor%3Dhtml' ) || -1 !== document.cookie.indexOf( 'editor%3Dtinymce' );
+	const isVisualEditorEnabled =
+		null !== document.getElementById( 'content-tmce' ) &&
+		null !== document.getElementById( 'content-html' );
+	const isVisualEditMode =
+		-1 === document.cookie.indexOf( 'editor%3Dhtml' ) ||
+		-1 !== document.cookie.indexOf( 'editor%3Dtinymce' );
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );
@@ -26,11 +30,12 @@ loader.init().then( monaco => {
 	const draftButton = document.getElementById( 'save-post' );
 	const publishButton = document.getElementById( 'publish' );
 	const replaceIndentButton = document.getElementById( 'chbe-replace-indent-button' );
-	const syncTriggers = document.querySelectorAll( '.ed_button, .ui-button, #wp-link-url, #wp-link-text, #wp-link-submit, #wp-link-search' );
+	const syncTriggers = document.querySelectorAll(
+		'.ed_button, .ui-button, #wp-link-url, #wp-link-text, #wp-link-submit, #wp-link-search'
+	);
 
 	// Setting up the monaco editor.
 	const runEditor = ( target ) => {
-
 		// Generate an element to apply the monaco editor.
 		const monacoEditorContainer = document.createElement( 'div' );
 		monacoEditorContainer.setAttribute( 'id', 'monaco-editor-container' );
@@ -43,7 +48,7 @@ loader.init().then( monaco => {
 			value: textarea.value,
 			language: 'php',
 			automaticLayout: true,
-			...chbeObj.editorOptions
+			...chbeObj.editorOptions,
 		};
 
 		// Override some properties to match the classic editor.
@@ -52,18 +57,14 @@ loader.init().then( monaco => {
 		properties.scrollbar.alwaysConsumeMouseWheel = false;
 
 		// Create monaco editor.
-		window.editor = monaco.editor.create(
-			monacoEditorContainer,
-			properties,
-		);
+		window.editor = monaco.editor.create( monacoEditorContainer, properties );
 
 		// Change editor area height.
 		const contentHeight = Math.max( 300, window.editor.getContentHeight() );
-		monacoEditorContainer.style.height = `${contentHeight}px`;
+		monacoEditorContainer.style.height = `${ contentHeight }px`;
 
 		// Event emitted when the contents of the editor have changed.
 		window.editor.getModel().onDidChangeContent( () => {
-
 			// Apply changes in the editor to the original textarea.
 			const editorValue = window.editor.getModel().getValue();
 			if ( textarea.value === editorValue ) {
@@ -72,9 +73,10 @@ loader.init().then( monaco => {
 			textarea.value = editorValue;
 
 			// Change editor area height.
+			// eslint-disable-next-line no-shadow
 			const contentHeight = Math.max( 300, window.editor.getContentHeight() );
-			monacoEditorContainer.style.height = `${contentHeight}px`;
-		});
+			monacoEditorContainer.style.height = `${ contentHeight }px`;
+		} );
 
 		// Enable Emmet.
 		if ( chbeObj.editorSettings.emmet ) {
@@ -90,49 +92,51 @@ loader.init().then( monaco => {
 			}
 		}
 
-		window.editor.getModel().updateOptions({
+		window.editor.getModel().updateOptions( {
 			tabSize: chbeObj.editorSettings.tabSize,
-			insertSpaces: chbeObj.editorSettings.insertSpaces
-		});
+			insertSpaces: chbeObj.editorSettings.insertSpaces,
+		} );
 
 		// Catch the Ctrl+S command to save draft or publish post.
+		// eslint-disable-next-line no-bitwise
 		window.editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
 			if ( !! draftButton ) {
 				draftButton.click();
 			} else {
 				publishButton.click();
 			}
-		});
+		} );
 
 		// Load webfont.
-		const font = chbeObj.fontFamily.find( ( data ) => chbeObj.editorOptions.fontFamily === data.name );
+		const font = chbeObj.fontFamily.find(
+			( data ) => chbeObj.editorOptions.fontFamily === data.name
+		);
 
 		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
 				custom: {
-					families: [ font.name ]
-				}
+					families: [ font.name ],
+				},
 			};
 
 			if ( 'stylesheet' in font ) {
 				webfontConfig.custom.urls = [ font.stylesheet ];
 			}
 
-			webfontloader.load({
+			webfontloader.load( {
 				timeout: 2000,
 				...webfontConfig,
 				active: () => {
-
 					// Adjust the position of the cursor and space.
 					monaco.editor.remeasureFonts();
-				}
-			});
+				},
+			} );
 		}
 
-		syncTriggers.forEach( function( button ) {
+		syncTriggers.forEach( function ( button ) {
 			button.addEventListener( 'mouseup', syncTextareaToEditor );
 			button.addEventListener( 'keydown', syncTextareaToEditor );
-		});
+		} );
 
 		window.addEventListener( 'resize', onWindowResize );
 
@@ -142,7 +146,8 @@ loader.init().then( monaco => {
 
 	// Add a margin above the monaco editor that is the same height as the toolbar.
 	const updateToolbarMargin = () => {
-		document.getElementById( 'monaco-editor-container' ).style.marginTop = toolbar.clientHeight + 'px';
+		document.getElementById( 'monaco-editor-container' ).style.marginTop =
+			toolbar.clientHeight + 'px';
 	};
 
 	// Window resize event.
@@ -172,18 +177,18 @@ loader.init().then( monaco => {
 
 		// Apply changes in the original textarea to the editor.
 		let checkCount = 0;
-		const checkForChanges = window.setInterval( function() {
-			if ( 100 == checkCount ) {
+		const checkForChanges = window.setInterval( function () {
+			if ( 100 === checkCount ) {
 				window.clearInterval( checkForChanges );
 			}
 			if ( model.getValue() !== textarea.value ) {
 				model.setValue( textarea.value );
 				window.clearInterval( checkForChanges );
 				const editorPosition = getEditorPosition( textarea );
-				window.editor.setPosition({
+				window.editor.setPosition( {
 					lineNumber: editorPosition.lineNumber,
-					column: editorPosition.column
-				});
+					column: editorPosition.column,
+				} );
 				window.editor.focus();
 			}
 			checkCount++;
@@ -221,6 +226,7 @@ loader.init().then( monaco => {
 	};
 
 	// Get cursor position info for the editor.
+	// eslint-disable-next-line no-shadow
 	const getEditorPosition = ( textarea ) => {
 		const linesContent = textarea.value.split( '\n' );
 
@@ -231,14 +237,14 @@ loader.init().then( monaco => {
 		for ( let i = 0; i < linesContent.length; i++ ) {
 			lineNumber = i + 1;
 
-			if ( 0 >= selectionStart - linesContent[i].length ) {
+			if ( 0 >= selectionStart - linesContent[ i ].length ) {
 				column = selectionStart - i + 1;
 				break;
-			} else if ( 0 == selectionStart - linesContent[i].length - i ) {
+			} else if ( 0 === selectionStart - linesContent[ i ].length - i ) {
 				column = selectionStart - i + 1;
 				break;
 			} else {
-				selectionStart -= linesContent[i].length;
+				selectionStart -= linesContent[ i ].length;
 			}
 		}
 
@@ -249,34 +255,35 @@ loader.init().then( monaco => {
 	const runObserve = () => {
 		const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 		if ( MutationObserver ) {
-			new MutationObserver( function() {
-				const mediaInsertButtons = Array.from( document.getElementsByClassName( 'media-button-insert' ) );
+			new MutationObserver( function () {
+				const mediaInsertButtons = Array.from(
+					document.getElementsByClassName( 'media-button-insert' )
+				);
 				if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
-					mediaInsertButtons.forEach( function( button ) {
+					mediaInsertButtons.forEach( function ( button ) {
 						button.removeEventListener( 'mouseup', syncTextareaToEditor );
 						button.addEventListener( 'mouseup', syncTextareaToEditor );
 						button.removeEventListener( 'keydown', syncTextareaToEditor );
 						button.addEventListener( 'keydown', syncTextareaToEditor );
-					});
+					} );
 				}
-			})
-			.observe( document.documentElement, {
+			} ).observe( document.documentElement, {
 				childList: true,
-				subtree: true
-			});
+				subtree: true,
+			} );
 		}
 	};
 
 	// Switch to visual edit mode.
 	const toVisual = () => {
 		if ( isMonacoEditorEnabled ) {
-			monaco.editor.getModels().forEach( model => model.dispose() );
+			monaco.editor.getModels().forEach( ( model ) => model.dispose() );
 			document.getElementById( 'monaco-editor-container' ).remove();
 			tabHtml.onclick = toHtml;
-			syncTriggers.forEach( function( button ) {
+			syncTriggers.forEach( function ( button ) {
 				button.removeEventListener( 'mouseup', syncTextareaToEditor );
 				button.removeEventListener( 'keydown', syncTextareaToEditor );
-			});
+			} );
 			window.removeEventListener( 'resize', onWindowResize );
 			isMonacoEditorEnabled = false;
 		}
@@ -317,4 +324,4 @@ loader.init().then( monaco => {
 		replaceIndentButton.style.display = 'inline-block';
 		tabTmce.onclick = toVisual;
 	}
-});
+} );

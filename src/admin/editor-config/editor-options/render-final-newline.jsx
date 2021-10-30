@@ -10,34 +10,35 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const RenderFinalNewline = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			renderFinalNewline: value
-		});
+			renderFinalNewline: value,
+		} );
 	};
 
 	return (
 		<PanelRow>
 			<ToggleControl
-				label={ __( 'Render last line number when the file ends with a newline', 'custom-html-block-extension' ) }
+				label={ __(
+					'Render last line number when the file ends with a newline',
+					'custom-html-block-extension'
+				) }
 				checked={ editorOptions.renderFinalNewline }
 				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal
-					title={ __( 'Render last line number when the file ends with a newline', 'custom-html-block-extension' ) }
+					title={ __(
+						'Render last line number when the file ends with a newline',
+						'custom-html-block-extension'
+					) }
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
@@ -50,10 +51,13 @@ const RenderFinalNewline = () => {
 								onClick={ () => {
 									handleChange( true );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-final-newline_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-final-newline_1.jpg'
+									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -66,17 +70,20 @@ const RenderFinalNewline = () => {
 								onClick={ () => {
 									handleChange( false );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-final-newline_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-final-newline_2.jpg'
+									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

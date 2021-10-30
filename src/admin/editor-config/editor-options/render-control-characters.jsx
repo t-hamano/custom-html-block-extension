@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const RenderControlCharacters = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			renderControlCharacters: value
-		});
+			renderControlCharacters: value,
+		} );
 	};
 
 	return (
@@ -50,10 +45,13 @@ const RenderControlCharacters = () => {
 								onClick={ () => {
 									handleChange( true );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-control-characters_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-control-characters_1.jpg'
+									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -66,17 +64,20 @@ const RenderControlCharacters = () => {
 								onClick={ () => {
 									handleChange( false );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/render-control-characters_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/render-control-characters_2.jpg'
+									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

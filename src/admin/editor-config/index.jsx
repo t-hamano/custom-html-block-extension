@@ -15,17 +15,9 @@ import * as EditorOptions from 'admin/editor-config/editor-options';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
-import {
-	createContext,
-	useContext,
-	useState
-} from '@wordpress/element';
+import { createContext, useContext, useState } from '@wordpress/element';
 
-import {
-	PanelBody,
-	Button,
-	Disabled
-} from '@wordpress/components';
+import { PanelBody, Button, Disabled } from '@wordpress/components';
 
 /**
  * Context
@@ -33,62 +25,62 @@ import {
 export const EditorConfigContext = createContext();
 
 const EditorConfig = () => {
-
 	const {
 		isWaiting,
 		editorSettings,
 		editorOptions,
 		setIsWaiting,
 		setEditorOptions,
-		setEditorSettings
+		setEditorSettings,
 	} = useContext( AdminContext );
 
 	const [ isEditorDisabled, setIsEditorDisabled ] = useState( false );
 	const [ editorMode, setEditorMode ] = useState( 'basic' );
-	const [ fontWeights, setFontWeights ] = useState([ 300 ]);
+	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
 
 	// Update editor config.
 	const handleUpdateOptions = () => {
 		setIsWaiting( true );
 
-		apiFetch({
+		apiFetch( {
 			path: '/custom-html-block-extension/v1/update_editor_config',
 			method: 'POST',
 			data: {
-				editorSettings: editorSettings,
-				editorOptions: editorOptions
-			}
-		}).then( ( response ) => {
+				editorSettings,
+				editorOptions,
+			},
+		} ).then( ( response ) => {
 			setTimeout( () => {
 				addNotification( response.message, response.success ? 'success' : 'danger' );
 				setIsWaiting( false );
 			}, 600 );
-		});
+		} );
 	};
 
 	// Reset editor config.
 	const handleResetOptions = () => {
 		setIsWaiting( true );
 
-		apiFetch({
+		apiFetch( {
 			path: '/custom-html-block-extension/v1/delete_editor_config',
-			method: 'POST'
-		}).then( ( response ) => {
-
+			method: 'POST',
+		} ).then( ( response ) => {
 			// Sets default editor config.
 			setEditorSettings( response.editorSettings );
 			setEditorOptions( response.editorOptions );
 
 			setTimeout( () => {
-				addNotification( __( 'Settings have been reset.', 'custom-html-block-extension' ), 'success' );
+				addNotification(
+					__( 'Settings have been reset.', 'custom-html-block-extension' ),
+					'success'
+				);
 				setIsWaiting( false );
 			}, 600 );
-		});
+		} );
 	};
 
 	// Refresh editor.
 	const refreshEditor = () => {
-
 		// Some options are not reflected when the state is changed.
 		// So disable the editor for a moment by Disabled component as a workaround.
 		setIsEditorDisabled( true );
@@ -101,23 +93,17 @@ const EditorConfig = () => {
 		<div className="chbe-config">
 			<div className="chbe-config__preview">
 				<h2>{ __( 'Preview', 'custom-html-block-extension' ) }</h2>
-				<MonacoEditor
-					isEditorDisabled={ isEditorDisabled }
-					setFontWeights={ setFontWeights }
-				/>
+				<MonacoEditor isEditorDisabled={ isEditorDisabled } setFontWeights={ setFontWeights } />
 				<ButtonMenu
-					isWaiting= { isWaiting }
+					isWaiting={ isWaiting }
 					handleUpdateOptions={ handleUpdateOptions }
 					handleResetOptions={ handleResetOptions }
 				/>
 			</div>
 			<div className="chbe-config__settings">
-				<Mode
-					editorMode={ editorMode }
-					setEditorMode={ setEditorMode }
-				/>
+				<Mode editorMode={ editorMode } setEditorMode={ setEditorMode } />
 				<div className={ 'chbe-config__controls chbe-config__controls--' + editorMode }>
-					<EditorConfigContext.Provider value={{ refreshEditor }}>
+					<EditorConfigContext.Provider value={ { refreshEditor } }>
 						{ 'basic' === editorMode && (
 							<>
 								<EditorSettings.Theme />
@@ -134,7 +120,7 @@ const EditorConfig = () => {
 								<EditorOptions.AutoIndent />
 								<EditorOptions.QuickSuggestions />
 							</>
-						)}
+						) }
 						{ 'advanced' === editorMode && (
 							<>
 								<PanelBody
@@ -172,14 +158,14 @@ const EditorConfig = () => {
 										</Disabled>
 									) : (
 										<EditorOptions.WordWrapColumn />
-									)}
+									) }
 									{ 'off' === editorOptions.wordWrap ? (
 										<Disabled>
 											<EditorOptions.WrappingIndent />
 										</Disabled>
 									) : (
 										<EditorOptions.WrappingIndent />
-									)}
+									) }
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Minimap', 'custom-html-block-extension' ) }
@@ -204,7 +190,7 @@ const EditorConfig = () => {
 											<EditorOptions.MinimapSize />
 											<EditorOptions.MinimapRenderCharacters />
 										</>
-									)}
+									) }
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Cursor', 'custom-html-block-extension' ) }
@@ -217,7 +203,7 @@ const EditorConfig = () => {
 										</Disabled>
 									) : (
 										<EditorOptions.CursorWidth />
-									)}
+									) }
 									<EditorOptions.CursorBlinking />
 									<EditorOptions.CursorSurroundingLines />
 									<EditorOptions.CursorSurroundingLinesStyle />
@@ -244,7 +230,7 @@ const EditorConfig = () => {
 											<EditorOptions.FoldingHighlight />
 											<EditorOptions.UnfoldOnClickAfterEndOfLine />
 										</>
-									)}
+									) }
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Line Number', 'custom-html-block-extension' ) }
@@ -263,7 +249,7 @@ const EditorConfig = () => {
 											<EditorOptions.SelectOnLineNumbers />
 											<EditorOptions.RenderFinalNewline />
 										</>
-									)}
+									) }
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Suggest', 'custom-html-block-extension' ) }
@@ -286,7 +272,7 @@ const EditorConfig = () => {
 											<EditorOptions.SuggestLineHeight />
 											<EditorOptions.SuggestShowIcons />
 										</>
-									)}
+									) }
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Auto Completion', 'custom-html-block-extension' ) }
@@ -339,7 +325,7 @@ const EditorConfig = () => {
 										</Disabled>
 									) : (
 										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
-									)}
+									) }
 									<EditorOptions.RenderIndentGuides />
 									{ ! editorOptions.renderIndentGuides ? (
 										<Disabled>
@@ -347,7 +333,7 @@ const EditorConfig = () => {
 										</Disabled>
 									) : (
 										<EditorOptions.HighlightActiveIndentGuide />
-									)}
+									) }
 									<EditorOptions.RenderControlCharacters />
 									<EditorOptions.Rulers />
 								</PanelBody>
@@ -369,7 +355,7 @@ const EditorConfig = () => {
 										<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
 										<EditorOptions.ScrollbarScrollByPage />
 										<EditorOptions.ScrollbarHorizontal />
-										{  'hidden' === editorOptions.scrollbar.horizontal ? (
+										{ 'hidden' === editorOptions.scrollbar.horizontal ? (
 											<Disabled>
 												<EditorOptions.ScrollbarHorizontalHasArrows />
 												<EditorOptions.ScrollbarHorizontalScrollbarSize />
@@ -379,7 +365,7 @@ const EditorConfig = () => {
 												<EditorOptions.ScrollbarHorizontalHasArrows />
 												<EditorOptions.ScrollbarHorizontalScrollbarSize />
 											</>
-										)}
+										) }
 										<EditorOptions.ScrollbarVertical />
 										{ 'hidden' === editorOptions.scrollbar.vertical ? (
 											<Disabled>
@@ -391,20 +377,24 @@ const EditorConfig = () => {
 												<EditorOptions.ScrollbarVerticalHasArrows />
 												<EditorOptions.ScrollbarVerticalScrollbarSize />
 											</>
-										)}
-										{ ! editorOptions.scrollbar.horizontalHasArrows && ! editorOptions.scrollbar.verticalHasArrows || 'hidden' === editorOptions.scrollbar.horizontal && 'hidden' === editorOptions.scrollbar.vertical ? (
+										) }
+										{ ( ! editorOptions.scrollbar.horizontalHasArrows &&
+											! editorOptions.scrollbar.verticalHasArrows ) ||
+										( 'hidden' === editorOptions.scrollbar.horizontal &&
+											'hidden' === editorOptions.scrollbar.vertical ) ? (
 											<Disabled>
 												<EditorOptions.ScrollbarArrowSize />
 											</Disabled>
 										) : (
 											<EditorOptions.ScrollbarArrowSize />
-										)}
-										<p>{ __( 'Settings in this group will be reflected in the preview area when you press the refresh editor button.', 'custom-html-block-extension' ) }</p>
-										<Button
-											isPrimary
-											disabled={ isEditorDisabled }
-											onClick={ refreshEditor }
-										>
+										) }
+										<p>
+											{ __(
+												'Settings in this group will be reflected in the preview area when you press the refresh editor button.',
+												'custom-html-block-extension'
+											) }
+										</p>
+										<Button isPrimary disabled={ isEditorDisabled } onClick={ refreshEditor }>
 											{ __( 'Refresh editor', 'custom-html-block-extension' ) }
 										</Button>
 									</div>
@@ -427,4 +417,3 @@ const EditorConfig = () => {
 };
 
 export default EditorConfig;
-

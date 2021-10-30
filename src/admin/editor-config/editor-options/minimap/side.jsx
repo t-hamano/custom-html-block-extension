@@ -10,26 +10,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	BaseControl,
-	ButtonGroup,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, BaseControl, ButtonGroup, Button, Modal } from '@wordpress/components';
 
 const Minimap = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				side: value
-			}
-		});
+				side: value,
+			},
+		} );
 	};
 
 	return (
@@ -68,10 +62,13 @@ const Minimap = () => {
 								onClick={ () => {
 									handleChange( 'left' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/minimap/side_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/minimap/side_1.jpg'
+									}
 									alt={ __( 'Left', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -84,17 +81,20 @@ const Minimap = () => {
 								onClick={ () => {
 									handleChange( 'right' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/minimap/side_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/minimap/side_2.jpg'
+									}
 									alt={ __( 'Right (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

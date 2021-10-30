@@ -16,10 +16,10 @@ const LetterSpacing = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			letterSpacing: value ? toNumber( value, -2, 2 ) : 0
-		});
+			letterSpacing: value ? toNumber( value, -2, 2 ) : 0,
+		} );
 	};
 
 	return (

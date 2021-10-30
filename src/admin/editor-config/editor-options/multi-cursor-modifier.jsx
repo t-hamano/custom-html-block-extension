@@ -10,23 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	BaseControl,
-	ButtonGroup,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, BaseControl, ButtonGroup, Button, Modal } from '@wordpress/components';
 
 const MultiCursorModifier = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			multiCursorModifier: value
-		});
+			multiCursorModifier: value,
+		} );
 	};
 
 	return (
@@ -56,13 +50,21 @@ const MultiCursorModifier = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'You can use multiple cursors for faster editing. Sets the key for applying multiple cursors with modifier key + Click.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'You can use multiple cursors for faster editing. Sets the key for applying multiple cursors with modifier key + Click.',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/multi-cursor-modifier.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/multi-cursor-modifier.gif'
+						}
 						alt={ __( 'Multi cursor modifier key', 'custom-html-block-extension' ) }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

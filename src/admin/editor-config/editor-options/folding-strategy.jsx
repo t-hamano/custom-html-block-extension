@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const FoldingStrategy = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			foldingStrategy: value
-		});
+			foldingStrategy: value,
+		} );
 	};
 
 	return (
@@ -35,7 +30,10 @@ const FoldingStrategy = () => {
 				value={ editorOptions.foldingStrategy }
 				options={ [
 					{ label: __( 'Depends on documentation', 'custom-html-block-extension' ), value: 'auto' },
-					{ label: __( 'Depends on indentation', 'custom-html-block-extension' ), value: 'indentation' }
+					{
+						label: __( 'Depends on indentation', 'custom-html-block-extension' ),
+						value: 'indentation',
+					},
 				] }
 				onChange={ handleChange }
 			/>
@@ -54,14 +52,22 @@ const FoldingStrategy = () => {
 								onClick={ () => {
 									handleChange( 'auto' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/folding-strategy_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/folding-strategy_1.gif'
+									}
 									alt={ __( 'Depends on documentation (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
-							<p>{ __( 'This is effective for folding code that is not indented correctly.', 'custom-html-block-extension' ) }</p>
+							<p>
+								{ __(
+									'This is effective for folding code that is not indented correctly.',
+									'custom-html-block-extension'
+								) }
+							</p>
 						</div>
 						<div className="chbe-modal__col">
 							<h3>{ __( 'Depends on indentation', 'custom-html-block-extension' ) }</h3>
@@ -71,17 +77,20 @@ const FoldingStrategy = () => {
 								onClick={ () => {
 									handleChange( 'indentation' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/folding-strategy_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/folding-strategy_2.gif'
+									}
 									alt={ __( 'Depends on indentation', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

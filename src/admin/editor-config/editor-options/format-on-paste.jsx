@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const FormatOnPaste = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			formatOnPaste: value
-		});
+			formatOnPaste: value,
+		} );
 	};
 
 	return (
@@ -50,10 +45,13 @@ const FormatOnPaste = () => {
 								onClick={ () => {
 									handleChange( 'always' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
-									<img
-								src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/format-on-paste_1.gif' }
+								<img
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/format-on-paste_1.gif'
+									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -66,17 +64,20 @@ const FormatOnPaste = () => {
 								onClick={ () => {
 									handleChange( 'always' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/format-on-paste_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/format-on-paste_2.gif'
+									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

@@ -11,25 +11,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	RangeControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, RangeControl, Button, Modal } from '@wordpress/components';
 
 const MaxColumn = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				maxColumn: value ? toNumber( value, 10, 60 ) : 60
-			}
-		});
+				maxColumn: value ? toNumber( value, 10, 60 ) : 60,
+			},
+		} );
 	};
 
 	return (
@@ -49,11 +44,14 @@ const MaxColumn = () => {
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/minimap/max-column.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/minimap/max-column.gif'
+						}
 						alt={ __( 'Width', 'custom-html-block-extension' ) }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

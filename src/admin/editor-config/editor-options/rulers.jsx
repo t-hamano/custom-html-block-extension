@@ -11,29 +11,24 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	RangeControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, RangeControl, Button, Modal } from '@wordpress/components';
 
 const Rulers = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
-	const handleChange = ( value ) =>{
-		setEditorOptions({
+	const handleChange = ( value ) => {
+		setEditorOptions( {
 			...editorOptions,
-			rulers: ( 0 < value ) ? [ toNumber( value, 1, 80 ) ] : []
-		});
+			rulers: 0 < value ? [ toNumber( value, 1, 80 ) ] : [],
+		} );
 	};
 
 	return (
 		<PanelRow>
 			<RangeControl
 				label={ __( 'Vertical line position', 'custom-html-block-extension' ) }
-				value={ editorOptions.rulers.length ? editorOptions.rulers[0] : 0 }
+				value={ editorOptions.rulers.length ? editorOptions.rulers[ 0 ] : 0 }
 				min="0"
 				max="80"
 				allowReset
@@ -45,13 +40,20 @@ const Rulers = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Vertical line will be displayed if a value greater than 0 is set.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'Vertical line will be displayed if a value greater than 0 is set.',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/rulers.gif' }
+						src={
+							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/rulers.gif'
+						}
 						alt={ __( 'Vertical line position', 'custom-html-block-extension' ) }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

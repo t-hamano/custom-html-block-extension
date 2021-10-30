@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const MatchBrackets = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			matchBrackets: value
-		});
+			matchBrackets: value,
+		} );
 	};
 
 	return (
@@ -36,7 +31,10 @@ const MatchBrackets = () => {
 				options={ [
 					{ label: __( 'Always', 'custom-html-block-extension' ), value: 'always' },
 					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' },
-					{ label: __( 'Only when the cursor is near the bracket', 'custom-html-block-extension' ), value: 'near' }
+					{
+						label: __( 'Only when the cursor is near the bracket', 'custom-html-block-extension' ),
+						value: 'near',
+					},
 				] }
 				onChange={ handleChange }
 			/>
@@ -55,10 +53,13 @@ const MatchBrackets = () => {
 								onClick={ () => {
 									handleChange( 'always' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/match-brackets_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/match-brackets_1.gif'
+									}
 									alt={ __( 'Always (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -71,33 +72,44 @@ const MatchBrackets = () => {
 								onClick={ () => {
 									handleChange( 'never' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/match-brackets_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/match-brackets_2.gif'
+									}
 									alt={ __( 'Never', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 						<div className="chbe-modal__col">
-							<h3>{ __( 'Only when the cursor is near the bracket', 'custom-html-block-extension' ) }</h3>
+							<h3>
+								{ __( 'Only when the cursor is near the bracket', 'custom-html-block-extension' ) }
+							</h3>
 							<Button
 								isPrimary={ 'near' === editorOptions.matchBrackets }
 								isTertiary={ 'near' !== editorOptions.matchBrackets }
 								onClick={ () => {
 									handleChange( 'near' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/match-brackets_3.gif' }
-									alt={ __( 'Only when the cursor is near the bracket', 'custom-html-block-extension' ) }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/match-brackets_3.gif'
+									}
+									alt={ __(
+										'Only when the cursor is near the bracket',
+										'custom-html-block-extension'
+									) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

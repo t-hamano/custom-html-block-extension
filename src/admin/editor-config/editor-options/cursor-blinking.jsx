@@ -10,22 +10,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const CursorBlinking = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			cursorBlinking: value
-		});
+			cursorBlinking: value,
+		} );
 	};
 
 	return (
@@ -38,7 +33,7 @@ const CursorBlinking = () => {
 					{ label: __( 'Smooth', 'custom-html-block-extension' ), value: 'smooth' },
 					{ label: __( 'Phase', 'custom-html-block-extension' ), value: 'phase' },
 					{ label: __( 'Expand', 'custom-html-block-extension' ), value: 'expand' },
-					{ label: __( 'Solid', 'custom-html-block-extension' ), value: 'solid' }
+					{ label: __( 'Solid', 'custom-html-block-extension' ), value: 'solid' },
 				] }
 				onChange={ handleChange }
 			/>
@@ -57,10 +52,13 @@ const CursorBlinking = () => {
 								onClick={ () => {
 									handleChange( 'blink' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-blinking_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-blinking_1.gif'
+									}
 									alt={ __( 'Blink (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -73,10 +71,13 @@ const CursorBlinking = () => {
 								onClick={ () => {
 									handleChange( 'smooth' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-blinking_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-blinking_2.gif'
+									}
 									alt={ __( 'Smooth', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -89,10 +90,13 @@ const CursorBlinking = () => {
 								onClick={ () => {
 									handleChange( 'phase' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-blinking_3.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-blinking_3.gif'
+									}
 									alt={ __( 'Phase', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -105,10 +109,13 @@ const CursorBlinking = () => {
 								onClick={ () => {
 									handleChange( 'expand' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-blinking_4.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-blinking_4.gif'
+									}
 									alt={ __( 'Expand', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -121,17 +128,20 @@ const CursorBlinking = () => {
 								onClick={ () => {
 									handleChange( 'solid' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-blinking_5.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-blinking_5.jpg'
+									}
 									alt={ __( 'Solid', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

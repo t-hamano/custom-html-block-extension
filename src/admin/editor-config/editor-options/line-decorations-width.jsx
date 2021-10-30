@@ -11,22 +11,17 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	RangeControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, RangeControl, Button, Modal } from '@wordpress/components';
 
 const LineDecorationsWidth = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			lineDecorationsWidth: value ? toNumber( value, 0, 30 ) : 0
-		});
+			lineDecorationsWidth: value ? toNumber( value, 0, 30 ) : 0,
+		} );
 	};
 
 	return (
@@ -46,11 +41,14 @@ const LineDecorationsWidth = () => {
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/line-decorations-width.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/line-decorations-width.gif'
+						}
 						alt={ __( 'Folding area width (px)', 'custom-html-block-extension' ) }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

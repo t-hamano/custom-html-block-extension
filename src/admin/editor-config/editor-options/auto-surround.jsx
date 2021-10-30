@@ -10,40 +10,44 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	SelectControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, SelectControl, Button, Modal } from '@wordpress/components';
 
 const AutoSurround = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			autoSurround: value
-		});
+			autoSurround: value,
+		} );
 	};
 
 	return (
 		<PanelRow>
 			<SelectControl
-				label={ __( 'Automatically surround selection with quotes or brackets', 'custom-html-block-extension' ) }
+				label={ __(
+					'Automatically surround selection with quotes or brackets',
+					'custom-html-block-extension'
+				) }
 				value={ editorOptions.autoSurround }
 				options={ [
-					{ label: __( 'Quotes and brackets', 'custom-html-block-extension' ), value: 'languageDefined' },
+					{
+						label: __( 'Quotes and brackets', 'custom-html-block-extension' ),
+						value: 'languageDefined',
+					},
 					{ label: __( 'Quotes only', 'custom-html-block-extension' ), value: 'quotes' },
 					{ label: __( 'Brackets only', 'custom-html-block-extension' ), value: 'brackets' },
-					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' }
+					{ label: __( 'Never', 'custom-html-block-extension' ), value: 'never' },
 				] }
 				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal
-					title={ __( 'Automatically surround selection with quotes or brackets', 'custom-html-block-extension' ) }
+					title={ __(
+						'Automatically surround selection with quotes or brackets',
+						'custom-html-block-extension'
+					) }
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
@@ -56,10 +60,13 @@ const AutoSurround = () => {
 								onClick={ () => {
 									handleChange( 'languageDefined' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-surround_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-surround_1.gif'
+									}
 									alt={ __( 'Quotes and brackets (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -72,10 +79,13 @@ const AutoSurround = () => {
 								onClick={ () => {
 									handleChange( 'quotes' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-surround_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-surround_2.gif'
+									}
 									alt={ __( 'Quotes only', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -90,10 +100,13 @@ const AutoSurround = () => {
 								onClick={ () => {
 									handleChange( 'brackets' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-surround_3.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-surround_3.gif'
+									}
 									alt={ __( 'Brackets only', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -106,17 +119,20 @@ const AutoSurround = () => {
 								onClick={ () => {
 									handleChange( 'never' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/auto-surround_4.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/auto-surround_4.gif'
+									}
 									alt={ __( 'Never', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

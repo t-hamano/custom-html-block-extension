@@ -7,26 +7,21 @@ import { toNumber } from 'admin/common/helper';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	RangeControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, RangeControl, Button, Modal } from '@wordpress/components';
 
 const QuickSuggestionsDelay = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			quickSuggestionsDelay: value ? toNumber( value, 0, 1000 ) : 10
-		});
+			quickSuggestionsDelay: value ? toNumber( value, 0, 1000 ) : 10,
+		} );
 	};
 
 	return (
@@ -47,22 +42,48 @@ const QuickSuggestionsDelay = () => {
 				>
 					<div className="chbe-modal__row">
 						<div className="chbe-modal__col">
-							<h3>{ sprintf( __( 'Example: Set the value to %s', 'custom-html-block-extension' ), 0 ) }</h3>
+							<h3>
+								{ sprintf(
+									/* translators: %d is replaced with the number of time. */
+									__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+									0
+								) }
+							</h3>
 							<img
-								src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/quick-suggestions-delay_1.gif' }
-								alt={ sprintf( __( 'Example: Set the value to %s', 'custom-html-block-extension' ), 0 ) }
+								src={
+									chbeObj.assetPath +
+									'/assets/images/admin/editor-config/editor-options/quick-suggestions-delay_1.gif'
+								}
+								alt={ sprintf(
+									/* translators: %d is replaced with the number of time. */
+									__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+									0
+								) }
 							/>
 						</div>
 						<div className="chbe-modal__col">
-							<h3>{ sprintf( __( 'Example: Set the value to %s', 'custom-html-block-extension' ), 1000 ) }</h3>
+							<h3>
+								{ sprintf(
+									/* translators: %d is replaced with the number of time. */
+									__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+									1000
+								) }
+							</h3>
 							<img
-								src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/quick-suggestions-delay_2.gif' }
-								alt={ sprintf( __( 'Example: Set the value to %s', 'custom-html-block-extension' ), 1000 ) }
+								src={
+									chbeObj.assetPath +
+									'/assets/images/admin/editor-config/editor-options/quick-suggestions-delay_2.gif'
+								}
+								alt={ sprintf(
+									/* translators: %d is replaced with the number of time. */
+									__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+									1000
+								) }
 							/>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

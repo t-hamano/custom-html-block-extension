@@ -10,34 +10,35 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const CursorSurroundingLinesStyle = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			cursorSurroundingLinesStyle: !! value ? 'all' : 'default'
-		});
+			cursorSurroundingLinesStyle: !! value ? 'all' : 'default',
+		} );
 	};
 
 	return (
 		<PanelRow>
 			<ToggleControl
-				label={ __( 'Keep lines before and after the cursor even when the cursor is moved by mouse click', 'custom-html-block-extension' ) }
+				label={ __(
+					'Keep lines before and after the cursor even when the cursor is moved by mouse click',
+					'custom-html-block-extension'
+				) }
 				checked={ 'all' === editorOptions.cursorSurroundingLinesStyle }
 				onChange={ handleChange }
 			/>
 			{ isModalOpen && (
 				<Modal
-					title={ __( 'Keep lines before and after the cursor even when the cursor is moved by mouse click', 'custom-html-block-extension' ) }
+					title={ __(
+						'Keep lines before and after the cursor even when the cursor is moved by mouse click',
+						'custom-html-block-extension'
+					) }
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
@@ -50,10 +51,13 @@ const CursorSurroundingLinesStyle = () => {
 								onClick={ () => {
 									handleChange( 'all' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-surrounding-lines-style_1.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-surrounding-lines-style_1.gif'
+									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -66,17 +70,20 @@ const CursorSurroundingLinesStyle = () => {
 								onClick={ () => {
 									handleChange( 'default' );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/cursor-surrounding-lines-style_2.gif' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/cursor-surrounding-lines-style_2.gif'
+									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

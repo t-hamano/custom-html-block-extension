@@ -7,6 +7,7 @@ import classnames from 'classnames';
 /**
  * Internal dependencies
  */
+import './style.scss';
 import Loading from 'admin/common/loading';
 import { htmlCode } from 'admin/common/example-code';
 import BlockIcon from 'common/block-icon';
@@ -22,11 +23,7 @@ import Options from 'admin/options';
 import { __ } from '@wordpress/i18n';
 import { TabPanel } from '@wordpress/components';
 
-import {
-	render,
-	createContext,
-	useState
-} from '@wordpress/element';
+import { render, createContext, useState } from '@wordpress/element';
 
 /**
  * Context
@@ -34,29 +31,35 @@ import {
 export const AdminContext = createContext();
 
 const Admin = () => {
-
 	const [ isWaiting, setIsWaiting ] = useState( false );
-	const [ editorSettings, setEditorSettings ] = useState({
+	const [ editorSettings, setEditorSettings ] = useState( {
 		theme: chbeObj.editorSettings.theme,
 		tabSize: chbeObj.editorSettings.tabSize,
 		insertSpaces: chbeObj.editorSettings.insertSpaces,
-		emmet: chbeObj.editorSettings.emmet
-	});
+		emmet: chbeObj.editorSettings.emmet,
+	} );
 	const [ editorOptions, setEditorOptions ] = useState( chbeObj.editorOptions );
 	const [ options, setOptions ] = useState( chbeObj.options );
 	const [ code, setCode ] = useState( htmlCode );
 
 	return (
 		<>
-			{ isWaiting && ( <Loading /> )}
-			<div className={ classnames( 'chbe-wrap', { 'chbe-wrap--is-waiting': isWaiting }) }>
+			{ isWaiting && <Loading /> }
+			<div className={ classnames( 'chbe-wrap', { 'chbe-wrap--is-waiting': isWaiting } ) }>
 				<ReactNotification />
 				<header className="chbe-header">
 					<div className="chbe-container">
-						<h1 className="chbe-header__ttl">{ BlockIcon }{ __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) }</h1>
+						<h1 className="chbe-header__ttl">
+							{ BlockIcon }
+							{ __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) }
+						</h1>
 						<ul className="chbe-header__info">
-							<li className="chbe-header__info-item"><WelcomeGuide /></li>
-							<li className="chbe-header__info-item"><Shortcut /></li>
+							<li className="chbe-header__info-item">
+								<WelcomeGuide />
+							</li>
+							<li className="chbe-header__info-item">
+								<Shortcut />
+							</li>
 						</ul>
 					</div>
 				</header>
@@ -65,22 +68,22 @@ const Admin = () => {
 					tabs={ [
 						{
 							name: 'editor-config',
-							title: __( 'Editor Config', 'custom-html-block-extension' )
+							title: __( 'Editor Config', 'custom-html-block-extension' ),
 						},
 						{
 							name: 'tools',
-							title: __( 'Tools', 'custom-html-block-extension' )
+							title: __( 'Tools', 'custom-html-block-extension' ),
 						},
 						{
 							name: 'options',
-							title: __( 'Options', 'custom-html-block-extension' )
-						}
+							title: __( 'Options', 'custom-html-block-extension' ),
+						},
 					] }
 				>
 					{ ( tab ) => (
 						<div className="chbe-container">
 							<AdminContext.Provider
-								value={{
+								value={ {
 									code,
 									isWaiting,
 									editorSettings,
@@ -90,28 +93,19 @@ const Admin = () => {
 									setIsWaiting,
 									setEditorOptions,
 									setEditorSettings,
-									setOptions
-								}}
+									setOptions,
+								} }
 							>
-								{ 'editor-config' === tab.name && (
-									<EditorConfig />
-								)}
-								{ 'tools' === tab.name && (
-									<Tools />
-								)}
-								{ 'options' === tab.name && (
-									<Options />
-								)}
+								{ 'editor-config' === tab.name && <EditorConfig /> }
+								{ 'tools' === tab.name && <Tools /> }
+								{ 'options' === tab.name && <Options /> }
 							</AdminContext.Provider>
 						</div>
-					)}
+					) }
 				</TabPanel>
 			</div>
 		</>
 	);
 };
 
-render(
-	<Admin />,
-	document.getElementById( 'custom-html-block-extension-admin' )
-);
+render( <Admin />, document.getElementById( 'custom-html-block-extension-admin' ) );

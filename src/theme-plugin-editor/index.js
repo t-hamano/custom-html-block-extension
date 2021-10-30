@@ -8,14 +8,14 @@ import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
 /**
  * Internal dependencies
  */
+import './style.scss';
 import themes from 'themes';
 
-loader.init().then( monaco => {
+loader.init().then( ( monaco ) => {
 	const textarea = document.getElementById( 'newcontent' );
 
 	// Setting up the monaco editor.
 	const runEditor = () => {
-
 		// Generate an element to apply the monaco editor.
 		const monacoEditorContainer = document.createElement( 'div' );
 		monacoEditorContainer.setAttribute( 'id', 'monaco-editor-container' );
@@ -27,25 +27,21 @@ loader.init().then( monaco => {
 			value: textarea.value,
 			language: chbeObj.language,
 			automaticLayout: true,
-			...chbeObj.editorOptions
+			...chbeObj.editorOptions,
 		};
 
 		// Create monaco editor.
-		window.editor = monaco.editor.create(
-			monacoEditorContainer,
-			properties,
-		);
+		window.editor = monaco.editor.create( monacoEditorContainer, properties );
 
 		// Event emitted when the contents of the editor have changed.
 		window.editor.getModel().onDidChangeContent( () => {
-
 			// Apply changes in the editor to the original textarea.
 			const editorValue = window.editor.getModel().getValue();
 			if ( textarea.value === editorValue ) {
 				return;
 			}
 			textarea.value = editorValue;
-		});
+		} );
 
 		// Enable Emmet.
 		if ( chbeObj.editorSettings.emmet ) {
@@ -65,37 +61,38 @@ loader.init().then( monaco => {
 			}
 		}
 
-		window.editor.getModel().updateOptions({
+		window.editor.getModel().updateOptions( {
 			tabSize: chbeObj.editorSettings.tabSize,
-			insertSpaces: chbeObj.editorSettings.insertSpaces
-		});
+			insertSpaces: chbeObj.editorSettings.insertSpaces,
+		} );
 
 		// Load webfont.
-		const font = chbeObj.fontFamily.find( ( data ) => chbeObj.editorOptions.fontFamily === data.name );
+		const font = chbeObj.fontFamily.find(
+			( data ) => chbeObj.editorOptions.fontFamily === data.name
+		);
 
 		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
 				custom: {
-					families: [ font.name ]
-				}
+					families: [ font.name ],
+				},
 			};
 
 			if ( 'stylesheet' in font ) {
 				webfontConfig.custom.urls = [ font.stylesheet ];
 			}
 
-			webfontloader.load({
+			webfontloader.load( {
 				timeout: 2000,
 				...webfontConfig,
 				active: () => {
-
 					// Adjust the position of the cursor and space.
 					monaco.editor.remeasureFonts();
-				}
-			});
+				},
+			} );
 		}
 	};
 
 	// Initialize
 	runEditor();
-});
+} );

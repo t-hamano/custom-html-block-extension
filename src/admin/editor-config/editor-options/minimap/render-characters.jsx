@@ -10,25 +10,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const RenderCharacters = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ imsModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				renderCharacters: value
-			}
-		});
+				renderCharacters: value,
+			},
+		} );
 	};
 
 	return (
@@ -54,10 +49,13 @@ const RenderCharacters = () => {
 								onClick={ () => {
 									handleChange( true );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/minimap/render-characters_1.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/minimap/render-characters_1.jpg'
+									}
 									alt={ __( 'Show characters.', 'custom-html-block-extension' ) }
 								/>
 							</Button>
@@ -71,17 +69,20 @@ const RenderCharacters = () => {
 								onClick={ () => {
 									handleChange( false );
 									setIsModalOpen( false );
-								}}
+								} }
 							>
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/minimap/render-characters_2.jpg' }
+									src={
+										chbeObj.assetPath +
+										'/assets/images/admin/editor-config/editor-options/minimap/render-characters_2.jpg'
+									}
 									alt={ __( 'Show blocks.', 'custom-html-block-extension' ) }
 								/>
 							</Button>
 						</div>
 					</div>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

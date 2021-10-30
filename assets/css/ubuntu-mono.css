@@ -3,7 +3,7 @@
 	font-family: "Ubuntu Mono";
 	font-style: normal;
 	font-stretch: normal;
-	src: url(../../fonts/UbuntuMono-Regular.woff2) format("woff2");
+	src: url(../fonts/UbuntuMono-Regular.woff2) format("woff2");
 }
 
 @font-face {
@@ -11,6 +11,6 @@
 	font-family: "Ubuntu Mono";
 	font-style: normal;
 	font-stretch: normal;
-	src: url(../../fonts/UbuntuMono-Bold.woff2) format("woff2");
+	src: url(../fonts/UbuntuMono-Bold.woff2) format("woff2");
 }
 

@@ -10,25 +10,20 @@ import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 
-import {
-	PanelRow,
-	ToggleControl,
-	Button,
-	Modal
-} from '@wordpress/components';
+import { PanelRow, ToggleControl, Button, Modal } from '@wordpress/components';
 
 const ScrollByPage = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
 			scrollbar: {
 				...editorOptions.scrollbar,
-				scrollByPage: value
-			}
-		});
+				scrollByPage: value,
+			},
+		} );
 	};
 
 	return (
@@ -44,10 +39,18 @@ const ScrollByPage = () => {
 					className="chbe-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<p>{ __( 'Scroll by page when the scroll bar is clicked.', 'custom-html-block-extension' ) }</p>
+					<p>
+						{ __(
+							'Scroll by page when the scroll bar is clicked.',
+							'custom-html-block-extension'
+						) }
+					</p>
 					<p>{ __( 'Defaults to disable.', 'custom-html-block-extension' ) }</p>
 					<img
-						src={ chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/scrollbar/scroll-by-page.gif' }
+						src={
+							chbeObj.assetPath +
+							'/assets/images/admin/editor-config/editor-options/scrollbar/scroll-by-page.gif'
+						}
 						alt={ __( 'Scroll by page', 'custom-html-block-extension' ) }
 					/>
 					<ToggleControl
@@ -55,10 +58,10 @@ const ScrollByPage = () => {
 						onChange={ ( value ) => {
 							handleChange( value );
 							setIsModalOpen( false );
-						}}
+						} }
 					/>
 				</Modal>
-			)}
+			) }
 			<Button
 				className="chbe-help"
 				icon={ info }

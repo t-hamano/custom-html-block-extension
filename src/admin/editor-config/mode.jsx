@@ -1,17 +1,14 @@
 /**
-* WordPress dependencies
-*/
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 
 import {
 	__experimentalRadioGroup as RadioGroup,
-	__experimentalRadio as Radio
+	__experimentalRadio as Radio,
 } from '@wordpress/components';
 
-const Mode = ({
-	editorMode,
-	setEditorMode
-}) => {
+const Mode = ( { editorMode, setEditorMode } ) => {
 	const handleChange = ( value ) => {
 		setEditorMode( value );
 	};

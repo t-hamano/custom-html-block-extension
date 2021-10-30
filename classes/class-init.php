@@ -1,11 +1,11 @@
 <?php
 /**
- * @package custom-html-block-extension
+ * @package Custom_Html_Block_Extension
  * @author Tetsuaki Hamano
  * @license GPL-2.0+
  */
 
-namespace custom_html_block_extension;
+namespace Custom_Html_Block_Extension;
 
 class Init {
 
@@ -17,7 +17,7 @@ class Init {
 		load_plugin_textdomain( CHBE_NAMESPACE, false, dirname( CHBE_BASENAME ) . '/languages' );
 
 		// Uninstallation process
-		register_uninstall_hook( CHBE_BASENAME, 'custom_html_block_extension\Init::plugin_uninstall' );
+		register_uninstall_hook( CHBE_BASENAME, __NAMESPACE__ . '\Init::plugin_uninstall' );
 
 		// Add a link to this plugin settings page in plugin list
 		add_filter( 'plugin_action_links_' . CHBE_BASENAME, array( $this, 'add_action_links' ) );

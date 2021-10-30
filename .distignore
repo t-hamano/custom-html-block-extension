@@ -8,9 +8,7 @@
 .eslintignore
 .eslintrc.js
 .gitignore
-.stylelintignore
 .stylelintrc.js
-.wp-env.json
 .wp-env.json
 composer.json
 composer.lock

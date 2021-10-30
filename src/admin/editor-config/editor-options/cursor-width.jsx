@@ -10,19 +10,16 @@ import { toNumber } from 'admin/common/helper';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
-import {
-	PanelRow,
-	RangeControl
-} from '@wordpress/components';
+import { PanelRow, RangeControl } from '@wordpress/components';
 
-const cursorWidth = () => {
+const CursorWidth = () => {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const handleChange = ( value ) => {
-		setEditorOptions({
+		setEditorOptions( {
 			...editorOptions,
-			cursorWidth: value ? toNumber( value, 2, 10 ) : 2
-		});
+			cursorWidth: value ? toNumber( value, 2, 10 ) : 2,
+		} );
 	};
 
 	return (
@@ -39,4 +36,4 @@ const cursorWidth = () => {
 	);
 };
 
-export default cursorWidth;
+export default CursorWidth;
