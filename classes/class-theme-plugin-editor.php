@@ -1,11 +1,11 @@
 <?php
 /**
- * @package custom-html-block-extension
+ * @package Custom_Html_Block_Extension
  * @author Tetsuaki Hamano
  * @license GPL-2.0+
  */
 
-namespace custom_html_block_extension;
+namespace Custom_Html_Block_Extension;
 
 class ThemePluginEditor {
 
