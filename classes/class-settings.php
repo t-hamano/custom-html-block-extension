@@ -461,37 +461,37 @@ class Settings {
 		array(
 			'label'      => 'Source Code Pro',
 			'name'       => 'Source Code Pro',
-			'stylesheet' => CHBE_URL . '/build/fonts/source-code-pro.css',
+			'stylesheet' => CHBE_URL . '/assets/css/source-code-pro.css',
 			'weight'     => array( 200, 300, 400, 500, 600, 700, 900 ),
 		),
 		array(
 			'label'      => 'Source Code Pro (Italic)',
 			'name'       => 'Source Code Pro Italic',
-			'stylesheet' => CHBE_URL . '/build/fonts/source-code-pro-italic.css',
+			'stylesheet' => CHBE_URL . '/assets/css/source-code-pro-italic.css',
 			'weight'     => array( 200, 300, 400, 500, 600, 700, 900 ),
 		),
 		array(
 			'label'      => 'Ubuntu Mono',
 			'name'       => 'Ubuntu Mono',
-			'stylesheet' => CHBE_URL . '/build/fonts/ubuntu-mono.css',
+			'stylesheet' => CHBE_URL . '/assets/css/ubuntu-mono.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Ubuntu Mono (Italic)',
 			'name'       => 'Ubuntu Mono Italic',
-			'stylesheet' => CHBE_URL . '/build/fonts/ubuntu-mono-italic.css',
+			'stylesheet' => CHBE_URL . '/assets/css/ubuntu-mono-italic.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Anonymous Pro',
 			'name'       => 'Anonymous Pro',
-			'stylesheet' => CHBE_URL . '/build/fonts/anonymous-pro.css',
+			'stylesheet' => CHBE_URL . '/assets/css/anonymous-pro.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Anonymous Pro (Italic)',
 			'name'       => 'Anonymous Pro Italic',
-			'stylesheet' => CHBE_URL . '/build/fonts/anonymous-pro-italic.css',
+			'stylesheet' => CHBE_URL . '/assets/css/anonymous-pro-italic.css',
 			'weight'     => array( 300, 700 ),
 		),
 	);

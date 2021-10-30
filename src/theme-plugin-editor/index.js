@@ -8,6 +8,7 @@ import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
 /**
  * Internal dependencies
  */
+import './style.scss';
 import themes from 'themes';
 
 loader.init().then( ( monaco ) => {

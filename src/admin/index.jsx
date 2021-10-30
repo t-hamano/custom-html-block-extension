@@ -7,6 +7,7 @@ import classnames from 'classnames';
 /**
  * Internal dependencies
  */
+import './style.scss';
 import Loading from 'admin/common/loading';
 import { htmlCode } from 'admin/common/example-code';
 import BlockIcon from 'common/block-icon';

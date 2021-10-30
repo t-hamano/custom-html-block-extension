@@ -79,27 +79,27 @@ class Admin {
 		}
 
 		// Enqueue option page scripts.
-		$asset_file = include( CHBE_PATH . '/build/admin/index.asset.php' );
+		$asset_file = include( CHBE_PATH . '/build/admin.asset.php' );
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE . '-admin',
-			CHBE_URL . '/build/admin/style.css',
+			CHBE_URL . '/build/style-admin.css',
 			array( 'wp-components' ),
-			filemtime( CHBE_PATH . '/build/admin/style.css' )
+			filemtime( CHBE_PATH . '/build/style-admin.css' )
 		);
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE . '-admin-font',
-			CHBE_URL . '/build/fonts/fira-code.css',
+			CHBE_URL . '/assets/css/fira-code.css',
 			array(),
-			filemtime( CHBE_PATH . '/build/fonts/fira-code.css' )
+			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
 		);
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE . '-admin',
-			CHBE_URL . '/build/admin/index.js',
+			CHBE_URL . '/build/admin.js',
 			$asset_file['dependencies'],
-			filemtime( CHBE_PATH . '/build/admin/index.js' ),
+			filemtime( CHBE_PATH . '/build/admin.js' ),
 			true
 		);
 

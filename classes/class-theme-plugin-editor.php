@@ -75,23 +75,23 @@ class ThemePluginEditor {
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE,
-			CHBE_URL . '/build/theme-plugin-editor/style.css',
+			CHBE_URL . '/build/style-theme-plugin-editor.css',
 			array(),
-			filemtime( CHBE_PATH . '/build/theme-plugin-editor/style.css' )
+			filemtime( CHBE_PATH . '/build/style-theme-plugin-editor.css' )
 		);
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE . '-font',
-			CHBE_URL . '/build/fonts/fira-code.css',
+			CHBE_URL . '/assets/css/fira-code.css',
 			array(),
-			filemtime( CHBE_PATH . '/build/fonts/fira-code.css' )
+			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
 		);
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
-			CHBE_URL . '/build/theme-plugin-editor/index.js',
+			CHBE_URL . '/build/theme-plugin-editor.js',
 			array(),
-			filemtime( CHBE_PATH . '/build/theme-plugin-editor/index.js' ),
+			filemtime( CHBE_PATH . '/build/theme-plugin-editor.js' ),
 			true
 		);
 
