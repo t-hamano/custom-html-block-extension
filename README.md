@@ -1,6 +1,7 @@
 #  Custom HTML Block Extension
 
-[![Deploy to WordPress.org](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/wp-plugin-deploy.yml/badge.svg)](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/wp-plugin-deploy.yml)
+[![Tests](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test.yml/badge.svg)](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test.yml)
+[![Tests and Deploy](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test-and-deploy.yml/badge.svg)](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test-and-deploy.yml)
 
 ![Custom HTML Block Extension](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_1.gif)
 
