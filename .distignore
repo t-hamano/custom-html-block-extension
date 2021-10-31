@@ -14,6 +14,7 @@
 .wp-env.json
 composer.json
 composer.lock
+jest-puppeteer.config
 package-lock.json
 package.json
 phpcs.ruleset.xml
