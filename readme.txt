@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
 Tested up to: 5.8
-Stable tag: 2.3.3
+Stable tag: 2.4.0
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -67,6 +67,11 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 2.4.0 =
+* Fix: Editor mode is not detected correctly under certain conditions
+* Clean: Update monaco editor version
+* Clean: change PHP namespace
 
 = 2.3.3 =
 * Fix: Editor mode is not detected correctly under certain conditions
