@@ -1,7 +1,9 @@
 /.git
 /.github
 /.wordpress-org
+/artifacts
 /node_modules
+/test
 /vendor
 .distignore
 .editorconfig

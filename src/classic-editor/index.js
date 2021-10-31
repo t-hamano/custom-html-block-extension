@@ -18,9 +18,12 @@ loader.init().then( ( monaco ) => {
 	const isVisualEditorEnabled =
 		null !== document.getElementById( 'content-tmce' ) &&
 		null !== document.getElementById( 'content-html' );
+
+	const cookieHtml = document.cookie.indexOf( 'editor%3Dhtml' );
+	const cookieTinyMce = document.cookie.indexOf( 'editor%3Dtinymce' );
 	const isVisualEditMode =
-		-1 === document.cookie.indexOf( 'editor%3Dhtml' ) ||
-		-1 !== document.cookie.indexOf( 'editor%3Dtinymce' );
+		( -1 === cookieHtml && -1 !== cookieTinyMce ) ||
+		( -1 !== cookieHtml && -1 !== cookieTinyMce && cookieTinyMce > cookieHtml );
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );

@@ -12,17 +12,20 @@
 		"lint": "npm run lint:style && npm run lint:js",
 		"lint:php": "composer lint",
 		"lint:js": "wp-scripts lint-js",
-		"lint:style": "wp-scripts lint-style"
+		"lint:style": "wp-scripts lint-style",
+		"test": "npm run lint:js && npm run test:e2e",
+		"test:e2e": "wp-scripts test-e2e --config test/e2e/jest.config.js"
 	},
 	"devDependencies": {
-		"@wordpress/env": "^4.1.0",
-		"@wordpress/scripts": "^18.1.0",
+		"@wordpress/e2e-test-utils": "^5.4.5",
+		"@wordpress/env": "^4.1.2",
+		"@wordpress/scripts": "^19.0.0",
 		"opener": "^1.5.2",
 		"rimraf": "^3.0.2",
 		"stylelint-config-rational-order": "^0.1.2"
 	},
 	"dependencies": {
-		"@monaco-editor/react": "^4.2.1",
+		"@monaco-editor/react": "^4.3.1",
 		"@wordpress/icons": "^6.0.1",
 		"emmet-monaco-es": "^4.6.2",
 		"react-notifications-component": "^3.1.0",
