@@ -386,8 +386,32 @@
 				height: 100%;
 			}
 
-			.monaco-editor .inputarea {
-				box-shadow: none;
+			.monaco-editor {
+
+				.find-widget {
+
+					.button {
+						color: inherit;
+						background: none;
+						border: none;
+
+						&:focus {
+							box-shadow: none;
+						}
+					}
+
+					textarea:focus {
+						box-shadow: none;
+					}
+				}
+
+				.inputarea {
+					box-shadow: none;
+				}
+
+				.monaco-highlighted-label .highlight {
+					background: transparent;
+				}
 			}
 		}
 

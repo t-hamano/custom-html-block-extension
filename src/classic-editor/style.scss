@@ -6,6 +6,23 @@ $wp-admin-theme-color: #2271b1;
 
 	.monaco-editor {
 
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+
+			textarea:focus {
+				box-shadow: none;
+			}
+		}
+
 		.inputarea {
 			box-shadow: none;
 		}

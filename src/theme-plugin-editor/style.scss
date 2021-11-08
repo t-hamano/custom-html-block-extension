@@ -6,6 +6,35 @@
 
 	.monaco-editor {
 
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+
+				&.disabled {
+					color: inherit !important;
+					background: none !important;
+				}
+			}
+
+			textarea {
+				min-height: initial;
+				font-size: inherit;
+				font-family: inherit;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+		}
+
 		.inputarea {
 			box-shadow: none;
 
@@ -26,7 +55,7 @@
 }
 
 // Original editor textarea
-#template textarea {
+#template textarea#newcontent {
 	position: fixed !important;
 	top: -9999px !important;
 	left: -9999px !important;
