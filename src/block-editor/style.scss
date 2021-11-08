@@ -16,6 +16,28 @@
 
 	.monaco-editor {
 
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+
+				&.disabled {
+					color: inherit !important;
+					background: none !important;
+				}
+			}
+
+			textarea:focus {
+				box-shadow: none;
+			}
+		}
+
 		.inputarea {
 			padding: 0;
 			color: inherit;
