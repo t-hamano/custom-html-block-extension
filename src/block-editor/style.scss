@@ -44,6 +44,10 @@
 			box-shadow: none;
 		}
 
+		.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
+			text-decoration: none;
+		}
+
 		.monaco-highlighted-label .highlight {
 			display: inline;
 			margin: 0;

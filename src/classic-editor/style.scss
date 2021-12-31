@@ -27,6 +27,10 @@ $wp-admin-theme-color: #2271b1;
 			box-shadow: none;
 		}
 
+		.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
+			text-decoration: none;
+		}
+
 		.monaco-highlighted-label .highlight {
 			background: transparent;
 		}
