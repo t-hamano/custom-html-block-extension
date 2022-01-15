@@ -88,16 +88,16 @@ $wp-admin-theme-color: #2271b1;
 
 	&__ttl {
 		margin: 0 0 1em;
-		font-weight: bold;
 		font-size: 1.2em;
+		font-weight: bold;
 		text-align: center;
 	}
 
 	&__subttl {
-		margin: 0 -8px 0.5em;
 		padding: 4px 8px;
-		color: #fff;
+		margin: 0 -8px 0.5em;
 		font-size: 1em;
+		color: #fff;
 		text-align: center;
 		background: $wp-admin-theme-color;
 	}

@@ -90,8 +90,8 @@
 	}
 
 	.components-notice {
-		margin: 2em 0;
 		padding: 6px 12px;
+		margin: 2em 0;
 
 		&__content {
 			display: flex;
@@ -119,15 +119,15 @@
 	max-width: 350px;
 
 	h1 {
-		margin: 0 0 16px 0;
 		padding: 0 32px;
+		margin: 0 0 16px 0;
 		font-size: 24px;
 		line-height: 1.4;
 	}
 
 	p {
-		margin: 0 0 24px 0;
 		padding: 0 32px;
+		margin: 0 0 24px 0;
 		font-size: 13px;
 		line-height: 1.4;
 	}
@@ -152,15 +152,15 @@
 	.chbe-container {
 		position: relative;
 		max-width: 1200px;
-		margin: 0 auto;
 		padding: 0 16px;
+		margin: 0 auto;
 	}
 
 	.chbe-help {
 		min-width: auto;
 		height: auto;
-		margin-left: 16px;
 		padding: 0;
+		margin-left: 16px;
 	}
 
 	.chbe-file-upload {
@@ -268,8 +268,8 @@
 		&__body-toggle.components-button {
 			padding-top: 12px;
 			padding-bottom: 12px;
-			font-weight: bold;
 			font-size: 16px;
+			font-weight: bold;
 		}
 
 		&__body-toggle {
@@ -306,8 +306,8 @@
 			flex: 1;
 
 			h3 {
-				margin: 24px 0 0;
 				padding-top: 24px;
+				margin: 24px 0 0;
 				border-top: 1px solid #d6e2ed;
 			}
 		}
@@ -333,8 +333,8 @@
 		}
 
 		&__controls-group {
-			margin-top: 16px;
 			padding: 16px;
+			margin-top: 16px;
 			border: 1px solid var(--wp-admin-theme-color);
 		}
 
@@ -353,8 +353,8 @@
 
 			&__help {
 				margin: 8px 0 0;
-				color: #757575;
 				font-size: 12px;
+				color: #757575;
 			}
 		}
 
