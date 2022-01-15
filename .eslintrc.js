@@ -1,5 +1,6 @@
 module.exports = {
 	extends: [ 'plugin:@wordpress/eslint-plugin/recommended' ],
+	parser: '@babel/eslint-parser',
 	globals: {
 		chbeObj: true,
 		Blob: true,
@@ -22,5 +23,11 @@ module.exports = {
 				parenSpacing: true,
 			},
 		],
+	},
+	parserOptions: {
+		requireConfigFile: false,
+		babelOptions: {
+			presets: [ '@babel/preset-react' ],
+		},
 	},
 };
