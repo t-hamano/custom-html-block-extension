@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
-import { toNumber } from 'admin/common/helper';
+import { toNumber } from 'common/helper';
 
 /**
  * WordPress dependencies

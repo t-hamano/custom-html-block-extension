@@ -10,6 +10,7 @@ import { emmetHTML } from 'emmet-monaco-es';
  */
 import './style.scss';
 import themes from 'themes';
+import { toNumber } from 'common/helper';
 
 /**
  * WordPress dependencies
@@ -307,7 +308,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											onChange={ ( value ) => {
 												setReplaceSetting( {
 													...replaceSetting,
-													beforeTabSize: value,
+													beforeTabSize: value ? toNumber( value, 1, 8 ) : undefined,
 												} );
 											} }
 										/>
@@ -361,7 +362,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											onChange={ ( value ) => {
 												setReplaceSetting( {
 													...replaceSetting,
-													afterTabSize: value,
+													afterTabSize: value ? toNumber( value, 1, 8 ) : undefined,
 												} );
 											} }
 										/>
@@ -369,10 +370,19 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 								</div>
 							</div>
 							<div className="chbe-popover__buttons">
-								<Button isPrimary={ true } onClick={ changeIndent }>
+								<Button
+									isPrimary
+									disabled={
+										( replaceSetting.beforeInsertSpaces &&
+											replaceSetting.beforeTabSize === undefined ) ||
+										( replaceSetting.afterInsertSpaces &&
+											replaceSetting.afterTabSize === undefined )
+									}
+									onClick={ changeIndent }
+								>
 									{ __( 'Apply', 'custom-html-block-extension' ) }
 								</Button>
-								<Button isSecondary={ true } onClick={ () => setIsReplacing( false ) }>
+								<Button isSecondary onClick={ () => setIsReplacing( false ) }>
 									{ __( 'Cancel', 'custom-html-block-extension' ) }
 								</Button>
 							</div>
