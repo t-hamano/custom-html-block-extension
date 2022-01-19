@@ -15,10 +15,10 @@ import themes from 'themes';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
-import { BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
+import { PlainText, BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
 
 import {
 	ResizableBox,
@@ -32,6 +32,7 @@ import {
 	ButtonGroup,
 	Button,
 	TextControl,
+	Notice,
 } from '@wordpress/components';
 
 import { replace, arrowRight } from '@wordpress/icons';
@@ -43,6 +44,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const { content, height } = attributes;
 
 	const [ isPreview, setIsPreview ] = useState();
+	const [ isDevicePreview, setIsDevicePreview ] = useState( false );
 	const [ isReplacing, setIsReplacing ] = useState( false );
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: chbeObj.editorSettings.tabSize,
@@ -50,6 +52,16 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		afterTabSize: chbeObj.editorSettings.tabSize,
 		afterInsertSpaces: chbeObj.editorSettings.insertSpaces,
 	} );
+
+	let ownerDocument = null;
+	const ref = useRef();
+
+	useEffect( () => {
+		// Get relative document considering the iframe editor instance.
+		ownerDocument = ref.current.ownerDocument;
+		// Disable the editor when mobile / tablet preview is enabled on the post page.
+		setIsDevicePreview( !! document.querySelector( '.is-tablet-preview, .is-mobile-preview' ) );
+	}, [] );
 
 	const styles = useSelect( ( select ) => {
 		const defaultStyles = `
@@ -128,11 +140,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				if ( isEmptySelection ) {
 					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					document.execCommand( 'cut' );
+					ownerDocument.execCommand( 'cut' );
 				}
-				document.execCommand( 'cut' );
+				ownerDocument.execCommand( 'cut' );
 			} else if ( ! isEmptySelection ) {
-				document.execCommand( 'cut' );
+				ownerDocument.execCommand( 'cut' );
 			}
 		} );
 
@@ -150,11 +162,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				if ( isEmptySelection ) {
 					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					document.execCommand( 'copy' );
+					ownerDocument.execCommand( 'copy' );
 				}
-				document.execCommand( 'copy' );
+				ownerDocument.execCommand( 'copy' );
 			} else if ( ! isEmptySelection ) {
-				document.execCommand( 'copy' );
+				ownerDocument.execCommand( 'copy' );
 			}
 		} );
 	};
@@ -236,7 +248,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	}
 
 	return (
-		<div { ...useBlockProps( { className: 'block-library-html__edit' } ) }>
+		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
@@ -395,6 +407,21 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 						<>
 							<SandBox html={ content } styles={ styles } />
 							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
+						</>
+					) : isDevicePreview ? (
+						<>
+							<Notice status="error" isDismissible={ false }>
+								{ __(
+									'Custom HTML Block Extension cannot be used in the mobile / tablet preview of post page.',
+									'custom-html-block-extension'
+								) }
+							</Notice>
+							<PlainText
+								value={ content }
+								onChange={ handleChangeContent }
+								placeholder={ __( 'Write HTML…' ) }
+								aria-label={ __( 'HTML' ) }
+							/>
 						</>
 					) : (
 						<ResizableBox

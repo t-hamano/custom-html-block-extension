@@ -10,6 +10,7 @@ module.exports = {
 	rules: {
 		'import/no-extraneous-dependencies': 'off',
 		'import/no-unresolved': 'off',
+		'no-nested-ternary': 'off',
 		'@wordpress/no-unsafe-wp-apis': 'off',
 		'jsdoc/require-param-type': 0,
 		'prettier/prettier': [

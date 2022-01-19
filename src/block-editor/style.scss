@@ -4,9 +4,18 @@
 
 	.components-resizable-box__container {
 		padding-bottom: 24px;
+		overflow: initial;
 
 		> section {
 			background-color: rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	.components-notice {
+		margin: 0 0 4px;
+
+		&__content {
+			margin: 0;
 		}
 	}
 
