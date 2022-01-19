@@ -257,129 +257,124 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 						onClick={ () => setIsReplacing( true ) }
 					/>
 					{ isReplacing && (
-						<Popover
-							className="components-inline-color-popover"
-							onClose={ () => setIsReplacing( false ) }
-						>
-							<div className="chbe-popover">
-								<h2 className="chbe-popover__ttl">
-									{ __( 'Change Indentation', 'custom-html-block-extension' ) }
-								</h2>
-								<div className="chbe-popover__row">
-									<div className="chbe-popover__col chbe-popover__col--setting">
-										<h3 className="chbe-popover__subttl">
-											{ __( 'Current Indent', 'custom-html-block-extension' ) }
-										</h3>
-										<BaseControl
-											id="custom-html-block-extension/replace-indent-type"
-											label={ __( 'Indent type', 'custom-html-block-extension' ) }
-										>
-											<ButtonGroup>
-												<Button
-													isPrimary={ ! replaceSetting.beforeInsertSpaces }
-													isSmall
-													onClick={ () => {
-														setReplaceSetting( {
-															...replaceSetting,
-															beforeInsertSpaces: false,
-														} );
-													} }
-												>
-													{ __( 'Tab', 'custom-html-block-extension' ) }
-												</Button>
-												<Button
-													isPrimary={ replaceSetting.beforeInsertSpaces }
-													isSmall
-													onClick={ () => {
-														setReplaceSetting( {
-															...replaceSetting,
-															beforeInsertSpaces: true,
-														} );
-													} }
-												>
-													{ __( 'Space', 'custom-html-block-extension' ) }
-												</Button>
-											</ButtonGroup>
-										</BaseControl>
-										{ replaceSetting.beforeInsertSpaces && (
-											<TextControl
-												label={ __( 'Indent width', 'custom-html-block-extension' ) }
-												value={ replaceSetting.beforeTabSize }
-												type="number"
-												min="1"
-												max="8"
-												onChange={ ( value ) => {
+						<Popover className="chbe-popover" onClose={ () => setIsReplacing( false ) }>
+							<h2 className="chbe-popover__ttl">
+								{ __( 'Change Indentation', 'custom-html-block-extension' ) }
+							</h2>
+							<div className="chbe-popover__row">
+								<div className="chbe-popover__col chbe-popover__col--setting">
+									<h3 className="chbe-popover__subttl">
+										{ __( 'Current Indent', 'custom-html-block-extension' ) }
+									</h3>
+									<BaseControl
+										id="custom-html-block-extension/replace-indent-type"
+										label={ __( 'Indent type', 'custom-html-block-extension' ) }
+									>
+										<ButtonGroup>
+											<Button
+												isPrimary={ ! replaceSetting.beforeInsertSpaces }
+												isSmall
+												onClick={ () => {
 													setReplaceSetting( {
 														...replaceSetting,
-														beforeTabSize: value,
+														beforeInsertSpaces: false,
 													} );
 												} }
-											/>
-										) }
-									</div>
-									<div className="chbe-popover__col chbe-popover__col--arrow">
-										<Icon icon={ arrowRight } />
-									</div>
-									<div className="chbe-popover__col chbe-popover__col--setting">
-										<h3 className="chbe-popover__subttl">
-											{ __( 'New Indent', 'custom-html-block-extension' ) }
-										</h3>
-										<BaseControl
-											id="custom-html-block-extension/replace-indent-type"
-											label={ __( 'Indent type', 'custom-html-block-extension' ) }
-										>
-											<ButtonGroup>
-												<Button
-													isPrimary={ ! replaceSetting.afterInsertSpaces }
-													isSmall
-													onClick={ () => {
-														setReplaceSetting( {
-															...replaceSetting,
-															afterInsertSpaces: false,
-														} );
-													} }
-												>
-													{ __( 'Tab', 'custom-html-block-extension' ) }
-												</Button>
-												<Button
-													isPrimary={ replaceSetting.afterInsertSpaces }
-													isSmall
-													onClick={ () => {
-														setReplaceSetting( {
-															...replaceSetting,
-															afterInsertSpaces: true,
-														} );
-													} }
-												>
-													{ __( 'Space', 'custom-html-block-extension' ) }
-												</Button>
-											</ButtonGroup>
-										</BaseControl>
-										{ replaceSetting.afterInsertSpaces && (
-											<TextControl
-												label={ __( 'Indent width', 'custom-html-block-extension' ) }
-												value={ replaceSetting.afterTabSize }
-												type="number"
-												min="1"
-												max="8"
-												onChange={ ( value ) => {
+											>
+												{ __( 'Tab', 'custom-html-block-extension' ) }
+											</Button>
+											<Button
+												isPrimary={ replaceSetting.beforeInsertSpaces }
+												isSmall
+												onClick={ () => {
 													setReplaceSetting( {
 														...replaceSetting,
-														afterTabSize: value,
+														beforeInsertSpaces: true,
 													} );
 												} }
-											/>
-										) }
-									</div>
+											>
+												{ __( 'Space', 'custom-html-block-extension' ) }
+											</Button>
+										</ButtonGroup>
+									</BaseControl>
+									{ replaceSetting.beforeInsertSpaces && (
+										<TextControl
+											label={ __( 'Indent width', 'custom-html-block-extension' ) }
+											value={ replaceSetting.beforeTabSize }
+											type="number"
+											min="1"
+											max="8"
+											onChange={ ( value ) => {
+												setReplaceSetting( {
+													...replaceSetting,
+													beforeTabSize: value,
+												} );
+											} }
+										/>
+									) }
 								</div>
-								<div className="chbe-popover__buttons">
-									<Button isPrimary={ true } onClick={ changeIndent }>
-										{ __( 'Apply', 'custom-html-block-extension' ) }
-									</Button>
-									<Button isSecondary={ true } onClick={ () => setIsReplacing( false ) }>
-										{ __( 'Cancel', 'custom-html-block-extension' ) }
-									</Button>
+								<div className="chbe-popover__col chbe-popover__col--arrow">
+									<Icon icon={ arrowRight } />
 								</div>
+								<div className="chbe-popover__col chbe-popover__col--setting">
+									<h3 className="chbe-popover__subttl">
+										{ __( 'New Indent', 'custom-html-block-extension' ) }
+									</h3>
+									<BaseControl
+										id="custom-html-block-extension/replace-indent-type"
+										label={ __( 'Indent type', 'custom-html-block-extension' ) }
+									>
+										<ButtonGroup>
+											<Button
+												isPrimary={ ! replaceSetting.afterInsertSpaces }
+												isSmall
+												onClick={ () => {
+													setReplaceSetting( {
+														...replaceSetting,
+														afterInsertSpaces: false,
+													} );
+												} }
+											>
+												{ __( 'Tab', 'custom-html-block-extension' ) }
+											</Button>
+											<Button
+												isPrimary={ replaceSetting.afterInsertSpaces }
+												isSmall
+												onClick={ () => {
+													setReplaceSetting( {
+														...replaceSetting,
+														afterInsertSpaces: true,
+													} );
+												} }
+											>
+												{ __( 'Space', 'custom-html-block-extension' ) }
+											</Button>
+										</ButtonGroup>
+									</BaseControl>
+									{ replaceSetting.afterInsertSpaces && (
+										<TextControl
+											label={ __( 'Indent width', 'custom-html-block-extension' ) }
+											value={ replaceSetting.afterTabSize }
+											type="number"
+											min="1"
+											max="8"
+											onChange={ ( value ) => {
+												setReplaceSetting( {
+													...replaceSetting,
+													afterTabSize: value,
+												} );
+											} }
+										/>
+									) }
+								</div>
+							</div>
+							<div className="chbe-popover__buttons">
+								<Button isPrimary={ true } onClick={ changeIndent }>
+									{ __( 'Apply', 'custom-html-block-extension' ) }
+								</Button>
+								<Button isSecondary={ true } onClick={ () => setIsReplacing( false ) }>
+									{ __( 'Cancel', 'custom-html-block-extension' ) }
+								</Button>
 							</div>
 						</Popover>
 					) }

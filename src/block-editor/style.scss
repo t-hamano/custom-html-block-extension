@@ -70,6 +70,10 @@
 .chbe-popover {
 	white-space: nowrap;
 
+	.components-popover__content {
+		padding: 16px;
+	}
+
 	&__ttl {
 		margin: 0 0 1em;
 		font-size: 1.2em;
