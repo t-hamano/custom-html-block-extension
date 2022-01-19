@@ -45,7 +45,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const { content, height } = attributes;
 
 	const [ isPreview, setIsPreview ] = useState();
-	const [ isDevicePreview, setIsDevicePreview ] = useState( false );
+	const [ useEditor, setUseEditor ] = useState( false );
 	const [ isReplacing, setIsReplacing ] = useState( false );
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: chbeObj.editorSettings.tabSize,
@@ -60,8 +60,10 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	useEffect( () => {
 		// Get relative document considering the iframe editor instance.
 		ownerDocument = ref.current.ownerDocument;
-		// Disable the editor when mobile / tablet preview is enabled on the post page.
-		setIsDevicePreview( !! document.querySelector( '.is-tablet-preview, .is-mobile-preview' ) );
+		// Disable the editor when mobile / tablet preview, template editor mode on the post page.
+		setUseEditor(
+			!! document.querySelector( '.is-tablet-preview, .is-mobile-preview, .is-template-mode' )
+		);
 	}, [] );
 
 	const styles = useSelect( ( select ) => {
@@ -414,11 +416,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							<SandBox html={ content } styles={ styles } />
 							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
 						</>
-					) : isDevicePreview ? (
+					) : useEditor ? (
 						<>
 							<Notice status="error" isDismissible={ false }>
 								{ __(
-									'Custom HTML Block Extension cannot be used in the mobile / tablet preview of post page.',
+									'Custom HTML Block Extension cannot be used in this mode.',
 									'custom-html-block-extension'
 								) }
 							</Notice>
