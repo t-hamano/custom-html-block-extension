@@ -111,6 +111,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				custom: {
 					families: [ font.name ],
 				},
+				context: ownerDocument.defaultView,
 			};
 
 			if ( 'stylesheet' in font ) {
