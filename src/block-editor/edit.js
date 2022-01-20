@@ -54,13 +54,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		afterInsertSpaces: chbeObj.editorSettings.insertSpaces,
 	} );
 
-	let ownerDocument = null;
 	const ref = useRef();
 
 	useEffect( () => {
 		// Enable the monaco editor only if it is not iframe editor instance.
-		ownerDocument = ref.current.ownerDocument;
-		setUseEditor( window.document === ownerDocument );
+		setUseEditor( window.document === ref.current.ownerDocument );
 	}, [] );
 
 	const styles = useSelect( ( select ) => {
@@ -80,7 +78,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	}, [] );
 
 	const handleEditorDidMount = ( editor, monaco ) => {
-		ownerDocument = ref.current.ownerDocument;
+		const { ownerDocument } = ref.current;
 
 		// Enable Emmet only once because monaco instances are common to all blocks.
 		if ( chbeObj.editorSettings.emmet && ! monaco.enabledEmmet ) {
