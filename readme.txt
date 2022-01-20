@@ -18,6 +18,9 @@ This plugin features Emmet that expand shortcut input into complete code. This r
 You can change all kinds of settings to create your ideal editor in advanced mode.
 And supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.
 
+###Note
+This plugin will not work with full site editor, mobile / tablet preview, or block template editor.
+
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the \'Plugins\' menu in WordPress.
