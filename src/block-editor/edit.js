@@ -18,9 +18,7 @@ import { toNumber } from 'common/helper';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-
 import { PlainText, BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
-
 import {
 	ResizableBox,
 	ToolbarButton,
@@ -28,14 +26,13 @@ import {
 	SandBox,
 	ToolbarGroup,
 	Icon,
-	Popover,
 	BaseControl,
 	ButtonGroup,
 	Button,
 	TextControl,
 	Notice,
+	Dropdown,
 } from '@wordpress/components';
-
 import { replace, arrowRight } from '@wordpress/icons';
 
 const MIN_HEIGHT = 100;
@@ -46,7 +43,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 
 	const [ isPreview, setIsPreview ] = useState();
 	const [ useEditor, setUseEditor ] = useState( false );
-	const [ isReplacing, setIsReplacing ] = useState( false );
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: chbeObj.editorSettings.tabSize,
 		beforeInsertSpaces: chbeObj.editorSettings.insertSpaces,
@@ -188,9 +184,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		setAttributes( { content: value } );
 	};
 
-	function changeIndent() {
+	function changeIndent( onClose ) {
 		if ( undefined === content ) {
-			setIsReplacing( false );
+			onClose();
 			return;
 		}
 
@@ -237,7 +233,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 			beforeInsertSpaces: replaceSetting.afterInsertSpaces,
 			beforeTabSize: replaceSetting.afterTabSize,
 		} );
-		setIsReplacing( false );
+
+		onClose();
 	}
 
 	function switchToPreview() {
@@ -252,14 +249,19 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
 				{ useEditor && (
-					<ToolbarGroup>
-						<ToolbarButton
-							icon={ replace }
-							label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
-							onClick={ () => setIsReplacing( true ) }
-						/>
-						{ isReplacing && (
-							<Popover className="chbe-popover" onClose={ () => setIsReplacing( false ) }>
+					<Dropdown
+						renderToggle={ ( { isOpen, onToggle } ) => {
+							return (
+								<ToolbarButton
+									icon={ replace }
+									label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
+									aria-expanded={ isOpen }
+									onClick={ onToggle }
+								/>
+							);
+						} }
+						renderContent={ ( { onClose } ) => (
+							<div className="chbe-popover">
 								<h2 className="chbe-popover__ttl">
 									{ __( 'Change Indentation', 'custom-html-block-extension' ) }
 								</h2>
@@ -379,17 +381,17 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											( replaceSetting.afterInsertSpaces &&
 												replaceSetting.afterTabSize === undefined )
 										}
-										onClick={ changeIndent }
+										onClick={ () => changeIndent( onClose ) }
 									>
 										{ __( 'Apply', 'custom-html-block-extension' ) }
 									</Button>
-									<Button isSecondary onClick={ () => setIsReplacing( false ) }>
+									<Button isSecondary onClick={ onClose }>
 										{ __( 'Cancel', 'custom-html-block-extension' ) }
 									</Button>
 								</div>
-							</Popover>
+							</div>
 						) }
-					</ToolbarGroup>
+					/>
 				) }
 				<ToolbarGroup>
 					<ToolbarButton
