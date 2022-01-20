@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 5.6
-Tested up to: 5.8
-Stable tag: 2.4.3
+Tested up to: 5.9
+Stable tag: 2.5.0
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -19,7 +19,7 @@ You can change all kinds of settings to create your ideal editor in advanced mod
 And supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.
 
 ###Note
-This plugin will not work on the "Block Template" editor, which is a new feature in WordPress 5.8.
+The code editor is disabled in the full site editor, mobile / tablet device preview, and block template editor.
 
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.
@@ -67,6 +67,12 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 2.5.0 =
+* Tested to WordPress 5.9
+* Update: UI improvement of the indent conversion tool in block editor
+* Update: Disable the code editor in full site editor, mobile / tablet device preview, and block template editor
+* Remove: Support for local translation files
 
 = 2.4.3 =
 * Fix: Wrong CSS for IntelliSense
@@ -120,7 +126,7 @@ Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 * Doc: Update tested up to
 
 = 2.1.0 =
-* Testes to WordPress 5.8
+* Tested to WordPress 5.8
 * Fix: Issue with the correct block icon not being displayed
 * Clean: Update npm packages
 * Add: Ctrl+S shortcut action to the classic editor

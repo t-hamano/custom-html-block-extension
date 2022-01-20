@@ -10,16 +10,15 @@ import { emmetHTML } from 'emmet-monaco-es';
  */
 import './style.scss';
 import themes from 'themes';
+import { toNumber } from 'common/helper';
 
 /**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-
-import { BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
-
+import { PlainText, BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
 import {
 	ResizableBox,
 	ToolbarButton,
@@ -27,13 +26,13 @@ import {
 	SandBox,
 	ToolbarGroup,
 	Icon,
-	Popover,
 	BaseControl,
 	ButtonGroup,
 	Button,
 	TextControl,
+	Notice,
+	Dropdown,
 } from '@wordpress/components';
-
 import { replace, arrowRight } from '@wordpress/icons';
 
 const MIN_HEIGHT = 100;
@@ -43,13 +42,20 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const { content, height } = attributes;
 
 	const [ isPreview, setIsPreview ] = useState();
-	const [ isReplacing, setIsReplacing ] = useState( false );
+	const [ useEditor, setUseEditor ] = useState( false );
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: chbeObj.editorSettings.tabSize,
 		beforeInsertSpaces: chbeObj.editorSettings.insertSpaces,
 		afterTabSize: chbeObj.editorSettings.tabSize,
 		afterInsertSpaces: chbeObj.editorSettings.insertSpaces,
 	} );
+
+	const ref = useRef();
+
+	useEffect( () => {
+		// Enable the monaco editor only if it is not iframe editor instance.
+		setUseEditor( window.document === ref.current.ownerDocument );
+	}, [] );
 
 	const styles = useSelect( ( select ) => {
 		const defaultStyles = `
@@ -68,6 +74,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	}, [] );
 
 	const handleEditorDidMount = ( editor, monaco ) => {
+		const { ownerDocument } = ref.current;
+
 		// Enable Emmet only once because monaco instances are common to all blocks.
 		if ( chbeObj.editorSettings.emmet && ! monaco.enabledEmmet ) {
 			monaco.enabledEmmet = true;
@@ -111,6 +119,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					// Adjust the position of the cursor and space.
 					monaco.editor.remeasureFonts();
 				},
+				context: ownerDocument.defaultView,
 			} );
 		}
 
@@ -128,11 +137,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				if ( isEmptySelection ) {
 					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					document.execCommand( 'cut' );
+					ownerDocument.execCommand( 'cut' );
 				}
-				document.execCommand( 'cut' );
+				ownerDocument.execCommand( 'cut' );
 			} else if ( ! isEmptySelection ) {
-				document.execCommand( 'cut' );
+				ownerDocument.execCommand( 'cut' );
 			}
 		} );
 
@@ -150,11 +159,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				if ( isEmptySelection ) {
 					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
 					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					document.execCommand( 'copy' );
+					ownerDocument.execCommand( 'copy' );
 				}
-				document.execCommand( 'copy' );
+				ownerDocument.execCommand( 'copy' );
 			} else if ( ! isEmptySelection ) {
-				document.execCommand( 'copy' );
+				ownerDocument.execCommand( 'copy' );
 			}
 		} );
 	};
@@ -175,9 +184,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		setAttributes( { content: value } );
 	};
 
-	function changeIndent() {
+	function changeIndent( onClose ) {
 		if ( undefined === content ) {
-			setIsReplacing( false );
+			onClose();
 			return;
 		}
 
@@ -224,7 +233,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 			beforeInsertSpaces: replaceSetting.afterInsertSpaces,
 			beforeTabSize: replaceSetting.afterTabSize,
 		} );
-		setIsReplacing( false );
+
+		onClose();
 	}
 
 	function switchToPreview() {
@@ -236,19 +246,21 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	}
 
 	return (
-		<div { ...useBlockProps( { className: 'block-library-html__edit' } ) }>
+		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
-				<ToolbarGroup>
-					<ToolbarButton
-						icon={ replace }
-						label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
-						onClick={ () => setIsReplacing( true ) }
-					/>
-					{ isReplacing && (
-						<Popover
-							className="components-inline-color-popover"
-							onClose={ () => setIsReplacing( false ) }
-						>
+				{ useEditor && (
+					<Dropdown
+						renderToggle={ ( { isOpen, onToggle } ) => {
+							return (
+								<ToolbarButton
+									icon={ replace }
+									label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
+									aria-expanded={ isOpen }
+									onClick={ onToggle }
+								/>
+							);
+						} }
+						renderContent={ ( { onClose } ) => (
 							<div className="chbe-popover">
 								<h2 className="chbe-popover__ttl">
 									{ __( 'Change Indentation', 'custom-html-block-extension' ) }
@@ -299,7 +311,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 												onChange={ ( value ) => {
 													setReplaceSetting( {
 														...replaceSetting,
-														beforeTabSize: value,
+														beforeTabSize: value ? toNumber( value, 1, 8 ) : undefined,
 													} );
 												} }
 											/>
@@ -353,7 +365,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 												onChange={ ( value ) => {
 													setReplaceSetting( {
 														...replaceSetting,
-														afterTabSize: value,
+														afterTabSize: value ? toNumber( value, 1, 8 ) : undefined,
 													} );
 												} }
 											/>
@@ -361,17 +373,26 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 									</div>
 								</div>
 								<div className="chbe-popover__buttons">
-									<Button isPrimary={ true } onClick={ changeIndent }>
+									<Button
+										isPrimary
+										disabled={
+											( replaceSetting.beforeInsertSpaces &&
+												replaceSetting.beforeTabSize === undefined ) ||
+											( replaceSetting.afterInsertSpaces &&
+												replaceSetting.afterTabSize === undefined )
+										}
+										onClick={ () => changeIndent( onClose ) }
+									>
 										{ __( 'Apply', 'custom-html-block-extension' ) }
 									</Button>
-									<Button isSecondary={ true } onClick={ () => setIsReplacing( false ) }>
+									<Button isSecondary onClick={ onClose }>
 										{ __( 'Cancel', 'custom-html-block-extension' ) }
 									</Button>
 								</div>
 							</div>
-						</Popover>
-					) }
-				</ToolbarGroup>
+						) }
+					/>
+				) }
 				<ToolbarGroup>
 					<ToolbarButton
 						className="components-tab-button"
@@ -396,7 +417,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							<SandBox html={ content } styles={ styles } />
 							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
 						</>
-					) : (
+					) : useEditor ? (
 						<ResizableBox
 							size={ { height } }
 							minHeight={ MIN_HEIGHT }
@@ -425,6 +446,21 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 								onMount={ handleEditorDidMount }
 							/>
 						</ResizableBox>
+					) : (
+						<>
+							<Notice status="warning" isDismissible={ false }>
+								{ __(
+									'Custom HTML Block Extension is disabled in this mode.',
+									'custom-html-block-extension'
+								) }
+							</Notice>
+							<PlainText
+								value={ content }
+								onChange={ handleChangeContent }
+								placeholder={ __( 'Write HTML…' ) }
+								aria-label={ __( 'HTML' ) }
+							/>
+						</>
 					)
 				}
 			</Disabled.Consumer>

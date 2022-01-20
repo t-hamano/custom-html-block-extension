@@ -61,7 +61,7 @@ class BlockEditor {
 			)
 		);
 
-		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE, CHBE_PATH . '/languages' );
+		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
 	}
 }
 

@@ -118,7 +118,7 @@ class Admin {
 			)
 		);
 
-		wp_set_script_translations( CHBE_NAMESPACE . '-admin', CHBE_NAMESPACE, CHBE_PATH . '/languages' );
+		wp_set_script_translations( CHBE_NAMESPACE . '-admin', CHBE_NAMESPACE );
 	}
 
 	/**

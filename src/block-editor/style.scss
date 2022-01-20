@@ -4,9 +4,18 @@
 
 	.components-resizable-box__container {
 		padding-bottom: 24px;
+		overflow: initial;
 
 		> section {
 			background-color: rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	.components-notice {
+		margin: 0 0 4px;
+
+		&__content {
+			margin: 0;
 		}
 	}
 
@@ -50,8 +59,8 @@
 
 		.monaco-highlighted-label .highlight {
 			display: inline;
-			margin: 0;
 			padding: 0;
+			margin: 0;
 			background: transparent;
 		}
 	}
@@ -61,6 +70,10 @@
 .chbe-popover {
 	white-space: nowrap;
 
+	.components-popover__content {
+		padding: 16px;
+	}
+
 	&__ttl {
 		margin: 0 0 1em;
 		font-size: 1.2em;
@@ -68,10 +81,10 @@
 	}
 
 	&__subttl {
-		margin: 0 -8px 0.5em;
 		padding: 4px 8px;
-		color: #fff;
+		margin: 0 -8px 0.5em;
 		font-size: 1em;
+		color: #fff;
 		text-align: center;
 		background: var(--wp-admin-theme-color);
 	}

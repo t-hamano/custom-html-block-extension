@@ -14,7 +14,7 @@ class Init {
 	 */
 	public function __construct() {
 		// Load translated strings
-		load_plugin_textdomain( CHBE_NAMESPACE, false, dirname( CHBE_BASENAME ) . '/languages' );
+		load_plugin_textdomain( CHBE_NAMESPACE );
 
 		// Uninstallation process
 		register_uninstall_hook( CHBE_BASENAME, __NAMESPACE__ . '\Init::plugin_uninstall' );

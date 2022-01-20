@@ -31,7 +31,7 @@ Supports the classic editor, the theme/plugin editor, import/export editor setti
 
 ## Note
 
-This plugin will not work on the "**Block Template**" editor, which is a new feature in WordPress 5.8.
+The code editor is disabled in the full site editor, mobile / tablet device preview, and block template editor.
 
 ## Add custom fonts
 
