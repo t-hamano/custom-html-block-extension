@@ -6,7 +6,7 @@ module.exports = {
 	...defaultConfig,
 	resolve: {
 		...defaultConfig.resolve,
-		modules: [ 'src/lib', 'node_modules', 'src' ],
+		modules: [ 'node_modules', 'src' ],
 		extensions: [ '.js', '.jsx' ],
 	},
 	performance: {

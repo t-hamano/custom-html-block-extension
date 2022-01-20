@@ -45,7 +45,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const { content, height } = attributes;
 
 	const [ isPreview, setIsPreview ] = useState();
-	const [ isDisableEditor, setIsDisableEditor ] = useState( false );
+	const [ useEditor, setUseEditor ] = useState( false );
 	const [ isReplacing, setIsReplacing ] = useState( false );
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: chbeObj.editorSettings.tabSize,
@@ -58,12 +58,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const ref = useRef();
 
 	useEffect( () => {
-		// Get relative document considering the iframe editor instance.
+		// Enable the monaco editor only if it is not iframe editor instance.
 		ownerDocument = ref.current.ownerDocument;
-		// Disable the editor when mobile / tablet preview, template editor mode on the post page.
-		setIsDisableEditor(
-			!! document.querySelector( '.is-tablet-preview, .is-mobile-preview, .is-template-mode' )
-		);
+		setUseEditor( window.document === ownerDocument );
 	}, [] );
 
 	const styles = useSelect( ( select ) => {
@@ -83,6 +80,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	}, [] );
 
 	const handleEditorDidMount = ( editor, monaco ) => {
+		ownerDocument = ref.current.ownerDocument;
+
 		// Enable Emmet only once because monaco instances are common to all blocks.
 		if ( chbeObj.editorSettings.emmet && ! monaco.enabledEmmet ) {
 			monaco.enabledEmmet = true;
@@ -113,7 +112,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				custom: {
 					families: [ font.name ],
 				},
-				context: ownerDocument.defaultView,
 			};
 
 			if ( 'stylesheet' in font ) {
@@ -127,6 +125,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					// Adjust the position of the cursor and space.
 					monaco.editor.remeasureFonts();
 				},
+				context: ownerDocument.defaultView,
 			} );
 		}
 
@@ -254,7 +253,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	return (
 		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
-				{ ! isDisableEditor && (
+				{ useEditor && (
 					<ToolbarGroup>
 						<ToolbarButton
 							icon={ replace }
@@ -418,22 +417,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							<SandBox html={ content } styles={ styles } />
 							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
 						</>
-					) : isDisableEditor ? (
-						<>
-							<Notice status="error" isDismissible={ false }>
-								{ __(
-									'Custom HTML Block Extension cannot be used in this mode.',
-									'custom-html-block-extension'
-								) }
-							</Notice>
-							<PlainText
-								value={ content }
-								onChange={ handleChangeContent }
-								placeholder={ __( 'Write HTML…' ) }
-								aria-label={ __( 'HTML' ) }
-							/>
-						</>
-					) : (
+					) : useEditor ? (
 						<ResizableBox
 							size={ { height } }
 							minHeight={ MIN_HEIGHT }
@@ -462,6 +446,21 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 								onMount={ handleEditorDidMount }
 							/>
 						</ResizableBox>
+					) : (
+						<>
+							<Notice status="error" isDismissible={ false }>
+								{ __(
+									'Custom HTML Block Extension cannot be used in this mode.',
+									'custom-html-block-extension'
+								) }
+							</Notice>
+							<PlainText
+								value={ content }
+								onChange={ handleChangeContent }
+								placeholder={ __( 'Write HTML…' ) }
+								aria-label={ __( 'HTML' ) }
+							/>
+						</>
 					)
 				}
 			</Disabled.Consumer>
