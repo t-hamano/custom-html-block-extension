@@ -19,7 +19,7 @@ You can change all kinds of settings to create your ideal editor in advanced mod
 And supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.
 
 ###Note
-This plugin will not work with full site editor, mobile / tablet preview, or block template editor.
+The code editor is disabled in the full site editor, mobile / tablet device preview, and block template editor.
 
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.
