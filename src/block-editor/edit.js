@@ -448,9 +448,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 						</ResizableBox>
 					) : (
 						<>
-							<Notice status="error" isDismissible={ false }>
+							<Notice status="warning" isDismissible={ false }>
 								{ __(
-									'Custom HTML Block Extension cannot be used in this mode.',
+									'Custom HTML Block Extension is disabled in this mode.',
 									'custom-html-block-extension'
 								) }
 							</Notice>
