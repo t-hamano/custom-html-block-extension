@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
-import { addNotification } from 'admin/common/helper';
+import { addNotification } from 'lib/helper';
 import MonacoEditor from 'admin/editor-config/monaco-editor';
 import Mode from 'admin/editor-config/mode';
 import ButtonMenu from 'admin/editor-config/button-menu';

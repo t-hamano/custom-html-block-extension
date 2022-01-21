@@ -8,9 +8,8 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 import './style.scss';
-import Loading from 'admin/common/loading';
-import { htmlCode } from 'admin/common/example-code';
-import BlockIcon from 'common/block-icon';
+import { htmlCode } from 'lib/helper';
+import BlockIcon from 'components/block-icon';
 import WelcomeGuide from 'admin/welcome-guide';
 import Shortcut from 'admin/shortcut';
 import EditorConfig from 'admin/editor-config';
@@ -21,8 +20,7 @@ import Options from 'admin/options';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { TabPanel } from '@wordpress/components';
-
+import { TabPanel, Spinner } from '@wordpress/components';
 import { render, createContext, useState } from '@wordpress/element';
 
 /**
@@ -44,7 +42,11 @@ const Admin = () => {
 
 	return (
 		<>
-			{ isWaiting && <Loading /> }
+			{ isWaiting && (
+				<div className="chbe-loading">
+					<Spinner />
+				</div>
+			) }
 			<div className={ classnames( 'chbe-wrap', { 'chbe-wrap--is-waiting': isWaiting } ) }>
 				<ReactNotification />
 				<header className="chbe-header">

@@ -9,7 +9,7 @@ import { emmetHTML } from 'emmet-monaco-es';
  * Internal dependencies
  */
 import './style.scss';
-import themes from 'themes';
+import themes from 'lib/themes';
 
 loader.init().then( ( monaco ) => {
 	let isMonacoEditorEnabled = false;

@@ -9,8 +9,8 @@ import { emmetHTML } from 'emmet-monaco-es';
  * Internal dependencies
  */
 import './style.scss';
-import themes from 'themes';
-import { toNumber } from 'common/helper';
+import themes from 'lib/themes';
+import { toNumber } from 'lib/helper';
 
 /**
  * WordPress dependencies

@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
-import themes from 'themes';
+import themes from 'lib/themes';
 
 /**
  * WordPress dependencies

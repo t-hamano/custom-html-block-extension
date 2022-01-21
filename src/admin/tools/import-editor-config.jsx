@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
-import { addNotification } from 'admin/common/helper';
+import { addNotification } from 'lib/helper';
 
 /**
  * WordPress dependencies

@@ -9,8 +9,8 @@ import webfontloader from 'webfontloader';
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
-import { addNotification } from 'admin/common/helper';
-import themes from 'themes';
+import { addNotification } from 'lib/helper';
+import themes from 'lib/themes';
 
 /**
  * WordPress dependencies
