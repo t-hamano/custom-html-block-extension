@@ -8,12 +8,12 @@ import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
  * Internal dependencies
  */
 import './style.scss';
-import themes from '../lib/themes';
-import loader from '../lib/loader';
+import themes from 'lib/themes';
+import loader from 'lib/loader';
 
 loader.init().then( ( monaco ) => {
 	const { editorSettings, editorOptions, language, fontFamily } = chbeObj;
-	const { theme, tabSize, insertSpaces } = editorSettings;
+	const { theme, tabSize, insertSpaces, emmet } = editorSettings;
 
 	const textarea = document.getElementById( 'newcontent' );
 
@@ -45,7 +45,7 @@ loader.init().then( ( monaco ) => {
 	} );
 
 	// Enable Emmet.
-	if ( editorSettings.emmet ) {
+	if ( emmet ) {
 		if ( language.match( /htm|php/ ) ) {
 			emmetHTML();
 		} else if ( language.match( /sass|scss|css|less/ ) ) {

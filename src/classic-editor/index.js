@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import loader from '@monaco-editor/loader';
 import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
 
@@ -10,6 +9,7 @@ import { emmetHTML } from 'emmet-monaco-es';
  */
 import './style.scss';
 import themes from 'lib/themes';
+import loader from 'lib/loader';
 
 loader.init().then( ( monaco ) => {
 	let isMonacoEditorEnabled = false;
@@ -38,26 +38,30 @@ loader.init().then( ( monaco ) => {
 	);
 
 	// Setting up the monaco editor.
-	const runEditor = ( target ) => {
+	const runEditor = () => {
+		const { editorSettings, editorOptions, fontFamily } = chbeObj;
+		const { theme, tabSize, insertSpaces, emmet } = editorSettings;
+
 		// Generate an element to apply the monaco editor.
 		const monacoEditorContainer = document.createElement( 'div' );
 		monacoEditorContainer.setAttribute( 'id', 'monaco-editor-container' );
-
-		target.appendChild( monacoEditorContainer );
+		editorContainer.appendChild( monacoEditorContainer );
 
 		// Monaco editor properties.
 		const properties = {
-			theme: chbeObj.editorSettings.theme,
+			theme,
 			value: textarea.value,
 			language: 'php',
 			automaticLayout: true,
-			...chbeObj.editorOptions,
+			...editorOptions,
+			// Override some properties to match the classic editor.
+			scrollBeyondLastLine: false,
+			scrollbar: {
+				...editorOptions.scrollbar,
+				vertical: 'hidden',
+				alwaysConsumeMouseWheel: false,
+			},
 		};
-
-		// Override some properties to match the classic editor.
-		properties.scrollBeyondLastLine = false;
-		properties.scrollbar.vertical = 'hidden';
-		properties.scrollbar.alwaysConsumeMouseWheel = false;
 
 		// Create monaco editor.
 		window.editor = monaco.editor.create( monacoEditorContainer, properties );
@@ -82,22 +86,22 @@ loader.init().then( ( monaco ) => {
 		} );
 
 		// Enable Emmet.
-		if ( chbeObj.editorSettings.emmet ) {
+		if ( emmet ) {
 			emmetHTML();
 		}
 
 		// Update editor settings.
-		if ( 'vs-dark' !== chbeObj.editorSettings.theme && 'light' !== chbeObj.editorSettings.theme ) {
-			const theme = themes.find( ( data ) => chbeObj.editorSettings.theme === data.value );
-			if ( undefined !== theme ) {
-				monaco.editor.defineTheme( theme.value, theme.data );
-				monaco.editor.setTheme( theme.value );
+		if ( 'vs-dark' !== theme && 'light' !== theme ) {
+			const targetTheme = themes.find( ( data ) => theme === data.value );
+			if ( undefined !== targetTheme ) {
+				monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
+				monaco.editor.setTheme( targetTheme.value );
 			}
 		}
 
 		window.editor.getModel().updateOptions( {
-			tabSize: chbeObj.editorSettings.tabSize,
-			insertSpaces: chbeObj.editorSettings.insertSpaces,
+			tabSize,
+			insertSpaces,
 		} );
 
 		// Catch the Ctrl+S command to save draft or publish post.
@@ -111,14 +115,17 @@ loader.init().then( ( monaco ) => {
 		} );
 
 		// Load webfont.
-		const font = chbeObj.fontFamily.find(
-			( data ) => chbeObj.editorOptions.fontFamily === data.name
-		);
+		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
 		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
+				timeout: 2000,
 				custom: {
 					families: [ font.name ],
+				},
+				active: () => {
+					// Adjust the position of the cursor and space.
+					monaco.editor.remeasureFonts();
 				},
 			};
 
@@ -126,17 +133,10 @@ loader.init().then( ( monaco ) => {
 				webfontConfig.custom.urls = [ font.stylesheet ];
 			}
 
-			webfontloader.load( {
-				timeout: 2000,
-				...webfontConfig,
-				active: () => {
-					// Adjust the position of the cursor and space.
-					monaco.editor.remeasureFonts();
-				},
-			} );
+			webfontloader.load( webfontConfig );
 		}
 
-		syncTriggers.forEach( function ( button ) {
+		syncTriggers.forEach( ( button ) => {
 			button.addEventListener( 'mouseup', syncTextareaToEditor );
 			button.addEventListener( 'keydown', syncTextareaToEditor );
 		} );
@@ -180,7 +180,7 @@ loader.init().then( ( monaco ) => {
 
 		// Apply changes in the original textarea to the editor.
 		let checkCount = 0;
-		const checkForChanges = window.setInterval( function () {
+		const checkForChanges = window.setInterval( () => {
 			if ( 100 === checkCount ) {
 				window.clearInterval( checkForChanges );
 			}
@@ -232,7 +232,6 @@ loader.init().then( ( monaco ) => {
 	// eslint-disable-next-line no-shadow
 	const getEditorPosition = ( textarea ) => {
 		const linesContent = textarea.value.split( '\n' );
-
 		let selectionStart = textarea.selectionStart;
 		let lineNumber = 1;
 		let column = 0;
@@ -258,12 +257,12 @@ loader.init().then( ( monaco ) => {
 	const runObserve = () => {
 		const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 		if ( MutationObserver ) {
-			new MutationObserver( function () {
+			new MutationObserver( () => {
 				const mediaInsertButtons = Array.from(
 					document.getElementsByClassName( 'media-button-insert' )
 				);
 				if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
-					mediaInsertButtons.forEach( function ( button ) {
+					mediaInsertButtons.forEach( ( button ) => {
 						button.removeEventListener( 'mouseup', syncTextareaToEditor );
 						button.addEventListener( 'mouseup', syncTextareaToEditor );
 						button.removeEventListener( 'keydown', syncTextareaToEditor );
@@ -283,7 +282,7 @@ loader.init().then( ( monaco ) => {
 			monaco.editor.getModels().forEach( ( model ) => model.dispose() );
 			document.getElementById( 'monaco-editor-container' ).remove();
 			tabHtml.onclick = toHtml;
-			syncTriggers.forEach( function ( button ) {
+			syncTriggers.forEach( ( button ) => {
 				button.removeEventListener( 'mouseup', syncTextareaToEditor );
 				button.removeEventListener( 'keydown', syncTextareaToEditor );
 			} );
@@ -298,7 +297,7 @@ loader.init().then( ( monaco ) => {
 	const toHtml = () => {
 		if ( ! isMonacoEditorEnabled ) {
 			setTimeout( () => {
-				runEditor( editorContainer );
+				runEditor();
 			}, 300 );
 			tabTmce.onclick = toVisual;
 		}
@@ -318,12 +317,12 @@ loader.init().then( ( monaco ) => {
 	runObserve();
 
 	if ( ! isVisualEditorEnabled ) {
-		runEditor( editorContainer );
+		runEditor();
 		replaceIndentButton.style.display = 'inline-block';
 	} else if ( isVisualEditMode ) {
 		tabHtml.onclick = toHtml;
 	} else {
-		runEditor( editorContainer );
+		runEditor();
 		replaceIndentButton.style.display = 'inline-block';
 		tabTmce.onclick = toVisual;
 	}
