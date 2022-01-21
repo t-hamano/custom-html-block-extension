@@ -22,8 +22,7 @@ export const addNotification = ( message, type, duration = 2000 ) => {
 	} );
 };
 
-export const htmlCode = rTabs( `
-<div class="container">
+export const htmlCode = rTabs( `<div class="container">
 	<h2 class="title">Hello World</h2>
 	<div class="row">
 		<div class="col">

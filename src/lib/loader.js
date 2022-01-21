@@ -1,13 +1,24 @@
+/**
+ * Custom monaco editor loader which is a customized version of @monaco-editor/loader.
+ *
+ * @see https://github.com/suren-atoyan/monaco-loader
+ */
+
 const config = {
 	paths: {
 		vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.30.1/min/vs',
 	},
 };
 
+const CANCELATION_MESSAGE = {
+	type: 'cancelation',
+	msg: 'operation is manually canceled',
+};
+
 function makeCancelable( promise ) {
 	let hasCanceled_ = false;
 	const wrappedPromise = new Promise( ( resolve, reject ) => {
-		promise.then( ( val ) => ( hasCanceled_ ? reject( { isCanceled: true } ) : resolve( val ) ) );
+		promise.then( ( val ) => ( hasCanceled_ ? reject( CANCELATION_MESSAGE ) : resolve( val ) ) );
 		promise.catch( reject );
 	} );
 	return ( wrappedPromise.cancel = () => ( hasCanceled_ = true ) ), wrappedPromise;
