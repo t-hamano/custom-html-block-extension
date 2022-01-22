@@ -1,15 +1,7 @@
 /**
- * External dependencies
- */
-import Editor from '@monaco-editor/react';
-import webfontloader from 'webfontloader';
-import { emmetHTML } from 'emmet-monaco-es';
-
-/**
  * Internal dependencies
  */
 import './style.scss';
-import themes from 'lib/themes';
 import { toNumber } from 'lib/helper';
 
 /**
@@ -72,101 +64,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 			...transformStyles( select( 'core/block-editor' ).getSettings().styles ),
 		];
 	}, [] );
-
-	const handleEditorDidMount = ( editor, monaco ) => {
-		const { ownerDocument } = ref.current;
-
-		// Enable Emmet only once because monaco instances are common to all blocks.
-		if ( chbeObj.editorSettings.emmet && ! monaco.enabledEmmet ) {
-			monaco.enabledEmmet = true;
-			emmetHTML( monaco );
-		}
-
-		// Update editor settings.
-		if ( 'vs-dark' !== chbeObj.editorSettings.theme && 'light' !== chbeObj.editorSettings.theme ) {
-			const theme = themes.find( ( data ) => chbeObj.editorSettings.theme === data.value );
-			if ( undefined !== theme ) {
-				monaco.editor.defineTheme( theme.value, theme.data );
-				monaco.editor.setTheme( theme.value );
-			}
-		}
-
-		editor.getModel().updateOptions( {
-			tabSize: chbeObj.editorSettings.tabSize,
-			insertSpaces: chbeObj.editorSettings.insertSpaces,
-		} );
-
-		// Load webfont.
-		const font = chbeObj.fontFamily.find(
-			( data ) => chbeObj.editorOptions.fontFamily === data.name
-		);
-
-		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig = {
-				custom: {
-					families: [ font.name ],
-				},
-			};
-
-			if ( 'stylesheet' in font ) {
-				webfontConfig.custom.urls = [ font.stylesheet ];
-			}
-
-			webfontloader.load( {
-				timeout: 2000,
-				...webfontConfig,
-				active: () => {
-					// Adjust the position of the cursor and space.
-					monaco.editor.remeasureFonts();
-				},
-				context: ownerDocument.defaultView,
-			} );
-		}
-
-		// Ctrl+X shortcut without a range selection will cut the block,
-		// so catch the command and execute custom action instead.
-		// eslint-disable-next-line no-bitwise
-		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_X, () => {
-			const selection = editor.getSelection();
-			const lineNumber = editor.getPosition().lineNumber;
-			const isEmptySelection =
-				selection.startLineNumber === selection.endLineNumber &&
-				selection.startColumn === selection.endColumn;
-
-			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
-				if ( isEmptySelection ) {
-					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
-					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					ownerDocument.execCommand( 'cut' );
-				}
-				ownerDocument.execCommand( 'cut' );
-			} else if ( ! isEmptySelection ) {
-				ownerDocument.execCommand( 'cut' );
-			}
-		} );
-
-		// Ctrl+C shortcut without a range selection will copy the block,
-		// so catch the command and execute custom action instead.
-		// eslint-disable-next-line no-bitwise
-		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_C, () => {
-			const selection = editor.getSelection();
-			const lineNumber = editor.getPosition().lineNumber;
-			const isEmptySelection =
-				selection.startLineNumber === selection.endLineNumber &&
-				selection.startColumn === selection.endColumn;
-
-			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
-				if ( isEmptySelection ) {
-					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
-					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					ownerDocument.execCommand( 'copy' );
-				}
-				ownerDocument.execCommand( 'copy' );
-			} else if ( ! isEmptySelection ) {
-				ownerDocument.execCommand( 'copy' );
-			}
-		} );
-	};
 
 	const handleResizeStart = () => {
 		toggleSelection( false );
@@ -435,17 +332,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							onResizeStop={ handleResizeStop }
 							showHandle={ isSelected }
 							__experimentalShowTooltip={ true }
-						>
-							<Editor
-								theme={ chbeObj.editorSettings.theme }
-								language="html"
-								loading={ __( 'Loading…', 'custom-html-block-extension' ) }
-								value={ content }
-								options={ chbeObj.editorOptions }
-								onChange={ handleChangeContent }
-								onMount={ handleEditorDidMount }
-							/>
-						</ResizableBox>
+						></ResizableBox>
 					) : (
 						<>
 							<Notice status="warning" isDismissible={ false }>
