@@ -72,14 +72,11 @@ loader.init().then( ( monaco ) => {
 
 	if ( undefined !== font && 'label' in font ) {
 		const webfontConfig = {
-			timeout: 2000,
+			timeout: 5000,
 			custom: {
 				families: [ font.name ],
 			},
-			active: () => {
-				// Adjust the position of the cursor and space.
-				monaco.editor.remeasureFonts();
-			},
+			active: () => monaco.editor.remeasureFonts(),
 		};
 
 		if ( 'stylesheet' in font ) {

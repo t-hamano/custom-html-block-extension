@@ -18,9 +18,6 @@ This plugin features Emmet that expand shortcut input into complete code. This r
 You can change all kinds of settings to create your ideal editor in advanced mode.
 And supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.
 
-###Note
-The code editor is disabled in the full site editor, mobile / tablet device preview, and block template editor.
-
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the \'Plugins\' menu in WordPress.
@@ -33,10 +30,6 @@ The code editor is disabled in the full site editor, mobile / tablet device prev
 5. Classic Editor support
 
 == Resources ==
-
-= @monaco-editor/react =
-License: MIT License
-Source: https://github.com/suren-atoyan/monaco-react
 
 = emmet-monaco-es =
 License: MIT License

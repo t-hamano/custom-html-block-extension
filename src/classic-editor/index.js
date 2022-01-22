@@ -107,11 +107,7 @@ loader.init().then( ( monaco ) => {
 		// Catch the Ctrl+S command to save draft or publish post.
 		// eslint-disable-next-line no-bitwise
 		window.editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-			if ( !! draftButton ) {
-				draftButton.click();
-			} else {
-				publishButton.click();
-			}
+			!! draftButton ? draftButton.click() : publishButton.click();
 		} );
 
 		// Load webfont.
@@ -119,14 +115,11 @@ loader.init().then( ( monaco ) => {
 
 		if ( undefined !== font && 'label' in font ) {
 			const webfontConfig = {
-				timeout: 2000,
+				timeout: 5000,
 				custom: {
 					families: [ font.name ],
 				},
-				active: () => {
-					// Adjust the position of the cursor and space.
-					monaco.editor.remeasureFonts();
-				},
+				active: () => monaco.editor.remeasureFonts(),
 			};
 
 			if ( 'stylesheet' in font ) {

@@ -22,7 +22,9 @@ export const addNotification = ( message, type, duration = 2000 ) => {
 	} );
 };
 
-export const htmlCode = rTabs( `<div class="container">
+// Sample code based on indent type and tab size settings.
+export const htmlCode = () => {
+	let str = `<div class="container">
 	<h2 class="title">Hello World</h2>
 	<div class="row">
 		<div class="col">
@@ -37,16 +39,16 @@ export const htmlCode = rTabs( `<div class="container">
 		</div>
 	</div>
 </div>
-` );
+`;
 
-function rTabs( str ) {
 	const { editorSettings } = chbeObj;
 	if ( editorSettings.insertSpaces && editorSettings.tabSize ) {
 		str = str.replace( /\t/gm, ' '.repeat( chbeObj.editorSettings.tabSize ) );
 	}
 	return str;
-}
+};
 
+// Round values to the specified minimum and maximum values.
 export const toNumber = ( value, min = 0, max = null ) => {
 	value = Number( value );
 

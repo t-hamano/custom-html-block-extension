@@ -21,16 +21,8 @@ const Editor = ( { isEditorDisabled, setFontWeights } ) => {
 		setCode( value );
 	};
 
-	const handleOnFontLoaded = ( { isSuccess, font } ) => {
-		if ( isSuccess && font ) {
-			setFontWeights( font.weight );
-			setEditorOptions( {
-				...editorOptions,
-				fontFamily: font.name,
-				fontWeight: 300,
-			} );
-		} else {
-			// Font loading failed.
+	const handleOnFontLoad = ( { isSuccess, font } ) => {
+		if ( ! isSuccess ) {
 			addNotification(
 				sprintf(
 					/* translators: %d is replaced with the number of font name. */
@@ -46,6 +38,11 @@ const Editor = ( { isEditorDisabled, setFontWeights } ) => {
 				fontFamily: 'Fira Code',
 				fontWeight: 300,
 			} );
+		} else {
+			setFontWeights( font.weight );
+			setEditorOptions( {
+				...editorOptions,
+			} );
 		}
 	};
 
@@ -58,8 +55,10 @@ const Editor = ( { isEditorDisabled, setFontWeights } ) => {
 			options={ editorOptions }
 			value={ code }
 			useEmmet={ editorSettings.emmet }
+			tabSize={ editorSettings.tabSize }
+			insertSpaces={ editorSettings.insertSpaces }
 			onChange={ handleChange }
-			onFontLoaded={ handleOnFontLoaded }
+			onFontLoad={ handleOnFontLoad }
 		/>
 	);
 

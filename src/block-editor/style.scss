@@ -12,15 +12,30 @@
 	}
 
 	.components-notice {
+		padding: 4px 8px;
 		margin: 0 0 4px;
 
 		&__content {
 			margin: 0;
 		}
+
+		.components-button {
+			min-width: 24px;
+			height: 24px;
+			padding: 0;
+
+			svg {
+				width: 20px;
+			}
+		}
 	}
 
 	&.is-selected .components-resizable-box__container {
 		background-color: rgba(0, 0, 0, 0.1);
+	}
+
+	.monaco-editor-wrapper {
+		height: 100%;
 	}
 
 	.monaco-editor {

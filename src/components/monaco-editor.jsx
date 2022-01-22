@@ -53,8 +53,9 @@ const MonacoEditor = ( {
 	useEmmet = true,
 	tabSize,
 	insertSpaces,
-	onChange,
-	onFontLoaded,
+	onChange = () => null,
+	onFontLoad = () => null,
+	onError = () => null,
 } ) => {
 	const containerRef = useRef( null );
 	const monacoRef = useRef( null );
@@ -63,49 +64,113 @@ const MonacoEditor = ( {
 
 	const [ isEditorReady, setIsEditorReady ] = useState( false );
 	const [ isMonacoMounting, setIsMonacoMounting ] = useState( true );
-	const [ isLoadingFont, setIsLoadingFont ] = useState( false );
 
 	const [ resizeListener, size ] = useResizeObserver();
 
-	// Init loader and add cancel to promise.
+	// Init loader.
 	useEffect( () => {
 		const { defaultView } = containerRef.current.ownerDocument;
 		const cancelable = loader.init( defaultView );
 
 		cancelable
-			.then( ( monaco ) => ( monacoRef.current = monaco ) && setIsMonacoMounting( false ) )
-			.catch(
-				( error ) =>
-					// eslint-disable-next-line no-console
-					error?.type !== 'cancelation' && console.error( 'Monaco initialization: error:', error )
-			);
+			.then( ( monaco ) => {
+				if ( monaco ) {
+					monacoRef.current = monaco;
+					setIsMonacoMounting( false );
+				}
+			} )
+			.catch( ( error ) => onError( error ) );
 
-		return () => ( editorRef.current ? disposeEditor() : cancelable.cancel() );
+		// Wait for monaco instance is mounted.
+		const interval = setInterval( () => {
+			const { monaco } = defaultView;
+			if ( monaco?.editor && isMonacoMounting && ! isEditorReady ) {
+				monacoRef.current = monaco;
+				clearInterval( interval );
+				setIsMonacoMounting( false );
+			}
+		}, 500 );
+
+		return () => {
+			editorRef ? disposeEditor() : cancelable.cancel();
+			clearInterval( interval );
+		};
 	}, [] );
 
 	// Create monaco editor.
 	useEffect( () => {
 		if ( ! isMonacoMounting && ! isEditorReady ) {
-			const { defaultView } = containerRef.current.ownerDocument;
+			const { ownerDocument } = containerRef.current;
+			const { defaultView } = ownerDocument;
 
-			editorRef.current = monacoRef.current.editor.create( containerRef.current, {
-				...options,
-			} );
-
-			// Apply language.
+			editorRef.current = monacoRef.current.editor.create( containerRef.current, options );
 			monacoRef.current.editor.setModelLanguage( editorRef.current.getModel(), language );
 
-			// Apply emmetHTML.
+			// Apply emmet.
 			if ( useEmmet && ! defaultView.enabledEmmet ) {
 				defaultView.enabledEmmet = true;
 				emmetHTML( monacoRef.current );
 			}
 
+			// Ctrl+X shortcut without a range selection will cut the block,
+			// so catch the command and execute custom action instead.
+			editorRef.current.addCommand(
+				// eslint-disable-next-line no-bitwise
+				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KEY_X,
+				() => {
+					const selection = editorRef.current.getSelection();
+					const lineNumber = editorRef.current.getPosition().lineNumber;
+					const isEmptySelection =
+						selection.startLineNumber === selection.endLineNumber &&
+						selection.startColumn === selection.endColumn;
+
+					if ( chbeObj.editorOptions.emptySelectionClipboard ) {
+						if ( isEmptySelection ) {
+							// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
+							editorRef.current.setSelection(
+								new monacoRef.current.Selection( lineNumber, 1, lineNumber + 1, 1 )
+							);
+							ownerDocument.execCommand( 'cut' );
+						}
+						ownerDocument.execCommand( 'cut' );
+					} else if ( ! isEmptySelection ) {
+						ownerDocument.execCommand( 'cut' );
+					}
+				}
+			);
+
+			// Ctrl+C shortcut without a range selection will copy the block,
+			// so catch the command and execute custom action instead.
+			editorRef.current.addCommand(
+				// eslint-disable-next-line no-bitwise
+				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KEY_C,
+				() => {
+					const selection = editorRef.current.getSelection();
+					const lineNumber = editorRef.current.getPosition().lineNumber;
+					const isEmptySelection =
+						selection.startLineNumber === selection.endLineNumber &&
+						selection.startColumn === selection.endColumn;
+
+					if ( chbeObj.editorOptions.emptySelectionClipboard ) {
+						if ( isEmptySelection ) {
+							// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
+							editorRef.current.setSelection(
+								new monacoRef.current.Selection( lineNumber, 1, lineNumber + 1, 1 )
+							);
+							ownerDocument.execCommand( 'copy' );
+						}
+						ownerDocument.execCommand( 'copy' );
+					} else if ( ! isEmptySelection ) {
+						ownerDocument.execCommand( 'copy' );
+					}
+				}
+			);
+
 			setIsEditorReady( true );
 		}
 	}, [ isMonacoMounting, isEditorReady ] );
 
-	// Refresh layout.
+	// Refresh layout on window resize.
 	useEffect( () => {
 		const { width, height } = size;
 		if ( isEditorReady && width && height ) {
@@ -117,6 +182,9 @@ const MonacoEditor = ( {
 	useEffect( () => {
 		if ( isEditorReady ) {
 			editorRef.current.updateOptions( options );
+			setTimeout( () => {
+				monacoRef.current.editor.remeasureFonts();
+			}, 300 );
 		}
 	}, [ options, isEditorReady ] );
 
@@ -188,28 +256,18 @@ const MonacoEditor = ( {
 		const font = chbeObj.fontFamily.find( ( data ) => fontFamily === data.name );
 
 		if ( undefined !== font && 'label' in font ) {
-			setIsLoadingFont( true );
-
 			const webfontConfig = {
-				timeout: 2000,
+				timeout: 5000,
 				custom: {
 					families: [ font.name ],
 				},
 				active: () => {
-					// Adjust the position of the cursor and space.
 					monacoRef.current.editor.remeasureFonts();
-
-					setIsLoadingFont( false );
-					onFontLoaded( {
-						isSuccess: true,
-						font,
-					} );
+					onFontLoad( { isSuccess: true, font } );
 				},
 				inactive: () => {
-					onFontLoaded( {
-						isSuccess: false,
-						font,
-					} );
+					monacoRef.current.editor.remeasureFonts();
+					onFontLoad( { isSuccess: false, font } );
 				},
 				context: defaultView,
 			};
@@ -229,7 +287,7 @@ const MonacoEditor = ( {
 	return (
 		<div style={ wrapperStyles }>
 			{ resizeListener }
-			{ ( ! isEditorReady || isLoadingFont ) && <div style={ loadingStyles }>{ loading }</div> }
+			{ ! isEditorReady && <div style={ loadingStyles }>{ loading }</div> }
 			<div ref={ containerRef } className={ className } />
 		</div>
 	);

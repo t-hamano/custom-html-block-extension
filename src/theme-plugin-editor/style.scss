@@ -4,6 +4,10 @@
 	min-height: 60vh;
 	margin-right: 4em;
 
+	@media screen and (max-width: 782px) {
+		margin-right: 0;
+	}
+
 	.monaco-editor {
 
 		.find-widget {

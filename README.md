@@ -29,10 +29,6 @@ You can change all kinds of settings to create your ideal editor in advanced mod
 
 Supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.
 
-## Note
-
-The code editor is disabled in the full site editor, mobile / tablet device preview, and block template editor.
-
 ## Add custom fonts
 
 You can use your own favorite fonts in addition to the default fonts.
@@ -158,10 +154,6 @@ $ npm run build
 ```
 
 ## Resources
-
-### @monaco-editor/react
-* License: MIT License
-* Source: https://github.com/suren-atoyan/monaco-react
 
 ### emmet-monaco-es
 * License: MIT License
