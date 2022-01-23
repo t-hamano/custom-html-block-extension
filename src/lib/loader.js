@@ -19,7 +19,7 @@ function makeCancelable( promise ) {
 	let hasCanceled_ = false;
 	const canceledMessage = {
 		type: 'cancelation',
-		msg: __( 'Operation is manually canceled.', 'custom-html-block-extension' ),
+		msg: __( 'Operation is cancelled.', 'custom-html-block-extension' ),
 	};
 	const wrappedPromise = new Promise( ( resolve, reject ) => {
 		promise.then( ( val ) => ( hasCanceled_ ? reject( canceledMessage ) : resolve( val ) ) );
