@@ -27,7 +27,6 @@
 		"stylelint-order": "^5.0.0"
 	},
 	"dependencies": {
-		"@monaco-editor/react": "^4.3.1",
 		"@wordpress/icons": "^6.1.1",
 		"emmet-monaco-es": "^4.6.2",
 		"react-notifications-component": "^3.1.0",

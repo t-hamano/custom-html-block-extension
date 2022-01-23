@@ -2,8 +2,8 @@
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
-import { addNotification } from 'admin/common/helper';
-import MonacoEditor from 'admin/editor-config/monaco-editor';
+import { addNotification } from 'lib/helper';
+import Editor from 'admin/editor-config/editor';
 import Mode from 'admin/editor-config/mode';
 import ButtonMenu from 'admin/editor-config/button-menu';
 import * as EditorSettings from 'admin/editor-config/editor-settings';
@@ -93,7 +93,7 @@ const EditorConfig = () => {
 		<div className="chbe-config">
 			<div className="chbe-config__preview">
 				<h2>{ __( 'Preview', 'custom-html-block-extension' ) }</h2>
-				<MonacoEditor isEditorDisabled={ isEditorDisabled } setFontWeights={ setFontWeights } />
+				<Editor isEditorDisabled={ isEditorDisabled } setFontWeights={ setFontWeights } />
 				<ButtonMenu
 					isWaiting={ isWaiting }
 					handleUpdateOptions={ handleUpdateOptions }

@@ -1,24 +1,17 @@
 /**
- * External dependencies
- */
-import Editor from '@monaco-editor/react';
-import webfontloader from 'webfontloader';
-import { emmetHTML } from 'emmet-monaco-es';
-
-/**
  * Internal dependencies
  */
 import './style.scss';
-import themes from 'themes';
-import { toNumber } from 'common/helper';
+import { toNumber } from 'lib/helper';
+import MonacoEditor from 'components/monaco-editor';
 
 /**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { PlainText, BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
+import { BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
 import {
 	ResizableBox,
 	ToolbarButton,
@@ -30,8 +23,8 @@ import {
 	ButtonGroup,
 	Button,
 	TextControl,
-	Notice,
 	Dropdown,
+	Notice,
 } from '@wordpress/components';
 import { replace, arrowRight } from '@wordpress/icons';
 
@@ -40,22 +33,18 @@ const MAX_HEIGHT = 1000;
 
 export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
 	const { content, height } = attributes;
+	const { editorSettings, editorOptions } = chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState();
-	const [ useEditor, setUseEditor ] = useState( false );
 	const [ replaceSetting, setReplaceSetting ] = useState( {
-		beforeTabSize: chbeObj.editorSettings.tabSize,
-		beforeInsertSpaces: chbeObj.editorSettings.insertSpaces,
-		afterTabSize: chbeObj.editorSettings.tabSize,
-		afterInsertSpaces: chbeObj.editorSettings.insertSpaces,
+		beforeTabSize: editorSettings.tabSize,
+		beforeInsertSpaces: editorSettings.insertSpaces,
+		afterTabSize: editorSettings.tabSize,
+		afterInsertSpaces: editorSettings.insertSpaces,
 	} );
+	const [ errorMessage, setErrorMessage ] = useState();
 
 	const ref = useRef();
-
-	useEffect( () => {
-		// Enable the monaco editor only if it is not iframe editor instance.
-		setUseEditor( window.document === ref.current.ownerDocument );
-	}, [] );
 
 	const styles = useSelect( ( select ) => {
 		const defaultStyles = `
@@ -73,101 +62,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		];
 	}, [] );
 
-	const handleEditorDidMount = ( editor, monaco ) => {
-		const { ownerDocument } = ref.current;
-
-		// Enable Emmet only once because monaco instances are common to all blocks.
-		if ( chbeObj.editorSettings.emmet && ! monaco.enabledEmmet ) {
-			monaco.enabledEmmet = true;
-			emmetHTML( monaco );
-		}
-
-		// Update editor settings.
-		if ( 'vs-dark' !== chbeObj.editorSettings.theme && 'light' !== chbeObj.editorSettings.theme ) {
-			const theme = themes.find( ( data ) => chbeObj.editorSettings.theme === data.value );
-			if ( undefined !== theme ) {
-				monaco.editor.defineTheme( theme.value, theme.data );
-				monaco.editor.setTheme( theme.value );
-			}
-		}
-
-		editor.getModel().updateOptions( {
-			tabSize: chbeObj.editorSettings.tabSize,
-			insertSpaces: chbeObj.editorSettings.insertSpaces,
-		} );
-
-		// Load webfont.
-		const font = chbeObj.fontFamily.find(
-			( data ) => chbeObj.editorOptions.fontFamily === data.name
-		);
-
-		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig = {
-				custom: {
-					families: [ font.name ],
-				},
-			};
-
-			if ( 'stylesheet' in font ) {
-				webfontConfig.custom.urls = [ font.stylesheet ];
-			}
-
-			webfontloader.load( {
-				timeout: 2000,
-				...webfontConfig,
-				active: () => {
-					// Adjust the position of the cursor and space.
-					monaco.editor.remeasureFonts();
-				},
-				context: ownerDocument.defaultView,
-			} );
-		}
-
-		// Ctrl+X shortcut without a range selection will cut the block,
-		// so catch the command and execute custom action instead.
-		// eslint-disable-next-line no-bitwise
-		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_X, () => {
-			const selection = editor.getSelection();
-			const lineNumber = editor.getPosition().lineNumber;
-			const isEmptySelection =
-				selection.startLineNumber === selection.endLineNumber &&
-				selection.startColumn === selection.endColumn;
-
-			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
-				if ( isEmptySelection ) {
-					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
-					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					ownerDocument.execCommand( 'cut' );
-				}
-				ownerDocument.execCommand( 'cut' );
-			} else if ( ! isEmptySelection ) {
-				ownerDocument.execCommand( 'cut' );
-			}
-		} );
-
-		// Ctrl+C shortcut without a range selection will copy the block,
-		// so catch the command and execute custom action instead.
-		// eslint-disable-next-line no-bitwise
-		editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_C, () => {
-			const selection = editor.getSelection();
-			const lineNumber = editor.getPosition().lineNumber;
-			const isEmptySelection =
-				selection.startLineNumber === selection.endLineNumber &&
-				selection.startColumn === selection.endColumn;
-
-			if ( chbeObj.editorOptions.emptySelectionClipboard ) {
-				if ( isEmptySelection ) {
-					// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
-					editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-					ownerDocument.execCommand( 'copy' );
-				}
-				ownerDocument.execCommand( 'copy' );
-			} else if ( ! isEmptySelection ) {
-				ownerDocument.execCommand( 'copy' );
-			}
-		} );
-	};
-
 	const handleResizeStart = () => {
 		toggleSelection( false );
 	};
@@ -180,10 +74,17 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		setAttributes( { height: newHeight } );
 	};
 
-	const handleChangeContent = ( value ) => {
+	const handleOnChange = ( value ) => {
 		setAttributes( { content: value } );
 	};
 
+	const handleOnError = ( error ) => {
+		if ( ( error.type === 'timeout' || error.type === 'scripterror' ) && error.msg ) {
+			setErrorMessage( error.msg );
+		}
+	};
+
+	// Convert tab size and insert spaces.
 	function changeIndent( onClose ) {
 		if ( undefined === content ) {
 			onClose();
@@ -248,7 +149,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	return (
 		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
-				{ useEditor && (
+				<ToolbarGroup>
 					<Dropdown
 						renderToggle={ ( { isOpen, onToggle } ) => {
 							return (
@@ -392,7 +293,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							</div>
 						) }
 					/>
-				) }
+				</ToolbarGroup>
 				<ToolbarGroup>
 					<ToolbarButton
 						className="components-tab-button"
@@ -417,49 +318,40 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							<SandBox html={ content } styles={ styles } />
 							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
 						</>
-					) : useEditor ? (
-						<ResizableBox
-							size={ { height } }
-							minHeight={ MIN_HEIGHT }
-							enable={ {
-								top: false,
-								right: false,
-								bottom: true,
-								left: false,
-								topRight: false,
-								bottomRight: false,
-								bottomLeft: false,
-								topLeft: false,
-							} }
-							onResizeStart={ handleResizeStart }
-							onResizeStop={ handleResizeStop }
-							showHandle={ isSelected }
-							__experimentalShowTooltip={ true }
-						>
-							<Editor
-								theme={ chbeObj.editorSettings.theme }
-								language="html"
-								loading={ __( 'Loading…', 'custom-html-block-extension' ) }
-								value={ content }
-								options={ chbeObj.editorOptions }
-								onChange={ handleChangeContent }
-								onMount={ handleEditorDidMount }
-							/>
-						</ResizableBox>
 					) : (
 						<>
-							<Notice status="warning" isDismissible={ false }>
-								{ __(
-									'Custom HTML Block Extension is disabled in this mode.',
-									'custom-html-block-extension'
-								) }
-							</Notice>
-							<PlainText
-								value={ content }
-								onChange={ handleChangeContent }
-								placeholder={ __( 'Write HTML…' ) }
-								aria-label={ __( 'HTML' ) }
-							/>
+							{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
+							<ResizableBox
+								size={ { height } }
+								minHeight={ MIN_HEIGHT }
+								enable={ {
+									top: false,
+									right: false,
+									bottom: true,
+									left: false,
+									topRight: false,
+									bottomRight: false,
+									bottomLeft: false,
+									topLeft: false,
+								} }
+								onResizeStart={ handleResizeStart }
+								onResizeStop={ handleResizeStop }
+								showHandle={ isSelected }
+							>
+								<MonacoEditor
+									className="monaco-editor-wrapper"
+									language={ 'html' }
+									loading={ __( 'Loading…', 'custom-html-block-extension' ) }
+									theme={ editorSettings.theme }
+									options={ editorOptions }
+									value={ content }
+									useEmmet={ editorSettings.emmet }
+									tabSize={ editorSettings.tabSize }
+									insertSpaces={ editorSettings.insertSpaces }
+									onChange={ handleOnChange }
+									onError={ handleOnError }
+								/>
+							</ResizableBox>
 						</>
 					)
 				}

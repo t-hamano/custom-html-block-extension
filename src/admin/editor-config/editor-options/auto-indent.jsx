@@ -51,7 +51,7 @@ const AutoIndent = () => {
 								isPrimary={ 'none' === editorOptions.autoIndent }
 								isTertiary={ 'none' !== editorOptions.autoIndent }
 								onClick={ () => {
-									handleChange( 'always' );
+									handleChange( 'none' );
 									setIsModalOpen( false );
 								} }
 							>
