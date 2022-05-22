@@ -13,9 +13,8 @@ import { Disabled } from '@wordpress/components';
 import { useContext } from '@wordpress/element';
 
 const Editor = ( { isEditorDisabled, setFontWeights } ) => {
-	const { code, setCode, editorSettings, editorOptions, setEditorOptions } = useContext(
-		AdminContext
-	);
+	const { code, setCode, editorSettings, editorOptions, setEditorOptions } =
+		useContext( AdminContext );
 
 	const handleChange = ( value ) => {
 		setCode( value );
