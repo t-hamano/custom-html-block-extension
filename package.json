@@ -1,6 +1,6 @@
 {
 	"name": "custom-html-block-extension",
-	"author": "Tetsuaki Hamano",
+	"author": "Aki Hamano",
 	"license": "GPL-2.0+",
 	"scripts": {
 		"wp-env": "wp-env",
