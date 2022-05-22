@@ -9,7 +9,7 @@
 		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"clean": "rimraf build",
-		"lint": "npm run lint:style && npm run lint:js",
+		"lint": "npm run lint:php && npm run lint:style && npm run lint:js",
 		"lint:php": "composer lint",
 		"lint:js": "wp-scripts lint-js",
 		"lint:style": "wp-scripts lint-style",
