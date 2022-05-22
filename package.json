@@ -17,19 +17,18 @@
 		"test:e2e": "wp-scripts test-e2e --config test/e2e/jest.config.js"
 	},
 	"devDependencies": {
-		"@wordpress/e2e-test-utils": "^5.4.10",
-		"@wordpress/env": "^4.1.3",
-		"@wordpress/scripts": "^19.2.3",
+		"@wordpress/e2e-test-utils": "^7.5.0",
+		"@wordpress/env": "^4.7.0",
+		"@wordpress/scripts": "^23.1.0",
 		"opener": "^1.5.2",
 		"rimraf": "^3.0.2",
-		"stylelint": "^13.13.1",
 		"stylelint-config-recess-order": "^3.0.0",
 		"stylelint-order": "^5.0.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^6.1.1",
+		"@wordpress/icons": "^9.0.0",
 		"emmet-monaco-es": "^4.6.2",
-		"react-notifications-component": "^3.1.0",
+		"react-notifications-component": "^4.0.0",
 		"webfontloader": "^1.6.28"
 	}
 }
