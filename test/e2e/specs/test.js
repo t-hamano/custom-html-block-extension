@@ -59,9 +59,9 @@ describe( 'Editor', () => {
 	} );
 
 	it( 'Input by Emmet should be expanded on theme editor', async () => {
-		await clickAdminTopMenuWithText( 'Appearance' );
+		await clickAdminTopMenuWithText( 'Tools' );
 		await expandAdminMenu();
-		await clickAdminSubMenuWithText( 'Theme Editor' );
+		await clickAdminSubMenuWithText( 'Theme File Editor' );
 		await page.waitForSelector( '#monaco-editor-container .monaco-editor' );
 		await page.click( '#monaco-editor-container .monaco-editor' );
 		await pressKeyWithModifier( 'primary', 'a' );
