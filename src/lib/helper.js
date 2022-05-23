@@ -1,10 +1,10 @@
 /**
  * External dependencies
  */
-import { store } from 'react-notifications-component';
+import { Store } from 'react-notifications-component';
 
 export const addNotification = ( message, type, duration = 2000 ) => {
-	store.addNotification( {
+	Store.addNotification( {
 		message,
 		type,
 		animation: 'bounce-in',

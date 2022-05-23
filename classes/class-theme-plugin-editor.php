@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Custom_Html_Block_Extension
- * @author Tetsuaki Hamano
+ * @author Aki Hamano
  * @license GPL-2.0+
  */
 

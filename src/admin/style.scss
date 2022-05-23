@@ -145,8 +145,12 @@
 		margin-bottom: 16px;
 	}
 
-	.chbe-wrap--is-waiting {
-		opacity: 0.2;
+	.chbe-wrap {
+		position: relative;
+
+		&--is-waiting {
+			opacity: 0.2;
+		}
 	}
 
 	.chbe-container {
@@ -174,6 +178,12 @@
 	}
 
 	// React notification component
+	.rnc__base {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
 	.notifications-component {
 		margin-left: -80px;
 

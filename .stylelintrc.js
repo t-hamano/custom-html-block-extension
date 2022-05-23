@@ -16,7 +16,6 @@ module.exports = {
 		'font-family-no-missing-generic-family-keyword': null,
 		'selector-class-pattern': null,
 		'at-rule-empty-line-before': null,
-		'declaration-property-unit-whitelist': null,
 		'declaration-property-unit-allowed-list': {
 			'line-height': []
 		},

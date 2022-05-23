@@ -1,6 +1,6 @@
 {
 	"name": "custom-html-block-extension",
-	"author": "Tetsuaki Hamano",
+	"author": "Aki Hamano",
 	"license": "GPL-2.0+",
 	"scripts": {
 		"wp-env": "wp-env",
@@ -9,7 +9,7 @@
 		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"clean": "rimraf build",
-		"lint": "npm run lint:style && npm run lint:js",
+		"lint": "npm run lint:php && npm run lint:style && npm run lint:js",
 		"lint:php": "composer lint",
 		"lint:js": "wp-scripts lint-js",
 		"lint:style": "wp-scripts lint-style",
@@ -17,19 +17,19 @@
 		"test:e2e": "wp-scripts test-e2e --config test/e2e/jest.config.js"
 	},
 	"devDependencies": {
-		"@wordpress/e2e-test-utils": "^5.4.10",
-		"@wordpress/env": "^4.1.3",
-		"@wordpress/scripts": "^19.2.3",
+		"@wordpress/e2e-test-utils": "^7.5.0",
+		"@wordpress/env": "^4.7.0",
+		"@wordpress/scripts": "^23.1.0",
 		"opener": "^1.5.2",
+		"prettier": "npm:wp-prettier@2.6.2-beta-1",
 		"rimraf": "^3.0.2",
-		"stylelint": "^13.13.1",
 		"stylelint-config-recess-order": "^3.0.0",
 		"stylelint-order": "^5.0.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^6.1.1",
+		"@wordpress/icons": "^9.0.0",
 		"emmet-monaco-es": "^4.6.2",
-		"react-notifications-component": "^3.1.0",
+		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
 	}
 }

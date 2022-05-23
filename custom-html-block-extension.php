@@ -5,13 +5,13 @@
  * Requires at least: 5.6
  * Requires PHP: 7.3
  * Version: 3.0.1
- * Author: Tetsuaki Hamano
+ * Author: Aki Hamano
  * Author URI: https://github.com/t-hamano
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: custom-html-block-extension
  * @package Custom_Html_Block_Extension
- * @author Tetsuaki Hamano
+ * @author Aki Hamano
  * @license GPL-2.0+
  */
 

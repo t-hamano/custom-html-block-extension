@@ -1,10 +1,10 @@
 {
-	"name": "tetsuaki.hamano/custom-html-block-extension",
+	"name": "t-hamano/custom-html-block-extension",
   "description": "Extend custom HTML blocks to evolve into an advanced code editor.",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
-			"name": "Tetsuaki Hamano"
+			"name": "Aki Hamano"
 		}
 	],
 	"require-dev": {
@@ -12,7 +12,7 @@
     "wp-coding-standards/wpcs": "*"
 	},
 	"scripts": {
-		"set": "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
+		"phpcs": "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
 		"lint": "phpcs ./ --standard=./phpcs.ruleset.xml"
 	}
 }
