@@ -29,7 +29,7 @@
 	"dependencies": {
 		"@wordpress/icons": "^9.0.0",
 		"emmet-monaco-es": "^4.6.2",
-		"react-notifications-component": "^4.0.0",
+		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
 	}
 }
