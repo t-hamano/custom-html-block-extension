@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import ReactNotification from 'react-notifications-component';
+import { ReactNotifications } from 'react-notifications-component';
 import classnames from 'classnames';
 
 /**
@@ -48,7 +48,7 @@ const Admin = () => {
 				</div>
 			) }
 			<div className={ classnames( 'chbe-wrap', { 'chbe-wrap--is-waiting': isWaiting } ) }>
-				<ReactNotification />
+				<ReactNotifications />
 				<header className="chbe-header">
 					<div className="chbe-container">
 						<h1 className="chbe-header__ttl">
