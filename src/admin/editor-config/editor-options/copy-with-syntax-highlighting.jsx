@@ -55,7 +55,7 @@ const CopyWithSyntaxHighlighting = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/copy-with-syntax-highlighting_1.jpg'
 									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -74,7 +74,7 @@ const CopyWithSyntaxHighlighting = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/copy-with-syntax-highlighting_2.jpg'
 									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }

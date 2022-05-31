@@ -51,7 +51,7 @@ const Padding = () => {
 					</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/padding/top.gif'
 						}
 						alt={ __( 'Padding top (px)', 'custom-html-block-extension' ) }

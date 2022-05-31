@@ -55,7 +55,7 @@ const RenderLineHighlightOnlyWhenFocus = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-line-highlight-only-when-focus_1.gif'
 									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
@@ -74,7 +74,7 @@ const RenderLineHighlightOnlyWhenFocus = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-line-highlight-only-when-focus_2.gif'
 									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }

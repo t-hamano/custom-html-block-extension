@@ -48,7 +48,7 @@ const Rulers = () => {
 					</p>
 					<img
 						src={
-							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/rulers.gif'
+							chbeObj.pluginUrl + '/assets/images/admin/editor-config/editor-options/rulers.gif'
 						}
 						alt={ __( 'Vertical line position', 'custom-html-block-extension' ) }
 					/>

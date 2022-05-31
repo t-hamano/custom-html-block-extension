@@ -55,7 +55,7 @@ const FontLigatures = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/font-ligatures_1.jpg'
 									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
@@ -74,7 +74,7 @@ const FontLigatures = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/font-ligatures_2.jpg'
 									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }

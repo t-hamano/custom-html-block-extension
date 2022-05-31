@@ -63,7 +63,7 @@ const RenderLineHighlight = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-line-highlight_1.jpg'
 									}
 									alt={ __(
@@ -85,7 +85,7 @@ const RenderLineHighlight = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-line-highlight_2.jpg'
 									}
 									alt={ __( 'Only the editor content', 'custom-html-block-extension' ) }
@@ -106,7 +106,7 @@ const RenderLineHighlight = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-line-highlight_3.jpg'
 									}
 									alt={ __( 'Only line numbers', 'custom-html-block-extension' ) }
@@ -125,7 +125,7 @@ const RenderLineHighlight = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-line-highlight_4.jpg'
 									}
 									alt={ __( 'None', 'custom-html-block-extension' ) }

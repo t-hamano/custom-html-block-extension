@@ -58,7 +58,7 @@ const MultiCursorModifier = () => {
 					</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/multi-cursor-modifier.gif'
 						}
 						alt={ __( 'Multi cursor modifier key', 'custom-html-block-extension' ) }

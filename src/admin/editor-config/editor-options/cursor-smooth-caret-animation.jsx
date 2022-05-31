@@ -49,7 +49,7 @@ const CursorSmoothCaretAnimation = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-smooth-caret-animation_1.gif'
 									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const CursorSmoothCaretAnimation = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-smooth-caret-animation_2.gif'
 									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }

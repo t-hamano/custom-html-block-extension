@@ -7,7 +7,8 @@
 		"open": "wp-env start && opener http://localhost:8888",
 		"stop": "wp-env stop",
 		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
-		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
+		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
+		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/lib/monaco-editor/min\" && node bin/delete-sourcemaps.js",
 		"clean": "rimraf build",
 		"lint": "npm run lint:php && npm run lint:style && npm run lint:js",
 		"lint:php": "composer lint",
@@ -20,6 +21,7 @@
 		"@wordpress/e2e-test-utils": "^7.5.0",
 		"@wordpress/env": "^4.7.0",
 		"@wordpress/scripts": "^23.1.0",
+		"cpx": "^1.5.0",
 		"opener": "^1.5.2",
 		"prettier": "npm:wp-prettier@2.6.2-beta-1",
 		"rimraf": "^3.0.2",
@@ -29,6 +31,7 @@
 	"dependencies": {
 		"@wordpress/icons": "^9.0.0",
 		"emmet-monaco-es": "^4.6.2",
+		"monaco-editor": "^0.28.1",
 		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
 	}

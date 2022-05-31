@@ -58,7 +58,7 @@ const LineNumbers = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/line-numbers_1.jpg'
 									}
 									alt={ __( 'Hide', 'custom-html-block-extension' ) }
@@ -77,7 +77,7 @@ const LineNumbers = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/line-numbers_2.jpg'
 									}
 									alt={ __( 'Show (default)', 'custom-html-block-extension' ) }
@@ -98,7 +98,7 @@ const LineNumbers = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/line-numbers_3.gif'
 									}
 									alt={ __(
@@ -120,7 +120,7 @@ const LineNumbers = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/line-numbers_4.gif'
 									}
 									alt={ __( 'Show every 10 lines', 'custom-html-block-extension' ) }

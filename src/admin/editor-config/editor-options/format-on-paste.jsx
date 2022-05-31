@@ -49,7 +49,7 @@ const FormatOnPaste = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/format-on-paste_1.gif'
 									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const FormatOnPaste = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/format-on-paste_2.gif'
 									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }

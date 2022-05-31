@@ -49,7 +49,7 @@ const RenderIndentGuides = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-indent-guides_1.jpg'
 									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const RenderIndentGuides = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-indent-guides_2.jpg'
 									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }

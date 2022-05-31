@@ -55,7 +55,7 @@ const RenderFinalNewline = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-final-newline_1.jpg'
 									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -74,7 +74,7 @@ const RenderFinalNewline = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-final-newline_2.jpg'
 									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }

@@ -108,7 +108,7 @@ class Admin {
 			CHBE_NAMESPACE . '-admin',
 			'chbeObj',
 			array(
-				'assetPath'           => CHBE_URL,
+				'pluginUrl'           => CHBE_URL,
 				'version'             => CHBE_VERSION,
 				'editorSettings'      => Settings::get_editor_settings(),
 				'editorOptions'       => Settings::get_editor_options(),

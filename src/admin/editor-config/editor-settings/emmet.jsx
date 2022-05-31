@@ -69,7 +69,7 @@ const Emmet = () => {
 					</p>
 					<img
 						src={
-							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-settings/emmet.gif'
+							chbeObj.pluginUrl + '/assets/images/admin/editor-config/editor-settings/emmet.gif'
 						}
 						alt={ __( 'Emmet', 'custom-html-block-extension' ) }
 					/>

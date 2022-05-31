@@ -2,6 +2,7 @@
 /.github
 /.wordpress-org
 /artifacts
+/bin
 /node_modules
 /test
 /vendor
@@ -10,13 +11,14 @@
 .eslintignore
 .eslintrc.js
 .gitignore
+.prettierrc.js
 .stylelintrc.js
 .wp-env.json
 composer.json
 composer.lock
 jest-puppeteer.config.js
-package-lock.json
 package.json
+package-lock.json
 phpcs.ruleset.xml
 README.md
 webpack.config.js

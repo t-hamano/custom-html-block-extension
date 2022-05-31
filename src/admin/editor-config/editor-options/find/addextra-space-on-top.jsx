@@ -52,7 +52,7 @@ const AddExtraSpaceOnTop = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/find/addextra-space-on-top_1.jpg'
 									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -71,7 +71,7 @@ const AddExtraSpaceOnTop = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/find/addextra-space-on-top_2.jpg'
 									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }

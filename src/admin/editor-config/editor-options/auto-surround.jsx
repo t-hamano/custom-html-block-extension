@@ -64,7 +64,7 @@ const AutoSurround = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-surround_1.gif'
 									}
 									alt={ __( 'Quotes and brackets (default)', 'custom-html-block-extension' ) }
@@ -83,7 +83,7 @@ const AutoSurround = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-surround_2.gif'
 									}
 									alt={ __( 'Quotes only', 'custom-html-block-extension' ) }
@@ -104,7 +104,7 @@ const AutoSurround = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-surround_3.gif'
 									}
 									alt={ __( 'Brackets only', 'custom-html-block-extension' ) }
@@ -123,7 +123,7 @@ const AutoSurround = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-surround_4.gif'
 									}
 									alt={ __( 'Never', 'custom-html-block-extension' ) }

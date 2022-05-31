@@ -42,7 +42,7 @@ const LineNumbersMinChars = () => {
 				>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/line-numbers-min-chars.gif'
 						}
 						alt={ __( 'Line number width', 'custom-html-block-extension' ) }

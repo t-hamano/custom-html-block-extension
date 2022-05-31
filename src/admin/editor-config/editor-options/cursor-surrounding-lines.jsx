@@ -63,7 +63,7 @@ const CursorSurroundingLines = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/cursor-surrounding-lines_1.gif'
 								}
 								alt={ sprintf(
@@ -83,7 +83,7 @@ const CursorSurroundingLines = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/cursor-surrounding-lines_2.gif'
 								}
 								alt={ sprintf(

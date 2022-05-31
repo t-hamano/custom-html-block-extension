@@ -55,7 +55,7 @@ const SelectOnLineNumbers = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/select-on-line-numbers_1.gif'
 									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -74,7 +74,7 @@ const SelectOnLineNumbers = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/select-on-line-numbers_2.gif'
 									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }

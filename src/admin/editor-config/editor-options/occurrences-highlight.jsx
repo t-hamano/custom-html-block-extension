@@ -49,7 +49,7 @@ const OccurrencesHighlight = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/occurrences-highlight_1.jpg'
 									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const OccurrencesHighlight = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/occurrences-highlight_2.jpg'
 									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }

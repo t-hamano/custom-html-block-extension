@@ -57,7 +57,7 @@ const Horizontal = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/scrollbar/horizontal_1.gif'
 									}
 									alt={ __( 'Auto (default)', 'custom-html-block-extension' ) }
@@ -76,7 +76,7 @@ const Horizontal = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/scrollbar/horizontal_2.jpg'
 									}
 									alt={ __( 'Visible', 'custom-html-block-extension' ) }
@@ -95,7 +95,7 @@ const Horizontal = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/scrollbar/horizontal_3.jpg'
 									}
 									alt={ __( 'Hidden', 'custom-html-block-extension' ) }

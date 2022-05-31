@@ -50,7 +50,7 @@ const WelcomeGuide = () => {
 						{
 							image: (
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/welcome-guide/slide_1.gif' }
+									src={ chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_1.gif' }
 									alt={ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -78,7 +78,7 @@ const WelcomeGuide = () => {
 						{
 							image: (
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/welcome-guide/slide_2.gif' }
+									src={ chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_2.gif' }
 									alt={ __( 'Various color themes', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -97,7 +97,7 @@ const WelcomeGuide = () => {
 						{
 							image: (
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/welcome-guide/slide_3.gif' }
+									src={ chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_3.gif' }
 									alt={ __( 'Faster coding with Emmet', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -116,7 +116,7 @@ const WelcomeGuide = () => {
 						{
 							image: (
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/welcome-guide/slide_4.jpg' }
+									src={ chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_4.jpg' }
 									alt={ __( 'High customizability', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -135,7 +135,7 @@ const WelcomeGuide = () => {
 						{
 							image: (
 								<img
-									src={ chbeObj.assetPath + '/assets/images/admin/welcome-guide/slide_5.jpg' }
+									src={ chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_5.jpg' }
 									alt={ __( 'More support', 'custom-html-block-extension' ) }
 								/>
 							),

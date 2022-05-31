@@ -53,7 +53,7 @@ const ShowIcons = () => {
 								>
 									<img
 										src={
-											chbeObj.assetPath +
+											chbeObj.pluginUrl +
 											'/assets/images/admin/editor-config/editor-options/suggest/show-icons_1.jpg'
 										}
 										alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -72,7 +72,7 @@ const ShowIcons = () => {
 								>
 									<img
 										src={
-											chbeObj.assetPath +
+											chbeObj.pluginUrl +
 											'/assets/images/admin/editor-config/editor-options/suggest/show-icons_2.jpg'
 										}
 										alt={ __( 'Disable', 'custom-html-block-extension' ) }

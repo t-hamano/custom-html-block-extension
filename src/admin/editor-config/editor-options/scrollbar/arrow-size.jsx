@@ -54,7 +54,7 @@ const ArrowSize = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/scrollbar/arrow-size_1.jpg'
 								}
 								alt={ sprintf(
@@ -74,7 +74,7 @@ const ArrowSize = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/scrollbar/arrow-size_2.jpg'
 								}
 								alt={ sprintf(

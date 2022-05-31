@@ -56,7 +56,7 @@ const FoldingStrategy = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/folding-strategy_1.gif'
 									}
 									alt={ __( 'Depends on documentation (default)', 'custom-html-block-extension' ) }
@@ -81,7 +81,7 @@ const FoldingStrategy = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/folding-strategy_2.gif'
 									}
 									alt={ __( 'Depends on indentation', 'custom-html-block-extension' ) }

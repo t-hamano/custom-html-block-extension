@@ -45,7 +45,7 @@ const MaxColumn = () => {
 				>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/minimap/max-column.gif'
 						}
 						alt={ __( 'Width', 'custom-html-block-extension' ) }

@@ -71,7 +71,7 @@ const RenderWhitespace = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-whitespace_1.jpg'
 									}
 									alt={ __( 'All', 'custom-html-block-extension' ) }
@@ -95,7 +95,7 @@ const RenderWhitespace = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-whitespace_2.jpg'
 									}
 									alt={ __(
@@ -124,7 +124,7 @@ const RenderWhitespace = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-whitespace_3.jpg'
 									}
 									alt={ __(
@@ -146,7 +146,7 @@ const RenderWhitespace = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-whitespace_4.jpg'
 									}
 									alt={ __( 'Render only trailing whitespace', 'custom-html-block-extension' ) }
@@ -167,7 +167,7 @@ const RenderWhitespace = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-whitespace_5.jpg'
 									}
 									alt={ __( 'None (default)', 'custom-html-block-extension' ) }

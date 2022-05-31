@@ -57,7 +57,7 @@ const AutoIndent = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-indent_1.gif'
 									}
 									alt={ __( 'None', 'custom-html-block-extension' ) }
@@ -76,7 +76,7 @@ const AutoIndent = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-indent_2.gif'
 									}
 									alt={ __( 'Keep', 'custom-html-block-extension' ) }
@@ -95,7 +95,7 @@ const AutoIndent = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-indent_3.gif'
 									}
 									alt={ __( 'Advanced (default)', 'custom-html-block-extension' ) }

@@ -42,7 +42,7 @@ const WordWrapColumn = () => {
 				>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/word-wrap-column.gif'
 						}
 						alt={ __( 'Word wrap column', 'custom-html-block-extension' ) }

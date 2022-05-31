@@ -53,7 +53,7 @@ const RenderCharacters = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/render-characters_1.jpg'
 									}
 									alt={ __( 'Show characters.', 'custom-html-block-extension' ) }
@@ -73,7 +73,7 @@ const RenderCharacters = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/render-characters_2.jpg'
 									}
 									alt={ __( 'Show blocks.', 'custom-html-block-extension' ) }

@@ -57,7 +57,7 @@ const CursorStyle = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-style_1.jpg'
 									}
 									alt={ __( 'Line (default)', 'custom-html-block-extension' ) }
@@ -76,7 +76,7 @@ const CursorStyle = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-style_2.jpg'
 									}
 									alt={ __( 'Thin line', 'custom-html-block-extension' ) }
@@ -95,7 +95,7 @@ const CursorStyle = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-style_3.jpg'
 									}
 									alt={ __( 'Block', 'custom-html-block-extension' ) }
@@ -116,7 +116,7 @@ const CursorStyle = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-style_4.jpg'
 									}
 									alt={ __( 'Outline', 'custom-html-block-extension' ) }
@@ -135,7 +135,7 @@ const CursorStyle = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-style_5.jpg'
 									}
 									alt={ __( 'Underline', 'custom-html-block-extension' ) }
@@ -154,7 +154,7 @@ const CursorStyle = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-style_6.jpg'
 									}
 									alt={ __( 'Thin underline', 'custom-html-block-extension' ) }

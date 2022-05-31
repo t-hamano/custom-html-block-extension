@@ -42,7 +42,7 @@ const LineDecorationsWidth = () => {
 				>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/line-decorations-width.gif'
 						}
 						alt={ __( 'Folding area width (px)', 'custom-html-block-extension' ) }

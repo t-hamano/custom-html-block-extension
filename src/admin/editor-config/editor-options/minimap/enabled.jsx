@@ -48,7 +48,7 @@ const Enabled = () => {
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/minimap/enabled.gif'
 						}
 						alt={ __( 'Minimap', 'custom-html-block-extension' ) }

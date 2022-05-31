@@ -39,7 +39,7 @@ const EmptySelectionClipboard = () => {
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/empty-selection-clipboard.gif'
 						}
 						alt={ __( 'Copy the current line without selection', 'custom-html-block-extension' ) }

@@ -42,7 +42,7 @@ const SeedSearchStringFromSelection = () => {
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/find/seed-search-string-from-selection.gif'
 						}
 						alt={ __( 'Search string from selection', 'custom-html-block-extension' ) }
