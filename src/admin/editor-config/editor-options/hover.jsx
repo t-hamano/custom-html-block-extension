@@ -39,7 +39,7 @@ const Hover = () => {
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/hover.gif'
+							chbeObj.pluginUrl + '/assets/images/admin/editor-config/editor-options/hover.gif'
 						}
 						alt={ __( 'Enable hover hints', 'custom-html-block-extension' ) }
 					/>

@@ -56,7 +56,7 @@ const CursorBlinking = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-blinking_1.gif'
 									}
 									alt={ __( 'Blink (default)', 'custom-html-block-extension' ) }
@@ -75,7 +75,7 @@ const CursorBlinking = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-blinking_2.gif'
 									}
 									alt={ __( 'Smooth', 'custom-html-block-extension' ) }
@@ -94,7 +94,7 @@ const CursorBlinking = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-blinking_3.gif'
 									}
 									alt={ __( 'Phase', 'custom-html-block-extension' ) }
@@ -113,7 +113,7 @@ const CursorBlinking = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-blinking_4.gif'
 									}
 									alt={ __( 'Expand', 'custom-html-block-extension' ) }
@@ -132,7 +132,7 @@ const CursorBlinking = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/cursor-blinking_5.jpg'
 									}
 									alt={ __( 'Solid', 'custom-html-block-extension' ) }

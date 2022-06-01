@@ -49,7 +49,7 @@ const HideCursorInOverviewRuler = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/hide-cursor-in-overview-ruler_1.jpg'
 									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const HideCursorInOverviewRuler = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/hide-cursor-in-overview-ruler_2.jpg'
 									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }

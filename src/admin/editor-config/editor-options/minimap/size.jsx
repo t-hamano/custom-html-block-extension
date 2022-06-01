@@ -63,7 +63,7 @@ const Minimap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/size_1.jpg'
 									}
 									alt={ __( "Same as editor's content (default)", 'custom-html-block-extension' ) }
@@ -88,7 +88,7 @@ const Minimap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/size_2.jpg'
 									}
 									alt={ __( 'Automatically zoom in or out', 'custom-html-block-extension' ) }
@@ -113,7 +113,7 @@ const Minimap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/size_3.jpg'
 									}
 									alt={ __( 'Automatically shrink', 'custom-html-block-extension' ) }

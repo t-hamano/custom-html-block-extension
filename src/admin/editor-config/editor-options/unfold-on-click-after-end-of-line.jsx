@@ -45,7 +45,7 @@ const UnfoldOnClickAfterEndOfLine = () => {
 					<p>{ __( 'Defaults to disable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/unfold-on-click-after-end-of-line.gif'
 						}
 						alt={ __(

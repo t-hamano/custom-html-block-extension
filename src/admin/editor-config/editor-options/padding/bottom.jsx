@@ -57,7 +57,7 @@ const PaddingBottom = () => {
 					</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/padding/bottom.gif'
 						}
 						alt={ __( 'Padding bottom (px)', 'custom-html-block-extension' ) }

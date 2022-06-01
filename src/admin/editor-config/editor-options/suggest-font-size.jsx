@@ -51,7 +51,7 @@ const SuggestFontSize = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/suggest-font-size_1.jpg'
 								}
 								alt={ sprintf(
@@ -71,7 +71,7 @@ const SuggestFontSize = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/suggest-font-size_2.jpg'
 								}
 								alt={ sprintf(

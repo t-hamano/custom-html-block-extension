@@ -48,7 +48,7 @@ const Loop = () => {
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/find/loop.gif'
+							chbeObj.pluginUrl + '/assets/images/admin/editor-config/editor-options/find/loop.gif'
 						}
 						alt={ __(
 							'Automatically restart the search from the beginning (or end) when no more matches are found.',

@@ -72,7 +72,7 @@ const MultiCursorPaste = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/multi-cursor-paste_1.gif'
 									}
 									alt={ __( 'Spread (default)', 'custom-html-block-extension' ) }
@@ -92,7 +92,7 @@ const MultiCursorPaste = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/multi-cursor-paste_2.gif'
 									}
 									alt={ __( 'Full', 'custom-html-block-extension' ) }

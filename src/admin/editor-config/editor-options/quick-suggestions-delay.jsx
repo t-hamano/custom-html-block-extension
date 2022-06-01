@@ -51,7 +51,7 @@ const QuickSuggestionsDelay = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/quick-suggestions-delay_1.gif'
 								}
 								alt={ sprintf(
@@ -71,7 +71,7 @@ const QuickSuggestionsDelay = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/quick-suggestions-delay_2.gif'
 								}
 								alt={ sprintf(

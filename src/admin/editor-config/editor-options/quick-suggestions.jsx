@@ -46,7 +46,7 @@ const QuickSuggestions = () => {
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/quick-suggestions.gif'
 						}
 						alt={ __( 'Suggest', 'custom-html-block-extension' ) }

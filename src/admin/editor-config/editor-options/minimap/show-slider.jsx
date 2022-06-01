@@ -56,7 +56,7 @@ const ShowSlider = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/show-slider_1.jpg'
 									}
 									alt={ __( 'Always show', 'custom-html-block-extension' ) }
@@ -75,7 +75,7 @@ const ShowSlider = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/show-slider_2.gif'
 									}
 									alt={ __( 'Show on mouseover (default)', 'custom-html-block-extension' ) }

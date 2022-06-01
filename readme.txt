@@ -31,6 +31,14 @@ And supports the classic editor, the theme/plugin editor, import/export editor s
 
 == Resources ==
 
+= monaco-editor =
+License: MIT License
+Source: https://github.com/microsoft/monaco-editor
+
+= react-notifications-component =
+License: MIT License
+Source: https://github.com/teodosii/react-notifications-component
+
 = emmet-monaco-es =
 License: MIT License
 Source: https://github.com/troy351/emmet-monaco-es

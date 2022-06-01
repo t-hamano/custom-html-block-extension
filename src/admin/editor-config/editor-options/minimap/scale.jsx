@@ -45,7 +45,7 @@ const Scale = () => {
 				>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/minimap/scale.gif'
 						}
 						alt={ __( 'Scale', 'custom-html-block-extension' ) }

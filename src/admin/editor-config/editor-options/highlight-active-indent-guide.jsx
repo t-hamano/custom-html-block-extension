@@ -49,7 +49,7 @@ const HighlightActiveIndentGuide = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/highlight-active-indent-guide_1.gif'
 									}
 									alt={ __( 'Enable (default)', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const HighlightActiveIndentGuide = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/highlight-active-indent-guide_2.gif'
 									}
 									alt={ __( 'Disable', 'custom-html-block-extension' ) }

@@ -49,7 +49,7 @@ const RoundedSelection = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/rounded-selection_1.jpg'
 									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const RoundedSelection = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/rounded-selection_2.jpg'
 									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }

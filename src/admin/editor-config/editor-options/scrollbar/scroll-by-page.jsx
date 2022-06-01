@@ -48,7 +48,7 @@ const ScrollByPage = () => {
 					<p>{ __( 'Defaults to disable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath +
+							chbeObj.pluginUrl +
 							'/assets/images/admin/editor-config/editor-options/scrollbar/scroll-by-page.gif'
 						}
 						alt={ __( 'Scroll by page', 'custom-html-block-extension' ) }

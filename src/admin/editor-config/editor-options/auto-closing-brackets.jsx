@@ -60,7 +60,7 @@ const AutoClosingBrackets = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-closing-brackets_1.gif'
 									}
 									alt={ __( 'Always (default)', 'custom-html-block-extension' ) }
@@ -84,7 +84,7 @@ const AutoClosingBrackets = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-closing-brackets_2.gif'
 									}
 									alt={ __(
@@ -106,7 +106,7 @@ const AutoClosingBrackets = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/auto-closing-brackets_3.gif'
 									}
 									alt={ __( 'Never', 'custom-html-block-extension' ) }

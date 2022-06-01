@@ -66,7 +66,7 @@ const Minimap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/side_1.jpg'
 									}
 									alt={ __( 'Left', 'custom-html-block-extension' ) }
@@ -85,7 +85,7 @@ const Minimap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/minimap/side_2.jpg'
 									}
 									alt={ __( 'Right (default)', 'custom-html-block-extension' ) }

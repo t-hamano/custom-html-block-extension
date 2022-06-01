@@ -49,7 +49,7 @@ const RenderControlCharacters = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-control-characters_1.jpg'
 									}
 									alt={ __( 'Enable', 'custom-html-block-extension' ) }
@@ -68,7 +68,7 @@ const RenderControlCharacters = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/render-control-characters_2.jpg'
 									}
 									alt={ __( 'Disable (default)', 'custom-html-block-extension' ) }

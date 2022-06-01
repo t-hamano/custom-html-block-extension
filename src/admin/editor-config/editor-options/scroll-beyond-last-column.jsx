@@ -57,7 +57,7 @@ const ScrollBeyondLastColumn = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/scroll-beyond-last-column_1.gif'
 								}
 								alt={ sprintf(
@@ -77,7 +77,7 @@ const ScrollBeyondLastColumn = () => {
 							</h3>
 							<img
 								src={
-									chbeObj.assetPath +
+									chbeObj.pluginUrl +
 									'/assets/images/admin/editor-config/editor-options/scroll-beyond-last-column_2.gif'
 								}
 								alt={ sprintf(

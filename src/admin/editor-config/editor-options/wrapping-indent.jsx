@@ -55,7 +55,7 @@ const WrappingIndent = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/wrapping-indent_1.jpg'
 									}
 									alt={ __( 'None (default)', 'custom-html-block-extension' ) }
@@ -74,7 +74,7 @@ const WrappingIndent = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/wrapping-indent_2.jpg'
 									}
 									alt={ __( 'Same', 'custom-html-block-extension' ) }
@@ -95,7 +95,7 @@ const WrappingIndent = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/wrapping-indent_3.jpg'
 									}
 									alt={ __( 'Indent', 'custom-html-block-extension' ) }
@@ -114,7 +114,7 @@ const WrappingIndent = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/wrapping-indent_4.jpg'
 									}
 									alt={ __( 'Deep indent', 'custom-html-block-extension' ) }

@@ -45,7 +45,7 @@ const Folding = () => {
 					<p>{ __( 'Defaults to enable.', 'custom-html-block-extension' ) }</p>
 					<img
 						src={
-							chbeObj.assetPath + '/assets/images/admin/editor-config/editor-options/folding.gif'
+							chbeObj.pluginUrl + '/assets/images/admin/editor-config/editor-options/folding.gif'
 						}
 						alt={ __( 'Code folding', 'custom-html-block-extension' ) }
 					/>

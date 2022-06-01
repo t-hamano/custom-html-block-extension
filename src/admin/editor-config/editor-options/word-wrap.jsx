@@ -58,7 +58,7 @@ const WordWrap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/word-wrap_1.jpg'
 									}
 									alt={ __( 'Off (default)', 'custom-html-block-extension' ) }
@@ -78,7 +78,7 @@ const WordWrap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/word-wrap_2.jpg'
 									}
 									alt={ __( 'On', 'custom-html-block-extension' ) }
@@ -100,7 +100,7 @@ const WordWrap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/word-wrap_3.jpg'
 									}
 									alt={ __( 'Depends on word wrap column', 'custom-html-block-extension' ) }
@@ -125,7 +125,7 @@ const WordWrap = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/word-wrap_4.jpg'
 									}
 									alt={ __( 'Flexible', 'custom-html-block-extension' ) }

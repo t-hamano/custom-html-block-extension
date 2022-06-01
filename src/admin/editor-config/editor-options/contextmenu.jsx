@@ -56,7 +56,7 @@ const Contextmenu = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/contextmenu_1.jpg'
 									}
 									alt={ __( 'Show the editor context menu.', 'custom-html-block-extension' ) }
@@ -76,7 +76,7 @@ const Contextmenu = () => {
 							>
 								<img
 									src={
-										chbeObj.assetPath +
+										chbeObj.pluginUrl +
 										'/assets/images/admin/editor-config/editor-options/contextmenu_2.jpg'
 									}
 									alt={ __( 'Show the browser context menu.', 'custom-html-block-extension' ) }
