@@ -18,10 +18,10 @@
 		"test:e2e": "wp-scripts test-e2e --config test/e2e/jest.config.js"
 	},
 	"devDependencies": {
+		"@deboxsoft/cpx": "^1.5.0",
 		"@wordpress/e2e-test-utils": "^7.5.0",
 		"@wordpress/env": "^4.7.0",
 		"@wordpress/scripts": "^23.1.0",
-		"cpx": "^1.5.0",
 		"opener": "^1.5.2",
 		"prettier": "npm:wp-prettier@2.6.2-beta-1",
 		"rimraf": "^3.0.2",
