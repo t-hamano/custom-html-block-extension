@@ -35,5 +35,13 @@
 		"monaco-editor": "^0.28.1",
 		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
+	},
+	"engines": {
+		"node": "14.20.x",
+		"npm": "6.14.x"
+	},
+	"volta": {
+		"node": "14.20.1",
+		"npm": "6.14.17"
 	}
 }
