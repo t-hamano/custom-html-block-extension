@@ -20,7 +20,7 @@
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
 		"@wordpress/base-styles": "^4.10.0",
-		"@wordpress/e2e-test-utils": "^7.5.0",
+		"@wordpress/e2e-test-utils": "^8.3.0",
 		"@wordpress/env": "^4.9.0",
 		"@wordpress/scripts": "^24.3.0",
 		"opener": "^1.5.2",
