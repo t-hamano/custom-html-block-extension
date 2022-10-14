@@ -1,5 +1,9 @@
+@import "node_modules/@wordpress/base-styles/mixins";
+
 // React notification component
 @import "../../node_modules/react-notifications-component/dist/scss/notification";
+
+@include wordpress-admin-schemes();
 
 // WordPress admin
 .auto-fold #wpcontent {
