@@ -1,5 +1,9 @@
+@import "node_modules/@wordpress/base-styles/mixins";
+
 // React notification component
 @import "../../node_modules/react-notifications-component/dist/scss/notification";
+
+@include wordpress-admin-schemes();
 
 // WordPress admin
 .auto-fold #wpcontent {
@@ -179,9 +183,25 @@
 
 	// React notification component
 	.rnc__base {
-		position: absolute;
-		top: 0;
-		left: 0;
+		top: 32px;
+		left: 160px;
+		margin-left: -80px;
+
+		@media only screen and (max-width: 960px) {
+			left: 36px;
+			margin-left: -18px;
+		}
+
+		@media screen and (max-width: 782px) {
+			top: 46px;
+			left: 0;
+			margin-left: 0;
+		}
+
+		.rnc__notification-container--top-center {
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 
 	.notifications-component {

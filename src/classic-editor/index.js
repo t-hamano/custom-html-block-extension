@@ -87,7 +87,7 @@ loader.init().then( ( monaco ) => {
 
 		// Enable Emmet.
 		if ( emmet ) {
-			emmetHTML();
+			emmetHTML( monaco, [ 'html', 'php' ] );
 		}
 
 		// Update editor settings.

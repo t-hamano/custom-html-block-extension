@@ -11,6 +11,7 @@
 .eslintignore
 .eslintrc.js
 .gitignore
+.npmrc
 .prettierrc.js
 .stylelintrc.js
 .wp-env.json

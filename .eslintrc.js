@@ -33,4 +33,22 @@ module.exports = {
 			presets: [ '@babel/preset-react' ],
 		},
 	},
+	overrides: [
+		{
+			files: [ '**/test/**/*.js', '**/__tests__/**/*.js', '**/*.spec.js' ],
+			extends: [ 'plugin:@wordpress/eslint-plugin/test-unit' ],
+			settings: {
+				jest: {
+					version: 26,
+				},
+			},
+		},
+		{
+			files: [ 'test/e2e/**/*.js' ],
+			extends: [ 'plugin:@wordpress/eslint-plugin/test-e2e' ],
+			rules: {
+				'jest/expect-expect': 'off',
+			},
+		},
+	],
 };
