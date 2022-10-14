@@ -20,7 +20,7 @@
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
 		"@wordpress/e2e-test-utils": "^7.5.0",
-		"@wordpress/env": "^4.7.0",
+		"@wordpress/env": "^5.4.0",
 		"@wordpress/scripts": "^23.1.0",
 		"opener": "^1.5.2",
 		"prettier": "npm:wp-prettier@2.6.2-beta-1",
