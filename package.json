@@ -22,15 +22,15 @@
 		"@wordpress/base-styles": "^4.10.0",
 		"@wordpress/e2e-test-utils": "^7.5.0",
 		"@wordpress/env": "^4.7.0",
-		"@wordpress/scripts": "^23.1.0",
+		"@wordpress/scripts": "^24.3.0",
 		"opener": "^1.5.2",
-		"prettier": "npm:wp-prettier@2.6.2-beta-1",
+		"prettier": "npm:wp-prettier@2.6.2",
 		"rimraf": "^3.0.2",
 		"stylelint-config-recess-order": "^3.0.0",
 		"stylelint-order": "^5.0.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^9.0.0",
+		"@wordpress/icons": "^9.10.0",
 		"emmet-monaco-es": "^4.6.2",
 		"monaco-editor": "^0.28.1",
 		"react-notifications-component": "^4.0.1",
