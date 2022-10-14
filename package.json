@@ -31,8 +31,8 @@
 	},
 	"dependencies": {
 		"@wordpress/icons": "^9.10.0",
-		"emmet-monaco-es": "^4.6.2",
-		"monaco-editor": "^0.28.1",
+		"emmet-monaco-es": "^5.1.2",
+		"monaco-editor": "^0.34.0",
 		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
 	},
