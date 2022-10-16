@@ -15,13 +15,14 @@
 		"lint:js": "wp-scripts lint-js",
 		"lint:style": "wp-scripts lint-style",
 		"test": "npm run lint:js && npm run test:e2e",
-		"test:e2e": "wp-scripts test-e2e --config test/e2e/jest.config.js"
+		"test:e2e": "wp-scripts test-e2e --config test/e2e/jest.config.js",
+		"test:e2e:debug": "wp-scripts test-e2e --config test/e2e/jest.config.js --puppeteer-devtools"
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
 		"@wordpress/base-styles": "^4.10.0",
 		"@wordpress/e2e-test-utils": "^8.3.0",
-		"@wordpress/env": "^5.0.0",
+		"@wordpress/env": "^5.4.0",
 		"@wordpress/scripts": "^24.3.0",
 		"opener": "^1.5.2",
 		"prettier": "npm:wp-prettier@2.6.2",

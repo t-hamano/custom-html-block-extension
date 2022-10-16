@@ -1,5 +1,8 @@
 {
-	"plugins": [ "." ],
+	"plugins": [
+		".",
+		"https://downloads.wordpress.org/plugin/classic-editor.zip"
+	],
 	"config": {
 		"WP_DEBUG": true
 	}
