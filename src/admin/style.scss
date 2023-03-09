@@ -12,6 +12,7 @@
 
 // Modal component
 .chbe-modal {
+	max-width: 800px;
 
 	.components-modal__content {
 		@media screen and (max-width: 782px) {
@@ -29,13 +30,14 @@
 
 	img {
 		display: block;
+		max-width: 100%;
 		margin-bottom: 1em;
 	}
 
 	.components-form-toggle {
 
 		.components-form-toggle__track {
-			width: 54px;
+			width: 48px;
 			height: 24px;
 			border-radius: 12px;
 		}
@@ -48,7 +50,7 @@
 		}
 
 		&.is-checked .components-form-toggle__thumb {
-			transform: translateX(28px);
+			transform: translateX(23px);
 		}
 	}
 
@@ -69,26 +71,23 @@
 
 .chbe-modal__row {
 	display: flex;
+	gap: 24px;
 
 	@media screen and (max-width: 782px) {
-		display: block;
+		flex-flow: column;
 	}
 
 	+ .chbe-modal__row {
 		margin-top: 40px;
+
+		@media screen and (max-width: 782px) {
+			margin-top: 24px;
+		}
 	}
 }
 
 .chbe-modal__col {
 	flex: 1;
-
-	&:not(:last-child) {
-		margin-right: 24px;
-
-		@media screen and (max-width: 782px) {
-			margin: 0 0 40px;
-		}
-	}
 
 	> *:first-child {
 		margin-top: 0;
@@ -100,7 +99,7 @@
 
 	.components-button {
 		height: auto;
-		padding: 8px;
+		padding: 6px;
 
 		img {
 			margin-bottom: 0;
@@ -145,8 +144,7 @@
 
 	// Common classes
 	h2 {
-		margin-top: 0;
-		margin-bottom: 16px;
+		margin: 0;
 	}
 
 	.chbe-wrap {
@@ -284,7 +282,7 @@
 			padding-top: 0;
 
 			> .components-panel__body-title {
-				margin-bottom: 16px;
+				margin: 0 -16px 16px;
 			}
 		}
 
@@ -324,9 +322,10 @@
 	.chbe-config {
 		display: flex;
 		flex-flow: row-reverse;
+		gap: 32px;
 
 		@media screen and (max-width: 782px) {
-			display: block;
+			flex-flow: column;
 		}
 
 		// Common classes
@@ -337,9 +336,13 @@
 
 		// BaseControl component
 		.components-base-control {
+			margin-bottom: 0;
 
 			label {
 				display: block;
+				font-size: 13px;
+				font-weight: normal;
+				text-transform: initial;
 			}
 		}
 
@@ -384,6 +387,7 @@
 					.button {
 						color: inherit;
 						background: none;
+						background-color: transparent !important;
 						border: none;
 
 						&:focus {
@@ -409,7 +413,6 @@
 		// Mode component
 		.chbe-mode {
 			display: block;
-			margin-bottom: 40px;
 			text-align: center;
 
 			.components-button {
@@ -434,7 +437,11 @@
 		.chbe-button-menu {
 			display: flex;
 			justify-content: space-between;
-			margin-top: 40px;
+			margin: 0;
+		}
+
+		.chbe-button-menu__item {
+			margin: 0;
 		}
 
 		.chbe-button-menu__submit {
@@ -444,7 +451,10 @@
 	}
 
 	.chbe-config__settings {
+		display: flex;
 		flex: 1;
+		flex-flow: column;
+		gap: 32px;
 
 		h3 {
 			padding-top: 24px;
@@ -456,14 +466,15 @@
 	.chbe-config__preview {
 		position: sticky;
 		top: 40px;
+		display: flex;
+		flex-flow: column;
+		gap: 32px;
 		width: 50%;
 		height: 100%;
-		margin-left: 24px;
 
 		@media screen and (max-width: 782px) {
 			position: static;
 			width: 100%;
-			margin: 0 0 32px;
 		}
 	}
 
