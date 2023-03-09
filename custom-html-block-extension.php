@@ -4,7 +4,7 @@
  * Description: Extend custom HTML blocks to evolve into an advanced code editor.
  * Requires at least: 5.9
  * Requires PHP: 7.3
- * Version: 3.1.0
+ * Version: 3.2.0
  * Author: Aki Hamano
  * Author URI: https://github.com/t-hamano
  * License: GPL2 or later
