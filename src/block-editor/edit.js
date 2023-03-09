@@ -24,9 +24,10 @@ import {
 	Button,
 	TextControl,
 	Dropdown,
+	Modal,
 	Notice,
 } from '@wordpress/components';
-import { replace, arrowRight } from '@wordpress/icons';
+import { edit, arrowRight, replace } from '@wordpress/icons';
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
@@ -36,6 +37,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const { editorSettings, editorOptions } = chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState();
+	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState();
+
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: editorSettings.tabSize,
 		beforeInsertSpaces: editorSettings.insertSpaces,
@@ -150,6 +153,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
 				<ToolbarGroup>
+					<ToolbarButton
+						icon={ edit }
+						label={ __( 'Open HTML Editor' ) }
+						onClick={ () => setIsModalEditorOpen( true ) }
+					/>
 					<Dropdown
 						renderToggle={ ( { isOpen, onToggle } ) => {
 							return (
@@ -173,7 +181,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 										</h3>
 										<BaseControl
 											id="custom-html-block-extension/replace-indent-type"
-											label={ __( 'Indent type', 'custom-html-block-extension' ) }
+											label={ __( 'Indent Type', 'custom-html-block-extension' ) }
 										>
 											<ButtonGroup>
 												<Button
@@ -356,6 +364,27 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					)
 				}
 			</Disabled.Consumer>
+			{ isModalEditorOpen && (
+				<Modal
+					title={ __( 'HTML Editor', 'custom-html-block-extension' ) }
+					className="chbe-modal-editor"
+					onRequestClose={ () => setIsModalEditorOpen( false ) }
+				>
+					<MonacoEditor
+						className="monaco-editor-wrapper"
+						language={ 'html' }
+						loading={ __( 'Loading…', 'custom-html-block-extension' ) }
+						theme={ editorSettings.theme }
+						options={ editorOptions }
+						value={ content }
+						useEmmet={ editorSettings.emmet }
+						tabSize={ editorSettings.tabSize }
+						insertSpaces={ editorSettings.insertSpaces }
+						onChange={ handleOnChange }
+						onError={ handleOnError }
+					/>
+				</Modal>
+			) }
 		</div>
 	);
 }

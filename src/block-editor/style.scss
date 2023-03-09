@@ -142,3 +142,13 @@
 	display: flex;
 	gap: 16px;
 }
+
+// Modal HTML Editor
+.chbe-modal-editor {
+	width: 90vw;
+	min-height: 90vh;
+
+	.monaco-editor-wrapper {
+		height: 100%;
+	}
+}
