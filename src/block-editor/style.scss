@@ -151,4 +151,46 @@
 	.monaco-editor-wrapper {
 		height: 100%;
 	}
+
+	.monaco-editor {
+
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+
+				&.disabled {
+					color: inherit !important;
+					background: none !important;
+				}
+			}
+
+			textarea:focus {
+				box-shadow: none;
+			}
+		}
+
+		.inputarea {
+			padding: 0;
+			color: inherit;
+			box-shadow: none;
+		}
+
+		.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
+			text-decoration: none;
+		}
+
+		.monaco-highlighted-label .highlight {
+			display: inline;
+			padding: 0;
+			margin: 0;
+			background: transparent;
+		}
+	}
 }
