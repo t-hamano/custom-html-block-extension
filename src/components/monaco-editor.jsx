@@ -116,7 +116,7 @@ const MonacoEditor = ( {
 			// so catch the command and execute custom action instead.
 			editorRef.current.addCommand(
 				// eslint-disable-next-line no-bitwise
-				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KEY_X,
+				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KeyX,
 				() => {
 					const selection = editorRef.current.getSelection();
 					const lineNumber = editorRef.current.getPosition().lineNumber;
@@ -143,7 +143,7 @@ const MonacoEditor = ( {
 			// so catch the command and execute custom action instead.
 			editorRef.current.addCommand(
 				// eslint-disable-next-line no-bitwise
-				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KEY_C,
+				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KeyC,
 				() => {
 					const selection = editorRef.current.getSelection();
 					const lineNumber = editorRef.current.getPosition().lineNumber;
