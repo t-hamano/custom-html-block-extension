@@ -132,7 +132,7 @@ class ClassicEditor {
 		$settings = Settings::get_editor_settings();
 		// phpcs:disable Generic.ControlStructures.InlineControlStructure
 		?>
-		<div id="chbe-replace-indent-dialog">
+		<div id="chbe-replace-indent-dialog" class="chbe-dialog__inner">
 			<p class="chbe-dialog__ttl"><?php echo esc_attr_e( 'Change Indentation', 'custom-html-block-extension' ); ?></p>
 			<div class="chbe-dialog__row">
 				<div class="chbe-dialog__col chbe-dialog__col--setting">

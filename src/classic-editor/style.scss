@@ -68,6 +68,13 @@ $wp-admin-theme-color: #2271b1;
 }
 
 // Change indentation Dialog
+.chbe-dialog__inner {
+	display: flex;
+	flex-flow: column;
+	gap: 16px;
+	align-items: center;
+}
+
 .chbe-dialog {
 	z-index: 1002 !important;
 	display: none;
@@ -85,51 +92,45 @@ $wp-admin-theme-color: #2271b1;
 		display: block;
 		margin: 0 0 8px;
 	}
+}
 
-	&__ttl {
-		margin: 0 0 1em;
-		font-size: 1.2em;
-		font-weight: bold;
-		text-align: center;
+.chbe-dialog__ttl {
+	margin: 0;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align: center;
+}
+
+.chbe-dialog__subttl {
+	padding: 4px 8px;
+	margin: 0 -8px 0.5em;
+	font-size: 1em;
+	color: #fff;
+	text-align: center;
+	background: $wp-admin-theme-color;
+}
+
+.chbe-dialog__row {
+	display: flex;
+	gap: 16px;
+	justify-content: center;
+}
+
+.chbe-dialog__col--setting {
+	padding: 0 8px 4px;
+	border: 1px solid $wp-admin-theme-color;
+}
+
+.chbe-dialog__col--arrow {
+	align-self: center;
+
+	svg {
+		display: block;
 	}
+}
 
-	&__subttl {
-		padding: 4px 8px;
-		margin: 0 -8px 0.5em;
-		font-size: 1em;
-		color: #fff;
-		text-align: center;
-		background: $wp-admin-theme-color;
-	}
-
-	&__row {
-		display: flex;
-		justify-content: center;
-	}
-
-	&__col {
-
-		&--setting {
-			padding: 0 8px 4px;
-			border: 1px solid $wp-admin-theme-color;
-		}
-
-		&--arrow {
-			align-self: center;
-			margin: 0 8px;
-
-			svg {
-				display: block;
-			}
-		}
-	}
-
-	&__buttons {
-		margin-top: 16px;
-		text-align: center;
-
-		.button {
-			margin: 0 8px;
-		}
-	}
+.chbe-dialog__buttons {
+	display: flex;
+	gap: 16px;
+	text-align: center;
 }

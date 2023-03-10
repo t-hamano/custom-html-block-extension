@@ -24,9 +24,10 @@ import {
 	Button,
 	TextControl,
 	Dropdown,
+	Modal,
 	Notice,
 } from '@wordpress/components';
-import { replace, arrowRight } from '@wordpress/icons';
+import { edit, arrowRight, replace } from '@wordpress/icons';
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
@@ -36,6 +37,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const { editorSettings, editorOptions } = chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState();
+	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState();
+
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: editorSettings.tabSize,
 		beforeInsertSpaces: editorSettings.insertSpaces,
@@ -149,151 +152,158 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	return (
 		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
-				<ToolbarGroup>
-					<Dropdown
-						renderToggle={ ( { isOpen, onToggle } ) => {
-							return (
-								<ToolbarButton
-									icon={ replace }
-									label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
-									aria-expanded={ isOpen }
-									onClick={ onToggle }
-								/>
-							);
-						} }
-						renderContent={ ( { onClose } ) => (
-							<div className="chbe-popover">
-								<h2 className="chbe-popover__ttl">
-									{ __( 'Change Indentation', 'custom-html-block-extension' ) }
-								</h2>
-								<div className="chbe-popover__row">
-									<div className="chbe-popover__col chbe-popover__col--setting">
-										<h3 className="chbe-popover__subttl">
-											{ __( 'Current Indent', 'custom-html-block-extension' ) }
-										</h3>
-										<BaseControl
-											id="custom-html-block-extension/replace-indent-type"
-											label={ __( 'Indent type', 'custom-html-block-extension' ) }
-										>
-											<ButtonGroup>
-												<Button
-													isPrimary={ ! replaceSetting.beforeInsertSpaces }
-													isSmall
-													onClick={ () => {
+				{ ! isPreview && (
+					<ToolbarGroup>
+						<ToolbarButton
+							icon={ edit }
+							label={ __( 'Open HTML Editor' ) }
+							onClick={ () => setIsModalEditorOpen( true ) }
+						/>
+						<Dropdown
+							renderToggle={ ( { isOpen, onToggle } ) => {
+								return (
+									<ToolbarButton
+										icon={ replace }
+										label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
+										aria-expanded={ isOpen }
+										onClick={ onToggle }
+									/>
+								);
+							} }
+							renderContent={ ( { onClose } ) => (
+								<div className="chbe-popover">
+									<h2 className="chbe-popover__ttl">
+										{ __( 'Change Indentation', 'custom-html-block-extension' ) }
+									</h2>
+									<div className="chbe-popover__row">
+										<div className="chbe-popover__col chbe-popover__col--setting">
+											<h3 className="chbe-popover__subttl">
+												{ __( 'Current Indent', 'custom-html-block-extension' ) }
+											</h3>
+											<BaseControl
+												id="custom-html-block-extension/replace-indent-type"
+												label={ __( 'Indent Type', 'custom-html-block-extension' ) }
+											>
+												<ButtonGroup>
+													<Button
+														isPrimary={ ! replaceSetting.beforeInsertSpaces }
+														isSmall
+														onClick={ () => {
+															setReplaceSetting( {
+																...replaceSetting,
+																beforeInsertSpaces: false,
+															} );
+														} }
+													>
+														{ __( 'Tab', 'custom-html-block-extension' ) }
+													</Button>
+													<Button
+														isPrimary={ replaceSetting.beforeInsertSpaces }
+														isSmall
+														onClick={ () => {
+															setReplaceSetting( {
+																...replaceSetting,
+																beforeInsertSpaces: true,
+															} );
+														} }
+													>
+														{ __( 'Space', 'custom-html-block-extension' ) }
+													</Button>
+												</ButtonGroup>
+											</BaseControl>
+											{ replaceSetting.beforeInsertSpaces && (
+												<TextControl
+													label={ __( 'Indent width', 'custom-html-block-extension' ) }
+													value={ replaceSetting.beforeTabSize }
+													type="number"
+													min="1"
+													max="8"
+													onChange={ ( value ) => {
 														setReplaceSetting( {
 															...replaceSetting,
-															beforeInsertSpaces: false,
+															beforeTabSize: value ? toNumber( value, 1, 8 ) : undefined,
 														} );
 													} }
-												>
-													{ __( 'Tab', 'custom-html-block-extension' ) }
-												</Button>
-												<Button
-													isPrimary={ replaceSetting.beforeInsertSpaces }
-													isSmall
-													onClick={ () => {
+												/>
+											) }
+										</div>
+										<div className="chbe-popover__col chbe-popover__col--arrow">
+											<Icon icon={ arrowRight } />
+										</div>
+										<div className="chbe-popover__col chbe-popover__col--setting">
+											<h3 className="chbe-popover__subttl">
+												{ __( 'New Indent', 'custom-html-block-extension' ) }
+											</h3>
+											<BaseControl
+												id="custom-html-block-extension/replace-indent-type"
+												label={ __( 'Indent type', 'custom-html-block-extension' ) }
+											>
+												<ButtonGroup>
+													<Button
+														isPrimary={ ! replaceSetting.afterInsertSpaces }
+														isSmall
+														onClick={ () => {
+															setReplaceSetting( {
+																...replaceSetting,
+																afterInsertSpaces: false,
+															} );
+														} }
+													>
+														{ __( 'Tab', 'custom-html-block-extension' ) }
+													</Button>
+													<Button
+														isPrimary={ replaceSetting.afterInsertSpaces }
+														isSmall
+														onClick={ () => {
+															setReplaceSetting( {
+																...replaceSetting,
+																afterInsertSpaces: true,
+															} );
+														} }
+													>
+														{ __( 'Space', 'custom-html-block-extension' ) }
+													</Button>
+												</ButtonGroup>
+											</BaseControl>
+											{ replaceSetting.afterInsertSpaces && (
+												<TextControl
+													label={ __( 'Indent width', 'custom-html-block-extension' ) }
+													value={ replaceSetting.afterTabSize }
+													type="number"
+													min="1"
+													max="8"
+													onChange={ ( value ) => {
 														setReplaceSetting( {
 															...replaceSetting,
-															beforeInsertSpaces: true,
+															afterTabSize: value ? toNumber( value, 1, 8 ) : undefined,
 														} );
 													} }
-												>
-													{ __( 'Space', 'custom-html-block-extension' ) }
-												</Button>
-											</ButtonGroup>
-										</BaseControl>
-										{ replaceSetting.beforeInsertSpaces && (
-											<TextControl
-												label={ __( 'Indent width', 'custom-html-block-extension' ) }
-												value={ replaceSetting.beforeTabSize }
-												type="number"
-												min="1"
-												max="8"
-												onChange={ ( value ) => {
-													setReplaceSetting( {
-														...replaceSetting,
-														beforeTabSize: value ? toNumber( value, 1, 8 ) : undefined,
-													} );
-												} }
-											/>
-										) }
+												/>
+											) }
+										</div>
 									</div>
-									<div className="chbe-popover__col chbe-popover__col--arrow">
-										<Icon icon={ arrowRight } />
-									</div>
-									<div className="chbe-popover__col chbe-popover__col--setting">
-										<h3 className="chbe-popover__subttl">
-											{ __( 'New Indent', 'custom-html-block-extension' ) }
-										</h3>
-										<BaseControl
-											id="custom-html-block-extension/replace-indent-type"
-											label={ __( 'Indent type', 'custom-html-block-extension' ) }
+									<div className="chbe-popover__buttons">
+										<Button
+											isPrimary
+											disabled={
+												( replaceSetting.beforeInsertSpaces &&
+													replaceSetting.beforeTabSize === undefined ) ||
+												( replaceSetting.afterInsertSpaces &&
+													replaceSetting.afterTabSize === undefined )
+											}
+											onClick={ () => changeIndent( onClose ) }
 										>
-											<ButtonGroup>
-												<Button
-													isPrimary={ ! replaceSetting.afterInsertSpaces }
-													isSmall
-													onClick={ () => {
-														setReplaceSetting( {
-															...replaceSetting,
-															afterInsertSpaces: false,
-														} );
-													} }
-												>
-													{ __( 'Tab', 'custom-html-block-extension' ) }
-												</Button>
-												<Button
-													isPrimary={ replaceSetting.afterInsertSpaces }
-													isSmall
-													onClick={ () => {
-														setReplaceSetting( {
-															...replaceSetting,
-															afterInsertSpaces: true,
-														} );
-													} }
-												>
-													{ __( 'Space', 'custom-html-block-extension' ) }
-												</Button>
-											</ButtonGroup>
-										</BaseControl>
-										{ replaceSetting.afterInsertSpaces && (
-											<TextControl
-												label={ __( 'Indent width', 'custom-html-block-extension' ) }
-												value={ replaceSetting.afterTabSize }
-												type="number"
-												min="1"
-												max="8"
-												onChange={ ( value ) => {
-													setReplaceSetting( {
-														...replaceSetting,
-														afterTabSize: value ? toNumber( value, 1, 8 ) : undefined,
-													} );
-												} }
-											/>
-										) }
+											{ __( 'Apply', 'custom-html-block-extension' ) }
+										</Button>
+										<Button isSecondary onClick={ onClose }>
+											{ __( 'Cancel', 'custom-html-block-extension' ) }
+										</Button>
 									</div>
 								</div>
-								<div className="chbe-popover__buttons">
-									<Button
-										isPrimary
-										disabled={
-											( replaceSetting.beforeInsertSpaces &&
-												replaceSetting.beforeTabSize === undefined ) ||
-											( replaceSetting.afterInsertSpaces &&
-												replaceSetting.afterTabSize === undefined )
-										}
-										onClick={ () => changeIndent( onClose ) }
-									>
-										{ __( 'Apply', 'custom-html-block-extension' ) }
-									</Button>
-									<Button isSecondary onClick={ onClose }>
-										{ __( 'Cancel', 'custom-html-block-extension' ) }
-									</Button>
-								</div>
-							</div>
-						) }
-					/>
-				</ToolbarGroup>
+							) }
+						/>
+					</ToolbarGroup>
+				) }
 				<ToolbarGroup>
 					<ToolbarButton
 						className="components-tab-button"
@@ -356,6 +366,27 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					)
 				}
 			</Disabled.Consumer>
+			{ isModalEditorOpen && (
+				<Modal
+					title={ __( 'HTML Editor', 'custom-html-block-extension' ) }
+					className="chbe-modal-editor"
+					onRequestClose={ () => setIsModalEditorOpen( false ) }
+				>
+					<MonacoEditor
+						className="monaco-editor-wrapper"
+						language={ 'html' }
+						loading={ __( 'Loading…', 'custom-html-block-extension' ) }
+						theme={ editorSettings.theme }
+						options={ editorOptions }
+						value={ content }
+						useEmmet={ editorSettings.emmet }
+						tabSize={ editorSettings.tabSize }
+						insertSpaces={ editorSettings.insertSpaces }
+						onChange={ handleOnChange }
+						onError={ handleOnError }
+					/>
+				</Modal>
+			) }
 		</div>
 	);
 }
