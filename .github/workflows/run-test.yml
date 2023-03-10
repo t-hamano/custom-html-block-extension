@@ -30,7 +30,7 @@ jobs:
           '8.0', 'WordPress',
           '8.1', 'WordPress',
         ]
-    name: PHP ${{ matrix.php--wp-versions[0] }}  / ${{ matrix.php-wp-versions[1] }} Test
+    name: PHP ${{ matrix.php-wp-versions[0] }}  / ${{ matrix.php-wp-versions[1] }} Test
 
     steps:
       - uses: actions/checkout@v3
