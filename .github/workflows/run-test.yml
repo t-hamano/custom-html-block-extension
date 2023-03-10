@@ -15,19 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [
-          '7.3',
-          '7.4',
-          '8.0',
-          '8.1',
+        php-wp-versions: [
+          '7.3', 'WordPress#5.9.5',
+          '7.3', 'WordPress#6.0.3',
+          '7.3', 'WordPress#6.1.1',
+          '7.3', 'WordPress',
+          '7.4', 'WordPress#5.9.5',
+          '7.4', 'WordPress#6.0.3',
+          '7.4', 'WordPress#6.1.1',
+          '7.4', 'WordPress',
+          '8.0', 'WordPress#5.9.5',
+          '8.0', 'WordPress#6.0.3',
+          '8.0', 'WordPress#6.1.1',
+          '8.0', 'WordPress',
+          '8.1', 'WordPress',
         ]
-        wp-versions: [
-          'WordPress#5.9.5',
-          'WordPress#6.0.3',
-          'WordPress#6.1.1',
-          'WordPress',
-        ]
-    name: PHP ${{ matrix.php-versions }}  / ${{ matrix.wp-versions }} Test
+    name: PHP ${{ matrix.php--wp-versions[0] }}  / ${{ matrix.php-wp-versions[1] }} Test
 
     steps:
       - uses: actions/checkout@v3
@@ -52,7 +55,7 @@ jobs:
 
       - name: Install WordPress
         run: |
-          WP_ENV_CORE=WordPress/${{ matrix.wp-versions }} WP_ENV_PHP_VERSION=${{ matrix.php-versions }} npm run wp-env start
+          WP_ENV_CORE=WordPress/${{ matrix.php-wp-versions[0] }} WP_ENV_PHP_VERSION=${{ matrix.php-wp-versions[1] }} npm run wp-env start
           npm run wp-env run cli wp core version
           npm run wp-env run cli wp cli info
 
