@@ -27,7 +27,7 @@ import {
 	Modal,
 	Notice,
 } from '@wordpress/components';
-import { edit, arrowRight, replace } from '@wordpress/icons';
+import { fullscreen, arrowRight, replace } from '@wordpress/icons';
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
@@ -155,7 +155,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				{ ! isPreview && (
 					<ToolbarGroup>
 						<ToolbarButton
-							icon={ edit }
+							icon={ fullscreen }
 							label={ __( 'Open HTML Editor' ) }
 							onClick={ () => setIsModalEditorOpen( true ) }
 						/>
