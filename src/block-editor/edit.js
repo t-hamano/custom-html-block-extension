@@ -34,7 +34,7 @@ const MAX_HEIGHT = 1000;
 
 export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
 	const { content, height } = attributes;
-	const { editorSettings, editorOptions } = chbeObj;
+	const { editorSettings, editorOptions } = window.chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState();
 	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState();
@@ -369,7 +369,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 			{ isModalEditorOpen && (
 				<Modal
 					title={ __( 'HTML Editor', 'custom-html-block-extension' ) }
-					className="chbe-modal-editor"
+					className="chbe-admin-editor-config-item-help-editor"
 					onRequestClose={ () => setIsModalEditorOpen( false ) }
 				>
 					<MonacoEditor

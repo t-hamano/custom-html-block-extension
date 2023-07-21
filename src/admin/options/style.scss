@@ -1,0 +1,9 @@
+.chbe-admin-options {
+	display: flex;
+	flex-flow: column;
+	gap: 32px;
+
+	> .components-button {
+		align-self: flex-start;
+	}
+}

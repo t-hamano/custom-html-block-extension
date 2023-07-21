@@ -9,9 +9,9 @@ import { emmetHTML } from 'emmet-monaco-es';
  */
 import './style.scss';
 import themes from 'lib/themes';
-import loader from 'lib/loader';
+import initLoader from 'lib/loader';
 
-loader.init().then( ( monaco ) => {
+initLoader().then( ( monaco ) => {
 	let isMonacoEditorEnabled = false;
 
 	const isEditorEnabled = null !== document.getElementById( 'content' );
@@ -39,7 +39,7 @@ loader.init().then( ( monaco ) => {
 
 	// Setting up the monaco editor.
 	const runEditor = () => {
-		const { editorSettings, editorOptions, fontFamily } = chbeObj;
+		const { editorSettings, editorOptions, fontFamily } = window.chbeObj;
 		const { theme, tabSize, insertSpaces, emmet } = editorSettings;
 
 		// Generate an element to apply the monaco editor.

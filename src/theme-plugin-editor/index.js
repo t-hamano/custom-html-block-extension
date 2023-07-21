@@ -9,10 +9,10 @@ import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
  */
 import './style.scss';
 import themes from 'lib/themes';
-import loader from 'lib/loader';
+import initLoader from 'lib/loader';
 
-loader.init().then( ( monaco ) => {
-	const { editorSettings, editorOptions, language, fontFamily } = chbeObj;
+initLoader().then( ( monaco ) => {
+	const { editorSettings, editorOptions, language, fontFamily } = window.chbeObj;
 	const { theme, tabSize, insertSpaces, emmet } = editorSettings;
 
 	const textarea = document.getElementById( 'newcontent' );

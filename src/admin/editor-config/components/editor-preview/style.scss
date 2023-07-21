@@ -1,0 +1,40 @@
+.chbe-admin-editor-config-editor-preview {
+	height: calc(100vh - 400px);
+
+	@media screen and (max-width: 782px) {
+		height: 50vh;
+	}
+
+	.components-disabled {
+		height: 100%;
+	}
+
+	.monaco-editor {
+
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				background-color: transparent !important;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+
+			textarea:focus {
+				box-shadow: none;
+			}
+		}
+
+		.inputarea {
+			box-shadow: none;
+		}
+
+		.monaco-highlighted-label .highlight {
+			background: transparent;
+		}
+	}
+}

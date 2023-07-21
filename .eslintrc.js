@@ -2,9 +2,6 @@ module.exports = {
 	extends: [ 'plugin:@wordpress/eslint-plugin/recommended' ],
 	parser: '@babel/eslint-parser',
 	globals: {
-		chbeObj: true,
-		Blob: true,
-		FileReader: true,
 		jQuery: true,
 	},
 	rules: {

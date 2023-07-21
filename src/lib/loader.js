@@ -1,18 +1,13 @@
 /**
- * Custom monaco editor loader which is a customized version of @monaco-editor/loader.
- *
- * @see https://github.com/suren-atoyan/monaco-loader
- */
-
-/**
- * Internal dependencies
- */
-import config from 'lib/config';
-
-/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+
+const config = {
+	paths: {
+		vs: `${ window.chbeObj.pluginUrl }/build/lib/monaco-editor/min/vs`,
+	},
+};
 
 // Wrap promise to make it cancelable.
 function makeCancelable( promise ) {
@@ -28,7 +23,13 @@ function makeCancelable( promise ) {
 	return ( wrappedPromise.cancel = () => ( hasCanceled_ = true ) ), wrappedPromise;
 }
 
-function init( targetWindow = window ) {
+/**
+ * Custom monaco editor loader which is a customized version of @monaco-editor/loader.
+ *
+ * @param targetWindow The window object to load the editor.
+ * @see https://github.com/suren-atoyan/monaco-loader
+ */
+export default function initLoader( targetWindow = window ) {
 	const promise = new Promise( ( resolve, reject ) => {
 		// It will be considered a read failure when a certain amount of time has passed.
 		const timeout = setTimeout( () => {
@@ -77,5 +78,3 @@ function init( targetWindow = window ) {
 
 	return makeCancelable( promise );
 }
-
-export default { init };
