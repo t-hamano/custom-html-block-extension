@@ -95,6 +95,7 @@ const MonacoEditor = ( {
 			editorRef ? disposeEditor() : cancelable.cancel();
 			clearInterval( interval );
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [] );
 
 	// Create monaco editor.
@@ -168,6 +169,7 @@ const MonacoEditor = ( {
 
 			setIsEditorReady( true );
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ isMonacoMounting, isEditorReady ] );
 
 	// Refresh layout on window resize.
@@ -206,6 +208,7 @@ const MonacoEditor = ( {
 		if ( isEditorReady ) {
 			loadFont( options.fontFamily );
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ options.fontFamily, isEditorReady ] );
 
 	// Change tab size, insert spaces.
