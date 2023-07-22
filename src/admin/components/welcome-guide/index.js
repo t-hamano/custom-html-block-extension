@@ -51,7 +51,9 @@ export default function WelcomeGuide() {
 						{
 							image: (
 								<img
-									src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_1.gif' }
+									src={
+										window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_1.gif'
+									}
 									alt={ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -79,7 +81,9 @@ export default function WelcomeGuide() {
 						{
 							image: (
 								<img
-									src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_2.gif' }
+									src={
+										window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_2.gif'
+									}
 									alt={ __( 'Various color themes', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -98,7 +102,9 @@ export default function WelcomeGuide() {
 						{
 							image: (
 								<img
-									src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_3.gif' }
+									src={
+										window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_3.gif'
+									}
 									alt={ __( 'Faster coding with Emmet', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -117,7 +123,9 @@ export default function WelcomeGuide() {
 						{
 							image: (
 								<img
-									src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_4.jpg' }
+									src={
+										window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_4.jpg'
+									}
 									alt={ __( 'High customizability', 'custom-html-block-extension' ) }
 								/>
 							),
@@ -136,7 +144,9 @@ export default function WelcomeGuide() {
 						{
 							image: (
 								<img
-									src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_5.jpg' }
+									src={
+										window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_5.jpg'
+									}
 									alt={ __( 'More support', 'custom-html-block-extension' ) }
 								/>
 							),
