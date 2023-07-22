@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { ToggleControl } from '@wordpress/components';
 
 /**
@@ -30,29 +30,39 @@ export default function ColumnSelection() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Accept suggestions on enter key', 'custom-html-block-extension' ) }
+				title={ __( 'Enable column selection', 'custom-html-block-extension' ) }
 				description={
 					<>
-						<span>
+						<p>
 							{ __(
 								'Always enable column selection. Following command can be used to select column selection even when disabled.',
 								'custom-html-block-extension'
 							) }
-						</span>
-						<span>{ __( 'Windows:', 'custom-html-block-extension' ) }</span>
-						<span>
-							{ __(
-								'"Shift + Alt + drag mouse", or "Ctrl + Shift + Alt + arrow key"',
-								'custom-html-block-extension'
-							) }
-						</span>
-						<span>{ __( 'macOS:', 'custom-html-block-extension' ) }</span>
-						<span>
-							{ __(
-								'"Shift + Option + drag mouse", or "Shift + Option + Command + arrow key"',
-								'custom-html-block-extension'
-							) }
-						</span>
+						</p>
+						<ul>
+							<li>
+								{ createInterpolateElement(
+									__(
+										'Windows: <code>Shift</code> + <code>Alt</code> + drag mouse, or "<code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key',
+										'custom-html-block-extension'
+									),
+									{
+										code: <code />,
+									}
+								) }
+							</li>
+							<li>
+								{ createInterpolateElement(
+									__(
+										'macOS: <code>Shift</code> + <code>Option</code> + drag mouse, or <code>Shift</code> + <code>Option</code> + <code>Command</code> + arrow key',
+										'custom-html-block-extension'
+									),
+									{
+										code: <code />,
+									}
+								) }
+							</li>
+						</ul>
 					</>
 				}
 				isToggle

@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { ToggleControl } from '@wordpress/components';
 
 /**
@@ -31,9 +31,14 @@ export default function AcceptSuggestionOnEnter() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ __( 'Accept suggestions on enter key', 'custom-html-block-extension' ) }
-				description={ __(
-					'Accept suggestions on enter key in addition to tab key.',
-					'custom-html-block-extension'
+				description={ createInterpolateElement(
+					__(
+						'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
 				) }
 				isToggle
 				defaultToggle={ true }
