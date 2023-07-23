@@ -16,7 +16,7 @@ export default function WelcomeGuide() {
 		}
 	}, [] );
 
-	const handleOnFinish = () => {
+	const onFinish = () => {
 		if ( ! window.chbeObj.dismissWelcomeGuide ) {
 			apiFetch( {
 				path: '/custom-html-block-extension/v1/dismiss_welcome_guide',
@@ -43,7 +43,7 @@ export default function WelcomeGuide() {
 			</Button>
 			{ isModalOpen && (
 				<Guide
-					onFinish={ handleOnFinish }
+					onFinish={ onFinish }
 					className="chbe-admin-welcome-guide-modal"
 					contentLabel={ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
 					finishButtonText={ __( 'Get started', 'custom-html-block-extension' ) }

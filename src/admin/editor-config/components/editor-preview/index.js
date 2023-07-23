@@ -16,7 +16,7 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 	const { code, setCode, editorSettings, editorOptions, setEditorOptions } =
 		useContext( AdminContext );
 
-	const handleOnFontLoad = ( { isSuccess, font } ) => {
+	const onFontLoad = ( { isSuccess, font } ) => {
 		if ( ! isSuccess ) {
 			addNotification(
 				sprintf(
@@ -54,7 +54,7 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 				tabSize={ editorSettings.tabSize }
 				insertSpaces={ editorSettings.insertSpaces }
 				onChange={ setCode }
-				onFontLoad={ handleOnFontLoad }
+				onFontLoad={ onFontLoad }
 			/>
 		</Disabled>
 	);

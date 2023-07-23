@@ -76,11 +76,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		];
 	}, [] );
 
-	const handleResizeStart = () => {
+	const onResizeStart = () => {
 		toggleSelection( false );
 	};
 
-	const handleResizeStop = ( event, direction, elt, delta ) => {
+	const onResizeStop = ( event, direction, elt, delta ) => {
 		const newHeight = Math.min(
 			Math.max( parseInt( height + delta.height, 10 ), MIN_HEIGHT ),
 			MAX_HEIGHT
@@ -88,11 +88,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		setAttributes( { height: newHeight } );
 	};
 
-	const handleOnChange = ( value ) => {
+	const onChange = ( value ) => {
 		setAttributes( { content: value } );
 	};
 
-	const handleOnError = ( error ) => {
+	const onError = ( error ) => {
 		if ( ( error.type === 'timeout' || error.type === 'scripterror' ) && error.msg ) {
 			setErrorMessage( error.msg );
 		}
@@ -346,8 +346,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 									bottomLeft: false,
 									topLeft: false,
 								} }
-								onResizeStart={ handleResizeStart }
-								onResizeStop={ handleResizeStop }
+								onResizeStart={ onResizeStart }
+								onResizeStop={ onResizeStop }
 								showHandle={ isSelected }
 							>
 								<MonacoEditor
@@ -360,8 +360,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 									useEmmet={ editorSettings.emmet }
 									tabSize={ editorSettings.tabSize }
 									insertSpaces={ editorSettings.insertSpaces }
-									onChange={ handleOnChange }
-									onError={ handleOnError }
+									onChange={ onChange }
+									onError={ onError }
 								/>
 							</ResizableBox>
 						</>
@@ -385,8 +385,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 						useEmmet={ editorSettings.emmet }
 						tabSize={ editorSettings.tabSize }
 						insertSpaces={ editorSettings.insertSpaces }
-						onChange={ handleOnChange }
-						onError={ handleOnError }
+						onChange={ onChange }
+						onError={ onError }
 					/>
 				</Modal>
 			) }
