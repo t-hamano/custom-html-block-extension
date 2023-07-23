@@ -74,8 +74,22 @@
 		}
 	}
 
-	.components-select-control__input {
-		line-height: initial;
+	.components-select-control {
+
+		.components-flex-item {
+			max-width: 100%;
+		}
+
+		.components-input-control__label {
+			display: block;
+			font-size: 13px;
+			font-weight: normal;
+			text-transform: initial;
+		}
+
+		.components-select-control__input {
+			line-height: initial;
+		}
 	}
 
 	.components-panel__body {
