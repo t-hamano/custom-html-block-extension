@@ -101,9 +101,16 @@
 
 
 // Modal HTML Editor
-.chbe-admin-editor-config-item-help-editor {
-	width: 90vw;
-	min-height: 90vh;
+.chbe-fullscreen-editor {
+
+	.components-modal__content {
+		display: flex;
+		flex-flow: column;
+	}
+
+	.components-modal__header + div {
+		flex: 1;
+	}
 
 	.chbe-editor-wrapper {
 		height: 100%;

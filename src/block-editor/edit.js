@@ -367,7 +367,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 			{ isModalEditorOpen && (
 				<Modal
 					title={ __( 'HTML Editor', 'custom-html-block-extension' ) }
-					className="chbe-admin-editor-config-item-help-editor"
+					className="chbe-fullscreen-editor"
+					isFullScreen
 					onRequestClose={ () => setIsModalEditorOpen( false ) }
 				>
 					<MonacoEditor
