@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { Button, Modal } from '@wordpress/components';
+import { Button, Flex, Modal } from '@wordpress/components';
 
 export default function Controls( { isWaiting, onUpdateOptions, onResetOptions } ) {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
@@ -35,7 +35,6 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 			{ isModalOpen && (
 				<Modal
 					title={ __( 'Reset settings', 'custom-html-block-extension' ) }
-					className="chbe-admin-editor-config-controls-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
 					<p>
@@ -44,7 +43,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 							'custom-html-block-extension'
 						) }
 					</p>
-					<div className="chbe-admin-editor-config-item-help-modal__controls">
+					<Flex>
 						<Button
 							variant="primary"
 							onClick={ () => {
@@ -57,7 +56,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 						<Button variant="secondary" onClick={ () => setIsModalOpen( false ) }>
 							{ __( 'Cancel', 'custom-html-block-extension' ) }
 						</Button>
-					</div>
+					</Flex>
 				</Modal>
 			) }
 		</>

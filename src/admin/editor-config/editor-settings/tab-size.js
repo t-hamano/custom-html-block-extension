@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
+import { RangeControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
