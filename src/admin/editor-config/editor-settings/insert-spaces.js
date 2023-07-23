@@ -39,7 +39,7 @@ export default function InsertSpaces() {
 				<BaseControl.VisualLabel>
 					{ __( 'Indent type', 'custom-html-block-extension' ) }
 				</BaseControl.VisualLabel>
-				<ButtonGroup>
+				<ButtonGroup aria-label={ __( 'Indent type', 'custom-html-block-extension' ) }>
 					{ items.map( ( item, index ) => (
 						<Button
 							key={ index }

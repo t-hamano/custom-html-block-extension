@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { ButtonGroup, Button } from '@wordpress/components';
 
 const MODES = [
@@ -22,8 +22,8 @@ export default function Modes( { editorMode, setEditorMode } ) {
 
 	return (
 		<ButtonGroup
+			aria-label={ __( 'Mode', 'custom-html-block-extension' ) }
 			className="chbe-admin-editor-config-modes"
-			label={ __( 'Mode', 'custom-html-block-extension' ) }
 			onChange={ setEditorMode }
 			checked={ editorMode }
 		>

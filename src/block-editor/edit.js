@@ -196,7 +196,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 												<BaseControl.VisualLabel>
 													{ __( 'Indent Type', 'custom-html-block-extension' ) }
 												</BaseControl.VisualLabel>
-												<ButtonGroup>
+												<ButtonGroup
+													aria-label={ __( 'Indent type', 'custom-html-block-extension' ) }
+												>
 													{ INDENT_TYPES.map( ( indentType, index ) => (
 														<Button
 															key={ index }
@@ -242,7 +244,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 												<BaseControl.VisualLabel>
 													{ __( 'Indent type', 'custom-html-block-extension' ) }
 												</BaseControl.VisualLabel>
-												<ButtonGroup>
+												<ButtonGroup
+													aria-label={ __( 'Indent type', 'custom-html-block-extension' ) }
+												>
 													{ INDENT_TYPES.map( ( indentType, index ) => (
 														<Button
 															key={ index }

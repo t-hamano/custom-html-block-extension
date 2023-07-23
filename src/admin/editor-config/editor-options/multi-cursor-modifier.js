@@ -41,7 +41,9 @@ export default function MultiCursorModifier() {
 				<BaseControl.VisualLabel>
 					{ __( 'Multi cursor modifier key', 'custom-html-block-extension' ) }
 				</BaseControl.VisualLabel>
-				<ButtonGroup>
+				<ButtonGroup
+					aria-label={ __( 'Multi cursor modifier key', 'custom-html-block-extension' ) }
+				>
 					{ items.map( ( item, index ) => (
 						<Button
 							key={ index }

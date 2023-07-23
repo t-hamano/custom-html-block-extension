@@ -44,7 +44,7 @@ export default function MinimapSide() {
 				<BaseControl.VisualLabel>
 					{ __( 'Position', 'custom-html-block-extension' ) }
 				</BaseControl.VisualLabel>
-				<ButtonGroup>
+				<ButtonGroup aria-label={ __( 'Position', 'custom-html-block-extension' ) }>
 					{ items.map( ( item, index ) => (
 						<Button
 							key={ index }

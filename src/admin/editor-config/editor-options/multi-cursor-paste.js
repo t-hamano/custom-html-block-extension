@@ -44,7 +44,12 @@ export default function MultiCursorPaste() {
 						'custom-html-block-extension'
 					) }
 				</BaseControl.VisualLabel>
-				<ButtonGroup>
+				<ButtonGroup
+					aria-label={ __(
+						'Behaviour when pasting a text with the line count equal to the cursor count',
+						'custom-html-block-extension'
+					) }
+				>
 					{ items.map( ( item, index ) => (
 						<Button
 							key={ index }
