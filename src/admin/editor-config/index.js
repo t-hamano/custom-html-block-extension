@@ -1,4 +1,12 @@
 /**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
+import { createContext, useContext, useState } from '@wordpress/element';
+import { PanelBody, Disabled } from '@wordpress/components';
+
+/**
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
@@ -8,16 +16,6 @@ import Modes from './components/modes';
 import Controls from 'admin/editor-config/components/controls';
 import * as EditorSettings from 'admin/editor-config/editor-settings';
 import * as EditorOptions from 'admin/editor-config/editor-options';
-
-/**
- * WordPress dependencies
- */
-import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
-
-import { createContext, useContext, useState } from '@wordpress/element';
-
-import { PanelBody, Button, Disabled } from '@wordpress/components';
 
 /**
  * Context
@@ -359,57 +357,42 @@ export default function EditorConfig() {
 								>
 									<EditorOptions.ScrollbarUseShadows />
 									<EditorOptions.OverviewRulerBorder />
-									<div className="chbe-admin-editor-config__controls-group">
-										<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
-										<EditorOptions.ScrollbarScrollByPage />
-										<EditorOptions.ScrollbarHorizontal />
-										{ 'hidden' === editorOptions.scrollbar.horizontal ? (
-											<Disabled>
-												<EditorOptions.ScrollbarHorizontalHasArrows />
-												<EditorOptions.ScrollbarHorizontalScrollbarSize />
-											</Disabled>
-										) : (
-											<>
-												<EditorOptions.ScrollbarHorizontalHasArrows />
-												<EditorOptions.ScrollbarHorizontalScrollbarSize />
-											</>
-										) }
-										<EditorOptions.ScrollbarVertical />
-										{ 'hidden' === editorOptions.scrollbar.vertical ? (
-											<Disabled>
-												<EditorOptions.ScrollbarVerticalHasArrows />
-												<EditorOptions.ScrollbarVerticalScrollbarSize />
-											</Disabled>
-										) : (
-											<>
-												<EditorOptions.ScrollbarVerticalHasArrows />
-												<EditorOptions.ScrollbarVerticalScrollbarSize />
-											</>
-										) }
-										{ ( ! editorOptions.scrollbar.horizontalHasArrows &&
-											! editorOptions.scrollbar.verticalHasArrows ) ||
-										( 'hidden' === editorOptions.scrollbar.horizontal &&
-											'hidden' === editorOptions.scrollbar.vertical ) ? (
-											<Disabled>
-												<EditorOptions.ScrollbarArrowSize />
-											</Disabled>
-										) : (
+									<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
+									<EditorOptions.ScrollbarScrollByPage />
+									<EditorOptions.ScrollbarHorizontal />
+									{ 'hidden' === editorOptions.scrollbar.horizontal ? (
+										<Disabled>
+											<EditorOptions.ScrollbarHorizontalHasArrows />
+											<EditorOptions.ScrollbarHorizontalScrollbarSize />
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.ScrollbarHorizontalHasArrows />
+											<EditorOptions.ScrollbarHorizontalScrollbarSize />
+										</>
+									) }
+									<EditorOptions.ScrollbarVertical />
+									{ 'hidden' === editorOptions.scrollbar.vertical ? (
+										<Disabled>
+											<EditorOptions.ScrollbarVerticalHasArrows />
+											<EditorOptions.ScrollbarVerticalScrollbarSize />
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.ScrollbarVerticalHasArrows />
+											<EditorOptions.ScrollbarVerticalScrollbarSize />
+										</>
+									) }
+									{ ( ! editorOptions.scrollbar.horizontalHasArrows &&
+										! editorOptions.scrollbar.verticalHasArrows ) ||
+									( 'hidden' === editorOptions.scrollbar.horizontal &&
+										'hidden' === editorOptions.scrollbar.vertical ) ? (
+										<Disabled>
 											<EditorOptions.ScrollbarArrowSize />
-										) }
-										<p>
-											{ __(
-												'Settings in this group will be reflected in the preview area when you press the refresh editor button.',
-												'custom-html-block-extension'
-											) }
-										</p>
-										<Button
-											variant="primary"
-											disabled={ isEditorDisabled }
-											onClick={ onRefreshEditor }
-										>
-											{ __( 'Refresh editor', 'custom-html-block-extension' ) }
-										</Button>
-									</div>
+										</Disabled>
+									) : (
+										<EditorOptions.ScrollbarArrowSize />
+									) }
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Other', 'custom-html-block-extension' ) }

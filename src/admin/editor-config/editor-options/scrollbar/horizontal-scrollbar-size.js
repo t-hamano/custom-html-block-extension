@@ -2,34 +2,52 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { useContext, useEffect, useState } from '@wordpress/element';
 import { RangeControl } from '@wordpress/components';
+import { useDebounce } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
+import { EditorConfigContext } from 'admin/editor-config';
 import ItemHelp from 'admin/editor-config/components/item-help';
 import { toNumber } from 'lib/helper';
 
 export default function ScrollbarHorizontalScrollbarSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
+	const [ value, setValue ] = useState( editorOptions.scrollbar.horizontalScrollbarSize );
 
-	const onChange = ( value ) => {
+	// Debounce the function to avoid refreshing the editor every time the range is changed.
+	const debouncedOnChange = useDebounce( ( newValue ) => {
+		onRefreshEditor();
 		setEditorOptions( {
 			...editorOptions,
 			scrollbar: {
 				...editorOptions.scrollbar,
-				horizontalScrollbarSize: value ? toNumber( value, 5, 30 ) : 10,
+				horizontalScrollbarSize: newValue,
 			},
 		} );
+	}, 200 );
+
+	const onChange = ( newValue ) => {
+		setValue( newValue ? toNumber( newValue, 5, 30 ) : 10 );
 	};
+
+	useEffect( () => {
+		if ( editorOptions.scrollbar.horizontalScrollbarSize === value ) {
+			return;
+		}
+		debouncedOnChange( value );
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ value ] );
 
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
 				label={ __( 'Horizontal scrollbar size', 'custom-html-block-extension' ) }
-				value={ editorOptions.scrollbar.horizontalScrollbarSize }
+				value={ value }
 				min="5"
 				max="30"
 				allowReset
@@ -58,7 +76,7 @@ export default function ScrollbarHorizontalScrollbarSize() {
 						value: 30,
 					},
 				] }
-				value={ editorOptions.scrollbar.horizontalScrollbarSize }
+				value={ value }
 			/>
 		</div>
 	);

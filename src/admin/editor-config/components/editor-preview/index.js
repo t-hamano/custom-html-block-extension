@@ -1,16 +1,15 @@
 /**
+ * WordPress dependencies
+ */
+import { __, sprintf } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
+
+/**
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
 import { addNotification } from 'lib/helper';
 import MonacoEditor from 'components/monaco-editor';
-
-/**
- * WordPress dependencies
- */
-import { __, sprintf } from '@wordpress/i18n';
-import { Disabled } from '@wordpress/components';
-import { useContext } from '@wordpress/element';
 
 export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 	const { code, setCode, editorSettings, editorOptions, setEditorOptions } =
@@ -42,20 +41,22 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 	};
 
 	return (
-		<Disabled isDisabled={ isEditorDisabled }>
-			<MonacoEditor
-				className="chbe-admin-editor-config-editor-preview"
-				language={ 'html' }
-				loading={ __( 'Loading…', 'custom-html-block-extension' ) }
-				theme={ editorSettings.theme }
-				options={ editorOptions }
-				value={ code }
-				useEmmet={ editorSettings.emmet }
-				tabSize={ editorSettings.tabSize }
-				insertSpaces={ editorSettings.insertSpaces }
-				onChange={ setCode }
-				onFontLoad={ onFontLoad }
-			/>
-		</Disabled>
+		<div className="chbe-admin-editor-config-editor-preview">
+			{ ! isEditorDisabled && (
+				<MonacoEditor
+					className="chbe-admin-editor-config-editor-preview"
+					language={ 'html' }
+					loading={ __( 'Loading…', 'custom-html-block-extension' ) }
+					theme={ editorSettings.theme }
+					options={ editorOptions }
+					value={ code }
+					useEmmet={ editorSettings.emmet }
+					tabSize={ editorSettings.tabSize }
+					insertSpaces={ editorSettings.insertSpaces }
+					onChange={ setCode }
+					onFontLoad={ onFontLoad }
+				/>
+			) }
+		</div>
 	);
 }

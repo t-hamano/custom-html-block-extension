@@ -70,21 +70,4 @@
 	.chbe-admin-editor-config__preview-title {
 		margin: 0;
 	}
-
-	.chbe-admin-editor-config__controls-group {
-		display: flex;
-		flex-flow: column;
-		gap: 16px;
-		padding: 16px;
-		margin-top: 16px;
-		border: 1px solid var(--wp-admin-theme-color);
-
-		p {
-			margin: 0;
-		}
-
-		> .components-button {
-			align-self: flex-start;
-		}
-	}
 }

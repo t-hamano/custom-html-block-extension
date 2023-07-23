@@ -9,12 +9,15 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from 'admin';
+import { EditorConfigContext } from 'admin/editor-config';
 import ItemHelp from 'admin/editor-config/components/item-help';
 
 export default function ScrollbarAlwaysConsumeMouseWheel() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
 
 	const onChange = ( value ) => {
+		onRefreshEditor();
 		setEditorOptions( {
 			...editorOptions,
 			scrollbar: {
