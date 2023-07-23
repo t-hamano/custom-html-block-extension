@@ -588,7 +588,18 @@ class Settings {
 		if ( empty( $wp_roles ) ) {
 			$wp_roles = new WP_Roles();
 		}
-		return $wp_roles->get_names();
+
+		$roles            = $wp_roles->get_names();
+		$translated_roles = array();
+
+		foreach ( $roles as $name => $display_name ) {
+			$translated_roles[] = array(
+				'label' => translate_user_role( $display_name ),
+				'value' => $name,
+			);
+		}
+
+		return $translated_roles;
 	}
 
 	/**

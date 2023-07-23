@@ -13,7 +13,7 @@ import { AdminContext } from '../../../index';
 export default function PermissionUserRole() {
 	const { options, setOptions } = useContext( AdminContext );
 
-	const allUserRoles = window.chbeObj.userRoles || {};
+	const userRoles = window.chbeObj.userRoles || {};
 
 	const onChange = ( role ) => {
 		const newPermissionRoles = options.permissionRoles.includes( role )
@@ -32,12 +32,12 @@ export default function PermissionUserRole() {
 		<PanelBody
 			title={ __( 'User roles allowed to use this extension', 'custom-html-block-extension' ) }
 		>
-			{ Object.keys( allUserRoles ).map( ( key ) => (
+			{ userRoles.map( ( role, index ) => (
 				<ToggleControl
-					key={ key }
-					label={ allUserRoles[ key ] }
-					checked={ options.permissionRoles.includes( key ) }
-					onChange={ () => onChange( key ) }
+					key={ index }
+					label={ role.label }
+					checked={ options.permissionRoles.includes( role.value ) }
+					onChange={ () => onChange( role.value ) }
 				/>
 			) ) }
 		</PanelBody>
