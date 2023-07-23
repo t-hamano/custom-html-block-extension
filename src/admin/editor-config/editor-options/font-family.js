@@ -26,14 +26,19 @@ export default function FontFamily() {
 			<SelectControl
 				label={ __( 'Font family', 'custom-html-block-extension' ) }
 				value={ editorOptions.fontFamily }
-				options={ window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
-					label,
-					value: name,
-				} ) ) }
+				options={ [
+					...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
+						label,
+						value: name,
+					} ) ),
+					{
+						label: __( 'Monospace', 'custom-html-block-extension' ),
+						value: 'monospace',
+					},
+				] }
 				onChange={ onChange }
 			/>
 			<ItemHelp
-				onChange={ onChange }
 				title={ __( 'Font family', 'custom-html-block-extension' ) }
 				description={
 					<>
