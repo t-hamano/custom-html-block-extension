@@ -156,7 +156,7 @@ export default function EditorConfig() {
 									<EditorOptions.LetterSpacing />
 								</PanelBody>
 								<PanelBody
-									title={ __( 'Word Wrap', 'custom-html-block-extension' ) }
+									title={ __( 'Word wrap', 'custom-html-block-extension' ) }
 									initialOpen={ false }
 								>
 									<EditorOptions.WordWrap />
@@ -218,7 +218,7 @@ export default function EditorConfig() {
 									<EditorOptions.CursorSmoothCaretAnimation />
 								</PanelBody>
 								<PanelBody
-									title={ __( 'Code Folding', 'custom-html-block-extension' ) }
+									title={ __( 'Code folding', 'custom-html-block-extension' ) }
 									initialOpen={ false }
 								>
 									<EditorOptions.Folding />
@@ -241,7 +241,7 @@ export default function EditorConfig() {
 									) }
 								</PanelBody>
 								<PanelBody
-									title={ __( 'Line Number', 'custom-html-block-extension' ) }
+									title={ __( 'Line number', 'custom-html-block-extension' ) }
 									initialOpen={ false }
 								>
 									<EditorOptions.LineNumbers />
@@ -283,7 +283,7 @@ export default function EditorConfig() {
 									) }
 								</PanelBody>
 								<PanelBody
-									title={ __( 'Auto Completion', 'custom-html-block-extension' ) }
+									title={ __( 'Auto completion', 'custom-html-block-extension' ) }
 									initialOpen={ false }
 								>
 									<EditorOptions.AutoIndent />
@@ -293,7 +293,7 @@ export default function EditorConfig() {
 									<EditorOptions.FormatOnPaste />
 								</PanelBody>
 								<PanelBody
-									title={ __( 'Mouse and Scroll', 'custom-html-block-extension' ) }
+									title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }
 									initialOpen={ false }
 								>
 									<EditorOptions.MouseWheelScrollSensitivity />
@@ -308,7 +308,7 @@ export default function EditorConfig() {
 									<EditorOptions.MultiCursorModifier />
 								</PanelBody>
 								<PanelBody
-									title={ __( 'Select, Cut, Copy, Paste', 'custom-html-block-extension' ) }
+									title={ __( 'Select, cut, copy, and paste', 'custom-html-block-extension' ) }
 									initialOpen={ false }
 								>
 									<EditorOptions.EmptySelectionClipboard />
@@ -320,7 +320,7 @@ export default function EditorConfig() {
 									<EditorOptions.ColumnSelection />
 								</PanelBody>
 								<PanelBody
-									title={ __( 'Highlight and Rendering', 'custom-html-block-extension' ) }
+									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
 									initialOpen={ false }
 								>
 									<EditorOptions.MatchBrackets />

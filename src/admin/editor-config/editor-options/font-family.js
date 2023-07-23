@@ -50,7 +50,7 @@ export default function FontFamily() {
 									'custom-html-block-extension'
 								) }
 							>
-								{ __( 'GitHub Project Page', 'custom-html-block-extension' ) }
+								{ __( 'GitHub project page', 'custom-html-block-extension' ) }
 							</ExternalLink>
 						</p>
 					</>

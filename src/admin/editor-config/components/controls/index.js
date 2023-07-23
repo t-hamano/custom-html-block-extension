@@ -19,7 +19,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 						disabled={ isWaiting }
 						onClick={ onUpdateOptions }
 					>
-						{ __( 'Save Settings', 'custom-html-block-extension' ) }
+						{ __( 'Save settings', 'custom-html-block-extension' ) }
 					</Button>
 				</li>
 				<li className="chbe-admin-editor-config-controls__item">
@@ -35,7 +35,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 			</ul>
 			{ isModalOpen && (
 				<Modal
-					title={ __( 'Reset Settings', 'custom-html-block-extension' ) }
+					title={ __( 'Reset settings', 'custom-html-block-extension' ) }
 					className="chbe-admin-editor-config-controls-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
@@ -53,7 +53,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 								setIsModalOpen( false );
 							} }
 						>
-							{ __( 'Reset Settings', 'custom-html-block-extension' ) }
+							{ __( 'Reset settings', 'custom-html-block-extension' ) }
 						</Button>
 						<Button variant="secondary" onClick={ () => setIsModalOpen( false ) }>
 							{ __( 'Cancel', 'custom-html-block-extension' ) }

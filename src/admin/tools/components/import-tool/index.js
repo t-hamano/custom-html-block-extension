@@ -81,7 +81,7 @@ export default function ImportTool() {
 	return (
 		<PanelBody
 			className="chbe-admin-tools-import-tool"
-			title={ __( 'Import Editor Config', 'custom-html-block-extension' ) }
+			title={ __( 'Import editor config', 'custom-html-block-extension' ) }
 		>
 			<p>
 				{ __(

@@ -78,7 +78,7 @@ function Admin() {
 				tabs={ [
 					{
 						name: 'editor-config',
-						title: __( 'Editor Config', 'custom-html-block-extension' ),
+						title: __( 'Editor config', 'custom-html-block-extension' ),
 					},
 					{
 						name: 'tools',

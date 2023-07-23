@@ -167,7 +167,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					<ToolbarGroup>
 						<ToolbarButton
 							icon={ fullscreen }
-							label={ __( 'Open HTML Editor' ) }
+							label={ __( 'Open HTML editor' ) }
 							onClick={ () => setIsModalEditorOpen( true ) }
 						/>
 						<Dropdown
@@ -176,7 +176,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 								return (
 									<ToolbarButton
 										icon={ replace }
-										label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
+										label={ __( 'Change indentation', 'custom-html-block-extension' ) }
 										aria-expanded={ isOpen }
 										onClick={ onToggle }
 									/>
@@ -185,19 +185,19 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							renderContent={ ( { onClose } ) => (
 								<div className="chbe-popover__inner">
 									<h2 className="chbe-popover__title">
-										{ __( 'Change Indentation', 'custom-html-block-extension' ) }
+										{ __( 'Change indentation', 'custom-html-block-extension' ) }
 									</h2>
 									<div className="chbe-popover__row">
 										<div className="chbe-popover__col">
 											<h3 className="chbe-popover__subtitle">
-												{ __( 'Current Indent', 'custom-html-block-extension' ) }
+												{ __( 'Current indent', 'custom-html-block-extension' ) }
 											</h3>
 											<BaseControl>
 												<BaseControl.VisualLabel>
-													{ __( 'Indent Type', 'custom-html-block-extension' ) }
+													{ __( 'Current indent type', 'custom-html-block-extension' ) }
 												</BaseControl.VisualLabel>
 												<ButtonGroup
-													aria-label={ __( 'Indent type', 'custom-html-block-extension' ) }
+													aria-label={ __( 'Current indent type', 'custom-html-block-extension' ) }
 												>
 													{ INDENT_TYPES.map( ( indentType, index ) => (
 														<Button
@@ -221,7 +221,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											</BaseControl>
 											{ replaceSetting.beforeInsertSpaces && (
 												<TextControl
-													label={ __( 'Indent width', 'custom-html-block-extension' ) }
+													label={ __( 'Current indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.beforeTabSize }
 													type="number"
 													min="1"
@@ -238,14 +238,14 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 										<Icon className="chbe-popover__arrow" icon={ arrowRight } />
 										<div className="chbe-popover__col">
 											<h3 className="chbe-popover__subtitle">
-												{ __( 'New Indent', 'custom-html-block-extension' ) }
+												{ __( 'New indent', 'custom-html-block-extension' ) }
 											</h3>
 											<BaseControl>
 												<BaseControl.VisualLabel>
-													{ __( 'Indent type', 'custom-html-block-extension' ) }
+													{ __( 'New indent type', 'custom-html-block-extension' ) }
 												</BaseControl.VisualLabel>
 												<ButtonGroup
-													aria-label={ __( 'Indent type', 'custom-html-block-extension' ) }
+													aria-label={ __( 'New indent type', 'custom-html-block-extension' ) }
 												>
 													{ INDENT_TYPES.map( ( indentType, index ) => (
 														<Button
@@ -269,7 +269,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											</BaseControl>
 											{ replaceSetting.afterInsertSpaces && (
 												<TextControl
-													label={ __( 'Indent width', 'custom-html-block-extension' ) }
+													label={ __( 'New indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.afterTabSize }
 													type="number"
 													min="1"
@@ -370,7 +370,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 			</Disabled.Consumer>
 			{ isModalEditorOpen && (
 				<Modal
-					title={ __( 'HTML Editor', 'custom-html-block-extension' ) }
+					title={ __( 'HTML editor', 'custom-html-block-extension' ) }
 					className="chbe-fullscreen-editor"
 					isFullScreen
 					onRequestClose={ () => setIsModalEditorOpen( false ) }

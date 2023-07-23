@@ -52,7 +52,7 @@ export default function Emmet() {
 						</p>
 						<p>
 							<ExternalLink href="https://docs.emmet.io/cheat-sheet/">
-								{ __( 'Check Cheat Sheet', 'custom-html-block-extension' ) }
+								{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
 							</ExternalLink>
 						</p>
 						<Notice status="warning" isDismissible={ false }>

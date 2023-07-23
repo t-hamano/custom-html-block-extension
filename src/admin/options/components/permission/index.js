@@ -40,17 +40,17 @@ export default function Permission() {
 			title={ __( 'Permission', 'custom-html-block-extension' ) }
 		>
 			<ToggleControl
-				label={ __( 'Enable on Block Editor', 'custom-html-block-extension' ) }
+				label={ __( 'Enable on the block editor', 'custom-html-block-extension' ) }
 				checked={ options.permissionBlockEditor }
 				onChange={ onBlockEditorChange }
 			/>
 			<ToggleControl
-				label={ __( 'Enable on Classic Editor', 'custom-html-block-extension' ) }
+				label={ __( 'Enable on the classic editor', 'custom-html-block-extension' ) }
 				checked={ options.permissionClassicEditor }
 				onChange={ onClassicEditorChange }
 			/>
 			<ToggleControl
-				label={ __( 'Enable on Theme and Plugin Editor', 'custom-html-block-extension' ) }
+				label={ __( 'Enable on Theme and Plugin editor', 'custom-html-block-extension' ) }
 				checked={ options.permissionThemePluginEditor }
 				onChange={ onThemePluginEditorChange }
 			/>
