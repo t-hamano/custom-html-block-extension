@@ -94,14 +94,14 @@ $wp-admin-theme-color: #2271b1;
 	}
 }
 
-.chbe-dialog__ttl {
+.chbe-dialog__title {
 	margin: 0;
 	font-size: 1.2em;
 	font-weight: bold;
 	text-align: center;
 }
 
-.chbe-dialog__subttl {
+.chbe-dialog__subtitle {
 	padding: 4px 8px;
 	margin: 0 -8px 0.5em;
 	font-size: 1em;
@@ -116,17 +116,13 @@ $wp-admin-theme-color: #2271b1;
 	justify-content: center;
 }
 
-.chbe-dialog__col--setting {
+.chbe-dialog__setting {
 	padding: 0 8px 4px;
 	border: 1px solid $wp-admin-theme-color;
 }
 
-.chbe-dialog__col--arrow {
+.chbe-dialog__arrow {
 	align-self: center;
-
-	svg {
-		display: block;
-	}
 }
 
 .chbe-dialog__buttons {

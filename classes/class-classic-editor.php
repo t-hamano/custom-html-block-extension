@@ -133,10 +133,10 @@ class ClassicEditor {
 		// phpcs:disable Generic.ControlStructures.InlineControlStructure
 		?>
 		<div id="chbe-replace-indent-dialog" class="chbe-dialog__inner">
-			<p class="chbe-dialog__ttl"><?php echo esc_attr_e( 'Change Indentation', 'custom-html-block-extension' ); ?></p>
+			<p class="chbe-dialog__title"><?php echo esc_attr_e( 'Change Indentation', 'custom-html-block-extension' ); ?></p>
 			<div class="chbe-dialog__row">
-				<div class="chbe-dialog__col chbe-dialog__col--setting">
-					<p class="chbe-dialog__subttl"><?php esc_html_e( 'Current Indent', 'custom-html-block-extension' ); ?></p>
+				<div class="chbe-dialog__setting">
+					<p class="chbe-dialog__subtitle"><?php esc_html_e( 'Current Indent', 'custom-html-block-extension' ); ?></p>
 					<p>
 						<strong><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></strong>
 						<label>
@@ -153,11 +153,9 @@ class ClassicEditor {
 						<input type="number" name="before_tab_size" min="1" max="8" value="<?php echo esc_attr( $settings['tabSize'] ); ?>">
 					</p>
 				</div>
-				<div class="chbe-dialog__col chbe-dialog__col--arrow">
-					<span class="dashicons dashicons-arrow-right-alt">
-				</div>
-				<div class="chbe-dialog__col chbe-dialog__col--setting">
-					<p class="chbe-dialog__subttl"><?php esc_html_e( 'New Indent', 'custom-html-block-extension' ); ?></p>
+				<span class="chbe-dialog__arrow dashicons dashicons-arrow-right-alt"></span>
+				<div class="chbe-dialog__setting">
+					<p class="chbe-dialog__subtitle"><?php esc_html_e( 'New Indent', 'custom-html-block-extension' ); ?></p>
 					<p>
 						<strong><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></strong>
 						<label>
