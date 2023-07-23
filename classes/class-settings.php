@@ -449,6 +449,10 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => true,
 		),
+		'permissionRoles'             => array(
+			'type'    => 'array',
+			'default' => array( 'administrator', 'editor', 'author', 'contributor' ),
+		),
 	);
 
 	// Default font family variations.
@@ -574,6 +578,48 @@ class Settings {
 		$default_font_families    = self::DEFAULT_FONT_FAMILIES;
 		$additional_font_families = apply_filters( 'chbe_additional_font_families', array() );
 		return array_merge( $default_font_families, $additional_font_families );
+	}
+
+	/**
+	 * Get all user roles.
+	 */
+	public static function get_user_roles() {
+		global $wp_roles;
+		if ( empty( $wp_roles ) ) {
+			$wp_roles = new WP_Roles();
+		}
+
+		$roles            = $wp_roles->get_names();
+		$translated_roles = array();
+
+		foreach ( $roles as $name => $display_name ) {
+			$translated_roles[] = array(
+				'label' => translate_user_role( $display_name ),
+				'value' => $name,
+			);
+		}
+
+		return $translated_roles;
+	}
+
+	/**
+	 * Whether the user is authorized to use the extension.
+	 */
+	public static function is_allowed_user() {
+		$options   = self::get_options();
+		$user_meta = get_userdata( get_current_user_id() );
+
+		if ( ! $user_meta ) {
+			return false;
+		}
+
+		foreach ( $user_meta->roles as $role ) {
+			if ( in_array( $role, $options['permissionRoles'], true ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 

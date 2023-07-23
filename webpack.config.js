@@ -1,7 +1,5 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 
-defaultConfig.plugins.shift();
-
 module.exports = {
 	...defaultConfig,
 	resolve: {
@@ -13,4 +11,10 @@ module.exports = {
 		maxEntrypointSize: 1000000,
 		maxAssetSize: 1000000,
 	},
+	plugins: [
+		// Don't delete files in the build directory
+		...defaultConfig.plugins.filter( ( plugin ) => {
+			return plugin.constructor.name !== 'CleanWebpackPlugin';
+		} ),
+	],
 };

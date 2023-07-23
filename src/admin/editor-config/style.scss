@@ -1,0 +1,73 @@
+@import "./components/controls/style";
+@import "./components/editor-preview/style";
+@import "./components/item-help/style";
+@import "./components/filter/style";
+
+.chbe-admin-editor-config {
+	display: flex;
+	flex-flow: row-reverse;
+	gap: 32px;
+
+	@media screen and (max-width: 782px) {
+		flex-flow: column;
+	}
+
+	.components-range-control {
+		flex: 1;
+		max-width: 300px;
+	}
+
+	.chbe-admin-editor-config__settings {
+		display: flex;
+		flex: 1;
+		flex-flow: column;
+		gap: 32px;
+	}
+
+	.chbe-admin-editor-config__basic-settings {
+		display: flex;
+		flex-flow: column;
+		gap: 16px;
+		padding: 24px;
+		background: #fff;
+		border: 1px solid #d6e2ed;
+	}
+
+	.chbe-admin-editor-config__advanced-settings {
+		display: flex;
+		flex-flow: column;
+		gap: 8px;
+	}
+
+	.chbe-admin-editor-config__item {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		align-items: flex-start;
+		justify-content: flex-start;
+		min-height: auto;
+
+		.components-select-control .components-flex-item {
+			max-width: 100%;
+		}
+	}
+
+	.chbe-admin-editor-config__preview {
+		position: sticky;
+		top: 40px;
+		display: flex;
+		flex-flow: column;
+		gap: 32px;
+		width: 50%;
+		height: 100%;
+
+		@media screen and (max-width: 782px) {
+			position: static;
+			width: 100%;
+		}
+	}
+
+	.chbe-admin-editor-config__preview-title {
+		margin: 0;
+	}
+}

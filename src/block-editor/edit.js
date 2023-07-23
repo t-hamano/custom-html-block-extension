@@ -1,11 +1,4 @@
 /**
- * Internal dependencies
- */
-import './style.scss';
-import { toNumber } from 'lib/helper';
-import MonacoEditor from 'components/monaco-editor';
-
-/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -29,12 +22,30 @@ import {
 } from '@wordpress/components';
 import { fullscreen, arrowRight, replace } from '@wordpress/icons';
 
+/**
+ * Internal dependencies
+ */
+import './style.scss';
+import { toNumber } from '../lib/helper';
+import MonacoEditor from '../components/monaco-editor';
+
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
 
+const INDENT_TYPES = [
+	{
+		label: __( 'Tab', 'custom-html-block-extension' ),
+		value: false,
+	},
+	{
+		label: __( 'Space', 'custom-html-block-extension' ),
+		value: true,
+	},
+];
+
 export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
 	const { content, height } = attributes;
-	const { editorSettings, editorOptions } = chbeObj;
+	const { editorSettings, editorOptions } = window.chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState();
 	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState();
@@ -65,11 +76,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		];
 	}, [] );
 
-	const handleResizeStart = () => {
+	const onResizeStart = () => {
 		toggleSelection( false );
 	};
 
-	const handleResizeStop = ( event, direction, elt, delta ) => {
+	const onResizeStop = ( event, direction, elt, delta ) => {
 		const newHeight = Math.min(
 			Math.max( parseInt( height + delta.height, 10 ), MIN_HEIGHT ),
 			MAX_HEIGHT
@@ -77,11 +88,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		setAttributes( { height: newHeight } );
 	};
 
-	const handleOnChange = ( value ) => {
+	const onChange = ( value ) => {
 		setAttributes( { content: value } );
 	};
 
-	const handleOnError = ( error ) => {
+	const onError = ( error ) => {
 		if ( ( error.type === 'timeout' || error.type === 'scripterror' ) && error.msg ) {
 			setErrorMessage( error.msg );
 		}
@@ -156,64 +167,61 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					<ToolbarGroup>
 						<ToolbarButton
 							icon={ fullscreen }
-							label={ __( 'Open HTML Editor' ) }
+							label={ __( 'Open HTML editor', 'custom-html-block-extension' ) }
 							onClick={ () => setIsModalEditorOpen( true ) }
 						/>
 						<Dropdown
+							contentClassName="chbe-popover"
 							renderToggle={ ( { isOpen, onToggle } ) => {
 								return (
 									<ToolbarButton
 										icon={ replace }
-										label={ __( 'Change Indentation', 'custom-html-block-extension' ) }
+										label={ __( 'Change indentation', 'custom-html-block-extension' ) }
 										aria-expanded={ isOpen }
 										onClick={ onToggle }
 									/>
 								);
 							} }
 							renderContent={ ( { onClose } ) => (
-								<div className="chbe-popover">
-									<h2 className="chbe-popover__ttl">
-										{ __( 'Change Indentation', 'custom-html-block-extension' ) }
+								<div className="chbe-popover__inner">
+									<h2 className="chbe-popover__title">
+										{ __( 'Change indentation', 'custom-html-block-extension' ) }
 									</h2>
 									<div className="chbe-popover__row">
-										<div className="chbe-popover__col chbe-popover__col--setting">
-											<h3 className="chbe-popover__subttl">
-												{ __( 'Current Indent', 'custom-html-block-extension' ) }
+										<div className="chbe-popover__col">
+											<h3 className="chbe-popover__subtitle">
+												{ __( 'Current indent', 'custom-html-block-extension' ) }
 											</h3>
-											<BaseControl
-												id="custom-html-block-extension/replace-indent-type"
-												label={ __( 'Indent Type', 'custom-html-block-extension' ) }
-											>
-												<ButtonGroup>
-													<Button
-														isPrimary={ ! replaceSetting.beforeInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																beforeInsertSpaces: false,
-															} );
-														} }
-													>
-														{ __( 'Tab', 'custom-html-block-extension' ) }
-													</Button>
-													<Button
-														isPrimary={ replaceSetting.beforeInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																beforeInsertSpaces: true,
-															} );
-														} }
-													>
-														{ __( 'Space', 'custom-html-block-extension' ) }
-													</Button>
+											<BaseControl>
+												<BaseControl.VisualLabel>
+													{ __( 'Current indent type', 'custom-html-block-extension' ) }
+												</BaseControl.VisualLabel>
+												<ButtonGroup
+													aria-label={ __( 'Current indent type', 'custom-html-block-extension' ) }
+												>
+													{ INDENT_TYPES.map( ( indentType, index ) => (
+														<Button
+															key={ index }
+															variant={
+																indentType.value === replaceSetting.beforeInsertSpaces
+																	? 'primary'
+																	: undefined
+															}
+															onClick={ () => {
+																setReplaceSetting( {
+																	...replaceSetting,
+																	beforeInsertSpaces: indentType.value,
+																} );
+															} }
+														>
+															{ indentType.label }
+														</Button>
+													) ) }
 												</ButtonGroup>
 											</BaseControl>
 											{ replaceSetting.beforeInsertSpaces && (
 												<TextControl
-													label={ __( 'Indent width', 'custom-html-block-extension' ) }
+													label={ __( 'Current indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.beforeTabSize }
 													type="number"
 													min="1"
@@ -227,47 +235,41 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 												/>
 											) }
 										</div>
-										<div className="chbe-popover__col chbe-popover__col--arrow">
-											<Icon icon={ arrowRight } />
-										</div>
-										<div className="chbe-popover__col chbe-popover__col--setting">
-											<h3 className="chbe-popover__subttl">
-												{ __( 'New Indent', 'custom-html-block-extension' ) }
+										<Icon className="chbe-popover__arrow" icon={ arrowRight } />
+										<div className="chbe-popover__col">
+											<h3 className="chbe-popover__subtitle">
+												{ __( 'New indent', 'custom-html-block-extension' ) }
 											</h3>
-											<BaseControl
-												id="custom-html-block-extension/replace-indent-type"
-												label={ __( 'Indent type', 'custom-html-block-extension' ) }
-											>
-												<ButtonGroup>
-													<Button
-														isPrimary={ ! replaceSetting.afterInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																afterInsertSpaces: false,
-															} );
-														} }
-													>
-														{ __( 'Tab', 'custom-html-block-extension' ) }
-													</Button>
-													<Button
-														isPrimary={ replaceSetting.afterInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																afterInsertSpaces: true,
-															} );
-														} }
-													>
-														{ __( 'Space', 'custom-html-block-extension' ) }
-													</Button>
+											<BaseControl>
+												<BaseControl.VisualLabel>
+													{ __( 'New indent type', 'custom-html-block-extension' ) }
+												</BaseControl.VisualLabel>
+												<ButtonGroup
+													aria-label={ __( 'New indent type', 'custom-html-block-extension' ) }
+												>
+													{ INDENT_TYPES.map( ( indentType, index ) => (
+														<Button
+															key={ index }
+															variant={
+																indentType.value === replaceSetting.afterInsertSpaces
+																	? 'primary'
+																	: undefined
+															}
+															onClick={ () => {
+																setReplaceSetting( {
+																	...replaceSetting,
+																	afterInsertSpaces: indentType.value,
+																} );
+															} }
+														>
+															{ indentType.label }
+														</Button>
+													) ) }
 												</ButtonGroup>
 											</BaseControl>
 											{ replaceSetting.afterInsertSpaces && (
 												<TextControl
-													label={ __( 'Indent width', 'custom-html-block-extension' ) }
+													label={ __( 'New indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.afterTabSize }
 													type="number"
 													min="1"
@@ -284,7 +286,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 									</div>
 									<div className="chbe-popover__buttons">
 										<Button
-											isPrimary
+											variant="primary"
 											disabled={
 												( replaceSetting.beforeInsertSpaces &&
 													replaceSetting.beforeTabSize === undefined ) ||
@@ -295,7 +297,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 										>
 											{ __( 'Apply', 'custom-html-block-extension' ) }
 										</Button>
-										<Button isSecondary onClick={ onClose }>
+										<Button variant="secondary" onClick={ onClose }>
 											{ __( 'Cancel', 'custom-html-block-extension' ) }
 										</Button>
 									</div>
@@ -344,12 +346,12 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 									bottomLeft: false,
 									topLeft: false,
 								} }
-								onResizeStart={ handleResizeStart }
-								onResizeStop={ handleResizeStop }
+								onResizeStart={ onResizeStart }
+								onResizeStop={ onResizeStop }
 								showHandle={ isSelected }
 							>
 								<MonacoEditor
-									className="monaco-editor-wrapper"
+									className="chbe-editor-wrapper"
 									language={ 'html' }
 									loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 									theme={ editorSettings.theme }
@@ -358,8 +360,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 									useEmmet={ editorSettings.emmet }
 									tabSize={ editorSettings.tabSize }
 									insertSpaces={ editorSettings.insertSpaces }
-									onChange={ handleOnChange }
-									onError={ handleOnError }
+									onChange={ onChange }
+									onError={ onError }
 								/>
 							</ResizableBox>
 						</>
@@ -368,12 +370,13 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 			</Disabled.Consumer>
 			{ isModalEditorOpen && (
 				<Modal
-					title={ __( 'HTML Editor', 'custom-html-block-extension' ) }
-					className="chbe-modal-editor"
+					title={ __( 'HTML editor', 'custom-html-block-extension' ) }
+					className="chbe-fullscreen-editor"
+					isFullScreen
 					onRequestClose={ () => setIsModalEditorOpen( false ) }
 				>
 					<MonacoEditor
-						className="monaco-editor-wrapper"
+						className="chbe-editor-wrapper"
 						language={ 'html' }
 						loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 						theme={ editorSettings.theme }
@@ -382,8 +385,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 						useEmmet={ editorSettings.emmet }
 						tabSize={ editorSettings.tabSize }
 						insertSpaces={ editorSettings.insertSpaces }
-						onChange={ handleOnChange }
-						onError={ handleOnError }
+						onChange={ onChange }
+						onError={ onError }
 					/>
 				</Modal>
 			) }

@@ -1,0 +1,13 @@
+.chbe-admin-tools-import-tool {
+
+	.chbe-admin-tools-import-tool__upload {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		align-items: center;
+	}
+
+	.chbe-admin-tools-import-tool__filename {
+		margin: 0;
+	}
+}

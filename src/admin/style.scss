@@ -1,7 +1,18 @@
-@import "node_modules/@wordpress/base-styles/mixins";
-
 // React notification component
 @import "../../node_modules/react-notifications-component/dist/scss/notification";
+
+// WordPress base styles
+@import "node_modules/@wordpress/base-styles/mixins";
+
+// Components
+@import "./components/header/style";
+@import "./components/shortcut/style";
+@import "./components/welcome-guide/style";
+
+// Page
+@import "./editor-config/style";
+@import "./tools/style";
+@import "./options/style";
 
 @include wordpress-admin-schemes();
 
@@ -10,176 +21,17 @@
 	padding-left: 0;
 }
 
-// Modal component
-.chbe-modal {
-	max-width: 800px;
-
-	.components-modal__content {
-		@media screen and (max-width: 782px) {
-			height: auto;
-		}
-
-		> *:last-child {
-			margin-bottom: 0;
-		}
-	}
-
-	h3 {
-		font-size: 16px;
-	}
-
-	img {
-		display: block;
-		max-width: 100%;
-		margin-bottom: 1em;
-	}
-
-	.components-form-toggle {
-
-		.components-form-toggle__track {
-			width: 48px;
-			height: 24px;
-			border-radius: 12px;
-		}
-
-		.components-form-toggle__thumb {
-			top: 4px;
-			left: 5px;
-			width: 16px;
-			height: 16px;
-		}
-
-		&.is-checked .components-form-toggle__thumb {
-			transform: translateX(23px);
-		}
-	}
-
-	.components-notice {
-		padding: 6px 12px;
-		margin: 2em 0;
-	}
-
-	.components-notice__content {
-		display: flex;
-		align-items: center;
-
-		.dashicon {
-			margin-right: 8px;
-		}
-	}
-}
-
-.chbe-modal__row {
-	display: flex;
-	gap: 24px;
-
-	@media screen and (max-width: 782px) {
-		flex-flow: column;
-	}
-
-	+ .chbe-modal__row {
-		margin-top: 40px;
-
-		@media screen and (max-width: 782px) {
-			margin-top: 24px;
-		}
-	}
-}
-
-.chbe-modal__col {
-	flex: 1;
-
-	> *:first-child {
-		margin-top: 0;
-	}
-
-	> *:last-child {
-		margin-bottom: 0;
-	}
-
-	.components-button {
-		height: auto;
-		padding: 6px;
-
-		img {
-			margin-bottom: 0;
-		}
-	}
-}
-
-.chbe-modal__controls {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: 32px;
-
-	.components-button + .components-button {
-		margin-left: 32px;
-	}
-}
-
-// Welcome guide component
-.chbe-welcome-guide {
-	max-width: 350px;
-
-	h1 {
-		padding: 0 32px;
-		margin: 0 0 16px 0;
-		font-size: 24px;
-		line-height: 1.4;
-	}
-
-	p {
-		padding: 0 32px;
-		margin: 0 0 24px 0;
-		font-size: 13px;
-		line-height: 1.4;
-	}
-
-	.components-guide__footer {
-		box-sizing: border-box;
-	}
-}
-
 #custom-html-block-extension-admin {
 
 	// Common classes
-	h2 {
-		margin: 0;
-	}
-
-	.chbe-wrap {
-		position: relative;
-
-		&--is-waiting {
-			opacity: 0.2;
-		}
-	}
-
-	.chbe-container {
+	.chbe-admin-container {
 		position: relative;
 		max-width: 1200px;
 		padding: 0 16px;
 		margin: 0 auto;
 	}
 
-	.chbe-help {
-		min-width: auto;
-		height: auto;
-		padding: 0;
-		margin-left: 16px;
-	}
-
-	.chbe-file-upload {
-		display: flex;
-		align-items: center;
-		margin-bottom: 32px;
-	}
-
-	.chbe-file-upload__name {
-		margin: 0 0 0 16px;
-	}
-
-	// React notification component
+	// React notification component styles
 	.rnc__base {
 		top: 32px;
 		left: 160px;
@@ -202,56 +54,112 @@
 		}
 	}
 
-	.notifications-component {
-		margin-left: -80px;
-
-		.notification__message {
-			font-size: 16px;
-		}
-	}
-
-	// Disabled component
+	// Gutenberg component styles
 	.components-disabled {
 		opacity: 0.3;
 	}
 
-	// Header component
-	.chbe-header {
-		padding: 16px 0 8px;
-		background-color: #fff;
-	}
+	.components-base-control {
+		margin-bottom: 0;
 
-	.chbe-header__ttl {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin: 0 0 8px;
-		line-height: 1;
-
-		@media screen and (max-width: 782px) {
-			font-size: 20px;
+		.components-base-control__label {
+			display: block;
+			font-size: 13px;
+			font-weight: normal;
+			text-transform: initial;
 		}
 
-		svg {
-			width: 30px;
-			margin-right: 8px;
+		.components-base-control__field {
+			margin-bottom: 0;
 		}
 	}
 
-	.chbe-header__info {
-		position: absolute;
-		top: 0;
-		right: 16px;
-		margin: 0;
+	.components-select-control {
 
-		@media screen and (max-width: 782px) {
-			position: static;
+		.components-flex-item {
+			max-width: 100%;
+		}
+
+		.components-input-control__label {
+			display: block;
+			font-size: 13px;
+			font-weight: normal;
+			text-transform: initial;
+		}
+
+		.components-select-control__input {
+			line-height: initial;
+		}
+	}
+
+	.components-panel__body {
+		background: #fff;
+		border: 1px solid #d6e2ed;
+
+		&.is-opened {
+			padding-top: 0;
+
+			> .components-panel__body-title {
+				margin: 0 -16px -17px;
+
+				+ * {
+					margin-top: 33px;
+				}
+			}
+		}
+
+		&:not(.is-opened) {
+			border-bottom: none;
+		}
+
+		> * {
+			margin: 0;
+		}
+
+		> * + * {
 			margin-top: 16px;
 		}
+
+		.components-panel__body-toggle.components-button {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		.components-panel__body-toggle {
+			border-bottom: 1px solid #d6e2ed;
+		}
+
+		.components-disabled {
+
+			&:empty {
+				display: none;
+
+				+ * {
+					margin-top: 33px;
+				}
+			}
+
+			> * {
+				margin: 0;
+			}
+
+			> * + * {
+				margin-top: 16px;
+			}
+		}
+	}
+}
+
+.chbe-admin {
+	position: relative;
+
+	&.is-waiting {
+		opacity: 0.3;
 	}
 
-	// Loading component
-	.chbe-loading {
+	.chbe-admin__loading {
 		position: fixed;
 		top: 50%;
 		left: 50%;
@@ -264,229 +172,10 @@
 		}
 	}
 
-	// TabPanel component
-	.chbe-tabs .components-tab-panel__tabs {
+	.chbe-admin__tab-panel .components-tab-panel__tabs {
 		justify-content: center;
 		margin-bottom: 40px;
 		background: #fff;
 		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
-	}
-
-	// Panel component
-	.components-panel__body {
-		margin-bottom: 16px;
-		background: #fff;
-		border: 1px solid #d6e2ed;
-
-		&.is-opened {
-			padding-top: 0;
-
-			> .components-panel__body-title {
-				margin: 0 -16px 16px;
-			}
-		}
-
-		&:not(.is-opened) {
-			border-bottom: none;
-		}
-	}
-
-	.components-panel__body-toggle.components-button {
-		padding-top: 12px;
-		padding-bottom: 12px;
-		font-size: 16px;
-		font-weight: bold;
-	}
-
-	.components-panel__body-toggle {
-		border-bottom: 1px solid #d6e2ed;
-	}
-
-	.components-panel__row {
-		flex-wrap: wrap;
-		align-items: flex-start;
-		justify-content: flex-start;
-		min-height: auto;
-		margin-top: 16px;
-
-		label {
-			flex: 1;
-			max-width: 100%;
-			margin-right: 0;
-			overflow: initial;
-			text-overflow: initial;
-		}
-	}
-
-	// EditorConfig component
-	.chbe-config {
-		display: flex;
-		flex-flow: row-reverse;
-		gap: 32px;
-
-		@media screen and (max-width: 782px) {
-			flex-flow: column;
-		}
-
-		// Common classes
-		.components-input-control__container {
-			display: inline-flex;
-			width: auto;
-		}
-
-		// BaseControl component
-		.components-base-control {
-			margin-bottom: 0;
-
-			label {
-				display: block;
-				font-size: 13px;
-				font-weight: normal;
-				text-transform: initial;
-			}
-		}
-
-		.components-base-control__help {
-			margin: 8px 0 0;
-			font-size: 12px;
-			color: #757575;
-		}
-
-		// TextControl component
-		.components-text-control__input {
-			width: auto;
-		}
-
-		// SelectControl component
-		.components-select-control__input {
-			line-height: initial;
-		}
-
-		// RangeControl component
-		.components-range-control {
-			flex: 1;
-			max-width: 300px;
-		}
-
-		// Monaco editor component
-		.chbe-monaco {
-			height: calc(100vh - 400px);
-
-			@media screen and (max-width: 782px) {
-				height: 50vh;
-			}
-
-			.components-disabled {
-				height: 100%;
-			}
-
-			.monaco-editor {
-
-				.find-widget {
-
-					.button {
-						color: inherit;
-						background: none;
-						background-color: transparent !important;
-						border: none;
-
-						&:focus {
-							box-shadow: none;
-						}
-					}
-
-					textarea:focus {
-						box-shadow: none;
-					}
-				}
-
-				.inputarea {
-					box-shadow: none;
-				}
-
-				.monaco-highlighted-label .highlight {
-					background: transparent;
-				}
-			}
-		}
-
-		// Mode component
-		.chbe-mode {
-			display: block;
-			text-align: center;
-
-			.components-button {
-				justify-content: center;
-				width: 50%;
-				max-width: 150px;
-			}
-		}
-
-		// Shorcut component
-		.chbe-shortcut {
-			display: flex;
-			margin-top: 64px;
-			// margin-top: 16px;
-
-			.components-button {
-				margin-left: auto;
-			}
-		}
-
-		// Button menu component
-		.chbe-button-menu {
-			display: flex;
-			justify-content: space-between;
-			margin: 0;
-		}
-
-		.chbe-button-menu__item {
-			margin: 0;
-		}
-
-		.chbe-button-menu__submit {
-			padding-right: 56px;
-			padding-left: 56px;
-		}
-	}
-
-	.chbe-config__settings {
-		display: flex;
-		flex: 1;
-		flex-flow: column;
-		gap: 32px;
-
-		h3 {
-			padding-top: 24px;
-			margin: 24px 0 0;
-			border-top: 1px solid #d6e2ed;
-		}
-	}
-
-	.chbe-config__preview {
-		position: sticky;
-		top: 40px;
-		display: flex;
-		flex-flow: column;
-		gap: 32px;
-		width: 50%;
-		height: 100%;
-
-		@media screen and (max-width: 782px) {
-			position: static;
-			width: 100%;
-		}
-	}
-
-	.chbe-config__controls--basic {
-		padding: 24px;
-		background: #fff;
-		border: 1px solid #d6e2ed;
-	}
-
-	.chbe-config__controls-group {
-		padding: 16px;
-		margin-top: 16px;
-		border: 1px solid var(--wp-admin-theme-color);
 	}
 }

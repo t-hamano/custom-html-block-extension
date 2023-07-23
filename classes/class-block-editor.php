@@ -26,7 +26,7 @@ class BlockEditor {
 		// Abort the process if permission is disabled.
 		$options = Settings::get_options();
 
-		if ( ! $options['permissionBlockEditor'] ) {
+		if ( ! $options['permissionBlockEditor'] || ! Settings::is_allowed_user() ) {
 			return;
 		}
 

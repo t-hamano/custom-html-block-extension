@@ -10,6 +10,7 @@ import {
 	createNewPost,
 	getEditedPostContent,
 	visitAdminPage,
+	canvas,
 } from '@wordpress/e2e-test-utils';
 
 const page = global.page;
@@ -79,8 +80,8 @@ describe( 'Editor', () => {
 	it( 'input by Emmet should be expanded on block editor', async () => {
 		await createNewPost();
 		await insertBlock( 'Custom HTML' );
-		await page.waitForSelector( '[data-type="core/html"] .monaco-editor' );
-		await page.click( '[data-type="core/html"] .monaco-editor' );
+		await canvas().waitForSelector( '[data-type="core/html"] .monaco-editor' );
+		await canvas().click( '[data-type="core/html"] .monaco-editor' );
 		await page.keyboard.type( 'ul.list>li.item*5' );
 		await page.keyboard.down( 'Tab' );
 		expect( await getEditedPostContent() ).toMatchSnapshot();

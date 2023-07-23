@@ -3,8 +3,12 @@
 		".",
 		"https://downloads.wordpress.org/plugin/classic-editor.zip"
 	],
-	"config": {
-		"WP_DEBUG": true,
-		"SCRIPT_DEBUG": true
+	"env": {
+		"tests": {
+			"config": {
+				"WP_DEBUG": true,
+				"SCRIPT_DEBUG": true
+			}
+		}
 	}
 }

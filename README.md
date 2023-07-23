@@ -1,11 +1,11 @@
-#  Custom HTML Block Extension
+# Custom HTML Block Extension
 
 [![Tests](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test.yml/badge.svg)](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test.yml)
 [![Tests and Deploy](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test-and-deploy.yml/badge.svg)](https://github.com/t-hamano/custom-html-block-extension/actions/workflows/run-test-and-deploy.yml)
 
 ![Custom HTML Block Extension](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_1.gif)
 
-Custom HTML Block Extension extends "Custom HTML block" to evolve into an advanced code editor.
+Custom HTML Block Extension extends Custom HTML block to evolve into the advanced code editor.
 
 ## Features
 
@@ -33,7 +33,7 @@ Supports the classic editor, the theme/plugin editor, import/export editor setti
 
 You can use your own favorite fonts in addition to the default fonts.
 
-### STEP1:  Place font files
+### STEP1: Place font files
 
 Place the font files in **the public directory** of the server where WordPress is installed.
 It is recommended to create `fonts` folder directly under the theme and place the fonts there.
