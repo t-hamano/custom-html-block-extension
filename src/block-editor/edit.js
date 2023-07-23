@@ -171,6 +171,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							onClick={ () => setIsModalEditorOpen( true ) }
 						/>
 						<Dropdown
+							contentClassName="chbe-popover"
 							renderToggle={ ( { isOpen, onToggle } ) => {
 								return (
 									<ToolbarButton
@@ -182,7 +183,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 								);
 							} }
 							renderContent={ ( { onClose } ) => (
-								<div className="chbe-popover">
+								<div className="chbe-popover__inner">
 									<h2 className="chbe-popover__title">
 										{ __( 'Change Indentation', 'custom-html-block-extension' ) }
 									</h2>
@@ -204,7 +205,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 																	? 'primary'
 																	: undefined
 															}
-															isSmall
 															onClick={ () => {
 																setReplaceSetting( {
 																	...replaceSetting,
@@ -251,7 +251,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 																	? 'primary'
 																	: undefined
 															}
-															isSmall
 															onClick={ () => {
 																setReplaceSetting( {
 																	...replaceSetting,
