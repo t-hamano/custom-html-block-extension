@@ -32,6 +32,17 @@ import { fullscreen, arrowRight, replace } from '@wordpress/icons';
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
 
+const INDENT_TYPES = [
+	{
+		label: __( 'Tab', 'custom-html-block-extension' ),
+		value: false,
+	},
+	{
+		label: __( 'Space', 'custom-html-block-extension' ),
+		value: true,
+	},
+];
+
 export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
 	const { content, height } = attributes;
 	const { editorSettings, editorOptions } = window.chbeObj;
@@ -185,30 +196,25 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 													{ __( 'Indent Type', 'custom-html-block-extension' ) }
 												</BaseControl.VisualLabel>
 												<ButtonGroup>
-													<Button
-														isPrimary={ ! replaceSetting.beforeInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																beforeInsertSpaces: false,
-															} );
-														} }
-													>
-														{ __( 'Tab', 'custom-html-block-extension' ) }
-													</Button>
-													<Button
-														isPrimary={ replaceSetting.beforeInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																beforeInsertSpaces: true,
-															} );
-														} }
-													>
-														{ __( 'Space', 'custom-html-block-extension' ) }
-													</Button>
+													{ INDENT_TYPES.map( ( indentType, index ) => (
+														<Button
+															key={ index }
+															variant={
+																indentType.value === replaceSetting.beforeInsertSpaces
+																	? 'primary'
+																	: undefined
+															}
+															isSmall
+															onClick={ () => {
+																setReplaceSetting( {
+																	...replaceSetting,
+																	beforeInsertSpaces: indentType.value,
+																} );
+															} }
+														>
+															{ indentType.label }
+														</Button>
+													) ) }
 												</ButtonGroup>
 											</BaseControl>
 											{ replaceSetting.beforeInsertSpaces && (
@@ -239,30 +245,25 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 													{ __( 'Indent type', 'custom-html-block-extension' ) }
 												</BaseControl.VisualLabel>
 												<ButtonGroup>
-													<Button
-														isPrimary={ ! replaceSetting.afterInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																afterInsertSpaces: false,
-															} );
-														} }
-													>
-														{ __( 'Tab', 'custom-html-block-extension' ) }
-													</Button>
-													<Button
-														isPrimary={ replaceSetting.afterInsertSpaces }
-														isSmall
-														onClick={ () => {
-															setReplaceSetting( {
-																...replaceSetting,
-																afterInsertSpaces: true,
-															} );
-														} }
-													>
-														{ __( 'Space', 'custom-html-block-extension' ) }
-													</Button>
+													{ INDENT_TYPES.map( ( indentType, index ) => (
+														<Button
+															key={ index }
+															variant={
+																indentType.value === replaceSetting.afterInsertSpaces
+																	? 'primary'
+																	: undefined
+															}
+															isSmall
+															onClick={ () => {
+																setReplaceSetting( {
+																	...replaceSetting,
+																	afterInsertSpaces: indentType.value,
+																} );
+															} }
+														>
+															{ indentType.label }
+														</Button>
+													) ) }
 												</ButtonGroup>
 											</BaseControl>
 											{ replaceSetting.afterInsertSpaces && (
@@ -284,7 +285,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 									</div>
 									<div className="chbe-popover__buttons">
 										<Button
-											isPrimary
+											variant="primary"
 											disabled={
 												( replaceSetting.beforeInsertSpaces &&
 													replaceSetting.beforeTabSize === undefined ) ||
@@ -295,7 +296,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 										>
 											{ __( 'Apply', 'custom-html-block-extension' ) }
 										</Button>
-										<Button isSecondary onClick={ onClose }>
+										<Button variant="secondary" onClick={ onClose }>
 											{ __( 'Cancel', 'custom-html-block-extension' ) }
 										</Button>
 									</div>
