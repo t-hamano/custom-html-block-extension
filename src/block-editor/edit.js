@@ -183,12 +183,12 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							} }
 							renderContent={ ( { onClose } ) => (
 								<div className="chbe-popover">
-									<h2 className="chbe-popover__ttl">
+									<h2 className="chbe-popover__title">
 										{ __( 'Change Indentation', 'custom-html-block-extension' ) }
 									</h2>
 									<div className="chbe-popover__row">
-										<div className="chbe-popover__col chbe-popover__col--setting">
-											<h3 className="chbe-popover__subttl">
+										<div className="chbe-popover__col">
+											<h3 className="chbe-popover__subtitle">
 												{ __( 'Current Indent', 'custom-html-block-extension' ) }
 											</h3>
 											<BaseControl>
@@ -233,11 +233,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 												/>
 											) }
 										</div>
-										<div className="chbe-popover__col chbe-popover__col--arrow">
-											<Icon icon={ arrowRight } />
-										</div>
-										<div className="chbe-popover__col chbe-popover__col--setting">
-											<h3 className="chbe-popover__subttl">
+										<Icon className="chbe-popover__arrow" icon={ arrowRight } />
+										<div className="chbe-popover__col">
+											<h3 className="chbe-popover__subtitle">
 												{ __( 'New Indent', 'custom-html-block-extension' ) }
 											</h3>
 											<BaseControl>
@@ -350,7 +348,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 								showHandle={ isSelected }
 							>
 								<MonacoEditor
-									className="monaco-editor-wrapper"
+									className="chbe-editor-wrapper"
 									language={ 'html' }
 									loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 									theme={ editorSettings.theme }
@@ -374,7 +372,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					onRequestClose={ () => setIsModalEditorOpen( false ) }
 				>
 					<MonacoEditor
-						className="monaco-editor-wrapper"
+						className="chbe-editor-wrapper"
 						language={ 'html' }
 						loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 						theme={ editorSettings.theme }
