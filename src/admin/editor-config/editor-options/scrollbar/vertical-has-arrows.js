@@ -14,7 +14,14 @@ import ItemHelp from '../../components/item-help';
 
 export default function ScrollbarVerticalHasArrows() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { onRefreshEditor } = useContext( EditorConfigContext );
+	const { onRefreshEditor, searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Show arrows on vertical scrollbar', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		onRefreshEditor();
@@ -30,13 +37,13 @@ export default function ScrollbarVerticalHasArrows() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<ToggleControl
-				label={ __( 'Show arrows on vertical scrollbar', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.scrollbar.verticalHasArrows }
 				onChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Show arrows on vertical scrollbar', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function FontLigatures() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Enable font ligatures', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -24,13 +33,13 @@ export default function FontLigatures() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<ToggleControl
-				label={ __( 'Enable font ligatures', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.fontLigatures }
 				onChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Enable font ligatures', 'custom-html-block-extension' ) }
+				title={ title }
 				description={ __(
 					'Ligatures are special characters in a font that combine two or more characters into one. Only Fira Code font supports ligatures.',
 					'custom-html-block-extension'

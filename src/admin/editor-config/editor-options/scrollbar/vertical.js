@@ -14,7 +14,14 @@ import ItemHelp from '../../components/item-help';
 
 export default function ScrollbarVertical() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { onRefreshEditor } = useContext( EditorConfigContext );
+	const { onRefreshEditor, searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Vertical scrollbar', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -49,7 +56,7 @@ export default function ScrollbarVertical() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __( 'Vertical scrollbar', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.scrollbar.vertical }
 				options={ items.map( ( { label, value } ) => {
 					return { label, value };
@@ -58,7 +65,7 @@ export default function ScrollbarVertical() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Vertical scrollbar', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.scrollbar.vertical }

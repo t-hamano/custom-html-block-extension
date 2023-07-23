@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import ItemHelp from '../../components/item-help';
 
 export default function CommentsInsertSpace() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Insert whitespace in comment', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -27,13 +36,13 @@ export default function CommentsInsertSpace() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<ToggleControl
-				label={ __( 'Insert whitespace in comment', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.comments.insertSpace }
 				onChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Insert whitespace in comment', 'custom-html-block-extension' ) }
+				title={ title }
 				description={ __(
 					'Insert whitespace inside the comment tokens when comment out using the keyboard shortcut.',
 					'custom-html-block-extension'

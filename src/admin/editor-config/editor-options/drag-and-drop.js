@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function DragAndDrop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Moving selections via drag and drop', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -23,14 +32,10 @@ export default function DragAndDrop() {
 
 	return (
 		<div className="chbe-admin-editor-config__item">
-			<ToggleControl
-				label={ __( 'Moving selections via drag and drop', 'custom-html-block-extension' ) }
-				checked={ editorOptions.dragAndDrop }
-				onChange={ onChange }
-			/>
+			<ToggleControl label={ title } checked={ editorOptions.dragAndDrop } onChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Moving selections via drag and drop', 'custom-html-block-extension' ) }
+				title={ title }
 				isToggle
 				defaultToggle={ false }
 				image={ 'editor-options/drag-and-drop.gif' }

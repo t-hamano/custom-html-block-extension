@@ -9,11 +9,20 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 export default function LineNumbersMinChars() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Line number width', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -25,17 +34,14 @@ export default function LineNumbersMinChars() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __( 'Line number width', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.lineNumbersMinChars }
 				min="1"
 				max="10"
 				allowReset
 				onChange={ onChange }
 			/>
-			<ItemHelp
-				title={ __( 'Line number width', 'custom-html-block-extension' ) }
-				image={ 'editor-options/line-numbers-min-chars.gif' }
-			/>
+			<ItemHelp title={ title } image={ 'editor-options/line-numbers-min-chars.gif' } />
 		</div>
 	);
 }

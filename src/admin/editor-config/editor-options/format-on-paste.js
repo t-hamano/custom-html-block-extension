@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function FormatOnPaste() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Enable format on paste', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -24,13 +33,13 @@ export default function FormatOnPaste() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<ToggleControl
-				label={ __( 'Enable format on paste', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.formatOnPaste }
 				onChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Enable format on paste', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

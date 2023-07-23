@@ -9,10 +9,22 @@ import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function MultiCursorPaste() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __(
+		'Behaviour when pasting a text with the line count equal to the cursor count',
+		'custom-html-block-extension'
+	);
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -38,18 +50,8 @@ export default function MultiCursorPaste() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<BaseControl>
-				<BaseControl.VisualLabel>
-					{ __(
-						'Behaviour when pasting a text with the line count equal to the cursor count',
-						'custom-html-block-extension'
-					) }
-				</BaseControl.VisualLabel>
-				<ButtonGroup
-					aria-label={ __(
-						'Behaviour when pasting a text with the line count equal to the cursor count',
-						'custom-html-block-extension'
-					) }
-				>
+				<BaseControl.VisualLabel>{ title }</BaseControl.VisualLabel>
+				<ButtonGroup aria-label={ title }>
 					{ items.map( ( item, index ) => (
 						<Button
 							key={ index }
@@ -63,10 +65,7 @@ export default function MultiCursorPaste() {
 			</BaseControl>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __(
-					'Behaviour when pasting a text with the line count equal to the cursor count',
-					'custom-html-block-extension'
-				) }
+				title={ title }
 				items={ items }
 				value={ editorOptions.multiCursorPaste }
 			/>

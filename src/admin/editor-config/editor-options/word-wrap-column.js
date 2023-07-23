@@ -9,11 +9,20 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 export default function WordWrapColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Word wrap column', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -25,7 +34,7 @@ export default function WordWrapColumn() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __( 'Word wrap column', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.wordWrapColumn }
 				min="20"
 				max="200"
@@ -34,7 +43,7 @@ export default function WordWrapColumn() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Word wrap column', 'custom-html-block-extension' ) }
+				title={ title }
 				image={ 'editor-options/word-wrap-column.gif' }
 				value={ editorOptions.wordWrapColumn }
 			/>

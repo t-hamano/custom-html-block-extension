@@ -16,7 +16,7 @@ import { toNumber } from '../../../../lib/helper';
 
 export default function ScrollbarVerticalScrollbarSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { onRefreshEditor } = useContext( EditorConfigContext );
+	const { onRefreshEditor, searchQuery } = useContext( EditorConfigContext );
 	const [ value, setValue ] = useState( editorOptions.scrollbar.verticalScrollbarSize );
 
 	// Debounce the function to avoid refreshing the editor every time the range is changed.
@@ -31,10 +31,6 @@ export default function ScrollbarVerticalScrollbarSize() {
 		} );
 	}, 200 );
 
-	const onChange = ( newValue ) => {
-		setValue( newValue ? toNumber( newValue, 5, 30 ) : 10 );
-	};
-
 	useEffect( () => {
 		if ( editorOptions.scrollbar.verticalScrollbarSize === value ) {
 			return;
@@ -43,10 +39,21 @@ export default function ScrollbarVerticalScrollbarSize() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ value ] );
 
+	const title = __( 'Vertical scrollbar size', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
+
+	const onChange = ( newValue ) => {
+		setValue( newValue ? toNumber( newValue, 5, 30 ) : 10 );
+	};
+
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __( 'Vertical scrollbar size', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ value }
 				min="5"
 				max="30"
@@ -55,7 +62,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Vertical scrollbar size', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ [
 					{
 						label: sprintf(

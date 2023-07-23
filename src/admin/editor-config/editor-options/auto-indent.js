@@ -14,7 +14,14 @@ import ItemHelp from '../components/item-help';
 
 export default function AutoIndent() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { onRefreshEditor } = useContext( EditorConfigContext );
+	const { onRefreshEditor, searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Auto indent', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -46,7 +53,7 @@ export default function AutoIndent() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __( 'Auto indent', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.autoIndent }
 				options={ items.map( ( { label, value } ) => {
 					return { label, value };
@@ -55,7 +62,7 @@ export default function AutoIndent() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Auto indent', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.autoIndent }

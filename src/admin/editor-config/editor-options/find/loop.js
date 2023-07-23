@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import ItemHelp from '../../components/item-help';
 
 export default function FindLoop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Loop', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -26,14 +35,10 @@ export default function FindLoop() {
 
 	return (
 		<div className="chbe-admin-editor-config__item">
-			<ToggleControl
-				label={ __( 'Loop', 'custom-html-block-extension' ) }
-				checked={ editorOptions.find.loop }
-				onChange={ onChange }
-			/>
+			<ToggleControl label={ title } checked={ editorOptions.find.loop } onChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Loop', 'custom-html-block-extension' ) }
+				title={ title }
 				description={ __(
 					'Automatically restart the search from the beginning (or end) when no more matches are found.',
 					'custom-html-block-extension'

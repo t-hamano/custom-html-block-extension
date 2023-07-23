@@ -9,11 +9,23 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 export default function CursorSurroundingLines() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __(
+		'Number of lines to keep before and after the cursor',
+		'custom-html-block-extension'
+	);
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -25,10 +37,7 @@ export default function CursorSurroundingLines() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __(
-					'Number of lines to keep before and after the cursor',
-					'custom-html-block-extension'
-				) }
+				label={ title }
 				value={ editorOptions.cursorSurroundingLines }
 				min="0"
 				max="20"
@@ -37,10 +46,7 @@ export default function CursorSurroundingLines() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __(
-					'Number of lines to keep before and after the cursor',
-					'custom-html-block-extension'
-				) }
+				title={ title }
 				description={ __(
 					'Sets the number of lines to keep before and after the cursor when the cursor is moved up and down.',
 					'custom-html-block-extension'

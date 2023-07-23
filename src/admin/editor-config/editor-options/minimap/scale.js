@@ -9,11 +9,20 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import ItemHelp from '../../components/item-help';
 import { toNumber } from '../../../../lib/helper';
 
 export default function MinimapScale() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Scale', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -28,7 +37,7 @@ export default function MinimapScale() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __( 'Scale', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.minimap.scale }
 				min="1"
 				max="3"
@@ -37,7 +46,7 @@ export default function MinimapScale() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Scale', 'custom-html-block-extension' ) }
+				title={ title }
 				image={ 'editor-options/minimap/scale.gif' }
 				value={ editorOptions.minimap.scale }
 			/>

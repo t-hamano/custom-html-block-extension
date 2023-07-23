@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function AcceptSuggestionOnEnter() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Accept suggestions on enter key', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -24,13 +33,13 @@ export default function AcceptSuggestionOnEnter() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<ToggleControl
-				label={ __( 'Accept suggestions on enter key', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.acceptSuggestionOnEnter }
 				onChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Accept suggestions on enter key', 'custom-html-block-extension' ) }
+				title={ title }
 				description={ createInterpolateElement(
 					__(
 						'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',

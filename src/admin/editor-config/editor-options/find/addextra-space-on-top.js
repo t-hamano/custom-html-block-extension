@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import ItemHelp from '../../components/item-help';
 
 export default function FindAddExtraSpaceOnTop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Show search widget above the first line', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -27,13 +36,13 @@ export default function FindAddExtraSpaceOnTop() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<ToggleControl
-				label={ __( 'Show search widget above the first line', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.find.addExtraSpaceOnTop }
 				onChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Show search widget above the first line', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

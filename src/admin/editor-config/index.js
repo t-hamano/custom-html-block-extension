@@ -12,7 +12,7 @@ import { PanelBody, Disabled } from '@wordpress/components';
 import { AdminContext } from '../index';
 import { addNotification } from '../../lib/helper';
 import EditorPreview from './components/editor-preview';
-import Modes from './components/modes';
+import Filter from './components/filter';
 import Controls from './components/controls';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
@@ -34,6 +34,7 @@ export default function EditorConfig() {
 
 	const [ isEditorDisabled, setIsEditorDisabled ] = useState( false );
 	const [ editorMode, setEditorMode ] = useState( 'basic' );
+	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
 
 	// Update editor config.
@@ -101,16 +102,21 @@ export default function EditorConfig() {
 				/>
 			</div>
 			<div className="chbe-admin-editor-config__settings">
-				<Modes editorMode={ editorMode } setEditorMode={ setEditorMode } />
+				<Filter
+					editorMode={ editorMode }
+					setEditorMode={ setEditorMode }
+					searchQuery={ searchQuery }
+					setSearchQuery={ setSearchQuery }
+				/>
 				<div
 					className={
-						editorMode === 'basic'
+						editorMode === 'basic' && ! searchQuery
 							? 'chbe-admin-editor-config__basic-settings'
 							: 'chbe-admin-editor-config__advanced-settings'
 					}
 				>
-					<EditorConfigContext.Provider value={ { onRefreshEditor } }>
-						{ 'basic' === editorMode && (
+					<EditorConfigContext.Provider value={ { onRefreshEditor, searchQuery } }>
+						{ 'basic' === editorMode && ! searchQuery && (
 							<>
 								<EditorSettings.Theme />
 								<EditorSettings.TabSize />
@@ -127,24 +133,26 @@ export default function EditorConfig() {
 								<EditorOptions.QuickSuggestions />
 							</>
 						) }
-						{ 'advanced' === editorMode && (
+						{ ( 'advanced' === editorMode || searchQuery ) && (
 							<>
 								<PanelBody
 									title={ __( 'Editor', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
-									<EditorSettings.Theme />
-									<EditorSettings.TabSize />
-									<EditorSettings.InsertSpaces />
-									<EditorSettings.Emmet />
-									<EditorOptions.Contextmenu />
-									<EditorOptions.GlyphMargin />
-									<EditorOptions.PaddingTop />
-									<EditorOptions.PaddingBottom />
+									<EditorSettings.Theme category="editor" />
+									<EditorSettings.TabSize category="editor" />
+									<EditorSettings.InsertSpaces category="editor" />
+									<EditorSettings.Emmet category="editor" />
+									<EditorOptions.Contextmenu category="editor" />
+									<EditorOptions.GlyphMargin category="editor" />
+									<EditorOptions.PaddingTop category="editor" />
+									<EditorOptions.PaddingBottom category="editor" />
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Font', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.FontFamily />
 									<EditorOptions.FontWeight fontWeights={ fontWeights } />
@@ -155,7 +163,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Word wrap', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.WordWrap />
 									{ 'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap ? (
@@ -175,7 +184,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Minimap', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.MinimapEnabled />
 									{ ! editorOptions.minimap.enabled ? (
@@ -200,7 +210,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Cursor', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.CursorStyle />
 									{ 'line' !== editorOptions.cursorStyle ? (
@@ -217,7 +228,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Code folding', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.Folding />
 									{ ! editorOptions.folding ? (
@@ -240,7 +252,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Line number', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.LineNumbers />
 									{ 'off' === editorOptions.lineNumbers ? (
@@ -259,7 +272,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Suggest', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.QuickSuggestions />
 									{ ! editorOptions.quickSuggestions ? (
@@ -282,7 +296,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Auto completion', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.AutoIndent />
 									<EditorOptions.AutoClosingBrackets />
@@ -292,7 +307,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.MouseWheelScrollSensitivity />
 									<EditorOptions.FastScrollSensitivity />
@@ -307,7 +323,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Select, cut, copy, and paste', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.EmptySelectionClipboard />
 									<EditorOptions.RoundedSelection />
@@ -319,7 +336,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.MatchBrackets />
 									<EditorOptions.OccurrencesHighlight />
@@ -345,7 +363,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Find', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.FindAddExtraSpaceOnTop />
 									<EditorOptions.FindSeedSearchStringFromSelection />
@@ -353,7 +372,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Scrollbar', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.ScrollbarUseShadows />
 									<EditorOptions.OverviewRulerBorder />
@@ -396,7 +416,8 @@ export default function EditorConfig() {
 								</PanelBody>
 								<PanelBody
 									title={ __( 'Other', 'custom-html-block-extension' ) }
-									initialOpen={ false }
+									initialOpen={ searchQuery }
+									scrollAfterOpen={ ! searchQuery }
 								>
 									<EditorOptions.UseTabStops />
 									<EditorOptions.CommentsInsertSpace />

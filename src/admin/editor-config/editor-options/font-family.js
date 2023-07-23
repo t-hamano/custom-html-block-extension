@@ -9,10 +9,19 @@ import { ExternalLink, SelectControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function FontFamily() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Font family', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -24,7 +33,7 @@ export default function FontFamily() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __( 'Font family', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.fontFamily }
 				options={ [
 					...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
@@ -39,7 +48,7 @@ export default function FontFamily() {
 				onChange={ onChange }
 			/>
 			<ItemHelp
-				title={ __( 'Font family', 'custom-html-block-extension' ) }
+				title={ title }
 				description={
 					<>
 						<p>

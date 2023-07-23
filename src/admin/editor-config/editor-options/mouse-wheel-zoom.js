@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function MouseWheelZoom() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Ctrl + mouse wheel to zoom in / out', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -24,13 +33,13 @@ export default function MouseWheelZoom() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<ToggleControl
-				label={ __( 'Ctrl + mouse wheel to zoom in / out', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.mouseWheelZoom }
 				onChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Ctrl + mouse wheel to zoom in / out', 'custom-html-block-extension' ) }
+				title={ title }
 				isToggle
 				defaultToggle={ false }
 				image={ 'editor-options/mouse-wheel-zoom.gif' }

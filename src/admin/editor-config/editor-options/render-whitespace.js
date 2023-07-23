@@ -9,10 +9,19 @@ import { SelectControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function RenderWhitespace() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Rendering of whitespace', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -56,7 +65,7 @@ export default function RenderWhitespace() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __( 'Rendering of whitespace', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.renderWhitespace }
 				options={ items.map( ( { label, value } ) => {
 					return { label, value };
@@ -65,7 +74,7 @@ export default function RenderWhitespace() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Cursor animation style', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ items }
 				value={ editorOptions.renderWhitespace }
 			/>

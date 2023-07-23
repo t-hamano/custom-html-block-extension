@@ -9,10 +9,19 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function GlyphMargin() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Show left margin', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -23,14 +32,10 @@ export default function GlyphMargin() {
 
 	return (
 		<div className="chbe-admin-editor-config__item">
-			<ToggleControl
-				label={ __( 'Show left margin', 'custom-html-block-extension' ) }
-				checked={ editorOptions.glyphMargin }
-				onChange={ onChange }
-			/>
+			<ToggleControl label={ title } checked={ editorOptions.glyphMargin } onChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Show left margin', 'custom-html-block-extension' ) }
+				title={ title }
 				description={ __(
 					'Margin at the left edge of the editor.',
 					'custom-html-block-extension'

@@ -9,10 +9,22 @@ import { SelectControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function AutoSurround() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __(
+		'Automatically surround selection with quotes or brackets',
+		'custom-html-block-extension'
+	);
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -48,10 +60,7 @@ export default function AutoSurround() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __(
-					'Automatically surround selection with quotes or brackets',
-					'custom-html-block-extension'
-				) }
+				label={ title }
 				value={ editorOptions.autoSurround }
 				options={ items.map( ( { label, value } ) => {
 					return { label, value };
@@ -60,10 +69,7 @@ export default function AutoSurround() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __(
-					'Automatically surround selection with quotes or brackets',
-					'custom-html-block-extension'
-				) }
+				title={ title }
 				items={ items }
 				value={ editorOptions.autoSurround }
 			/>

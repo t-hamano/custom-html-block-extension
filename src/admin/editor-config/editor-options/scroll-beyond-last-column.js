@@ -9,11 +9,23 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 export default function ScrollBeyondLastColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __(
+		'Number of columns to scroll past the last column',
+		'custom-html-block-extension'
+	);
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -25,10 +37,7 @@ export default function ScrollBeyondLastColumn() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __(
-					'Number of columns to scroll past the last column',
-					'custom-html-block-extension'
-				) }
+				label={ title }
 				value={ editorOptions.scrollBeyondLastColumn }
 				min="0"
 				max="20"
@@ -37,10 +46,7 @@ export default function ScrollBeyondLastColumn() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __(
-					'Number of columns to scroll past the last column',
-					'custom-html-block-extension'
-				) }
+				title={ title }
 				items={ [
 					{
 						label: sprintf(

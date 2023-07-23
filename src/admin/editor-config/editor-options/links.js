@@ -9,10 +9,22 @@ import { ToggleControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function Links() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __(
+		'Enable detecting links and making them clickable',
+		'custom-html-block-extension'
+	);
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -23,20 +35,10 @@ export default function Links() {
 
 	return (
 		<div className="chbe-admin-editor-config__item">
-			<ToggleControl
-				label={ __(
-					'Enable detecting links and making them clickable',
-					'custom-html-block-extension'
-				) }
-				checked={ editorOptions.links }
-				onChange={ onChange }
-			/>
+			<ToggleControl label={ title } checked={ editorOptions.links } onChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
-				title={ __(
-					'Enable detecting links and making them clickable',
-					'custom-html-block-extension'
-				) }
+				title={ title }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

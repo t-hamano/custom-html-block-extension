@@ -9,9 +9,18 @@ import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 
 export default function InsertSpaces() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Indent type', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -36,9 +45,7 @@ export default function InsertSpaces() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<BaseControl>
-				<BaseControl.VisualLabel>
-					{ __( 'Indent type', 'custom-html-block-extension' ) }
-				</BaseControl.VisualLabel>
+				<BaseControl.VisualLabel>{ title }</BaseControl.VisualLabel>
 				<ButtonGroup aria-label={ __( 'Indent type', 'custom-html-block-extension' ) }>
 					{ items.map( ( item, index ) => (
 						<Button

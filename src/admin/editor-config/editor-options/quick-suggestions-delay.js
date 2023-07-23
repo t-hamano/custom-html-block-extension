@@ -9,11 +9,20 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 export default function QuickSuggestionsDelay() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Time until suggestions are displayed (ms)', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -25,7 +34,7 @@ export default function QuickSuggestionsDelay() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __( 'Time until suggestions are displayed (ms)', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.quickSuggestionsDelay }
 				min="0"
 				max="1000"
@@ -34,7 +43,7 @@ export default function QuickSuggestionsDelay() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Time until suggestions are displayed (ms)', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ [
 					{
 						label: sprintf(

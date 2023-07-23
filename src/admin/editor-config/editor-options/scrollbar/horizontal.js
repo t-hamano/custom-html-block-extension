@@ -14,7 +14,14 @@ import ItemHelp from '../../components/item-help';
 
 export default function ScrollbarHorizontal() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { onRefreshEditor } = useContext( EditorConfigContext );
+	const { onRefreshEditor, searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Horizontal scrollbar', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -49,7 +56,7 @@ export default function ScrollbarHorizontal() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __( 'Horizontal scrollbar', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.scrollbar.horizontal }
 				options={ items.map( ( { label, value } ) => {
 					return { label, value };
@@ -58,7 +65,7 @@ export default function ScrollbarHorizontal() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Horizontal scrollbar', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.scrollbar.horizontal }

@@ -100,7 +100,11 @@
 			padding-top: 0;
 
 			> .components-panel__body-title {
-				margin: 0 -16px;
+				margin: 0 -16px -17px;
+
+				+ * {
+					margin-top: 33px;
+				}
 			}
 		}
 
@@ -128,6 +132,14 @@
 		}
 
 		.components-disabled {
+
+			&:empty {
+				display: none;
+
+				+ * {
+					margin-top: 33px;
+				}
+			}
 
 			> * {
 				margin: 0;

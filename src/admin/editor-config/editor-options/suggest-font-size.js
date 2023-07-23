@@ -9,11 +9,20 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 export default function SuggestFontSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Suggest font size (px)', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const onChange = ( value ) => {
 		setEditorOptions( {
@@ -25,7 +34,7 @@ export default function SuggestFontSize() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<RangeControl
-				label={ __( 'Suggest font size (px)', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.suggestFontSize }
 				min="10"
 				max="30"
@@ -34,7 +43,7 @@ export default function SuggestFontSize() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Suggest font size (px)', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ [
 					{
 						label: sprintf(

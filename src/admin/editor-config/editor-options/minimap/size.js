@@ -9,10 +9,19 @@ import { SelectControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import ItemHelp from '../../components/item-help';
 
 export default function MinimapSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Size', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -58,7 +67,7 @@ export default function MinimapSize() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __( 'Size', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.minimap.size }
 				options={ items.map( ( { label, value } ) => {
 					return { label, value };
@@ -67,7 +76,7 @@ export default function MinimapSize() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Size', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.minimap.size }

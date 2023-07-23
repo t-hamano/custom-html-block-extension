@@ -9,10 +9,19 @@ import { SelectControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function WrappingIndent() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { searchQuery } = useContext( EditorConfigContext );
+
+	const title = __( 'Word wrap indent', 'custom-html-block-extension' );
+	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+
+	if ( searchQuery && ! isMatch ) {
+		return null;
+	}
 
 	const items = [
 		{
@@ -48,7 +57,7 @@ export default function WrappingIndent() {
 	return (
 		<div className="chbe-admin-editor-config__item">
 			<SelectControl
-				label={ __( 'Word wrap indent', 'custom-html-block-extension' ) }
+				label={ title }
 				value={ editorOptions.wrappingIndent }
 				options={ items.map( ( { label, value } ) => {
 					return { label, value };
@@ -57,7 +66,7 @@ export default function WrappingIndent() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Word wrap indent', 'custom-html-block-extension' ) }
+				title={ title }
 				items={ items }
 				value={ editorOptions.wrappingIndent }
 			/>
