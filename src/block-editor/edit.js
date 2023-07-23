@@ -167,7 +167,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					<ToolbarGroup>
 						<ToolbarButton
 							icon={ fullscreen }
-							label={ __( 'Open HTML editor' ) }
+							label={ __( 'Open HTML editor', 'custom-html-block-extension' ) }
 							onClick={ () => setIsModalEditorOpen( true ) }
 						/>
 						<Dropdown

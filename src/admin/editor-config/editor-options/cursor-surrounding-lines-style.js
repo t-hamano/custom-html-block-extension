@@ -42,7 +42,7 @@ export default function CursorSurroundingLinesStyle() {
 			/>
 			<ItemHelp
 				onChange={ onChange }
-				title={ __( 'Enable context menu', 'custom-html-block-extension' ) }
+				title={ title }
 				description={ __(
 					'Sets the context menu when right-click in the editor.',
 					'custom-html-block-extension'

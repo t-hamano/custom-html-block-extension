@@ -28,7 +28,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 						disabled={ isWaiting }
 						onClick={ () => setIsModalOpen( true ) }
 					>
-						{ __( 'Reset' ) }
+						{ __( 'Reset', 'custom-html-block-extension' ) }
 					</Button>
 				</li>
 			</ul>
