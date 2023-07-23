@@ -37,13 +37,13 @@ export default function MultiCursorPaste() {
 
 	return (
 		<div className="chbe-admin-editor-config__item">
-			<BaseControl
-				id="custom-html-block-extension/multi-cursor-paste"
-				label={ __(
-					'Behaviour when pasting a text with the line count equal to the cursor count',
-					'custom-html-block-extension'
-				) }
-			>
+			<BaseControl>
+				<BaseControl.VisualLabel>
+					{ __(
+						'Behaviour when pasting a text with the line count equal to the cursor count',
+						'custom-html-block-extension'
+					) }
+				</BaseControl.VisualLabel>
 				<ButtonGroup>
 					{ items.map( ( item, index ) => (
 						<Button

@@ -180,10 +180,10 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											<h3 className="chbe-popover__subttl">
 												{ __( 'Current Indent', 'custom-html-block-extension' ) }
 											</h3>
-											<BaseControl
-												id="custom-html-block-extension/replace-indent-type"
-												label={ __( 'Indent Type', 'custom-html-block-extension' ) }
-											>
+											<BaseControl>
+												<BaseControl.VisualLabel>
+													{ __( 'Indent Type', 'custom-html-block-extension' ) }
+												</BaseControl.VisualLabel>
 												<ButtonGroup>
 													<Button
 														isPrimary={ ! replaceSetting.beforeInsertSpaces }
@@ -234,10 +234,10 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											<h3 className="chbe-popover__subttl">
 												{ __( 'New Indent', 'custom-html-block-extension' ) }
 											</h3>
-											<BaseControl
-												id="custom-html-block-extension/replace-indent-type"
-												label={ __( 'Indent type', 'custom-html-block-extension' ) }
-											>
+											<BaseControl>
+												<BaseControl.VisualLabel>
+													{ __( 'Indent type', 'custom-html-block-extension' ) }
+												</BaseControl.VisualLabel>
 												<ButtonGroup>
 													<Button
 														isPrimary={ ! replaceSetting.afterInsertSpaces }

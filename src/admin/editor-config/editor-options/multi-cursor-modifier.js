@@ -37,10 +37,10 @@ export default function MultiCursorModifier() {
 
 	return (
 		<div className="chbe-admin-editor-config__item">
-			<BaseControl
-				id="custom-html-block-extension/multi-cursor-modifier"
-				label={ __( 'Multi cursor modifier key', 'custom-html-block-extension' ) }
-			>
+			<BaseControl>
+				<BaseControl.VisualLabel>
+					{ __( 'Multi cursor modifier key', 'custom-html-block-extension' ) }
+				</BaseControl.VisualLabel>
 				<ButtonGroup>
 					{ items.map( ( item, index ) => (
 						<Button

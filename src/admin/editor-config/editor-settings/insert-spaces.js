@@ -35,10 +35,10 @@ export default function InsertSpaces() {
 
 	return (
 		<div className="chbe-admin-editor-config__item">
-			<BaseControl
-				id="custom-html-block-extension/insert-spaces"
-				label={ __( 'Indent type', 'custom-html-block-extension' ) }
-			>
+			<BaseControl>
+				<BaseControl.VisualLabel>
+					{ __( 'Indent type', 'custom-html-block-extension' ) }
+				</BaseControl.VisualLabel>
 				<ButtonGroup>
 					{ items.map( ( item, index ) => (
 						<Button
