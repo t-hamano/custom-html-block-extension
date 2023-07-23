@@ -10,7 +10,7 @@ import { PanelBody, ToggleControl } from '@wordpress/components';
  */
 import { AdminContext } from '../../../index';
 
-export default function Permission() {
+export default function PermissionEditor() {
 	const { options, setOptions } = useContext( AdminContext );
 
 	const onBlockEditorChange = ( value ) => {
@@ -36,21 +36,20 @@ export default function Permission() {
 
 	return (
 		<PanelBody
-			className="chbe-admin-options-permission"
-			title={ __( 'Permission', 'custom-html-block-extension' ) }
+			title={ __( 'Editors roles allowed to use this extension', 'custom-html-block-extension' ) }
 		>
 			<ToggleControl
-				label={ __( 'Enable on the block editor', 'custom-html-block-extension' ) }
+				label={ __( 'Block editor', 'custom-html-block-extension' ) }
 				checked={ options.permissionBlockEditor }
 				onChange={ onBlockEditorChange }
 			/>
 			<ToggleControl
-				label={ __( 'Enable on the classic editor', 'custom-html-block-extension' ) }
+				label={ __( 'Classic editor', 'custom-html-block-extension' ) }
 				checked={ options.permissionClassicEditor }
 				onChange={ onClassicEditorChange }
 			/>
 			<ToggleControl
-				label={ __( 'Enable on Theme and Plugin editor', 'custom-html-block-extension' ) }
+				label={ __( 'Theme and Plugin editor', 'custom-html-block-extension' ) }
 				checked={ options.permissionThemePluginEditor }
 				onChange={ onThemePluginEditorChange }
 			/>

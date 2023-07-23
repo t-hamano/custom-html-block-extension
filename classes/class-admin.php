@@ -113,6 +113,7 @@ class Admin {
 				'editorSettings'      => Settings::get_editor_settings(),
 				'editorOptions'       => Settings::get_editor_options(),
 				'options'             => Settings::get_options(),
+				'userRoles'           => Settings::get_user_roles(),
 				'fontFamily'          => Settings::get_font_families(),
 				'dismissWelcomeGuide' => get_option( Settings::OPTION_NAME['dismiss_welcome_guide'] ),
 			)

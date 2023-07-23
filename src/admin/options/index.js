@@ -11,7 +11,8 @@ import { Button } from '@wordpress/components';
  */
 import { AdminContext } from '../index';
 import { addNotification } from '../../lib/helper';
-import Permission from './components/permission';
+import PermissionEditor from './components/permission-editor';
+import PermissionUserRole from './components/permission-user-role';
 
 /**
  * Context
@@ -39,7 +40,8 @@ export default function Options() {
 
 	return (
 		<div className="chbe-admin-options">
-			<Permission />
+			<PermissionEditor />
+			<PermissionUserRole />
 			<Button variant="primary" disabled={ isWaiting } onClick={ onUpdateOptions }>
 				{ __( 'Save Options', 'custom-html-block-extension' ) }
 			</Button>
