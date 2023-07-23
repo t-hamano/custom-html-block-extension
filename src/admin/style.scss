@@ -59,6 +59,25 @@
 		opacity: 0.3;
 	}
 
+	.components-base-control {
+		margin-bottom: 0;
+
+		.components-base-control__label {
+			display: block;
+			font-size: 13px;
+			font-weight: normal;
+			text-transform: initial;
+		}
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+	}
+
+	.components-select-control__input {
+		line-height: initial;
+	}
+
 	.components-panel__body {
 		background: #fff;
 		border: 1px solid #d6e2ed;

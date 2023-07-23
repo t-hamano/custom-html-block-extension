@@ -12,23 +12,6 @@
 		flex-flow: column;
 	}
 
-
-	// Gutenberg component styles
-	.components-base-control {
-		margin-bottom: 0;
-
-		label {
-			display: block;
-			font-size: 13px;
-			font-weight: normal;
-			text-transform: initial;
-		}
-	}
-
-	.components-select-control__input {
-		line-height: initial;
-	}
-
 	.components-range-control {
 		flex: 1;
 		max-width: 300px;
