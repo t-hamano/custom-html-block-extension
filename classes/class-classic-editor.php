@@ -141,11 +141,11 @@ class ClassicEditor {
 						<strong><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></strong>
 						<label>
 							<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="before_insert_spaces" value="1" <?php if ( $settings['insertSpaces'] ) echo 'checked'; ?>>
+							<input type="radio" name="before_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
 						</label>
 						<label>
 							<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="before_insert_spaces" value="0" <?php if ( ! $settings['insertSpaces'] ) echo 'checked'; ?>>
+							<input type="radio" name="before_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
 						</label>
 					</p>
 					<p id="chbe-item-before-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
@@ -160,11 +160,11 @@ class ClassicEditor {
 						<strong><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></strong>
 						<label>
 							<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="after_insert_spaces" value="1" <?php if ( $settings['insertSpaces'] ) echo 'checked'; ?>>
+							<input type="radio" name="after_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
 						</label>
 						<label>
 							<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="after_insert_spaces" value="0" <?php if ( ! $settings['insertSpaces'] ) echo 'checked'; ?>>
+							<input type="radio" name="after_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
 						</label>
 					</p>
 					<p id="chbe-item-after-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
