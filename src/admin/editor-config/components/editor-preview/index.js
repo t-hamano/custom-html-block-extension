@@ -19,7 +19,7 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 		if ( ! isSuccess ) {
 			addNotification(
 				sprintf(
-					/* translators: %s is replaced with the number. */
+					/* translators: %s is replaced with the font family name. */
 					__( 'Failed to load the font. (%s)', 'custom-html-block-extension' ),
 					font.label
 				),

@@ -44,7 +44,7 @@ class Admin {
 			$content  = '<h3>' . __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) . '</h3>';
 			$content .= '<p>';
 			$content .= sprintf(
-				/* translators: 1: setting page url */
+				/* translators: %s is replaced with the setting page url. */
 				__(
 					'Custom HTML Block Extension enabled. You can customize the editor in <a href="%s">setting page</a>.',
 					'custom-html-block-extension'
