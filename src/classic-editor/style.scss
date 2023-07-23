@@ -1,6 +1,4 @@
 // Monaco Editor
-$wp-admin-theme-color: #2271b1;
-
 #monaco-editor-container {
 	min-height: 300px;
 
@@ -108,7 +106,7 @@ $wp-admin-theme-color: #2271b1;
 		font-size: 1em;
 		color: #fff;
 		text-align: center;
-		background: $wp-admin-theme-color;
+		background: #2271b1;
 	}
 
 	.chbe-dialog__row {
@@ -122,7 +120,7 @@ $wp-admin-theme-color: #2271b1;
 		flex-flow: column;
 		gap: 16px;
 		padding: 0 16px 16px;
-		border: 1px solid $wp-admin-theme-color;
+		border: 1px solid #2271b1;
 	}
 
 	.chbe-dialog__arrow {
@@ -136,3 +134,28 @@ $wp-admin-theme-color: #2271b1;
 	}
 }
 
+// Apply theme color
+$themes: (
+	"light"    : #04a4cc,
+	"modern"   : #3858e9,
+	"blue"     : #e1a948,
+	"coffee"   : #c7a589,
+	"ectoplasm": #a3b745,
+	"midnight" : #e14d43,
+	"ocean"    : #9ebaa0,
+	"sunrise"  : #dd823b,
+);
+
+@each $class, $value in $themes {
+
+	body.admin-color-#{$class} .chbe-dialog {
+
+		.chbe-dialog__setting {
+			border-color: $value;
+		}
+
+		.chbe-dialog__subtitle {
+			background: $value;
+		}
+	}
+}
