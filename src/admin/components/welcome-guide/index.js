@@ -71,7 +71,7 @@ export default function WelcomeGuide() {
 									</p>
 									<p>
 										{ __(
-											'Custom HTML Block Extension extends "Custom HTML block" to evolve into an advanced code editor.',
+											'Custom HTML Block Extension extends Custom HTML block to evolve into the advanced code editor.',
 											'custom-html-block-extension'
 										) }
 									</p>

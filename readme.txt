@@ -9,10 +9,10 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Extend custom HTML blocks to evolve into an advanced code editor.
+Extend Custom HTML block to evolve into the advanced code editor.
 
 == Description ==
-Custom HTML Block Extension extends "Custom HTML block" to evolve into an advanced code editor.
+Custom HTML Block Extension extends Custom HTML block to evolve into the advanced code editor.
 There are 50 different color themes to choose from, and you can select the one that best suits your taste.
 This plugin features Emmet that expand shortcut input into complete code. This reduces the number of times you have to type and saves keystrokes.
 You can change all kinds of settings to create your ideal editor in advanced mode.
@@ -69,10 +69,26 @@ Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
 
+= 3.3.0 =
+* Tested to WordPress 6.3
+* Enhancement: Add filtering function for settings
+* Enhancement: Add monospace font
+* Enhancement: Add user role permission setting
+* Enhancement: Remove the editor refresh button on the settings page
+* Enhancement: Apply theme color to the classic editor
+* Enhancement: Use code tags in help modal description
+* i18n: Apply more strict capitalization rule and grammar to strings
+* a11y: Improve screen reader reading
+* Fix: Full screen editor not showing on the block editor
+* Clean: Polish change indentation popover style
+* Drop support for WP5.9
+* Drop support for PHP7.3
+
 = 3.2.1 =
 * Enhancement: Change modal HTML editor icon
 
 = 3.2.0 =
+* Tested to WordPress 6.2
 * Feature: Add modal HTML editor
 * Enhancement: Don't display toolbar buttons when preview mode
 * Fix: Wrong CSS for Monaco Editor in the block editor

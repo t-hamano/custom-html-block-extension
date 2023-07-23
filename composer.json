@@ -1,6 +1,6 @@
 {
 	"name": "t-hamano/custom-html-block-extension",
-  "description": "Extend custom HTML blocks to evolve into an advanced code editor.",
+	"description": "Extend Custom HTML block to evolve into the advanced code editor.",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
@@ -9,7 +9,7 @@
 	],
 	"require-dev": {
 		"squizlabs/php_codesniffer": "*",
-    "wp-coding-standards/wpcs": "*"
+		"wp-coding-standards/wpcs": "*"
 	},
 	"scripts": {
 		"phpcs": "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
