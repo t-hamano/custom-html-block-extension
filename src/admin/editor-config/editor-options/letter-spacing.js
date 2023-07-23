@@ -8,8 +8,8 @@ import { RangeControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { toNumber } from 'lib/helper';
+import { AdminContext } from '../../index';
+import { toNumber } from '../../../lib/helper';
 
 export default function LetterSpacing() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

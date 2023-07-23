@@ -7,9 +7,9 @@ import { useContext } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { addNotification } from 'lib/helper';
-import MonacoEditor from 'components/monaco-editor';
+import { AdminContext } from '../../../index';
+import { addNotification } from '../../../../lib/helper';
+import MonacoEditor from '../../../../components/monaco-editor';
 
 export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 	const { code, setCode, editorSettings, editorOptions, setEditorOptions } =

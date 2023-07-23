@@ -8,8 +8,8 @@ import { SelectControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import themes from 'lib/themes';
+import { AdminContext } from '../../index';
+import themes from '../../../lib/themes';
 
 export default function Theme() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );

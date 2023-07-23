@@ -8,9 +8,9 @@ import { ToggleControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { EditorConfigContext } from 'admin/editor-config';
-import ItemHelp from 'admin/editor-config/components/item-help';
+import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
+import ItemHelp from '../../components/item-help';
 
 export default function ScrollbarScrollByPage() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

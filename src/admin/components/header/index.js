@@ -6,9 +6,9 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import BlockIcon from 'components/block-icon';
-import WelcomeGuide from 'admin/components/welcome-guide';
-import Shortcut from 'admin/components/shortcut';
+import BlockIcon from '../../../components/block-icon';
+import WelcomeGuide from '../welcome-guide';
+import Shortcut from '../shortcut';
 
 export default function Header() {
 	return (

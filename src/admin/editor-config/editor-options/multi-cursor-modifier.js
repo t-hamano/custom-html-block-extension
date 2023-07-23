@@ -3,13 +3,13 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
+import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
-import ItemHelp from 'admin/editor-config/components/item-help';
+import { AdminContext } from '../../index';
+import ItemHelp from '../components/item-help';
 
 export default function MultiCursorModifier() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

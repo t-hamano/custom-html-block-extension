@@ -7,9 +7,8 @@ import { useContext } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { RangeControl } from '@wordpress/components';
-import { toNumber } from 'lib/helper';
+import { AdminContext } from '../../index';
+import { toNumber } from '../../../lib/helper';
 
 export default function TabSize() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );

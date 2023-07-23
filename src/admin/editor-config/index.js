@@ -9,13 +9,13 @@ import { PanelBody, Disabled } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { addNotification } from 'lib/helper';
-import EditorPreview from 'admin/editor-config/components/editor-preview';
+import { AdminContext } from '../index';
+import { addNotification } from '../../lib/helper';
+import EditorPreview from './components/editor-preview';
 import Modes from './components/modes';
-import Controls from 'admin/editor-config/components/controls';
-import * as EditorSettings from 'admin/editor-config/editor-settings';
-import * as EditorOptions from 'admin/editor-config/editor-options';
+import Controls from './components/controls';
+import * as EditorSettings from './editor-settings';
+import * as EditorOptions from './editor-options';
 
 /**
  * Context

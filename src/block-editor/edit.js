@@ -1,11 +1,4 @@
 /**
- * Internal dependencies
- */
-import './style.scss';
-import { toNumber } from 'lib/helper';
-import MonacoEditor from 'components/monaco-editor';
-
-/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -28,6 +21,13 @@ import {
 	Notice,
 } from '@wordpress/components';
 import { fullscreen, arrowRight, replace } from '@wordpress/icons';
+
+/**
+ * Internal dependencies
+ */
+import './style.scss';
+import { toNumber } from '../lib/helper';
+import MonacoEditor from '../components/monaco-editor';
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;

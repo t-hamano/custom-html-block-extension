@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-
 import { Button, Modal } from '@wordpress/components';
 
 export default function Controls( { isWaiting, onUpdateOptions, onResetOptions } ) {

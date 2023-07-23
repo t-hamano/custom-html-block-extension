@@ -3,12 +3,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
+import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
+import { AdminContext } from '../../index';
 
 export default function InsertSpaces() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );

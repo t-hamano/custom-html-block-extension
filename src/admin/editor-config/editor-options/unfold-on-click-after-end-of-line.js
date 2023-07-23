@@ -8,8 +8,8 @@ import { ToggleControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import ItemHelp from 'admin/editor-config/components/item-help';
+import { AdminContext } from '../../index';
+import ItemHelp from '../components/item-help';
 
 export default function UnfoldOnClickAfterEndOfLine() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

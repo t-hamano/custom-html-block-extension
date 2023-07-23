@@ -9,10 +9,10 @@ import { useDebounce } from '@wordpress/compose';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import { EditorConfigContext } from 'admin/editor-config';
-import ItemHelp from 'admin/editor-config/components/item-help';
-import { toNumber } from 'lib/helper';
+import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
+import ItemHelp from '../../components/item-help';
+import { toNumber } from '../../../../lib/helper';
 
 export default function ScrollbarArrowSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

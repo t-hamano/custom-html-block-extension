@@ -8,8 +8,8 @@ import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
  * Internal dependencies
  */
 import './style.scss';
-import themes from 'lib/themes';
-import initLoader from 'lib/loader';
+import themes from '../lib/themes';
+import initLoader from '../lib/loader';
 
 initLoader().then( ( monaco ) => {
 	const { editorSettings, editorOptions, language, fontFamily } = window.chbeObj;

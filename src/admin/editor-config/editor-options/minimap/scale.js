@@ -8,9 +8,9 @@ import { RangeControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
-import ItemHelp from 'admin/editor-config/components/item-help';
-import { toNumber } from 'lib/helper';
+import { AdminContext } from '../../../index';
+import ItemHelp from '../../components/item-help';
+import { toNumber } from '../../../../lib/helper';
 
 export default function MinimapScale() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

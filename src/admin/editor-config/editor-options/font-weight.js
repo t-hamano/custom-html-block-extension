@@ -8,7 +8,7 @@ import { SelectControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
+import { AdminContext } from '../../index';
 
 export default function FontWeight( { fontWeights } ) {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

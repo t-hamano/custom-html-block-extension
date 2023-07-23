@@ -7,9 +7,9 @@ import { useContext } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import { AdminContext } from 'admin';
+import { AdminContext } from '../../../index';
 import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
-import ItemHelp from 'admin/editor-config/components/item-help';
+import ItemHelp from '../../components/item-help';
 
 export default function MinimapSide() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

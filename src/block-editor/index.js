@@ -6,7 +6,7 @@ import { addFilter } from '@wordpress/hooks';
 /**
  * Internal dependencies
  */
-import icon from 'components/block-icon';
+import icon from '../components/block-icon';
 import edit from './edit';
 
 const customHtmlBlockExtension = ( settings ) => {
