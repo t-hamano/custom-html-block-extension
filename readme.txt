@@ -2,7 +2,7 @@
 Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
-Requires at least: 6.0
+Requires at least: 6.1
 Tested up to: 6.3
 Stable tag: 3.3.0
 Requires PHP: 7.4
@@ -81,7 +81,7 @@ Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 * a11y: Improve screen reader reading
 * Fix: Full screen editor not showing on the block editor
 * Clean: Polish change indentation popover style
-* Drop support for WP5.9
+* Drop support for WordPress 5.9, 6.0
 * Drop support for PHP7.3
 
 = 3.2.1 =
