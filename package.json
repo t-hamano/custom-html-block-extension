@@ -8,7 +8,7 @@
 		"stop": "wp-env stop",
 		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
-		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/lib/monaco-editor/min\" && node bin/delete-sourcemaps.js",
+		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/vendor/monaco-editor/min\" && node bin/delete-sourcemaps.js",
 		"clean": "rimraf build",
 		"lint": "npm run lint:php && npm run lint:style && npm run lint:js",
 		"lint:php": "composer lint",

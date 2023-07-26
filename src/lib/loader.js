@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 
 const config = {
 	paths: {
-		vs: `${ window.chbeObj.pluginUrl }/build/lib/monaco-editor/min/vs`,
+		vs: `${ window.chbeObj.pluginUrl }/build/vendor/monaco-editor/min/vs`,
 	},
 };
 
