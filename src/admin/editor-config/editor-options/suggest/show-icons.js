@@ -46,7 +46,7 @@ export default function SuggestShowIcons() {
 					title={ title }
 					items={ [
 						{
-							label: __( 'Enabl', 'custom-html-block-extension' ),
+							label: __( 'Enable', 'custom-html-block-extension' ),
 							image: 'editor-options/suggest/show-icons_1.jpg',
 							value: true,
 							isDefault: true,

@@ -33,4 +33,4 @@ function deleteMaps( dir ) {
 	} );
 }
 
-[ './build/lib/' ].map( deleteMaps );
+[ './build/vendor/' ].map( deleteMaps );
