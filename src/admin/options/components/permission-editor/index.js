@@ -36,7 +36,7 @@ export default function PermissionEditor() {
 
 	return (
 		<PanelBody
-			title={ __( 'Editors roles allowed to use this extension', 'custom-html-block-extension' ) }
+			title={ __( 'Editors allowed to use this extension', 'custom-html-block-extension' ) }
 		>
 			<ToggleControl
 				label={ __( 'Block editor', 'custom-html-block-extension' ) }
