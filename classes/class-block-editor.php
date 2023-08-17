@@ -13,6 +13,12 @@ class BlockEditor {
 	 * Constructor
 	 */
 	function __construct() {
+		// Abort the process if the editor isn't allowed to use this extension.
+		$options = Settings::get_options();
+		if ( ! $options['permissionBlockEditor'] ) {
+			return;
+		}
+
 		// Enqueue block editor scripts
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
 
@@ -32,10 +38,8 @@ class BlockEditor {
 	public function enqueue_editor_scripts() {
 		$asset_file = include( CHBE_PATH . '/build/block-editor.asset.php' );
 
-		// Abort the process if permission is disabled.
-		$options = Settings::get_options();
-
-		if ( ! $options['permissionBlockEditor'] || ! Settings::is_allowed_user() ) {
+		// Abort the process if the user role isn't allowed to use this extension.
+		if ( ! Settings::is_allowed_user() ) {
 			return;
 		}
 
@@ -64,10 +68,8 @@ class BlockEditor {
 	 * Enqueue block editor styles
 	 */
 	public function enqueue_editor_styles() {
-		// Abort the process if permission is disabled.
-		$options = Settings::get_options();
-
-		if ( ! $options['permissionBlockEditor'] || ! Settings::is_allowed_user() ) {
+		// Abort the process if the user role permission is disabled.
+		if ( ! Settings::is_allowed_user() ) {
 			return;
 		}
 
