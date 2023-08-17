@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.1
 Tested up to: 6.3
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,11 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 3.3.2 =
+
+* Fix: Browser warning error in WordPress 6.3
+* Fix: User role settings are not applied to all editors
 
 = 3.3.1 =
 
