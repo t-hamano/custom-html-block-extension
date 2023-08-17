@@ -15,6 +15,15 @@ class BlockEditor {
 	function __construct() {
 		// Enqueue block editor scripts
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
+
+		// Enqueue block editor styles
+		// TODO: Remove this conditional statement and unify it with `enqueue_block_assets` hook
+		// when the supported minimum WordPress version is 6.3 or higher.
+		if ( is_wp_version_compatible( '6.3' ) && is_admin() ) {
+			add_action( 'enqueue_block_assets', array( $this, 'enqueue_editor_styles' ) );
+		} else {
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_styles' ) );
+		}
 	}
 
 	/**
@@ -29,20 +38,6 @@ class BlockEditor {
 		if ( ! $options['permissionBlockEditor'] || ! Settings::is_allowed_user() ) {
 			return;
 		}
-
-		wp_enqueue_style(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/style-block-editor.css',
-			array(),
-			filemtime( CHBE_PATH . '/build/style-block-editor.css' )
-		);
-
-		wp_enqueue_style(
-			CHBE_NAMESPACE . '-font',
-			CHBE_URL . '/assets/css/fira-code.css',
-			array(),
-			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
-		);
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
@@ -63,6 +58,32 @@ class BlockEditor {
 		);
 
 		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
+	}
+
+	/**
+	 * Enqueue block editor styles
+	 */
+	public function enqueue_editor_styles() {
+		// Abort the process if permission is disabled.
+		$options = Settings::get_options();
+
+		if ( ! $options['permissionBlockEditor'] || ! Settings::is_allowed_user() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			CHBE_NAMESPACE,
+			CHBE_URL . '/build/style-block-editor.css',
+			array(),
+			filemtime( CHBE_PATH . '/build/style-block-editor.css' )
+		);
+
+		wp_enqueue_style(
+			CHBE_NAMESPACE . '-font',
+			CHBE_URL . '/assets/css/fira-code.css',
+			array(),
+			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
+		);
 	}
 }
 
