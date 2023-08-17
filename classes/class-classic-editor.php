@@ -13,7 +13,7 @@ class ClassicEditor {
 	 * Constructor
 	 */
 	public function __construct() {
-		// Abort the process if permission is disabled.
+		// Abort the process if the editor isn't allowed to use this extenson.
 		$options = Settings::get_options();
 		if ( ! $options['permissionClassicEditor'] ) {
 			return;
@@ -42,11 +42,16 @@ class ClassicEditor {
 			return;
 		}
 
-		// Abort the process if block editor is enabled.
+		// Abort the process if the block editor is enabled.
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return;
 		}
 		if ( get_current_screen()->is_block_editor ) {
+			return;
+		}
+
+		// Abort the process if the user role isn't allowed to use this extension.
+		if ( ! Settings::is_allowed_user() ) {
 			return;
 		}
 
@@ -106,6 +111,11 @@ class ClassicEditor {
 			return;
 		}
 
+		// Abort the process if the user role isn't allowed to use this extension.
+		if ( ! Settings::is_allowed_user() ) {
+			return;
+		}
+
 		printf(
 			'<button type="button" class="button chbe-replace-indent" id="chbe-replace-indent-button">' . Settings::ICON . ' %s' . '</button>',
 			__( 'Change Indentation', 'custom-html-block-extension' )
@@ -116,7 +126,7 @@ class ClassicEditor {
 	 * Add dialog
 	 */
 	public function admin_footer() {
-		// Abort the process if block editor is enabled.
+		// Abort the process if the block editor is enabled.
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return;
 		}
@@ -126,6 +136,11 @@ class ClassicEditor {
 
 		// Abort the process if the editor is not supported.
 		if ( ! post_type_supports( get_post_type(), 'editor' ) ) {
+			return;
+		}
+
+		// Abort the process if the user role isn't allowed to use this extension.
+		if ( ! Settings::is_allowed_user() ) {
 			return;
 		}
 

@@ -13,7 +13,7 @@ class ThemePluginEditor {
 	 * Constructor
 	 */
 	public function __construct() {
-		// Abort the process if permission is disabled.
+		// Abort the process if the editor isn't allowed to use this extenson.
 		$options = Settings::get_options();
 		if ( ! $options['permissionThemePluginEditor'] ) {
 			return;
@@ -29,6 +29,11 @@ class ThemePluginEditor {
 	public function admin_enqueue_scripts( $hook_suffix ) {
 		// Abort the process if post/page editor is not displayed.
 		if ( 'theme-editor.php' !== $hook_suffix && 'plugin-editor.php' !== $hook_suffix ) {
+			return;
+		}
+
+		// Abort the process if the user role isn't allowed to use this extension.
+		if ( ! Settings::is_allowed_user() ) {
 			return;
 		}
 
