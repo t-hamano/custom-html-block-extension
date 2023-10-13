@@ -1,0 +1,16 @@
+@font-face {
+	font-family: "Anonymous Pro";
+	font-style: normal;
+	font-weight: 300;
+	font-stretch: normal;
+	src: url(../fonts/AnonymousPro-Regular.woff2) format("woff2");
+}
+
+@font-face {
+	font-family: "Anonymous Pro";
+	font-style: normal;
+	font-weight: 700;
+	font-stretch: normal;
+	src: url(../fonts/AnonymousPro-Bold.woff2) format("woff2");
+}
+

@@ -1,0 +1,33 @@
+.chbe-admin-header {
+	padding: 16px 0 8px;
+	background-color: #fff;
+
+	.chbe-admin-header__title {
+		display: flex;
+		gap: 16px;
+		align-items: center;
+		justify-content: center;
+		margin: 0 0 8px;
+		line-height: 1;
+
+		@media screen and (max-width: 782px) {
+			font-size: 20px;
+		}
+
+		svg {
+			width: 30px;
+		}
+	}
+
+	.chbe-admin-header__info {
+		position: absolute;
+		top: 0;
+		right: 16px;
+		margin: 0;
+
+		@media screen and (max-width: 782px) {
+			position: static;
+			margin-top: 16px;
+		}
+	}
+}

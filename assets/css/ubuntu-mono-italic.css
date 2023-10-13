@@ -1,0 +1,16 @@
+@font-face {
+	font-family: "Ubuntu Mono Italic";
+	font-style: normal;
+	font-weight: 300;
+	font-stretch: normal;
+	src: url(../fonts/UbuntuMono-lt.woff2) format("woff2");
+}
+
+@font-face {
+	font-family: "Ubuntu Mono Italic";
+	font-style: normal;
+	font-weight: 700;
+	font-stretch: normal;
+	src: url(../fonts/UbuntuMono-Boldlt.woff2) format("woff2");
+}
+

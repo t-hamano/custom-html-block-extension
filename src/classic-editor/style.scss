@@ -1,0 +1,168 @@
+// Monaco Editor
+#monaco-editor-container {
+	min-height: 300px;
+
+	.monaco-editor {
+
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+
+			textarea:focus {
+				box-shadow: none;
+			}
+		}
+
+		.inputarea {
+			box-shadow: none;
+		}
+
+		.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
+			text-decoration: none;
+		}
+
+		.monaco-highlighted-label .highlight {
+			background: transparent;
+		}
+	}
+}
+
+// Toolbar
+#ed_toolbar { /* stylelint-disable-line selector-id-pattern */
+	z-index: 1;
+}
+
+// Original editor textarea
+#wp-content-editor-container textarea.wp-editor-area {
+	position: fixed !important;
+	top: -9999px !important;
+	left: -9999px !important;
+	z-index: -1;
+	display: block !important;
+	opacity: 0 !important;
+}
+
+// Change indentation button
+.wp-media-buttons .chbe-replace-indent {
+	display: none;
+
+	svg {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		margin: 0 2px;
+		line-height: 1;
+		vertical-align: middle;
+		fill: currentcolor;
+	}
+}
+
+// Change indentation Dialog
+.chbe-dialog {
+	z-index: 1002 !important;
+	display: none;
+	padding: 16px;
+	font-family: inherit;
+	background: #fff;
+	border: 1px solid #d3d3d3;
+	border-radius: 4px;
+
+	.ui-dialog-titlebar {
+		display: none;
+	}
+
+	p {
+		margin: 0;
+
+		strong {
+			display: block;
+			margin: 0 0 4px;
+		}
+	}
+
+	legend {
+		display: block;
+		padding: 0;
+		margin: 0 0 4px;
+		font-weight: 600;
+	}
+
+	.chbe-dialog__inner {
+		display: flex;
+		flex-flow: column;
+		gap: 16px;
+		align-items: center;
+	}
+
+	.chbe-dialog__title {
+		margin: 0;
+		text-align: center;
+	}
+
+	.chbe-dialog__subtitle {
+		padding: 4px 8px;
+		margin: 0 -16px;
+		font-size: 1em;
+		color: #fff;
+		text-align: center;
+		background: #2271b1;
+	}
+
+	.chbe-dialog__row {
+		display: flex;
+		gap: 16px;
+		justify-content: center;
+	}
+
+	.chbe-dialog__setting {
+		display: flex;
+		flex-flow: column;
+		gap: 16px;
+		padding: 0 16px 16px;
+		border: 1px solid #2271b1;
+	}
+
+	.chbe-dialog__arrow {
+		align-self: center;
+	}
+
+	.chbe-dialog__buttons {
+		display: flex;
+		gap: 16px;
+		text-align: center;
+	}
+}
+
+// Apply theme color
+$themes: (
+	"light"    : #04a4cc,
+	"modern"   : #3858e9,
+	"blue"     : #e1a948,
+	"coffee"   : #c7a589,
+	"ectoplasm": #a3b745,
+	"midnight" : #e14d43,
+	"ocean"    : #9ebaa0,
+	"sunrise"  : #dd823b,
+);
+
+@each $class, $value in $themes {
+
+	body.admin-color-#{$class} .chbe-dialog {
+
+		.chbe-dialog__setting {
+			border-color: $value;
+		}
+
+		.chbe-dialog__subtitle {
+			background: $value;
+		}
+	}
+}

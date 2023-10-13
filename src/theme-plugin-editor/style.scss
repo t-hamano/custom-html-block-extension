@@ -1,0 +1,69 @@
+// Monaco Editor
+#monaco-editor-container {
+	height: calc(100vh - 295px);
+	min-height: 60vh;
+	margin-right: 4em;
+
+	@media screen and (max-width: 782px) {
+		margin-right: 0;
+	}
+
+	.monaco-editor {
+
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+
+				&.disabled {
+					color: inherit !important;
+					background: none !important;
+				}
+			}
+
+			textarea {
+				min-height: initial;
+				font-family: inherit;
+				font-size: inherit;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+		}
+
+		.inputarea {
+			box-shadow: none;
+
+			&.monaco-mouse-cursor-text {
+				min-height: auto;
+				background: transparent;
+				border: none;
+			}
+		}
+
+		.monaco-highlighted-label .highlight {
+			display: inline;
+			padding: 0;
+			margin: 0;
+			background: transparent;
+		}
+	}
+}
+
+// Original editor textarea
+#template textarea#newcontent {
+	position: fixed !important;
+	top: -9999px !important;
+	left: -9999px !important;
+	z-index: -1;
+	display: block !important;
+	opacity: 0 !important;
+}

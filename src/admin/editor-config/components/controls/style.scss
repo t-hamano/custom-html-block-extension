@@ -1,0 +1,14 @@
+.chbe-admin-editor-config-controls {
+	display: flex;
+	justify-content: space-between;
+	margin: 0;
+
+	.chbe-admin-editor-config-controls__item {
+		margin: 0;
+	}
+
+	.chbe-admin-editor-config-controls__submit {
+		padding-right: 56px;
+		padding-left: 56px;
+	}
+}

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor input by Emmet should be expanded on block editor 1`] = `
+"<!-- wp:html -->
+<ul class="list">
+  <li class="item"></li>
+  <li class="item"></li>
+  <li class="item"></li>
+  <li class="item"></li>
+  <li class="item"></li>
+</ul>
+<!-- /wp:html -->"
+`;
