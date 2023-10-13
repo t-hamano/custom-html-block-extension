@@ -1,6 +1,6 @@
 {
-	"name": "t-hamano/image-block-extension",
-	"description": "Add settings to the image block that allow you to register images for mobile devices.",
+	"name": "t-hamano/custom-html-block-extension",
+	"description": "Extend Custom HTML block to evolve into the advanced code editor.",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
@@ -9,7 +9,7 @@
 	],
 	"require-dev": {
 		"squizlabs/php_codesniffer": "*",
-		"wp-coding-standards/wpcs": "^3.0"
+		"wp-coding-standards/wpcs": "*"
 	},
 	"scripts": {
 		"phpcs": "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",

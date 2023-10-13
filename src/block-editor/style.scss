@@ -1,0 +1,164 @@
+// Block
+.wp-block-html,
+.wp-block[data-type="core/html"] {
+
+	.components-resizable-box__container {
+		padding-bottom: 24px;
+		overflow: initial;
+
+		> section {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	.components-notice {
+		padding: 4px 8px;
+		margin: 0 0 4px;
+
+		.components-button {
+			min-width: 24px;
+			height: 24px;
+			padding: 0;
+
+			svg {
+				width: 20px;
+			}
+		}
+	}
+
+	.components-notice__content {
+		margin: 0;
+	}
+
+	&.is-selected .components-resizable-box__container {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+
+	.chbe-editor-wrapper {
+		height: 100%;
+	}
+}
+
+// Change indentation popover
+.chbe-popover {
+
+	.components-popover__content {
+		padding: 16px;
+	}
+
+	.chbe-popover__inner {
+		display: flex;
+		flex-flow: column;
+		gap: 16px;
+		align-items: center;
+		white-space: nowrap;
+	}
+
+	.components-base-control__label {
+		display: block;
+	}
+
+	.chbe-popover__title {
+		margin: 0;
+		text-align: center;
+	}
+
+	.chbe-popover__subtitle {
+		padding: 4px 8px;
+		margin: 0 -16px;
+		font-size: 1em;
+		color: #fff;
+		text-align: center;
+		background: var(--wp-admin-theme-color);
+	}
+
+	.chbe-popover__row {
+		display: flex;
+		gap: 8px;
+	}
+
+	.chbe-popover__col {
+		display: flex;
+		flex-flow: column;
+		gap: 16px;
+		padding: 0 16px 16px;
+		border: 1px solid var(--wp-admin-theme-color);
+	}
+
+	.chbe-popover__arrow {
+		align-self: center;
+
+		svg {
+			display: block;
+		}
+	}
+
+	.chbe-popover__buttons {
+		display: flex;
+		gap: 16px;
+	}
+}
+
+
+// Modal HTML Editor
+.chbe-fullscreen-editor {
+
+	.components-modal__content {
+		display: flex;
+		flex-flow: column;
+	}
+
+	.components-modal__header + div {
+		flex: 1;
+	}
+
+	.chbe-editor-wrapper {
+		height: 100%;
+	}
+}
+
+// Monaco Editor
+.chbe-editor-wrapper {
+
+	.monaco-editor {
+
+		.find-widget {
+
+			.button {
+				color: inherit;
+				background: none;
+				border: none;
+
+				&:focus {
+					box-shadow: none;
+				}
+
+				&.disabled {
+					color: inherit !important;
+					background: none !important;
+				}
+			}
+
+			textarea:focus {
+				box-shadow: none;
+			}
+		}
+
+		.inputarea {
+			padding: 0;
+			color: inherit;
+			box-shadow: none;
+		}
+
+		.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
+			text-decoration: none;
+		}
+
+		.monaco-highlighted-label .highlight {
+			display: inline;
+			padding: 0;
+			margin: 0;
+			background: transparent;
+		}
+	}
+}

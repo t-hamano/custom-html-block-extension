@@ -1,0 +1,28 @@
+.chbe-admin-editor-config-filter {
+	display: flex;
+	gap: 16px;
+
+	.chbe-admin-editor-config-filter__mode {
+		display: flex;
+		width: 260px;
+
+		.components-button {
+			flex: 1;
+			justify-content: center;
+
+			&.is-secondary {
+				background: #fff;
+			}
+		}
+	}
+
+	.chbe-admin-editor-config-filter__search {
+		flex: 1;
+
+		input[type="search"].components-search-control__input {
+			height: 36px;
+			background: #fff;
+			border: 1px solid #d6e2ed;
+		}
+	}
+}

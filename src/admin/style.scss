@@ -1,0 +1,181 @@
+// React notification component
+@import "../../node_modules/react-notifications-component/dist/scss/notification";
+
+// WordPress base styles
+@import "node_modules/@wordpress/base-styles/mixins";
+
+// Components
+@import "./components/header/style";
+@import "./components/shortcut/style";
+@import "./components/welcome-guide/style";
+
+// Page
+@import "./editor-config/style";
+@import "./tools/style";
+@import "./options/style";
+
+@include wordpress-admin-schemes();
+
+// WordPress admin
+.auto-fold #wpcontent {
+	padding-left: 0;
+}
+
+#custom-html-block-extension-admin {
+
+	// Common classes
+	.chbe-admin-container {
+		position: relative;
+		max-width: 1200px;
+		padding: 0 16px;
+		margin: 0 auto;
+	}
+
+	// React notification component styles
+	.rnc__base {
+		top: 32px;
+		left: 160px;
+		margin-left: -80px;
+
+		@media only screen and (max-width: 960px) {
+			left: 36px;
+			margin-left: -18px;
+		}
+
+		@media screen and (max-width: 782px) {
+			top: 46px;
+			left: 0;
+			margin-left: 0;
+		}
+
+		.rnc__notification-container--top-center {
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	// Gutenberg component styles
+	.components-disabled {
+		opacity: 0.3;
+	}
+
+	.components-base-control {
+		margin-bottom: 0;
+
+		.components-base-control__label {
+			display: block;
+			font-size: 13px;
+			font-weight: normal;
+			text-transform: initial;
+		}
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+	}
+
+	.components-select-control {
+
+		.components-flex-item {
+			max-width: 100%;
+		}
+
+		.components-input-control__label {
+			display: block;
+			font-size: 13px;
+			font-weight: normal;
+			text-transform: initial;
+		}
+
+		.components-select-control__input {
+			line-height: initial;
+		}
+	}
+
+	.components-panel__body {
+		background: #fff;
+		border: 1px solid #d6e2ed;
+
+		&.is-opened {
+			padding-top: 0;
+
+			> .components-panel__body-title {
+				margin: 0 -16px -17px;
+
+				+ * {
+					margin-top: 33px;
+				}
+			}
+		}
+
+		&:not(.is-opened) {
+			border-bottom: none;
+		}
+
+		> * {
+			margin: 0;
+		}
+
+		> * + * {
+			margin-top: 16px;
+		}
+
+		.components-panel__body-toggle.components-button {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		.components-panel__body-toggle {
+			border-bottom: 1px solid #d6e2ed;
+		}
+
+		.components-disabled {
+
+			&:empty {
+				display: none;
+
+				+ * {
+					margin-top: 33px;
+				}
+			}
+
+			> * {
+				margin: 0;
+			}
+
+			> * + * {
+				margin-top: 16px;
+			}
+		}
+	}
+}
+
+.chbe-admin {
+	position: relative;
+
+	&.is-waiting {
+		opacity: 0.3;
+	}
+
+	.chbe-admin__loading {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		z-index: 1;
+		margin-left: 89px;
+
+		.components-spinner {
+			margin: 0;
+			transform: scale(1.5);
+		}
+	}
+
+	.chbe-admin__tab-panel .components-tab-panel__tabs {
+		justify-content: center;
+		margin-bottom: 40px;
+		background: #fff;
+		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
+	}
+}

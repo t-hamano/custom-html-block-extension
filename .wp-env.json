@@ -1,4 +1,14 @@
 {
-	"core": "WordPress/WordPress",
-	"plugins": [ "." ]
+	"plugins": [
+		".",
+		"https://downloads.wordpress.org/plugin/classic-editor.zip"
+	],
+	"env": {
+		"tests": {
+			"config": {
+				"WP_DEBUG": true,
+				"SCRIPT_DEBUG": true
+			}
+		}
+	}
 }
