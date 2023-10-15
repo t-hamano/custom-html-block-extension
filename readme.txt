@@ -2,7 +2,7 @@
 Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
-Requires at least: 6.1
+Requires at least: 6.2
 Tested up to: 6.3
 Stable tag: 3.3.2
 Requires PHP: 7.4
@@ -30,7 +30,6 @@ And supports the classic editor, the theme/plugin editor, import/export editor s
 5. Classic Editor support
 
 == Resources ==
-
 = monaco-editor =
 License: MIT License
 Source: https://github.com/microsoft/monaco-editor
@@ -70,12 +69,10 @@ Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 == Changelog ==
 
 = 3.3.2 =
-
 * Fix: Browser warning error in WordPress 6.3
 * Fix: User role settings are not applied to all editors
 
 = 3.3.1 =
-
 * Fix: some typos
 
 = 3.3.0 =
