@@ -79,7 +79,7 @@ class Admin {
 		}
 
 		// Enqueue option page scripts.
-		$asset_file = include( CHBE_PATH . '/build/admin.asset.php' );
+		$asset_file = include CHBE_PATH . '/build/admin.asset.php';
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE . '-admin',

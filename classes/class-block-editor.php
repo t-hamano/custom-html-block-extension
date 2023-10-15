@@ -12,7 +12,7 @@ class BlockEditor {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		// Abort the process if the editor isn't allowed to use this extension.
 		$options = Settings::get_options();
 		if ( ! $options['permissionBlockEditor'] ) {
@@ -36,7 +36,7 @@ class BlockEditor {
 	 * Enqueue block editor scripts
 	 */
 	public function enqueue_editor_scripts() {
-		$asset_file = include( CHBE_PATH . '/build/block-editor.asset.php' );
+		$asset_file = include CHBE_PATH . '/build/block-editor.asset.php';
 
 		// Abort the process if the user role isn't allowed to use this extension.
 		if ( ! Settings::is_allowed_user() ) {
