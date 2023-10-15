@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Custom HTML Block Extension
  * Description: Extend Custom HTML block to evolve into the advanced code editor.
- * Requires at least: 6.1
+ * Requires at least: 6.2
  * Requires PHP: 7.4
  * Version: 3.3.2
  * Author: Aki Hamano
