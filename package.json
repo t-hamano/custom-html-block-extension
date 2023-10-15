@@ -20,19 +20,18 @@
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
-		"@wordpress/base-styles": "^4.29.0",
-		"@wordpress/e2e-test-utils": "^10.9.0",
-		"@wordpress/env": "^8.4.0",
-		"@wordpress/scripts": "^26.9.0",
+		"@wordpress/base-styles": "^4.34.0",
+		"@wordpress/e2e-test-utils": "^10.14.0",
+		"@wordpress/env": "^8.9.0",
+		"@wordpress/scripts": "^26.14.0",
 		"opener": "^1.5.2",
-		"prettier": "npm:wp-prettier@2.8.5",
-		"rimraf": "^5.0.1",
-		"stylelint-config-recess-order": "^3.1.0"
+		"prettier": "npm:wp-prettier@3.0.3",
+		"rimraf": "^5.0.5"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^9.29.0",
+		"@wordpress/icons": "^9.34.0",
 		"emmet-monaco-es": "^5.3.0",
-		"monaco-editor": "^0.40.0",
+		"monaco-editor": "^0.44.0",
 		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
 	},
