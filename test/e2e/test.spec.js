@@ -57,6 +57,17 @@ test.describe( 'Editor', () => {
 		await monacoEditor.click();
 		await page.keyboard.type( 'ul.list>li.item*5' );
 		await page.keyboard.down( 'Tab' );
-		expect( await editor.getEditedPostContent() ).toMatchSnapshot();
+		const postContent = await editor.getEditedPostContent();
+		const replacedPostContent = postContent.replace( /\r\n/g, '\n' );
+
+		expect( replacedPostContent ).toBe( `<!-- wp:html -->
+<ul class="list">
+  <li class="item"></li>
+  <li class="item"></li>
+  <li class="item"></li>
+  <li class="item"></li>
+  <li class="item"></li>
+</ul>
+<!-- /wp:html -->` );
 	} );
 } );
