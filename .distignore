@@ -18,7 +18,7 @@
 .wp-env.json
 composer.json
 composer.lock
-jest-puppeteer.config.js
+playwright.config.ts
 package.json
 package-lock.json
 phpcs.ruleset.xml

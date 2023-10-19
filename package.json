@@ -15,8 +15,8 @@
 		"lint:js": "wp-scripts lint-js",
 		"lint:style": "wp-scripts lint-style",
 		"test": "npm run lint:js && npm run test:e2e",
-		"test:e2e": "wp-scripts test-e2e --config test/e2e/jest.config.js",
-		"test:e2e:debug": "wp-scripts test-e2e --config test/e2e/jest.config.js --puppeteer-devtools"
+		"test:e2e": "wp-scripts test-playwright",
+		"test:e2e:debug": "wp-scripts test-playwright --debug"
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
