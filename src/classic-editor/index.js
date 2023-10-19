@@ -188,7 +188,7 @@ initLoader().then( ( monaco ) => {
 				window.editor.focus();
 			}
 			checkCount++;
-		}, 10 );
+		}, 100 );
 	};
 
 	// Get cursor selection info for the original textarea.
@@ -254,6 +254,7 @@ initLoader().then( ( monaco ) => {
 				const mediaInsertButtons = Array.from(
 					document.getElementsByClassName( 'media-button-insert' )
 				);
+
 				if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
 					mediaInsertButtons.forEach( ( button ) => {
 						button.removeEventListener( 'mouseup', syncTextareaToEditor );
