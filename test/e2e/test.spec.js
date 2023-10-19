@@ -53,7 +53,19 @@ test.describe( 'Editor', () => {
 	} ) => {
 		await admin.createNewPost();
 		await editor.insertBlock( { name: 'core/html' } );
-		await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
+
+		// The editor is not iframed in WordPress 6.2.
+		const body = await page.$( 'body' );
+		const bodyClassNames = await ( await body.getProperty( 'className' ) ).jsonValue();
+		const matches = bodyClassNames.match( /branch-([0-9]*-*[0-9])/ );
+		const wpVersion = matches?.[ 1 ];
+
+		if ( wpVersion === '6-2' ) {
+			await page.locator( '[data-type="core/html"] .monaco-editor' ).click();
+		} else {
+			await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
+		}
+
 		await page.keyboard.type( 'ul.list>li.item*5' );
 		await page.keyboard.down( 'Tab' );
 		const postContent = await editor.getEditedPostContent();
