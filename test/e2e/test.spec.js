@@ -4,7 +4,7 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Editor', () => {
-	test( 'input by Emmet should be expanded on classic editor', async ( {
+	test( 'input by Emmet should be expanded on the classic editor', async ( {
 		admin,
 		page,
 		requestUtils,
@@ -30,7 +30,7 @@ test.describe( 'Editor', () => {
 		await requestUtils.deactivatePlugin( 'classic-editor' );
 	} );
 
-	test( 'input by Emmet should be expanded on theme editor', async ( {
+	test( 'input by Emmet should be expanded on the theme editor', async ( {
 		admin,
 		page,
 		pageUtils,
@@ -46,7 +46,11 @@ test.describe( 'Editor', () => {
 		expect( textarea ).toHaveText( '.selector{font-size: 100px;}' );
 	} );
 
-	test( 'input by Emmet should be expanded on block editor', async ( { admin, page, editor } ) => {
+	test( 'input by Emmet should be expanded on the block editor', async ( {
+		admin,
+		page,
+		editor,
+	} ) => {
 		await admin.createNewPost();
 		await editor.insertBlock( { name: 'core/html' } );
 		const monacoEditor = editor.canvas.locator( '[data-type="core/html"] .monaco-editor' );
