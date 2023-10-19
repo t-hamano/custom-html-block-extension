@@ -75,5 +75,5 @@ jobs:
         if: always()
         with:
           name: failures-artifacts
-          path: artifacts
+          path: artifacts/test-results
           if-no-files-found: ignore
