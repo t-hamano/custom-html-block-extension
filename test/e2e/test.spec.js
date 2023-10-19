@@ -53,8 +53,7 @@ test.describe( 'Editor', () => {
 	} ) => {
 		await admin.createNewPost();
 		await editor.insertBlock( { name: 'core/html' } );
-		const monacoEditor = editor.canvas.locator( '[data-type="core/html"] .monaco-editor' );
-		await monacoEditor.click();
+		await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
 		await page.keyboard.type( 'ul.list>li.item*5' );
 		await page.keyboard.down( 'Tab' );
 		const postContent = await editor.getEditedPostContent();
