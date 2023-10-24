@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.2
 Tested up to: 6.3
-Stable tag: 3.3.2
+Stable tag: 3.4.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -67,6 +67,11 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 3.4.0 =
+* Tested to WordPress 6.4
+* Fix: Add media not work correctly on the classic editor
+* Drop support for WordPress 6.1
 
 = 3.3.2 =
 * Fix: Browser warning error in WordPress 6.3
