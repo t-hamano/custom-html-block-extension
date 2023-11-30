@@ -20,16 +20,16 @@
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
-		"@wordpress/base-styles": "^4.36.0",
-		"@wordpress/e2e-test-utils": "^10.16.0",
-		"@wordpress/env": "^8.11.0",
-		"@wordpress/scripts": "^26.16.0",
+		"@wordpress/base-styles": "^4.38.0",
+		"@wordpress/e2e-test-utils": "^10.18.0",
+		"@wordpress/env": "^8.13.0",
+		"@wordpress/scripts": "^26.18.0",
 		"opener": "^1.5.2",
 		"prettier": "npm:wp-prettier@3.0.3",
 		"rimraf": "^5.0.5"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^9.36.0",
+		"@wordpress/icons": "^9.38.0",
 		"emmet-monaco-es": "^5.3.0",
 		"monaco-editor": "^0.44.0",
 		"react-notifications-component": "^4.0.1",
