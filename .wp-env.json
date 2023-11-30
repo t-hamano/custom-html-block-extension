@@ -1,8 +1,5 @@
 {
-	"plugins": [
-		".",
-		"https://downloads.wordpress.org/plugin/classic-editor.zip"
-	],
+	"plugins": [ ".", "https://downloads.wordpress.org/plugin/classic-editor.zip" ],
 	"env": {
 		"tests": {
 			"config": {

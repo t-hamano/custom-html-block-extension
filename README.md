@@ -10,21 +10,25 @@ Custom HTML Block Extension extends Custom HTML block to evolve into the advance
 ## Features
 
 ### Various color themes
+
 ![Various color themes](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_2.gif)
 
 There are 50 different color themes to choose from, and you can select the one that best suits your taste.
 
 ### Faster coding with Emmet
+
 ![Faster coding with Emmet](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_3.gif)
 
 Emmet allows you to type shortcuts that are then expanded into full pieces of code. Type less, saving both keystrokes.
 
 ### High customizability
+
 ![High customizability](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_4.jpg)
 
 You can change all kinds of settings to create your ideal editor in advanced mode.
 
 ### More support
+
 ![More support](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_5.jpg)
 
 Supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.
@@ -39,7 +43,7 @@ Place the font files in **the public directory** of the server where WordPress i
 It is recommended to create `fonts` folder directly under the theme and place the fonts there.
 Like this:
 
-```
+```sh
 html
 └── wp-content
     └── themes
@@ -58,7 +62,7 @@ Create a CSS file in order to load the placed fonts.
 It is recommend to place the CSS file in `css` folder directly under the theme, just as you did when you placed the font files.
 Like this:
 
-```
+```sh
 html
 ├── wp-content
 │   └── themes
@@ -139,8 +143,8 @@ add_filter( 'chbe_additional_font_families', 'my_chbe_additional_font_families' 
 | ---------- | ------ | ------------------------------------------------------------ |
 | label      | string | The label that appears in the font family pull-down in the plugin settings screen. |
 | name       | string | Enter **the value of the font-family property** that you defined in the CSS file in STEP3. |
-| stylesheet | string | Describe **the URL of the CSS file** you placed in STEP2.<br/>We recommend using `get_template_directory_uri` function if you've placed the CSS file in the theme folder, |
-| weight     | array  | Write font weight variations according to the fonts defined in the CSS file.<br />It is recommended to use numeric values 100 to 900 instead of weight names. |
+| stylesheet | string | Describe **the URL of the CSS file** you placed in STEP2. We recommend using `get_template_directory_uri` function if you've placed the CSS file in the theme folder, |
+| weight     | array  | Write font weight variations according to the fonts defined in the CSS file. It is recommended to use numeric values 100 to 900 instead of weight names. |
 
 ### STEP5: Sets custom font
 
@@ -148,48 +152,57 @@ Make sure that the custom font is displayed in the font family pull-down of the 
 
 ## How to build
 
-```
-$ npm install
-$ npm run build
+```sh
+npm install
+npm run build
 ```
 
 ## Resources
 
 ### monaco-editor
+
 * License: MIT License
-* Source: https://github.com/microsoft/monaco-editor
+* Source: <https://github.com/microsoft/monaco-editor>
 
 ### react-notifications-component
+
 * License: MIT License
-* Source: https://github.com/teodosii/react-notifications-component
+* Source: <https://github.com/teodosii/react-notifications-component>
 
 ### emmet-monaco-es
+
 * License: MIT License
-* Source: https://github.com/troy351/emmet-monaco-es
+* Source: <https://github.com/troy351/emmet-monaco-es>
 
 ### monaco-themes
+
 * License: MIT License
-* Source: https://github.com/brijeshb42/monaco-themes
+* Source: <https://github.com/brijeshb42/monaco-themes>
 
 ### webfontloader
+
 * License: Apache-2.0 License
-* Source: https://github.com/typekit/webfontloader
+* Source: <https://github.com/typekit/webfontloader>
 
 ### Web Font (Fira Code)
+
 * License: OFL-1.1 License
-* Source: https://github.com/tonsky/FiraCode
+* Source: <https://github.com/tonsky/FiraCode>
 
 ### Web Font (Source Code Pro)
+
 * License: OFL-1.1 License
-* Source: https://github.com/adobe-fonts/source-code-pro
+* Source: <https://github.com/adobe-fonts/source-code-pro>
 
 ### Web Font (Ubuntu Mono)
+
 * License: OFL-1.1 License
-* Source: https://ubuntu.com/legal/font-licence
+* Source: <https://ubuntu.com/legal/font-licence>
 
 ### Web Font (Anonymous Pro)
+
 * License: OFL License
-* Source: https://www.marksimonson.com/fonts/view/anonymous-pro
+* Source: <https://www.marksimonson.com/fonts/view/anonymous-pro>
 
 ## Author
 

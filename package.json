@@ -1,39 +1,20 @@
 {
 	"name": "custom-html-block-extension",
+	"version": "3.4.0",
+	"description": "WordPress plugin to extends \"Custom HTML block\" to evolve into an advanced code editor",
 	"author": "Aki Hamano",
-	"license": "GPL-2.0+",
-	"scripts": {
-		"wp-env": "wp-env",
-		"open": "wp-env start && opener http://localhost:8888",
-		"stop": "wp-env stop",
-		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
-		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
-		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/vendor/monaco-editor/min\" && node bin/delete-sourcemaps.js",
-		"clean": "rimraf build",
-		"lint": "npm run lint:php && npm run lint:style && npm run lint:js",
-		"lint:php": "composer lint",
-		"lint:js": "wp-scripts lint-js",
-		"lint:style": "wp-scripts lint-style",
-		"test": "npm run lint:js && npm run test:e2e",
-		"test:e2e": "wp-scripts test-playwright",
-		"test:e2e:debug": "wp-scripts test-playwright --debug"
-	},
-	"devDependencies": {
-		"@deboxsoft/cpx": "^1.5.0",
-		"@wordpress/base-styles": "^4.35.0",
-		"@wordpress/e2e-test-utils": "^10.15.0",
-		"@wordpress/env": "^8.10.0",
-		"@wordpress/scripts": "^26.15.0",
-		"opener": "^1.5.2",
-		"prettier": "npm:wp-prettier@3.0.3",
-		"rimraf": "^5.0.5"
-	},
-	"dependencies": {
-		"@wordpress/icons": "^9.35.0",
-		"emmet-monaco-es": "^5.3.0",
-		"monaco-editor": "^0.44.0",
-		"react-notifications-component": "^4.0.1",
-		"webfontloader": "^1.6.28"
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"gutenberg",
+		"block",
+		"html",
+		"highlighting",
+		"emmet"
+	],
+	"homepage": "https://github.com/t-hamano/custom-html-block-extension",
+	"repository": "git+https://github.com/t-hamano/custom-html-block-extension.git",
+	"bugs": {
+		"url": "https://github.com/t-hamano/custom-html-block-extension/issues"
 	},
 	"engines": {
 		"node": ">=16.0.0",
@@ -42,5 +23,42 @@
 	"volta": {
 		"node": "16.18.0",
 		"npm": "8.19.2"
+	},
+	"dependencies": {
+		"@wordpress/icons": "^9.36.0",
+		"emmet-monaco-es": "^5.3.0",
+		"monaco-editor": "^0.44.0",
+		"react-notifications-component": "^4.0.1",
+		"webfontloader": "^1.6.28"
+	},
+	"devDependencies": {
+		"@deboxsoft/cpx": "^1.5.0",
+		"@wordpress/base-styles": "^4.36.0",
+		"@wordpress/e2e-test-utils": "^10.16.0",
+		"@wordpress/env": "^8.11.0",
+		"@wordpress/scripts": "^26.16.0",
+		"opener": "^1.5.2",
+		"prettier": "npm:wp-prettier@3.0.3",
+		"rimraf": "^5.0.5"
+	},
+	"scripts": {
+		"wp-env": "wp-env",
+		"open": "wp-env start && opener http://localhost:8888",
+		"stop": "wp-env stop",
+		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
+		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
+		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/vendor/monaco-editor/min\" && node bin/delete-sourcemaps.js",
+		"clean": "rimraf build",
+		"check-licenses": "wp-scripts check-licenses",
+		"lint": "npm run lint:css && npm run lint:js && npm run lint:php && npm run lint:md-docs && npm run lint:pkg-json",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"lint:php": "composer lint",
+		"lint:md-docs": "wp-scripts lint-md-docs",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"format": "wp-scripts format",
+		"test": "npm run lint:js && npm run test:e2e",
+		"test:e2e": "wp-scripts test-playwright",
+		"test:e2e:debug": "wp-scripts test-playwright --debug"
 	}
 }

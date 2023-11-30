@@ -1,14 +1,12 @@
 module.exports = {
-	extends: [
-		'@wordpress/stylelint-config/scss',
-	],
-  ignoreFiles: [
+	extends: [ '@wordpress/stylelint-config/scss' ],
+	ignoreFiles: [
 		'build/**/*.css',
 		'node_modules/**/*.css',
 		'vendor/**/*.css',
 		'**/*.js',
-		'**/*.svg'
-  ],
+		'**/*.svg',
+	],
 	rules: {
 		'no-descending-specificity': null,
 		'font-weight-notation': null,
@@ -16,7 +14,7 @@ module.exports = {
 		'selector-class-pattern': null,
 		'at-rule-empty-line-before': null,
 		'declaration-property-unit-allowed-list': {
-			'line-height': []
+			'line-height': [],
 		},
-	}
-}
+	},
+};
