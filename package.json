@@ -37,13 +37,11 @@
 		"@wordpress/e2e-test-utils": "^10.16.0",
 		"@wordpress/env": "^8.11.0",
 		"@wordpress/scripts": "^26.16.0",
-		"opener": "^1.5.2",
 		"prettier": "npm:wp-prettier@3.0.3",
 		"rimraf": "^5.0.5"
 	},
 	"scripts": {
 		"wp-env": "wp-env",
-		"open": "wp-env start && opener http://localhost:8888",
 		"stop": "wp-env stop",
 		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
