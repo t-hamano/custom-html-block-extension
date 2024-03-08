@@ -75,7 +75,14 @@ test.describe( 'Custom HTML Block Extension', () => {
 	test.describe( 'Settings page', () => {
 		test( 'should be rendered', async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
-			// Editor config tab
+			// Hide welcome guide.
+			const welcomeGuide = page.locator( 'role=dialog[name="About Custom HTML Block Extension"i]' );
+			const isVisible = await welcomeGuide.isVisible();
+			if ( isVisible ) {
+				await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
+			}
+
+			// Editsor config tab
 			await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeVisible();
 			// Tools tab
 			await page.getByRole( 'tab', { name: 'Tools' } ).click();
