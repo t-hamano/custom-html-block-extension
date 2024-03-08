@@ -14,10 +14,7 @@ export default function Shortcut() {
 			<Button
 				className="chbe-admin-shortcut-toggle"
 				variant="tertiary"
-				// TODO: Remove this prop and add size="small" prop when
-				// the supported minimum WordPress version is 6.3 or higher.
-				// See: https://github.com/WordPress/gutenberg/pull/51842
-				isSmall
+				size="small"
 				icon={ info }
 				iconSize="18"
 				onClick={ () => setIsModalOpen( true ) }
