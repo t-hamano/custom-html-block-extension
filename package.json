@@ -37,6 +37,8 @@
 		"@wordpress/e2e-test-utils": "^10.24.0",
 		"@wordpress/env": "^9.5.0",
 		"@wordpress/scripts": "^27.4.0",
+		"husky": "^8.0.0",
+		"lint-staged": "15.2.2",
 		"prettier": "npm:wp-prettier@3.0.3",
 		"rimraf": "^5.0.5"
 	},
@@ -57,6 +59,24 @@
 		"format": "wp-scripts format",
 		"test": "npm run lint:js && npm run test:e2e",
 		"test:e2e": "wp-scripts test-playwright",
-		"test:e2e:debug": "wp-scripts test-playwright --debug"
+		"test:e2e:debug": "wp-scripts test-playwright --debug",
+		"prepare": "husky install"
+	},
+	"lint-staged": {
+		"*.{js,json,yml,yaml}": [
+			"wp-scripts format"
+		],
+		"*.js": [
+			"wp-scripts lint-js"
+		],
+		"*.scss": [
+			"wp-scripts lint-style"
+		],
+		"*.md": [
+			"wp-scripts lint-md-docs"
+		],
+		"package.json": [
+			"wp-scripts lint-pkg-json"
+		]
 	}
 }
