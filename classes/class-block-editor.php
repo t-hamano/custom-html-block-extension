@@ -23,12 +23,8 @@ class BlockEditor {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
 
 		// Enqueue block editor styles
-		// TODO: Remove this conditional statement and unify it with `enqueue_block_assets` hook
-		// when the supported minimum WordPress version is 6.3 or higher.
-		if ( is_wp_version_compatible( '6.3' ) && is_admin() ) {
+		if ( is_admin() ) {
 			add_action( 'enqueue_block_assets', array( $this, 'enqueue_editor_styles' ) );
-		} else {
-			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_styles' ) );
 		}
 	}
 
