@@ -1,13 +1,13 @@
 .chbe-admin-header {
-	padding: 16px 0 8px;
-	background-color: #fff;
+	padding: $grid-unit-20 0 $grid-unit-10;
+	background-color: $white;
 
 	.chbe-admin-header__title {
 		display: flex;
-		gap: 16px;
+		gap: $grid-unit-20;
 		align-items: center;
 		justify-content: center;
-		margin: 0 0 8px;
+		margin: 0 0 $grid-unit-10;
 		line-height: 1;
 
 		@media screen and (max-width: 782px) {
@@ -15,19 +15,19 @@
 		}
 
 		svg {
-			width: 30px;
+			width: $grid-unit-40;
 		}
 	}
 
 	.chbe-admin-header__info {
 		position: absolute;
 		top: 0;
-		right: 16px;
+		right: $grid-unit-20;
 		margin: 0;
 
 		@media screen and (max-width: 782px) {
 			position: static;
-			margin-top: 16px;
+			margin-top: $grid-unit-20;
 		}
 	}
 }
