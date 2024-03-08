@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { Button, Flex, Modal } from '@wordpress/components';
+import { Button, __experimentalConfirmDialog as ConfirmDialog } from '@wordpress/components';
 
 export default function Controls( { isWaiting, onUpdateOptions, onResetOptions } ) {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
@@ -35,31 +35,19 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 				</li>
 			</ul>
 			{ isModalOpen && (
-				<Modal
-					title={ __( 'Reset settings', 'custom-html-block-extension' ) }
-					onRequestClose={ () => setIsModalOpen( false ) }
+				<ConfirmDialog
+					onConfirm={ () => {
+						onResetOptions();
+						setIsModalOpen( false );
+					} }
+					onCancel={ () => setIsModalOpen( false ) }
+					confirmButtonText={ __( 'Reset settings', 'custom-html-block-extension' ) }
 				>
-					<p>
-						{ __(
-							'Are you sure that reset all settings to default values ?',
-							'custom-html-block-extension'
-						) }
-					</p>
-					<Flex>
-						<Button
-							variant="primary"
-							onClick={ () => {
-								onResetOptions();
-								setIsModalOpen( false );
-							} }
-						>
-							{ __( 'Reset settings', 'custom-html-block-extension' ) }
-						</Button>
-						<Button variant="secondary" onClick={ () => setIsModalOpen( false ) }>
-							{ __( 'Cancel', 'custom-html-block-extension' ) }
-						</Button>
-					</Flex>
-				</Modal>
+					{ __(
+						'Are you sure that reset all settings to default values ?',
+						'custom-html-block-extension'
+					) }
+				</ConfirmDialog>
 			) }
 		</>
 	);
