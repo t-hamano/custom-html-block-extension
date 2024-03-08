@@ -44,7 +44,7 @@ export default function FindSeedSearchStringFromSelection() {
 				onChange={ onChange }
 				title={ title }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				image={ 'editor-options/find/seed-search-string-from-selection.gif' }
 				value={ editorOptions.find.seedSearchStringFromSelection }
 			/>

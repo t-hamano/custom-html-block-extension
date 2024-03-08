@@ -50,7 +50,7 @@ export default function AcceptSuggestionOnEnter() {
 					}
 				) }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				value={ editorOptions.acceptSuggestionOnEnter }
 			/>
 		</div>

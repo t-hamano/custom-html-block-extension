@@ -37,7 +37,7 @@ export default function Hover() {
 				onChange={ onChange }
 				title={ title }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				image={ 'editor-options/hover.gif' }
 				value={ editorOptions.hover }
 			/>

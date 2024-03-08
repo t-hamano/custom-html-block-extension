@@ -48,7 +48,7 @@ export default function MinimapEnabled() {
 					'custom-html-block-extension'
 				) }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				image={ 'editor-options/minimap/enabled.gif' }
 				value={ editorOptions.minimap.enabled }
 			/>

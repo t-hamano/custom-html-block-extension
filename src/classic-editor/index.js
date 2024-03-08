@@ -80,9 +80,8 @@ initLoader().then( ( monaco ) => {
 			textarea.value = editorValue;
 
 			// Change editor area height.
-			// eslint-disable-next-line no-shadow
-			const contentHeight = Math.max( 300, window.editor.getContentHeight() );
-			monacoEditorContainer.style.height = `${ contentHeight }px`;
+			const newContentHeight = Math.max( 300, window.editor.getContentHeight() );
+			monacoEditorContainer.style.height = `${ newContentHeight }px`;
 		} );
 
 		// Enable Emmet.
@@ -105,10 +104,14 @@ initLoader().then( ( monaco ) => {
 		} );
 
 		// Catch the Ctrl+S command to save draft or publish post.
-		// eslint-disable-next-line no-bitwise
-		window.editor.addCommand( monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-			!! draftButton ? draftButton.click() : publishButton.click();
-		} );
+		window.editor.addCommand(
+			// eslint-disable-next-line no-bitwise
+			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S,
+			() => {
+				// eslint-disable-next-line no-unused-expressions
+				!! draftButton ? draftButton.click() : publishButton.click();
+			}
+		);
 
 		// Load webfont.
 		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
@@ -222,10 +225,9 @@ initLoader().then( ( monaco ) => {
 	};
 
 	// Get cursor position info for the editor.
-	// eslint-disable-next-line no-shadow
-	const getEditorPosition = ( textarea ) => {
-		const linesContent = textarea.value.split( '\n' );
-		let selectionStart = textarea.selectionStart;
+	const getEditorPosition = ( element ) => {
+		const linesContent = element.value.split( '\n' );
+		let selectionStart = element.selectionStart;
 		let lineNumber = 1;
 		let column = 0;
 

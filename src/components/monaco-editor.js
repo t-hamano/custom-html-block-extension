@@ -92,6 +92,7 @@ export default function MonacoEditor( {
 		}, 500 );
 
 		return () => {
+			// eslint-disable-next-line no-unused-expressions
 			editorRef ? disposeEditor() : cancelable.cancel();
 			clearInterval( interval );
 		};

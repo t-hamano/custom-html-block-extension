@@ -46,7 +46,7 @@ export default function QuickSuggestions() {
 					'custom-html-block-extension'
 				) }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				image={ 'editor-options/quick-suggestions.gif' }
 				value={ editorOptions.quickSuggestions }
 			/>

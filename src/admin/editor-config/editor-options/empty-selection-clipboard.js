@@ -41,7 +41,7 @@ export default function EmptySelectionClipboard() {
 				onChange={ onChange }
 				title={ title }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				image={ 'editor-options/empty-selection-clipboard.gif' }
 				value={ editorOptions.emptySelectionClipboard }
 			/>

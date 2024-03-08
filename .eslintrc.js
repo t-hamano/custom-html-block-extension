@@ -5,12 +5,10 @@ module.exports = {
 		jQuery: true,
 	},
 	rules: {
+		'react/jsx-boolean-value': 'error',
 		'import/no-extraneous-dependencies': 'off',
 		'import/no-unresolved': 'off',
-		'no-nested-ternary': 'off',
-		'no-unused-expressions': 'off',
 		'@wordpress/no-unsafe-wp-apis': 'off',
-		'jsdoc/require-param-type': 0,
 		'prettier/prettier': [
 			'error',
 			{

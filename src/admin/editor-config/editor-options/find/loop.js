@@ -44,7 +44,7 @@ export default function FindLoop() {
 					'custom-html-block-extension'
 				) }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				image={ 'editor-options/find/loop.gif' }
 				value={ editorOptions.find.loop }
 			/>

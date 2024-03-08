@@ -41,7 +41,7 @@ export default function Folding() {
 					'custom-html-block-extension'
 				) }
 				isToggle
-				defaultToggle={ true }
+				defaultToggle
 				image={ 'editor-options/folding.gif' }
 				value={ editorOptions.folding }
 			/>

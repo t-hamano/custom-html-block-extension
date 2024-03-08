@@ -26,7 +26,7 @@ function makeCancelable( promise ) {
 /**
  * Custom monaco editor loader which is a customized version of @monaco-editor/loader.
  *
- * @param targetWindow The window object to load the editor.
+ * @param {Object} targetWindow The window object to load the editor.
  * @see https://github.com/suren-atoyan/monaco-loader
  */
 export default function initLoader( targetWindow = window ) {
