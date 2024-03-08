@@ -223,7 +223,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											{ replaceSetting.beforeInsertSpaces && (
 												<TextControl
 													label={ __( 'Current indent width', 'custom-html-block-extension' ) }
-													value={ replaceSetting.beforeTabSize }
+													value={ replaceSetting.beforeTabSize || '' }
 													type="number"
 													min="1"
 													max="8"
@@ -272,7 +272,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											{ replaceSetting.afterInsertSpaces && (
 												<TextControl
 													label={ __( 'New indent width', 'custom-html-block-extension' ) }
-													value={ replaceSetting.afterTabSize }
+													value={ replaceSetting.afterTabSize || '' }
 													type="number"
 													min="1"
 													max="8"
