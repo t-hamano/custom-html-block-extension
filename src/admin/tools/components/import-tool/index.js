@@ -94,7 +94,7 @@ export default function ImportTool() {
 					accept="application/json"
 					onChange={ onUploadFile }
 					render={ ( { openFileDialog } ) => (
-						<Button variant="secondary" onClick={ openFileDialog }>
+						<Button variant="secondary" onClick={ openFileDialog } __next40pxDefaultSize>
 							{ __( 'Upload file', 'custom-html-block-extension' ) }
 						</Button>
 					) }
@@ -103,7 +103,12 @@ export default function ImportTool() {
 					<p className="chbe-admin-tools-import-tool__filename">{ importFile.name }</p>
 				) }
 			</div>
-			<Button variant="primary" disabled={ ! importFile } onClick={ onImportOptions }>
+			<Button
+				variant="primary"
+				disabled={ ! importFile }
+				onClick={ onImportOptions }
+				__next40pxDefaultSize
+			>
 				{ __( 'Import', 'custom-html-block-extension' ) }
 			</Button>
 		</PanelBody>

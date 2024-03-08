@@ -36,7 +36,7 @@ export default function WelcomeGuide() {
 				variant="tertiary"
 				size="small"
 				icon={ info }
-				iconSize="18"
+				iconSize="16"
 				onClick={ () => setIsModalOpen( true ) }
 			>
 				{ __( 'About this plugin', 'custom-html-block-extension' ) }

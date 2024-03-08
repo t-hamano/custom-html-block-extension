@@ -57,6 +57,7 @@ export default function MultiCursorPaste() {
 							key={ index }
 							variant={ editorOptions.multiCursorPaste === item.value ? 'primary' : undefined }
 							onClick={ () => onChange( item.value ) }
+							size="compact"
 						>
 							{ item.label }
 						</Button>

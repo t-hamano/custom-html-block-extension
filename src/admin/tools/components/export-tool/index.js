@@ -55,7 +55,7 @@ export default function ExportTool() {
 					'custom-html-block-extension'
 				) }
 			</p>
-			<Button variant="primary" onClick={ onExportOptions }>
+			<Button variant="primary" onClick={ onExportOptions } __next40pxDefaultSize>
 				{ __( 'Export', 'custom-html-block-extension' ) }
 			</Button>
 		</PanelBody>

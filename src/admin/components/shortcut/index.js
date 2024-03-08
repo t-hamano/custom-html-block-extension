@@ -16,7 +16,7 @@ export default function Shortcut() {
 				variant="tertiary"
 				size="small"
 				icon={ info }
-				iconSize="18"
+				iconSize="16"
 				onClick={ () => setIsModalOpen( true ) }
 			>
 				{ __( 'About shortcut', 'custom-html-block-extension' ) }

@@ -54,6 +54,7 @@ export default function MultiCursorModifier() {
 							key={ index }
 							variant={ editorOptions.multiCursorModifier === item.value ? 'primary' : undefined }
 							onClick={ () => onChange( item.value ) }
+							size="compact"
 						>
 							{ item.label }
 						</Button>

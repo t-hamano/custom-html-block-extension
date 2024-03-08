@@ -48,6 +48,7 @@ export default function Filter( { editorMode, setEditorMode, searchQuery, setSea
 						variant={ editorMode === mode.value ? 'primary' : 'secondary' }
 						onClick={ () => onChangeMode( mode.value ) }
 						disabled={ searchQuery }
+						__next40pxDefaultSize
 					>
 						{ mode.label }
 					</Button>

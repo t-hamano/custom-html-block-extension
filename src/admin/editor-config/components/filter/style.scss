@@ -19,10 +19,8 @@
 	.chbe-admin-editor-config-filter__search {
 		flex: 1;
 
-		input[type="search"].components-search-control__input {
-			height: 36px;
+		.components-input-control__container {
 			background: #fff;
-			border: 1px solid #d6e2ed;
 		}
 	}
 }

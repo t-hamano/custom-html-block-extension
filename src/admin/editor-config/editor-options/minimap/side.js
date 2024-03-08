@@ -57,6 +57,7 @@ export default function MinimapSide() {
 							key={ index }
 							variant={ editorOptions.minimap.side === item.value ? 'primary' : undefined }
 							onClick={ () => onChange( item.value ) }
+							size="compact"
 						>
 							{ item.label }
 						</Button>

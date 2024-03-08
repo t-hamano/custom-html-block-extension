@@ -52,6 +52,7 @@ export default function InsertSpaces() {
 							key={ index }
 							variant={ editorSettings.insertSpaces === item.value ? 'primary' : undefined }
 							onClick={ () => onChange( item.value ) }
+							size="compact"
 						>
 							{ item.label }
 						</Button>
