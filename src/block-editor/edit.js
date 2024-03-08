@@ -297,6 +297,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											}
 											onClick={ () => changeIndent( onClose ) }
 											size="compact"
+											__experimentalIsFocusable
 										>
 											{ __( 'Apply', 'custom-html-block-extension' ) }
 										</Button>
