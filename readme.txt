@@ -30,6 +30,7 @@ And supports the classic editor, the theme/plugin editor, import/export editor s
 5. Classic Editor support
 
 == Resources ==
+
 = monaco-editor =
 License: MIT License
 Source: https://github.com/microsoft/monaco-editor
