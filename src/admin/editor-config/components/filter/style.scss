@@ -22,5 +22,11 @@
 		.components-input-control__container {
 			background: $white;
 		}
+
+		// Fallback for WP6.4 and below
+		input[type="search"].components-search-control__input {
+			height: 40px;
+			background: $white;
+		}
 	}
 }
