@@ -213,6 +213,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 																	beforeInsertSpaces: indentType.value,
 																} );
 															} }
+															size="compact"
 														>
 															{ indentType.label }
 														</Button>
@@ -261,6 +262,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 																	afterInsertSpaces: indentType.value,
 																} );
 															} }
+															size="compact"
 														>
 															{ indentType.label }
 														</Button>
@@ -294,10 +296,11 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 													replaceSetting.afterTabSize === undefined )
 											}
 											onClick={ () => changeIndent( onClose ) }
+											size="compact"
 										>
 											{ __( 'Apply', 'custom-html-block-extension' ) }
 										</Button>
-										<Button variant="secondary" onClick={ onClose }>
+										<Button variant="secondary" onClick={ onClose } size="compact">
 											{ __( 'Cancel', 'custom-html-block-extension' ) }
 										</Button>
 									</div>

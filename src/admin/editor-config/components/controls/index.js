@@ -17,6 +17,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 						variant="primary"
 						disabled={ isWaiting }
 						onClick={ onUpdateOptions }
+						__next40pxDefaultSize
 					>
 						{ __( 'Save settings', 'custom-html-block-extension' ) }
 					</Button>
@@ -27,6 +28,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 						variant="secondary"
 						disabled={ isWaiting }
 						onClick={ () => setIsModalOpen( true ) }
+						__next40pxDefaultSize
 					>
 						{ __( 'Reset', 'custom-html-block-extension' ) }
 					</Button>

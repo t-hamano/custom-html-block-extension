@@ -1,7 +1,7 @@
 .chbe-admin-options {
 	display: flex;
 	flex-flow: column;
-	gap: 32px;
+	gap: $grid-unit-30;
 
 	> .components-button {
 		align-self: flex-start;

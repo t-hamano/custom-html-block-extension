@@ -15,26 +15,6 @@
 		max-width: 100%;
 	}
 
-	.components-form-toggle {
-
-		.components-form-toggle__track {
-			width: 48px;
-			height: 24px;
-			border-radius: 12px;
-		}
-
-		.components-form-toggle__thumb {
-			top: 4px;
-			left: 5px;
-			width: 16px;
-			height: 16px;
-		}
-
-		&.is-checked .components-form-toggle__thumb {
-			transform: translateX(23px);
-		}
-	}
-
 	.chbe-admin-editor-config-item-help-modal__content {
 
 		> * {
@@ -42,7 +22,7 @@
 		}
 
 		> * + * {
-			margin-top: 16px;
+			margin-top: $grid-unit-20;
 		}
 	}
 
@@ -57,17 +37,13 @@
 		}
 
 		> * + * {
-			margin: 16px 0 0;
+			margin: $grid-unit-20 0 0;
 		}
 
 		ul {
 			padding-left: 1.5em;
 			margin-left: 0;
 			list-style: disc outside;
-		}
-
-		.components-notice {
-			padding: 6px 12px;
 		}
 
 		.components-notice__content {
@@ -78,7 +54,7 @@
 	.chbe-admin-editor-config-item-help-modal__items {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 24px;
+		gap: $grid-unit-30;
 
 		@media screen and (max-width: 782px) {
 			flex-flow: column;
@@ -104,7 +80,7 @@
 	.chbe-admin-editor-config-item-help-modal__item {
 		display: flex;
 		flex-flow: column;
-		gap: 16px;
+		gap: $grid-unit-20;
 		align-items: flex-start;
 
 		> * {
@@ -113,7 +89,7 @@
 
 		.components-button {
 			height: auto;
-			padding: 6px;
+			padding: $grid-unit-05;
 		}
 	}
 }

@@ -34,12 +34,9 @@ export default function WelcomeGuide() {
 			<Button
 				className="chbe-admin-welcome-guide-toggle"
 				variant="tertiary"
-				// TODO: Remove this prop and add size="small" prop when
-				// the supported minimum WordPress version is 6.3 or higher.
-				// See: https://github.com/WordPress/gutenberg/pull/51842
-				isSmall
+				size="small"
 				icon={ info }
-				iconSize="18"
+				iconSize="16"
 				onClick={ () => setIsModalOpen( true ) }
 			>
 				{ __( 'About this plugin', 'custom-html-block-extension' ) }

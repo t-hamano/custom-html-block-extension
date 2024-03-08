@@ -3,6 +3,7 @@
 
 // WordPress base styles
 @import "node_modules/@wordpress/base-styles/mixins";
+@import "node_modules/@wordpress/base-styles/variables";
 
 // Components
 @import "./components/header/style";
@@ -27,7 +28,7 @@
 	.chbe-admin-container {
 		position: relative;
 		max-width: 1200px;
-		padding: 0 16px;
+		padding: 0 $grid-unit-20;
 		margin: 0 auto;
 	}
 
@@ -93,17 +94,17 @@
 	}
 
 	.components-panel__body {
-		background: #fff;
-		border: 1px solid #d6e2ed;
+		background: $white;
+		border: $border-width solid $gray-300;
 
 		&.is-opened {
 			padding-top: 0;
 
 			> .components-panel__body-title {
-				margin: 0 -16px -17px;
+				margin: 0 ($grid-unit-20 * -1) ($grid-unit-20 * -1 - 1);
 
 				+ * {
-					margin-top: 33px;
+					margin-top: $grid-unit-40 + 1;
 				}
 			}
 		}
@@ -117,18 +118,18 @@
 		}
 
 		> * + * {
-			margin-top: 16px;
+			margin-top: $grid-unit-20;
 		}
 
 		.components-panel__body-toggle.components-button {
-			padding-top: 12px;
-			padding-bottom: 12px;
+			padding-top: $grid-unit-20;
+			padding-bottom: $grid-unit-20;
 			font-size: 16px;
 			font-weight: bold;
 		}
 
 		.components-panel__body-toggle {
-			border-bottom: 1px solid #d6e2ed;
+			border-bottom: $border-width solid $gray-300;
 		}
 
 		.components-disabled {
@@ -137,7 +138,7 @@
 				display: none;
 
 				+ * {
-					margin-top: 33px;
+					margin-top: $grid-unit-40 + 1;
 				}
 			}
 
@@ -146,7 +147,7 @@
 			}
 
 			> * + * {
-				margin-top: 16px;
+				margin-top: $grid-unit-20;
 			}
 		}
 	}
@@ -174,8 +175,8 @@
 
 	.chbe-admin__tab-panel .components-tab-panel__tabs {
 		justify-content: center;
-		margin-bottom: 40px;
-		background: #fff;
+		margin-bottom: $grid-unit-50;
+		background: $white;
 		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
 	}
 }
