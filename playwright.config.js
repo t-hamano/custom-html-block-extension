@@ -1,3 +1,6 @@
+/**
+ * WordPress dependencies
+ */
 const config = require( '@wordpress/scripts/config/playwright.config.js' );
 
 export default {

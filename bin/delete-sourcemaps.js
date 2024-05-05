@@ -1,10 +1,13 @@
 /**
- * Remove commented lines in the source map URL from Monaco Editor core files.
+ * External dependencies
  */
-
 const path = require( 'path' );
 const fs = require( 'fs' );
 
+/**
+ * Remove commented lines in the source map URL from Monaco Editor core files.
+ * @param {string} dir
+ */
 function deleteMaps( dir ) {
 	fs.readdir( dir, function ( dirError, files ) {
 		files.forEach( ( file ) => {
