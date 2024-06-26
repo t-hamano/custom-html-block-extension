@@ -105,7 +105,7 @@ initLoader().then( ( monaco ) => {
 		// Catch the Ctrl+S command to save draft or publish post.
 		window.editor.addCommand(
 			// eslint-disable-next-line no-bitwise
-			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S,
+			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
 			() => {
 				// eslint-disable-next-line no-unused-expressions
 				!! draftButton ? draftButton.click() : publishButton.click();
