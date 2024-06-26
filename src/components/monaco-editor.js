@@ -93,7 +93,7 @@ export default function MonacoEditor( {
 
 		return () => {
 			// eslint-disable-next-line no-unused-expressions
-			editorRef ? disposeEditor() : cancelable.cancel();
+			editorRef.current ? disposeEditor() : cancelable.cancel();
 			clearInterval( interval );
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
