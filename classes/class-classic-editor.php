@@ -70,18 +70,18 @@ class ClassicEditor {
 		);
 
 		wp_enqueue_script(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/classic-editor.js',
-			array(),
-			filemtime( CHBE_PATH . '/build/classic-editor.js' ),
-			true
-		);
-
-		wp_enqueue_script(
 			CHBE_NAMESPACE . '-tools',
 			CHBE_URL . '/assets/js/classic-editor-tools.js',
 			array( 'jquery-ui-dialog' ),
 			filemtime( CHBE_PATH . '/assets/js/classic-editor-tools.js' ),
+			true
+		);
+
+		wp_enqueue_script(
+			CHBE_NAMESPACE,
+			CHBE_URL . '/build/classic-editor.js',
+			array(),
+			filemtime( CHBE_PATH . '/build/classic-editor.js' ),
 			true
 		);
 
