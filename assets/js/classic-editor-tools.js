@@ -12,23 +12,23 @@
 		} );
 
 		// Open dialog.
-		$( '#chbe-replace-indent-button' ).click( function () {
+		$( '#chbe-replace-indent-button' ).on( 'click', function () {
 			dialog.dialog( 'open' );
 		} );
 
 		// Change indent.
-		$( '#chbe-apply-button' ).click( function () {
+		$( '#chbe-apply-button' ).on( 'click', function () {
 			changeIndent();
 			dialog.dialog( 'close' );
 		} );
 
 		// Close dialog.
-		$( '#chbe-cancel-button' ).click( function () {
+		$( '#chbe-cancel-button' ).on( 'click', function () {
 			dialog.dialog( 'close' );
 		} );
 
 		// "Insert type" radio change event.
-		$( '[name="before_insert_spaces"]' ).change( function () {
+		$( '[name="before_insert_spaces"]' ).on( 'change', function () {
 			if ( $( this ).val() === '1' ) {
 				$( '#chbe-item-before-tab-size' ).show();
 			} else {
@@ -36,7 +36,7 @@
 			}
 			changeButtonStatus();
 		} );
-		$( '[name="after_insert_spaces"]' ).change( function () {
+		$( '[name="after_insert_spaces"]' ).on( 'change', function () {
 			if ( $( this ).val() === '1' ) {
 				$( '#chbe-item-after-tab-size' ).show();
 			} else {
@@ -46,7 +46,7 @@
 		} );
 
 		// "Indent width" number change event.
-		$( '[name="before_tab_size"], [name="after_tab_size"]' ).change( function () {
+		$( '[name="before_tab_size"], [name="after_tab_size"]' ).on( 'change', function () {
 			const value = $( this ).val();
 			$( this ).val( value ? toNumber( value, 1, 8 ) : '' );
 			changeButtonStatus();
