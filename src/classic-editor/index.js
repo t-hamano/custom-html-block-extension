@@ -27,7 +27,6 @@ initLoader().then( ( monaco ) => {
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );
-	const toolbar = document.getElementById( 'ed_toolbar' );
 	const textarea = document.getElementById( 'content' );
 	const editorContainer = document.getElementById( 'wp-content-editor-container' );
 	const draftButton = document.getElementById( 'save-post' );
@@ -145,8 +144,11 @@ initLoader().then( ( monaco ) => {
 
 	// Add a margin above the monaco editor that is the same height as the toolbar.
 	const updateToolbarMargin = () => {
-		document.getElementById( 'monaco-editor-container' ).style.marginTop =
-			toolbar.clientHeight + 'px';
+		const toolbar = document.getElementById( 'ed_toolbar' );
+		const toolbarPosition = window.getComputedStyle( toolbar ).position;
+		const marginTop =
+			'fixed' === toolbarPosition || 'absolute' === toolbarPosition ? toolbar.clientHeight + 1 : 0;
+		document.getElementById( 'monaco-editor-container' ).style.marginTop = `${ marginTop }px`;
 	};
 
 	// Window resize event.
