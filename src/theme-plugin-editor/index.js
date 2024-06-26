@@ -45,7 +45,7 @@ initLoader().then( ( monaco ) => {
 	} );
 
 	// Enable Emmet.
-	if ( emmet ) {
+	if ( emmet && language ) {
 		if ( language.match( /htm|php/ ) ) {
 			emmetHTML( monaco, [ 'html', 'php' ] );
 		} else if ( language.match( /sass|scss|css|less/ ) ) {
