@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { ReactNotifications } from 'react-notifications-component';
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 /**
  * WordPress dependencies
@@ -65,7 +65,7 @@ function Admin() {
 	const [ code, setCode ] = useState( htmlCode );
 
 	return (
-		<div className={ classnames( 'chbe-admin', { 'is-waiting': isWaiting } ) }>
+		<div className={ clsx( 'chbe-admin', { 'is-waiting': isWaiting } ) }>
 			<ReactNotifications />
 			{ isWaiting && (
 				<div className="chbe-admin__loading">
