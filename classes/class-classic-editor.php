@@ -80,7 +80,7 @@ class ClassicEditor {
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/classic-editor.js',
-			array(),
+			array( 'wp-backbone' ),
 			filemtime( CHBE_PATH . '/build/classic-editor.js' ),
 			true
 		);
