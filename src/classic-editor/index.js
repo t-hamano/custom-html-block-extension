@@ -14,16 +14,11 @@ import initLoader from '../lib/loader';
 initLoader().then( ( monaco ) => {
 	let isMonacoEditorEnabled = false;
 
-	const isEditorEnabled = null !== document.getElementById( 'content' );
-	const isVisualEditorEnabled =
-		null !== document.getElementById( 'content-tmce' ) &&
-		null !== document.getElementById( 'content-html' );
+	const isEditorEnabled = !! document.getElementById( 'content' );
 
-	const cookieHtml = document.cookie.indexOf( 'editor%3Dhtml' );
-	const cookieTinyMce = document.cookie.indexOf( 'editor%3Dtinymce' );
-	const isVisualEditMode =
-		( -1 === cookieHtml && -1 !== cookieTinyMce ) ||
-		( -1 !== cookieHtml && -1 !== cookieTinyMce && cookieTinyMce > cookieHtml );
+	if ( ! isEditorEnabled ) {
+		return;
+	}
 
 	const tabTmce = document.getElementById( 'content-tmce' );
 	const tabHtml = document.getElementById( 'content-html' );
@@ -308,20 +303,21 @@ initLoader().then( ( monaco ) => {
 	};
 
 	// Initialize
-	if ( ! isEditorEnabled ) {
-		return;
-	}
-
 	runObserve();
 
-	if ( ! isVisualEditorEnabled ) {
-		runEditor();
-		replaceIndentButton.style.display = 'inline-block';
-	} else if ( isVisualEditMode ) {
-		tabHtml.onclick = toHtml;
+	const isVisualEditorEnabled = document
+		.getElementById( 'wp-content-wrap' )
+		.classList.contains( 'tmce-active' );
+
+	if ( isVisualEditorEnabled ) {
+		if ( tabHtml ) {
+			tabHtml.onclick = toHtml;
+		}
 	} else {
 		runEditor();
 		replaceIndentButton.style.display = 'inline-block';
-		tabTmce.onclick = toVisual;
+		if ( tabTmce ) {
+			tabTmce.onclick = toVisual;
+		}
 	}
 } );
