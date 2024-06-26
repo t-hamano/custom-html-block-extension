@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.4
-Tested up to: 6.4
-Stable tag: 3.5.0
+Tested up to: 6.6
+Stable tag: 3.6.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,16 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 3.6.0 =
+* Tested to WordPress 6.6
+* Drop support for WordPress 6.3
+* Fix: Editor duplication on the classic editor
+* Fix: Critical error when clicking tab on the settings page
+* Fix: Ctrl+S shortcut not working on the classic editor
+* Fix: Editor top margin misalignment on the classic editor
+* Fix: Browser console error on the classic editor
+* Fix: Browser console error on the Theme/Plugin Editor
 
 = 3.5.0 =
 * Tested to WordPress 6.5
