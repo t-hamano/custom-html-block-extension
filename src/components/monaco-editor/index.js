@@ -13,14 +13,15 @@ import { emmetHTML } from 'emmet-monaco-es';
 /**
  * WordPress dependencies
  */
+import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { useResizeObserver } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
-import themes from '../lib/themes';
-import initLoader from '../lib/loader';
+import themes from '../../lib/themes';
+import initLoader from '../../lib/loader';
 
 const wrapperStyles = {
 	position: 'relative',
@@ -46,7 +47,6 @@ const loadingStyles = {
 export default function MonacoEditor( {
 	className,
 	language = 'html',
-	loading = '',
 	theme = 'vs-dark',
 	options = {},
 	value = '',
@@ -291,8 +291,10 @@ export default function MonacoEditor( {
 	return (
 		<div style={ wrapperStyles }>
 			{ resizeListener }
-			{ ! isEditorReady && <div style={ loadingStyles }>{ loading }</div> }
-			<div ref={ containerRef } className={ className } />
+			{ ! isEditorReady && (
+				<div style={ loadingStyles }>{ __( 'Loading…', 'custom-html-block-extension' ) }</div>
+			) }
+			<div ref={ containerRef } className={ className } id="monaco-editor" />
 		</div>
 	);
 }

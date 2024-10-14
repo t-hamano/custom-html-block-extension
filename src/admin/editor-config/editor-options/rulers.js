@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
+import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -32,8 +32,9 @@ export default function Rulers() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
 			<RangeControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.rulers.length ? editorOptions.rulers[ 0 ] : 0 }
 				min="0"
@@ -42,6 +43,6 @@ export default function Rulers() {
 				onChange={ onChange }
 			/>
 			<ItemHelp onChange={ onChange } title={ title } image="editor-options/rulers.gif" />
-		</div>
+		</HStack>
 	);
 }

@@ -10,10 +10,10 @@
 @import "./components/shortcut/style";
 @import "./components/welcome-guide/style";
 
-// Page
+// Monaco Editor common styles
+@import "../components/monaco-editor/style";
+
 @import "./editor-config/style";
-@import "./tools/style";
-@import "./options/style";
 
 @include wordpress-admin-schemes();
 
@@ -24,35 +24,27 @@
 
 #custom-html-block-extension-admin {
 
-	// Common classes
+	// Container class
 	.chbe-admin-container {
 		position: relative;
 		max-width: 1200px;
-		padding: 0 $grid-unit-20;
+		padding: 0 $grid-unit-20 + $grid-unit-05;
 		margin: 0 auto;
 	}
 
 	// React notification component styles
 	.rnc__base {
-		top: 32px;
-		left: 160px;
-		margin-left: -80px;
+		bottom: 0;
+		right: 0;
+	}
 
-		@media only screen and (max-width: 960px) {
-			left: 36px;
-			margin-left: -18px;
-		}
+	.rnc__notification-item {
+		margin-bottom: $grid-unit-20;
+	}
 
-		@media screen and (max-width: 782px) {
-			top: 46px;
-			left: 0;
-			margin-left: 0;
-		}
-
-		.rnc__notification-container--top-center {
-			left: 50%;
-			transform: translateX(-50%);
-		}
+	.rnc__notification-container--bottom-right {
+		bottom: 0;
+		right: $grid-unit-20;
 	}
 
 	// Gutenberg component styles
@@ -60,96 +52,8 @@
 		opacity: 0.3;
 	}
 
-	.components-base-control {
-		margin-bottom: 0;
-
-		.components-base-control__label {
-			display: block;
-			font-size: 13px;
-			font-weight: normal;
-			text-transform: initial;
-		}
-
-		.components-base-control__field {
-			margin-bottom: 0;
-		}
-	}
-
-	.components-select-control {
-
-		.components-flex-item {
-			max-width: 100%;
-		}
-
-		.components-input-control__label {
-			display: block;
-			font-size: 13px;
-			font-weight: normal;
-			text-transform: initial;
-		}
-
-		.components-select-control__input {
-			line-height: initial;
-		}
-	}
-
 	.components-panel__body {
 		background: $white;
-		border: $border-width solid $gray-300;
-
-		&.is-opened {
-			padding-top: 0;
-
-			> .components-panel__body-title {
-				margin: 0 ($grid-unit-20 * -1) ($grid-unit-20 * -1 - 1);
-
-				+ * {
-					margin-top: $grid-unit-40 + 1;
-				}
-			}
-		}
-
-		&:not(.is-opened) {
-			border-bottom: none;
-		}
-
-		> * {
-			margin: 0;
-		}
-
-		> * + * {
-			margin-top: $grid-unit-20;
-		}
-
-		.components-panel__body-toggle.components-button {
-			padding-top: $grid-unit-20;
-			padding-bottom: $grid-unit-20;
-			font-size: 16px;
-			font-weight: bold;
-		}
-
-		.components-panel__body-toggle {
-			border-bottom: $border-width solid $gray-300;
-		}
-
-		.components-disabled {
-
-			&:empty {
-				display: none;
-
-				+ * {
-					margin-top: $grid-unit-40 + 1;
-				}
-			}
-
-			> * {
-				margin: 0;
-			}
-
-			> * + * {
-				margin-top: $grid-unit-20;
-			}
-		}
 	}
 }
 

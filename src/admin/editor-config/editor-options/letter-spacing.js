@@ -31,16 +31,15 @@ export default function LetterSpacing() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<RangeControl
-				label={ title }
-				value={ editorOptions.letterSpacing }
-				min="-2"
-				max="2"
-				step="0.1"
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<RangeControl
+			__nextHasNoMarginBottom
+			label={ title }
+			value={ editorOptions.letterSpacing }
+			min="-2"
+			max="2"
+			step="0.1"
+			allowReset
+			onChange={ onChange }
+		/>
 	);
 }

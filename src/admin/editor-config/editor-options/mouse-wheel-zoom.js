@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -31,8 +31,9 @@ export default function MouseWheelZoom() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
 			<ToggleControl
+				__nextHasNoMarginBottom
 				label={ title }
 				checked={ editorOptions.mouseWheelZoom }
 				onChange={ onChange }
@@ -45,6 +46,6 @@ export default function MouseWheelZoom() {
 				image="editor-options/mouse-wheel-zoom.gif"
 				value={ editorOptions.mouseWheelZoom }
 			/>
-		</div>
+		</HStack>
 	);
 }

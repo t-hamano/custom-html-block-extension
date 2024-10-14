@@ -31,15 +31,14 @@ export default function MouseWheelScrollSensitivity() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<RangeControl
-				label={ title }
-				min="1"
-				max="10"
-				value={ editorOptions.mouseWheelScrollSensitivity }
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<RangeControl
+			__nextHasNoMarginBottom
+			label={ title }
+			min="1"
+			max="10"
+			value={ editorOptions.mouseWheelScrollSensitivity }
+			allowReset
+			onChange={ onChange }
+		/>
 	);
 }

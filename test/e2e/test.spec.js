@@ -20,7 +20,7 @@ test.describe( 'Custom HTML Block Extension', () => {
 			await admin.visitAdminPage( 'post-new.php' );
 			await page.click( '#content-tmce' );
 			await page.click( '#content-html' );
-			await page.click( '#monaco-editor-container .monaco-editor' );
+			await page.click( '#monaco-editor .monaco-editor' );
 			await page.keyboard.type( 'p.selector' );
 			await page.keyboard.down( 'Tab' );
 			await page.click( '#publish' );
@@ -37,7 +37,7 @@ test.describe( 'Custom HTML Block Extension', () => {
 			pageUtils,
 		} ) => {
 			await admin.visitAdminPage( 'theme-editor.php' );
-			await page.click( '#monaco-editor-container .monaco-editor' );
+			await page.click( '#monaco-editor .monaco-editor' );
 			await pageUtils.pressKeys( 'primary+a' );
 			await page.keyboard.press( 'Delete' );
 			await page.keyboard.type( '.selector{fz100', { delay: 50 } );

@@ -153,7 +153,7 @@ class ClassicEditor {
 				<div class="chbe-dialog__setting">
 					<h3 class="chbe-dialog__subtitle"><?php esc_html_e( 'Current Indent', 'custom-html-block-extension' ); ?></h3>
 					<fieldset>
-						<legend><?php esc_html_e( 'Current indent type', 'custom-html-block-extension' ); ?></legend>
+						<legend><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></legend>
 						<label>
 							<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
 							<input type="radio" name="before_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
@@ -164,7 +164,7 @@ class ClassicEditor {
 						</label>
 					</fieldset>
 					<p id="chbe-item-before-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
-						<label for="chbe_before_tab_size"><strong><?php esc_html_e( 'Current indent width', 'custom-html-block-extension' ); ?></strong></label>
+						<label for="chbe_before_tab_size"><strong><?php esc_html_e( 'Indent width', 'custom-html-block-extension' ); ?></strong></label>
 						<input type="number" id="chbe_before_tab_size" name="before_tab_size" min="1" max="8" value="<?php echo esc_attr( $settings['tabSize'] ); ?>">
 					</p>
 				</div>
@@ -172,7 +172,7 @@ class ClassicEditor {
 				<div class="chbe-dialog__setting">
 					<h3 class="chbe-dialog__subtitle"><?php esc_html_e( 'New Indent', 'custom-html-block-extension' ); ?></h3>
 					<fieldset>
-						<legend><?php esc_html_e( 'New indent type', 'custom-html-block-extension' ); ?></legend>
+						<legend><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></legend>
 						<label>
 							<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
 							<input type="radio" name="after_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
@@ -183,7 +183,7 @@ class ClassicEditor {
 						</label>
 					</fieldset>
 					<p id="chbe-item-after-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
-						<label for="chbe_after_tab_size"><strong><?php esc_html_e( 'New indent width', 'custom-html-block-extension' ); ?></strong></label>
+						<label for="chbe_after_tab_size"><strong><?php esc_html_e( 'Indent width', 'custom-html-block-extension' ); ?></strong></label>
 						<input type="number" id="chbe_after_tab_size" name="after_tab_size" min="1" max="8" value="<?php echo esc_attr( $settings['tabSize'] ); ?>">
 					</p>
 				</div>

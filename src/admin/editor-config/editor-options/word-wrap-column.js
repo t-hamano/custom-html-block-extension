@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
+import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -32,8 +32,9 @@ export default function WordWrapColumn() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
 			<RangeControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.wordWrapColumn }
 				min="20"
@@ -47,6 +48,6 @@ export default function WordWrapColumn() {
 				image="editor-options/word-wrap-column.gif"
 				value={ editorOptions.wordWrapColumn }
 			/>
-		</div>
+		</HStack>
 	);
 }

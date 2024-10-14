@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -54,8 +54,10 @@ export default function ScrollbarHorizontal() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
+			{ ' ' }
 			<SelectControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.scrollbar.horizontal }
 				options={ items.map( ( { label, value } ) => {
@@ -70,6 +72,6 @@ export default function ScrollbarHorizontal() {
 				colCount="3"
 				value={ editorOptions.scrollbar.horizontal }
 			/>
-		</div>
+		</HStack>
 	);
 }

@@ -44,9 +44,7 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 		<div className="chbe-admin-editor-config-editor-preview">
 			{ ! isEditorDisabled && (
 				<MonacoEditor
-					className="chbe-admin-editor-config-editor-preview"
 					language="html"
-					loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 					theme={ editorSettings.theme }
 					options={ editorOptions }
 					value={ code }

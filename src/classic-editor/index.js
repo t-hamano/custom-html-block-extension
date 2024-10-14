@@ -38,7 +38,7 @@ initLoader().then( ( monaco ) => {
 
 		// Generate an element to apply the monaco editor.
 		const monacoEditorContainer = document.createElement( 'div' );
-		monacoEditorContainer.setAttribute( 'id', 'monaco-editor-container' );
+		monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
 		editorContainer.appendChild( monacoEditorContainer );
 
 		// Monaco editor properties.
@@ -143,7 +143,7 @@ initLoader().then( ( monaco ) => {
 		const toolbarPosition = window.getComputedStyle( toolbar ).position;
 		const marginTop =
 			'fixed' === toolbarPosition || 'absolute' === toolbarPosition ? toolbar.clientHeight + 1 : 0;
-		document.getElementById( 'monaco-editor-container' ).style.marginTop = `${ marginTop }px`;
+		document.getElementById( 'monaco-editor' ).style.marginTop = `${ marginTop }px`;
 	};
 
 	// Window resize event.
@@ -273,7 +273,7 @@ initLoader().then( ( monaco ) => {
 	const toVisual = () => {
 		if ( isMonacoEditorEnabled ) {
 			monaco.editor.getModels().forEach( ( model ) => model.dispose() );
-			document.getElementById( 'monaco-editor-container' ).remove();
+			document.getElementById( 'monaco-editor' ).remove();
 			tabHtml.onclick = toHtml;
 			syncTriggers.forEach( ( button ) => {
 				button.removeEventListener( 'mouseup', syncTextareaToEditor );

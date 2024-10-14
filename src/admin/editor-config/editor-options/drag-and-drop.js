@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -31,8 +31,13 @@ export default function DragAndDrop() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<ToggleControl label={ title } checked={ editorOptions.dragAndDrop } onChange={ onChange } />
+		<HStack justify="start" align="start" wrap>
+			<ToggleControl
+				__nextHasNoMarginBottom
+				label={ title }
+				checked={ editorOptions.dragAndDrop }
+				onChange={ onChange }
+			/>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
@@ -41,6 +46,6 @@ export default function DragAndDrop() {
 				image="editor-options/drag-and-drop.gif"
 				value={ editorOptions.dragAndDrop }
 			/>
-		</div>
+		</HStack>
 	);
 }

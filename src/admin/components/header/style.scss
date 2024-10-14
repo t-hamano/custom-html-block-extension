@@ -1,29 +1,11 @@
 .chbe-admin-header {
-	padding: $grid-unit-20 0 $grid-unit-10;
+	padding: $grid-unit-20 0;
 	background-color: $white;
-
-	.chbe-admin-header__title {
-		display: flex;
-		gap: $grid-unit-20;
-		align-items: center;
-		justify-content: center;
-		margin: 0 0 $grid-unit-10;
-		line-height: 1;
-
-		@media screen and (max-width: 782px) {
-			font-size: 20px;
-		}
-
-		svg {
-			width: $grid-unit-40;
-		}
-	}
 
 	.chbe-admin-header__info {
 		position: absolute;
 		top: 0;
-		right: $grid-unit-20;
-		margin: 0;
+		right: $grid-unit-20 + $grid-unit-05;
 
 		@media screen and (max-width: 782px) {
 			position: static;

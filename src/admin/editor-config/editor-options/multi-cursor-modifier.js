@@ -3,7 +3,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
+import {
+	__experimentalHStack as HStack,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
+import { isAppleOS } from '@wordpress/keycodes';
 
 /**
  * Internal dependencies
@@ -25,13 +30,15 @@ export default function MultiCursorModifier() {
 
 	const items = [
 		{
-			label: __( 'Alt (Option)', 'custom-html-block-extension' ),
-			image: 'editor-options/multi-cursor-paste_1.gif',
+			label: isAppleOS()
+				? __( 'Option', 'custom-html-block-extension' )
+				: __( 'Alt', 'custom-html-block-extension' ),
 			value: 'alt',
 		},
 		{
-			label: __( 'Ctrl (Command)', 'custom-html-block-extension' ),
-			image: 'editor-options/multi-cursor-paste_2.gif',
+			label: isAppleOS()
+				? __( 'Command', 'custom-html-block-extension' )
+				: __( 'Ctrl', 'custom-html-block-extension' ),
 			value: 'ctrlCmd',
 			isDefault: true,
 		},
@@ -45,22 +52,19 @@ export default function MultiCursorModifier() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<BaseControl>
-				<BaseControl.VisualLabel>{ title }</BaseControl.VisualLabel>
-				<ButtonGroup aria-label={ title }>
-					{ items.map( ( item, index ) => (
-						<Button
-							key={ index }
-							variant={ editorOptions.multiCursorModifier === item.value ? 'primary' : undefined }
-							onClick={ () => onChange( item.value ) }
-							size="compact"
-						>
-							{ item.label }
-						</Button>
-					) ) }
-				</ButtonGroup>
-			</BaseControl>
+		<HStack justify="start" align="start" wrap>
+			<ToggleGroupControl
+				__nextHasNoMarginBottom
+				size="__unstable-large"
+				label={ title }
+				value={ editorOptions.multiCursorModifier }
+				onChange={ onChange }
+				isBlock
+			>
+				{ items.map( ( item ) => (
+					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
+				) ) }
+			</ToggleGroupControl>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
@@ -70,6 +74,6 @@ export default function MultiCursorModifier() {
 				) }
 				image="editor-options/multi-cursor-modifier.gif"
 			/>
-		</div>
+		</HStack>
 	);
 }

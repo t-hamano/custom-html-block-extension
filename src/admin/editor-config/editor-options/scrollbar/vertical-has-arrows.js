@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -35,8 +35,10 @@ export default function ScrollbarVerticalHasArrows() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
+			{ ' ' }
 			<ToggleControl
+				__nextHasNoMarginBottom
 				label={ title }
 				checked={ editorOptions.scrollbar.verticalHasArrows }
 				onChange={ onChange }
@@ -59,6 +61,6 @@ export default function ScrollbarVerticalHasArrows() {
 				] }
 				value={ editorOptions.scrollbar.verticalHasArrows }
 			/>
-		</div>
+		</HStack>
 	);
 }

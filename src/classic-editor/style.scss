@@ -1,41 +1,12 @@
 // WordPress base styles
 @import "node_modules/@wordpress/base-styles/variables";
 
+// Monaco Editor common styles
+@import "../components/monaco-editor/style";
+
 // Monaco Editor
-#monaco-editor-container {
+#monaco-editor {
 	min-height: 300px;
-
-	.monaco-editor {
-
-		.find-widget {
-
-			.button {
-				color: inherit;
-				background: none;
-				border: none;
-
-				&:focus {
-					box-shadow: none;
-				}
-			}
-
-			textarea:focus {
-				box-shadow: none;
-			}
-		}
-
-		.inputarea {
-			box-shadow: none;
-		}
-
-		.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
-			text-decoration: none;
-		}
-
-		.monaco-highlighted-label .highlight {
-			background: transparent;
-		}
-	}
 }
 
 // Toolbar

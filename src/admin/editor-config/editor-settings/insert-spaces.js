@@ -3,7 +3,11 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
+import {
+	__experimentalHStack as HStack,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -43,22 +47,19 @@ export default function InsertSpaces() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<BaseControl>
-				<BaseControl.VisualLabel>{ title }</BaseControl.VisualLabel>
-				<ButtonGroup aria-label={ __( 'Indent type', 'custom-html-block-extension' ) }>
-					{ items.map( ( item, index ) => (
-						<Button
-							key={ index }
-							variant={ editorSettings.insertSpaces === item.value ? 'primary' : undefined }
-							onClick={ () => onChange( item.value ) }
-							size="compact"
-						>
-							{ item.label }
-						</Button>
-					) ) }
-				</ButtonGroup>
-			</BaseControl>
-		</div>
+		<HStack>
+			<ToggleGroupControl
+				__nextHasNoMarginBottom
+				size="__unstable-large"
+				label={ __( 'Indent type', 'custom-html-block-extension' ) }
+				value={ editorSettings.insertSpaces }
+				onChange={ onChange }
+				isBlock
+			>
+				{ items.map( ( item ) => (
+					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
+				) ) }
+			</ToggleGroupControl>
+		</HStack>
 	);
 }

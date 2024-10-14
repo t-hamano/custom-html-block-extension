@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
-import { Button, PanelBody } from '@wordpress/components';
+import { Button, PanelBody, __experimentalText as Text } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -45,16 +45,13 @@ export default function ExportTool() {
 	};
 
 	return (
-		<PanelBody
-			className="chbe-admin-tools-export-tool"
-			title={ __( 'Export Editor Config', 'custom-html-block-extension' ) }
-		>
-			<p>
+		<PanelBody title={ __( 'Export Editor Config', 'custom-html-block-extension' ) }>
+			<Text as="p">
 				{ __(
 					'Use the download button to export the editor settings. You can restore the editor config by importing the exported file on another WordPress site.',
 					'custom-html-block-extension'
 				) }
-			</p>
+			</Text>
 			<Button variant="primary" onClick={ onExportOptions } __next40pxDefaultSize>
 				{ __( 'Export', 'custom-html-block-extension' ) }
 			</Button>

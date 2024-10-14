@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -55,8 +55,9 @@ export default function LineNumbers() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
 			<SelectControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.lineNumbers }
 				options={ items.map( ( { label, value } ) => {
@@ -71,6 +72,6 @@ export default function LineNumbers() {
 				colCount="4"
 				value={ editorOptions.lineNumbers }
 			/>
-		</div>
+		</HStack>
 	);
 }
