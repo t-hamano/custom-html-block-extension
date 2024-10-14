@@ -44,7 +44,7 @@ export default function LineDecorationsWidth() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				image={ 'editor-options/line-decorations-width.gif' }
+				image="editor-options/line-decorations-width.gif"
 				value={ editorOptions.lineDecorationsWidth }
 			/>
 		</div>

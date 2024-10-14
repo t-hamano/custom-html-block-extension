@@ -42,7 +42,7 @@ export default function Folding() {
 				) }
 				isToggle
 				defaultToggle
-				image={ 'editor-options/folding.gif' }
+				image="editor-options/folding.gif"
 				value={ editorOptions.folding }
 			/>
 		</div>

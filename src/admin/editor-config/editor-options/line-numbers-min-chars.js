@@ -41,7 +41,7 @@ export default function LineNumbersMinChars() {
 				allowReset
 				onChange={ onChange }
 			/>
-			<ItemHelp title={ title } image={ 'editor-options/line-numbers-min-chars.gif' } />
+			<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
 		</div>
 	);
 }

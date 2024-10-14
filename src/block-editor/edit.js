@@ -356,7 +356,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							>
 								<MonacoEditor
 									className="chbe-editor-wrapper"
-									language={ 'html' }
+									language="html"
 									loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 									theme={ editorSettings.theme }
 									options={ editorOptions }
@@ -381,7 +381,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 				>
 					<MonacoEditor
 						className="chbe-editor-wrapper"
-						language={ 'html' }
+						language="html"
 						loading={ __( 'Loading…', 'custom-html-block-extension' ) }
 						theme={ editorSettings.theme }
 						options={ editorOptions }

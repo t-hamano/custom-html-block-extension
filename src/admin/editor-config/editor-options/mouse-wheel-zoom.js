@@ -42,7 +42,7 @@ export default function MouseWheelZoom() {
 				title={ title }
 				isToggle
 				defaultToggle={ false }
-				image={ 'editor-options/mouse-wheel-zoom.gif' }
+				image="editor-options/mouse-wheel-zoom.gif"
 				value={ editorOptions.mouseWheelZoom }
 			/>
 		</div>

@@ -44,7 +44,7 @@ export default function WordWrapColumn() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				image={ 'editor-options/word-wrap-column.gif' }
+				image="editor-options/word-wrap-column.gif"
 				value={ editorOptions.wordWrapColumn }
 			/>
 		</div>

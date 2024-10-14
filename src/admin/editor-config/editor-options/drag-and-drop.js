@@ -38,7 +38,7 @@ export default function DragAndDrop() {
 				title={ title }
 				isToggle
 				defaultToggle={ false }
-				image={ 'editor-options/drag-and-drop.gif' }
+				image="editor-options/drag-and-drop.gif"
 				value={ editorOptions.dragAndDrop }
 			/>
 		</div>

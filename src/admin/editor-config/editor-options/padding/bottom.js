@@ -52,7 +52,7 @@ export default function PaddingBottom() {
 					'Spacing between bottom edge of editor and last line. This setting will not work if "Scroll past the last line" is enabled in "Mouse and Scroll" category.',
 					'custom-html-block-extension'
 				) }
-				image={ 'editor-options/padding/bottom.gif' }
+				image="editor-options/padding/bottom.gif"
 			/>
 		</div>
 	);

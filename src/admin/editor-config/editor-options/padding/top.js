@@ -52,7 +52,7 @@ export default function PaddingTop() {
 					'Spacing between top edge of editor and first line.',
 					'custom-html-block-extension'
 				) }
-				image={ 'editor-options/padding/top.gif' }
+				image="editor-options/padding/top.gif"
 			/>
 		</div>
 	);

@@ -50,7 +50,7 @@ export default function ScrollbarScrollByPage() {
 				) }
 				isToggle
 				defaultToggle={ false }
-				image={ 'editor-options/scrollbar/scroll-by-page.gif' }
+				image="editor-options/scrollbar/scroll-by-page.gif"
 				value={ editorOptions.scrollbar.scrollByPage }
 			/>
 		</div>

@@ -68,7 +68,7 @@ export default function MultiCursorModifier() {
 					'You can use multiple cursors for faster editing. Sets the key for applying multiple cursors with modifier key + Click.',
 					'custom-html-block-extension'
 				) }
-				image={ 'editor-options/multi-cursor-modifier.gif' }
+				image="editor-options/multi-cursor-modifier.gif"
 			/>
 		</div>
 	);

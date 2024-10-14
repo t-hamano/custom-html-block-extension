@@ -47,7 +47,7 @@ export default function QuickSuggestions() {
 				) }
 				isToggle
 				defaultToggle
-				image={ 'editor-options/quick-suggestions.gif' }
+				image="editor-options/quick-suggestions.gif"
 				value={ editorOptions.quickSuggestions }
 			/>
 		</div>

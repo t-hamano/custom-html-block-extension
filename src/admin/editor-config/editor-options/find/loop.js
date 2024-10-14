@@ -45,7 +45,7 @@ export default function FindLoop() {
 				) }
 				isToggle
 				defaultToggle
-				image={ 'editor-options/find/loop.gif' }
+				image="editor-options/find/loop.gif"
 				value={ editorOptions.find.loop }
 			/>
 		</div>

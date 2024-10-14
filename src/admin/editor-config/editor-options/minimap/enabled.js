@@ -49,7 +49,7 @@ export default function MinimapEnabled() {
 				) }
 				isToggle
 				defaultToggle
-				image={ 'editor-options/minimap/enabled.gif' }
+				image="editor-options/minimap/enabled.gif"
 				value={ editorOptions.minimap.enabled }
 			/>
 		</div>

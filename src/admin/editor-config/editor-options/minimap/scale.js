@@ -47,7 +47,7 @@ export default function MinimapScale() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				image={ 'editor-options/minimap/scale.gif' }
+				image="editor-options/minimap/scale.gif"
 				value={ editorOptions.minimap.scale }
 			/>
 		</div>

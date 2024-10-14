@@ -70,7 +70,7 @@ export default function Emmet() {
 				}
 				isToggle
 				defaultToggle
-				image={ 'editor-settings/emmet.gif' }
+				image="editor-settings/emmet.gif"
 				value={ editorSettings.emmet }
 			/>
 		</div>

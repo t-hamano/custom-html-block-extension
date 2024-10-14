@@ -42,7 +42,7 @@ export default function EmptySelectionClipboard() {
 				title={ title }
 				isToggle
 				defaultToggle
-				image={ 'editor-options/empty-selection-clipboard.gif' }
+				image="editor-options/empty-selection-clipboard.gif"
 				value={ editorOptions.emptySelectionClipboard }
 			/>
 		</div>

@@ -41,7 +41,7 @@ export default function Rulers() {
 				allowReset
 				onChange={ onChange }
 			/>
-			<ItemHelp onChange={ onChange } title={ title } image={ 'editor-options/rulers.gif' } />
+			<ItemHelp onChange={ onChange } title={ title } image="editor-options/rulers.gif" />
 		</div>
 	);
 }

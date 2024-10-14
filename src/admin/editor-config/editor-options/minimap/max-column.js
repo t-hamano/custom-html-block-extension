@@ -44,7 +44,7 @@ export default function MinimapMaxColumn() {
 				allowReset
 				onChange={ onChange }
 			/>
-			<ItemHelp title={ title } image={ 'editor-options/minimap/max-column.gif' } />
+			<ItemHelp title={ title } image="editor-options/minimap/max-column.gif" />
 		</div>
 	);
 }

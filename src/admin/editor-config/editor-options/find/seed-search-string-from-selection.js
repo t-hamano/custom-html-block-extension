@@ -45,7 +45,7 @@ export default function FindSeedSearchStringFromSelection() {
 				title={ title }
 				isToggle
 				defaultToggle
-				image={ 'editor-options/find/seed-search-string-from-selection.gif' }
+				image="editor-options/find/seed-search-string-from-selection.gif"
 				value={ editorOptions.find.seedSearchStringFromSelection }
 			/>
 		</div>

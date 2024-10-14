@@ -76,7 +76,7 @@ export default function ColumnSelection() {
 				}
 				isToggle
 				defaultToggle={ false }
-				image={ 'editor-options/column-selection.gif' }
+				image="editor-options/column-selection.gif"
 				value={ editorOptions.columnSelection }
 			/>
 		</div>

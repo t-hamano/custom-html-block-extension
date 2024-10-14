@@ -44,7 +44,7 @@ export default function UnfoldOnClickAfterEndOfLine() {
 				onChange={ onChange }
 				title={ title }
 				isToggle
-				image={ 'editor-options/unfold-on-click-after-end-of-line.gif' }
+				image="editor-options/unfold-on-click-after-end-of-line.gif"
 				defaultToggle={ false }
 				value={ editorOptions.unfoldOnClickAfterEndOfLine }
 			/>
