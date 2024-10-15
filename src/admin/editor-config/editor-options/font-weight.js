@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -30,8 +30,9 @@ export default function FontWeight( { fontWeights } ) {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack>
 			<SelectControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ Number( editorOptions.fontWeight ) }
 				options={ fontWeights.map( ( fontWeight ) => ( {
@@ -40,6 +41,6 @@ export default function FontWeight( { fontWeights } ) {
 				} ) ) }
 				onChange={ onChange }
 			/>
-		</div>
+		</HStack>
 	);
 }

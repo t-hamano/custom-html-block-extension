@@ -31,15 +31,14 @@ export default function FontSize() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<RangeControl
-				label={ title }
-				value={ editorOptions.fontSize }
-				min="10"
-				max="30"
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<RangeControl
+			__nextHasNoMarginBottom
+			label={ title }
+			value={ editorOptions.fontSize }
+			min="10"
+			max="30"
+			allowReset
+			onChange={ onChange }
+		/>
 	);
 }

@@ -31,15 +31,14 @@ export default function TabSize() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<RangeControl
-				label={ title }
-				value={ editorSettings.tabSize }
-				min="1"
-				max="8"
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<RangeControl
+			__nextHasNoMarginBottom
+			label={ title }
+			value={ editorSettings.tabSize }
+			min="1"
+			max="8"
+			allowReset
+			onChange={ onChange }
+		/>
 	);
 }

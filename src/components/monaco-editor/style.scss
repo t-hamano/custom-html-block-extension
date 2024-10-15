@@ -1,0 +1,80 @@
+#monaco-editor {
+	height: 100%;
+
+	.find-widget {
+
+		.button {
+			color: inherit;
+			background: none;
+			background-color: transparent !important;
+			min-height: auto;
+			box-sizing: border-box;
+
+			&:not(.toggle) {
+				width: 22px;
+				height: 22px;
+			}
+
+			&:not(:focus) {
+				border: none;
+			}
+
+			&:focus {
+				box-shadow: none;
+				border: 1px solid;
+			}
+
+			&.disabled {
+				color: inherit !important;
+				background: none !important;
+			}
+		}
+
+		textarea {
+			min-height: initial;
+			font-family: inherit;
+			font-size: inherit;
+			border: none;
+
+			&:focus {
+				box-shadow: none;
+			}
+		}
+	}
+
+	.find-part {
+		margin-top: 4px;
+	}
+
+	.inputarea {
+		padding: 0;
+		color: inherit;
+		box-shadow: none;
+
+		&.monaco-mouse-cursor-text {
+			min-height: auto;
+			background: transparent;
+			border: none;
+		}
+	}
+
+	.monaco-custom-toggle:focus {
+		border-color: inherit;
+		outline: none;
+	}
+
+	.monaco-findInput > .controls {
+		top: 2px;
+	}
+
+	.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
+		text-decoration: none;
+	}
+
+	.monaco-highlighted-label .highlight {
+		display: inline;
+		padding: 0;
+		margin: 0;
+		background: transparent;
+	}
+}

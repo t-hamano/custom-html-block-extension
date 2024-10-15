@@ -4,7 +4,14 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext, useState } from '@wordpress/element';
-import { Button, FormFileUpload, PanelBody } from '@wordpress/components';
+import {
+	Button,
+	FormFileUpload,
+	PanelBody,
+	__experimentalText as Text,
+	__experimentalHStack as HStack,
+	__experimentalVStack as VStack,
+} from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -79,39 +86,36 @@ export default function ImportTool() {
 	};
 
 	return (
-		<PanelBody
-			className="chbe-admin-tools-import-tool"
-			title={ __( 'Import editor config', 'custom-html-block-extension' ) }
-		>
-			<p>
+		<PanelBody title={ __( 'Import editor config', 'custom-html-block-extension' ) }>
+			<Text as="p">
 				{ __(
 					'Select the Custom HTML Block Extension JSON file you would like to import and click the import button below.',
 					'custom-html-block-extension'
 				) }
-			</p>
-			<div className="chbe-admin-tools-import-tool__upload">
-				<FormFileUpload
-					accept="application/json"
-					onChange={ onUploadFile }
-					render={ ( { openFileDialog } ) => (
-						<Button variant="secondary" onClick={ openFileDialog } __next40pxDefaultSize>
-							{ __( 'Upload file', 'custom-html-block-extension' ) }
-						</Button>
-					) }
-				/>
-				{ importFile && (
-					<p className="chbe-admin-tools-import-tool__filename">{ importFile.name }</p>
-				) }
-			</div>
-			<Button
-				variant="primary"
-				disabled={ ! importFile }
-				onClick={ onImportOptions }
-				__next40pxDefaultSize
-				__experimentalIsFocusable
-			>
-				{ __( 'Import', 'custom-html-block-extension' ) }
-			</Button>
+			</Text>
+			<VStack spacing={ 4 } align="start">
+				<HStack spacing={ 4 } justify="start" wrap>
+					<FormFileUpload
+						accept="application/json"
+						onChange={ onUploadFile }
+						render={ ( { openFileDialog } ) => (
+							<Button variant="secondary" onClick={ openFileDialog } __next40pxDefaultSize>
+								{ __( 'Upload file', 'custom-html-block-extension' ) }
+							</Button>
+						) }
+					/>
+					{ importFile && <span>{ importFile.name }</span> }
+				</HStack>
+				<Button
+					variant="primary"
+					disabled={ ! importFile }
+					onClick={ onImportOptions }
+					__next40pxDefaultSize
+					__experimentalIsFocusable
+				>
+					{ __( 'Import', 'custom-html-block-extension' ) }
+				</Button>
+			</VStack>
 		</PanelBody>
 	);
 }

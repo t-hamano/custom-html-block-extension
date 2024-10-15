@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -31,8 +31,9 @@ export default function Theme() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack>
 			<SelectControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorSettings.theme }
 				options={ [
@@ -42,6 +43,6 @@ export default function Theme() {
 				] }
 				onChange={ onChange }
 			/>
-		</div>
+		</HStack>
 	);
 }

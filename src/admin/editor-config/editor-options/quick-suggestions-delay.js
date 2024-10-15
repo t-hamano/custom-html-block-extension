@@ -3,7 +3,7 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
+import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -32,8 +32,9 @@ export default function QuickSuggestionsDelay() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
 			<RangeControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.quickSuggestionsDelay }
 				min="0"
@@ -66,6 +67,6 @@ export default function QuickSuggestionsDelay() {
 				] }
 				value={ editorOptions.quickSuggestionsDelay }
 			/>
-		</div>
+		</HStack>
 	);
 }

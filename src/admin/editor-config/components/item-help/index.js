@@ -4,7 +4,14 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
-import { Button, Modal, ToggleControl } from '@wordpress/components';
+import {
+	Button,
+	Modal,
+	ToggleControl,
+	__experimentalText as Text,
+	__experimentalHeading as Heading,
+	__experimentalVStack as VStack,
+} from '@wordpress/components';
 
 export default function ItemHelp( {
 	title,
@@ -19,8 +26,6 @@ export default function ItemHelp( {
 } ) {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
-	const DescriptionTag = typeof description === 'object' ? 'div' : 'p';
-
 	return (
 		<>
 			{ isModalOpen && (
@@ -29,26 +34,29 @@ export default function ItemHelp( {
 					className="chbe-admin-editor-config-item-help-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<div className="chbe-admin-editor-config-item-help-modal__content">
+					<VStack spacing={ 4 }>
 						{ description && (
-							<DescriptionTag className="chbe-admin-editor-config-item-help-modal__decription">
+							<VStack
+								as={ typeof description === 'object' ? 'div' : 'p' }
+								className="chbe-admin-editor-config-item-help-modal__decription"
+							>
 								{ description }
-							</DescriptionTag>
+							</VStack>
 						) }
 						{ isToggle && (
-							<p>
+							<Text as="p">
 								{ defaultToggle
 									? __( 'Defaults to enable.', 'custom-html-block-extension' )
 									: __( 'Defaults to disable.', 'custom-html-block-extension' ) }
-							</p>
+							</Text>
 						) }
 						{ items.length > 0 && (
 							<div
 								className={ `chbe-admin-editor-config-item-help-modal__items is-col-${ colCount }` }
 							>
 								{ items.map( ( item, index ) => (
-									<div className="chbe-admin-editor-config-item-help-modal__item" key={ index }>
-										<h3 className="chbe-admin-editor-config-item-help-modal__item-title">
+									<VStack spacing="4" align="start" key={ index }>
+										<Heading as="h3" level="4">
 											{ item.isDefault
 												? sprintf(
 														/* translators: %s is replaced with the setting label. */
@@ -56,7 +64,7 @@ export default function ItemHelp( {
 														item.label
 												  )
 												: item.label }
-										</h3>
+										</Heading>
 										<Button
 											className="chbe-admin-editor-config-item-help-modal__item-button"
 											variant={ value === item.value ? 'primary' : undefined }
@@ -66,13 +74,12 @@ export default function ItemHelp( {
 											} }
 										>
 											<img
-												className="chbe-admin-editor-config-item-help-modal__item-image"
 												src={ `${ window.chbeObj.pluginUrl }/assets/images/admin/editor-config/${ item.image }` }
 												alt={ item.title }
 											/>
 										</Button>
-										{ item.description && <p>{ item.description }</p> }
-									</div>
+										{ item.description && <Text as="p">{ item.description }</Text> }
+									</VStack>
 								) ) }
 							</div>
 						) }
@@ -84,21 +91,25 @@ export default function ItemHelp( {
 						) }
 						{ isToggle && (
 							<ToggleControl
+								__nextHasNoMarginBottom
 								checked={ value }
 								onChange={ ( newValue ) => {
 									onChange( newValue );
 									setIsModalOpen( false );
 								} }
+								label={ title }
 							/>
 						) }
-					</div>
+					</VStack>
 				</Modal>
 			) }
 			<Button
 				className="chbe-admin-editor-config-item-help-toggle"
 				icon={ info }
+				iconSize={ 20 }
 				label={ __( 'Information', 'custom-html-block-extension' ) }
 				onClick={ () => setIsModalOpen( true ) }
+				size="small"
 			/>
 		</>
 	);

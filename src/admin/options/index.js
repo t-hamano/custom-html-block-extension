@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { createContext, useContext } from '@wordpress/element';
-import { Button } from '@wordpress/components';
+import { Button, Flex, __experimentalVStack as VStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -39,12 +39,14 @@ export default function Options() {
 	};
 
 	return (
-		<div className="chbe-admin-options">
+		<VStack spacing={ 4 }>
 			<PermissionEditor />
 			<PermissionUserRole />
-			<Button variant="primary" disabled={ isWaiting } onClick={ onUpdateOptions }>
-				{ __( 'Save Options', 'custom-html-block-extension' ) }
-			</Button>
-		</div>
+			<Flex>
+				<Button variant="primary" disabled={ isWaiting } onClick={ onUpdateOptions }>
+					{ __( 'Save Options', 'custom-html-block-extension' ) }
+				</Button>
+			</Flex>
+		</VStack>
 	);
 }

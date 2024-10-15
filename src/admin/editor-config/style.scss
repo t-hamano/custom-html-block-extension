@@ -1,73 +1,37 @@
-@import "./components/controls/style";
 @import "./components/editor-preview/style";
 @import "./components/item-help/style";
 @import "./components/filter/style";
 
 .chbe-admin-editor-config {
-	display: flex;
-	flex-flow: row-reverse;
-	gap: $grid-unit-40;
 
-	@media screen and (max-width: 782px) {
-		flex-flow: column;
+	.components-select-control {
+		min-width: 200px;
 	}
 
 	.components-range-control {
-		flex: 1;
+		width: 100%;
 		max-width: 300px;
 	}
 
 	.chbe-admin-editor-config__settings {
-		display: flex;
 		flex: 1;
-		flex-flow: column;
-		gap: $grid-unit-40;
 	}
 
 	.chbe-admin-editor-config__basic-settings {
-		display: flex;
-		flex-flow: column;
-		gap: $grid-unit-20;
 		padding: $grid-unit-30;
 		background: $white;
-		border: $border-width solid $gray-300;
-	}
-
-	.chbe-admin-editor-config__advanced-settings {
-		display: flex;
-		flex-flow: column;
-		gap: $grid-unit-10;
-	}
-
-	.chbe-admin-editor-config__item {
-		display: flex;
-		flex-wrap: wrap;
-		gap: $grid-unit-10;
-		align-items: flex-start;
-		justify-content: flex-start;
-		min-height: auto;
-
-		.components-select-control .components-flex-item {
-			max-width: 100%;
-		}
+		border-top: $border-width solid $gray-300;
+		border-bottom: $border-width solid $gray-300;
 	}
 
 	.chbe-admin-editor-config__preview {
 		position: sticky;
 		top: $grid-unit-50;
-		display: flex;
-		flex-flow: column;
-		gap: $grid-unit-40;
 		width: 50%;
-		height: 100%;
 
 		@media screen and (max-width: 782px) {
 			position: static;
 			width: 100%;
 		}
-	}
-
-	.chbe-admin-editor-config__preview-title {
-		margin: 0;
 	}
 }

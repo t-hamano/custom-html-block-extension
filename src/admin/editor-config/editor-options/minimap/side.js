@@ -9,7 +9,11 @@ import { useContext } from '@wordpress/element';
  */
 import { AdminContext } from '../../../index';
 import { EditorConfigContext } from '../../index';
-import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
+import {
+	__experimentalHStack as HStack,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
 import ItemHelp from '../../components/item-help';
 
 export default function MinimapSide() {
@@ -48,28 +52,25 @@ export default function MinimapSide() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<BaseControl>
-				<BaseControl.VisualLabel>{ title }</BaseControl.VisualLabel>
-				<ButtonGroup aria-label={ title }>
-					{ items.map( ( item, index ) => (
-						<Button
-							key={ index }
-							variant={ editorOptions.minimap.side === item.value ? 'primary' : undefined }
-							onClick={ () => onChange( item.value ) }
-							size="compact"
-						>
-							{ item.label }
-						</Button>
-					) ) }
-				</ButtonGroup>
-			</BaseControl>
+		<HStack justify="start" align="start" wrap>
+			<ToggleGroupControl
+				__nextHasNoMarginBottom
+				size="__unstable-large"
+				label={ title }
+				value={ editorOptions.minimap.side }
+				onChange={ onChange }
+				isBlock
+			>
+				{ items.map( ( item ) => (
+					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
+				) ) }
+			</ToggleGroupControl>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
 				items={ items }
 				value={ editorOptions.minimap.side }
 			/>
-		</div>
+		</HStack>
 	);
 }

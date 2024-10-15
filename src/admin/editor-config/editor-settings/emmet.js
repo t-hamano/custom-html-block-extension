@@ -3,7 +3,13 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ExternalLink, Notice, ToggleControl } from '@wordpress/components';
+import {
+	ExternalLink,
+	Notice,
+	ToggleControl,
+	__experimentalText as Text,
+	__experimentalHStack as HStack,
+} from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -31,20 +37,25 @@ export default function Emmet() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<ToggleControl label={ title } checked={ editorSettings.emmet } onChange={ onChange } />
+		<HStack justify="start" align="start" wrap>
+			<ToggleControl
+				__nextHasNoMarginBottom
+				label={ title }
+				checked={ editorSettings.emmet }
+				onChange={ onChange }
+			/>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
 				description={
 					<>
-						<p>
+						<Text as="p">
 							{ __(
 								'Emmet is a function for the editor that allow for high-speed coding via content assist.',
 								'custom-html-block-extension'
 							) }
-						</p>
-						<p>
+						</Text>
+						<Text as="p">
 							{ __(
 								'Only valid for HTML tags and does not support inline CSS in the block and classic editor.',
 								'custom-html-block-extension'
@@ -54,12 +65,12 @@ export default function Emmet() {
 								'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.',
 								'custom-html-block-extension'
 							) }
-						</p>
-						<p>
+						</Text>
+						<Text as="p">
 							<ExternalLink href="https://docs.emmet.io/cheat-sheet/">
 								{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
 							</ExternalLink>
-						</p>
+						</Text>
 						<Notice status="warning" isDismissible={ false }>
 							{ __(
 								'Save and reload the browser to reflect this settings in the preview editor area.',
@@ -73,6 +84,6 @@ export default function Emmet() {
 				image="editor-settings/emmet.gif"
 				value={ editorSettings.emmet }
 			/>
-		</div>
+		</HStack>
 	);
 }

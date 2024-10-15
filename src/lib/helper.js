@@ -8,9 +8,8 @@ export const addNotification = ( message, type, duration = 200000 ) => {
 	Store.addNotification( {
 		message,
 		type,
-		animation: 'bounce-in',
 		insert: 'bottom',
-		container: 'top-center',
+		container: 'bottom-right',
 		isMobile: true,
 		dismiss: {
 			duration,

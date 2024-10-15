@@ -1,45 +1,8 @@
 // WordPress base styles
 @import "node_modules/@wordpress/base-styles/variables";
 
-// Block
-.wp-block-html,
-.wp-block[data-type="core/html"] {
-
-	.components-resizable-box__container {
-		padding-bottom: $grid-unit-30;
-		overflow: initial;
-
-		> section {
-			background-color: rgba(0, 0, 0, 0.1);
-		}
-	}
-
-	.components-notice {
-		margin: 0 0 $grid-unit-10;
-
-		.components-button {
-			min-width: $button-size-small;
-			height: $button-size-small;
-			padding: 0;
-
-			svg {
-				width: $grid-unit-20;
-			}
-		}
-	}
-
-	.components-notice__content {
-		margin: 0;
-	}
-
-	&.is-selected .components-resizable-box__container {
-		background-color: rgba(0, 0, 0, 0.1);
-	}
-
-	.chbe-editor-wrapper {
-		height: 100%;
-	}
-}
+// Monaco Editor styles
+@import "../components/monaco-editor/style";
 
 // Change indentation popover
 .chbe-popover {
@@ -48,56 +11,17 @@
 		padding: $grid-unit-20;
 	}
 
-	.chbe-popover__inner {
-		display: flex;
-		flex-flow: column;
-		gap: $grid-unit-20;
-		align-items: center;
-		white-space: nowrap;
-	}
-
-	.components-base-control__label {
-		display: block;
-	}
-
-	.chbe-popover__title {
-		margin: 0;
-		text-align: center;
-	}
-
 	.chbe-popover__subtitle {
 		padding: $grid-unit-05 $grid-unit-10;
 		margin: 0 ($grid-unit-20 * -1);
-		font-size: 1em;
 		color: $white;
 		text-align: center;
 		background: var(--wp-admin-theme-color);
 	}
 
-	.chbe-popover__row {
-		display: flex;
-		gap: $grid-unit-10;
-	}
-
 	.chbe-popover__col {
-		display: flex;
-		flex-flow: column;
-		gap: $grid-unit-20;
 		padding: 0 $grid-unit-20 $grid-unit-20;
 		border: $border-width solid var(--wp-admin-theme-color);
-	}
-
-	.chbe-popover__arrow {
-		align-self: center;
-
-		svg {
-			display: block;
-		}
-	}
-
-	.chbe-popover__buttons {
-		display: flex;
-		gap: $grid-unit-20;
 	}
 }
 
@@ -112,55 +36,5 @@
 
 	.components-modal__header + div {
 		flex: 1;
-	}
-
-	.chbe-editor-wrapper {
-		height: 100%;
-	}
-}
-
-// Monaco Editor
-.chbe-editor-wrapper {
-
-	.monaco-editor {
-
-		.find-widget {
-
-			.button {
-				color: inherit;
-				background: none;
-				border: none;
-
-				&:focus {
-					box-shadow: none;
-				}
-
-				&.disabled {
-					color: inherit !important;
-					background: none !important;
-				}
-			}
-
-			textarea:focus {
-				box-shadow: none;
-			}
-		}
-
-		.inputarea {
-			padding: 0;
-			color: inherit;
-			box-shadow: none;
-		}
-
-		.monaco-icon-label-container > .monaco-icon-name-container > .label-name {
-			text-decoration: none;
-		}
-
-		.monaco-highlighted-label .highlight {
-			display: inline;
-			padding: 0;
-			margin: 0;
-			background: transparent;
-		}
 	}
 }

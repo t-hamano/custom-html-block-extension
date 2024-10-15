@@ -3,7 +3,7 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext, useEffect, useState } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
+import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
 import { useDebounce } from '@wordpress/compose';
 
 /**
@@ -51,8 +51,9 @@ export default function ScrollbarVerticalScrollbarSize() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
 			<RangeControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ value }
 				min="5"
@@ -85,6 +86,6 @@ export default function ScrollbarVerticalScrollbarSize() {
 				] }
 				value={ value }
 			/>
-		</div>
+		</HStack>
 	);
 }

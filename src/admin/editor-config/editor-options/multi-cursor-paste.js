@@ -3,7 +3,11 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
+import {
+	__experimentalHStack as HStack,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -17,7 +21,7 @@ export default function MultiCursorPaste() {
 	const { searchQuery } = useContext( EditorConfigContext );
 
 	const title = __(
-		'Behaviour when pasting a text with the line count equal to the cursor count',
+		'Behavior when pasting text with matching line and cursor counts',
 		'custom-html-block-extension'
 	);
 	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
@@ -48,28 +52,25 @@ export default function MultiCursorPaste() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
-			<BaseControl>
-				<BaseControl.VisualLabel>{ title }</BaseControl.VisualLabel>
-				<ButtonGroup aria-label={ title }>
-					{ items.map( ( item, index ) => (
-						<Button
-							key={ index }
-							variant={ editorOptions.multiCursorPaste === item.value ? 'primary' : undefined }
-							onClick={ () => onChange( item.value ) }
-							size="compact"
-						>
-							{ item.label }
-						</Button>
-					) ) }
-				</ButtonGroup>
-			</BaseControl>
+		<HStack justify="start" align="start" wrap>
+			<ToggleGroupControl
+				__nextHasNoMarginBottom
+				size="__unstable-large"
+				label={ title }
+				value={ editorOptions.multiCursorPaste }
+				onChange={ onChange }
+				isBlock
+			>
+				{ items.map( ( item ) => (
+					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
+				) ) }
+			</ToggleGroupControl>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
 				items={ items }
 				value={ editorOptions.multiCursorPaste }
 			/>
-		</div>
+		</HStack>
 	);
 }

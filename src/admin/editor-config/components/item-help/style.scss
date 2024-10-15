@@ -1,8 +1,5 @@
 // Toggle button
-.chbe-admin-editor-config-item-help-toggle.chbe-admin-editor-config-item-help-toggle {
-	min-width: auto;
-	height: auto;
-	padding: 0;
+.chbe-admin-editor-config-item-help-toggle {
 	margin-top: -2px;
 }
 
@@ -15,39 +12,12 @@
 		max-width: 100%;
 	}
 
-	.chbe-admin-editor-config-item-help-modal__content {
-
-		> * {
-			margin: 0;
-		}
-
-		> * + * {
-			margin-top: $grid-unit-20;
-		}
-	}
-
-	.chbe-admin-editor-config-item-help-modal__item-title {
-		font-size: 16px;
-	}
-
 	.chbe-admin-editor-config-item-help-modal__decription {
-
-		> * {
-			margin: 0;
-		}
-
-		> * + * {
-			margin: $grid-unit-20 0 0;
-		}
 
 		ul {
 			padding-left: 1.5em;
 			margin-left: 0;
 			list-style: disc outside;
-		}
-
-		.components-notice__content {
-			margin: 0;
 		}
 	}
 
@@ -60,36 +30,25 @@
 			flex-flow: column;
 		}
 
-		&.is-col-2 .chbe-admin-editor-config-item-help-modal__item {
+		&.is-col-2 > * {
 			width: calc(50% - 12px);
 		}
 
-		&.is-col-3 .chbe-admin-editor-config-item-help-modal__item {
+		&.is-col-3 > * {
 			width: calc(33.33% - 16px);
 		}
 
-		&.is-col-4 .chbe-admin-editor-config-item-help-modal__item {
+		&.is-col-4 > * {
 			width: calc(25% - 18px);
 		}
 
-		&.is-col-5 .chbe-admin-editor-config-item-help-modal__item {
+		&.is-col-5 > * {
 			width: calc(20% - 20px);
 		}
 	}
 
-	.chbe-admin-editor-config-item-help-modal__item {
-		display: flex;
-		flex-flow: column;
-		gap: $grid-unit-20;
-		align-items: flex-start;
-
-		> * {
-			margin: 0;
-		}
-
-		.components-button {
-			height: auto;
-			padding: $grid-unit-05;
-		}
+	.chbe-admin-editor-config-item-help-modal__item-button {
+		height: auto;
+		padding: $grid-unit-05;
 	}
 }

@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -58,8 +58,9 @@ export default function AutoSurround() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__item">
+		<HStack justify="start" align="start" wrap>
 			<SelectControl
+				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.autoSurround }
 				options={ items.map( ( { label, value } ) => {
@@ -73,6 +74,6 @@ export default function AutoSurround() {
 				items={ items }
 				value={ editorOptions.autoSurround }
 			/>
-		</div>
+		</HStack>
 	);
 }

@@ -3,7 +3,13 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
-import { ButtonGroup, Button, SearchControl } from '@wordpress/components';
+import {
+	FlexBlock,
+	SearchControl,
+	__experimentalHStack as HStack,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
 import { useDebounce } from '@wordpress/compose';
 
 const MODES = [
@@ -20,10 +26,6 @@ const MODES = [
 export default function Filter( { editorMode, setEditorMode, searchQuery, setSearchQuery } ) {
 	const [ searchQueryState, setSearchQueryState ] = useState( searchQuery );
 
-	const onChangeMode = ( mode ) => {
-		setEditorMode( mode );
-	};
-
 	const debouncedOnChangeSearchQuery = useDebounce( ( value ) => {
 		setSearchQuery( value );
 	}, 100 );
@@ -34,31 +36,34 @@ export default function Filter( { editorMode, setEditorMode, searchQuery, setSea
 	}, [ searchQueryState ] );
 
 	return (
-		<div className="chbe-admin-editor-config-filter">
-			<ButtonGroup
-				className="chbe-admin-editor-config-filter__mode"
-				aria-label={ __( 'Mode', 'custom-html-block-extension' ) }
-				onChange={ setEditorMode }
-				checked={ editorMode }
-			>
-				{ MODES.map( ( mode, index ) => (
-					<Button
-						key={ index }
-						value={ mode.value }
-						variant={ editorMode === mode.value ? 'primary' : 'secondary' }
-						onClick={ () => onChangeMode( mode.value ) }
-						disabled={ searchQuery }
-						__next40pxDefaultSize
-					>
-						{ mode.label }
-					</Button>
-				) ) }
-			</ButtonGroup>
-			<SearchControl
-				className="chbe-admin-editor-config-filter__search"
-				value={ searchQueryState }
-				onChange={ setSearchQueryState }
-			/>
-		</div>
+		<HStack className="chbe-admin-editor-config-filter">
+			<FlexBlock>
+				<ToggleGroupControl
+					__nextHasNoMarginBottom
+					size="__unstable-large"
+					label={ __( 'Mode', 'custom-html-block-extension' ) }
+					value={ editorMode }
+					onChange={ setEditorMode }
+					isBlock
+					hideLabelFromVision
+				>
+					{ MODES.map( ( mode ) => (
+						<ToggleGroupControlOption
+							key={ mode.value }
+							value={ mode.value }
+							label={ mode.label }
+							disabled={ searchQuery }
+						/>
+					) ) }
+				</ToggleGroupControl>
+			</FlexBlock>
+			<FlexBlock>
+				<SearchControl
+					__nextHasNoMarginBottom
+					value={ searchQueryState }
+					onChange={ setSearchQueryState }
+				/>
+			</FlexBlock>
+		</HStack>
 	);
 }
