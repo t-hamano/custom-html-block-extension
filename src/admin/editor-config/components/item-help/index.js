@@ -34,7 +34,7 @@ export default function ItemHelp( {
 					className="chbe-admin-editor-config-item-help-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<VStack spacing={ 4 }>
+					<VStack spacing={ 4 } align="start">
 						{ description && (
 							<VStack
 								as={ typeof description === 'object' ? 'div' : 'p' }
