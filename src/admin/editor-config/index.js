@@ -210,12 +210,14 @@ export default function EditorConfig() {
 										<EditorOptions.MinimapEnabled />
 										{ ! editorOptions.minimap.enabled ? (
 											<Disabled>
-												<EditorOptions.MinimapSide />
-												<EditorOptions.MinimapMaxColumn />
-												<EditorOptions.MinimapScale />
-												<EditorOptions.MinimapShowSlider />
-												<EditorOptions.MinimapSize />
-												<EditorOptions.MinimapRenderCharacters />
+												<VStack spacing={ 4 }>
+													<EditorOptions.MinimapSide />
+													<EditorOptions.MinimapMaxColumn />
+													<EditorOptions.MinimapScale />
+													<EditorOptions.MinimapShowSlider />
+													<EditorOptions.MinimapSize />
+													<EditorOptions.MinimapRenderCharacters />
+												</VStack>
 											</Disabled>
 										) : (
 											<>
@@ -258,11 +260,13 @@ export default function EditorConfig() {
 										<EditorOptions.Folding />
 										{ ! editorOptions.folding ? (
 											<Disabled>
-												<EditorOptions.ShowFoldingControls />
-												<EditorOptions.FoldingStrategy />
-												<EditorOptions.LineDecorationsWidth />
-												<EditorOptions.FoldingHighlight />
-												<EditorOptions.UnfoldOnClickAfterEndOfLine />
+												<VStack spacing={ 4 }>
+													<EditorOptions.ShowFoldingControls />
+													<EditorOptions.FoldingStrategy />
+													<EditorOptions.LineDecorationsWidth />
+													<EditorOptions.FoldingHighlight />
+													<EditorOptions.UnfoldOnClickAfterEndOfLine />
+												</VStack>
 											</Disabled>
 										) : (
 											<>
@@ -284,9 +288,11 @@ export default function EditorConfig() {
 										<EditorOptions.LineNumbers />
 										{ 'off' === editorOptions.lineNumbers ? (
 											<Disabled>
-												<EditorOptions.LineNumbersMinChars />
-												<EditorOptions.SelectOnLineNumbers />
-												<EditorOptions.RenderFinalNewline />
+												<VStack spacing={ 4 }>
+													<EditorOptions.LineNumbersMinChars />
+													<EditorOptions.SelectOnLineNumbers />
+													<EditorOptions.RenderFinalNewline />
+												</VStack>
 											</Disabled>
 										) : (
 											<>
@@ -306,11 +312,13 @@ export default function EditorConfig() {
 										<EditorOptions.QuickSuggestions />
 										{ ! editorOptions.quickSuggestions ? (
 											<Disabled>
-												<EditorOptions.AcceptSuggestionOnEnter />
-												<EditorOptions.QuickSuggestionsDelay />
-												<EditorOptions.SuggestFontSize />
-												<EditorOptions.SuggestLineHeight />
-												<EditorOptions.SuggestShowIcons />
+												<VStack spacing={ 4 }>
+													<EditorOptions.AcceptSuggestionOnEnter />
+													<EditorOptions.QuickSuggestionsDelay />
+													<EditorOptions.SuggestFontSize />
+													<EditorOptions.SuggestLineHeight />
+													<EditorOptions.SuggestShowIcons />
+												</VStack>
 											</Disabled>
 										) : (
 											<>
@@ -422,8 +430,10 @@ export default function EditorConfig() {
 										<EditorOptions.ScrollbarHorizontal />
 										{ 'hidden' === editorOptions.scrollbar.horizontal ? (
 											<Disabled>
-												<EditorOptions.ScrollbarHorizontalHasArrows />
-												<EditorOptions.ScrollbarHorizontalScrollbarSize />
+												<VStack spacing={ 4 }>
+													<EditorOptions.ScrollbarHorizontalHasArrows />
+													<EditorOptions.ScrollbarHorizontalScrollbarSize />
+												</VStack>
 											</Disabled>
 										) : (
 											<>
@@ -434,8 +444,10 @@ export default function EditorConfig() {
 										<EditorOptions.ScrollbarVertical />
 										{ 'hidden' === editorOptions.scrollbar.vertical ? (
 											<Disabled>
-												<EditorOptions.ScrollbarVerticalHasArrows />
-												<EditorOptions.ScrollbarVerticalScrollbarSize />
+												<VStack spacing={ 4 }>
+													<EditorOptions.ScrollbarVerticalHasArrows />
+													<EditorOptions.ScrollbarVerticalScrollbarSize />
+												</VStack>
 											</Disabled>
 										) : (
 											<>
