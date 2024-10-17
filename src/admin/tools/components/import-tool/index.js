@@ -87,13 +87,13 @@ export default function ImportTool() {
 
 	return (
 		<PanelBody title={ __( 'Import editor config', 'custom-html-block-extension' ) }>
-			<Text as="p">
-				{ __(
-					'Select the Custom HTML Block Extension JSON file you would like to import and click the import button below.',
-					'custom-html-block-extension'
-				) }
-			</Text>
 			<VStack spacing={ 4 } align="start">
+				<Text as="p">
+					{ __(
+						'Select the Custom HTML Block Extension JSON file you would like to import and click the import button below.',
+						'custom-html-block-extension'
+					) }
+				</Text>
 				<HStack spacing={ 4 } justify="start" wrap>
 					<FormFileUpload
 						accept="application/json"

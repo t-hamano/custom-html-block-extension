@@ -4,7 +4,12 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
-import { Button, PanelBody, __experimentalText as Text } from '@wordpress/components';
+import {
+	Button,
+	PanelBody,
+	__experimentalText as Text,
+	__experimentalVStack as VStack,
+} from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -46,15 +51,17 @@ export default function ExportTool() {
 
 	return (
 		<PanelBody title={ __( 'Export Editor Config', 'custom-html-block-extension' ) }>
-			<Text as="p">
-				{ __(
-					'Use the download button to export the editor settings. You can restore the editor config by importing the exported file on another WordPress site.',
-					'custom-html-block-extension'
-				) }
-			</Text>
-			<Button variant="primary" onClick={ onExportOptions } __next40pxDefaultSize>
-				{ __( 'Export', 'custom-html-block-extension' ) }
-			</Button>
+			<VStack align="start">
+				<Text as="p">
+					{ __(
+						'Use the download button to export the editor settings. You can restore the editor config by importing the exported file on another WordPress site.',
+						'custom-html-block-extension'
+					) }
+				</Text>
+				<Button variant="primary" onClick={ onExportOptions } __next40pxDefaultSize>
+					{ __( 'Export', 'custom-html-block-extension' ) }
+				</Button>
+			</VStack>
 		</PanelBody>
 	);
 }
