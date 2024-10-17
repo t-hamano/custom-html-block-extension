@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.5
-Tested up to: 6.6
-Stable tag: 3.6.0
+Tested up to: 6.7
+Stable tag: 3.7.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,12 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 3.7.0 =
+* Tested to WordPress 6.7
+* Drop support for WordPress 6.4
+* Enhancement: Polish styles and layouts
+* Fix: Minimap and toolbar overlap in the classic editor
 
 = 3.6.0 =
 * Tested to WordPress 6.6
