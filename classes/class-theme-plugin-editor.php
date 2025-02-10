@@ -19,15 +19,37 @@ class ThemePluginEditor {
 			return;
 		}
 
+		// Disable Syntax Highlighting (CodeMirror)
+		add_filter( 'wp_code_editor_settings', array( $this, 'wp_code_editor_settings' ), 10, 2 );
+
 		// Enqueue theme and plugin editor scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+	}
+
+	/**
+	 * Disable Syntax Highlighting (CodeMirror)
+	 */
+	public function wp_code_editor_settings( $settings, $args ) {
+		// Return the default settings if theme/plugin editor is not displayed.
+		if ( ! str_contains( $_SERVER['REQUEST_URI'], 'theme-editor.php' ) && ! str_contains( $_SERVER['REQUEST_URI'], 'plugin-editor.php' ) ) {
+			return $settings;
+		}
+
+		// Return the default settings if the user role isn't allowed to use this extension.
+		if ( ! Settings::is_allowed_user() ) {
+			return $settings;
+		}
+
+		$settings['codemirror'] = false;
+
+		return $settings;
 	}
 
 	/**
 	 * Enqueue theme and plugin editor scripts
 	 */
 	public function admin_enqueue_scripts( $hook_suffix ) {
-		// Abort the process if post/page editor is not displayed.
+		// Abort the process if theme/plugin editor is not displayed.
 		if ( 'theme-editor.php' !== $hook_suffix && 'plugin-editor.php' !== $hook_suffix ) {
 			return;
 		}
@@ -72,11 +94,6 @@ class ThemePluginEditor {
 		} elseif ( 'plugin-editor.php' === $hook_suffix ) {
 			$language = 'php';
 		}
-
-		// Disable the default code editor (CodeMirror).
-		wp_dequeue_script( 'wp-theme-plugin-editor' );
-		wp_deregister_style( 'wp-codemirror' );
-		wp_deregister_script( 'wp-codemirror' );
 
 		wp_enqueue_style(
 			CHBE_NAMESPACE,
