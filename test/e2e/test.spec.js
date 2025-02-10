@@ -37,6 +37,13 @@ test.describe( 'Custom HTML Block Extension', () => {
 			pageUtils,
 		} ) => {
 			await admin.visitAdminPage( 'theme-editor.php' );
+			// Hide file editor warning modal.
+			const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+			const isVisible = await dismissButton.isVisible();
+			if ( isVisible ) {
+				await dismissButton.click();
+			}
+
 			await page.click( '#monaco-editor .monaco-editor' );
 			await pageUtils.pressKeys( 'primary+a' );
 			await page.keyboard.press( 'Delete' );
