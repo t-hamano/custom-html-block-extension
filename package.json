@@ -33,7 +33,6 @@
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
-		"@wordpress/base-styles": "^5.20.0",
 		"@wordpress/e2e-test-utils": "^11.20.0",
 		"@wordpress/env": "^10.20.0",
 		"@wordpress/scripts": "^30.13.0",
