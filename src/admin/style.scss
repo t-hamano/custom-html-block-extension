@@ -2,8 +2,8 @@
 @import "../../node_modules/react-notifications-component/dist/scss/notification";
 
 // WordPress base styles
-@import "@wordpress/base-styles/mixins";
-@import "@wordpress/base-styles/variables";
+@import "node_modules/@wordpress/base-styles/mixins";
+@import "node_modules/@wordpress/base-styles/variables";
 
 // Components
 @import "./components/header/style";
