@@ -25,21 +25,21 @@
 		"npm": "10.5.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^10.9.0",
-		"emmet-monaco-es": "^5.4.0",
-		"monaco-editor": "^0.51.0",
+		"@wordpress/icons": "^10.20.0",
+		"emmet-monaco-es": "^5.5.0",
+		"monaco-editor": "^0.52.2",
 		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
-		"@wordpress/base-styles": "^5.9.0",
-		"@wordpress/e2e-test-utils": "^11.9.0",
-		"@wordpress/env": "^10.9.0",
-		"@wordpress/scripts": "^27.9.0",
+		"@wordpress/base-styles": "^5.20.0",
+		"@wordpress/e2e-test-utils": "^11.20.0",
+		"@wordpress/env": "^10.20.0",
+		"@wordpress/scripts": "^30.13.0",
 		"clsx": "2.1.1",
-		"husky": "^9.1.6",
-		"lint-staged": "15.2.10",
+		"husky": "^9.1.7",
+		"lint-staged": "15.5.0",
 		"prettier": "npm:wp-prettier@3.0.3",
 		"rimraf": "^6.0.1"
 	},
