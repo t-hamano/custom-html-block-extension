@@ -43,7 +43,12 @@ export default function Options() {
 			<PermissionEditor />
 			<PermissionUserRole />
 			<Flex>
-				<Button variant="primary" disabled={ isWaiting } onClick={ onUpdateOptions }>
+				<Button
+					variant="primary"
+					disabled={ isWaiting }
+					onClick={ onUpdateOptions }
+					__next40pxDefaultSize
+				>
 					{ __( 'Save Options', 'custom-html-block-extension' ) }
 				</Button>
 			</Flex>
