@@ -1,7 +1,9 @@
+@use "../../../wp-base-styles" as wpBaseStyles;
+
 .chbe-admin-welcome-guide-modal {
 	width: 312px;
 
 	img {
-		margin-bottom: $grid-unit-20;
+		margin-bottom: wpBaseStyles.$grid-unit-20;
 	}
 }

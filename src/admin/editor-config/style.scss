@@ -1,6 +1,8 @@
-@import "./components/editor-preview/style";
-@import "./components/item-help/style";
-@import "./components/filter/style";
+@use "../../wp-base-styles.scss" as wpBaseStyles;
+
+@use "./components/editor-preview/style" as editorPreview;
+@use "./components/item-help/style" as itemHelp;
+@use "./components/filter/style" as filter;
 
 .chbe-admin-editor-config {
 
@@ -22,15 +24,15 @@
 	}
 
 	.chbe-admin-editor-config__basic-settings {
-		padding: $grid-unit-30;
-		background: $white;
-		border-top: $border-width solid $gray-300;
-		border-bottom: $border-width solid $gray-300;
+		padding: wpBaseStyles.$grid-unit-30;
+		background: wpBaseStyles.$white;
+		border-top: wpBaseStyles.$border-width solid wpBaseStyles.$gray-300;
+		border-bottom: wpBaseStyles.$border-width solid wpBaseStyles.$gray-300;
 	}
 
 	.chbe-admin-editor-config__preview {
 		position: sticky;
-		top: $grid-unit-50;
+		top: wpBaseStyles.$grid-unit-50;
 		width: 50%;
 
 		@media screen and (max-width: 782px) {

@@ -1,15 +1,17 @@
+@use "../../../wp-base-styles.scss" as wpBaseStyles;
+
 .chbe-admin-header {
-	padding: $grid-unit-20 0;
-	background-color: $white;
+	padding: wpBaseStyles.$grid-unit-20 0;
+	background-color: wpBaseStyles.$white;
 
 	.chbe-admin-header__info {
 		position: absolute;
 		top: 0;
-		right: $grid-unit-20 + $grid-unit-05;
+		right: wpBaseStyles.$grid-unit-20 + wpBaseStyles.$grid-unit-05;
 
 		@media screen and (max-width: 782px) {
 			position: static;
-			margin-top: $grid-unit-20;
+			margin-top: wpBaseStyles.$grid-unit-20;
 		}
 	}
 }
