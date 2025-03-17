@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.6
-Tested up to: 6.7
-Stable tag: 3.7.0
+Tested up to: 6.8
+Stable tag: 3.8.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,14 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 3.8.0 =
+* Tested to WordPress 6.8
+* Drop support for WordPress 6.5
+* Enhancement: Use WordPress snackbar on the settings page
+* Fix: No alert when leaving the theme/plugin editor
+* Fix: Ajax on save doesn't work in the theme/plugin editor
+* Fix: "Save Options" button size on the settings page
 
 = 3.7.0 =
 * Tested to WordPress 6.7
