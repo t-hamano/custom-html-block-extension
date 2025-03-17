@@ -1,6 +1,7 @@
 {
 	"plugins": [
 		".",
+		"https://downloads.wordpress.org/plugin/classic-editor.zip",
 		"https://downloads.wordpress.org/plugin/wordpress-beta-tester.zip",
 		"https://downloads.wordpress.org/plugin/wp-downgrade.zip"
 	],
