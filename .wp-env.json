@@ -1,7 +1,15 @@
 {
-	"plugins": [ ".", "https://downloads.wordpress.org/plugin/classic-editor.zip" ],
+	"plugins": [
+		".",
+		"https://downloads.wordpress.org/plugin/wordpress-beta-tester.zip",
+		"https://downloads.wordpress.org/plugin/wp-downgrade.zip"
+	],
 	"env": {
+		"development": {
+			"phpmyadminPort": 9000
+		},
 		"tests": {
+			"phpmyadminPort": 9001,
 			"config": {
 				"WP_DEBUG": true,
 				"SCRIPT_DEBUG": true
