@@ -42,6 +42,10 @@ initLoader().then( ( monaco ) => {
 			return;
 		}
 		textarea.value = editorValue;
+		// Update the dirty state to display an alert when leaving the page.
+		if ( window.wp && window.wp.themePluginEditor ) {
+			window.wp.themePluginEditor.dirty = true;
+		}
 	} );
 
 	// Enable Emmet.
