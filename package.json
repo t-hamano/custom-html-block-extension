@@ -28,7 +28,6 @@
 		"@wordpress/icons": "^10.20.0",
 		"emmet-monaco-es": "^5.5.0",
 		"monaco-editor": "^0.52.2",
-		"react-notifications-component": "^4.0.1",
 		"webfontloader": "^1.6.28"
 	},
 	"devDependencies": {

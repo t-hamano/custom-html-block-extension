@@ -3,28 +3,28 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { addNotification } from '../../../../lib/helper';
 import MonacoEditor from '../../../../components/monaco-editor';
 
 export default function EditorPreview( { isEditorDisabled, setFontWeights } ) {
 	const { code, setCode, editorSettings, editorOptions, setEditorOptions } =
 		useContext( AdminContext );
+	const { createErrorNotice } = useDispatch( noticesStore );
 
 	const onFontLoad = ( { isSuccess, font } ) => {
 		if ( ! isSuccess ) {
-			addNotification(
+			createErrorNotice(
 				sprintf(
 					/* translators: %s is replaced with the font family name. */
 					__( 'Failed to load the font. (%s)', 'custom-html-block-extension' ),
 					font.label
-				),
-				'danger',
-				5000
+				)
 			);
 			setFontWeights( [ 300, 400, 500, 600, 700 ] );
 			setEditorOptions( {

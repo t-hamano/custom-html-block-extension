@@ -11,12 +11,13 @@ import {
 	__experimentalHStack as HStack,
 	__experimentalVStack as VStack,
 } from '@wordpress/components';
+import { useDispatch } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../index';
-import { addNotification } from '../../lib/helper';
 import EditorPreview from './components/editor-preview';
 import Filter from './components/filter';
 import Controls from './components/controls';
@@ -42,6 +43,7 @@ export default function EditorConfig() {
 	const [ editorMode, setEditorMode ] = useState( 'basic' );
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
+	const { createNotice, createSuccessNotice } = useDispatch( noticesStore );
 
 	// Update editor config.
 	const onUpdateOptions = () => {
@@ -56,7 +58,9 @@ export default function EditorConfig() {
 			},
 		} ).then( ( response ) => {
 			setTimeout( () => {
-				addNotification( response.message, response.success ? 'success' : 'danger' );
+				createNotice( response.success ? 'success' : 'error', response.message, {
+					type: 'snackbar',
+				} );
 				setIsWaiting( false );
 			}, 600 );
 		} );
@@ -75,10 +79,9 @@ export default function EditorConfig() {
 			setEditorOptions( response.editorOptions );
 
 			setTimeout( () => {
-				addNotification(
-					__( 'Settings have been reset.', 'custom-html-block-extension' ),
-					'success'
-				);
+				createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
+					type: 'snackbar',
+				} );
 				setIsWaiting( false );
 			}, 600 );
 		} );

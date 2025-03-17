@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { ReactNotifications } from 'react-notifications-component';
 import clsx from 'clsx';
 
 /**
@@ -16,6 +15,7 @@ import domReady from '@wordpress/dom-ready';
  * Internal dependencies
  */
 import './style.scss';
+import Snackbars from './components/snackbars';
 import Header from './components/header';
 import EditorConfig from './editor-config';
 import Tools from './tools';
@@ -66,7 +66,7 @@ function Admin() {
 
 	return (
 		<div className={ clsx( 'chbe-admin', { 'is-waiting': isWaiting } ) }>
-			<ReactNotifications />
+			<Snackbars />
 			{ isWaiting && (
 				<div className="chbe-admin__loading">
 					<Spinner />
