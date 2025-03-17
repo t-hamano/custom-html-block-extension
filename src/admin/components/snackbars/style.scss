@@ -1,0 +1,12 @@
+@use "../../../wp-base-styles.scss" as wpBaseStyles;
+
+.chbe-admin-snackbars {
+	right: wpBaseStyles.$grid-unit-20;
+	bottom: wpBaseStyles.$grid-unit-20;
+	position: fixed;
+
+	.components-snackbar-list__notice-container {
+		display: flex;
+		justify-content: flex-end;
+	}
+}

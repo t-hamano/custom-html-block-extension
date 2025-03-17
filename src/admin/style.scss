@@ -2,6 +2,7 @@
 @use "../wp-base-styles" as wpBaseStyles;
 
 // Components
+@use "./components/snackbars/style" as snackbars;
 @use "./components/header/style" as header;
 @use "./components/shortcut/style" as shortcut;
 @use "./components/welcome-guide/style" as welcomeGuide;
@@ -10,9 +11,6 @@
 @use "../components/monaco-editor/style" as monacoEditor;
 
 @use "./editor-config/style" as editorConfig;
-
-// React notification component
-@import "../../node_modules/react-notifications-component/dist/scss/notification";
 
 @include wpBaseStyles.wordpress-admin-schemes();
 
@@ -29,21 +27,6 @@
 		max-width: 1200px;
 		padding: 0 wpBaseStyles.$grid-unit-20 + wpBaseStyles.$grid-unit-05;
 		margin: 0 auto;
-	}
-
-	// React notification component styles
-	.rnc__base {
-		bottom: 0;
-		right: 0;
-	}
-
-	.rnc__notification-item {
-		margin-bottom: wpBaseStyles.$grid-unit-20;
-	}
-
-	.rnc__notification-container--bottom-right {
-		bottom: 0;
-		right: wpBaseStyles.$grid-unit-20;
 	}
 
 	// Gutenberg component styles

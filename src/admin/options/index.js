@@ -5,12 +5,13 @@ import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { createContext, useContext } from '@wordpress/element';
 import { Button, Flex, __experimentalVStack as VStack } from '@wordpress/components';
+import { useDispatch } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../index';
-import { addNotification } from '../../lib/helper';
 import PermissionEditor from './components/permission-editor';
 import PermissionUserRole from './components/permission-user-role';
 
@@ -21,6 +22,7 @@ export const OptionsContext = createContext();
 
 export default function Options() {
 	const { isWaiting, options, setIsWaiting } = useContext( AdminContext );
+	const { createNotice } = useDispatch( noticesStore );
 
 	// Update editor config.
 	const onUpdateOptions = () => {
@@ -32,7 +34,9 @@ export default function Options() {
 			data: { options },
 		} ).then( ( response ) => {
 			setTimeout( () => {
-				addNotification( response.message, response.success ? 'success' : 'danger' );
+				createNotice( response.success ? 'success' : 'error', response.message, {
+					type: 'snackbar',
+				} );
 				setIsWaiting( false );
 			}, 600 );
 		} );

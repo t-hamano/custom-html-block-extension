@@ -164,11 +164,6 @@ npm run build
 * License: MIT License
 * Source: <https://github.com/microsoft/monaco-editor>
 
-### react-notifications-component
-
-* License: MIT License
-* Source: <https://github.com/teodosii/react-notifications-component>
-
 ### emmet-monaco-es
 
 * License: MIT License

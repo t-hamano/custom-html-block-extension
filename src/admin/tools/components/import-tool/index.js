@@ -12,17 +12,19 @@ import {
 	__experimentalHStack as HStack,
 	__experimentalVStack as VStack,
 } from '@wordpress/components';
+import { useDispatch } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { addNotification } from '../../../../lib/helper';
 
 export default function ImportTool() {
 	const { setEditorSettings, setEditorOptions, setIsWaiting } = useContext( AdminContext );
 
 	const [ importFile, setImportFile ] = useState();
+	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	// Upload file (check file extension).
 	const onUploadFile = ( event ) => {
@@ -33,11 +35,9 @@ export default function ImportTool() {
 		}
 
 		if ( 'application/json' !== file.type ) {
-			addNotification(
-				__( 'It is not a JSON file.', 'custom-html-block-extension' ),
-				'danger',
-				5000
-			);
+			createErrorNotice( __( 'It is not a JSON file.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
+			} );
 			setImportFile( null );
 			return false;
 		}
@@ -62,10 +62,11 @@ export default function ImportTool() {
 					data,
 				} ).then( ( response ) => {
 					setTimeout( () => {
-						addNotification(
+						createSuccessNotice(
 							__( 'Imported the editor config.', 'custom-html-block-extension' ),
-							'success',
-							5000
+							{
+								type: 'snackbar',
+							}
 						);
 						setEditorSettings( response.editorSettings );
 						setEditorOptions( response.editorOptions );
@@ -75,10 +76,11 @@ export default function ImportTool() {
 				} );
 			} catch ( error ) {
 				// Invalid JSON format.
-				addNotification(
+				createErrorNotice(
 					__( 'The format of JSON file is not correct.', 'custom-html-block-extension' ),
-					'danger',
-					5000
+					{
+						type: 'snackbar',
+					}
 				);
 				return false;
 			}
