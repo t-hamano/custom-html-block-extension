@@ -1,68 +1,70 @@
 // WordPress base styles
 @use "~@wordpress/base-styles/mixins" as mixins;
+@use "~@wordpress/base-styles/variables" as variables;
+@use "~@wordpress/base-styles/colors" as colors;
 
 // Components
 @use "./components/snackbars/style" as snackbars;
-// @use "./components/header/style" as header;
-// @use "./components/shortcut/style" as shortcut;
-// @use "./components/welcome-guide/style" as welcomeGuide;
+@use "./components/header/style" as header;
+@use "./components/shortcut/style" as shortcut;
+@use "./components/welcome-guide/style" as welcomeGuide;
 
-// // Monaco Editor common styles
-// @use "../components/monaco-editor/style" as monacoEditor;
+// Monaco Editor common styles
+@use "../components/monaco-editor/style" as monacoEditor;
 
-// @use "./editor-config/style" as editorConfig;
+@use "./editor-config/style" as editorConfig;
 
-// @include mixins.wordpress-admin-schemes();
+@include mixins.wordpress-admin-schemes();
 
-// // WordPress admin
-// .auto-fold #wpcontent {
-// 	padding-left: 0;
-// }
+// WordPress admin
+.auto-fold #wpcontent {
+	padding-left: 0;
+}
 
-// #custom-html-block-extension-admin {
+#custom-html-block-extension-admin {
 
-// 	// Container class
-// 	.chbe-admin-container {
-// 		position: relative;
-// 		max-width: 1200px;
-// 		padding: 0 variables.$grid-unit-20 + variables.$grid-unit-05;
-// 		margin: 0 auto;
-// 	}
+	// Container class
+	.chbe-admin-container {
+		position: relative;
+		max-width: 1200px;
+		padding: 0 variables.$grid-unit-20 + variables.$grid-unit-05;
+		margin: 0 auto;
+	}
 
-// 	// Gutenberg component styles
-// 	.components-disabled {
-// 		opacity: 0.3;
-// 	}
+	// Gutenberg component styles
+	.components-disabled {
+		opacity: 0.3;
+	}
 
-// 	.components-panel__body {
-// 		background: colors.$white;
-// 	}
-// }
+	.components-panel__body {
+		background: colors.$white;
+	}
+}
 
-// .chbe-admin {
-// 	position: relative;
+.chbe-admin {
+	position: relative;
 
-// 	&.is-waiting {
-// 		opacity: 0.3;
-// 	}
+	&.is-waiting {
+		opacity: 0.3;
+	}
 
-// 	.chbe-admin__loading {
-// 		position: fixed;
-// 		top: 50%;
-// 		left: 50%;
-// 		z-index: 1;
-// 		margin-left: 89px;
+	.chbe-admin__loading {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		z-index: 1;
+		margin-left: 89px;
 
-// 		.components-spinner {
-// 			margin: 0;
-// 			transform: scale(1.5);
-// 		}
-// 	}
+		.components-spinner {
+			margin: 0;
+			transform: scale(1.5);
+		}
+	}
 
-// 	.chbe-admin__tab-panel .components-tab-panel__tabs {
-// 		justify-content: center;
-// 		margin-bottom: variables.$grid-unit-50;
-// 		background: colors.$white;
-// 		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
-// 	}
-// }
+	.chbe-admin__tab-panel .components-tab-panel__tabs {
+		justify-content: center;
+		margin-bottom: variables.$grid-unit-50;
+		background: colors.$white;
+		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
+	}
+}
