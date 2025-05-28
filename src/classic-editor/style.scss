@@ -1,5 +1,6 @@
 // WordPress base styles
-@use "../wp-base-styles" as wpBaseStyles;
+@use "@wordpress/base-styles/variables" as variables;
+@use "@wordpress/base-styles/colors" as colors;
 
 // Monaco Editor common styles
 @use "../components/monaco-editor/style";
@@ -43,11 +44,11 @@
 .chbe-dialog {
 	z-index: 1002 !important;
 	display: none;
-	padding: wpBaseStyles.$grid-unit-20;
+	padding: variables.$grid-unit-20;
 	font-family: inherit;
-	background: wpBaseStyles.$white;
-	border: wpBaseStyles.$border-width solid wpBaseStyles.$gray-300;
-	border-radius: wpBaseStyles.$radius-small;
+	background: colors.$white;
+	border: variables.$border-width solid colors.$gray-300;
+	border-radius: variables.$radius-small;
 
 	.ui-dialog-titlebar {
 		display: none;
@@ -58,21 +59,21 @@
 
 		strong {
 			display: block;
-			margin: 0 0 wpBaseStyles.$grid-unit-10;
+			margin: 0 0 variables.$grid-unit-10;
 		}
 	}
 
 	legend {
 		display: block;
 		padding: 0;
-		margin: 0 0 wpBaseStyles.$grid-unit-10;
+		margin: 0 0 variables.$grid-unit-10;
 		font-weight: 600;
 	}
 
 	.chbe-dialog__inner {
 		display: flex;
 		flex-flow: column;
-		gap: wpBaseStyles.$grid-unit-20;
+		gap: variables.$grid-unit-20;
 		align-items: center;
 	}
 
@@ -82,26 +83,26 @@
 	}
 
 	.chbe-dialog__subtitle {
-		padding: wpBaseStyles.$grid-unit-05 wpBaseStyles.$grid-unit-10;
-		margin: 0 (wpBaseStyles.$grid-unit-20 * -1);
+		padding: variables.$grid-unit-05 variables.$grid-unit-10;
+		margin: 0 (variables.$grid-unit-20 * -1);
 		font-size: 1em;
-		color: wpBaseStyles.$white;
+		color: colors.$white;
 		text-align: center;
 		background: #2271b1;
 	}
 
 	.chbe-dialog__row {
 		display: flex;
-		gap: wpBaseStyles.$grid-unit-20;
+		gap: variables.$grid-unit-20;
 		justify-content: center;
 	}
 
 	.chbe-dialog__setting {
 		display: flex;
 		flex-flow: column;
-		gap: wpBaseStyles.$grid-unit-20;
-		padding: 0 wpBaseStyles.$grid-unit-20 wpBaseStyles.$grid-unit-20;
-		border: wpBaseStyles.$border-width solid #2271b1;
+		gap: variables.$grid-unit-20;
+		padding: 0 variables.$grid-unit-20 variables.$grid-unit-20;
+		border: variables.$border-width solid #2271b1;
 	}
 
 	.chbe-dialog__arrow {
@@ -110,7 +111,7 @@
 
 	.chbe-dialog__buttons {
 		display: flex;
-		gap: wpBaseStyles.$grid-unit-20;
+		gap: variables.$grid-unit-20;
 		text-align: center;
 	}
 }

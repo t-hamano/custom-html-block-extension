@@ -1,5 +1,7 @@
 // WordPress base styles
-@use "../wp-base-styles" as wpBaseStyles;
+@use "~@wordpress/base-styles/mixins" as mixins;
+@use "~@wordpress/base-styles/variables" as variables;
+@use "~@wordpress/base-styles/colors" as colors;
 
 // Components
 @use "./components/snackbars/style" as snackbars;
@@ -12,7 +14,7 @@
 
 @use "./editor-config/style" as editorConfig;
 
-@include wpBaseStyles.wordpress-admin-schemes();
+@include mixins.wordpress-admin-schemes();
 
 // WordPress admin
 .auto-fold #wpcontent {
@@ -25,7 +27,7 @@
 	.chbe-admin-container {
 		position: relative;
 		max-width: 1200px;
-		padding: 0 wpBaseStyles.$grid-unit-20 + wpBaseStyles.$grid-unit-05;
+		padding: 0 variables.$grid-unit-20 + variables.$grid-unit-05;
 		margin: 0 auto;
 	}
 
@@ -35,7 +37,7 @@
 	}
 
 	.components-panel__body {
-		background: wpBaseStyles.$white;
+		background: colors.$white;
 	}
 }
 
@@ -61,8 +63,8 @@
 
 	.chbe-admin__tab-panel .components-tab-panel__tabs {
 		justify-content: center;
-		margin-bottom: wpBaseStyles.$grid-unit-50;
-		background: wpBaseStyles.$white;
+		margin-bottom: variables.$grid-unit-50;
+		background: colors.$white;
 		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
 	}
 }
