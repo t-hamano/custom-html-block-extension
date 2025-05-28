@@ -1,4 +1,4 @@
-@use "../../../../wp-base-styles.scss" as wpBaseStyles;
+@use "~@wordpress/base-styles/variables" as variables;
 
 // Toggle button
 .chbe-admin-editor-config-item-help-toggle {
@@ -26,7 +26,7 @@
 	.chbe-admin-editor-config-item-help-modal__items {
 		display: flex;
 		flex-wrap: wrap;
-		gap: wpBaseStyles.$grid-unit-30;
+		gap: variables.$grid-unit-30;
 
 		@media screen and (max-width: 782px) {
 			flex-flow: column;
@@ -51,6 +51,6 @@
 
 	.chbe-admin-editor-config-item-help-modal__item-button {
 		height: auto;
-		padding: wpBaseStyles.$grid-unit-05;
+		padding: variables.$grid-unit-05;
 	}
 }

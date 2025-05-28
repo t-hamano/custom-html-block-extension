@@ -1,8 +1,8 @@
-@use "../../../../wp-base-styles.scss" as wpBaseStyles;
+@use "~@wordpress/base-styles/colors" as colors;
 
 .chbe-admin-editor-config-filter {
 
 	.components-input-control__container {
-		background: wpBaseStyles.$white;
+		background: colors.$white;
 	}
 }

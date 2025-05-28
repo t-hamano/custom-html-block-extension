@@ -1,5 +1,6 @@
 // WordPress base styles
-@use "../wp-base-styles" as wpBaseStyles;
+@use "~@wordpress/base-styles/variables" as variables;
+@use "~@wordpress/base-styles/colors" as colors;
 
 // Monaco Editor styles
 @use "../components/monaco-editor/style";
@@ -8,20 +9,20 @@
 .chbe-popover {
 
 	.components-popover__content {
-		padding: wpBaseStyles.$grid-unit-20;
+		padding: variables.$grid-unit-20;
 	}
 
 	.chbe-popover__subtitle {
-		padding: wpBaseStyles.$grid-unit-05 wpBaseStyles.$grid-unit-10;
-		margin: 0 (wpBaseStyles.$grid-unit-20 * -1);
-		color: wpBaseStyles.$white;
+		padding: variables.$grid-unit-05 variables.$grid-unit-10;
+		margin: 0 (variables.$grid-unit-20 * -1);
+		color: colors.$white;
 		text-align: center;
 		background: var(--wp-admin-theme-color);
 	}
 
 	.chbe-popover__col {
-		padding: 0 wpBaseStyles.$grid-unit-20 wpBaseStyles.$grid-unit-20;
-		border: wpBaseStyles.$border-width solid var(--wp-admin-theme-color);
+		padding: 0 variables.$grid-unit-20 variables.$grid-unit-20;
+		border: variables.$border-width solid var(--wp-admin-theme-color);
 	}
 }
 
