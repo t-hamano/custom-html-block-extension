@@ -58,9 +58,9 @@ export default function initLoader( targetWindow = window ) {
 		script.onload = () => {
 			const require = targetWindow.require;
 			require.config( config );
-			require( [ 'vs/editor/editor.main' ], ( monaco ) => {
+			require( [ 'vs/editor/editor.main' ], () => {
 				clearTimeout( timeout );
-				return resolve( monaco );
+				return resolve( targetWindow.monaco );
 			} );
 		};
 
