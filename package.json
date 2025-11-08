@@ -34,13 +34,13 @@
 		"@deboxsoft/cpx": "^1.5.0",
 		"@wordpress/base-styles": "6.10.0",
 		"@wordpress/e2e-test-utils": "^11.34.0",
-		"@wordpress/env": "^10.24.0",
+		"@wordpress/env": "^10.34.0",
 		"@wordpress/scripts": "^30.17.0",
 		"clsx": "2.1.1",
 		"husky": "^9.1.7",
 		"lint-staged": "16.2.6",
 		"prettier": "npm:wp-prettier@3.0.3",
-		"rimraf": "^6.0.1"
+		"rimraf": "^6.1.0"
 	},
 	"scripts": {
 		"wp-env": "wp-env",
