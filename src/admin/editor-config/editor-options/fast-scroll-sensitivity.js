@@ -38,8 +38,8 @@ export default function FastScrollSensitivity() {
 			__next40pxDefaultSize
 			__nextHasNoMarginBottom
 			label={ title }
-			min="1"
-			max="10"
+			min={ 1 }
+			max={ 10 }
 			value={ editorOptions.fastScrollSensitivity }
 			allowReset
 			onChange={ onChange }

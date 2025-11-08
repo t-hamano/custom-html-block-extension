@@ -36,9 +36,9 @@ export default function LetterSpacing() {
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorOptions.letterSpacing }
-			min="-2"
-			max="2"
-			step="0.1"
+			min={ -2 }
+			max={ 2 }
+			step={ 0.1 }
 			allowReset
 			onChange={ onChange }
 		/>

@@ -36,8 +36,8 @@ export default function CursorWidth() {
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorOptions.cursorWidth }
-			min="2"
-			max="10"
+			min={ 2 }
+			max={ 10 }
 			allowReset
 			onChange={ onChange }
 		/>

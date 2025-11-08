@@ -38,8 +38,8 @@ export default function SuggestFontSize() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.suggestFontSize }
-				min="10"
-				max="30"
+				min={ 10 }
+				max={ 30 }
 				allowReset
 				onChange={ onChange }
 			/>

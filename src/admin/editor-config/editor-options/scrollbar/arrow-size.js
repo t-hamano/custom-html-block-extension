@@ -57,8 +57,8 @@ export default function ScrollbarArrowSize() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ value }
-				min="5"
-				max="50"
+				min={ 5 }
+				max={ 50 }
 				allowReset
 				onChange={ onChange }
 			/>

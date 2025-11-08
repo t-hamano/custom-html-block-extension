@@ -41,8 +41,8 @@ export default function MinimapScale() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.minimap.scale }
-				min="1"
-				max="3"
+				min={ 1 }
+				max={ 3 }
 				allowReset
 				onChange={ onChange }
 			/>

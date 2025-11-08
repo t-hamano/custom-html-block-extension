@@ -36,8 +36,8 @@ export default function FontSize() {
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorOptions.fontSize }
-			min="10"
-			max="30"
+			min={ 10 }
+			max={ 30 }
 			allowReset
 			onChange={ onChange }
 		/>

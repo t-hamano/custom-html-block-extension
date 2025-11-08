@@ -42,8 +42,8 @@ export default function PaddingTop() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.padding.top }
-				min="0"
-				max="50"
+				min={ 0 }
+				max={ 50 }
 				allowReset
 				onChange={ onChange }
 			/>

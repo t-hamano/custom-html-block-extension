@@ -221,8 +221,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 													label={ __( 'Indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.beforeTabSize || '' }
 													type="number"
-													min="1"
-													max="8"
+													min={ 1 }
+													max={ 8 }
 													onChange={ ( value ) => {
 														setReplaceSetting( {
 															...replaceSetting,
@@ -263,8 +263,8 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 													label={ __( 'Indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.afterTabSize || '' }
 													type="number"
-													min="1"
-													max="8"
+													min={ 1 }
+													max={ 8 }
 													onChange={ ( value ) => {
 														setReplaceSetting( {
 															...replaceSetting,

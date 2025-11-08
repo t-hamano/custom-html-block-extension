@@ -41,8 +41,8 @@ export default function ScrollBeyondLastColumn() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.scrollBeyondLastColumn }
-				min="0"
-				max="20"
+				min={ 0 }
+				max={ 20 }
 				allowReset
 				onChange={ onChange }
 			/>

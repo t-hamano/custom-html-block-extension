@@ -57,8 +57,8 @@ export default function ScrollbarHorizontalScrollbarSize() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ value }
-				min="5"
-				max="30"
+				min={ 5 }
+				max={ 30 }
 				allowReset
 				onChange={ onChange }
 			/>

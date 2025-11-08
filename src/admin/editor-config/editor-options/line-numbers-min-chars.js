@@ -38,8 +38,8 @@ export default function LineNumbersMinChars() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.lineNumbersMinChars }
-				min="1"
-				max="10"
+				min={ 1 }
+				max={ 10 }
 				allowReset
 				onChange={ onChange }
 			/>

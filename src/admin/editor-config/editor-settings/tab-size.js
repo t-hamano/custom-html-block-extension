@@ -36,8 +36,8 @@ export default function TabSize() {
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorSettings.tabSize }
-			min="1"
-			max="8"
+			min={ 1 }
+			max={ 8 }
 			allowReset
 			onChange={ onChange }
 		/>

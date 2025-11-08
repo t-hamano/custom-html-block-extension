@@ -36,8 +36,8 @@ export default function LineHeight() {
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorOptions.lineHeight }
-			min="10"
-			max="60"
+			min={ 10 }
+			max={ 60 }
 			allowReset
 			onChange={ onChange }
 		/>

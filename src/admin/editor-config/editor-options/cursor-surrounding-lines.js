@@ -41,8 +41,8 @@ export default function CursorSurroundingLines() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.cursorSurroundingLines }
-				min="0"
-				max="20"
+				min={ 0 }
+				max={ 20 }
 				allowReset
 				onChange={ onChange }
 			/>

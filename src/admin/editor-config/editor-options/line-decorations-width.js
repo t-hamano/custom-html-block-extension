@@ -38,8 +38,8 @@ export default function LineDecorationsWidth() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.lineDecorationsWidth }
-				min="0"
-				max="30"
+				min={ 0 }
+				max={ 30 }
 				allowReset
 				onChange={ onChange }
 			/>

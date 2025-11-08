@@ -38,8 +38,8 @@ export default function WordWrapColumn() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.wordWrapColumn }
-				min="20"
-				max="200"
+				min={ 20 }
+				max={ 200 }
 				allowReset
 				onChange={ onChange }
 			/>

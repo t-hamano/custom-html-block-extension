@@ -38,8 +38,8 @@ export default function SuggestLineHeight() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.suggestLineHeight }
-				min="10"
-				max="60"
+				min={ 10 }
+				max={ 60 }
 				allowReset
 				onChange={ onChange }
 			/>
