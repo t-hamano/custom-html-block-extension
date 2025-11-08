@@ -25,27 +25,27 @@
 		"npm": "10.9.2"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^10.24.0",
+		"@wordpress/icons": "^11.1.0",
 		"emmet-monaco-es": "^5.5.0",
 		"monaco-editor": "^0.52.2",
 		"webfontloader": "^1.6.28"
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
-		"@wordpress/base-styles": "6.0.0",
-		"@wordpress/e2e-test-utils": "^11.24.0",
-		"@wordpress/env": "^10.24.0",
-		"@wordpress/scripts": "^30.17.0",
+		"@wordpress/base-styles": "6.10.0",
+		"@wordpress/e2e-test-utils": "^11.34.0",
+		"@wordpress/env": "^10.34.0",
+		"@wordpress/scripts": "^30.27.0",
 		"clsx": "2.1.1",
 		"husky": "^9.1.7",
-		"lint-staged": "16.1.0",
+		"lint-staged": "16.2.6",
 		"prettier": "npm:wp-prettier@3.0.3",
-		"rimraf": "^6.0.1"
+		"rimraf": "^6.1.0"
 	},
 	"scripts": {
 		"wp-env": "wp-env",
 		"stop": "wp-env stop",
-		"start": "wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
+		"start": "npm run clean && npm run copy-lib && wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
 		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/vendor/monaco-editor/min\" && node bin/delete-sourcemaps.js",
 		"clean": "rimraf build",
