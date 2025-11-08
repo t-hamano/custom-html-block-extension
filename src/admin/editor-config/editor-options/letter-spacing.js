@@ -32,6 +32,7 @@ export default function LetterSpacing() {
 
 	return (
 		<RangeControl
+			__next40pxDefaultSize
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorOptions.letterSpacing }

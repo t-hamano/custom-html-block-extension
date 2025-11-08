@@ -35,6 +35,7 @@ export default function FastScrollSensitivity() {
 
 	return (
 		<RangeControl
+			__next40pxDefaultSize
 			__nextHasNoMarginBottom
 			label={ title }
 			min="1"

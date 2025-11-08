@@ -57,6 +57,7 @@ export default function RenderLineHighlight() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<SelectControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.renderLineHighlight }

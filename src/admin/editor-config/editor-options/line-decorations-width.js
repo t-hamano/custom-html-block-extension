@@ -34,6 +34,7 @@ export default function LineDecorationsWidth() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<RangeControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.lineDecorationsWidth }

@@ -55,8 +55,8 @@ export default function ScrollbarHorizontal() {
 
 	return (
 		<HStack justify="start" align="start" wrap>
-			{ ' ' }
 			<SelectControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.scrollbar.horizontal }

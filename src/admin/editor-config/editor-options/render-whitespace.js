@@ -65,6 +65,7 @@ export default function RenderWhitespace() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<SelectControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.renderWhitespace }

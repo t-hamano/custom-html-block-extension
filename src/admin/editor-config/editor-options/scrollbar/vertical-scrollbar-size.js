@@ -53,6 +53,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<RangeControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ value }

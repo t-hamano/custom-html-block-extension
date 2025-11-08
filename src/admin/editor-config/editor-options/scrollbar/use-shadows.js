@@ -35,7 +35,6 @@ export default function ScrollbarUseShadows() {
 
 	return (
 		<HStack justify="start" align="start" wrap>
-			{ ' ' }
 			<ToggleControl
 				__nextHasNoMarginBottom
 				label={ title }

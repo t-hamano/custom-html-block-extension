@@ -36,7 +36,6 @@ export default function ScrollbarVerticalHasArrows() {
 
 	return (
 		<HStack justify="start" align="start" wrap>
-			{ ' ' }
 			<ToggleControl
 				__nextHasNoMarginBottom
 				label={ title }

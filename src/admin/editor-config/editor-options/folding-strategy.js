@@ -51,6 +51,7 @@ export default function FoldingStrategy() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<SelectControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.foldingStrategy }

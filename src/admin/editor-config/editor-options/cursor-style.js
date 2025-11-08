@@ -67,6 +67,7 @@ export default function CursorStyle() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<SelectControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.cursorStyle }

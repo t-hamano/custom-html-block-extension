@@ -37,6 +37,7 @@ export default function MinimapMaxColumn() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<RangeControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.minimap.maxColumn }

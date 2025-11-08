@@ -56,6 +56,7 @@ export default function ScrollbarVertical() {
 	return (
 		<HStack justify="start" align="start" wrap>
 			<SelectControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.scrollbar.vertical }

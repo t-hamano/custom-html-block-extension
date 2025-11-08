@@ -32,6 +32,7 @@ export default function FontSize() {
 
 	return (
 		<RangeControl
+			__next40pxDefaultSize
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorOptions.fontSize }

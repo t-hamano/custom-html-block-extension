@@ -33,6 +33,7 @@ export default function Theme() {
 	return (
 		<HStack>
 			<SelectControl
+				__next40pxDefaultSize
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorSettings.theme }

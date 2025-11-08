@@ -32,6 +32,7 @@ export default function TabSize() {
 
 	return (
 		<RangeControl
+			__next40pxDefaultSize
 			__nextHasNoMarginBottom
 			label={ title }
 			value={ editorSettings.tabSize }
