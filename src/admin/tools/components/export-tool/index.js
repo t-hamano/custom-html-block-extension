@@ -10,6 +10,8 @@ import {
 	__experimentalText as Text,
 	__experimentalVStack as VStack,
 } from '@wordpress/components';
+import { useDispatch } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
 
 /**
  * Internal dependencies
@@ -18,6 +20,7 @@ import { AdminContext } from '../../../index';
 
 export default function ExportTool() {
 	const { setIsWaiting } = useContext( AdminContext );
+	const { createSuccessNotice } = useDispatch( noticesStore );
 
 	// Export editor config.
 	const onExportOptions = async () => {
@@ -44,6 +47,9 @@ export default function ExportTool() {
 			setTimeout( () => {
 				link.click();
 				document.body.removeChild( link );
+				createSuccessNotice( __( 'Exported the editor config.', 'custom-html-block-extension' ), {
+					type: 'snackbar',
+				} );
 				setIsWaiting( false );
 			}, 600 );
 		} );
