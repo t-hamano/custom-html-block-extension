@@ -1,6 +1,6 @@
 {
 	"name": "custom-html-block-extension",
-	"version": "3.8.0",
+	"version": "3.9.0",
 	"description": "WordPress plugin to extends \"Custom HTML block\" to evolve into an advanced code editor",
 	"author": "Aki Hamano",
 	"license": "GPL-2.0-or-later",

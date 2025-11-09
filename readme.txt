@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.8
-Tested up to: 6.8
-Stable tag: 3.8.0
+Tested up to: 6.9
+Stable tag: 3.9.0
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,13 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 3.9.0 =
+* Tested to WordPress 6.9
+* Drop support for WordPress 6.6 and 6.7
+* Drop support for PHP 7
+* Enhancement: Show notification after exporting on the settings page
+* Enhancement: Adjust UI elements to new 40px size
 
 = 3.8.0 =
 * Tested to WordPress 6.8
