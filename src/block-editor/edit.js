@@ -217,6 +217,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											</ToggleGroupControl>
 											{ replaceSetting.beforeInsertSpaces && (
 												<TextControl
+													__next40pxDefaultSize
 													__nextHasNoMarginBottom
 													label={ __( 'Indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.beforeTabSize || '' }
@@ -259,6 +260,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 											</ToggleGroupControl>
 											{ replaceSetting.afterInsertSpaces && (
 												<TextControl
+													__next40pxDefaultSize
 													__nextHasNoMarginBottom
 													label={ __( 'Indent width', 'custom-html-block-extension' ) }
 													value={ replaceSetting.afterTabSize || '' }
