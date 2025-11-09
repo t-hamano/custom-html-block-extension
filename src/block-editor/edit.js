@@ -2,9 +2,14 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useRef } from '@wordpress/element';
+import { useMemo, useState, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { BlockControls, transformStyles, useBlockProps } from '@wordpress/block-editor';
+import {
+	BlockControls,
+	transformStyles,
+	useBlockProps,
+	store as blockEditorStore,
+} from '@wordpress/block-editor';
 import {
 	ResizableBox,
 	ToolbarButton,
@@ -45,6 +50,15 @@ const INDENT_TYPES = [
 	},
 ];
 
+const DEFAULT_STYLES = `
+	html,body,:root {
+		margin: 0 !important;
+		padding: 0 !important;
+		overflow: visible !important;
+		min-height: auto !important;
+	}
+`;
+
 export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
 	const { content, height } = attributes;
 	const { editorSettings, editorOptions } = window.chbeObj;
@@ -62,21 +76,18 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 
 	const ref = useRef();
 
-	const styles = useSelect( ( select ) => {
-		const defaultStyles = `
-			html,body,:root {
-				margin: 0 !important;
-				padding: 0 !important;
-				overflow: visible !important;
-				min-height: auto !important;
-			}
-		`;
+	const settingStyles = useSelect(
+		( select ) => select( blockEditorStore ).getSettings().styles,
+		[]
+	);
 
-		return [
-			defaultStyles,
-			...transformStyles( select( 'core/block-editor' ).getSettings().styles ),
-		];
-	}, [] );
+	const styles = useMemo(
+		() => [
+			DEFAULT_STYLES,
+			...transformStyles( ( settingStyles ?? [] ).filter( ( style ) => style.css ) ),
+		],
+		[ settingStyles ]
+	);
 
 	const onResizeStart = () => {
 		toggleSelection( false );
