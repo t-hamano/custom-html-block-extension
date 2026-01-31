@@ -249,8 +249,17 @@ export default function MonacoEditor( {
 	// Dispose editor.
 	function disposeEditor() {
 		subscriptionRef.current?.dispose();
-		editorRef.current.getModel()?.dispose();
+		const model = editorRef.current.getModel();
+		if ( model ) {
+			try {
+				model.dispose();
+			} catch ( err ) {
+				// Firefox throws NS_ERROR_NOT_INITIALIZED when iframe/document
+				// is torn down (e.g. switching to code editor mode).
+			}
+		}
 		editorRef.current.dispose();
+		editorRef.current = null;
 	}
 
 	// Load web font.
