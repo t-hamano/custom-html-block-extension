@@ -17,12 +17,12 @@
 		"url": "https://github.com/t-hamano/custom-html-block-extension/issues"
 	},
 	"engines": {
-		"node": ">=22.0.0",
-		"npm": ">=10.9.2"
+		"node": ">=24.0.0",
+		"npm": ">=11.0.0"
 	},
 	"volta": {
-		"node": "22.16.0",
-		"npm": "10.9.2"
+		"node": "24.0.0",
+		"npm": "11.0.0"
 	},
 	"dependencies": {
 		"@wordpress/icons": "^11.6.0",
