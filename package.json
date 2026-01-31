@@ -17,30 +17,30 @@
 		"url": "https://github.com/t-hamano/custom-html-block-extension/issues"
 	},
 	"engines": {
-		"node": ">=22.0.0",
-		"npm": ">=10.9.2"
+		"node": ">=24.0.0",
+		"npm": ">=11.0.0"
 	},
 	"volta": {
-		"node": "22.16.0",
-		"npm": "10.9.2"
+		"node": "24.0.0",
+		"npm": "11.0.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^11.1.0",
+		"@wordpress/icons": "^11.6.0",
 		"emmet-monaco-es": "^5.6.1",
-		"monaco-editor": "^0.54.0",
+		"monaco-editor": "^0.55.1",
 		"webfontloader": "^1.6.28"
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
-		"@wordpress/base-styles": "6.10.0",
+		"@wordpress/base-styles": "6.15.0",
 		"@wordpress/e2e-test-utils": "^11.34.0",
-		"@wordpress/env": "^10.34.0",
-		"@wordpress/scripts": "^30.27.0",
+		"@wordpress/env": "^10.39.0",
+		"@wordpress/scripts": "^31.4.0",
 		"clsx": "2.1.1",
 		"husky": "^9.1.7",
-		"lint-staged": "16.2.6",
+		"lint-staged": "16.2.7",
 		"prettier": "npm:wp-prettier@3.0.3",
-		"rimraf": "^6.1.0"
+		"rimraf": "^6.1.2"
 	},
 	"scripts": {
 		"wp-env": "wp-env",
