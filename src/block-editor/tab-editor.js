@@ -59,6 +59,7 @@ export default function TabEditor( { content = '', onError, onChange } ) {
 							} ) }
 						>
 							<MonacoEditor
+								id={ `monaco-editor-${ tab.name }` }
 								language={ tab.language }
 								theme={ editorSettings.theme }
 								options={ editorOptions }

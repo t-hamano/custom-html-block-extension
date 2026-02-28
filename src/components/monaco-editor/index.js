@@ -45,7 +45,7 @@ const loadingStyles = {
 };
 
 export default function MonacoEditor( {
-	className,
+	id = 'monaco-editor',
 	language = 'html',
 	theme = 'vs-dark',
 	options = {},
@@ -303,7 +303,7 @@ export default function MonacoEditor( {
 			{ ! isEditorReady && (
 				<div style={ loadingStyles }>{ __( 'Loading…', 'custom-html-block-extension' ) }</div>
 			) }
-			<div ref={ containerRef } className={ className } id="monaco-editor" />
+			<div ref={ containerRef } id={ id } />
 		</div>
 	);
 }

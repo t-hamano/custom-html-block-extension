@@ -61,13 +61,39 @@ test.describe( 'Custom HTML Block Extension', () => {
 		} ) => {
 			await admin.createNewPost();
 			await editor.insertBlock( { name: 'core/html' } );
-			await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
-			await page.keyboard.type( 'ul.list>li.item*5' );
+
+			// HTML Tab
+			await editor.canvas.locator( '[data-type="core/html"] #monaco-editor-html' ).click();
+			await page.keyboard.type( 'ul.list>li.item*5', { delay: 50 } );
+			await page.keyboard.down( 'Tab' );
+
+			// CSS Tab
+			await editor.canvas.getByRole( 'tab', { name: 'CSS' } ).click();
+			await editor.canvas.locator( '[data-type="core/html"] #monaco-editor-css' ).click();
+			await page.keyboard.type( 'p{fz100', { delay: 50 } );
+			await page.keyboard.press( 'Tab' );
+
+			// JavaScript Tab
+			await editor.canvas.getByRole( 'tab', { name: 'JavaScript' } ).click();
+			await editor.canvas.locator( '[data-type="core/html"] #monaco-editor-js' ).click();
+			await page.keyboard.type( 'win', { delay: 50 } );
+			await page.keyboard.press( 'Tab' );
+			await page.keyboard.type( '.nav', { delay: 50 } );
+			await page.keyboard.press( 'Tab' );
+			await page.keyboard.type( '.clip', { delay: 50 } );
 			await page.keyboard.down( 'Tab' );
 			const postContent = await editor.getEditedPostContent();
 			const replacedPostContent = postContent.replace( /\r\n/g, '\n' );
 
 			expect( replacedPostContent ).toBe( `<!-- wp:html -->
+<style data-wp-block-html="css">
+p{font-size: 100px;}
+</style>
+
+<script data-wp-block-html="js">
+window.navigator.clipboard
+</script>
+
 <ul class="list">
   <li class="item"></li>
   <li class="item"></li>
