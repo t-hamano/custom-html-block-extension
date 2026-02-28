@@ -2,7 +2,7 @@
 Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
-Requires at least: 6.8
+Requires at least: 6.9
 Tested up to: 6.9
 Stable tag: 3.9.0
 Requires PHP: 8.0
