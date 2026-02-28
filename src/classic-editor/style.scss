@@ -91,6 +91,11 @@
 		background: #2271b1;
 	}
 
+	.chbe-dialog__fieldset-options {
+		display: flex;
+		gap: variables.$grid-unit-10;
+	}
+
 	.chbe-dialog__row {
 		display: flex;
 		gap: variables.$grid-unit-20;

@@ -152,16 +152,18 @@ class ClassicEditor {
 			<div class="chbe-dialog__row">
 				<div class="chbe-dialog__setting">
 					<h3 class="chbe-dialog__subtitle"><?php esc_html_e( 'Current Indent', 'custom-html-block-extension' ); ?></h3>
-					<fieldset>
+					<fieldset class="chbe-dialog__fieldset">
 						<legend><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></legend>
-						<label>
-							<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="before_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
-						</label>
-						<label>
-							<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="before_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
-						</label>
+						<div class="chbe-dialog__fieldset-options">
+							<label>
+								<input type="radio" name="before_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
+								<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
+							</label>
+							<label>
+								<input type="radio" name="before_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
+								<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
+							</label>
+						</div>
 					</fieldset>
 					<p id="chbe-item-before-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
 						<label for="chbe_before_tab_size"><strong><?php esc_html_e( 'Indent width', 'custom-html-block-extension' ); ?></strong></label>
@@ -173,14 +175,16 @@ class ClassicEditor {
 					<h3 class="chbe-dialog__subtitle"><?php esc_html_e( 'New Indent', 'custom-html-block-extension' ); ?></h3>
 					<fieldset>
 						<legend><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></legend>
-						<label>
-							<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="after_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
-						</label>
-						<label>
-							<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
-							<input type="radio" name="after_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
-						</label>
+						<div class="chbe-dialog__fieldset-options">
+							<label>
+								<input type="radio" name="after_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
+								<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
+							</label>
+							<label>
+								<input type="radio" name="after_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
+								<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
+							</label>
+						</div>
 					</fieldset>
 					<p id="chbe-item-after-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
 						<label for="chbe_after_tab_size"><strong><?php esc_html_e( 'Indent width', 'custom-html-block-extension' ); ?></strong></label>
