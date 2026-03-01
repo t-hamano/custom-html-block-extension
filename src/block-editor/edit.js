@@ -16,39 +16,20 @@ import {
 	Disabled,
 	SandBox,
 	ToolbarGroup,
-	Button,
-	TextControl,
-	Dropdown,
 	Modal,
 	Notice,
-	__experimentalHeading as Heading,
-	__experimentalHStack as HStack,
 	__experimentalVStack as VStack,
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
-import { fullscreen, replace } from '@wordpress/icons';
+import { fullscreen } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
-import { toNumber } from '../lib/helper';
 import MonacoEditor from '../components/monaco-editor';
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
-
-const INDENT_TYPES = [
-	{
-		label: __( 'Tab', 'custom-html-block-extension' ),
-		value: false,
-	},
-	{
-		label: __( 'Space', 'custom-html-block-extension' ),
-		value: true,
-	},
-];
 
 const DEFAULT_STYLES = `
 	html,body,:root {
@@ -66,12 +47,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const [ isPreview, setIsPreview ] = useState();
 	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState();
 
-	const [ replaceSetting, setReplaceSetting ] = useState( {
-		beforeTabSize: editorSettings.tabSize,
-		beforeInsertSpaces: editorSettings.insertSpaces,
-		afterTabSize: editorSettings.tabSize,
-		afterInsertSpaces: editorSettings.insertSpaces,
-	} );
 	const [ errorMessage, setErrorMessage ] = useState();
 
 	const ref = useRef();
@@ -111,60 +86,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		}
 	};
 
-	// Convert tab size and insert spaces.
-	function changeIndent( onClose ) {
-		if ( undefined === content ) {
-			onClose();
-			return;
-		}
-
-		const lines = content.split( '\n' );
-		let newLines = '';
-
-		for ( let i = 0; i < lines.length; i++ ) {
-			let spaces, indentCount, searchValue, newValue;
-
-			if ( replaceSetting.beforeInsertSpaces ) {
-				// From space indent
-				spaces = lines[ i ].match( /^\s*/ )[ 0 ].length;
-				indentCount = Math.floor( spaces / replaceSetting.beforeTabSize );
-				searchValue = '\x20'.repeat( replaceSetting.beforeTabSize * indentCount );
-
-				if ( replaceSetting.afterInsertSpaces ) {
-					// To space indent
-					newValue = '\x20'.repeat( replaceSetting.afterTabSize * indentCount );
-				} else {
-					// To tab indent
-					newValue = '\t'.repeat( indentCount );
-				}
-			} else {
-				// From tab indent
-				spaces = lines[ i ].match( /^\t*/ )[ 0 ].length;
-				searchValue = '\t'.repeat( spaces );
-
-				if ( replaceSetting.afterInsertSpaces ) {
-					// To space indent
-					newValue = '\x20'.repeat( replaceSetting.afterTabSize * spaces );
-				} else {
-					// To tab indent (nothing)
-					newValue = searchValue;
-				}
-			}
-
-			const reg = new RegExp( '^' + searchValue );
-			newLines += lines[ i ].replace( reg, newValue ) + ( i !== lines.length - 1 ? '\n' : '' );
-		}
-
-		setAttributes( { content: newLines } );
-		setReplaceSetting( {
-			...replaceSetting,
-			beforeInsertSpaces: replaceSetting.afterInsertSpaces,
-			beforeTabSize: replaceSetting.afterTabSize,
-		} );
-
-		onClose();
-	}
-
 	function switchToPreview() {
 		setIsPreview( true );
 	}
@@ -182,133 +103,6 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 							icon={ fullscreen }
 							label={ __( 'Open HTML editor', 'custom-html-block-extension' ) }
 							onClick={ () => setIsModalEditorOpen( true ) }
-						/>
-						<Dropdown
-							contentClassName="chbe-popover"
-							renderToggle={ ( { isOpen, onToggle } ) => {
-								return (
-									<ToolbarButton
-										icon={ replace }
-										label={ __( 'Change indentation', 'custom-html-block-extension' ) }
-										aria-expanded={ isOpen }
-										onClick={ onToggle }
-									/>
-								);
-							} }
-							renderContent={ ( { onClose } ) => (
-								<VStack align="center" spacing={ 4 }>
-									<Heading as="h2" level="4">
-										{ __( 'Change indentation', 'custom-html-block-extension' ) }
-									</Heading>
-									<HStack align="start">
-										<VStack spacing={ 4 } className="chbe-popover__col">
-											<Heading as="h3" level="5" className="chbe-popover__subtitle">
-												{ __( 'Current indent', 'custom-html-block-extension' ) }
-											</Heading>
-											<ToggleGroupControl
-												__nextHasNoMarginBottom
-												size="__unstable-large"
-												label={ __( 'Indent type', 'custom-html-block-extension' ) }
-												value={ replaceSetting.beforeInsertSpaces }
-												onChange={ ( value ) => {
-													setReplaceSetting( {
-														...replaceSetting,
-														beforeInsertSpaces: value,
-													} );
-												} }
-												isBlock
-											>
-												{ INDENT_TYPES.map( ( indentType ) => (
-													<ToggleGroupControlOption
-														key={ indentType.value }
-														value={ indentType.value }
-														label={ indentType.label }
-													/>
-												) ) }
-											</ToggleGroupControl>
-											{ replaceSetting.beforeInsertSpaces && (
-												<TextControl
-													__next40pxDefaultSize
-													__nextHasNoMarginBottom
-													label={ __( 'Indent width', 'custom-html-block-extension' ) }
-													value={ replaceSetting.beforeTabSize || '' }
-													type="number"
-													min={ 1 }
-													max={ 8 }
-													onChange={ ( value ) => {
-														setReplaceSetting( {
-															...replaceSetting,
-															beforeTabSize: value ? toNumber( value, 1, 8 ) : undefined,
-														} );
-													} }
-												/>
-											) }
-										</VStack>
-										<VStack spacing={ 4 } className="chbe-popover__col">
-											<Heading as="h3" level="5" className="chbe-popover__subtitle">
-												{ __( 'New indent', 'custom-html-block-extension' ) }
-											</Heading>
-											<ToggleGroupControl
-												__nextHasNoMarginBottom
-												size="__unstable-large"
-												label={ __( 'Indent type', 'custom-html-block-extension' ) }
-												value={ replaceSetting.afterInsertSpaces }
-												onChange={ ( value ) => {
-													setReplaceSetting( {
-														...replaceSetting,
-														afterInsertSpaces: value,
-													} );
-												} }
-												isBlock
-											>
-												{ INDENT_TYPES.map( ( indentType ) => (
-													<ToggleGroupControlOption
-														key={ indentType.value }
-														value={ indentType.value }
-														label={ indentType.label }
-													/>
-												) ) }
-											</ToggleGroupControl>
-											{ replaceSetting.afterInsertSpaces && (
-												<TextControl
-													__next40pxDefaultSize
-													__nextHasNoMarginBottom
-													label={ __( 'Indent width', 'custom-html-block-extension' ) }
-													value={ replaceSetting.afterTabSize || '' }
-													type="number"
-													min={ 1 }
-													max={ 8 }
-													onChange={ ( value ) => {
-														setReplaceSetting( {
-															...replaceSetting,
-															afterTabSize: value ? toNumber( value, 1, 8 ) : undefined,
-														} );
-													} }
-												/>
-											) }
-										</VStack>
-									</HStack>
-									<HStack justify="center">
-										<Button
-											variant="primary"
-											disabled={
-												( replaceSetting.beforeInsertSpaces &&
-													replaceSetting.beforeTabSize === undefined ) ||
-												( replaceSetting.afterInsertSpaces &&
-													replaceSetting.afterTabSize === undefined )
-											}
-											onClick={ () => changeIndent( onClose ) }
-											size="compact"
-											__experimentalIsFocusable
-										>
-											{ __( 'Apply', 'custom-html-block-extension' ) }
-										</Button>
-										<Button variant="secondary" onClick={ onClose } size="compact">
-											{ __( 'Cancel', 'custom-html-block-extension' ) }
-										</Button>
-									</HStack>
-								</VStack>
-							) }
 						/>
 					</ToolbarGroup>
 				) }
