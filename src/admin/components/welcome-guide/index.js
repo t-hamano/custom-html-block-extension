@@ -178,7 +178,7 @@ export default function WelcomeGuide() {
 										</Heading>
 										<Text as="p">
 											{ __(
-												'Supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.',
+												'Supports the classic editor, the theme/plugin editor, and import/export editor settings.',
 												'custom-html-block-extension'
 											) }
 										</Text>
