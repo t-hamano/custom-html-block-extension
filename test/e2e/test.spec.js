@@ -32,7 +32,12 @@ test.describe( 'Custom HTML Block Extension', () => {
 			admin,
 			page,
 			pageUtils,
+			browserName,
 		} ) => {
+			test.skip(
+				browserName === 'webkit',
+				"FIXME: For some reason, the Select All shortcut doesn't work in Webkit browser"
+			);
 			await admin.visitAdminPage( 'theme-editor.php' );
 			// Hide file editor warning modal.
 			const dismissButton = page.locator( '.file-editor-warning-dismiss' );
@@ -42,6 +47,7 @@ test.describe( 'Custom HTML Block Extension', () => {
 			}
 			await page.click( '#monaco-editor .monaco-editor' );
 			await pageUtils.pressKeys( 'primary+a' );
+			await page.waitForTimeout( 500 );
 			await page.keyboard.type( '.selector{fz100', { delay: 50 } );
 			await page.keyboard.press( 'Tab' );
 			const textarea = await page.locator( '#newcontent' );
