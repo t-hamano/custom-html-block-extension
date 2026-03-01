@@ -31,7 +31,7 @@ You can change all kinds of settings to create your ideal editor in advanced mod
 
 ![More support](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_5.jpg)
 
-Supports the classic editor, the theme/plugin editor, import/export editor settings, and change indentation.
+Supports the classic editor, the theme/plugin editor, and import/export editor settings.
 
 ## Add custom fonts
 
