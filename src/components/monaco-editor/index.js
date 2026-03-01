@@ -132,11 +132,10 @@ export default function MonacoEditor( {
 							editorRef.current.setSelection(
 								new monacoRef.current.Selection( lineNumber, 1, lineNumber + 1, 1 )
 							);
-							ownerDocument.execCommand( 'cut' );
 						}
-						ownerDocument.execCommand( 'cut' );
+						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
 					} else if ( ! isEmptySelection ) {
-						ownerDocument.execCommand( 'cut' );
+						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
 					}
 				}
 			);
@@ -155,15 +154,14 @@ export default function MonacoEditor( {
 
 					if ( window.chbeObj.editorOptions.emptySelectionClipboard ) {
 						if ( isEmptySelection ) {
-							// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
+							// Select and copy the current line if there is no range selection and "Copy the current line without selection" is enabled.
 							editorRef.current.setSelection(
 								new monacoRef.current.Selection( lineNumber, 1, lineNumber + 1, 1 )
 							);
-							ownerDocument.execCommand( 'copy' );
 						}
-						ownerDocument.execCommand( 'copy' );
+						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
 					} else if ( ! isEmptySelection ) {
-						ownerDocument.execCommand( 'copy' );
+						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
 					}
 				}
 			);
