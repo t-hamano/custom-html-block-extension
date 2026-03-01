@@ -350,7 +350,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 						<FlexBlock style={ { height: '100%' } }>
 							<TabEditor content={ content } onChange={ onChange } onError={ onError } />
 						</FlexBlock>
-						{ isModalPreviewOpen && isLargeViewport && (
+						{ isModalPreviewOpen && (
 							<FlexBlock>
 								<VStack spacing={ 8 }>
 									<Heading as="h2" level="4">
