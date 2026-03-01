@@ -49,9 +49,12 @@ initLoader().then( ( monaco ) => {
 	} );
 
 	// Enable Emmet.
-	if ( emmet ) {
-		emmetHTML( monaco, [ 'html', 'php' ] );
-		emmetCSS( monaco, [ 'sass', 'scss', 'css', 'less' ] );
+	if ( emmet && language ) {
+		if ( language.match( /htm|php/ ) ) {
+			emmetHTML( monaco, [ 'html', 'php' ] );
+		} else if ( language.match( /sass|scss|css|less/ ) ) {
+			emmetCSS( monaco, [ 'sass', 'scss', 'css', 'less' ] );
+		}
 	}
 
 	// Update editor settings.
