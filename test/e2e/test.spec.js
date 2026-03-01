@@ -21,7 +21,7 @@ test.describe( 'Custom HTML Block Extension', () => {
 			await page.click( '#content-tmce' );
 			await page.click( '#content-html' );
 			await page.click( '#monaco-editor .monaco-editor' );
-			await page.keyboard.type( 'p.selector' );
+			await page.keyboard.type( 'p.selector', { delay: 100 } );
 			await page.keyboard.down( 'Tab' );
 			await page.click( '#publish' );
 			await page.click( '#content-tmce' );
@@ -46,8 +46,7 @@ test.describe( 'Custom HTML Block Extension', () => {
 
 			await page.click( '#monaco-editor .monaco-editor' );
 			await pageUtils.pressKeys( 'primary+a' );
-			await page.keyboard.press( 'Delete' );
-			await page.keyboard.type( '.selector{fz100', { delay: 50 } );
+			await page.keyboard.type( '.selector{fz100', { delay: 100 } );
 			await page.keyboard.press( 'Tab' );
 			await page.click( '#submit' );
 			const textarea = await page.locator( '#newcontent' );
@@ -61,13 +60,39 @@ test.describe( 'Custom HTML Block Extension', () => {
 		} ) => {
 			await admin.createNewPost();
 			await editor.insertBlock( { name: 'core/html' } );
-			await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
-			await page.keyboard.type( 'ul.list>li.item*5' );
+
+			// HTML Tab
+			await editor.canvas.locator( '[data-type="core/html"] #monaco-editor-html' ).click();
+			await page.keyboard.type( 'ul.list>li.item*5', { delay: 100 } );
+			await page.keyboard.down( 'Tab' );
+
+			// CSS Tab
+			await editor.canvas.getByRole( 'tab', { name: 'CSS' } ).click();
+			await editor.canvas.locator( '[data-type="core/html"] #monaco-editor-css' ).click();
+			await page.keyboard.type( 'p{fz100', { delay: 100 } );
+			await page.keyboard.press( 'Tab' );
+
+			// JavaScript Tab
+			await editor.canvas.getByRole( 'tab', { name: 'JavaScript' } ).click();
+			await editor.canvas.locator( '[data-type="core/html"] #monaco-editor-js' ).click();
+			await page.keyboard.type( 'win', { delay: 100 } );
+			await page.keyboard.press( 'Tab' );
+			await page.keyboard.type( '.nav', { delay: 100 } );
+			await page.keyboard.press( 'Tab' );
+			await page.keyboard.type( '.clip', { delay: 100 } );
 			await page.keyboard.down( 'Tab' );
 			const postContent = await editor.getEditedPostContent();
 			const replacedPostContent = postContent.replace( /\r\n/g, '\n' );
 
 			expect( replacedPostContent ).toBe( `<!-- wp:html -->
+<style data-wp-block-html="css">
+p{font-size: 100px;}
+</style>
+
+<script data-wp-block-html="js">
+window.navigator.clipboard
+</script>
+
 <ul class="list">
   <li class="item"></li>
   <li class="item"></li>

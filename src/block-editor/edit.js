@@ -2,39 +2,35 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useMemo, useState, useRef } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
-import {
-	BlockControls,
-	transformStyles,
-	useBlockProps,
-	store as blockEditorStore,
-} from '@wordpress/block-editor';
+import { useState, useRef } from '@wordpress/element';
+import { BlockControls, useBlockProps } from '@wordpress/block-editor';
 import {
 	ResizableBox,
 	ToolbarButton,
-	Disabled,
-	SandBox,
 	ToolbarGroup,
 	Button,
 	TextControl,
 	Dropdown,
 	Modal,
-	Notice,
+	Flex,
+	FlexBlock,
 	__experimentalHeading as Heading,
 	__experimentalHStack as HStack,
 	__experimentalVStack as VStack,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+	Notice,
 } from '@wordpress/components';
-import { fullscreen, replace } from '@wordpress/icons';
+import { fullscreen, replace, seen } from '@wordpress/icons';
+import { useViewportMatch } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
 import { toNumber } from '../lib/helper';
-import MonacoEditor from '../components/monaco-editor';
+import TabEditor from './tab-editor';
+import HTMLPreview from './html-preview';
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
@@ -50,22 +46,13 @@ const INDENT_TYPES = [
 	},
 ];
 
-const DEFAULT_STYLES = `
-	html,body,:root {
-		margin: 0 !important;
-		padding: 0 !important;
-		overflow: visible !important;
-		min-height: auto !important;
-	}
-`;
-
 export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
 	const { content, height } = attributes;
-	const { editorSettings, editorOptions } = window.chbeObj;
+	const { editorSettings } = window.chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState();
 	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState();
-
+	const [ isModalPreviewOpen, setIsModalPreviewOpen ] = useState();
 	const [ replaceSetting, setReplaceSetting ] = useState( {
 		beforeTabSize: editorSettings.tabSize,
 		beforeInsertSpaces: editorSettings.insertSpaces,
@@ -75,19 +62,7 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const [ errorMessage, setErrorMessage ] = useState();
 
 	const ref = useRef();
-
-	const settingStyles = useSelect(
-		( select ) => select( blockEditorStore ).getSettings().styles,
-		[]
-	);
-
-	const styles = useMemo(
-		() => [
-			DEFAULT_STYLES,
-			...transformStyles( ( settingStyles ?? [] ).filter( ( style ) => style.css ) ),
-		],
-		[ settingStyles ]
-	);
+	const isLargeViewport = useViewportMatch( 'medium' );
 
 	const onResizeStart = () => {
 		toggleSelection( false );
@@ -321,67 +296,71 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 					</ToolbarButton>
 				</ToolbarGroup>
 			</BlockControls>
-			<Disabled.Consumer>
-				{ ( isDisabled ) =>
-					isPreview || isDisabled ? (
-						<>
-							<SandBox html={ content } styles={ styles } />
-							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
-						</>
-					) : (
-						<VStack>
-							{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
-							<ResizableBox
-								size={ { height } }
-								minHeight={ MIN_HEIGHT }
-								enable={ {
-									top: false,
-									right: false,
-									bottom: true,
-									left: false,
-									topRight: false,
-									bottomRight: false,
-									bottomLeft: false,
-									topLeft: false,
-								} }
-								onResizeStart={ onResizeStart }
-								onResizeStop={ onResizeStop }
-								showHandle={ isSelected }
-							>
-								<MonacoEditor
-									language="html"
-									theme={ editorSettings.theme }
-									options={ editorOptions }
-									value={ content }
-									useEmmet={ editorSettings.emmet }
-									tabSize={ editorSettings.tabSize }
-									insertSpaces={ editorSettings.insertSpaces }
-									onChange={ onChange }
-									onError={ onError }
-								/>
-							</ResizableBox>
-						</VStack>
-					)
-				}
-			</Disabled.Consumer>
+			{ errorMessage && (
+				<Notice status="warning" isDismissible={ false }>
+					{ errorMessage }
+				</Notice>
+			) }
+			{ isPreview ? (
+				<HTMLPreview content={ content } isSelected={ isSelected } />
+			) : (
+				<ResizableBox
+					size={ { height } }
+					minHeight={ MIN_HEIGHT }
+					enable={ {
+						top: false,
+						right: false,
+						bottom: true,
+						left: false,
+						topRight: false,
+						bottomRight: false,
+						bottomLeft: false,
+						topLeft: false,
+					} }
+					onResizeStart={ onResizeStart }
+					onResizeStop={ onResizeStop }
+					showHandle={ isSelected }
+				>
+					<TabEditor content={ content } onChange={ onChange } onError={ onError } />
+				</ResizableBox>
+			) }
 			{ isModalEditorOpen && (
 				<Modal
-					title={ __( 'HTML editor', 'custom-html-block-extension' ) }
+					title={ __( 'Custom HTML', 'custom-html-block-extension' ) }
 					className="chbe-fullscreen-editor"
 					isFullScreen
 					onRequestClose={ () => setIsModalEditorOpen( false ) }
+					headerActions={
+						isLargeViewport && (
+							<Button
+								size="compact"
+								icon={ seen }
+								isPressed={ isModalPreviewOpen }
+								label={
+									isModalPreviewOpen
+										? __( 'Hide preview', 'custom-html-block-extension' )
+										: __( 'Show preview', 'custom-html-block-extension' )
+								}
+								onClick={ () => setIsModalPreviewOpen( ! isModalPreviewOpen ) }
+							/>
+						)
+					}
 				>
-					<MonacoEditor
-						language="html"
-						theme={ editorSettings.theme }
-						options={ editorOptions }
-						value={ content }
-						useEmmet={ editorSettings.emmet }
-						tabSize={ editorSettings.tabSize }
-						insertSpaces={ editorSettings.insertSpaces }
-						onChange={ onChange }
-						onError={ onError }
-					/>
+					<Flex style={ { height: '100%' } } align="stretch" gap={ 4 }>
+						<FlexBlock style={ { height: '100%' } }>
+							<TabEditor content={ content } onChange={ onChange } onError={ onError } />
+						</FlexBlock>
+						{ isModalPreviewOpen && (
+							<FlexBlock>
+								<VStack spacing={ 8 }>
+									<Heading as="h2" level="4">
+										{ __( 'HTML Preview', 'custom-html-block-extension' ) }
+									</Heading>
+									<HTMLPreview content={ content } isSelected={ isSelected } />
+								</VStack>
+							</FlexBlock>
+						) }
+					</Flex>
 				</Modal>
 			) }
 		</div>
