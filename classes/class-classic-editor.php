@@ -21,11 +21,6 @@ class ClassicEditor {
 
 		// Enqueue classic editor scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		// Add custom button
-		add_action( 'media_buttons', array( $this, 'media_buttons' ) );
-		// Add dialog
-		add_action( 'admin_footer-post.php', array( $this, 'admin_footer' ) );
-		add_action( 'admin_footer-post-new.php', array( $this, 'admin_footer' ) );
 	}
 
 	/**
@@ -95,109 +90,6 @@ class ClassicEditor {
 				'fontFamily'     => Settings::get_font_families(),
 			)
 		);
-	}
-
-	/**
-	 * Add custom button
-	 */
-	public function media_buttons( $editor_id ) {
-		// Abort the process if this is not the main editor.
-		if ( 'content' !== $editor_id ) {
-			return;
-		}
-
-		// Abort the process if the editor is not supported.
-		if ( ! post_type_supports( get_post_type(), 'editor' ) ) {
-			return;
-		}
-
-		// Abort the process if the user role isn't allowed to use this extension.
-		if ( ! Settings::is_allowed_user() ) {
-			return;
-		}
-
-		printf(
-			'<button type="button" class="button chbe-replace-indent" id="chbe-replace-indent-button">' . Settings::ICON . ' %s' . '</button>',
-			__( 'Change Indentation', 'custom-html-block-extension' )
-		);
-	}
-
-	/**
-	 * Add dialog
-	 */
-	public function admin_footer() {
-		// Abort the process if the block editor is enabled.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
-		if ( get_current_screen()->is_block_editor ) {
-			return;
-		}
-
-		// Abort the process if the editor is not supported.
-		if ( ! post_type_supports( get_post_type(), 'editor' ) ) {
-			return;
-		}
-
-		// Abort the process if the user role isn't allowed to use this extension.
-		if ( ! Settings::is_allowed_user() ) {
-			return;
-		}
-
-		$settings = Settings::get_editor_settings();
-		// phpcs:disable Generic.ControlStructures.InlineControlStructure
-		?>
-		<div id="chbe-replace-indent-dialog" class="chbe-dialog__inner">
-			<h2 class="chbe-dialog__title"><?php echo esc_attr_e( 'Change Indentation', 'custom-html-block-extension' ); ?></h2>
-			<div class="chbe-dialog__row">
-				<div class="chbe-dialog__setting">
-					<h3 class="chbe-dialog__subtitle"><?php esc_html_e( 'Current Indent', 'custom-html-block-extension' ); ?></h3>
-					<fieldset class="chbe-dialog__fieldset">
-						<legend><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></legend>
-						<div class="chbe-dialog__fieldset-options">
-							<label>
-								<input type="radio" name="before_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
-								<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
-							</label>
-							<label>
-								<input type="radio" name="before_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
-								<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
-							</label>
-						</div>
-					</fieldset>
-					<p id="chbe-item-before-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
-						<label for="chbe_before_tab_size"><strong><?php esc_html_e( 'Indent width', 'custom-html-block-extension' ); ?></strong></label>
-						<input type="number" id="chbe_before_tab_size" name="before_tab_size" min="1" max="8" value="<?php echo esc_attr( $settings['tabSize'] ); ?>">
-					</p>
-				</div>
-				<span class="chbe-dialog__arrow dashicons dashicons-arrow-right-alt"></span>
-				<div class="chbe-dialog__setting">
-					<h3 class="chbe-dialog__subtitle"><?php esc_html_e( 'New Indent', 'custom-html-block-extension' ); ?></h3>
-					<fieldset>
-						<legend><?php esc_html_e( 'Indent type', 'custom-html-block-extension' ); ?></legend>
-						<div class="chbe-dialog__fieldset-options">
-							<label>
-								<input type="radio" name="after_insert_spaces" value="1" <?php checked( $settings['insertSpaces'] ); ?>>
-								<?php esc_html_e( 'Space', 'custom-html-block-extension' ); ?>
-							</label>
-							<label>
-								<input type="radio" name="after_insert_spaces" value="0" <?php checked( ! $settings['insertSpaces'] ); ?>>
-								<?php esc_html_e( 'Tab', 'custom-html-block-extension' ); ?>
-							</label>
-						</div>
-					</fieldset>
-					<p id="chbe-item-after-tab-size" style="<?php if ( ! $settings['insertSpaces'] ) echo 'display:none;'; ?>">
-						<label for="chbe_after_tab_size"><strong><?php esc_html_e( 'Indent width', 'custom-html-block-extension' ); ?></strong></label>
-						<input type="number" id="chbe_after_tab_size" name="after_tab_size" min="1" max="8" value="<?php echo esc_attr( $settings['tabSize'] ); ?>">
-					</p>
-				</div>
-			</div>
-			<div class="chbe-dialog__buttons">
-				<button type="button" id="chbe-apply-button" class="button button-primary"><?php echo esc_html_e( 'Apply', 'custom-html-block-extension' ); ?></button>
-				<button type="button" id="chbe-cancel-button" class="button button-secondary"><?php echo esc_html_e( 'Cancel', 'custom-html-block-extension' ); ?></button>
-			</div>
-		</div>
-		<?php
 	}
 }
 
