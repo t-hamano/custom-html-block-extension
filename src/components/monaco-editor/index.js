@@ -8,7 +8,7 @@
  * External dependencies
  */
 import webfontloader from 'webfontloader';
-import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
+import { emmetHTML } from 'emmet-monaco-es';
 
 /**
  * WordPress dependencies
@@ -45,7 +45,7 @@ const loadingStyles = {
 };
 
 export default function MonacoEditor( {
-	id = 'monaco-editor',
+	className,
 	language = 'html',
 	theme = 'vs-dark',
 	options = {},
@@ -108,10 +108,10 @@ export default function MonacoEditor( {
 			editorRef.current = monacoRef.current.editor.create( containerRef.current, options );
 			monacoRef.current.editor.setModelLanguage( editorRef.current.getModel(), language );
 
+			// Apply emmet.
 			if ( useEmmet && ! defaultView.enabledEmmet ) {
 				defaultView.enabledEmmet = true;
-				emmetHTML( monacoRef.current, [ 'html' ] );
-				emmetCSS( monacoRef.current, [ 'css' ] );
+				emmetHTML( monacoRef.current );
 			}
 
 			// Ctrl+X shortcut without a range selection will cut the block,
@@ -301,7 +301,7 @@ export default function MonacoEditor( {
 			{ ! isEditorReady && (
 				<div style={ loadingStyles }>{ __( 'Loading…', 'custom-html-block-extension' ) }</div>
 			) }
-			<div ref={ containerRef } id={ id } />
+			<div ref={ containerRef } className={ className } id="monaco-editor" />
 		</div>
 	);
 }

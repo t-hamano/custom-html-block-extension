@@ -5,30 +5,6 @@
 // Monaco Editor styles
 @use "../components/monaco-editor/style";
 
-// Tab Editor
-.chbe-tab-editor {
-	height: 100%;
-}
-
-.chbe-tab-editor__tab-panel {
-	height: 100%;
-
-	.components-tab-panel__tab-content {
-		padding-top: variables.$grid-unit-10;
-		height: calc(100% - #{variables.$grid-unit-60});
-		box-sizing: border-box;
-	}
-}
-
-.chbe-tab-editor__tab-content {
-	display: none;
-	height: 100%;
-
-	&.is-active {
-		display: block;
-	}
-}
-
 // Change indentation popover
 .chbe-popover {
 
