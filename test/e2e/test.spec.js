@@ -47,7 +47,6 @@ test.describe( 'Custom HTML Block Extension', () => {
 			}
 			await page.click( '#monaco-editor .monaco-editor' );
 			await pageUtils.pressKeys( 'primary+a' );
-			await page.waitForTimeout( 500 );
 			await page.keyboard.type( '.selector{fz100', { delay: 50 } );
 			await page.keyboard.press( 'Tab' );
 			const textarea = await page.locator( '#newcontent' );
