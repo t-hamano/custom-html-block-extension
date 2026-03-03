@@ -26,7 +26,6 @@ initLoader().then( ( monaco ) => {
 	const editorContainer = document.getElementById( 'wp-content-editor-container' );
 	const draftButton = document.getElementById( 'save-post' );
 	const publishButton = document.getElementById( 'publish' );
-	const replaceIndentButton = document.getElementById( 'chbe-replace-indent-button' );
 	const syncTriggers = document.querySelectorAll(
 		'.ed_button, .ui-button, #wp-link-url, #wp-link-text, #wp-link-submit, #wp-link-search'
 	);
@@ -282,8 +281,6 @@ initLoader().then( ( monaco ) => {
 			window.removeEventListener( 'resize', onWindowResize );
 			isMonacoEditorEnabled = false;
 		}
-
-		replaceIndentButton.style.display = 'none';
 	};
 
 	// Switch to html edit mode.
@@ -298,8 +295,6 @@ initLoader().then( ( monaco ) => {
 		setTimeout( () => {
 			updateToolbarMargin();
 		}, 300 );
-
-		replaceIndentButton.style.display = 'inline-block';
 	};
 
 	// Initialize
@@ -315,7 +310,6 @@ initLoader().then( ( monaco ) => {
 		}
 	} else {
 		runEditor();
-		replaceIndentButton.style.display = 'inline-block';
 		if ( tabTmce ) {
 			tabTmce.onclick = toVisual;
 		}
