@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.9
-Tested up to: 6.9
-Stable tag: 3.9.0
+Tested up to: 7.0
+Stable tag: 4.0.0
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,13 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 4.0.0 =
+* Tested to WordPress 7.0
+* Drop support for WordPress 6.8
+* Remove change indentation UI
+* Fix: Editor crashes when switching to the Code Editor in Firefox
+* Fix: Cut line shortcut doesn't work
 
 = 3.9.0 =
 * Tested to WordPress 6.9
