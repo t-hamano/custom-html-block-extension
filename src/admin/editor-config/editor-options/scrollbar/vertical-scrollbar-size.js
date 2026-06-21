@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { useContext, useEffect, useState } from '@wordpress/element';
+import { useCallback, useContext, useState } from '@wordpress/element';
 import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
 import { useDebounce } from '@wordpress/compose';
 
@@ -20,24 +20,20 @@ export default function ScrollbarVerticalScrollbarSize() {
 	const [ value, setValue ] = useState( editorOptions.scrollbar.verticalScrollbarSize );
 
 	// Debounce the function to avoid refreshing the editor every time the range is changed.
-	const debouncedOnChange = useDebounce( ( newValue ) => {
-		onRefreshEditor();
-		setEditorOptions( {
-			...editorOptions,
-			scrollbar: {
-				...editorOptions.scrollbar,
-				verticalScrollbarSize: newValue,
-			},
-		} );
-	}, 200 );
-
-	useEffect( () => {
-		if ( editorOptions.scrollbar.verticalScrollbarSize === value ) {
-			return;
-		}
-		debouncedOnChange( value );
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ value ] );
+	const onChangeOption = useCallback(
+		( newValue ) => {
+			onRefreshEditor();
+			setEditorOptions( ( prev ) => ( {
+				...prev,
+				scrollbar: {
+					...prev.scrollbar,
+					verticalScrollbarSize: newValue,
+				},
+			} ) );
+		},
+		[ onRefreshEditor, setEditorOptions ]
+	);
+	const debouncedOnChange = useDebounce( onChangeOption, 200 );
 
 	const title = __( 'Vertical scrollbar size', 'custom-html-block-extension' );
 	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
@@ -47,7 +43,9 @@ export default function ScrollbarVerticalScrollbarSize() {
 	}
 
 	const onChange = ( newValue ) => {
-		setValue( newValue ? toNumber( newValue, 5, 30 ) : 10 );
+		const nextValue = newValue ? toNumber( newValue, 5, 30 ) : 10;
+		setValue( nextValue );
+		debouncedOnChange( nextValue );
 	};
 
 	return (

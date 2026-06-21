@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { createContext, useContext, useState } from '@wordpress/element';
+import { createContext, useCallback, useContext, useState } from '@wordpress/element';
 import {
 	PanelBody,
 	Disabled,
@@ -88,14 +88,15 @@ export default function EditorConfig() {
 	};
 
 	// Refresh editor.
-	const onRefreshEditor = () => {
+	// Memoized so consumers can derive stable (debounced) callbacks from it.
+	const onRefreshEditor = useCallback( () => {
 		// Some options are not reflected when the state is changed.
 		// So disable the editor for a moment by Disabled component as a workaround.
 		setIsEditorDisabled( true );
 		setTimeout( () => {
 			setIsEditorDisabled( false );
 		}, 300 );
-	};
+	}, [] );
 
 	return (
 		<HStack
