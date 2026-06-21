@@ -74,7 +74,7 @@ export default function ImportTool() {
 						setIsWaiting( false );
 					}, 600 );
 				} );
-			} catch ( error ) {
+			} catch {
 				// Invalid JSON format.
 				createErrorNotice(
 					__( 'The format of JSON file is not correct.', 'custom-html-block-extension' ),
