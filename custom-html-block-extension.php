@@ -15,10 +15,6 @@
  * @license GPL-2.0+
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 defined( 'ABSPATH' ) || exit;
 
 $chbe_data = get_file_data(

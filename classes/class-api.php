@@ -21,90 +21,30 @@ class Api {
 	 * Register REST API route
 	 */
 	public function register_routes() {
-
-		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
-			'/get_editor_config',
-			array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'get_editor_config' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				),
-			)
+		$routes = array(
+			'get_editor_config',
+			'update_editor_config',
+			'delete_editor_config',
+			'update_options',
+			'dismiss_welcome_guide',
+			'import_editor_config',
 		);
 
-		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
-			'/update_editor_config',
-			array(
+		foreach ( $routes as $route ) {
+			register_rest_route(
+				CHBE_NAMESPACE . '/v1',
+				'/' . $route,
 				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'update_editor_config' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				),
-			)
-		);
-
-		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
-			'/delete_editor_config',
-			array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'delete_editor_config' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				),
-			)
-		);
-
-		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
-			'/update_options',
-			array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'update_options' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				),
-			)
-		);
-
-		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
-			'/dismiss_welcome_guide',
-			array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'dismiss_welcome_guide' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				),
-			)
-		);
-
-		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
-			'/import_editor_config',
-			array(
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'import_editor_config' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				),
-			)
-		);
+					array(
+						'methods'             => 'POST',
+						'callback'            => array( $this, $route ),
+						'permission_callback' => static function () {
+							return current_user_can( 'manage_options' );
+						},
+					),
+				)
+			);
+		}
 	}
 
 	/**

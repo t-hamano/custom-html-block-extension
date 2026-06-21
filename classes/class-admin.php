@@ -40,7 +40,7 @@ class Admin {
 	public function admin_enqueue_scripts( $hook_suffix ) {
 		// Enqueue pointer.
 		$dismissed = explode( ',', get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-		if ( false === array_search( CHBE_NAMESPACE . '-pointer', $dismissed, true ) ) {
+		if ( ! in_array( CHBE_NAMESPACE . '-pointer', $dismissed, true ) ) {
 			$content  = '<h3>' . __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) . '</h3>';
 			$content .= '<p>';
 			$content .= sprintf(
