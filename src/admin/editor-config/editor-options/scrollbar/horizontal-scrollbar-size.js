@@ -10,13 +10,13 @@ import { useDebounce } from '@wordpress/compose';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { EditorConfigContext } from '../../index';
+import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../../components/item-help';
 import { toNumber } from '../../../../lib/helper';
 
 export default function ScrollbarHorizontalScrollbarSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { onRefreshEditor, searchQuery } = useContext( EditorConfigContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
 	const [ value, setValue ] = useState( editorOptions.scrollbar.horizontalScrollbarSize );
 
 	// Debounce the function to avoid refreshing the editor every time the range is changed.
@@ -36,9 +36,9 @@ export default function ScrollbarHorizontalScrollbarSize() {
 	const debouncedOnChange = useDebounce( onChangeOption, 200 );
 
 	const title = __( 'Horizontal scrollbar size', 'custom-html-block-extension' );
-	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const isVisible = useSearchVisibility( title );
 
-	if ( searchQuery && ! isMatch ) {
+	if ( ! isVisible ) {
 		return null;
 	}
 

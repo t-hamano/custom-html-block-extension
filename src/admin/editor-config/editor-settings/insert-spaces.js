@@ -13,16 +13,15 @@ import {
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { EditorConfigContext } from '../index';
+import { useSearchVisibility } from '../index';
 
 export default function InsertSpaces() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
-	const { searchQuery } = useContext( EditorConfigContext );
 
 	const title = __( 'Indent type', 'custom-html-block-extension' );
-	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const isVisible = useSearchVisibility( title );
 
-	if ( searchQuery && ! isMatch ) {
+	if ( ! isVisible ) {
 		return null;
 	}
 

@@ -9,16 +9,15 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { EditorConfigContext } from '../index';
+import { useSearchVisibility } from '../index';
 
 export default function FontWeight( { fontWeights } ) {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { searchQuery } = useContext( EditorConfigContext );
 
 	const title = __( 'Font weight', 'custom-html-block-extension' );
-	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const isVisible = useSearchVisibility( title );
 
-	if ( searchQuery && ! isMatch ) {
+	if ( ! isVisible ) {
 		return null;
 	}
 

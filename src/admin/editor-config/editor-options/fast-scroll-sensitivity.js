@@ -9,20 +9,19 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { EditorConfigContext } from '../index';
+import { useSearchVisibility } from '../index';
 import { toNumber } from '../../../lib/helper';
 
 export default function FastScrollSensitivity() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { searchQuery } = useContext( EditorConfigContext );
 
 	const title = __(
 		'Mouse wheel scroll speed (when pressing Alt key)',
 		'custom-html-block-extension'
 	);
-	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const isVisible = useSearchVisibility( title );
 
-	if ( searchQuery && ! isMatch ) {
+	if ( ! isVisible ) {
 		return null;
 	}
 

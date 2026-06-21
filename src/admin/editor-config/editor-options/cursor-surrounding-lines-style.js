@@ -9,20 +9,19 @@ import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/compon
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { EditorConfigContext } from '../index';
+import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
 
 export default function CursorSurroundingLinesStyle() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { searchQuery } = useContext( EditorConfigContext );
 
 	const title = __(
 		'Keep lines before and after the cursor even when the cursor is moved by mouse click',
 		'custom-html-block-extension'
 	);
-	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const isVisible = useSearchVisibility( title );
 
-	if ( searchQuery && ! isMatch ) {
+	if ( ! isVisible ) {
 		return null;
 	}
 

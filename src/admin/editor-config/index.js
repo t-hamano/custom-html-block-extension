@@ -29,6 +29,21 @@ import * as EditorOptions from './editor-options';
  */
 export const EditorConfigContext = createContext();
 
+/**
+ * Whether a setting with the given title should render under the current
+ * search query. Settings whose title doesn't match the query are hidden.
+ *
+ * @param {string} title The setting's display title.
+ * @return {boolean} True when the setting should render.
+ */
+export function useSearchVisibility( title ) {
+	const { searchQuery } = useContext( EditorConfigContext );
+	if ( ! searchQuery ) {
+		return true;
+	}
+	return title.toLowerCase().includes( searchQuery.toLowerCase() );
+}
+
 export default function EditorConfig() {
 	const {
 		isWaiting,

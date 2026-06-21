@@ -9,17 +9,17 @@ import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/compon
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { EditorConfigContext } from '../../index';
+import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../../components/item-help';
 
 export default function ScrollbarScrollByPage() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { onRefreshEditor, searchQuery } = useContext( EditorConfigContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
 
 	const title = __( 'Scroll by page', 'custom-html-block-extension' );
-	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const isVisible = useSearchVisibility( title );
 
-	if ( searchQuery && ! isMatch ) {
+	if ( ! isVisible ) {
 		return null;
 	}
 

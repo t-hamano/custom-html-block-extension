@@ -9,19 +9,18 @@ import { RangeControl, __experimentalHStack as HStack } from '@wordpress/compone
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { EditorConfigContext } from '../../index';
+import { useSearchVisibility } from '../../index';
 import ItemHelp from '../../components/item-help';
 import { toNumber } from '../../../../lib/helper';
 
 export default function PaddingBottom() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-	const { searchQuery } = useContext( EditorConfigContext );
 
 	const title = __( 'Padding bottom (px)', 'custom-html-block-extension' );
 
-	const isMatch = searchQuery && title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const isVisible = useSearchVisibility( title );
 
-	if ( searchQuery && ! isMatch ) {
+	if ( ! isVisible ) {
 		return null;
 	}
 
