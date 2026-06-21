@@ -59,6 +59,16 @@ initLoader().then( ( monaco ) => {
 		// Create monaco editor.
 		window.editor = monaco.editor.create( monacoEditorContainer, properties );
 
+		// Force "preventScroll" on focus so clicking the editor doesn't scroll
+		// the page back to the cursor (e.g. after browser find-in-page). Only
+		// Chromium's EditContext element has this issue.
+		// See https://github.com/microsoft/monaco-editor/issues/4248
+		const focusTarget = monacoEditorContainer.querySelector( '.native-edit-context' );
+		if ( focusTarget ) {
+			const originalFocus = focusTarget.focus.bind( focusTarget );
+			focusTarget.focus = ( options ) => originalFocus( { ...options, preventScroll: true } );
+		}
+
 		// Change editor area height.
 		const contentHeight = Math.max( 300, window.editor.getContentHeight() );
 		monacoEditorContainer.style.height = `${ contentHeight }px`;
