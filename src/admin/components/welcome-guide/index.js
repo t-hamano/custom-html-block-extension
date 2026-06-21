@@ -3,7 +3,7 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { useState, useEffect } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 import {
 	Button,
@@ -15,13 +15,7 @@ import {
 } from '@wordpress/components';
 
 export default function WelcomeGuide() {
-	const [ isModalOpen, setIsModalOpen ] = useState( false );
-
-	useEffect( () => {
-		if ( ! window.chbeObj.dismissWelcomeGuide ) {
-			setIsModalOpen( true );
-		}
-	}, [] );
+	const [ isModalOpen, setIsModalOpen ] = useState( ! window.chbeObj.dismissWelcomeGuide );
 
 	const onFinish = () => {
 		if ( ! window.chbeObj.dismissWelcomeGuide ) {
