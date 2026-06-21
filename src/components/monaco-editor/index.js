@@ -65,6 +65,9 @@ export default function MonacoEditor( {
 	const [ isEditorReady, setIsEditorReady ] = useState( false );
 	const [ isMonacoMounting, setIsMonacoMounting ] = useState( true );
 
+	const onChangeRef = useRef( onChange );
+	onChangeRef.current = onChange;
+
 	const [ resizeListener, size ] = useResizeObserver();
 
 	// Init loader.
@@ -172,6 +175,12 @@ export default function MonacoEditor( {
 				}
 			);
 
+			// Subscribe to content changes once; the callback is read from a ref
+			// so prop changes don't require re-subscribing.
+			subscriptionRef.current = editorRef.current.onDidChangeModelContent( ( event ) => {
+				onChangeRef.current?.( editorRef.current.getValue(), event );
+			} );
+
 			setIsEditorReady( true );
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -239,16 +248,6 @@ export default function MonacoEditor( {
 			editorRef.current.pushUndoStop();
 		}
 	}, [ value, isEditorReady ] );
-
-	// Change value event.
-	useEffect( () => {
-		if ( isEditorReady && onChange ) {
-			subscriptionRef.current?.dispose();
-			subscriptionRef.current = editorRef.current?.onDidChangeModelContent( ( event ) => {
-				onChange( editorRef.current.getValue(), event );
-			} );
-		}
-	}, [ isEditorReady, onChange ] );
 
 	// Dispose editor.
 	function disposeEditor() {
