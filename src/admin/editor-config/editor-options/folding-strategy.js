@@ -55,9 +55,7 @@ export default function FoldingStrategy() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.foldingStrategy }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

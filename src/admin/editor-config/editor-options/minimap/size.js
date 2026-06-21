@@ -71,9 +71,7 @@ export default function MinimapSize() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.minimap.size }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

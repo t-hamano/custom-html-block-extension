@@ -61,9 +61,7 @@ export default function LineNumbers() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.lineNumbers }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

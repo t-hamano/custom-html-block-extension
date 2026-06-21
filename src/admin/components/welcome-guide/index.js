@@ -18,15 +18,12 @@ export default function WelcomeGuide() {
 	const [ isModalOpen, setIsModalOpen ] = useState( ! window.chbeObj.dismissWelcomeGuide );
 
 	const onFinish = () => {
+		setIsModalOpen( false );
 		if ( ! window.chbeObj.dismissWelcomeGuide ) {
 			apiFetch( {
 				path: '/custom-html-block-extension/v1/dismiss_welcome_guide',
 				method: 'POST',
-			} ).then( () => {
-				setIsModalOpen( false );
 			} );
-		} else {
-			setIsModalOpen( false );
 		}
 	};
 

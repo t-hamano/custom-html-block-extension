@@ -69,9 +69,7 @@ export default function RenderWhitespace() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.renderWhitespace }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

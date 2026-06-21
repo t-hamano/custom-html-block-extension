@@ -59,9 +59,7 @@ export default function AutoClosingBrackets() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.autoClosingBrackets }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

@@ -60,9 +60,7 @@ export default function ScrollbarHorizontal() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.scrollbar.horizontal }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

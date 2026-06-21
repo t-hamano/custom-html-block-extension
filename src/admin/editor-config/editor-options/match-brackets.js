@@ -56,9 +56,7 @@ export default function MatchBrackets() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.matchBrackets }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

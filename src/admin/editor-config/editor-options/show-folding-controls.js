@@ -51,9 +51,7 @@ export default function ShowFoldingControls() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.showFoldingControls }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

@@ -71,9 +71,7 @@ export default function CursorStyle() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.cursorStyle }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

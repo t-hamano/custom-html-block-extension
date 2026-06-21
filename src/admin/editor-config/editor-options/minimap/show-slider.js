@@ -54,9 +54,7 @@ export default function MinimapShowSlider() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.minimap.showSlider }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp

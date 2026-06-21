@@ -57,9 +57,7 @@ export default function AutoIndent() {
 				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.autoIndent }
-				options={ items.map( ( { label, value } ) => {
-					return { label, value };
-				} ) }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
 				onChange={ onChange }
 			/>
 			<ItemHelp
