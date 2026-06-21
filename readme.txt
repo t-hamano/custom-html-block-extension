@@ -4,7 +4,7 @@ Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 6.9
 Tested up to: 7.0
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,10 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 4.0.1 =
+* Fix: Undo clears all content right after the editor loads
+* Fix: Focus scrolls the page in the classic editor.
 
 = 4.0.0 =
 * Tested to WordPress 7.0
