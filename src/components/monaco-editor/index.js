@@ -108,6 +108,12 @@ export default function MonacoEditor( {
 			editorRef.current = monacoRef.current.editor.create( containerRef.current, options );
 			monacoRef.current.editor.setModelLanguage( editorRef.current.getModel(), language );
 
+			// Set the initial value via setValue, which clears the undo/redo stack.
+			// This prevents undo right after load from wiping out the content.
+			if ( value ) {
+				editorRef.current.getModel().setValue( value );
+			}
+
 			// Apply emmet.
 			if ( useEmmet && ! defaultView.enabledEmmet ) {
 				defaultView.enabledEmmet = true;
