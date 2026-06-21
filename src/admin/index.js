@@ -8,7 +8,7 @@ import clsx from 'clsx';
  */
 import { __ } from '@wordpress/i18n';
 import { TabPanel, Spinner } from '@wordpress/components';
-import { render, createRoot, createContext, useState } from '@wordpress/element';
+import { createRoot, createContext, useState } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 
 /**
@@ -119,13 +119,6 @@ function Admin() {
 
 domReady( function () {
 	const domNode = document.getElementById( 'custom-html-block-extension-admin' );
-
-	// If version is less than 18 use `render` to render the app
-	// otherwise use `createRoot` to render the app
-	if ( createRoot === undefined ) {
-		render( <Admin />, domNode );
-	} else {
-		const root = createRoot( domNode );
-		root.render( <Admin /> );
-	}
+	const root = createRoot( domNode );
+	root.render( <Admin /> );
 } );
