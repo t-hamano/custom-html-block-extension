@@ -16,23 +16,11 @@ class Init {
 		// Load translated strings
 		load_plugin_textdomain( CHBE_NAMESPACE );
 
-		// Uninstallation process
-		register_uninstall_hook( CHBE_BASENAME, __NAMESPACE__ . '\Init::plugin_uninstall' );
-
 		// Add a link to this plugin settings page in plugin list
 		add_filter( 'plugin_action_links_' . CHBE_BASENAME, array( $this, 'add_action_links' ) );
 
 		// Load classes
 		$this->load_classes();
-	}
-
-	/**
-	 * Uninstallation process
-	 */
-	public static function plugin_uninstall() {
-		foreach ( Settings::OPTION_NAME as $option_name ) {
-			delete_option( $option_name );
-		}
 	}
 
 	/**

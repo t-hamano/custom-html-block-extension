@@ -20,6 +20,15 @@
 		"node": ">=24.0.0",
 		"npm": ">=11.0.0"
 	},
+	"files": [
+		"assets",
+		"classes",
+		"src",
+		"build",
+		"custom-html-block-extension.php",
+		"uninstall.php",
+		"readme.txt"
+	],
 	"dependencies": {
 		"@wordpress/icons": "^14.0.1",
 		"emmet-monaco-es": "^5.6.1",
@@ -45,6 +54,7 @@
 		"start": "npm run clean && npm run copy-lib && wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
 		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
 		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/vendor/monaco-editor/min\" && node bin/delete-sourcemaps.js",
+		"plugin-zip": "npm run build && wp-scripts plugin-zip",
 		"clean": "rimraf build",
 		"check-licenses": "wp-scripts check-licenses",
 		"lint": "npm run lint:css && npm run lint:js && npm run lint:php && npm run lint:md-docs && npm run lint:pkg-json",
