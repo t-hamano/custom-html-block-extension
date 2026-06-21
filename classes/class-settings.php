@@ -9,14 +9,6 @@ namespace Custom_Html_Block_Extension;
 
 class Settings {
 
-	// Names of the option to update.
-	const OPTION_NAME = array(
-		'editor_settings'       => 'custom_html_block_extension_editor_settings',
-		'editor_options'        => 'custom_html_block_extension_editor_options',
-		'options'               => 'custom_html_block_extension_options',
-		'dismiss_welcome_guide' => 'custom_html_block_extension_dismiss_welcome_guilde',
-	);
-
 	// Default editor settings.
 	const DEFAULT_EDITOR_SETTINGS = array(
 		'theme'        => array(
@@ -519,7 +511,7 @@ class Settings {
 			$default_editor_settings[ $key ] = $value['default'];
 		}
 
-		$current_editor_settings = (array) get_option( self::OPTION_NAME['editor_settings'] );
+		$current_editor_settings = (array) get_option( Option::OPTION_NAMES['editor_settings'] );
 
 		return array_merge( $default_editor_settings, $current_editor_settings );
 	}
@@ -543,7 +535,7 @@ class Settings {
 			}
 		}
 
-		$current_editor_options = (array) get_option( self::OPTION_NAME['editor_options'] );
+		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
 		return array_merge( $default_editor_options, $current_editor_options );
 	}
@@ -559,7 +551,7 @@ class Settings {
 			$default_options[ $key ] = $value['default'];
 		}
 
-		$current_options = (array) get_option( self::OPTION_NAME['options'] );
+		$current_options = (array) get_option( Option::OPTION_NAMES['options'] );
 
 		return array_merge( $default_options, $current_options );
 	}

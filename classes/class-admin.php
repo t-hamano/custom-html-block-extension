@@ -115,7 +115,7 @@ class Admin {
 				'options'             => Settings::get_options(),
 				'userRoles'           => Settings::get_user_roles(),
 				'fontFamily'          => Settings::get_font_families(),
-				'dismissWelcomeGuide' => get_option( Settings::OPTION_NAME['dismiss_welcome_guide'] ),
+				'dismissWelcomeGuide' => get_option( Option::OPTION_NAMES['dismiss_welcome_guide'] ),
 			)
 		);
 
@@ -149,7 +149,7 @@ class Admin {
 			'default'      => $default_editor_settings,
 		);
 
-		register_setting( CHBE_NAMESPACE, Settings::OPTION_NAME['editor_settings'], $args_editor_settings );
+		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_settings'], $args_editor_settings );
 
 		// Register editor options.
 		$properties_editor_options = array();
@@ -188,7 +188,7 @@ class Admin {
 			'default'      => $default_editor_options,
 		);
 
-		register_setting( CHBE_NAMESPACE, Settings::OPTION_NAME['editor_options'], $args_editor_options );
+		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );
 
 		// Register options.
 		$properties_options = array();
@@ -213,7 +213,7 @@ class Admin {
 			'default'      => $default_options,
 		);
 
-		register_setting( CHBE_NAMESPACE, Settings::OPTION_NAME['options'], $args_options );
+		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['options'], $args_options );
 	}
 
 	/**

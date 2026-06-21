@@ -7,7 +7,8 @@
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
-delete_option( 'custom_html_block_extension_editor_settings' );
-delete_option( 'custom_html_block_extension_editor_options' );
-delete_option( 'custom_html_block_extension_options' );
-delete_option( 'custom_html_block_extension_dismiss_welcome_guilde' );
+require_once __DIR__ . '/classes/class-option.php';
+
+foreach ( Custom_Html_Block_Extension\Option::OPTION_NAMES as $option_name ) {
+	delete_option( $option_name );
+}

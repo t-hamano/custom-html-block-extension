@@ -36,6 +36,7 @@ class Init {
 	 * Load classes
 	 */
 	public function load_classes() {
+		require_once CHBE_PATH . '/classes/class-option.php';
 		require_once CHBE_PATH . '/classes/class-settings.php';
 		require_once CHBE_PATH . '/classes/class-admin.php';
 		require_once CHBE_PATH . '/classes/class-block-editor.php';
