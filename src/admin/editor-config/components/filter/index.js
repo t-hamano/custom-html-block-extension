@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useEffect, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import {
 	FlexBlock,
 	SearchControl,
@@ -26,14 +26,7 @@ const MODES = [
 export default function Filter( { editorMode, setEditorMode, searchQuery, setSearchQuery } ) {
 	const [ searchQueryState, setSearchQueryState ] = useState( searchQuery );
 
-	const debouncedOnChangeSearchQuery = useDebounce( ( value ) => {
-		setSearchQuery( value );
-	}, 100 );
-
-	useEffect( () => {
-		debouncedOnChangeSearchQuery( searchQueryState );
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ searchQueryState ] );
+	const debouncedOnChangeSearchQuery = useDebounce( setSearchQuery, 100 );
 
 	return (
 		<HStack className="chbe-admin-editor-config-filter">
@@ -61,7 +54,10 @@ export default function Filter( { editorMode, setEditorMode, searchQuery, setSea
 				<SearchControl
 					__nextHasNoMarginBottom
 					value={ searchQueryState }
-					onChange={ setSearchQueryState }
+					onChange={ ( value ) => {
+						setSearchQueryState( value );
+						debouncedOnChangeSearchQuery( value );
+					} }
 				/>
 			</FlexBlock>
 		</HStack>
