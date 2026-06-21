@@ -31,18 +31,20 @@ export default function LineNumbersMinChars() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<RangeControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.lineNumbersMinChars }
-				min={ 1 }
-				max={ 10 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<RangeControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.lineNumbersMinChars }
+					min={ 1 }
+					max={ 10 }
+					allowReset
+					onChange={ onChange }
+				/>
+				<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
+			</HStack>
+		</div>
 	);
 }

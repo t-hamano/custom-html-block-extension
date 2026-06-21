@@ -33,25 +33,27 @@ export default function FindLoop() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.find.loop }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Automatically restart the search from the beginning (or end) when no more matches are found.',
-					'custom-html-block-extension'
-				) }
-				isToggle
-				defaultToggle
-				image="editor-options/find/loop.gif"
-				value={ editorOptions.find.loop }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.find.loop }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Automatically restart the search from the beginning (or end) when no more matches are found.',
+						'custom-html-block-extension'
+					) }
+					isToggle
+					defaultToggle
+					image="editor-options/find/loop.gif"
+					value={ editorOptions.find.loop }
+				/>
+			</HStack>
+		</div>
 	);
 }

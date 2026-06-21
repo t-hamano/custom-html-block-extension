@@ -30,29 +30,31 @@ export default function AcceptSuggestionOnEnter() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.acceptSuggestionOnEnter }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ createInterpolateElement(
-					__(
-						'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
-						'custom-html-block-extension'
-					),
-					{
-						code: <code />,
-					}
-				) }
-				isToggle
-				defaultToggle
-				value={ editorOptions.acceptSuggestionOnEnter }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.acceptSuggestionOnEnter }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ createInterpolateElement(
+						__(
+							'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
+					) }
+					isToggle
+					defaultToggle
+					value={ editorOptions.acceptSuggestionOnEnter }
+				/>
+			</HStack>
+		</div>
 	);
 }

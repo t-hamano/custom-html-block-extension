@@ -35,31 +35,33 @@ export default function ScrollbarVerticalHasArrows() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.scrollbar.verticalHasArrows }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
-						value: false,
-						isDefault: true,
-					},
-				] }
-				value={ editorOptions.scrollbar.verticalHasArrows }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.scrollbar.verticalHasArrows }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
+							value: true,
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
+							value: false,
+							isDefault: true,
+						},
+					] }
+					value={ editorOptions.scrollbar.verticalHasArrows }
+				/>
+			</HStack>
+		</div>
 	);
 }

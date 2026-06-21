@@ -30,15 +30,17 @@ export default function CursorWidth() {
 	};
 
 	return (
-		<RangeControl
-			__next40pxDefaultSize
-			__nextHasNoMarginBottom
-			label={ title }
-			value={ editorOptions.cursorWidth }
-			min={ 2 }
-			max={ 10 }
-			allowReset
-			onChange={ onChange }
-		/>
+		<div className="chbe-admin-editor-config__setting-item">
+			<RangeControl
+				__next40pxDefaultSize
+				__nextHasNoMarginBottom
+				label={ title }
+				value={ editorOptions.cursorWidth }
+				min={ 2 }
+				max={ 10 }
+				allowReset
+				onChange={ onChange }
+			/>
+		</div>
 	);
 }

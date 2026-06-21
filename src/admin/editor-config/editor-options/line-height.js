@@ -30,15 +30,17 @@ export default function LineHeight() {
 	};
 
 	return (
-		<RangeControl
-			__next40pxDefaultSize
-			__nextHasNoMarginBottom
-			label={ title }
-			value={ editorOptions.lineHeight }
-			min={ 10 }
-			max={ 60 }
-			allowReset
-			onChange={ onChange }
-		/>
+		<div className="chbe-admin-editor-config__setting-item">
+			<RangeControl
+				__next40pxDefaultSize
+				__nextHasNoMarginBottom
+				label={ title }
+				value={ editorOptions.lineHeight }
+				min={ 10 }
+				max={ 60 }
+				allowReset
+				onChange={ onChange }
+			/>
+		</div>
 	);
 }

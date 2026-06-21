@@ -31,23 +31,25 @@ export default function WordWrapColumn() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<RangeControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.wordWrapColumn }
-				min={ 20 }
-				max={ 200 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				image="editor-options/word-wrap-column.gif"
-				value={ editorOptions.wordWrapColumn }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<RangeControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.wordWrapColumn }
+					min={ 20 }
+					max={ 200 }
+					allowReset
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					image="editor-options/word-wrap-column.gif"
+					value={ editorOptions.wordWrapColumn }
+				/>
+			</HStack>
+		</div>
 	);
 }

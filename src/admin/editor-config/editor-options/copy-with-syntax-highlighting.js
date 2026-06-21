@@ -30,35 +30,37 @@ export default function CopyWithSyntaxHighlighting() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.copyWithSyntaxHighlighting }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Example: How it looks when pasted into Microsoft Word',
-					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/copy-with-syntax-highlighting_1.jpg',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/copy-with-syntax-highlighting_2.jpg',
-					},
-				] }
-				value={ editorOptions.copyWithSyntaxHighlighting }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.copyWithSyntaxHighlighting }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Example: How it looks when pasted into Microsoft Word',
+						'custom-html-block-extension'
+					) }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							image: 'editor-options/copy-with-syntax-highlighting_1.jpg',
+							isDefault: true,
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							image: 'editor-options/copy-with-syntax-highlighting_2.jpg',
+						},
+					] }
+					value={ editorOptions.copyWithSyntaxHighlighting }
+				/>
+			</HStack>
+		</div>
 	);
 }

@@ -33,35 +33,37 @@ export default function CursorSurroundingLinesStyle() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ 'all' === editorOptions.cursorSurroundingLinesStyle }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Sets the context menu when right-click in the editor.',
-					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/cursor-surrounding-lines-style_1.gif',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/cursor-surrounding-lines-style_2.gif',
-						isDefault: true,
-					},
-				] }
-				value={ 'all' === editorOptions.cursorSurroundingLinesStyle }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ 'all' === editorOptions.cursorSurroundingLinesStyle }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Sets the context menu when right-click in the editor.',
+						'custom-html-block-extension'
+					) }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							image: 'editor-options/cursor-surrounding-lines-style_1.gif',
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							image: 'editor-options/cursor-surrounding-lines-style_2.gif',
+							isDefault: true,
+						},
+					] }
+					value={ 'all' === editorOptions.cursorSurroundingLinesStyle }
+				/>
+			</HStack>
+		</div>
 	);
 }

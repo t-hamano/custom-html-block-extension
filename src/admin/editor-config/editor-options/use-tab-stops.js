@@ -33,31 +33,33 @@ export default function UseTabStops() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.useTabStops }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/use-tab-stops_1.gif',
-						value: true,
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/use-tab-stops_2.gif',
-						value: false,
-					},
-				] }
-				value={ editorOptions.useTabStops }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.useTabStops }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							image: 'editor-options/use-tab-stops_1.gif',
+							value: true,
+							isDefault: true,
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							image: 'editor-options/use-tab-stops_2.gif',
+							value: false,
+						},
+					] }
+					value={ editorOptions.useTabStops }
+				/>
+			</HStack>
+		</div>
 	);
 }

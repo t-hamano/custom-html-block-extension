@@ -30,37 +30,39 @@ export default function Contextmenu() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.contextmenu }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Sets the context menu when right-click in the editor.',
-					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/contextmenu_1.jpg',
-						isDefault: true,
-						description: __( 'Show the editor context menu.', 'custom-html-block-extension' ),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/contextmenu_2.jpg',
-						description: __( 'Show the browser context menu.', 'custom-html-block-extension' ),
-					},
-				] }
-				value={ editorOptions.contextmenu }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.contextmenu }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Sets the context menu when right-click in the editor.',
+						'custom-html-block-extension'
+					) }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							image: 'editor-options/contextmenu_1.jpg',
+							isDefault: true,
+							description: __( 'Show the editor context menu.', 'custom-html-block-extension' ),
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							image: 'editor-options/contextmenu_2.jpg',
+							description: __( 'Show the browser context menu.', 'custom-html-block-extension' ),
+						},
+					] }
+					value={ editorOptions.contextmenu }
+				/>
+			</HStack>
+		</div>
 	);
 }

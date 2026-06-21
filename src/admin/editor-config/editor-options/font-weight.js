@@ -29,18 +29,20 @@ export default function FontWeight( { fontWeights } ) {
 	};
 
 	return (
-		<HStack>
-			<SelectControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ Number( editorOptions.fontWeight ) }
-				options={ fontWeights.map( ( fontWeight ) => ( {
-					label: fontWeight,
-					value: fontWeight,
-				} ) ) }
-				onChange={ onChange }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack>
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ Number( editorOptions.fontWeight ) }
+					options={ fontWeights.map( ( fontWeight ) => ( {
+						label: fontWeight,
+						value: fontWeight,
+					} ) ) }
+					onChange={ onChange }
+				/>
+			</HStack>
+		</div>
 	);
 }

@@ -46,19 +46,25 @@ export default function InsertSpaces() {
 	};
 
 	return (
-		<HStack>
-			<ToggleGroupControl
-				__nextHasNoMarginBottom
-				size="__unstable-large"
-				label={ __( 'Indent type', 'custom-html-block-extension' ) }
-				value={ editorSettings.insertSpaces }
-				onChange={ onChange }
-				isBlock
-			>
-				{ items.map( ( item ) => (
-					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
-				) ) }
-			</ToggleGroupControl>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack>
+				<ToggleGroupControl
+					__nextHasNoMarginBottom
+					size="__unstable-large"
+					label={ __( 'Indent type', 'custom-html-block-extension' ) }
+					value={ editorSettings.insertSpaces }
+					onChange={ onChange }
+					isBlock
+				>
+					{ items.map( ( item ) => (
+						<ToggleGroupControlOption
+							key={ item.value }
+							value={ item.value }
+							label={ item.label }
+						/>
+					) ) }
+				</ToggleGroupControl>
+			</HStack>
+		</div>
 	);
 }

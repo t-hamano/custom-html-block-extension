@@ -35,39 +35,41 @@ export default function ScrollbarAlwaysConsumeMouseWheel() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.scrollbar.alwaysConsumeMouseWheel }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						isDefault: true,
-						description: __(
-							'Browser does not scroll when mouse wheel reaches the beginning or end.',
-							'custom-html-block-extension'
-						),
-						image: 'editor-options/scrollbar/always-consume-mouse-wheel_1.gif',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						description: __(
-							'Browser will scroll when mouse wheel reaches the beginning or end.',
-							'custom-html-block-extension'
-						),
-						image: 'editor-options/scrollbar/always-consume-mouse-wheel_2.gif',
-					},
-				] }
-				value={ editorOptions.scrollbar.alwaysConsumeMouseWheel }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.scrollbar.alwaysConsumeMouseWheel }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							isDefault: true,
+							description: __(
+								'Browser does not scroll when mouse wheel reaches the beginning or end.',
+								'custom-html-block-extension'
+							),
+							image: 'editor-options/scrollbar/always-consume-mouse-wheel_1.gif',
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							description: __(
+								'Browser will scroll when mouse wheel reaches the beginning or end.',
+								'custom-html-block-extension'
+							),
+							image: 'editor-options/scrollbar/always-consume-mouse-wheel_2.gif',
+						},
+					] }
+					value={ editorOptions.scrollbar.alwaysConsumeMouseWheel }
+				/>
+			</HStack>
+		</div>
 	);
 }

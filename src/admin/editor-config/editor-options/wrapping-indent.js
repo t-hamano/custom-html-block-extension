@@ -54,21 +54,23 @@ export default function WrappingIndent() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<SelectControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.wrappingIndent }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				value={ editorOptions.wrappingIndent }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.wrappingIndent }
+					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ items }
+					value={ editorOptions.wrappingIndent }
+				/>
+			</HStack>
+		</div>
 	);
 }

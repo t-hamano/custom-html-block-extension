@@ -35,47 +35,49 @@ export default function FontFamily() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<SelectControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.fontFamily }
-				options={ [
-					...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
-						label,
-						value: name,
-					} ) ),
-					{
-						label: __( 'Monospace', 'custom-html-block-extension' ),
-						value: 'monospace',
-					},
-				] }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				title={ title }
-				description={
-					<>
-						<Text as="p">
-							{ __(
-								'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text as="p">
-							<ExternalLink
-								href={ __(
-									'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.fontFamily }
+					options={ [
+						...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
+							label,
+							value: name,
+						} ) ),
+						{
+							label: __( 'Monospace', 'custom-html-block-extension' ),
+							value: 'monospace',
+						},
+					] }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					title={ title }
+					description={
+						<>
+							<Text as="p">
+								{ __(
+									'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.',
 									'custom-html-block-extension'
 								) }
-							>
-								{ __( 'GitHub project page', 'custom-html-block-extension' ) }
-							</ExternalLink>
-						</Text>
-					</>
-				}
-			/>
-		</HStack>
+							</Text>
+							<Text as="p">
+								<ExternalLink
+									href={ __(
+										'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
+										'custom-html-block-extension'
+									) }
+								>
+									{ __( 'GitHub project page', 'custom-html-block-extension' ) }
+								</ExternalLink>
+							</Text>
+						</>
+					}
+				/>
+			</HStack>
+		</div>
 	);
 }

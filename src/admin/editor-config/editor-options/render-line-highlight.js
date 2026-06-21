@@ -54,29 +54,34 @@ export default function RenderLineHighlight() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<SelectControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.renderLineHighlight }
-				options={ [
-					{
-						label: __( 'Line numbers and the editor content', 'custom-html-block-extension' ),
-						value: 'all',
-					},
-					{ label: __( 'Only the editor content', 'custom-html-block-extension' ), value: 'line' },
-					{ label: __( 'Only line numbers', 'custom-html-block-extension' ), value: 'gutter' },
-					{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' },
-				] }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				value={ editorOptions.renderLineHighlight }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.renderLineHighlight }
+					options={ [
+						{
+							label: __( 'Line numbers and the editor content', 'custom-html-block-extension' ),
+							value: 'all',
+						},
+						{
+							label: __( 'Only the editor content', 'custom-html-block-extension' ),
+							value: 'line',
+						},
+						{ label: __( 'Only line numbers', 'custom-html-block-extension' ), value: 'gutter' },
+						{ label: __( 'None', 'custom-html-block-extension' ), value: 'none' },
+					] }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ items }
+					value={ editorOptions.renderLineHighlight }
+				/>
+			</HStack>
+		</div>
 	);
 }

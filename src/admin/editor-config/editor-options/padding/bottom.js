@@ -35,26 +35,28 @@ export default function PaddingBottom() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<RangeControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.padding.bottom }
-				min={ 0 }
-				max={ 50 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Spacing between bottom edge of editor and last line. This setting will not work if "Scroll past the last line" is enabled in "Mouse and Scroll" category.',
-					'custom-html-block-extension'
-				) }
-				image="editor-options/padding/bottom.gif"
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<RangeControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.padding.bottom }
+					min={ 0 }
+					max={ 50 }
+					allowReset
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Spacing between bottom edge of editor and last line. This setting will not work if "Scroll past the last line" is enabled in "Mouse and Scroll" category.',
+						'custom-html-block-extension'
+					) }
+					image="editor-options/padding/bottom.gif"
+				/>
+			</HStack>
+		</div>
 	);
 }
