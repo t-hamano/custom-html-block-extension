@@ -5,7 +5,6 @@ import { __ } from '@wordpress/i18n';
 
 const themes = [];
 
-/* eslint-disable prettier/prettier */
 const themeList = {
 	active4d: __( 'Active4D', 'custom-html-block-extension' ),
 	'all-hallows-eve': __( 'All Hallows Eve', 'custom-html-block-extension' ),
@@ -56,7 +55,6 @@ const themeList = {
 	krtheme: __( 'krTheme', 'custom-html-block-extension' ),
 	monoindustrial: __( 'Monoindustrial', 'custom-html-block-extension' ),
 };
-/* eslint-enable prettier/prettier */
 
 Object.keys( themeList ).forEach( function ( key ) {
 	themes.push( {

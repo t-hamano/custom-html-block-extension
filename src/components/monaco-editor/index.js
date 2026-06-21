@@ -251,7 +251,7 @@ export default function MonacoEditor( {
 		if ( model ) {
 			try {
 				model.dispose();
-			} catch ( err ) {
+			} catch {
 				// Firefox throws NS_ERROR_NOT_INITIALIZED when iframe/document
 				// is torn down (e.g. switching to code editor mode).
 			}
