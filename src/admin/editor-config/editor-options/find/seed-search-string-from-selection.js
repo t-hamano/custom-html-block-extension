@@ -33,21 +33,23 @@ export default function FindSeedSearchStringFromSelection() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.find.seedSearchStringFromSelection }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				isToggle
-				defaultToggle
-				image="editor-options/find/seed-search-string-from-selection.gif"
-				value={ editorOptions.find.seedSearchStringFromSelection }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.find.seedSearchStringFromSelection }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					isToggle
+					defaultToggle
+					image="editor-options/find/seed-search-string-from-selection.gif"
+					value={ editorOptions.find.seedSearchStringFromSelection }
+				/>
+			</HStack>
+		</div>
 	);
 }

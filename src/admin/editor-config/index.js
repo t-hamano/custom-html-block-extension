@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import clsx from 'clsx';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -140,11 +145,12 @@ export default function EditorConfig() {
 					setSearchQuery={ setSearchQuery }
 				/>
 				<VStack
-					className={
+					className={ clsx(
 						editorMode === 'basic' && ! searchQuery
 							? 'chbe-admin-editor-config__basic-settings'
-							: 'chbe-admin-editor-config__advanced-settings'
-					}
+							: 'chbe-admin-editor-config__advanced-settings',
+						{ 'is-searching': !! searchQuery }
+					) }
 					spacing={ editorMode === 'basic' && ! searchQuery ? 6 : 2 }
 				>
 					<EditorConfigContext.Provider value={ { onRefreshEditor, searchQuery } }>
@@ -168,6 +174,7 @@ export default function EditorConfig() {
 						{ ( 'advanced' === editorMode || searchQuery ) && (
 							<>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Editor', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -184,6 +191,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Font', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -198,6 +206,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Word wrap', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -221,6 +230,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Minimap', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -251,6 +261,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Cursor', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -271,6 +282,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Code folding', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -299,6 +311,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Line number', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -323,6 +336,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Suggest', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -351,6 +365,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Auto completion', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -364,6 +379,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -382,6 +398,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Select, cut, copy, and paste', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -397,6 +414,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -426,6 +444,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Find', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -437,6 +456,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Scrollbar', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }
@@ -487,6 +507,7 @@ export default function EditorConfig() {
 									</VStack>
 								</PanelBody>
 								<PanelBody
+									className="chbe-admin-editor-config__panel"
 									title={ __( 'Other', 'custom-html-block-extension' ) }
 									initialOpen={ searchQuery }
 									scrollAfterOpen={ ! searchQuery }

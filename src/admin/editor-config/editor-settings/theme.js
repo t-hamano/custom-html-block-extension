@@ -30,19 +30,21 @@ export default function Theme() {
 	};
 
 	return (
-		<HStack>
-			<SelectControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorSettings.theme }
-				options={ [
-					{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
-					{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
-					...themes,
-				] }
-				onChange={ onChange }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack>
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorSettings.theme }
+					options={ [
+						{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
+						{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
+						...themes,
+					] }
+					onChange={ onChange }
+				/>
+			</HStack>
+		</div>
 	);
 }

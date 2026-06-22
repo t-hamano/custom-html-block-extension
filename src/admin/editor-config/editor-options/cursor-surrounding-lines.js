@@ -34,46 +34,48 @@ export default function CursorSurroundingLines() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<RangeControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.cursorSurroundingLines }
-				min={ 0 }
-				max={ 20 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Sets the number of lines to keep before and after the cursor when the cursor is moved up and down.',
-					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							0
-						),
-						image: 'editor-options/cursor-surrounding-lines_1.gif',
-						value: 0,
-					},
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							5
-						),
-						image: 'editor-options/cursor-surrounding-lines_2.gif',
-						value: 5,
-					},
-				] }
-				value={ editorOptions.cursorSurroundingLines }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<RangeControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.cursorSurroundingLines }
+					min={ 0 }
+					max={ 20 }
+					allowReset
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Sets the number of lines to keep before and after the cursor when the cursor is moved up and down.',
+						'custom-html-block-extension'
+					) }
+					items={ [
+						{
+							label: sprintf(
+								/* translators: %s is replaced with the number. */
+								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+								0
+							),
+							image: 'editor-options/cursor-surrounding-lines_1.gif',
+							value: 0,
+						},
+						{
+							label: sprintf(
+								/* translators: %s is replaced with the number. */
+								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+								5
+							),
+							image: 'editor-options/cursor-surrounding-lines_2.gif',
+							value: 5,
+						},
+					] }
+					value={ editorOptions.cursorSurroundingLines }
+				/>
+			</HStack>
+		</div>
 	);
 }

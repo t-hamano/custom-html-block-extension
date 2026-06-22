@@ -51,28 +51,34 @@ export default function MultiCursorModifier() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleGroupControl
-				__nextHasNoMarginBottom
-				size="__unstable-large"
-				label={ title }
-				value={ editorOptions.multiCursorModifier }
-				onChange={ onChange }
-				isBlock
-			>
-				{ items.map( ( item ) => (
-					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
-				) ) }
-			</ToggleGroupControl>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'You can use multiple cursors for faster editing. Sets the key for applying multiple cursors with modifier key + Click.',
-					'custom-html-block-extension'
-				) }
-				image="editor-options/multi-cursor-modifier.gif"
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleGroupControl
+					__nextHasNoMarginBottom
+					size="__unstable-large"
+					label={ title }
+					value={ editorOptions.multiCursorModifier }
+					onChange={ onChange }
+					isBlock
+				>
+					{ items.map( ( item ) => (
+						<ToggleGroupControlOption
+							key={ item.value }
+							value={ item.value }
+							label={ item.label }
+						/>
+					) ) }
+				</ToggleGroupControl>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'You can use multiple cursors for faster editing. Sets the key for applying multiple cursors with modifier key + Click.',
+						'custom-html-block-extension'
+					) }
+					image="editor-options/multi-cursor-modifier.gif"
+				/>
+			</HStack>
+		</div>
 	);
 }

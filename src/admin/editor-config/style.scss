@@ -30,6 +30,13 @@
 		border-bottom: variables.$border-width solid colors.$gray-300;
 	}
 
+	.chbe-admin-editor-config__advanced-settings.is-searching {
+
+		.chbe-admin-editor-config__panel:not(:has(.chbe-admin-editor-config__setting-item)) {
+			display: none;
+		}
+	}
+
 	.chbe-admin-editor-config__preview {
 		position: sticky;
 		top: variables.$grid-unit-50;

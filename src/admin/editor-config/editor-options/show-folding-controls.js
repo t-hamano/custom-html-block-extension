@@ -44,21 +44,23 @@ export default function ShowFoldingControls() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<SelectControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.showFoldingControls }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				value={ editorOptions.showFoldingControls }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.showFoldingControls }
+					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ items }
+					value={ editorOptions.showFoldingControls }
+				/>
+			</HStack>
+		</div>
 	);
 }

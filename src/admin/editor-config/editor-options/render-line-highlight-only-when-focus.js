@@ -33,31 +33,33 @@ export default function RenderLineHighlightOnlyWhenFocus() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.renderLineHighlightOnlyWhenFocus }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/render-line-highlight-only-when-focus_1.gif',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/render-line-highlight-only-when-focus_2.gif',
-						isDefault: true,
-					},
-				] }
-				value={ editorOptions.renderLineHighlightOnlyWhenFocus }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.renderLineHighlightOnlyWhenFocus }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							image: 'editor-options/render-line-highlight-only-when-focus_1.gif',
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							image: 'editor-options/render-line-highlight-only-when-focus_2.gif',
+							isDefault: true,
+						},
+					] }
+					value={ editorOptions.renderLineHighlightOnlyWhenFocus }
+				/>
+			</HStack>
+		</div>
 	);
 }

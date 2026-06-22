@@ -30,35 +30,37 @@ export default function GlyphMargin() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.glyphMargin }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Margin at the left edge of the editor.',
-					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/glyph-margin_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/glyph-margin_2.jpg',
-						isDefault: true,
-					},
-				] }
-				value={ editorOptions.glyphMargin }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.glyphMargin }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Margin at the left edge of the editor.',
+						'custom-html-block-extension'
+					) }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							image: 'editor-options/glyph-margin_1.jpg',
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							image: 'editor-options/glyph-margin_2.jpg',
+							isDefault: true,
+						},
+					] }
+					value={ editorOptions.glyphMargin }
+				/>
+			</HStack>
+		</div>
 	);
 }

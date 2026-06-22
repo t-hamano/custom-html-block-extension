@@ -34,18 +34,20 @@ export default function MinimapMaxColumn() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<RangeControl
-				__next40pxDefaultSize
-				__nextHasNoMarginBottom
-				label={ title }
-				value={ editorOptions.minimap.maxColumn }
-				min={ 10 }
-				max={ 60 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp title={ title } image="editor-options/minimap/max-column.gif" />
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<RangeControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.minimap.maxColumn }
+					min={ 10 }
+					max={ 60 }
+					allowReset
+					onChange={ onChange }
+				/>
+				<ItemHelp title={ title } image="editor-options/minimap/max-column.gif" />
+			</HStack>
+		</div>
 	);
 }

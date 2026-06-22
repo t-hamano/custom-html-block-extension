@@ -30,31 +30,33 @@ export default function FormatOnPaste() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.formatOnPaste }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/format-on-paste_1.gif',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						isDefault: true,
-						image: 'editor-options/format-on-paste_2.gif',
-					},
-				] }
-				value={ editorOptions.formatOnPaste }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.formatOnPaste }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							image: 'editor-options/format-on-paste_1.gif',
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							isDefault: true,
+							image: 'editor-options/format-on-paste_2.gif',
+						},
+					] }
+					value={ editorOptions.formatOnPaste }
+				/>
+			</HStack>
+		</div>
 	);
 }

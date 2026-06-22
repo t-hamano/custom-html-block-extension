@@ -35,25 +35,27 @@ export default function ScrollbarScrollByPage() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.scrollbar.scrollByPage }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Scroll by page when the scroll bar is clicked.',
-					'custom-html-block-extension'
-				) }
-				isToggle
-				defaultToggle={ false }
-				image="editor-options/scrollbar/scroll-by-page.gif"
-				value={ editorOptions.scrollbar.scrollByPage }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.scrollbar.scrollByPage }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Scroll by page when the scroll bar is clicked.',
+						'custom-html-block-extension'
+					) }
+					isToggle
+					defaultToggle={ false }
+					image="editor-options/scrollbar/scroll-by-page.gif"
+					value={ editorOptions.scrollbar.scrollByPage }
+				/>
+			</HStack>
+		</div>
 	);
 }

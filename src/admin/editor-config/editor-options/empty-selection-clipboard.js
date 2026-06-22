@@ -30,21 +30,23 @@ export default function EmptySelectionClipboard() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.emptySelectionClipboard }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				isToggle
-				defaultToggle
-				image="editor-options/empty-selection-clipboard.gif"
-				value={ editorOptions.emptySelectionClipboard }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.emptySelectionClipboard }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					isToggle
+					defaultToggle
+					image="editor-options/empty-selection-clipboard.gif"
+					value={ editorOptions.emptySelectionClipboard }
+				/>
+			</HStack>
+		</div>
 	);
 }

@@ -36,53 +36,55 @@ export default function Emmet() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorSettings.emmet }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={
-					<>
-						<Text as="p">
-							{ __(
-								'Emmet is a function for the editor that allow for high-speed coding via content assist.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text as="p">
-							{ __(
-								'Only valid for HTML tags and does not support inline CSS in the block and classic editor.',
-								'custom-html-block-extension'
-							) }
-							<br />
-							{ __(
-								'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text as="p">
-							<ExternalLink href="https://docs.emmet.io/cheat-sheet/">
-								{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
-							</ExternalLink>
-						</Text>
-						<Notice status="warning" isDismissible={ false }>
-							{ __(
-								'Save and reload the browser to reflect this settings in the preview editor area.',
-								'custom-html-block-extension'
-							) }
-						</Notice>
-					</>
-				}
-				isToggle
-				defaultToggle
-				image="editor-settings/emmet.gif"
-				value={ editorSettings.emmet }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorSettings.emmet }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={
+						<>
+							<Text as="p">
+								{ __(
+									'Emmet is a function for the editor that allow for high-speed coding via content assist.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+							<Text as="p">
+								{ __(
+									'Only valid for HTML tags and does not support inline CSS in the block and classic editor.',
+									'custom-html-block-extension'
+								) }
+								<br />
+								{ __(
+									'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+							<Text as="p">
+								<ExternalLink href="https://docs.emmet.io/cheat-sheet/">
+									{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
+								</ExternalLink>
+							</Text>
+							<Notice status="warning" isDismissible={ false }>
+								{ __(
+									'Save and reload the browser to reflect this settings in the preview editor area.',
+									'custom-html-block-extension'
+								) }
+							</Notice>
+						</>
+					}
+					isToggle
+					defaultToggle
+					image="editor-settings/emmet.gif"
+					value={ editorSettings.emmet }
+				/>
+			</HStack>
+		</div>
 	);
 }

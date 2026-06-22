@@ -30,35 +30,37 @@ export default function FontLigatures() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.fontLigatures }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Ligatures are special characters in a font that combine two or more characters into one. Only Fira Code font supports ligatures.',
-					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/font-ligatures_1.jpg',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/font-ligatures_2.jpg',
-					},
-				] }
-				value={ editorOptions.fontLigatures }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.fontLigatures }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Ligatures are special characters in a font that combine two or more characters into one. Only Fira Code font supports ligatures.',
+						'custom-html-block-extension'
+					) }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							value: true,
+							image: 'editor-options/font-ligatures_1.jpg',
+							isDefault: true,
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							value: false,
+							image: 'editor-options/font-ligatures_2.jpg',
+						},
+					] }
+					value={ editorOptions.fontLigatures }
+				/>
+			</HStack>
+		</div>
 	);
 }

@@ -33,31 +33,33 @@ export default function SuggestShowIcons() {
 	};
 
 	return (
-		<HStack justify="start" align="start" wrap>
-			<ToggleControl
-				__nextHasNoMarginBottom
-				label={ title }
-				checked={ editorOptions.suggest.showIcons }
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/suggest/show-icons_1.jpg',
-						value: true,
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/suggest/show-icons_2.jpg',
-						value: false,
-					},
-				] }
-				value={ editorOptions.suggest.showIcons }
-			/>
-		</HStack>
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" align="start" wrap>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ title }
+					checked={ editorOptions.suggest.showIcons }
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					items={ [
+						{
+							label: __( 'Enable', 'custom-html-block-extension' ),
+							image: 'editor-options/suggest/show-icons_1.jpg',
+							value: true,
+							isDefault: true,
+						},
+						{
+							label: __( 'Disable', 'custom-html-block-extension' ),
+							image: 'editor-options/suggest/show-icons_2.jpg',
+							value: false,
+						},
+					] }
+					value={ editorOptions.suggest.showIcons }
+				/>
+			</HStack>
+		</div>
 	);
 }
