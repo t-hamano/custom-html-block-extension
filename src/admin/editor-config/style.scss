@@ -30,14 +30,11 @@
 		border-bottom: variables.$border-width solid colors.$gray-300;
 	}
 
-	// While searching, a panel whose settings are all filtered out still renders
-	// with just its title. Each visible setting renders a `__setting-item`
-	// wrapper, so hide panels that contain none of them. Scoped to `.is-searching`
-	// because panels are force-opened during search; outside search the panels
-	// are collapsed (no children rendered) and must not be hidden.
-	.chbe-admin-editor-config__advanced-settings.is-searching
-	.chbe-admin-editor-config__panel:not(:has(.chbe-admin-editor-config__setting-item)) {
-		display: none;
+	.chbe-admin-editor-config__advanced-settings.is-searching {
+
+		.chbe-admin-editor-config__panel:not(:has(.chbe-admin-editor-config__setting-item)) {
+			display: none;
+		}
 	}
 
 	.chbe-admin-editor-config__preview {
