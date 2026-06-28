@@ -58,7 +58,7 @@ export default function CursorSurroundingLines() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 0 )
+								'0'
 							),
 							image: 'editor-options/cursor-surrounding-lines_1.gif',
 							value: 0,
@@ -67,7 +67,7 @@ export default function CursorSurroundingLines() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 5 )
+								'5'
 							),
 							image: 'editor-options/cursor-surrounding-lines_2.gif',
 							value: 5,

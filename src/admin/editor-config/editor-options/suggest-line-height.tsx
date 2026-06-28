@@ -51,7 +51,7 @@ export default function SuggestLineHeight() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 10 )
+								'10'
 							),
 							image: 'editor-options/suggest-line-height_1.jpg',
 							value: 10,
@@ -60,7 +60,7 @@ export default function SuggestLineHeight() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 30 )
+								'30'
 							),
 							image: 'editor-options/suggest-line-height_2.jpg',
 							value: 30,

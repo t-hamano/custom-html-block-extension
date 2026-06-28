@@ -51,7 +51,7 @@ export default function QuickSuggestionsDelay() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 10 )
+								'10'
 							),
 							image: 'editor-options/quick-suggestions-delay_1.gif',
 							value: 10,
@@ -60,7 +60,7 @@ export default function QuickSuggestionsDelay() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 1000 )
+								'1000'
 							),
 							image: 'editor-options/quick-suggestions-delay_2.gif',
 							value: 1000,

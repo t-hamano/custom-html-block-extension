@@ -51,7 +51,7 @@ export default function SuggestFontSize() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 10 )
+								'10'
 							),
 							image: 'editor-options/suggest-font-size_1.jpg',
 							value: 10,
@@ -60,7 +60,7 @@ export default function SuggestFontSize() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 30 )
+								'30'
 							),
 							image: 'editor-options/suggest-font-size_2.jpg',
 							value: 30,

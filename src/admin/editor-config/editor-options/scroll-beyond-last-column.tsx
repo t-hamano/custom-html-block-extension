@@ -54,7 +54,7 @@ export default function ScrollBeyondLastColumn() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 0 )
+								'0'
 							),
 							image: 'editor-options/suggest-line-height_1.jpg',
 							value: 0,
@@ -63,7 +63,7 @@ export default function ScrollBeyondLastColumn() {
 							label: sprintf(
 								/* translators: %s is replaced with the number. */
 								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								String( 20 )
+								'20'
 							),
 							image: 'editor-options/suggest-line-height_2.jpg',
 							value: 20,
