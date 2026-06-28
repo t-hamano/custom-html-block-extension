@@ -18,17 +18,19 @@ import {
  */
 import type { ReactNode } from 'react';
 
-/**
- * Internal dependencies
- */
-import type { HelpItem } from '../../../../types';
-
 type ItemValue = string | number | boolean | undefined;
 
 type ItemHelpProps = {
 	title: string;
 	description?: ReactNode;
-	items?: HelpItem[];
+	items?: {
+		label: string;
+		value: string | number | boolean;
+		image?: string;
+		isDefault?: boolean;
+		title?: string;
+		description?: string;
+	}[];
 	colCount?: string | number;
 	isToggle?: boolean;
 	defaultToggle?: boolean;

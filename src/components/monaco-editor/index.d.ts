@@ -11,7 +11,7 @@ import type { ComponentType } from 'react';
 /**
  * Internal dependencies
  */
-import type { EditorOptions, FontLoadResult, LoaderError } from '../../types';
+import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoEditorProps = {
 	className?: string;
@@ -24,7 +24,7 @@ export type MonacoEditorProps = {
 	insertSpaces?: boolean;
 	onChange?: ( value: string, event?: unknown ) => void;
 	onFontLoad?: ( result: FontLoadResult ) => void;
-	onError?: ( error: LoaderError ) => void;
+	onError?: ( error: { type: 'cancelation' | 'timeout' | 'scripterror'; msg: string } ) => void;
 };
 
 declare const MonacoEditor: ComponentType< MonacoEditorProps >;

@@ -146,35 +146,6 @@ export type FontFamily = {
 };
 
 /**
- * A user role registered via `chbeObj.userRoles`.
- */
-export type UserRole = {
-	label: string;
-	value: string;
-};
-
-/**
- * A monaco theme entry built in `lib/themes`.
- */
-export type Theme = {
-	label: string;
-	value: string;
-	data: Record< string, unknown >;
-};
-
-/**
- * An option item rendered as a help thumbnail in the editor config UI.
- */
-export type HelpItem = {
-	label: string;
-	value: string | number | boolean;
-	image?: string;
-	isDefault?: boolean;
-	title?: string;
-	description?: string;
-};
-
-/**
  * Value provided by `AdminContext`.
  */
 export type AdminContextType = {
@@ -204,12 +175,4 @@ export type EditorConfigContextType = {
 export type FontLoadResult = {
 	isSuccess: boolean;
 	font: FontFamily;
-};
-
-/**
- * Error payload rejected by the monaco loader.
- */
-export type LoaderError = {
-	type: 'cancelation' | 'timeout' | 'scripterror';
-	msg: string;
 };

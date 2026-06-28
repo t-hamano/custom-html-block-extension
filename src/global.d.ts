@@ -6,7 +6,7 @@ import type * as Monaco from 'monaco-editor';
 /**
  * Internal dependencies
  */
-import type { EditorSettings, EditorOptions, Options, FontFamily, UserRole } from './types';
+import type { EditorSettings, EditorOptions, Options, FontFamily } from './types';
 
 declare global {
 	/**
@@ -19,7 +19,7 @@ declare global {
 		editorOptions: EditorOptions;
 		options: Options;
 		fontFamily: FontFamily[];
-		userRoles: UserRole[];
+		userRoles: { label: string; value: string }[];
 		dismissWelcomeGuide: boolean;
 	}
 
