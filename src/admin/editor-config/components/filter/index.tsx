@@ -21,11 +21,13 @@ const MODES = [
 		label: __( 'Advanced', 'custom-html-block-extension' ),
 		value: 'advanced',
 	},
-];
+] as const;
+
+export type EditorMode = ( typeof MODES )[ number ][ 'value' ];
 
 type FilterProps = {
-	editorMode: string;
-	setEditorMode: ( mode: string ) => void;
+	editorMode: EditorMode;
+	setEditorMode: ( mode: EditorMode ) => void;
 	searchQuery: string;
 	setSearchQuery: ( query: string ) => void;
 };
@@ -48,7 +50,7 @@ export default function Filter( {
 					size="__unstable-large"
 					label={ __( 'Mode', 'custom-html-block-extension' ) }
 					value={ editorMode }
-					onChange={ ( value ) => setEditorMode( String( value ) ) }
+					onChange={ ( value ) => setEditorMode( value as EditorMode ) }
 					isBlock
 					hideLabelFromVision
 				>

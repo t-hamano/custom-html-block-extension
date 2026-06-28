@@ -24,7 +24,7 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import { AdminContext } from '../index';
 import EditorPreview from './components/editor-preview';
-import Filter from './components/filter';
+import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
@@ -67,7 +67,7 @@ export default function EditorConfig() {
 	} = useContext( AdminContext );
 
 	const [ isEditorDisabled, setIsEditorDisabled ] = useState( false );
-	const [ editorMode, setEditorMode ] = useState( 'basic' );
+	const [ editorMode, setEditorMode ] = useState< EditorMode >( 'basic' );
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
 	const { createNotice, createSuccessNotice } = useDispatch( noticesStore );
