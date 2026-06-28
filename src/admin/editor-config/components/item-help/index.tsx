@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import type { ReactNode } from 'react';
+
+/**
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
@@ -12,11 +17,6 @@ import {
 	__experimentalHeading as Heading,
 	__experimentalVStack as VStack,
 } from '@wordpress/components';
-
-/**
- * External dependencies
- */
-import type { ReactNode } from 'react';
 
 type ItemValue = string | number | boolean | undefined;
 

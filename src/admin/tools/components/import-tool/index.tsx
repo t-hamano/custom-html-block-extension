@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import type { ChangeEvent } from 'react';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -14,11 +19,6 @@ import {
 } from '@wordpress/components';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
-
-/**
- * External dependencies
- */
-import type { ChangeEvent } from 'react';
 
 /**
  * Internal dependencies
