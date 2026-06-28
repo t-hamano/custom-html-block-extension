@@ -58,7 +58,6 @@ export default function WrappingIndent() {
 			<HStack justify="start" alignment="start" wrap>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.wrappingIndent }
 					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

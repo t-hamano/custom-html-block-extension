@@ -53,7 +53,6 @@ export default function ScrollbarArrowSize() {
 			<HStack justify="start" alignment="start" wrap>
 				<RangeControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ value }
 					min={ 5 }

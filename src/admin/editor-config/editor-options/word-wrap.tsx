@@ -68,7 +68,6 @@ export default function WordWrap() {
 			<HStack justify="start" alignment="start" wrap>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.wordWrap }
 					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

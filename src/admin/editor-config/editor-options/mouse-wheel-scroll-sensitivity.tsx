@@ -33,7 +33,6 @@ export default function MouseWheelScrollSensitivity() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<RangeControl
 				__next40pxDefaultSize
-				__nextHasNoMarginBottom
 				label={ title }
 				min={ 1 }
 				max={ 10 }

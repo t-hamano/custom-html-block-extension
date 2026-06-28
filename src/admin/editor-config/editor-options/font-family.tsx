@@ -39,7 +39,6 @@ export default function FontFamily() {
 			<HStack justify="start" alignment="start" wrap>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.fontFamily }
 					options={ [

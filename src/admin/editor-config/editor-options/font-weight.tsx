@@ -37,7 +37,6 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 			<HStack>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ String( editorOptions.fontWeight ) }
 					options={ fontWeights.map( ( fontWeight ) => ( {

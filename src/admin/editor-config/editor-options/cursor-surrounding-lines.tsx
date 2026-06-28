@@ -38,7 +38,6 @@ export default function CursorSurroundingLines() {
 			<HStack justify="start" alignment="start" wrap>
 				<RangeControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.cursorSurroundingLines }
 					min={ 0 }

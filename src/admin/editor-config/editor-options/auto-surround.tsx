@@ -61,7 +61,6 @@ export default function AutoSurround() {
 			<HStack justify="start" alignment="start" wrap>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.autoSurround }
 					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

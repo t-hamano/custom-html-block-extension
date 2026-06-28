@@ -53,7 +53,6 @@ export default function MatchBrackets() {
 			<HStack justify="start" alignment="start" wrap>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.matchBrackets }
 					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

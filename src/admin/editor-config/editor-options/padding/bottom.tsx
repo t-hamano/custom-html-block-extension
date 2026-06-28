@@ -39,7 +39,6 @@ export default function PaddingBottom() {
 			<HStack justify="start" alignment="start" wrap>
 				<RangeControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.padding.bottom }
 					min={ 0 }

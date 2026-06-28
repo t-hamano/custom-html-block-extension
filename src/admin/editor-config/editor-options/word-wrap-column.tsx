@@ -35,7 +35,6 @@ export default function WordWrapColumn() {
 			<HStack justify="start" alignment="start" wrap>
 				<RangeControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.wordWrapColumn }
 					min={ 20 }

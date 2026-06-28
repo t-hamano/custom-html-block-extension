@@ -54,7 +54,6 @@ export default function MinimapSide() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
 				<ToggleGroupControl
-					__nextHasNoMarginBottom
 					size="__unstable-large"
 					label={ title }
 					value={ editorOptions.minimap.side }

@@ -46,7 +46,6 @@ export default function Filter( {
 		<HStack className="chbe-admin-editor-config-filter">
 			<FlexBlock>
 				<ToggleGroupControl
-					__nextHasNoMarginBottom
 					size="__unstable-large"
 					label={ __( 'Mode', 'custom-html-block-extension' ) }
 					value={ editorMode }
@@ -66,7 +65,6 @@ export default function Filter( {
 			</FlexBlock>
 			<FlexBlock>
 				<SearchControl
-					__nextHasNoMarginBottom
 					value={ searchQueryState }
 					onChange={ ( value ) => {
 						setSearchQueryState( value );

@@ -39,7 +39,6 @@ export default function Emmet() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
 				<ToggleControl
-					__nextHasNoMarginBottom
 					label={ title }
 					checked={ editorSettings.emmet }
 					onChange={ onChange }

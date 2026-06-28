@@ -33,7 +33,6 @@ export default function TabSize() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<RangeControl
 				__next40pxDefaultSize
-				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorSettings.tabSize }
 				min={ 1 }

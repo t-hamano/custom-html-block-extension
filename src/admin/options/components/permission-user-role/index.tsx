@@ -35,7 +35,6 @@ export default function PermissionUserRole() {
 			<VStack spacing={ 4 }>
 				{ userRoles.map( ( role, index ) => (
 					<ToggleControl
-						__nextHasNoMarginBottom
 						key={ index }
 						label={ role.label }
 						checked={ options.permissionRoles.includes( role.value ) }

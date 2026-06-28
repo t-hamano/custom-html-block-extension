@@ -37,7 +37,6 @@ export default function ColumnSelection() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
 				<ToggleControl
-					__nextHasNoMarginBottom
 					label={ __( 'Enable column selection', 'custom-html-block-extension' ) }
 					checked={ editorOptions.columnSelection }
 					onChange={ onChange }

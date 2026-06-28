@@ -33,7 +33,6 @@ export default function LetterSpacing() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<RangeControl
 				__next40pxDefaultSize
-				__nextHasNoMarginBottom
 				label={ title }
 				value={ editorOptions.letterSpacing }
 				min={ -2 }

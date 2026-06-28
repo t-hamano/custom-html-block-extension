@@ -56,7 +56,6 @@ export default function AutoClosingQuotes() {
 			<HStack justify="start" alignment="start" wrap>
 				<SelectControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.autoClosingQuotes }
 					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

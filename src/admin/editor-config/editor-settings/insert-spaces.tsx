@@ -49,7 +49,6 @@ export default function InsertSpaces() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack>
 				<ToggleGroupControl
-					__nextHasNoMarginBottom
 					size="__unstable-large"
 					label={ __( 'Indent type', 'custom-html-block-extension' ) }
 					value={ editorSettings.insertSpaces ? 'space' : 'tab' }

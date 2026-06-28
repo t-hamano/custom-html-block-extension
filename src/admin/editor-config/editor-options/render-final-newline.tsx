@@ -36,7 +36,6 @@ export default function RenderFinalNewline() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
 				<ToggleControl
-					__nextHasNoMarginBottom
 					label={ title }
 					checked={ editorOptions.renderFinalNewline }
 					onChange={ onChange }

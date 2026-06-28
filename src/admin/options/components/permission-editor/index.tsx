@@ -40,19 +40,16 @@ export default function PermissionEditor() {
 		>
 			<VStack spacing={ 4 }>
 				<ToggleControl
-					__nextHasNoMarginBottom
 					label={ __( 'Block editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionBlockEditor }
 					onChange={ onBlockEditorChange }
 				/>
 				<ToggleControl
-					__nextHasNoMarginBottom
 					label={ __( 'Classic editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionClassicEditor }
 					onChange={ onClassicEditorChange }
 				/>
 				<ToggleControl
-					__nextHasNoMarginBottom
 					label={ __( 'Theme and Plugin editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionThemePluginEditor }
 					onChange={ onThemePluginEditorChange }

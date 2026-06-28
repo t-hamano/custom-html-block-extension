@@ -117,7 +117,6 @@ export default function ItemHelp( {
 						) }
 						{ isToggle && (
 							<ToggleControl
-								__nextHasNoMarginBottom
 								checked={ Boolean( value ) }
 								onChange={ ( newValue ) => {
 									onChange?.( newValue );

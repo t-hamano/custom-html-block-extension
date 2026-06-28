@@ -36,7 +36,6 @@ export default function MinimapRenderCharacters() {
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
 				<ToggleControl
-					__nextHasNoMarginBottom
 					label={ title }
 					checked={ editorOptions.minimap.renderCharacters }
 					onChange={ onChange }

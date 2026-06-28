@@ -35,7 +35,6 @@ export default function QuickSuggestionsDelay() {
 			<HStack justify="start" alignment="start" wrap>
 				<RangeControl
 					__next40pxDefaultSize
-					__nextHasNoMarginBottom
 					label={ title }
 					value={ editorOptions.quickSuggestionsDelay }
 					min={ 0 }
