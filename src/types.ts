@@ -14,10 +14,8 @@ export type EditorSettings = {
 };
 
 /**
- * Editor options. This mirrors the shape persisted in `chbeObj.editorOptions`
- * and passed (after casting) to `monaco.editor.create`. Select-based options are
- * stored as strings, toggle-based options as booleans, and range-based options as
- * numbers, matching the controls in `editor-config/editor-options`.
+ * Editor options persisted in `chbeObj.editorOptions` and passed (after
+ * casting) to `monaco.editor.create`.
  */
 export type EditorOptions = {
 	acceptSuggestionOnEnter: boolean;
