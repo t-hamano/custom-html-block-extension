@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { createContext, useContext } from '@wordpress/element';
+import { useContext } from '@wordpress/element';
 import { Button, Flex, __experimentalVStack as VStack } from '@wordpress/components';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
@@ -14,11 +14,6 @@ import { store as noticesStore } from '@wordpress/notices';
 import { AdminContext } from '../index';
 import PermissionEditor from './components/permission-editor';
 import PermissionUserRole from './components/permission-user-role';
-
-/**
- * Context
- */
-export const OptionsContext = createContext< unknown >( null );
 
 export default function Options() {
 	const { isWaiting, options, setIsWaiting } = useContext( AdminContext );
