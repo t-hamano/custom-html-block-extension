@@ -18,8 +18,6 @@ import {
 	__experimentalVStack as VStack,
 } from '@wordpress/components';
 
-type ItemValue = string | number | boolean | undefined;
-
 type ItemHelpProps = {
 	title: string;
 	description?: ReactNode;
@@ -35,10 +33,9 @@ type ItemHelpProps = {
 	isToggle?: boolean;
 	defaultToggle?: boolean;
 	image?: string;
-	value?: ItemValue;
-	// `value` is intentionally `any` so callers can pass control-specific
-	// handlers (boolean/number/string) without contravariance errors. The
-	// component only ever forwards an item's `value` back through it.
+	value?: string | number | boolean;
+	// `any` lets callers pass boolean/number/string handlers without
+	// contravariance errors; the component only forwards an item's `value`.
 	onChange?: ( value: any ) => void;
 };
 
