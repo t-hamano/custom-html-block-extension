@@ -37,15 +37,30 @@
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
+		"@types/webfontloader": "^1.6.38",
+		"@types/wordpress__block-editor": "^15.0.6",
+		"@wordpress/api-fetch": "^7.34.0",
 		"@wordpress/base-styles": "10.0.1",
+		"@wordpress/block-editor": "^15.21.1",
+		"@wordpress/blocks": "^15.21.1",
+		"@wordpress/components": "^35.0.1",
+		"@wordpress/compose": "^8.1.1",
+		"@wordpress/data": "^10.48.1",
+		"@wordpress/dom-ready": "^4.34.0",
 		"@wordpress/e2e-test-utils": "^11.34.0",
+		"@wordpress/element": "^8.0.1",
 		"@wordpress/env": "^11.8.1",
+		"@wordpress/hooks": "^4.34.0",
+		"@wordpress/i18n": "^6.21.1",
+		"@wordpress/keycodes": "^4.34.0",
+		"@wordpress/notices": "^5.48.1",
 		"@wordpress/scripts": "^32.4.1",
 		"clsx": "2.1.1",
 		"husky": "^9.1.7",
 		"lint-staged": "17.0.7",
 		"prettier": "npm:wp-prettier@3.0.3",
-		"rimraf": "^6.1.3"
+		"rimraf": "^6.1.3",
+		"typescript": "5.9.3"
 	},
 	"scripts": {
 		"wp-env": "wp-env",
@@ -57,9 +72,10 @@
 		"plugin-zip": "npm run build && wp-scripts plugin-zip",
 		"clean": "rimraf build",
 		"check-licenses": "wp-scripts check-licenses",
-		"lint": "npm run lint:css && npm run lint:js && npm run lint:php && npm run lint:md-docs && npm run lint:pkg-json",
+		"lint": "npm run lint:css && npm run lint:js && npm run lint:types && npm run lint:php && npm run lint:md-docs && npm run lint:pkg-json",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
+		"lint:types": "tsc --noEmit",
 		"lint:php": "composer lint",
 		"lint:md-docs": "wp-scripts lint-md-docs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
@@ -70,10 +86,10 @@
 		"prepare": "husky"
 	},
 	"lint-staged": {
-		"*.{js,json,yml,yaml}": [
+		"*.{js,ts,tsx,json,yml,yaml}": [
 			"wp-scripts format"
 		],
-		"*.js": [
+		"*.{js,ts,tsx}": [
 			"wp-scripts lint-js"
 		],
 		"*.scss": [

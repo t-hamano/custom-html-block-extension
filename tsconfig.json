@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"noEmit": true,
+		"allowJs": true,
+		"checkJs": false,
+		"jsx": "preserve",
+		"lib": [ "dom", "esnext" ],
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true
+	},
+	"include": [ "src/**/*", "src/**/*.json", "test/e2e/**/*" ],
+	"exclude": [ "**/build/**" ]
+}

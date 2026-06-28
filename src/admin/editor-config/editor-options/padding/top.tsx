@@ -1,0 +1,62 @@
+/**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
+import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
+
+/**
+ * Internal dependencies
+ */
+import { AdminContext } from '../../../index';
+import { useSearchVisibility } from '../../index';
+import ItemHelp from '../../components/item-help';
+import { toNumber } from '../../../../lib/helper';
+
+export default function PaddingTop() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const title = __( 'Padding top (px)', 'custom-html-block-extension' );
+
+	const isVisible = useSearchVisibility( title );
+
+	if ( ! isVisible ) {
+		return null;
+	}
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			padding: {
+				...editorOptions.padding,
+				top: value ? toNumber( value, 0, 50 ) : 0,
+			},
+		} );
+	};
+
+	return (
+		<div className="chbe-admin-editor-config__setting-item">
+			<HStack justify="start" alignment="start" wrap>
+				<RangeControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ title }
+					value={ editorOptions.padding.top }
+					min={ 0 }
+					max={ 50 }
+					allowReset
+					onChange={ onChange }
+				/>
+				<ItemHelp
+					onChange={ onChange }
+					title={ title }
+					description={ __(
+						'Spacing between top edge of editor and first line.',
+						'custom-html-block-extension'
+					) }
+					image="editor-options/padding/top.gif"
+				/>
+			</HStack>
+		</div>
+	);
+}
