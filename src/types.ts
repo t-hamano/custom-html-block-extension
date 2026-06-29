@@ -19,21 +19,21 @@ export type EditorSettings = {
  */
 export type EditorOptions = {
 	acceptSuggestionOnEnter: 'on' | 'smart' | 'off';
-	autoClosingBrackets: string;
-	autoClosingQuotes: string;
-	autoIndent: string;
-	autoSurround: string;
+	autoClosingBrackets: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
+	autoClosingQuotes: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
+	autoIndent: 'none' | 'keep' | 'brackets' | 'advanced' | 'full';
+	autoSurround: 'languageDefined' | 'quotes' | 'brackets' | 'never';
 	columnSelection: boolean;
 	comments: {
 		insertSpace: boolean;
 	};
 	contextmenu: boolean;
 	copyWithSyntaxHighlighting: boolean;
-	cursorBlinking: string;
+	cursorBlinking: 'blink' | 'smooth' | 'phase' | 'expand' | 'solid';
 	cursorSmoothCaretAnimation: 'off' | 'explicit' | 'on';
-	cursorStyle: string;
+	cursorStyle: 'line' | 'block' | 'underline' | 'line-thin' | 'block-outline' | 'underline-thin';
 	cursorSurroundingLines: number;
-	cursorSurroundingLinesStyle: string;
+	cursorSurroundingLinesStyle: 'default' | 'all';
 	cursorWidth: number;
 	dragAndDrop: boolean;
 	emptySelectionClipboard: boolean;
@@ -45,7 +45,7 @@ export type EditorOptions = {
 	};
 	folding: boolean;
 	foldingHighlight: boolean;
-	foldingStrategy: string;
+	foldingStrategy: 'auto' | 'indentation';
 	fontFamily: string;
 	fontLigatures: boolean;
 	fontSize: number;
@@ -61,7 +61,7 @@ export type EditorOptions = {
 	lineNumbers: string;
 	lineNumbersMinChars: number;
 	links: boolean;
-	matchBrackets: string;
+	matchBrackets: 'never' | 'near' | 'always';
 	minimap: {
 		enabled: boolean;
 		maxColumn: number;
@@ -73,8 +73,8 @@ export type EditorOptions = {
 	};
 	mouseWheelScrollSensitivity: number;
 	mouseWheelZoom: boolean;
-	multiCursorModifier: string;
-	multiCursorPaste: string;
+	multiCursorModifier: 'ctrlCmd' | 'alt';
+	multiCursorPaste: 'spread' | 'full';
 	occurrencesHighlight: 'off' | 'singleFile' | 'multiFile';
 	overviewRulerBorder: boolean;
 	padding: {
@@ -87,9 +87,9 @@ export type EditorOptions = {
 	renderControlCharacters: boolean;
 	renderFinalNewline: 'on' | 'off' | 'dimmed';
 	renderIndentGuides: boolean;
-	renderLineHighlight: string;
+	renderLineHighlight: 'none' | 'gutter' | 'line' | 'all';
 	renderLineHighlightOnlyWhenFocus: boolean;
-	renderWhitespace: string;
+	renderWhitespace: 'none' | 'boundary' | 'selection' | 'trailing' | 'all';
 	roundedSelection: boolean;
 	rulers: number[];
 	scrollBeyondLastColumn: number;
@@ -108,7 +108,7 @@ export type EditorOptions = {
 	};
 	selectOnLineNumbers: boolean;
 	selectionHighlight: boolean;
-	showFoldingControls: string;
+	showFoldingControls: 'always' | 'never' | 'mouseover';
 	smoothScrolling: boolean;
 	stickyTabStops: boolean;
 	suggest: {
@@ -118,9 +118,9 @@ export type EditorOptions = {
 	suggestLineHeight: number;
 	unfoldOnClickAfterEndOfLine: boolean;
 	useTabStops: boolean;
-	wordWrap: string;
+	wordWrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded';
 	wordWrapColumn: number;
-	wrappingIndent: string;
+	wrappingIndent: 'none' | 'same' | 'indent' | 'deepIndent';
 };
 
 /**

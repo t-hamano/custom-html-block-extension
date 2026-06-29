@@ -46,7 +46,7 @@ export default function MultiCursorPaste() {
 	const onChange = ( value: string | number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			multiCursorPaste: value as string,
+			multiCursorPaste: value as typeof editorOptions.multiCursorPaste,
 		} );
 	};
 

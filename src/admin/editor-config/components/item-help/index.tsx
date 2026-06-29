@@ -21,7 +21,9 @@ import {
 type ItemHelpProps = {
 	title: string;
 	description?: ReactNode;
-	items?: {
+	// `readonly` lets callers pass `as const` arrays so their option values keep
+	// their literal types instead of widening to `string`.
+	items?: readonly {
 		label: string;
 		value: string | number | boolean;
 		image?: string;

@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -42,9 +43,9 @@ export default function AutoClosingQuotes() {
 			value: 'never',
 			image: 'editor-options/auto-closing-brackets_3.gif',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'autoClosingQuotes' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			autoClosingQuotes: value,
@@ -54,7 +55,7 @@ export default function AutoClosingQuotes() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'autoClosingQuotes' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.autoClosingQuotes }

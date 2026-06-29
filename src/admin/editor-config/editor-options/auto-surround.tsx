@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -47,9 +48,9 @@ export default function AutoSurround() {
 			value: 'never',
 			image: 'editor-options/auto-surround_4.gif',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'autoSurround' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			autoSurround: value,
@@ -59,7 +60,7 @@ export default function AutoSurround() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'autoSurround' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.autoSurround }

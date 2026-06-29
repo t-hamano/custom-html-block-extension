@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { EditorConfigContext, useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -40,9 +41,9 @@ export default function AutoIndent() {
 			isDefault: true,
 			image: 'editor-options/auto-indent_3.gif',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'autoIndent' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			autoIndent: value,
@@ -53,7 +54,7 @@ export default function AutoIndent() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'autoIndent' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.autoIndent }

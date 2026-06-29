@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -44,9 +45,9 @@ export default function RenderLineHighlight() {
 			value: 'none',
 			image: 'editor-options/render-line-highlight_4.jpg',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'renderLineHighlight' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			renderLineHighlight: value,
@@ -56,7 +57,7 @@ export default function RenderLineHighlight() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'renderLineHighlight' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.renderLineHighlight }
