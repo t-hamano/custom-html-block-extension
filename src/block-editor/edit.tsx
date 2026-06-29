@@ -21,12 +21,21 @@ import {
 	__experimentalVStack as VStack,
 } from '@wordpress/components';
 import { fullscreen } from '@wordpress/icons';
+import type { BlockEditProps } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
-import MonacoEditor from '../components/monaco-editor';
+import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
+
+type HTMLEditProps = BlockEditProps< {
+	content: string;
+	height: number;
+} > & {
+	// Injected by the block editor but not included in BlockEditProps.
+	toggleSelection: ( isSelectionEnabled: boolean ) => void;
+};
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
@@ -40,16 +49,21 @@ const DEFAULT_STYLES = `
 	}
 `;
 
-export default function HTMLEdit( { attributes, isSelected, setAttributes, toggleSelection } ) {
+export default function HTMLEdit( {
+	attributes,
+	isSelected,
+	setAttributes,
+	toggleSelection,
+}: HTMLEditProps ) {
 	const { content, height } = attributes;
 	const { editorSettings, editorOptions } = window.chbeObj;
 
-	const [ isPreview, setIsPreview ] = useState();
-	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState();
+	const [ isPreview, setIsPreview ] = useState< boolean >();
+	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState< boolean >();
 
-	const [ errorMessage, setErrorMessage ] = useState();
+	const [ errorMessage, setErrorMessage ] = useState< string >();
 
-	const ref = useRef();
+	const ref = useRef< HTMLDivElement >( null );
 
 	const settingStyles = useSelect(
 		( select ) => select( blockEditorStore ).getSettings().styles,
@@ -59,7 +73,9 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 	const styles = useMemo(
 		() => [
 			DEFAULT_STYLES,
-			...transformStyles( ( settingStyles ?? [] ).filter( ( style ) => style.css ) ),
+			...transformStyles(
+				( settingStyles ?? [] ).filter( ( style: { css?: string } ) => style.css )
+			),
 		],
 		[ settingStyles ]
 	);
@@ -68,19 +84,24 @@ export default function HTMLEdit( { attributes, isSelected, setAttributes, toggl
 		toggleSelection( false );
 	};
 
-	const onResizeStop = ( event, direction, elt, delta ) => {
+	const onResizeStop = (
+		_event: unknown,
+		_direction: unknown,
+		_elt: unknown,
+		delta: { height: number }
+	) => {
 		const newHeight = Math.min(
-			Math.max( parseInt( height + delta.height, 10 ), MIN_HEIGHT ),
+			Math.max( parseInt( `${ height + delta.height }`, 10 ), MIN_HEIGHT ),
 			MAX_HEIGHT
 		);
 		setAttributes( { height: newHeight } );
 	};
 
-	const onChange = ( value ) => {
+	const onChange = ( value: string ) => {
 		setAttributes( { content: value } );
 	};
 
-	const onError = ( error ) => {
+	const onError = ( error: MonacoError ) => {
 		if ( ( error.type === 'timeout' || error.type === 'scripterror' ) && error.msg ) {
 			setErrorMessage( error.msg );
 		}

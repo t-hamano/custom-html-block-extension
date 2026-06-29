@@ -25,21 +25,28 @@ export default function Hover() {
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			hover: value,
+			hover: {
+				...editorOptions.hover,
+				enabled: value,
+			},
 		} );
 	};
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl label={ title } checked={ editorOptions.hover } onChange={ onChange } />
+				<ToggleControl
+					label={ title }
+					checked={ editorOptions.hover.enabled }
+					onChange={ onChange }
+				/>
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
 					isToggle
 					defaultToggle
 					image="editor-options/hover.gif"
-					value={ editorOptions.hover }
+					value={ editorOptions.hover.enabled }
 				/>
 			</HStack>
 		</div>

@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -49,9 +50,9 @@ export default function CursorBlinking() {
 			value: 'solid',
 			image: 'editor-options/cursor-blinking_5.jpg',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'cursorBlinking' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			cursorBlinking: value,
@@ -61,7 +62,7 @@ export default function CursorBlinking() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'cursorBlinking' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.cursorBlinking }

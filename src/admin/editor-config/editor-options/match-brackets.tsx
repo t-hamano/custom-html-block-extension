@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -39,9 +40,9 @@ export default function MatchBrackets() {
 			value: 'near',
 			image: 'editor-options/match-brackets_3.gif',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'matchBrackets' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			matchBrackets: value,
@@ -51,7 +52,7 @@ export default function MatchBrackets() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'matchBrackets' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.matchBrackets }

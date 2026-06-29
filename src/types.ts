@@ -18,22 +18,22 @@ export type EditorSettings = {
  * casting) to `monaco.editor.create`.
  */
 export type EditorOptions = {
-	acceptSuggestionOnEnter: boolean;
-	autoClosingBrackets: string;
-	autoClosingQuotes: string;
-	autoIndent: string;
-	autoSurround: string;
+	acceptSuggestionOnEnter: 'on' | 'smart' | 'off';
+	autoClosingBrackets: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
+	autoClosingQuotes: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
+	autoIndent: 'none' | 'keep' | 'brackets' | 'advanced' | 'full';
+	autoSurround: 'languageDefined' | 'quotes' | 'brackets' | 'never';
 	columnSelection: boolean;
 	comments: {
 		insertSpace: boolean;
 	};
 	contextmenu: boolean;
 	copyWithSyntaxHighlighting: boolean;
-	cursorBlinking: string;
-	cursorSmoothCaretAnimation: boolean;
-	cursorStyle: string;
+	cursorBlinking: 'blink' | 'smooth' | 'phase' | 'expand' | 'solid';
+	cursorSmoothCaretAnimation: 'off' | 'explicit' | 'on';
+	cursorStyle: 'line' | 'block' | 'underline' | 'line-thin' | 'block-outline' | 'underline-thin';
 	cursorSurroundingLines: number;
-	cursorSurroundingLinesStyle: string;
+	cursorSurroundingLinesStyle: 'default' | 'all';
 	cursorWidth: number;
 	dragAndDrop: boolean;
 	emptySelectionClipboard: boolean;
@@ -41,11 +41,11 @@ export type EditorOptions = {
 	find: {
 		addExtraSpaceOnTop: boolean;
 		loop: boolean;
-		seedSearchStringFromSelection: boolean;
+		seedSearchStringFromSelection: 'never' | 'always' | 'selection';
 	};
 	folding: boolean;
 	foldingHighlight: boolean;
-	foldingStrategy: string;
+	foldingStrategy: 'auto' | 'indentation';
 	fontFamily: string;
 	fontLigatures: boolean;
 	fontSize: number;
@@ -54,28 +54,32 @@ export type EditorOptions = {
 	glyphMargin: boolean;
 	hideCursorInOverviewRuler: boolean;
 	highlightActiveIndentGuide: boolean;
-	hover: boolean;
+	hover: {
+		enabled: boolean;
+	};
 	letterSpacing: number;
 	lineDecorationsWidth: number;
 	lineHeight: number;
-	lineNumbers: string;
+	// monaco also allows a `(lineNumber: number) => string` formatter, but the
+	// plugin only exposes the preset modes.
+	lineNumbers: 'on' | 'off' | 'relative' | 'interval';
 	lineNumbersMinChars: number;
 	links: boolean;
-	matchBrackets: string;
+	matchBrackets: 'never' | 'near' | 'always';
 	minimap: {
 		enabled: boolean;
 		maxColumn: number;
 		renderCharacters: boolean;
 		scale: number;
-		showSlider: string;
-		side: string;
-		size: string;
+		showSlider: 'always' | 'mouseover';
+		side: 'right' | 'left';
+		size: 'proportional' | 'fill' | 'fit';
 	};
 	mouseWheelScrollSensitivity: number;
 	mouseWheelZoom: boolean;
-	multiCursorModifier: string;
-	multiCursorPaste: string;
-	occurrencesHighlight: boolean;
+	multiCursorModifier: 'ctrlCmd' | 'alt';
+	multiCursorPaste: 'spread' | 'full';
+	occurrencesHighlight: 'off' | 'singleFile' | 'multiFile';
 	overviewRulerBorder: boolean;
 	padding: {
 		bottom: number;
@@ -85,11 +89,11 @@ export type EditorOptions = {
 	quickSuggestionsDelay: number;
 	suggestOnTriggerCharacters: boolean;
 	renderControlCharacters: boolean;
-	renderFinalNewline: boolean;
+	renderFinalNewline: 'on' | 'off' | 'dimmed';
 	renderIndentGuides: boolean;
-	renderLineHighlight: string;
+	renderLineHighlight: 'none' | 'gutter' | 'line' | 'all';
 	renderLineHighlightOnlyWhenFocus: boolean;
-	renderWhitespace: string;
+	renderWhitespace: 'none' | 'boundary' | 'selection' | 'trailing' | 'all';
 	roundedSelection: boolean;
 	rulers: number[];
 	scrollBeyondLastColumn: number;
@@ -97,18 +101,18 @@ export type EditorOptions = {
 	scrollbar: {
 		alwaysConsumeMouseWheel: boolean;
 		arrowSize: number;
-		horizontal: string;
+		horizontal: 'auto' | 'visible' | 'hidden';
 		horizontalHasArrows: boolean;
 		horizontalScrollbarSize: number;
 		scrollByPage: boolean;
 		useShadows: boolean;
-		vertical: string;
+		vertical: 'auto' | 'visible' | 'hidden';
 		verticalHasArrows: boolean;
 		verticalScrollbarSize: number;
 	};
 	selectOnLineNumbers: boolean;
 	selectionHighlight: boolean;
-	showFoldingControls: string;
+	showFoldingControls: 'always' | 'never' | 'mouseover';
 	smoothScrolling: boolean;
 	stickyTabStops: boolean;
 	suggest: {
@@ -118,9 +122,9 @@ export type EditorOptions = {
 	suggestLineHeight: number;
 	unfoldOnClickAfterEndOfLine: boolean;
 	useTabStops: boolean;
-	wordWrap: string;
+	wordWrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded';
 	wordWrapColumn: number;
-	wrappingIndent: string;
+	wrappingIndent: 'none' | 'same' | 'indent' | 'deepIndent';
 };
 
 /**

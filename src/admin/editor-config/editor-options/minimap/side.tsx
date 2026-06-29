@@ -7,6 +7,7 @@ import { useContext } from '@wordpress/element';
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import { useSearchVisibility } from '../../index';
 import {
@@ -45,7 +46,7 @@ export default function MinimapSide() {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				side: value as string,
+				side: value as EditorOptions[ 'minimap' ][ 'side' ],
 			},
 		} );
 	};

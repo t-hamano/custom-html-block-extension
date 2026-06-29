@@ -22,12 +22,17 @@ export default function FindSeedSearchStringFromSelection() {
 		return null;
 	}
 
+	// monaco types this option as 'never' | 'always' | 'selection'. The 'selection'
+	// mode is not exposed in the UI yet, so the toggle only maps between 'always'
+	// and 'never'.
+	const isEnabled = 'always' === editorOptions.find.seedSearchStringFromSelection;
+
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
 			find: {
 				...editorOptions.find,
-				seedSearchStringFromSelection: value,
+				seedSearchStringFromSelection: value ? 'always' : 'never',
 			},
 		} );
 	};
@@ -35,18 +40,14 @@ export default function FindSeedSearchStringFromSelection() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.find.seedSearchStringFromSelection }
-					onChange={ onChange }
-				/>
+				<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
 					isToggle
 					defaultToggle
 					image="editor-options/find/seed-search-string-from-selection.gif"
-					value={ editorOptions.find.seedSearchStringFromSelection }
+					value={ isEnabled }
 				/>
 			</HStack>
 		</div>

@@ -46,7 +46,7 @@ export default function MultiCursorModifier() {
 	const onChange = ( value: string | number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			multiCursorModifier: value as string,
+			multiCursorModifier: value as typeof editorOptions.multiCursorModifier,
 		} );
 	};
 

@@ -21,6 +21,7 @@ declare global {
 		fontFamily: FontFamily[];
 		userRoles: { label: string; value: string }[];
 		dismissWelcomeGuide: boolean;
+		language?: string;
 	}
 
 	/**
@@ -37,6 +38,8 @@ declare global {
 		require: MonacoAmdRequire;
 		isInitialized?: boolean;
 		enabledEmmet?: boolean;
+		editor?: Monaco.editor.IStandaloneCodeEditor;
+		WebKitMutationObserver?: typeof MutationObserver;
 		wp?: unknown;
 		jQuery?: unknown;
 	}

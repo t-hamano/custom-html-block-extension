@@ -3,6 +3,7 @@
  */
 import webfontloader from 'webfontloader';
 import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
+import type * as Monaco from 'monaco-editor';
 
 /**
  * Internal dependencies
@@ -13,15 +14,22 @@ import initLoader from '../lib/loader';
 
 initLoader()
 	.then( ( monaco ) => {
+		if ( ! monaco ) {
+			return;
+		}
+
 		const { editorSettings, editorOptions, language, fontFamily } = window.chbeObj;
 		const { theme, tabSize, insertSpaces, emmet } = editorSettings;
 
-		const textarea = document.getElementById( 'newcontent' );
+		const textarea = document.getElementById( 'newcontent' ) as HTMLTextAreaElement | null;
+		if ( ! textarea ) {
+			return;
+		}
 
 		// Generate an element to apply the monaco editor.
 		const monacoEditorContainer = document.createElement( 'div' );
 		monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
-		textarea.parentNode.insertBefore( monacoEditorContainer, textarea.nextElementSibling );
+		textarea.parentNode?.insertBefore( monacoEditorContainer, textarea.nextElementSibling );
 
 		// Monaco editor properties.
 		const properties = {
@@ -33,19 +41,24 @@ initLoader()
 		};
 
 		// Create monaco editor.
-		window.editor = monaco.editor.create( monacoEditorContainer, properties );
+		const editor = monaco.editor.create(
+			monacoEditorContainer,
+			properties as Monaco.editor.IStandaloneEditorConstructionOptions
+		);
+		window.editor = editor;
 
 		// Event emitted when the contents of the editor have changed.
-		window.editor.getModel().onDidChangeContent( () => {
+		editor.getModel()?.onDidChangeContent( () => {
 			// Apply changes in the editor to the original textarea.
-			const editorValue = window.editor.getModel().getValue();
-			if ( textarea.value === editorValue ) {
+			const editorValue = editor.getModel()?.getValue();
+			if ( editorValue === undefined || textarea.value === editorValue ) {
 				return;
 			}
 			textarea.value = editorValue;
 			// Update the dirty state to display an alert when leaving the page.
-			if ( window.wp && window.wp.themePluginEditor ) {
-				window.wp.themePluginEditor.dirty = true;
+			const wp = window.wp as { themePluginEditor?: { dirty: boolean } } | undefined;
+			if ( wp?.themePluginEditor ) {
+				wp.themePluginEditor.dirty = true;
 			}
 		} );
 
@@ -67,7 +80,7 @@ initLoader()
 			}
 		}
 
-		window.editor.getModel().updateOptions( {
+		editor.getModel()?.updateOptions( {
 			tabSize,
 			insertSpaces,
 		} );
@@ -76,7 +89,7 @@ initLoader()
 		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
 		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig = {
+			const webfontConfig: WebFont.Config = {
 				timeout: 5000,
 				custom: {
 					families: [ font.name ],
@@ -84,8 +97,8 @@ initLoader()
 				active: () => monaco.editor.remeasureFonts(),
 			};
 
-			if ( 'stylesheet' in font ) {
-				webfontConfig.custom.urls = [ font.stylesheet ];
+			if ( 'stylesheet' in font && font.stylesheet ) {
+				webfontConfig.custom!.urls = [ font.stylesheet ];
 			}
 
 			webfontloader.load( webfontConfig );

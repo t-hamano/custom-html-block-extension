@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../../components/item-help';
@@ -40,9 +41,9 @@ export default function ScrollbarVertical() {
 			image: 'editor-options/scrollbar/vertical_3.jpg',
 			value: 'hidden',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'scrollbar' ][ 'vertical' ] ) => {
 		onRefreshEditor();
 		setEditorOptions( {
 			...editorOptions,
@@ -56,7 +57,7 @@ export default function ScrollbarVertical() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'scrollbar' ][ 'vertical' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.scrollbar.vertical }

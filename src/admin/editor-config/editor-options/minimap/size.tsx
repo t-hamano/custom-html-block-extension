@@ -8,6 +8,7 @@ import { SelectControl, __experimentalHStack as HStack } from '@wordpress/compon
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import { useSearchVisibility } from '../../index';
 import ItemHelp from '../../components/item-help';
@@ -51,9 +52,9 @@ export default function MinimapSize() {
 			),
 			image: 'editor-options/minimap/size_3.jpg',
 		},
-	];
+	] as const;
 
-	const onChange = ( value: string ) => {
+	const onChange = ( value: EditorOptions[ 'minimap' ][ 'size' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			minimap: {
@@ -66,7 +67,7 @@ export default function MinimapSize() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<SelectControl
+				<SelectControl< EditorOptions[ 'minimap' ][ 'size' ] >
 					__next40pxDefaultSize
 					label={ title }
 					value={ editorOptions.minimap.size }

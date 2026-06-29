@@ -22,21 +22,22 @@ export default function OccurrencesHighlight() {
 		return null;
 	}
 
+	// monaco types this option as 'off' | 'singleFile' | 'multiFile'. The 'multiFile'
+	// mode is not exposed in the UI yet, so the toggle only maps between 'singleFile'
+	// and 'off'.
+	const isEnabled = 'singleFile' === editorOptions.occurrencesHighlight;
+
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			occurrencesHighlight: value,
+			occurrencesHighlight: value ? 'singleFile' : 'off',
 		} );
 	};
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.occurrencesHighlight }
-					onChange={ onChange }
-				/>
+				<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
@@ -53,7 +54,7 @@ export default function OccurrencesHighlight() {
 							image: 'editor-options/occurrences-highlight_2.jpg',
 						},
 					] }
-					value={ editorOptions.occurrencesHighlight }
+					value={ isEnabled }
 				/>
 			</HStack>
 		</div>

@@ -9,6 +9,8 @@
  */
 import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
+import type * as Monaco from 'monaco-editor';
+import type { CSSProperties } from 'react';
 
 /**
  * WordPress dependencies
@@ -22,13 +24,33 @@ import { useResizeObserver } from '@wordpress/compose';
  */
 import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
+import type { EditorOptions, FontLoadResult } from '../../types';
 
-const wrapperStyles = {
+export type MonacoError = {
+	type: 'cancelation' | 'timeout' | 'scripterror';
+	msg: string;
+};
+
+export type MonacoEditorProps = {
+	className?: string;
+	language?: string;
+	theme?: string;
+	options?: Partial< EditorOptions >;
+	value?: string;
+	useEmmet?: boolean;
+	tabSize?: number;
+	insertSpaces?: boolean;
+	onChange?: ( value: string, event?: unknown ) => void;
+	onFontLoad?: ( result: FontLoadResult ) => void;
+	onError?: ( error: MonacoError ) => void;
+};
+
+const wrapperStyles: CSSProperties = {
 	position: 'relative',
 	height: '100%',
 };
 
-const loadingStyles = {
+const loadingStyles: CSSProperties = {
 	display: 'flex',
 	height: '100%',
 	width: '100%',
@@ -56,11 +78,11 @@ export default function MonacoEditor( {
 	onChange = () => null,
 	onFontLoad = () => null,
 	onError = () => null,
-} ) {
-	const containerRef = useRef( null );
-	const monacoRef = useRef( null );
-	const editorRef = useRef( null );
-	const subscriptionRef = useRef( null );
+}: MonacoEditorProps ) {
+	const containerRef = useRef< HTMLDivElement >( null );
+	const monacoRef = useRef< typeof Monaco | null >( null );
+	const editorRef = useRef< Monaco.editor.IStandaloneCodeEditor | null >( null );
+	const subscriptionRef = useRef< Monaco.IDisposable | null >( null );
 
 	const [ isEditorReady, setIsEditorReady ] = useState( false );
 	const [ isMonacoMounting, setIsMonacoMounting ] = useState( true );
@@ -72,7 +94,10 @@ export default function MonacoEditor( {
 
 	// Init loader.
 	useEffect( () => {
-		const { defaultView } = containerRef.current.ownerDocument;
+		const defaultView = containerRef.current?.ownerDocument.defaultView;
+		if ( ! defaultView ) {
+			return;
+		}
 		const cancelable = initLoader( defaultView );
 
 		cancelable
@@ -95,8 +120,11 @@ export default function MonacoEditor( {
 		}, 500 );
 
 		return () => {
-			// eslint-disable-next-line no-unused-expressions
-			editorRef.current ? disposeEditor() : cancelable.cancel();
+			if ( editorRef.current ) {
+				disposeEditor();
+			} else {
+				cancelable.cancel();
+			}
 			clearInterval( interval );
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,32 +133,48 @@ export default function MonacoEditor( {
 	// Create monaco editor.
 	useEffect( () => {
 		if ( ! isMonacoMounting && ! isEditorReady ) {
-			const { ownerDocument } = containerRef.current;
-			const { defaultView } = ownerDocument;
+			const container = containerRef.current;
+			const monaco = monacoRef.current;
+			if ( ! container || ! monaco ) {
+				return;
+			}
+			const { defaultView } = container.ownerDocument;
 
-			editorRef.current = monacoRef.current.editor.create( containerRef.current, options );
-			monacoRef.current.editor.setModelLanguage( editorRef.current.getModel(), language );
+			const editor = monaco.editor.create(
+				container,
+				options as Monaco.editor.IStandaloneEditorConstructionOptions
+			);
+			editorRef.current = editor;
 
-			// Set the initial value via setValue, which clears the undo/redo stack.
-			// This prevents undo right after load from wiping out the content.
-			if ( value ) {
-				editorRef.current.getModel().setValue( value );
+			const model = editor.getModel();
+			if ( model ) {
+				monaco.editor.setModelLanguage( model, language );
+
+				// Set the initial value via setValue, which clears the undo/redo stack.
+				// This prevents undo right after load from wiping out the content.
+				if ( value ) {
+					model.setValue( value );
+				}
 			}
 
 			// Apply emmet.
-			if ( useEmmet && ! defaultView.enabledEmmet ) {
+			if ( useEmmet && defaultView && ! defaultView.enabledEmmet ) {
 				defaultView.enabledEmmet = true;
-				emmetHTML( monacoRef.current );
+				emmetHTML( monaco );
 			}
 
 			// Ctrl+X shortcut without a range selection will cut the block,
 			// so catch the command and execute custom action instead.
-			editorRef.current.addCommand(
+			editor.addCommand(
 				// eslint-disable-next-line no-bitwise
-				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KeyX,
+				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX,
 				() => {
-					const selection = editorRef.current.getSelection();
-					const lineNumber = editorRef.current.getPosition().lineNumber;
+					const selection = editor.getSelection();
+					const position = editor.getPosition();
+					if ( ! selection || ! position ) {
+						return;
+					}
+					const lineNumber = position.lineNumber;
 					const isEmptySelection =
 						selection.startLineNumber === selection.endLineNumber &&
 						selection.startColumn === selection.endColumn;
@@ -138,25 +182,27 @@ export default function MonacoEditor( {
 					if ( window.chbeObj.editorOptions.emptySelectionClipboard ) {
 						if ( isEmptySelection ) {
 							// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
-							editorRef.current.setSelection(
-								new monacoRef.current.Selection( lineNumber, 1, lineNumber + 1, 1 )
-							);
+							editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
 						}
-						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
+						editor.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
 					} else if ( ! isEmptySelection ) {
-						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
+						editor.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
 					}
 				}
 			);
 
 			// Ctrl+C shortcut without a range selection will copy the block,
 			// so catch the command and execute custom action instead.
-			editorRef.current.addCommand(
+			editor.addCommand(
 				// eslint-disable-next-line no-bitwise
-				monacoRef.current.KeyMod.CtrlCmd | monacoRef.current.KeyCode.KeyC,
+				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC,
 				() => {
-					const selection = editorRef.current.getSelection();
-					const lineNumber = editorRef.current.getPosition().lineNumber;
+					const selection = editor.getSelection();
+					const position = editor.getPosition();
+					if ( ! selection || ! position ) {
+						return;
+					}
+					const lineNumber = position.lineNumber;
 					const isEmptySelection =
 						selection.startLineNumber === selection.endLineNumber &&
 						selection.startColumn === selection.endColumn;
@@ -164,21 +210,19 @@ export default function MonacoEditor( {
 					if ( window.chbeObj.editorOptions.emptySelectionClipboard ) {
 						if ( isEmptySelection ) {
 							// Select and copy the current line if there is no range selection and "Copy the current line without selection" is enabled.
-							editorRef.current.setSelection(
-								new monacoRef.current.Selection( lineNumber, 1, lineNumber + 1, 1 )
-							);
+							editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
 						}
-						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
+						editor.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
 					} else if ( ! isEmptySelection ) {
-						editorRef.current.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
+						editor.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
 					}
 				}
 			);
 
 			// Subscribe to content changes once; the callback is read from a ref
 			// so prop changes don't require re-subscribing.
-			subscriptionRef.current = editorRef.current.onDidChangeModelContent( ( event ) => {
-				onChangeRef.current?.( editorRef.current.getValue(), event );
+			subscriptionRef.current = editor.onDidChangeModelContent( ( event ) => {
+				onChangeRef.current?.( editor.getValue(), event );
 			} );
 
 			setIsEditorReady( true );
@@ -190,29 +234,32 @@ export default function MonacoEditor( {
 	useEffect( () => {
 		const { width, height } = size;
 		if ( isEditorReady && width && height ) {
-			editorRef.current.layout();
+			editorRef.current?.layout();
 		}
 	}, [ size, isEditorReady ] );
 
 	// Change options.
 	useEffect( () => {
 		if ( isEditorReady ) {
-			editorRef.current.updateOptions( options );
+			editorRef.current?.updateOptions( options as Monaco.editor.IEditorOptions );
 			setTimeout( () => {
-				monacoRef.current.editor.remeasureFonts();
+				monacoRef.current?.editor.remeasureFonts();
 			}, 300 );
 		}
 	}, [ options, isEditorReady ] );
 
 	// Change theme.
 	useEffect( () => {
-		if ( isEditorReady ) {
+		const monaco = monacoRef.current;
+		if ( isEditorReady && monaco ) {
 			if ( 'vs-dark' === theme || 'light' === theme ) {
-				monacoRef.current.editor.setTheme( theme );
+				monaco.editor.setTheme( theme );
 			} else {
 				const targetTheme = themes.find( ( data ) => theme === data.value );
-				monacoRef.current.editor.defineTheme( targetTheme.value, targetTheme.data );
-				monacoRef.current.editor.setTheme( targetTheme.value );
+				if ( targetTheme ) {
+					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
+					monaco.editor.setTheme( targetTheme.value );
+				}
 			}
 		}
 	}, [ theme, isEditorReady ] );
@@ -228,7 +275,7 @@ export default function MonacoEditor( {
 	// Change tab size, insert spaces.
 	useEffect( () => {
 		if ( isEditorReady ) {
-			editorRef.current.getModel().updateOptions( {
+			editorRef.current?.getModel()?.updateOptions( {
 				tabSize,
 				insertSpaces,
 			} );
@@ -237,22 +284,30 @@ export default function MonacoEditor( {
 
 	// Set value.
 	useEffect( () => {
-		if ( isEditorReady && value !== editorRef.current.getValue() ) {
-			editorRef.current.executeEdits( '', [
-				{
-					range: editorRef.current.getModel().getFullModelRange(),
-					text: value,
-					forceMoveMarkers: true,
-				},
-			] );
-			editorRef.current.pushUndoStop();
+		const editor = editorRef.current;
+		if ( isEditorReady && editor && value !== editor.getValue() ) {
+			const model = editor.getModel();
+			if ( model ) {
+				editor.executeEdits( '', [
+					{
+						range: model.getFullModelRange(),
+						text: value,
+						forceMoveMarkers: true,
+					},
+				] );
+				editor.pushUndoStop();
+			}
 		}
 	}, [ value, isEditorReady ] );
 
 	// Dispose editor.
 	function disposeEditor() {
 		subscriptionRef.current?.dispose();
-		const model = editorRef.current.getModel();
+		const editor = editorRef.current;
+		if ( ! editor ) {
+			return;
+		}
+		const model = editor.getModel();
 		if ( model ) {
 			try {
 				model.dispose();
@@ -261,38 +316,42 @@ export default function MonacoEditor( {
 				// is torn down (e.g. switching to code editor mode).
 			}
 		}
-		editorRef.current.dispose();
+		editor.dispose();
 		editorRef.current = null;
 	}
 
 	// Load web font.
-	function loadFont( fontFamily ) {
-		const { ownerDocument } = containerRef.current;
+	function loadFont( fontFamily?: string ) {
+		const container = containerRef.current;
+		if ( ! container ) {
+			return;
+		}
+		const { ownerDocument } = container;
 		const { defaultView } = ownerDocument;
 		const font = window.chbeObj.fontFamily.find( ( data ) => fontFamily === data.name );
 
 		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig = {
+			const webfontConfig: WebFont.Config = {
 				timeout: 5000,
 				custom: {
 					families: [ font.name ],
 				},
 				active: () => {
-					monacoRef.current.editor.remeasureFonts();
+					monacoRef.current?.editor.remeasureFonts();
 					onFontLoad( { isSuccess: true, font } );
 				},
 				inactive: () => {
-					monacoRef.current.editor.remeasureFonts();
+					monacoRef.current?.editor.remeasureFonts();
 					onFontLoad( { isSuccess: false, font } );
 				},
-				context: defaultView,
+				context: defaultView ?? undefined,
 			};
 
 			// Add stylesheet if it is not in current document.
-			if ( 'stylesheet' in font ) {
+			if ( 'stylesheet' in font && font.stylesheet ) {
 				const link = ownerDocument.querySelector( `link[href="${ font.stylesheet }"]` );
 				if ( ! link ) {
-					webfontConfig.custom.urls = [ font.stylesheet ];
+					webfontConfig.custom!.urls = [ font.stylesheet ];
 				}
 			}
 
