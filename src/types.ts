@@ -67,9 +67,9 @@ export type EditorOptions = {
 		maxColumn: number;
 		renderCharacters: boolean;
 		scale: number;
-		showSlider: string;
-		side: string;
-		size: string;
+		showSlider: 'always' | 'mouseover';
+		side: 'right' | 'left';
+		size: 'proportional' | 'fill' | 'fit';
 	};
 	mouseWheelScrollSensitivity: number;
 	mouseWheelZoom: boolean;
@@ -97,12 +97,12 @@ export type EditorOptions = {
 	scrollbar: {
 		alwaysConsumeMouseWheel: boolean;
 		arrowSize: number;
-		horizontal: string;
+		horizontal: 'auto' | 'visible' | 'hidden';
 		horizontalHasArrows: boolean;
 		horizontalScrollbarSize: number;
 		scrollByPage: boolean;
 		useShadows: boolean;
-		vertical: string;
+		vertical: 'auto' | 'visible' | 'hidden';
 		verticalHasArrows: boolean;
 		verticalScrollbarSize: number;
 	};
