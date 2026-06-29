@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import type * as Monaco from 'monaco-editor';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -6,7 +11,7 @@ import { __ } from '@wordpress/i18n';
 type Theme = {
 	label: string;
 	value: string;
-	data: Record< string, unknown >;
+	data: Monaco.editor.IStandaloneThemeData;
 };
 
 const themes: Theme[] = [];

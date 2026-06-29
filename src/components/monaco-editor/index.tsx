@@ -257,10 +257,7 @@ export default function MonacoEditor( {
 			} else {
 				const targetTheme = themes.find( ( data ) => theme === data.value );
 				if ( targetTheme ) {
-					monaco.editor.defineTheme(
-						targetTheme.value,
-						targetTheme.data as unknown as Monaco.editor.IStandaloneThemeData
-					);
+					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
 					monaco.editor.setTheme( targetTheme.value );
 				}
 			}

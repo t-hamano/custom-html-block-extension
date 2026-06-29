@@ -107,10 +107,7 @@ initLoader()
 			if ( 'vs-dark' !== theme && 'light' !== theme ) {
 				const targetTheme = themes.find( ( data ) => theme === data.value );
 				if ( undefined !== targetTheme ) {
-					monaco.editor.defineTheme(
-						targetTheme.value,
-						targetTheme.data as unknown as Monaco.editor.IStandaloneThemeData
-					);
+					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
 					monaco.editor.setTheme( targetTheme.value );
 				}
 			}
