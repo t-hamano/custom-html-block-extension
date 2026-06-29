@@ -9,7 +9,6 @@
 /vendor
 .distignore
 .editorconfig
-eslint.config.js
 .gitignore
 .npmrc
 .nvmrc
@@ -19,7 +18,9 @@ eslint.config.js
 .wp-env.test.json
 composer.json
 composer.lock
+eslint.config.js
 playwright.config.js
+tsconfig.json
 package.json
 package-lock.json
 phpcs.ruleset.xml
