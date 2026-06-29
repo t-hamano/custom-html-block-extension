@@ -9,12 +9,18 @@ import { addFilter } from '@wordpress/hooks';
 import icon from '../components/block-icon';
 import edit from './edit';
 
-const customHtmlBlockExtension = ( settings ) => {
+type HtmlBlockSettings = {
+	name: string;
+	attributes?: Record< string, unknown >;
+	[ key: string ]: unknown;
+};
+
+const customHtmlBlockExtension = ( settings: HtmlBlockSettings ): HtmlBlockSettings => {
 	if ( 'core/html' !== settings.name ) {
 		return settings;
 	}
 
-	const newSettings = {
+	const newSettings: HtmlBlockSettings = {
 		...settings,
 		icon,
 		attributes: {

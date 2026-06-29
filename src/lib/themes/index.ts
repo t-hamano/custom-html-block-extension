@@ -3,9 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 
-const themes = [];
+type Theme = {
+	label: string;
+	value: string;
+	data: Record< string, unknown >;
+};
 
-const themeList = {
+const themes: Theme[] = [];
+
+const themeList: Record< string, string > = {
 	active4d: __( 'Active4D', 'custom-html-block-extension' ),
 	'all-hallows-eve': __( 'All Hallows Eve', 'custom-html-block-extension' ),
 	amy: __( 'Amy', 'custom-html-block-extension' ),

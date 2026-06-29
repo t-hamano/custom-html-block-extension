@@ -3,6 +3,7 @@
  */
 import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
+import type * as Monaco from 'monaco-editor';
 
 /**
  * Internal dependencies
@@ -13,18 +14,21 @@ import initLoader from '../lib/loader';
 
 initLoader()
 	.then( ( monaco ) => {
+		if ( ! monaco ) {
+			return;
+		}
+
 		let isMonacoEditorEnabled = false;
 
-		const isEditorEnabled = !! document.getElementById( 'content' );
+		const textarea = document.getElementById( 'content' ) as HTMLTextAreaElement | null;
+		const editorContainer = document.getElementById( 'wp-content-editor-container' );
 
-		if ( ! isEditorEnabled ) {
+		if ( ! textarea || ! editorContainer ) {
 			return;
 		}
 
 		const tabTmce = document.getElementById( 'content-tmce' );
 		const tabHtml = document.getElementById( 'content-html' );
-		const textarea = document.getElementById( 'content' );
-		const editorContainer = document.getElementById( 'wp-content-editor-container' );
 		const draftButton = document.getElementById( 'save-post' );
 		const publishButton = document.getElementById( 'publish' );
 		const syncTriggers = document.querySelectorAll(
@@ -58,33 +62,39 @@ initLoader()
 			};
 
 			// Create monaco editor.
-			window.editor = monaco.editor.create( monacoEditorContainer, properties );
+			const editor = monaco.editor.create(
+				monacoEditorContainer,
+				properties as unknown as Monaco.editor.IStandaloneEditorConstructionOptions
+			);
+			window.editor = editor;
 
 			// Force "preventScroll" on focus so clicking the editor doesn't scroll
 			// the page back to the cursor (e.g. after browser find-in-page). Only
 			// Chromium's EditContext element has this issue.
 			// See https://github.com/microsoft/monaco-editor/issues/4248
-			const focusTarget = monacoEditorContainer.querySelector( '.native-edit-context' );
+			const focusTarget = monacoEditorContainer.querySelector(
+				'.native-edit-context'
+			) as HTMLElement | null;
 			if ( focusTarget ) {
 				const originalFocus = focusTarget.focus.bind( focusTarget );
 				focusTarget.focus = ( options ) => originalFocus( { ...options, preventScroll: true } );
 			}
 
 			// Change editor area height.
-			const contentHeight = Math.max( 300, window.editor.getContentHeight() );
+			const contentHeight = Math.max( 300, editor.getContentHeight() );
 			monacoEditorContainer.style.height = `${ contentHeight }px`;
 
 			// Event emitted when the contents of the editor have changed.
-			window.editor.getModel().onDidChangeContent( () => {
+			editor.getModel()?.onDidChangeContent( () => {
 				// Apply changes in the editor to the original textarea.
-				const editorValue = window.editor.getModel().getValue();
-				if ( textarea.value === editorValue ) {
+				const editorValue = editor.getModel()?.getValue();
+				if ( editorValue === undefined || textarea.value === editorValue ) {
 					return;
 				}
 				textarea.value = editorValue;
 
 				// Change editor area height.
-				const newContentHeight = Math.max( 300, window.editor.getContentHeight() );
+				const newContentHeight = Math.max( 300, editor.getContentHeight() );
 				monacoEditorContainer.style.height = `${ newContentHeight }px`;
 			} );
 
@@ -97,23 +107,26 @@ initLoader()
 			if ( 'vs-dark' !== theme && 'light' !== theme ) {
 				const targetTheme = themes.find( ( data ) => theme === data.value );
 				if ( undefined !== targetTheme ) {
-					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
+					monaco.editor.defineTheme(
+						targetTheme.value,
+						targetTheme.data as unknown as Monaco.editor.IStandaloneThemeData
+					);
 					monaco.editor.setTheme( targetTheme.value );
 				}
 			}
 
-			window.editor.getModel().updateOptions( {
+			editor.getModel()?.updateOptions( {
 				tabSize,
 				insertSpaces,
 			} );
 
 			// Catch the Ctrl+S command to save draft or publish post.
-			window.editor.addCommand(
+			editor.addCommand(
 				// eslint-disable-next-line no-bitwise
 				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
 				() => {
 					// eslint-disable-next-line no-unused-expressions
-					!! draftButton ? draftButton.click() : publishButton.click();
+					draftButton ? draftButton.click() : publishButton?.click();
 				}
 			);
 
@@ -121,7 +134,7 @@ initLoader()
 			const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
 			if ( undefined !== font && 'label' in font ) {
-				const webfontConfig = {
+				const webfontConfig: WebFont.Config = {
 					timeout: 5000,
 					custom: {
 						families: [ font.name ],
@@ -129,8 +142,8 @@ initLoader()
 					active: () => monaco.editor.remeasureFonts(),
 				};
 
-				if ( 'stylesheet' in font ) {
-					webfontConfig.custom.urls = [ font.stylesheet ];
+				if ( 'stylesheet' in font && font.stylesheet ) {
+					webfontConfig.custom!.urls = [ font.stylesheet ];
 				}
 
 				webfontloader.load( webfontConfig );
@@ -150,12 +163,18 @@ initLoader()
 		// Add a margin above the monaco editor that is the same height as the toolbar.
 		const updateToolbarMargin = () => {
 			const toolbar = document.getElementById( 'ed_toolbar' );
+			if ( ! toolbar ) {
+				return;
+			}
 			const toolbarPosition = window.getComputedStyle( toolbar ).position;
 			const marginTop =
 				'fixed' === toolbarPosition || 'absolute' === toolbarPosition
 					? toolbar.clientHeight + 1
 					: 0;
-			document.getElementById( 'monaco-editor' ).style.marginTop = `${ marginTop }px`;
+			const monacoEditor = document.getElementById( 'monaco-editor' );
+			if ( monacoEditor ) {
+				monacoEditor.style.marginTop = `${ marginTop }px`;
+			}
 		};
 
 		// Window resize event.
@@ -166,19 +185,27 @@ initLoader()
 		};
 
 		// Apply changes in the original textarea to the editor.
-		const syncTextareaToEditor = ( e ) => {
+		const syncTextareaToEditor = ( e: Event ) => {
 			if ( ! isMonacoEditorEnabled ) {
 				return;
 			}
 
 			// Do nothing if keycode is not "enter" ( Tab key to move focus, etc ).
-			if ( 'keydown' === e.type && 'Enter' !== e.key ) {
+			if ( 'keydown' === e.type && 'Enter' !== ( e as KeyboardEvent ).key ) {
+				return;
+			}
+
+			const editor = window.editor;
+			if ( ! editor ) {
 				return;
 			}
 
 			// Apply selection to the original textarea.
-			const model = window.editor.getModel();
-			const selection = window.editor.getSelection();
+			const model = editor.getModel();
+			const selection = editor.getSelection();
+			if ( ! model || ! selection ) {
+				return;
+			}
 			const textareaSelection = getTextareaSelection( model, selection );
 
 			textarea.setSelectionRange( textareaSelection.start, textareaSelection.end );
@@ -193,18 +220,21 @@ initLoader()
 					model.setValue( textarea.value );
 					window.clearInterval( checkForChanges );
 					const editorPosition = getEditorPosition( textarea );
-					window.editor.setPosition( {
+					editor.setPosition( {
 						lineNumber: editorPosition.lineNumber,
 						column: editorPosition.column,
 					} );
-					window.editor.focus();
+					editor.focus();
 				}
 				checkCount++;
 			}, 100 );
 		};
 
 		// Get cursor selection info for the original textarea.
-		const getTextareaSelection = ( model, selection ) => {
+		const getTextareaSelection = (
+			model: Monaco.editor.ITextModel,
+			selection: Monaco.Selection
+		) => {
 			const linesContent = model.getLinesContent();
 
 			let start = 0;
@@ -234,7 +264,7 @@ initLoader()
 		};
 
 		// Get cursor position info for the editor.
-		const getEditorPosition = ( element ) => {
+		const getEditorPosition = ( element: HTMLTextAreaElement ) => {
 			const linesContent = element.value.split( '\n' );
 			let selectionStart = element.selectionStart;
 			let lineNumber = 1;
@@ -259,9 +289,9 @@ initLoader()
 
 		// Use observer to add event because "add media" modal window is added dynamically.
 		const runObserve = () => {
-			const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-			if ( MutationObserver ) {
-				new MutationObserver( () => {
+			const MutationObserverClass = window.MutationObserver || window.WebKitMutationObserver;
+			if ( MutationObserverClass ) {
+				new MutationObserverClass( () => {
 					const mediaInsertButtons = Array.from(
 						document.getElementsByClassName( 'media-button-insert' )
 					);
@@ -285,8 +315,10 @@ initLoader()
 		const toVisual = () => {
 			if ( isMonacoEditorEnabled ) {
 				monaco.editor.getModels().forEach( ( model ) => model.dispose() );
-				document.getElementById( 'monaco-editor' ).remove();
-				tabHtml.onclick = toHtml;
+				document.getElementById( 'monaco-editor' )?.remove();
+				if ( tabHtml ) {
+					tabHtml.onclick = toHtml;
+				}
 				syncTriggers.forEach( ( button ) => {
 					button.removeEventListener( 'mouseup', syncTextareaToEditor );
 					button.removeEventListener( 'keydown', syncTextareaToEditor );
@@ -302,7 +334,9 @@ initLoader()
 				setTimeout( () => {
 					runEditor();
 				}, 300 );
-				tabTmce.onclick = toVisual;
+				if ( tabTmce ) {
+					tabTmce.onclick = toVisual;
+				}
 			}
 
 			setTimeout( () => {
@@ -313,9 +347,8 @@ initLoader()
 		// Initialize
 		runObserve();
 
-		const isVisualEditorEnabled = document
-			.getElementById( 'wp-content-wrap' )
-			.classList.contains( 'tmce-active' );
+		const wpContentWrap = document.getElementById( 'wp-content-wrap' );
+		const isVisualEditorEnabled = wpContentWrap?.classList.contains( 'tmce-active' );
 
 		if ( isVisualEditorEnabled ) {
 			if ( tabHtml ) {
