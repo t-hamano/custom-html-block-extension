@@ -25,21 +25,21 @@ export default function RenderFinalNewline() {
 		return null;
 	}
 
+	// monaco types this option as 'on' | 'off' | 'dimmed'. The 'dimmed' mode is not
+	// exposed in the UI yet, so the toggle only maps between 'on' and 'off'.
+	const isEnabled = 'on' === editorOptions.renderFinalNewline;
+
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			renderFinalNewline: value,
+			renderFinalNewline: value ? 'on' : 'off',
 		} );
 	};
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.renderFinalNewline }
-					onChange={ onChange }
-				/>
+				<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
@@ -56,7 +56,7 @@ export default function RenderFinalNewline() {
 							image: 'editor-options/render-final-newline_2.jpg',
 						},
 					] }
-					value={ editorOptions.renderFinalNewline }
+					value={ isEnabled }
 				/>
 			</HStack>
 		</div>

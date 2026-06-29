@@ -22,6 +22,9 @@ export default function FindSeedSearchStringFromSelection() {
 		return null;
 	}
 
+	// monaco types this option as 'never' | 'always' | 'selection'. The 'selection'
+	// mode is not exposed in the UI yet, so the toggle only maps between 'always'
+	// and 'never'.
 	const isEnabled = 'always' === editorOptions.find.seedSearchStringFromSelection;
 
 	const onChange = ( value: boolean ) => {

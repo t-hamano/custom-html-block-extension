@@ -32,8 +32,8 @@ class Settings {
 	// Default editor options.
 	const DEFAULT_EDITOR_OPTIONS = array(
 		'acceptSuggestionOnEnter'          => array(
-			'type'    => 'boolean',
-			'default' => true,
+			'type'    => 'string',
+			'default' => 'on',
 		),
 		'autoClosingBrackets'              => array(
 			'type'    => 'string',
@@ -77,8 +77,8 @@ class Settings {
 			'default' => 'blink',
 		),
 		'cursorSmoothCaretAnimation'       => array(
-			'type'    => 'boolean',
-			'default' => false,
+			'type'    => 'string',
+			'default' => 'off',
 		),
 		'cursorStyle'                      => array(
 			'type'    => 'string',
@@ -251,8 +251,8 @@ class Settings {
 			'default' => false,
 		),
 		'occurrencesHighlight'             => array(
-			'type'    => 'boolean',
-			'default' => true,
+			'type'    => 'string',
+			'default' => 'singleFile',
 		),
 		'overviewRulerBorder'              => array(
 			'type'    => 'boolean',
@@ -284,8 +284,8 @@ class Settings {
 			'default' => false,
 		),
 		'renderFinalNewline'               => array(
-			'type'    => 'boolean',
-			'default' => true,
+			'type'    => 'string',
+			'default' => 'on',
 		),
 		'renderIndentGuides'               => array(
 			'type'    => 'boolean',
@@ -547,8 +547,25 @@ class Settings {
 	 * the current schema.
 	 */
 	private static function migrate_legacy_editor_options( $editor_options ) {
-		// `seedSearchStringFromSelection` was previously persisted as a boolean.
-		// Monaco now expect the 'never' | 'always' | 'selection' union.
+		// These options were previously persisted as booleans but monaco types
+		// them as string enums, so map legacy booleans onto the new values.
+
+		if ( isset( $editor_options['acceptSuggestionOnEnter'] ) && is_bool( $editor_options['acceptSuggestionOnEnter'] ) ) {
+			$editor_options['acceptSuggestionOnEnter'] = $editor_options['acceptSuggestionOnEnter'] ? 'on' : 'off';
+		}
+
+		if ( isset( $editor_options['cursorSmoothCaretAnimation'] ) && is_bool( $editor_options['cursorSmoothCaretAnimation'] ) ) {
+			$editor_options['cursorSmoothCaretAnimation'] = $editor_options['cursorSmoothCaretAnimation'] ? 'on' : 'off';
+		}
+
+		if ( isset( $editor_options['occurrencesHighlight'] ) && is_bool( $editor_options['occurrencesHighlight'] ) ) {
+			$editor_options['occurrencesHighlight'] = $editor_options['occurrencesHighlight'] ? 'singleFile' : 'off';
+		}
+
+		if ( isset( $editor_options['renderFinalNewline'] ) && is_bool( $editor_options['renderFinalNewline'] ) ) {
+			$editor_options['renderFinalNewline'] = $editor_options['renderFinalNewline'] ? 'on' : 'off';
+		}
+
 		if (
 			isset( $editor_options['find']['seedSearchStringFromSelection'] ) &&
 			is_bool( $editor_options['find']['seedSearchStringFromSelection'] )

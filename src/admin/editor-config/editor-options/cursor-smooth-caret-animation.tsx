@@ -22,21 +22,21 @@ export default function CursorSmoothCaretAnimation() {
 		return null;
 	}
 
+	// monaco types this option as 'off' | 'explicit' | 'on'. The 'explicit' mode is
+	// not exposed in the UI yet, so the toggle only maps between 'on' and 'off'.
+	const isEnabled = 'on' === editorOptions.cursorSmoothCaretAnimation;
+
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			cursorSmoothCaretAnimation: value,
+			cursorSmoothCaretAnimation: value ? 'on' : 'off',
 		} );
 	};
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.cursorSmoothCaretAnimation }
-					onChange={ onChange }
-				/>
+				<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
@@ -53,7 +53,7 @@ export default function CursorSmoothCaretAnimation() {
 							isDefault: true,
 						},
 					] }
-					value={ editorOptions.cursorSmoothCaretAnimation }
+					value={ isEnabled }
 				/>
 			</HStack>
 		</div>

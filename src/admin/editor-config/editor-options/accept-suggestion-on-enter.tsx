@@ -22,21 +22,21 @@ export default function AcceptSuggestionOnEnter() {
 		return null;
 	}
 
+	// monaco types this option as 'on' | 'smart' | 'off'. The 'smart' mode is not
+	// exposed in the UI yet, so the toggle only maps between 'on' and 'off'.
+	const isEnabled = 'on' === editorOptions.acceptSuggestionOnEnter;
+
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			acceptSuggestionOnEnter: value,
+			acceptSuggestionOnEnter: value ? 'on' : 'off',
 		} );
 	};
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.acceptSuggestionOnEnter }
-					onChange={ onChange }
-				/>
+				<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
@@ -51,7 +51,7 @@ export default function AcceptSuggestionOnEnter() {
 					) }
 					isToggle
 					defaultToggle
-					value={ editorOptions.acceptSuggestionOnEnter }
+					value={ isEnabled }
 				/>
 			</HStack>
 		</div>

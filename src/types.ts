@@ -18,7 +18,7 @@ export type EditorSettings = {
  * casting) to `monaco.editor.create`.
  */
 export type EditorOptions = {
-	acceptSuggestionOnEnter: boolean;
+	acceptSuggestionOnEnter: 'on' | 'smart' | 'off';
 	autoClosingBrackets: string;
 	autoClosingQuotes: string;
 	autoIndent: string;
@@ -30,7 +30,7 @@ export type EditorOptions = {
 	contextmenu: boolean;
 	copyWithSyntaxHighlighting: boolean;
 	cursorBlinking: string;
-	cursorSmoothCaretAnimation: boolean;
+	cursorSmoothCaretAnimation: 'off' | 'explicit' | 'on';
 	cursorStyle: string;
 	cursorSurroundingLines: number;
 	cursorSurroundingLinesStyle: string;
@@ -75,7 +75,7 @@ export type EditorOptions = {
 	mouseWheelZoom: boolean;
 	multiCursorModifier: string;
 	multiCursorPaste: string;
-	occurrencesHighlight: boolean;
+	occurrencesHighlight: 'off' | 'singleFile' | 'multiFile';
 	overviewRulerBorder: boolean;
 	padding: {
 		bottom: number;
@@ -85,7 +85,7 @@ export type EditorOptions = {
 	quickSuggestionsDelay: number;
 	suggestOnTriggerCharacters: boolean;
 	renderControlCharacters: boolean;
-	renderFinalNewline: boolean;
+	renderFinalNewline: 'on' | 'off' | 'dimmed';
 	renderIndentGuides: boolean;
 	renderLineHighlight: string;
 	renderLineHighlightOnlyWhenFocus: boolean;
