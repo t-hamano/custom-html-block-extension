@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -34,7 +35,7 @@ export default function FindLoop() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<ToggleControl label={ title } checked={ editorOptions.find.loop } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
@@ -48,7 +49,7 @@ export default function FindLoop() {
 					image="editor-options/find/loop.gif"
 					value={ editorOptions.find.loop }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

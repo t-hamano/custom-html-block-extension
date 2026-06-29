@@ -4,10 +4,10 @@
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
-	__experimentalHStack as HStack,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -47,7 +47,7 @@ export default function InsertSpaces() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack>
+			<Stack gap="sm">
 				<ToggleGroupControl
 					size="__unstable-large"
 					label={ __( 'Indent type', 'custom-html-block-extension' ) }
@@ -63,7 +63,7 @@ export default function InsertSpaces() {
 						/>
 					) ) }
 				</ToggleGroupControl>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

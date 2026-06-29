@@ -13,10 +13,9 @@ import {
 	Button,
 	Modal,
 	ToggleControl,
-	__experimentalText as Text,
 	__experimentalHeading as Heading,
-	__experimentalVStack as VStack,
 } from '@wordpress/components';
+import { Stack, Text } from '@wordpress/ui';
 
 type ItemHelpProps = {
 	title: string;
@@ -62,17 +61,19 @@ export default function ItemHelp( {
 					className="chbe-admin-editor-config-item-help-modal"
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<VStack spacing={ 4 } alignment="start">
+					<Stack direction="column" align="start" gap="lg">
 						{ description && (
-							<VStack
-								as={ typeof description === 'object' ? 'div' : 'p' }
+							<Stack
+								direction="column"
+								render={ typeof description === 'object' ? <div /> : <p /> }
 								className="chbe-admin-editor-config-item-help-modal__decription"
+								gap="sm"
 							>
 								{ description }
-							</VStack>
+							</Stack>
 						) }
 						{ isToggle && (
-							<Text as="p">
+							<Text render={ <p /> }>
 								{ defaultToggle
 									? __( 'Defaults to enable.', 'custom-html-block-extension' )
 									: __( 'Defaults to disable.', 'custom-html-block-extension' ) }
@@ -83,7 +84,7 @@ export default function ItemHelp( {
 								className={ `chbe-admin-editor-config-item-help-modal__items is-col-${ colCount }` }
 							>
 								{ items.map( ( item, index ) => (
-									<VStack spacing="4" alignment="start" key={ index }>
+									<Stack direction="column" align="start" gap="lg" key={ index }>
 										<Heading as="h3" level="4">
 											{ item.isDefault
 												? sprintf(
@@ -106,8 +107,8 @@ export default function ItemHelp( {
 												alt={ item.title }
 											/>
 										</Button>
-										{ item.description && <Text as="p">{ item.description }</Text> }
-									</VStack>
+										{ item.description && <Text render={ <p /> }>{ item.description }</Text> }
+									</Stack>
 								) ) }
 							</div>
 						) }
@@ -127,7 +128,7 @@ export default function ItemHelp( {
 								label={ title }
 							/>
 						) }
-					</VStack>
+					</Stack>
 				</Modal>
 			) }
 			<Button

@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -34,7 +35,7 @@ export default function CommentsInsertSpace() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<ToggleControl
 					label={ title }
 					checked={ editorOptions.comments.insertSpace }
@@ -62,7 +63,7 @@ export default function CommentsInsertSpace() {
 					] }
 					value={ editorOptions.comments.insertSpace }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

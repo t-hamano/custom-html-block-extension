@@ -4,10 +4,10 @@
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
-	__experimentalHStack as HStack,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -52,7 +52,7 @@ export default function MultiCursorPaste() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<ToggleGroupControl
 					size="__unstable-large"
 					label={ title }
@@ -74,7 +74,7 @@ export default function MultiCursorPaste() {
 					items={ items }
 					value={ editorOptions.multiCursorPaste }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

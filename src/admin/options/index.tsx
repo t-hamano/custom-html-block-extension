@@ -4,7 +4,8 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
-import { Button, Flex, __experimentalVStack as VStack } from '@wordpress/components';
+import { Button } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -38,10 +39,10 @@ export default function Options() {
 	};
 
 	return (
-		<VStack spacing={ 4 }>
+		<Stack direction="column" gap="lg">
 			<PermissionEditor />
 			<PermissionUserRole />
-			<Flex>
+			<Stack gap="sm">
 				<Button
 					variant="primary"
 					disabled={ isWaiting }
@@ -50,7 +51,7 @@ export default function Options() {
 				>
 					{ __( 'Save Options', 'custom-html-block-extension' ) }
 				</Button>
-			</Flex>
-		</VStack>
+			</Stack>
+		</Stack>
 	);
 }

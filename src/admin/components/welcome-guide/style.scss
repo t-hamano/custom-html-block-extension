@@ -6,4 +6,8 @@
 	img {
 		margin-bottom: variables.$grid-unit-20;
 	}
+
+	&__content {
+		padding: variables.$grid-unit-20 variables.$grid-unit-40;
+	}
 }

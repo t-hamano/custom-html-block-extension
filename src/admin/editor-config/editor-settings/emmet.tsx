@@ -3,13 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import {
-	ExternalLink,
-	Notice,
-	ToggleControl,
-	__experimentalText as Text,
-	__experimentalHStack as HStack,
-} from '@wordpress/components';
+import { Notice, ToggleControl } from '@wordpress/components';
+import { Link, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -37,20 +32,20 @@ export default function Emmet() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<ToggleControl label={ title } checked={ editorSettings.emmet } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
 					description={
 						<>
-							<Text as="p">
+							<Text render={ <p /> }>
 								{ __(
 									'Emmet is a function for the editor that allow for high-speed coding via content assist.',
 									'custom-html-block-extension'
 								) }
 							</Text>
-							<Text as="p">
+							<Text render={ <p /> }>
 								{ __(
 									'Only valid for HTML tags and does not support inline CSS in the block and classic editor.',
 									'custom-html-block-extension'
@@ -61,10 +56,10 @@ export default function Emmet() {
 									'custom-html-block-extension'
 								) }
 							</Text>
-							<Text as="p">
-								<ExternalLink href="https://docs.emmet.io/cheat-sheet/">
+							<Text render={ <p /> }>
+								<Link href="https://docs.emmet.io/cheat-sheet/" openInNewTab>
 									{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
-								</ExternalLink>
+								</Link>
 							</Text>
 							<Notice status="warning" isDismissible={ false }>
 								{ __(
@@ -79,7 +74,7 @@ export default function Emmet() {
 					image="editor-settings/emmet.gif"
 					value={ editorSettings.emmet }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

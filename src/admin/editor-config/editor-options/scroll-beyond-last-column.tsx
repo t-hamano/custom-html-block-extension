@@ -3,7 +3,8 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { RangeControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -35,7 +36,7 @@ export default function ScrollBeyondLastColumn() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<RangeControl
 					__next40pxDefaultSize
 					label={ title }
@@ -70,7 +71,7 @@ export default function ScrollBeyondLastColumn() {
 					] }
 					value={ editorOptions.scrollBeyondLastColumn }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

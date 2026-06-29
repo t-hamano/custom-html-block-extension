@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -31,7 +32,7 @@ export default function Theme() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack>
+			<Stack gap="sm">
 				<SelectControl
 					__next40pxDefaultSize
 					label={ title }
@@ -43,7 +44,7 @@ export default function Theme() {
 					] }
 					onChange={ onChange }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

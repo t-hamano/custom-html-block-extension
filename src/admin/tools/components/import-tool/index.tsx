@@ -9,14 +9,8 @@ import type { ChangeEvent } from 'react';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext, useState } from '@wordpress/element';
-import {
-	Button,
-	FormFileUpload,
-	PanelBody,
-	__experimentalText as Text,
-	__experimentalHStack as HStack,
-	__experimentalVStack as VStack,
-} from '@wordpress/components';
+import { Button, FormFileUpload, PanelBody } from '@wordpress/components';
+import { Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -99,14 +93,14 @@ export default function ImportTool() {
 
 	return (
 		<PanelBody title={ __( 'Import editor config', 'custom-html-block-extension' ) }>
-			<VStack spacing={ 4 } alignment="start">
-				<Text as="p">
+			<Stack direction="column" align="start" gap="lg">
+				<Text render={ <p /> }>
 					{ __(
 						'Select the Custom HTML Block Extension JSON file you would like to import and click the import button below.',
 						'custom-html-block-extension'
 					) }
 				</Text>
-				<HStack spacing={ 4 } justify="start" wrap>
+				<Stack justify="start" wrap="wrap" gap="lg">
 					<FormFileUpload
 						accept="application/json"
 						onChange={ onUploadFile }
@@ -117,7 +111,7 @@ export default function ImportTool() {
 						) }
 					/>
 					{ importFile && <span>{ importFile.name }</span> }
-				</HStack>
+				</Stack>
 				<Button
 					variant="primary"
 					disabled={ ! importFile }
@@ -127,7 +121,7 @@ export default function ImportTool() {
 				>
 					{ __( 'Import', 'custom-html-block-extension' ) }
 				</Button>
-			</VStack>
+			</Stack>
 		</PanelBody>
 	);
 }

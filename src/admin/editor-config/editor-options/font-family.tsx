@@ -3,12 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import {
-	ExternalLink,
-	SelectControl,
-	__experimentalText as Text,
-	__experimentalHStack as HStack,
-} from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
+import { Link, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -36,7 +32,7 @@ export default function FontFamily() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<SelectControl
 					__next40pxDefaultSize
 					label={ title }
@@ -57,26 +53,27 @@ export default function FontFamily() {
 					title={ title }
 					description={
 						<>
-							<Text as="p">
+							<Text render={ <p /> }>
 								{ __(
 									'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.',
 									'custom-html-block-extension'
 								) }
 							</Text>
-							<Text as="p">
-								<ExternalLink
+							<Text render={ <p /> }>
+								<Link
 									href={ __(
 										'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
 										'custom-html-block-extension'
 									) }
+									openInNewTab
 								>
 									{ __( 'GitHub project page', 'custom-html-block-extension' ) }
-								</ExternalLink>
+								</Link>
 							</Text>
 						</>
 					}
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

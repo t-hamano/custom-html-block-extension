@@ -3,11 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import {
-	ToggleControl,
-	__experimentalText as Text,
-	__experimentalHStack as HStack,
-} from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -35,7 +32,7 @@ export default function ColumnSelection() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<ToggleControl
 					label={ __( 'Enable column selection', 'custom-html-block-extension' ) }
 					checked={ editorOptions.columnSelection }
@@ -46,7 +43,7 @@ export default function ColumnSelection() {
 					title={ title }
 					description={
 						<>
-							<Text as="p">
+							<Text render={ <p /> }>
 								{ __(
 									'Always enable column selection. Following command can be used to select column selection even when disabled.',
 									'custom-html-block-extension'
@@ -83,7 +80,7 @@ export default function ColumnSelection() {
 					image="editor-options/column-selection.gif"
 					value={ editorOptions.columnSelection }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

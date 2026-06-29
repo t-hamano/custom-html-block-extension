@@ -5,14 +5,8 @@ import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
-import {
-	Button,
-	Guide,
-	__experimentalText as Text,
-	__experimentalHeading as Heading,
-	__experimentalSpacer as Spacer,
-	__experimentalVStack as VStack,
-} from '@wordpress/components';
+import { Button, Guide, __experimentalHeading as Heading } from '@wordpress/components';
+import { Stack, Text } from '@wordpress/ui';
 
 export default function WelcomeGuide() {
 	const [ isModalOpen, setIsModalOpen ] = useState( ! window.chbeObj.dismissWelcomeGuide );
@@ -55,26 +49,26 @@ export default function WelcomeGuide() {
 								/>
 							),
 							content: (
-								<Spacer paddingX={ 8 } paddingY={ 4 } marginBottom={ 0 }>
-									<VStack spacing={ 4 }>
+								<div className="chbe-admin-welcome-guide-modal__content">
+									<Stack direction="column" gap="lg">
 										<Heading level="2" as="h1">
 											{ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
 										</Heading>
-										<Text as="p">
+										<Text render={ <p /> }>
 											{ sprintf(
 												/* translators: %s is replaced with the number. */
 												__( 'Version: %s', 'custom-html-block-extension' ),
 												window.chbeObj.version
 											) }
 										</Text>
-										<Text as="p">
+										<Text render={ <p /> }>
 											{ __(
 												'Custom HTML Block Extension extends Custom HTML block to evolve into the advanced code editor.',
 												'custom-html-block-extension'
 											) }
 										</Text>
-									</VStack>
-								</Spacer>
+									</Stack>
+								</div>
 							),
 						},
 						{
@@ -87,19 +81,19 @@ export default function WelcomeGuide() {
 								/>
 							),
 							content: (
-								<Spacer paddingX={ 8 } paddingY={ 4 } marginBottom={ 0 }>
-									<VStack spacing={ 4 }>
+								<div className="chbe-admin-welcome-guide-modal__content">
+									<Stack direction="column" gap="lg">
 										<Heading level="2" as="h1">
 											{ __( 'Various color themes', 'custom-html-block-extension' ) }
 										</Heading>
-										<Text as="p">
+										<Text render={ <p /> }>
 											{ __(
 												'There are 50 different color themes to choose from, and you can select the one that best suits your taste.',
 												'custom-html-block-extension'
 											) }
 										</Text>
-									</VStack>
-								</Spacer>
+									</Stack>
+								</div>
 							),
 						},
 						{
@@ -112,19 +106,19 @@ export default function WelcomeGuide() {
 								/>
 							),
 							content: (
-								<Spacer paddingX={ 8 } paddingY={ 4 } marginBottom={ 0 }>
-									<VStack spacing={ 4 }>
+								<div className="chbe-admin-welcome-guide-modal__content">
+									<Stack direction="column" gap="lg">
 										<Heading level="2" as="h1">
 											{ __( 'Faster coding with Emmet', 'custom-html-block-extension' ) }
 										</Heading>
-										<Text as="p">
+										<Text render={ <p /> }>
 											{ __(
 												'Emmet allows you to type shortcuts that are then expanded into full pieces of code. Type less, saving both keystrokes.',
 												'custom-html-block-extension'
 											) }
 										</Text>
-									</VStack>
-								</Spacer>
+									</Stack>
+								</div>
 							),
 						},
 						{
@@ -137,19 +131,19 @@ export default function WelcomeGuide() {
 								/>
 							),
 							content: (
-								<Spacer paddingX={ 8 } paddingY={ 4 } marginBottom={ 0 }>
-									<VStack spacing={ 4 }>
+								<div className="chbe-admin-welcome-guide-modal__content">
+									<Stack direction="column" gap="lg">
 										<Heading level="2" as="h1">
 											{ __( 'High customizability', 'custom-html-block-extension' ) }
 										</Heading>
-										<Text as="p">
+										<Text render={ <p /> }>
 											{ __(
 												'You can change all kinds of settings to create your ideal editor in advanced mode.',
 												'custom-html-block-extension'
 											) }
 										</Text>
-									</VStack>
-								</Spacer>
+									</Stack>
+								</div>
 							),
 						},
 						{
@@ -162,19 +156,19 @@ export default function WelcomeGuide() {
 								/>
 							),
 							content: (
-								<Spacer paddingX={ 8 } paddingY={ 4 } marginBottom={ 0 }>
-									<VStack spacing={ 4 }>
+								<div className="chbe-admin-welcome-guide-modal__content">
+									<Stack direction="column" gap="lg">
 										<Heading level="2" as="h1">
 											{ __( 'More support', 'custom-html-block-extension' ) }
 										</Heading>
-										<Text as="p">
+										<Text render={ <p /> }>
 											{ __(
 												'Supports the classic editor, the theme/plugin editor, and import/export editor settings.',
 												'custom-html-block-extension'
 											) }
 										</Text>
-									</VStack>
-								</Spacer>
+									</Stack>
+								</div>
 							),
 						},
 					] }

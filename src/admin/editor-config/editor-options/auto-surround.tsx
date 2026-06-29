@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -59,7 +60,7 @@ export default function AutoSurround() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<SelectControl< EditorOptions[ 'autoSurround' ] >
 					__next40pxDefaultSize
 					label={ title }
@@ -73,7 +74,7 @@ export default function AutoSurround() {
 					items={ items }
 					value={ editorOptions.autoSurround }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }

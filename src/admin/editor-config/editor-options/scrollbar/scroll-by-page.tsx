@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -36,7 +37,7 @@ export default function ScrollbarScrollByPage() {
 
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
+			<Stack justify="start" align="start" wrap="wrap" gap="sm">
 				<ToggleControl
 					label={ title }
 					checked={ editorOptions.scrollbar.scrollByPage }
@@ -54,7 +55,7 @@ export default function ScrollbarScrollByPage() {
 					image="editor-options/scrollbar/scroll-by-page.gif"
 					value={ editorOptions.scrollbar.scrollByPage }
 				/>
-			</HStack>
+			</Stack>
 		</div>
 	);
 }
