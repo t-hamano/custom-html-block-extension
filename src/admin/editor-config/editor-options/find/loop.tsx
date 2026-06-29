@@ -35,11 +35,7 @@ export default function FindLoop() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.find.loop }
-					onChange={ onChange }
-				/>
+				<ToggleControl label={ title } checked={ editorOptions.find.loop } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }

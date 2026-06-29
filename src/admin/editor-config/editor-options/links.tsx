@@ -35,11 +35,7 @@ export default function Links() {
 	return (
 		<div className="chbe-admin-editor-config__setting-item">
 			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.links }
-					onChange={ onChange }
-				/>
+				<ToggleControl label={ title } checked={ editorOptions.links } onChange={ onChange } />
 				<ItemHelp
 					onChange={ onChange }
 					title={ title }
