@@ -29,12 +29,11 @@ import type { BlockEditProps } from '@wordpress/blocks';
 import './style.scss';
 import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
 
-type HTMLBlockAttributes = {
+type HTMLEditProps = BlockEditProps< {
 	content: string;
 	height: number;
-};
-
-type HTMLEditProps = BlockEditProps< HTMLBlockAttributes > & {
+} > & {
+	// Injected by the block editor but not included in BlockEditProps.
 	toggleSelection: ( isSelectionEnabled: boolean ) => void;
 };
 

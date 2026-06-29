@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { addFilter } from '@wordpress/hooks';
+import type { BlockConfiguration } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
@@ -9,18 +10,12 @@ import { addFilter } from '@wordpress/hooks';
 import icon from '../components/block-icon';
 import edit from './edit';
 
-type HtmlBlockSettings = {
-	name: string;
-	attributes?: Record< string, unknown >;
-	[ key: string ]: unknown;
-};
-
-const customHtmlBlockExtension = ( settings: HtmlBlockSettings ): HtmlBlockSettings => {
+const customHtmlBlockExtension = ( settings: BlockConfiguration ): BlockConfiguration => {
 	if ( 'core/html' !== settings.name ) {
 		return settings;
 	}
 
-	const newSettings: HtmlBlockSettings = {
+	const newSettings: BlockConfiguration = {
 		...settings,
 		icon,
 		attributes: {
@@ -30,7 +25,7 @@ const customHtmlBlockExtension = ( settings: HtmlBlockSettings ): HtmlBlockSetti
 				default: 300,
 			},
 		},
-		edit,
+		edit: edit as BlockConfiguration[ 'edit' ],
 	};
 	return newSettings;
 };
