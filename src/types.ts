@@ -54,11 +54,15 @@ export type EditorOptions = {
 	glyphMargin: boolean;
 	hideCursorInOverviewRuler: boolean;
 	highlightActiveIndentGuide: boolean;
-	hover: boolean;
+	hover: {
+		enabled: boolean;
+	};
 	letterSpacing: number;
 	lineDecorationsWidth: number;
 	lineHeight: number;
-	lineNumbers: string;
+	// monaco also allows a `(lineNumber: number) => string` formatter, but the
+	// plugin only exposes the preset modes.
+	lineNumbers: 'on' | 'off' | 'relative' | 'interval';
 	lineNumbersMinChars: number;
 	links: boolean;
 	matchBrackets: 'never' | 'near' | 'always';

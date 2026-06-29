@@ -170,8 +170,13 @@ class Settings {
 			'default' => true,
 		),
 		'hover'                            => array(
-			'type'    => 'boolean',
-			'default' => true,
+			'type'  => 'object',
+			'items' => array(
+				'enabled' => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+			),
 		),
 		'letterSpacing'                    => array(
 			'type'    => 'number',
@@ -572,6 +577,12 @@ class Settings {
 		) {
 			$editor_options['find']['seedSearchStringFromSelection'] =
 				$editor_options['find']['seedSearchStringFromSelection'] ? 'always' : 'never';
+		}
+
+		// `hover` was previously persisted as a boolean but monaco expects an
+		// object, so wrap the legacy boolean into the `enabled` property.
+		if ( isset( $editor_options['hover'] ) && is_bool( $editor_options['hover'] ) ) {
+			$editor_options['hover'] = array( 'enabled' => $editor_options['hover'] );
 		}
 
 		return $editor_options;

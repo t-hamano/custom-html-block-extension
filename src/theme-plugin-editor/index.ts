@@ -43,7 +43,7 @@ initLoader()
 		// Create monaco editor.
 		const editor = monaco.editor.create(
 			monacoEditorContainer,
-			properties as unknown as Monaco.editor.IStandaloneEditorConstructionOptions
+			properties as Monaco.editor.IStandaloneEditorConstructionOptions
 		);
 		window.editor = editor;
 
