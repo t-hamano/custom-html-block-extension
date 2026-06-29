@@ -41,7 +41,7 @@ export type EditorOptions = {
 	find: {
 		addExtraSpaceOnTop: boolean;
 		loop: boolean;
-		seedSearchStringFromSelection: boolean;
+		seedSearchStringFromSelection: 'never' | 'always' | 'selection';
 	};
 	folding: boolean;
 	foldingHighlight: boolean;

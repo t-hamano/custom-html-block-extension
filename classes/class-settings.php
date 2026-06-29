@@ -120,8 +120,8 @@ class Settings {
 					'default' => true,
 				),
 				'seedSearchStringFromSelection' => array(
-					'type'    => 'boolean',
-					'default' => true,
+					'type'    => 'string',
+					'default' => 'always',
 				),
 			),
 		),
@@ -537,7 +537,27 @@ class Settings {
 
 		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
-		return array_merge( $default_editor_options, $current_editor_options );
+		$editor_options = array_merge( $default_editor_options, $current_editor_options );
+
+		return self::migrate_legacy_editor_options( $editor_options );
+	}
+
+	/**
+	 * Normalize editor options persisted by older plugin versions so they match
+	 * the current schema.
+	 */
+	private static function migrate_legacy_editor_options( $editor_options ) {
+		// `seedSearchStringFromSelection` was previously persisted as a boolean.
+		// Monaco now expect the 'never' | 'always' | 'selection' union.
+		if (
+			isset( $editor_options['find']['seedSearchStringFromSelection'] ) &&
+			is_bool( $editor_options['find']['seedSearchStringFromSelection'] )
+		) {
+			$editor_options['find']['seedSearchStringFromSelection'] =
+				$editor_options['find']['seedSearchStringFromSelection'] ? 'always' : 'never';
+		}
+
+		return $editor_options;
 	}
 
 	/**
