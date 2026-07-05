@@ -45,4 +45,18 @@ declare global {
 	}
 }
 
+/**
+ * The `inert` global attribute is not present in the React 18 type
+ * definitions (it was added natively in React 19). Declare it here so it can
+ * be used as a lighter, markup-only alternative to the `Disabled` component.
+ * Use the empty-string form (`inert={ condition ? '' : undefined }`) to avoid
+ * React 18's warning about boolean values on unknown attributes.
+ */
+declare module 'react' {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface HTMLAttributes< T > {
+		inert?: '' | undefined;
+	}
+}
+
 export {};

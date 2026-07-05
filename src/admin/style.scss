@@ -31,8 +31,9 @@
 		margin: 0 auto;
 	}
 
-	// Gutenberg component styles
-	.components-disabled {
+	// Dim non-interactive (inert) settings, mirroring the previous
+	// `Disabled` component styling.
+	[inert] {
 		opacity: 0.3;
 	}
 }
