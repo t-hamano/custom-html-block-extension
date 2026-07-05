@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import type { ReactNode } from 'react';
 import clsx from 'clsx';
 
 /**
@@ -9,8 +10,8 @@ import clsx from 'clsx';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { createContext, useCallback, useContext, useState } from '@wordpress/element';
-import { PanelBody, Disabled, __experimentalHeading as Heading } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { Disabled, __experimentalHeading as Heading } from '@wordpress/components';
+import { Card, CollapsibleCard, Stack } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -49,6 +50,37 @@ export function useSearchVisibility( title: string ): boolean {
 		return true;
 	}
 	return title.toLowerCase().includes( searchQuery.toLowerCase() );
+}
+
+/**
+ * A collapsible settings panel. While a search query is active, every panel is
+ * forced open so the matching settings inside it are revealed; otherwise the
+ * open state is left to the user (uncontrolled-like behavior via local state).
+ *
+ * @param {Object}    props          Component props.
+ * @param {string}    props.title    The panel's display title.
+ * @param {ReactNode} props.children The settings rendered inside the panel.
+ */
+function SettingsPanel( { title, children }: { title: string; children: ReactNode } ) {
+	const { searchQuery } = useContext( EditorConfigContext );
+	const [ isOpen, setIsOpen ] = useState( false );
+
+	return (
+		<CollapsibleCard.Root
+			className="chbe-admin-editor-config__panel"
+			open={ !! searchQuery || isOpen }
+			onOpenChange={ setIsOpen }
+		>
+			<CollapsibleCard.Header render={ <h2 /> }>
+				<Card.Title>{ title }</Card.Title>
+			</CollapsibleCard.Header>
+			<CollapsibleCard.Content>
+				<Stack direction="column" gap="lg">
+					{ children }
+				</Stack>
+			</CollapsibleCard.Content>
+		</CollapsibleCard.Root>
+	);
 }
 
 export default function EditorConfig() {
@@ -170,351 +202,250 @@ export default function EditorConfig() {
 						) }
 						{ ( 'advanced' === editorMode || searchQuery ) && (
 							<>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Editor', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorSettings.Theme />
-										<EditorSettings.TabSize />
-										<EditorSettings.InsertSpaces />
-										<EditorSettings.Emmet />
-										<EditorOptions.Contextmenu />
-										<EditorOptions.GlyphMargin />
-										<EditorOptions.PaddingTop />
-										<EditorOptions.PaddingBottom />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Font', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.FontFamily />
-										<EditorOptions.FontWeight fontWeights={ fontWeights } />
-										<EditorOptions.FontLigatures />
-										<EditorOptions.FontSize />
-										<EditorOptions.LineHeight />
-										<EditorOptions.LetterSpacing />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Word wrap', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.WordWrap />
-										{ 'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap ? (
-											<Disabled>
-												<EditorOptions.WordWrapColumn />
-											</Disabled>
-										) : (
+								<SettingsPanel title={ __( 'Editor', 'custom-html-block-extension' ) }>
+									<EditorSettings.Theme />
+									<EditorSettings.TabSize />
+									<EditorSettings.InsertSpaces />
+									<EditorSettings.Emmet />
+									<EditorOptions.Contextmenu />
+									<EditorOptions.GlyphMargin />
+									<EditorOptions.PaddingTop />
+									<EditorOptions.PaddingBottom />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Font', 'custom-html-block-extension' ) }>
+									<EditorOptions.FontFamily />
+									<EditorOptions.FontWeight fontWeights={ fontWeights } />
+									<EditorOptions.FontLigatures />
+									<EditorOptions.FontSize />
+									<EditorOptions.LineHeight />
+									<EditorOptions.LetterSpacing />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Word wrap', 'custom-html-block-extension' ) }>
+									<EditorOptions.WordWrap />
+									{ 'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap ? (
+										<Disabled>
 											<EditorOptions.WordWrapColumn />
-										) }
-										{ 'off' === editorOptions.wordWrap ? (
-											<Disabled>
-												<EditorOptions.WrappingIndent />
-											</Disabled>
-										) : (
+										</Disabled>
+									) : (
+										<EditorOptions.WordWrapColumn />
+									) }
+									{ 'off' === editorOptions.wordWrap ? (
+										<Disabled>
 											<EditorOptions.WrappingIndent />
-										) }
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Minimap', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.MinimapEnabled />
-										{ ! editorOptions.minimap.enabled ? (
-											<Disabled>
-												<Stack direction="column" gap="lg">
-													<EditorOptions.MinimapSide />
-													<EditorOptions.MinimapMaxColumn />
-													<EditorOptions.MinimapScale />
-													<EditorOptions.MinimapShowSlider />
-													<EditorOptions.MinimapSize />
-													<EditorOptions.MinimapRenderCharacters />
-												</Stack>
-											</Disabled>
-										) : (
-											<>
+										</Disabled>
+									) : (
+										<EditorOptions.WrappingIndent />
+									) }
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>
+									<EditorOptions.MinimapEnabled />
+									{ ! editorOptions.minimap.enabled ? (
+										<Disabled>
+											<Stack direction="column" gap="lg">
 												<EditorOptions.MinimapSide />
 												<EditorOptions.MinimapMaxColumn />
 												<EditorOptions.MinimapScale />
 												<EditorOptions.MinimapShowSlider />
 												<EditorOptions.MinimapSize />
 												<EditorOptions.MinimapRenderCharacters />
-											</>
-										) }
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Cursor', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.CursorStyle />
-										{ 'line' !== editorOptions.cursorStyle ? (
-											<Disabled>
-												<EditorOptions.CursorWidth />
-											</Disabled>
-										) : (
+											</Stack>
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.MinimapSide />
+											<EditorOptions.MinimapMaxColumn />
+											<EditorOptions.MinimapScale />
+											<EditorOptions.MinimapShowSlider />
+											<EditorOptions.MinimapSize />
+											<EditorOptions.MinimapRenderCharacters />
+										</>
+									) }
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Cursor', 'custom-html-block-extension' ) }>
+									<EditorOptions.CursorStyle />
+									{ 'line' !== editorOptions.cursorStyle ? (
+										<Disabled>
 											<EditorOptions.CursorWidth />
-										) }
-										<EditorOptions.CursorBlinking />
-										<EditorOptions.CursorSurroundingLines />
-										<EditorOptions.CursorSurroundingLinesStyle />
-										<EditorOptions.CursorSmoothCaretAnimation />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Code folding', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.Folding />
-										{ ! editorOptions.folding ? (
-											<Disabled>
-												<Stack direction="column" gap="lg">
-													<EditorOptions.ShowFoldingControls />
-													<EditorOptions.FoldingStrategy />
-													<EditorOptions.LineDecorationsWidth />
-													<EditorOptions.FoldingHighlight />
-													<EditorOptions.UnfoldOnClickAfterEndOfLine />
-												</Stack>
-											</Disabled>
-										) : (
-											<>
+										</Disabled>
+									) : (
+										<EditorOptions.CursorWidth />
+									) }
+									<EditorOptions.CursorBlinking />
+									<EditorOptions.CursorSurroundingLines />
+									<EditorOptions.CursorSurroundingLinesStyle />
+									<EditorOptions.CursorSmoothCaretAnimation />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Code folding', 'custom-html-block-extension' ) }>
+									<EditorOptions.Folding />
+									{ ! editorOptions.folding ? (
+										<Disabled>
+											<Stack direction="column" gap="lg">
 												<EditorOptions.ShowFoldingControls />
 												<EditorOptions.FoldingStrategy />
 												<EditorOptions.LineDecorationsWidth />
 												<EditorOptions.FoldingHighlight />
 												<EditorOptions.UnfoldOnClickAfterEndOfLine />
-											</>
-										) }
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Line number', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.LineNumbers />
-										{ 'off' === editorOptions.lineNumbers ? (
-											<Disabled>
-												<Stack direction="column" gap="lg">
-													<EditorOptions.LineNumbersMinChars />
-													<EditorOptions.SelectOnLineNumbers />
-													<EditorOptions.RenderFinalNewline />
-												</Stack>
-											</Disabled>
-										) : (
-											<>
+											</Stack>
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.ShowFoldingControls />
+											<EditorOptions.FoldingStrategy />
+											<EditorOptions.LineDecorationsWidth />
+											<EditorOptions.FoldingHighlight />
+											<EditorOptions.UnfoldOnClickAfterEndOfLine />
+										</>
+									) }
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Line number', 'custom-html-block-extension' ) }>
+									<EditorOptions.LineNumbers />
+									{ 'off' === editorOptions.lineNumbers ? (
+										<Disabled>
+											<Stack direction="column" gap="lg">
 												<EditorOptions.LineNumbersMinChars />
 												<EditorOptions.SelectOnLineNumbers />
 												<EditorOptions.RenderFinalNewline />
-											</>
-										) }
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Suggest', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.QuickSuggestions />
-										{ ! editorOptions.quickSuggestions ? (
-											<Disabled>
-												<Stack direction="column" gap="lg">
-													<EditorOptions.AcceptSuggestionOnEnter />
-													<EditorOptions.QuickSuggestionsDelay />
-													<EditorOptions.SuggestFontSize />
-													<EditorOptions.SuggestLineHeight />
-													<EditorOptions.SuggestShowIcons />
-												</Stack>
-											</Disabled>
-										) : (
-											<>
+											</Stack>
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.LineNumbersMinChars />
+											<EditorOptions.SelectOnLineNumbers />
+											<EditorOptions.RenderFinalNewline />
+										</>
+									) }
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Suggest', 'custom-html-block-extension' ) }>
+									<EditorOptions.QuickSuggestions />
+									{ ! editorOptions.quickSuggestions ? (
+										<Disabled>
+											<Stack direction="column" gap="lg">
 												<EditorOptions.AcceptSuggestionOnEnter />
 												<EditorOptions.QuickSuggestionsDelay />
 												<EditorOptions.SuggestFontSize />
 												<EditorOptions.SuggestLineHeight />
 												<EditorOptions.SuggestShowIcons />
-											</>
-										) }
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Auto completion', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.AutoIndent />
-										<EditorOptions.AutoClosingBrackets />
-										<EditorOptions.AutoClosingQuotes />
-										<EditorOptions.AutoSurround />
-										<EditorOptions.FormatOnPaste />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.MouseWheelScrollSensitivity />
-										<EditorOptions.FastScrollSensitivity />
-										<EditorOptions.Hover />
-										<EditorOptions.SmoothScrolling />
-										<EditorOptions.ScrollBeyondLastLine />
-										<EditorOptions.ScrollBeyondLastColumn />
-										<EditorOptions.MouseWheelZoom />
-										<EditorOptions.DragAndDrop />
-										<EditorOptions.HideCursorInOverviewRuler />
-										<EditorOptions.MultiCursorModifier />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
+											</Stack>
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.AcceptSuggestionOnEnter />
+											<EditorOptions.QuickSuggestionsDelay />
+											<EditorOptions.SuggestFontSize />
+											<EditorOptions.SuggestLineHeight />
+											<EditorOptions.SuggestShowIcons />
+										</>
+									) }
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Auto completion', 'custom-html-block-extension' ) }>
+									<EditorOptions.AutoIndent />
+									<EditorOptions.AutoClosingBrackets />
+									<EditorOptions.AutoClosingQuotes />
+									<EditorOptions.AutoSurround />
+									<EditorOptions.FormatOnPaste />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }>
+									<EditorOptions.MouseWheelScrollSensitivity />
+									<EditorOptions.FastScrollSensitivity />
+									<EditorOptions.Hover />
+									<EditorOptions.SmoothScrolling />
+									<EditorOptions.ScrollBeyondLastLine />
+									<EditorOptions.ScrollBeyondLastColumn />
+									<EditorOptions.MouseWheelZoom />
+									<EditorOptions.DragAndDrop />
+									<EditorOptions.HideCursorInOverviewRuler />
+									<EditorOptions.MultiCursorModifier />
+								</SettingsPanel>
+								<SettingsPanel
 									title={ __( 'Select, cut, copy, and paste', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
 								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.EmptySelectionClipboard />
-										<EditorOptions.RoundedSelection />
-										<EditorOptions.SelectionHighlight />
-										<EditorOptions.MultiCursorPaste />
-										<EditorOptions.StickyTabStops />
-										<EditorOptions.CopyWithSyntaxHighlighting />
-										<EditorOptions.ColumnSelection />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
+									<EditorOptions.EmptySelectionClipboard />
+									<EditorOptions.RoundedSelection />
+									<EditorOptions.SelectionHighlight />
+									<EditorOptions.MultiCursorPaste />
+									<EditorOptions.StickyTabStops />
+									<EditorOptions.CopyWithSyntaxHighlighting />
+									<EditorOptions.ColumnSelection />
+								</SettingsPanel>
+								<SettingsPanel
 									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
 								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.MatchBrackets />
-										<EditorOptions.OccurrencesHighlight />
-										<EditorOptions.RenderWhitespace />
-										<EditorOptions.RenderLineHighlight />
-										{ 'none' === editorOptions.renderLineHighlight ? (
-											<Disabled>
-												<EditorOptions.RenderLineHighlightOnlyWhenFocus />
-											</Disabled>
-										) : (
+									<EditorOptions.MatchBrackets />
+									<EditorOptions.OccurrencesHighlight />
+									<EditorOptions.RenderWhitespace />
+									<EditorOptions.RenderLineHighlight />
+									{ 'none' === editorOptions.renderLineHighlight ? (
+										<Disabled>
 											<EditorOptions.RenderLineHighlightOnlyWhenFocus />
-										) }
-										<EditorOptions.RenderIndentGuides />
-										{ ! editorOptions.renderIndentGuides ? (
-											<Disabled>
-												<EditorOptions.HighlightActiveIndentGuide />
-											</Disabled>
-										) : (
+										</Disabled>
+									) : (
+										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
+									) }
+									<EditorOptions.RenderIndentGuides />
+									{ ! editorOptions.renderIndentGuides ? (
+										<Disabled>
 											<EditorOptions.HighlightActiveIndentGuide />
-										) }
-										<EditorOptions.RenderControlCharacters />
-										<EditorOptions.Rulers />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Find', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.FindAddExtraSpaceOnTop />
-										<EditorOptions.FindSeedSearchStringFromSelection />
-										<EditorOptions.FindLoop />
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Scrollbar', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.ScrollbarUseShadows />
-										<EditorOptions.OverviewRulerBorder />
-										<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
-										<EditorOptions.ScrollbarScrollByPage />
-										<EditorOptions.ScrollbarHorizontal />
-										{ 'hidden' === editorOptions.scrollbar.horizontal ? (
-											<Disabled>
-												<Stack direction="column" gap="lg">
-													<EditorOptions.ScrollbarHorizontalHasArrows />
-													<EditorOptions.ScrollbarHorizontalScrollbarSize />
-												</Stack>
-											</Disabled>
-										) : (
-											<>
+										</Disabled>
+									) : (
+										<EditorOptions.HighlightActiveIndentGuide />
+									) }
+									<EditorOptions.RenderControlCharacters />
+									<EditorOptions.Rulers />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Find', 'custom-html-block-extension' ) }>
+									<EditorOptions.FindAddExtraSpaceOnTop />
+									<EditorOptions.FindSeedSearchStringFromSelection />
+									<EditorOptions.FindLoop />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Scrollbar', 'custom-html-block-extension' ) }>
+									<EditorOptions.ScrollbarUseShadows />
+									<EditorOptions.OverviewRulerBorder />
+									<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
+									<EditorOptions.ScrollbarScrollByPage />
+									<EditorOptions.ScrollbarHorizontal />
+									{ 'hidden' === editorOptions.scrollbar.horizontal ? (
+										<Disabled>
+											<Stack direction="column" gap="lg">
 												<EditorOptions.ScrollbarHorizontalHasArrows />
 												<EditorOptions.ScrollbarHorizontalScrollbarSize />
-											</>
-										) }
-										<EditorOptions.ScrollbarVertical />
-										{ 'hidden' === editorOptions.scrollbar.vertical ? (
-											<Disabled>
-												<Stack direction="column" gap="lg">
-													<EditorOptions.ScrollbarVerticalHasArrows />
-													<EditorOptions.ScrollbarVerticalScrollbarSize />
-												</Stack>
-											</Disabled>
-										) : (
-											<>
+											</Stack>
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.ScrollbarHorizontalHasArrows />
+											<EditorOptions.ScrollbarHorizontalScrollbarSize />
+										</>
+									) }
+									<EditorOptions.ScrollbarVertical />
+									{ 'hidden' === editorOptions.scrollbar.vertical ? (
+										<Disabled>
+											<Stack direction="column" gap="lg">
 												<EditorOptions.ScrollbarVerticalHasArrows />
 												<EditorOptions.ScrollbarVerticalScrollbarSize />
-											</>
-										) }
-										{ ( ! editorOptions.scrollbar.horizontalHasArrows &&
-											! editorOptions.scrollbar.verticalHasArrows ) ||
-										( 'hidden' === editorOptions.scrollbar.horizontal &&
-											'hidden' === editorOptions.scrollbar.vertical ) ? (
-											<Disabled>
-												<EditorOptions.ScrollbarArrowSize />
-											</Disabled>
-										) : (
+											</Stack>
+										</Disabled>
+									) : (
+										<>
+											<EditorOptions.ScrollbarVerticalHasArrows />
+											<EditorOptions.ScrollbarVerticalScrollbarSize />
+										</>
+									) }
+									{ ( ! editorOptions.scrollbar.horizontalHasArrows &&
+										! editorOptions.scrollbar.verticalHasArrows ) ||
+									( 'hidden' === editorOptions.scrollbar.horizontal &&
+										'hidden' === editorOptions.scrollbar.vertical ) ? (
+										<Disabled>
 											<EditorOptions.ScrollbarArrowSize />
-										) }
-									</Stack>
-								</PanelBody>
-								<PanelBody
-									className="chbe-admin-editor-config__panel"
-									title={ __( 'Other', 'custom-html-block-extension' ) }
-									initialOpen={ !! searchQuery }
-									scrollAfterOpen={ ! searchQuery }
-								>
-									<Stack direction="column" gap="lg">
-										<EditorOptions.UseTabStops />
-										<EditorOptions.CommentsInsertSpace />
-										<EditorOptions.Links />
-									</Stack>
-								</PanelBody>
+										</Disabled>
+									) : (
+										<EditorOptions.ScrollbarArrowSize />
+									) }
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Other', 'custom-html-block-extension' ) }>
+									<EditorOptions.UseTabStops />
+									<EditorOptions.CommentsInsertSpace />
+									<EditorOptions.Links />
+								</SettingsPanel>
 							</>
 						) }
 					</EditorConfigContext.Provider>
