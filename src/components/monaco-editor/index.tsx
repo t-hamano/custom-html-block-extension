@@ -15,9 +15,10 @@ import type { CSSProperties } from 'react';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { useResizeObserver } from '@wordpress/compose';
+import { isAppleOS } from '@wordpress/keycodes';
 
 /**
  * Internal dependencies
@@ -140,10 +141,17 @@ export default function MonacoEditor( {
 			}
 			const { defaultView } = container.ownerDocument;
 
-			const editor = monaco.editor.create(
-				container,
-				options as Monaco.editor.IStandaloneEditorConstructionOptions
-			);
+			const editor = monaco.editor.create( container, {
+				ariaLabel: sprintf(
+					/* translators: %s: keyboard shortcut to toggle tab focus mode. */
+					__(
+						'Editor content. To change the Tab key behavior to move focus out of the editor, press %s.',
+						'custom-html-block-extension'
+					),
+					isAppleOS() ? 'Ctrl+Shift+M' : 'Ctrl+M'
+				),
+				...options,
+			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 
 			const model = editor.getModel();
