@@ -121,8 +121,8 @@ export default function EditorConfig() {
 	}, [] );
 
 	return (
-		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="2xl">
-			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="2xl">
+		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="xl">
+			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="xl">
 				<Heading as="h2" level="3">
 					{ __( 'Preview', 'custom-html-block-extension' ) }
 				</Heading>
@@ -133,7 +133,7 @@ export default function EditorConfig() {
 					onResetOptions={ onResetOptions }
 				/>
 			</Stack>
-			<Stack direction="column" className="chbe-admin-editor-config__settings" gap="2xl">
+			<Stack direction="column" className="chbe-admin-editor-config__settings" gap="xl">
 				<Filter
 					editorMode={ editorMode }
 					setEditorMode={ setEditorMode }
