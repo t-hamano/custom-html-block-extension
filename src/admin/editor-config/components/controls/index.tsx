@@ -2,18 +2,19 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useRef, useState } from '@wordpress/element';
 import { Button, __experimentalConfirmDialog as ConfirmDialog } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 
 type ControlsProps = {
 	isWaiting: boolean;
 	onUpdateOptions: () => void;
-	onResetOptions: () => void;
+	onResetOptions: () => void | Promise< void >;
 };
 
 export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }: ControlsProps ) {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
+	const resetButtonRef = useRef< HTMLButtonElement >( null );
 
 	return (
 		<>
@@ -23,23 +24,27 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 					disabled={ isWaiting }
 					onClick={ onUpdateOptions }
 					__next40pxDefaultSize
+					accessibleWhenDisabled
 				>
 					{ __( 'Save settings', 'custom-html-block-extension' ) }
 				</Button>
 				<Button
+					ref={ resetButtonRef }
 					variant="secondary"
 					disabled={ isWaiting }
 					onClick={ () => setIsModalOpen( true ) }
 					__next40pxDefaultSize
+					accessibleWhenDisabled
 				>
 					{ __( 'Reset', 'custom-html-block-extension' ) }
 				</Button>
 			</Stack>
 			{ isModalOpen && (
 				<ConfirmDialog
-					onConfirm={ () => {
-						onResetOptions();
+					onConfirm={ async () => {
 						setIsModalOpen( false );
+						await onResetOptions();
+						resetButtonRef.current?.focus();
 					} }
 					onCancel={ () => setIsModalOpen( false ) }
 					confirmButtonText={ __( 'Reset settings', 'custom-html-block-extension' ) }

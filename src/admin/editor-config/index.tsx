@@ -116,7 +116,7 @@ export default function EditorConfig() {
 	const onResetOptions = () => {
 		setIsWaiting( true );
 
-		apiFetch< { editorSettings: EditorSettingsType; editorOptions: EditorOptionsType } >( {
+		return apiFetch< { editorSettings: EditorSettingsType; editorOptions: EditorOptionsType } >( {
 			path: '/custom-html-block-extension/v1/delete_editor_config',
 			method: 'POST',
 		} ).then( ( response ) => {
@@ -124,12 +124,15 @@ export default function EditorConfig() {
 			setEditorSettings( response.editorSettings );
 			setEditorOptions( response.editorOptions );
 
-			setTimeout( () => {
-				createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
-					type: 'snackbar',
-				} );
-				setIsWaiting( false );
-			}, 600 );
+			return new Promise< void >( ( resolve ) => {
+				setTimeout( () => {
+					createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
+						type: 'snackbar',
+					} );
+					setIsWaiting( false );
+					resolve();
+				}, 600 );
+			} );
 		} );
 	};
 

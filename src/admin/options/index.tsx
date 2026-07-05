@@ -48,6 +48,7 @@ export default function Options() {
 					disabled={ isWaiting }
 					onClick={ onUpdateOptions }
 					__next40pxDefaultSize
+					accessibleWhenDisabled
 				>
 					{ __( 'Save Options', 'custom-html-block-extension' ) }
 				</Button>

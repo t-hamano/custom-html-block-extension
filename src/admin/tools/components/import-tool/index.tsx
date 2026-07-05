@@ -121,7 +121,7 @@ export default function ImportTool() {
 						disabled={ ! importFile }
 						onClick={ onImportOptions }
 						__next40pxDefaultSize
-						__experimentalIsFocusable
+						accessibleWhenDisabled
 					>
 						{ __( 'Import', 'custom-html-block-extension' ) }
 					</Button>
