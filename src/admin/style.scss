@@ -17,7 +17,7 @@
 @include mixins.wordpress-admin-schemes();
 
 // WordPress admin
-.auto-fold #wpcontent {
+.settings_page_custom-html-block-extension #wpcontent {
 	padding-left: 0;
 }
 
@@ -29,6 +29,8 @@
 		max-width: 1200px;
 		padding: 0 variables.$grid-unit-20 + variables.$grid-unit-05;
 		margin: 0 auto;
+		width: 100%;
+		box-sizing: border-box;
 	}
 
 	// Non-interactive (inert) settings
@@ -57,10 +59,14 @@
 		}
 	}
 
-	.chbe-admin__tab-panel .components-tab-panel__tabs {
+	.chbe-admin__tab-list {
 		justify-content: center;
-		margin-bottom: variables.$grid-unit-50;
 		background: colors.$white;
 		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
+		width: 100%;
+
+		button {
+			flex: initial;
+		}
 	}
 }

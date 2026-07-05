@@ -7,7 +7,8 @@ import clsx from 'clsx';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { TabPanel, Spinner } from '@wordpress/components';
+import { Spinner } from '@wordpress/components';
+import { Stack, Tabs } from '@wordpress/ui';
 import { createRoot, createContext, useState } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 
@@ -74,46 +75,43 @@ function Admin() {
 				</div>
 			) }
 			<Header />
-			<TabPanel
-				className="chbe-admin__tab-panel"
-				tabs={ [
-					{
-						name: 'editor-config',
-						title: __( 'Editor config', 'custom-html-block-extension' ),
-					},
-					{
-						name: 'tools',
-						title: __( 'Tools', 'custom-html-block-extension' ),
-					},
-					{
-						name: 'options',
-						title: __( 'Options', 'custom-html-block-extension' ),
-					},
-				] }
-			>
-				{ ( tab ) => (
-					<div className="chbe-admin-container">
-						<AdminContext.Provider
-							value={ {
-								code,
-								isWaiting,
-								editorSettings,
-								editorOptions,
-								options,
-								setCode,
-								setIsWaiting,
-								setEditorOptions,
-								setEditorSettings,
-								setOptions,
-							} }
-						>
-							{ 'editor-config' === tab.name && <EditorConfig /> }
-							{ 'tools' === tab.name && <Tools /> }
-							{ 'options' === tab.name && <Options /> }
-						</AdminContext.Provider>
-					</div>
-				) }
-			</TabPanel>
+			<Tabs.Root className="chbe-admin__tab-panel" defaultValue="editor-config">
+				<Stack direction="column" gap="3xl">
+					<Tabs.List className="chbe-admin__tab-list">
+						<Tabs.Tab value="editor-config">
+							{ __( 'Editor config', 'custom-html-block-extension' ) }
+						</Tabs.Tab>
+						<Tabs.Tab value="tools">{ __( 'Tools', 'custom-html-block-extension' ) }</Tabs.Tab>
+						<Tabs.Tab value="options">{ __( 'Options', 'custom-html-block-extension' ) }</Tabs.Tab>
+					</Tabs.List>
+					<AdminContext.Provider
+						value={ {
+							code,
+							isWaiting,
+							editorSettings,
+							editorOptions,
+							options,
+							setCode,
+							setIsWaiting,
+							setEditorOptions,
+							setEditorSettings,
+							setOptions,
+						} }
+					>
+						<div className="chbe-admin-container">
+							<Tabs.Panel value="editor-config">
+								<EditorConfig />
+							</Tabs.Panel>
+							<Tabs.Panel value="tools">
+								<Tools />
+							</Tabs.Panel>
+							<Tabs.Panel value="options">
+								<Options />
+							</Tabs.Panel>
+						</div>
+					</AdminContext.Provider>
+				</Stack>
+			</Tabs.Root>
 		</div>
 	);
 }

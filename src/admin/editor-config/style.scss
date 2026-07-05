@@ -27,8 +27,7 @@
 	.chbe-admin-editor-config__basic-settings {
 		padding: variables.$grid-unit-30;
 		background: colors.$white;
-		border-top: variables.$border-width solid colors.$gray-300;
-		border-bottom: variables.$border-width solid colors.$gray-300;
+		border-radius: variables.$radius-large;
 	}
 
 	.chbe-admin-editor-config__advanced-settings.is-searching {
