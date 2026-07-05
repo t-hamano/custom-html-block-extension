@@ -37,25 +37,12 @@ export const EditorConfigContext = createContext< EditorConfigContextType >(
 	{} as EditorConfigContextType
 );
 
-/**
- * Returns the value for the `inert` attribute, making a subtree
- * non-interactive when `condition` is true. Uses the empty-string form
- * required by React 18 (see the `inert` type augmentation in global.d.ts).
- *
- * @param {boolean} condition Whether the subtree should be inert.
- * @return {''|undefined} The `inert` attribute value.
- */
+// Value for the `inert` attribute; the empty string enables it (React 18 form).
 function inertValue( condition: boolean ): '' | undefined {
 	return condition ? '' : undefined;
 }
 
-/**
- * Whether a setting with the given title should render under the current
- * search query. Settings whose title doesn't match the query are hidden.
- *
- * @param {string} title The setting's display title.
- * @return {boolean} True when the setting should render.
- */
+// Whether a setting with the given title matches the current search query.
 export function useSearchVisibility( title: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
 	if ( ! searchQuery ) {
@@ -64,15 +51,8 @@ export function useSearchVisibility( title: string ): boolean {
 	return title.toLowerCase().includes( searchQuery.toLowerCase() );
 }
 
-/**
- * A collapsible settings panel. While a search query is active, every panel is
- * forced open so the matching settings inside it are revealed; otherwise the
- * open state is left to the user (uncontrolled-like behavior via local state).
- *
- * @param {Object}    props          Component props.
- * @param {string}    props.title    The panel's display title.
- * @param {ReactNode} props.children The settings rendered inside the panel.
- */
+// Collapsible panel, forced open while a search query is active and otherwise
+// toggled by the user.
 function SettingsPanel( { title, children }: { title: string; children: ReactNode } ) {
 	const { searchQuery } = useContext( EditorConfigContext );
 	const [ isOpen, setIsOpen ] = useState( false );

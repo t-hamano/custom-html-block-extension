@@ -9,9 +9,7 @@ import type * as Monaco from 'monaco-editor';
 import type { EditorSettings, EditorOptions, Options, FontFamily } from './types';
 
 declare global {
-	/**
-	 * Data localized from PHP via `wp_localize_script`.
-	 */
+	// Data localized from PHP via `wp_localize_script`.
 	interface ChbeObj {
 		pluginUrl: string;
 		version: string;
@@ -24,9 +22,7 @@ declare global {
 		language?: string;
 	}
 
-	/**
-	 * The AMD loader exposed by the monaco `loader.js` script.
-	 */
+	// The AMD loader exposed by the monaco `loader.js` script.
 	interface MonacoAmdRequire {
 		( modules: string[], onLoad: () => void ): void;
 		config: ( config: { paths: Record< string, string > } ) => void;
@@ -45,13 +41,9 @@ declare global {
 	}
 }
 
-/**
- * The `inert` global attribute is not present in the React 18 type
- * definitions (it was added natively in React 19). Declare it here so it can
- * be used as a lighter, markup-only alternative to the `Disabled` component.
- * Use the empty-string form (`inert={ condition ? '' : undefined }`) to avoid
- * React 18's warning about boolean values on unknown attributes.
- */
+// The `inert` attribute is missing from the React 18 types (added natively in
+// React 19); declare it here. Use the empty-string form to avoid React 18's
+// non-boolean attribute warning.
 declare module 'react' {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface HTMLAttributes< T > {
