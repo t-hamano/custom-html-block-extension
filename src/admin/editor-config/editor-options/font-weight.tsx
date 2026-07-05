@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -33,19 +34,17 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack>
-				<SelectControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ String( editorOptions.fontWeight ) }
-					options={ fontWeights.map( ( fontWeight ) => ( {
-						label: String( fontWeight ),
-						value: String( fontWeight ),
-					} ) ) }
-					onChange={ onChange }
-				/>
-			</HStack>
-		</div>
+		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
+			<SelectControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ String( editorOptions.fontWeight ) }
+				options={ fontWeights.map( ( fontWeight ) => ( {
+					label: String( fontWeight ),
+					value: String( fontWeight ),
+				} ) ) }
+				onChange={ onChange }
+			/>
+		</Stack>
 	);
 }

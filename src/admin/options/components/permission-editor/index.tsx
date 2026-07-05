@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { PanelBody, ToggleControl, __experimentalVStack as VStack } from '@wordpress/components';
+import { PanelBody, ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -38,7 +39,7 @@ export default function PermissionEditor() {
 		<PanelBody
 			title={ __( 'Editors allowed to use this extension', 'custom-html-block-extension' ) }
 		>
-			<VStack spacing={ 4 }>
+			<Stack direction="column" gap="lg">
 				<ToggleControl
 					label={ __( 'Block editor', 'custom-html-block-extension' ) }
 					checked={ options.permissionBlockEditor }
@@ -54,7 +55,7 @@ export default function PermissionEditor() {
 					checked={ options.permissionThemePluginEditor }
 					onChange={ onThemePluginEditorChange }
 				/>
-			</VStack>
+			</Stack>
 		</PanelBody>
 	);
 }

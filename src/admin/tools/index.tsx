@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __experimentalVStack as VStack } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -11,9 +11,9 @@ import ImportTool from './components/import-tool';
 
 export default function Tools() {
 	return (
-		<VStack spacing={ 4 }>
+		<Stack direction="column" gap="lg">
 			<ExportTool />
 			<ImportTool />
-		</VStack>
+		</Stack>
 	);
 }

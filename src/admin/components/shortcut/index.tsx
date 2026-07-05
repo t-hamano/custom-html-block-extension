@@ -4,13 +4,8 @@
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
-import {
-	Button,
-	ExternalLink,
-	Modal,
-	__experimentalText as Text,
-	__experimentalVStack as VStack,
-} from '@wordpress/components';
+import { Button, Modal } from '@wordpress/components';
+import { Link, Stack, Text } from '@wordpress/ui';
 
 export default function Shortcut() {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
@@ -32,20 +27,20 @@ export default function Shortcut() {
 					title={ __( 'About shortcut', 'custom-html-block-extension' ) }
 					onRequestClose={ () => setIsModalOpen( false ) }
 				>
-					<VStack spacing={ 4 }>
-						<Text as="p">
+					<Stack direction="column" gap="lg">
+						<Text render={ <p /> }>
 							{ __(
 								'This plugin is made with "Monaco Editor", the code editor behind VS Code.',
 								'custom-html-block-extension'
 							) }
 						</Text>
-						<Text as="p">
+						<Text render={ <p /> }>
 							{ __(
 								'So you can use many of keyboard shortcuts available in VS Code on custom HTML block.',
 								'custom-html-block-extension'
 							) }
 						</Text>
-						<Text as="p">
+						<Text render={ <p /> }>
 							{ __(
 								'Check the following link for a list of shortcuts.',
 								'custom-html-block-extension'
@@ -53,27 +48,29 @@ export default function Shortcut() {
 						</Text>
 						<ul>
 							<li>
-								<ExternalLink
+								<Link
 									href={ __(
 										'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf',
 										'custom-html-block-extension'
 									) }
+									openInNewTab
 								>
 									{ __( 'Keyboard shortcuts for Windows', 'custom-html-block-extension' ) }
-								</ExternalLink>
+								</Link>
 							</li>
 							<li>
-								<ExternalLink
+								<Link
 									href={ __(
 										'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf',
 										'custom-html-block-extension'
 									) }
+									openInNewTab
 								>
 									{ __( 'Keyboard shortcuts for macOS', 'custom-html-block-extension' ) }
-								</ExternalLink>
+								</Link>
 							</li>
 						</ul>
-					</VStack>
+					</Stack>
 				</Modal>
 			) }
 		</>

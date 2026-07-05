@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -33,26 +34,30 @@ export default function MinimapEnabled() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.minimap.enabled }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					description={ __(
-						'Minimap gives you a high-level overview of your source code, which is useful for quick navigation and code understanding. You can click or drag the shaded area to quickly jump to different sections.',
-						'custom-html-block-extension'
-					) }
-					isToggle
-					defaultToggle
-					image="editor-options/minimap/enabled.gif"
-					value={ editorOptions.minimap.enabled }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.minimap.enabled }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				description={ __(
+					'Minimap gives you a high-level overview of your source code, which is useful for quick navigation and code understanding. You can click or drag the shaded area to quickly jump to different sections.',
+					'custom-html-block-extension'
+				) }
+				isToggle
+				defaultToggle
+				image="editor-options/minimap/enabled.gif"
+				value={ editorOptions.minimap.enabled }
+			/>
+		</Stack>
 	);
 }

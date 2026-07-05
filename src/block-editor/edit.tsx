@@ -18,8 +18,8 @@ import {
 	ToolbarGroup,
 	Modal,
 	Notice,
-	__experimentalVStack as VStack,
 } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 import { fullscreen } from '@wordpress/icons';
 import type { BlockEditProps } from '@wordpress/blocks';
 
@@ -144,7 +144,7 @@ export default function HTMLEdit( {
 							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
 						</>
 					) : (
-						<VStack>
+						<Stack direction="column" gap="sm">
 							{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
 							<ResizableBox
 								size={ { height } }
@@ -175,7 +175,7 @@ export default function HTMLEdit( {
 									onError={ onError }
 								/>
 							</ResizableBox>
-						</VStack>
+						</Stack>
 					)
 				}
 			</Disabled.Consumer>

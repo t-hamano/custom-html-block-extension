@@ -11,10 +11,10 @@ import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import { useSearchVisibility } from '../../index';
 import {
-	__experimentalHStack as HStack,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 import ItemHelp from '../../components/item-help';
 
 export default function MinimapSide() {
@@ -52,30 +52,30 @@ export default function MinimapSide() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<ToggleGroupControl
-					size="__unstable-large"
-					label={ title }
-					value={ editorOptions.minimap.side }
-					onChange={ onChange }
-					isBlock
-				>
-					{ items.map( ( item ) => (
-						<ToggleGroupControlOption
-							key={ item.value }
-							value={ item.value }
-							label={ item.label }
-						/>
-					) ) }
-				</ToggleGroupControl>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ items }
-					value={ editorOptions.minimap.side }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleGroupControl
+				size="__unstable-large"
+				label={ title }
+				value={ editorOptions.minimap.side }
+				onChange={ onChange }
+				isBlock
+			>
+				{ items.map( ( item ) => (
+					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
+				) ) }
+			</ToggleGroupControl>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ items }
+				value={ editorOptions.minimap.side }
+			/>
+		</Stack>
 	);
 }

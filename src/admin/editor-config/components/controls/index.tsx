@@ -3,11 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import {
-	Button,
-	__experimentalConfirmDialog as ConfirmDialog,
-	__experimentalHStack as HStack,
-} from '@wordpress/components';
+import { Button, __experimentalConfirmDialog as ConfirmDialog } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 type ControlsProps = {
 	isWaiting: boolean;
@@ -20,7 +17,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 
 	return (
 		<>
-			<HStack>
+			<Stack gap="sm">
 				<Button
 					variant="primary"
 					disabled={ isWaiting }
@@ -37,7 +34,7 @@ export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }
 				>
 					{ __( 'Reset', 'custom-html-block-extension' ) }
 				</Button>
-			</HStack>
+			</Stack>
 			{ isModalOpen && (
 				<ConfirmDialog
 					onConfirm={ () => {

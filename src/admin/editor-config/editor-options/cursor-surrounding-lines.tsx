@@ -3,7 +3,8 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { RangeControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -34,47 +35,51 @@ export default function CursorSurroundingLines() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<RangeControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.cursorSurroundingLines }
-					min={ 0 }
-					max={ 20 }
-					allowReset
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					description={ __(
-						'Sets the number of lines to keep before and after the cursor when the cursor is moved up and down.',
-						'custom-html-block-extension'
-					) }
-					items={ [
-						{
-							label: sprintf(
-								/* translators: %s is replaced with the number. */
-								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								'0'
-							),
-							image: 'editor-options/cursor-surrounding-lines_1.gif',
-							value: 0,
-						},
-						{
-							label: sprintf(
-								/* translators: %s is replaced with the number. */
-								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								'5'
-							),
-							image: 'editor-options/cursor-surrounding-lines_2.gif',
-							value: 5,
-						},
-					] }
-					value={ editorOptions.cursorSurroundingLines }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<RangeControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.cursorSurroundingLines }
+				min={ 0 }
+				max={ 20 }
+				allowReset
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				description={ __(
+					'Sets the number of lines to keep before and after the cursor when the cursor is moved up and down.',
+					'custom-html-block-extension'
+				) }
+				items={ [
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'0'
+						),
+						image: 'editor-options/cursor-surrounding-lines_1.gif',
+						value: 0,
+					},
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'5'
+						),
+						image: 'editor-options/cursor-surrounding-lines_2.gif',
+						value: 5,
+					},
+				] }
+				value={ editorOptions.cursorSurroundingLines }
+			/>
+		</Stack>
 	);
 }

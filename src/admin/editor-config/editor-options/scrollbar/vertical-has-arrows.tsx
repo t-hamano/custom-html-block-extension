@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -35,32 +36,36 @@ export default function ScrollbarVerticalHasArrows() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.scrollbar.verticalHasArrows }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
-							value: true,
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
-							value: false,
-							isDefault: true,
-						},
-					] }
-					value={ editorOptions.scrollbar.verticalHasArrows }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.scrollbar.verticalHasArrows }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
+						value: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
+						value: false,
+						isDefault: true,
+					},
+				] }
+				value={ editorOptions.scrollbar.verticalHasArrows }
+			/>
+		</Stack>
 	);
 }

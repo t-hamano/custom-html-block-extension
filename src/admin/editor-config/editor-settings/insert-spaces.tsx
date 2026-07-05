@@ -4,10 +4,10 @@
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
-	__experimentalHStack as HStack,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -46,24 +46,18 @@ export default function InsertSpaces() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack>
-				<ToggleGroupControl
-					size="__unstable-large"
-					label={ __( 'Indent type', 'custom-html-block-extension' ) }
-					value={ editorSettings.insertSpaces ? 'space' : 'tab' }
-					onChange={ onChange }
-					isBlock
-				>
-					{ items.map( ( item ) => (
-						<ToggleGroupControlOption
-							key={ item.value }
-							value={ item.value }
-							label={ item.label }
-						/>
-					) ) }
-				</ToggleGroupControl>
-			</HStack>
-		</div>
+		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
+			<ToggleGroupControl
+				size="__unstable-large"
+				label={ __( 'Indent type', 'custom-html-block-extension' ) }
+				value={ editorSettings.insertSpaces ? 'space' : 'tab' }
+				onChange={ onChange }
+				isBlock
+			>
+				{ items.map( ( item ) => (
+					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
+				) ) }
+			</ToggleGroupControl>
+		</Stack>
 	);
 }

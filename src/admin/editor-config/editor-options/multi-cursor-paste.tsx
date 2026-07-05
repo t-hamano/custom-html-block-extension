@@ -4,10 +4,10 @@
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
-	__experimentalHStack as HStack,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -51,30 +51,30 @@ export default function MultiCursorPaste() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<ToggleGroupControl
-					size="__unstable-large"
-					label={ title }
-					value={ editorOptions.multiCursorPaste }
-					onChange={ onChange }
-					isBlock
-				>
-					{ items.map( ( item ) => (
-						<ToggleGroupControlOption
-							key={ item.value }
-							value={ item.value }
-							label={ item.label }
-						/>
-					) ) }
-				</ToggleGroupControl>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ items }
-					value={ editorOptions.multiCursorPaste }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleGroupControl
+				size="__unstable-large"
+				label={ title }
+				value={ editorOptions.multiCursorPaste }
+				onChange={ onChange }
+				isBlock
+			>
+				{ items.map( ( item ) => (
+					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
+				) ) }
+			</ToggleGroupControl>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ items }
+				value={ editorOptions.multiCursorPaste }
+			/>
+		</Stack>
 	);
 }

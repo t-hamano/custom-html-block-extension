@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -37,28 +38,32 @@ export default function RenderFinalNewline() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/render-final-newline_1.jpg',
-							isDefault: true,
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/render-final-newline_2.jpg',
-						},
-					] }
-					value={ isEnabled }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/render-final-newline_1.jpg',
+						isDefault: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/render-final-newline_2.jpg',
+					},
+				] }
+				value={ isEnabled }
+			/>
+		</Stack>
 	);
 }

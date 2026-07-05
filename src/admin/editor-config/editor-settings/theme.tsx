@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -30,20 +31,18 @@ export default function Theme() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack>
-				<SelectControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorSettings.theme }
-					options={ [
-						{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
-						{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
-						...themes,
-					] }
-					onChange={ onChange }
-				/>
-			</HStack>
-		</div>
+		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
+			<SelectControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorSettings.theme }
+				options={ [
+					{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
+					{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
+					...themes,
+				] }
+				onChange={ onChange }
+			/>
+		</Stack>
 	);
 }

@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { RangeControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -31,19 +32,23 @@ export default function LineNumbersMinChars() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<RangeControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.lineNumbersMinChars }
-					min={ 1 }
-					max={ 10 }
-					allowReset
-					onChange={ onChange }
-				/>
-				<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<RangeControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.lineNumbersMinChars }
+				min={ 1 }
+				max={ 10 }
+				allowReset
+				onChange={ onChange }
+			/>
+			<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
+		</Stack>
 	);
 }

@@ -2,12 +2,8 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import {
-	Icon,
-	__experimentalHeading as Heading,
-	__experimentalHStack as HStack,
-	__experimentalVStack as VStack,
-} from '@wordpress/components';
+import { Icon, __experimentalHeading as Heading } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -21,15 +17,15 @@ export default function Header() {
 		<header className="chbe-admin-header">
 			<div className="chbe-admin-container">
 				<Heading as="h1">
-					<HStack justify="center">
+					<Stack justify="center" gap="sm">
 						<Icon icon={ BlockIcon } size={ 32 } />
 						<span>{ __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) }</span>
-					</HStack>
+					</Stack>
 				</Heading>
-				<VStack className="chbe-admin-header__info">
+				<Stack direction="column" className="chbe-admin-header__info" gap="sm">
 					<WelcomeGuide />
 					<Shortcut />
-				</VStack>
+				</Stack>
 			</div>
 		</header>
 	);

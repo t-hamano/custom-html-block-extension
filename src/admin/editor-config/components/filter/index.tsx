@@ -4,12 +4,11 @@
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import {
-	FlexBlock,
 	SearchControl,
-	__experimentalHStack as HStack,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 import { useDebounce } from '@wordpress/compose';
 
 const MODES = [
@@ -43,8 +42,8 @@ export default function Filter( {
 	const debouncedOnChangeSearchQuery = useDebounce( setSearchQuery, 100 );
 
 	return (
-		<HStack className="chbe-admin-editor-config-filter">
-			<FlexBlock>
+		<Stack className="chbe-admin-editor-config-filter" gap="sm">
+			<div style={ { flex: 1 } }>
 				<ToggleGroupControl
 					size="__unstable-large"
 					label={ __( 'Mode', 'custom-html-block-extension' ) }
@@ -62,8 +61,8 @@ export default function Filter( {
 						/>
 					) ) }
 				</ToggleGroupControl>
-			</FlexBlock>
-			<FlexBlock>
+			</div>
+			<div style={ { flex: 1 } }>
 				<SearchControl
 					value={ searchQueryState }
 					onChange={ ( value ) => {
@@ -71,7 +70,7 @@ export default function Filter( {
 						debouncedOnChangeSearchQuery( value );
 					} }
 				/>
-			</FlexBlock>
-		</HStack>
+			</div>
+		</Stack>
 	);
 }

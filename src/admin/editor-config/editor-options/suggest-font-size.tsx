@@ -3,7 +3,8 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { RangeControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -31,43 +32,47 @@ export default function SuggestFontSize() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<RangeControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.suggestFontSize }
-					min={ 10 }
-					max={ 30 }
-					allowReset
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: sprintf(
-								/* translators: %s is replaced with the number. */
-								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								'10'
-							),
-							image: 'editor-options/suggest-font-size_1.jpg',
-							value: 10,
-						},
-						{
-							label: sprintf(
-								/* translators: %s is replaced with the number. */
-								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								'30'
-							),
-							image: 'editor-options/suggest-font-size_2.jpg',
-							value: 30,
-						},
-					] }
-					value={ editorOptions.suggestFontSize }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<RangeControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.suggestFontSize }
+				min={ 10 }
+				max={ 30 }
+				allowReset
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'10'
+						),
+						image: 'editor-options/suggest-font-size_1.jpg',
+						value: 10,
+					},
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'30'
+						),
+						image: 'editor-options/suggest-font-size_2.jpg',
+						value: 30,
+					},
+				] }
+				value={ editorOptions.suggestFontSize }
+			/>
+		</Stack>
 	);
 }

@@ -9,13 +9,8 @@ import clsx from 'clsx';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { createContext, useCallback, useContext, useState } from '@wordpress/element';
-import {
-	PanelBody,
-	Disabled,
-	__experimentalHeading as Heading,
-	__experimentalHStack as HStack,
-	__experimentalVStack as VStack,
-} from '@wordpress/components';
+import { PanelBody, Disabled, __experimentalHeading as Heading } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -126,14 +121,8 @@ export default function EditorConfig() {
 	}, [] );
 
 	return (
-		<HStack
-			spacing={ 8 }
-			alignment="start"
-			direction="row-reverse"
-			wrap
-			className="chbe-admin-editor-config"
-		>
-			<VStack spacing={ 8 } className="chbe-admin-editor-config__preview">
+		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="xl">
+			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="xl">
 				<Heading as="h2" level="3">
 					{ __( 'Preview', 'custom-html-block-extension' ) }
 				</Heading>
@@ -143,22 +132,23 @@ export default function EditorConfig() {
 					onUpdateOptions={ onUpdateOptions }
 					onResetOptions={ onResetOptions }
 				/>
-			</VStack>
-			<VStack spacing={ 8 } className="chbe-admin-editor-config__settings">
+			</Stack>
+			<Stack direction="column" className="chbe-admin-editor-config__settings" gap="xl">
 				<Filter
 					editorMode={ editorMode }
 					setEditorMode={ setEditorMode }
 					searchQuery={ searchQuery }
 					setSearchQuery={ setSearchQuery }
 				/>
-				<VStack
+				<Stack
+					direction="column"
 					className={ clsx(
 						editorMode === 'basic' && ! searchQuery
 							? 'chbe-admin-editor-config__basic-settings'
 							: 'chbe-admin-editor-config__advanced-settings',
 						{ 'is-searching': !! searchQuery }
 					) }
-					spacing={ editorMode === 'basic' && ! searchQuery ? 6 : 2 }
+					gap={ editorMode === 'basic' && ! searchQuery ? 'xl' : 'sm' }
 				>
 					<EditorConfigContext.Provider value={ { onRefreshEditor, searchQuery } }>
 						{ 'basic' === editorMode && ! searchQuery && (
@@ -186,7 +176,7 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorSettings.Theme />
 										<EditorSettings.TabSize />
 										<EditorSettings.InsertSpaces />
@@ -195,7 +185,7 @@ export default function EditorConfig() {
 										<EditorOptions.GlyphMargin />
 										<EditorOptions.PaddingTop />
 										<EditorOptions.PaddingBottom />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -203,14 +193,14 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.FontFamily />
 										<EditorOptions.FontWeight fontWeights={ fontWeights } />
 										<EditorOptions.FontLigatures />
 										<EditorOptions.FontSize />
 										<EditorOptions.LineHeight />
 										<EditorOptions.LetterSpacing />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -218,7 +208,7 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.WordWrap />
 										{ 'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap ? (
 											<Disabled>
@@ -234,7 +224,7 @@ export default function EditorConfig() {
 										) : (
 											<EditorOptions.WrappingIndent />
 										) }
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -242,18 +232,18 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.MinimapEnabled />
 										{ ! editorOptions.minimap.enabled ? (
 											<Disabled>
-												<VStack spacing={ 4 }>
+												<Stack direction="column" gap="lg">
 													<EditorOptions.MinimapSide />
 													<EditorOptions.MinimapMaxColumn />
 													<EditorOptions.MinimapScale />
 													<EditorOptions.MinimapShowSlider />
 													<EditorOptions.MinimapSize />
 													<EditorOptions.MinimapRenderCharacters />
-												</VStack>
+												</Stack>
 											</Disabled>
 										) : (
 											<>
@@ -265,7 +255,7 @@ export default function EditorConfig() {
 												<EditorOptions.MinimapRenderCharacters />
 											</>
 										) }
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -273,7 +263,7 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.CursorStyle />
 										{ 'line' !== editorOptions.cursorStyle ? (
 											<Disabled>
@@ -286,7 +276,7 @@ export default function EditorConfig() {
 										<EditorOptions.CursorSurroundingLines />
 										<EditorOptions.CursorSurroundingLinesStyle />
 										<EditorOptions.CursorSmoothCaretAnimation />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -294,17 +284,17 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.Folding />
 										{ ! editorOptions.folding ? (
 											<Disabled>
-												<VStack spacing={ 4 }>
+												<Stack direction="column" gap="lg">
 													<EditorOptions.ShowFoldingControls />
 													<EditorOptions.FoldingStrategy />
 													<EditorOptions.LineDecorationsWidth />
 													<EditorOptions.FoldingHighlight />
 													<EditorOptions.UnfoldOnClickAfterEndOfLine />
-												</VStack>
+												</Stack>
 											</Disabled>
 										) : (
 											<>
@@ -315,7 +305,7 @@ export default function EditorConfig() {
 												<EditorOptions.UnfoldOnClickAfterEndOfLine />
 											</>
 										) }
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -323,15 +313,15 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.LineNumbers />
 										{ 'off' === editorOptions.lineNumbers ? (
 											<Disabled>
-												<VStack spacing={ 4 }>
+												<Stack direction="column" gap="lg">
 													<EditorOptions.LineNumbersMinChars />
 													<EditorOptions.SelectOnLineNumbers />
 													<EditorOptions.RenderFinalNewline />
-												</VStack>
+												</Stack>
 											</Disabled>
 										) : (
 											<>
@@ -340,7 +330,7 @@ export default function EditorConfig() {
 												<EditorOptions.RenderFinalNewline />
 											</>
 										) }
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -348,17 +338,17 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.QuickSuggestions />
 										{ ! editorOptions.quickSuggestions ? (
 											<Disabled>
-												<VStack spacing={ 4 }>
+												<Stack direction="column" gap="lg">
 													<EditorOptions.AcceptSuggestionOnEnter />
 													<EditorOptions.QuickSuggestionsDelay />
 													<EditorOptions.SuggestFontSize />
 													<EditorOptions.SuggestLineHeight />
 													<EditorOptions.SuggestShowIcons />
-												</VStack>
+												</Stack>
 											</Disabled>
 										) : (
 											<>
@@ -369,7 +359,7 @@ export default function EditorConfig() {
 												<EditorOptions.SuggestShowIcons />
 											</>
 										) }
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -377,13 +367,13 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.AutoIndent />
 										<EditorOptions.AutoClosingBrackets />
 										<EditorOptions.AutoClosingQuotes />
 										<EditorOptions.AutoSurround />
 										<EditorOptions.FormatOnPaste />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -391,7 +381,7 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.MouseWheelScrollSensitivity />
 										<EditorOptions.FastScrollSensitivity />
 										<EditorOptions.Hover />
@@ -402,7 +392,7 @@ export default function EditorConfig() {
 										<EditorOptions.DragAndDrop />
 										<EditorOptions.HideCursorInOverviewRuler />
 										<EditorOptions.MultiCursorModifier />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -410,7 +400,7 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.EmptySelectionClipboard />
 										<EditorOptions.RoundedSelection />
 										<EditorOptions.SelectionHighlight />
@@ -418,7 +408,7 @@ export default function EditorConfig() {
 										<EditorOptions.StickyTabStops />
 										<EditorOptions.CopyWithSyntaxHighlighting />
 										<EditorOptions.ColumnSelection />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -426,7 +416,7 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.MatchBrackets />
 										<EditorOptions.OccurrencesHighlight />
 										<EditorOptions.RenderWhitespace />
@@ -448,7 +438,7 @@ export default function EditorConfig() {
 										) }
 										<EditorOptions.RenderControlCharacters />
 										<EditorOptions.Rulers />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -456,11 +446,11 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.FindAddExtraSpaceOnTop />
 										<EditorOptions.FindSeedSearchStringFromSelection />
 										<EditorOptions.FindLoop />
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -468,7 +458,7 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.ScrollbarUseShadows />
 										<EditorOptions.OverviewRulerBorder />
 										<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
@@ -476,10 +466,10 @@ export default function EditorConfig() {
 										<EditorOptions.ScrollbarHorizontal />
 										{ 'hidden' === editorOptions.scrollbar.horizontal ? (
 											<Disabled>
-												<VStack spacing={ 4 }>
+												<Stack direction="column" gap="lg">
 													<EditorOptions.ScrollbarHorizontalHasArrows />
 													<EditorOptions.ScrollbarHorizontalScrollbarSize />
-												</VStack>
+												</Stack>
 											</Disabled>
 										) : (
 											<>
@@ -490,10 +480,10 @@ export default function EditorConfig() {
 										<EditorOptions.ScrollbarVertical />
 										{ 'hidden' === editorOptions.scrollbar.vertical ? (
 											<Disabled>
-												<VStack spacing={ 4 }>
+												<Stack direction="column" gap="lg">
 													<EditorOptions.ScrollbarVerticalHasArrows />
 													<EditorOptions.ScrollbarVerticalScrollbarSize />
-												</VStack>
+												</Stack>
 											</Disabled>
 										) : (
 											<>
@@ -511,7 +501,7 @@ export default function EditorConfig() {
 										) : (
 											<EditorOptions.ScrollbarArrowSize />
 										) }
-									</VStack>
+									</Stack>
 								</PanelBody>
 								<PanelBody
 									className="chbe-admin-editor-config__panel"
@@ -519,17 +509,17 @@ export default function EditorConfig() {
 									initialOpen={ !! searchQuery }
 									scrollAfterOpen={ ! searchQuery }
 								>
-									<VStack spacing={ 4 }>
+									<Stack direction="column" gap="lg">
 										<EditorOptions.UseTabStops />
 										<EditorOptions.CommentsInsertSpace />
 										<EditorOptions.Links />
-									</VStack>
+									</Stack>
 								</PanelBody>
 							</>
 						) }
 					</EditorConfigContext.Provider>
-				</VStack>
-			</VStack>
-		</HStack>
+				</Stack>
+			</Stack>
+		</Stack>
 	);
 }

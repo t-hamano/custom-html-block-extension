@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -33,32 +34,36 @@ export default function RenderLineHighlightOnlyWhenFocus() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.renderLineHighlightOnlyWhenFocus }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/render-line-highlight-only-when-focus_1.gif',
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/render-line-highlight-only-when-focus_2.gif',
-							isDefault: true,
-						},
-					] }
-					value={ editorOptions.renderLineHighlightOnlyWhenFocus }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.renderLineHighlightOnlyWhenFocus }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/render-line-highlight-only-when-focus_1.gif',
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/render-line-highlight-only-when-focus_2.gif',
+						isDefault: true,
+					},
+				] }
+				value={ editorOptions.renderLineHighlightOnlyWhenFocus }
+			/>
+		</Stack>
 	);
 }

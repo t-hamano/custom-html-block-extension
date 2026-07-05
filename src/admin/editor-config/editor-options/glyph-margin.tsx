@@ -3,7 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -30,36 +31,36 @@ export default function GlyphMargin() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.glyphMargin }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					description={ __(
-						'Margin at the left edge of the editor.',
-						'custom-html-block-extension'
-					) }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/glyph-margin_1.jpg',
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/glyph-margin_2.jpg',
-							isDefault: true,
-						},
-					] }
-					value={ editorOptions.glyphMargin }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl label={ title } checked={ editorOptions.glyphMargin } onChange={ onChange } />
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				description={ __(
+					'Margin at the left edge of the editor.',
+					'custom-html-block-extension'
+				) }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/glyph-margin_1.jpg',
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/glyph-margin_2.jpg',
+						isDefault: true,
+					},
+				] }
+				value={ editorOptions.glyphMargin }
+			/>
+		</Stack>
 	);
 }

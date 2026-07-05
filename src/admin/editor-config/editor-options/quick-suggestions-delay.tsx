@@ -3,7 +3,8 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl, __experimentalHStack as HStack } from '@wordpress/components';
+import { RangeControl } from '@wordpress/components';
+import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -31,43 +32,47 @@ export default function QuickSuggestionsDelay() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<HStack justify="start" alignment="start" wrap>
-				<RangeControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.quickSuggestionsDelay }
-					min={ 0 }
-					max={ 1000 }
-					allowReset
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: sprintf(
-								/* translators: %s is replaced with the number. */
-								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								'10'
-							),
-							image: 'editor-options/quick-suggestions-delay_1.gif',
-							value: 10,
-						},
-						{
-							label: sprintf(
-								/* translators: %s is replaced with the number. */
-								__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-								'1000'
-							),
-							image: 'editor-options/quick-suggestions-delay_2.gif',
-							value: 1000,
-						},
-					] }
-					value={ editorOptions.quickSuggestionsDelay }
-				/>
-			</HStack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<RangeControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.quickSuggestionsDelay }
+				min={ 0 }
+				max={ 1000 }
+				allowReset
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'10'
+						),
+						image: 'editor-options/quick-suggestions-delay_1.gif',
+						value: 10,
+					},
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'1000'
+						),
+						image: 'editor-options/quick-suggestions-delay_2.gif',
+						value: 1000,
+					},
+				] }
+				value={ editorOptions.quickSuggestionsDelay }
+			/>
+		</Stack>
 	);
 }

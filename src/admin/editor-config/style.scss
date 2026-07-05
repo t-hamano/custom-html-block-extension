@@ -5,6 +5,7 @@
 @use "./components/item-help/style" as itemHelp;
 
 .chbe-admin-editor-config {
+	flex-direction: row-reverse;
 
 	.components-select-control {
 		min-width: 200px;
