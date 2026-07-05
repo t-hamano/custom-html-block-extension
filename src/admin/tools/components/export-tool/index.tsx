@@ -4,8 +4,8 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
-import { Button, PanelBody } from '@wordpress/components';
-import { Stack, Text } from '@wordpress/ui';
+import { Button } from '@wordpress/components';
+import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -52,18 +52,23 @@ export default function ExportTool() {
 	};
 
 	return (
-		<PanelBody title={ __( 'Export Editor Config', 'custom-html-block-extension' ) }>
-			<Stack direction="column" align="start" gap="sm">
-				<Text render={ <p /> }>
-					{ __(
-						'Use the download button to export the editor settings. You can restore the editor config by importing the exported file on another WordPress site.',
-						'custom-html-block-extension'
-					) }
-				</Text>
-				<Button variant="primary" onClick={ onExportOptions } __next40pxDefaultSize>
-					{ __( 'Export', 'custom-html-block-extension' ) }
-				</Button>
-			</Stack>
-		</PanelBody>
+		<CollapsibleCard.Root defaultOpen>
+			<CollapsibleCard.Header render={ <h2 /> }>
+				<Card.Title>{ __( 'Export Editor Config', 'custom-html-block-extension' ) }</Card.Title>
+			</CollapsibleCard.Header>
+			<CollapsibleCard.Content>
+				<Stack direction="column" align="start" gap="sm">
+					<Text render={ <p /> }>
+						{ __(
+							'Use the download button to export the editor settings. You can restore the editor config by importing the exported file on another WordPress site.',
+							'custom-html-block-extension'
+						) }
+					</Text>
+					<Button variant="primary" onClick={ onExportOptions } __next40pxDefaultSize>
+						{ __( 'Export', 'custom-html-block-extension' ) }
+					</Button>
+				</Stack>
+			</CollapsibleCard.Content>
+		</CollapsibleCard.Root>
 	);
 }
