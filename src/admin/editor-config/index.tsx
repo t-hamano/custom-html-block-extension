@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { createContext, useCallback, useContext, useState } from '@wordpress/element';
-import { Disabled, __experimentalHeading as Heading } from '@wordpress/components';
+import { __experimentalHeading as Heading } from '@wordpress/components';
 import { Card, CollapsibleCard, Stack } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
@@ -37,13 +37,12 @@ export const EditorConfigContext = createContext< EditorConfigContextType >(
 	{} as EditorConfigContextType
 );
 
-/**
- * Whether a setting with the given title should render under the current
- * search query. Settings whose title doesn't match the query are hidden.
- *
- * @param {string} title The setting's display title.
- * @return {boolean} True when the setting should render.
- */
+// Value for the `inert` attribute; the empty string enables it (React 18 form).
+function inertValue( condition: boolean ): '' | undefined {
+	return condition ? '' : undefined;
+}
+
+// Whether a setting with the given title matches the current search query.
 export function useSearchVisibility( title: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
 	if ( ! searchQuery ) {
@@ -52,15 +51,8 @@ export function useSearchVisibility( title: string ): boolean {
 	return title.toLowerCase().includes( searchQuery.toLowerCase() );
 }
 
-/**
- * A collapsible settings panel. While a search query is active, every panel is
- * forced open so the matching settings inside it are revealed; otherwise the
- * open state is left to the user (uncontrolled-like behavior via local state).
- *
- * @param {Object}    props          Component props.
- * @param {string}    props.title    The panel's display title.
- * @param {ReactNode} props.children The settings rendered inside the panel.
- */
+// Collapsible panel, forced open while a search query is active and otherwise
+// toggled by the user.
 function SettingsPanel( { title, children }: { title: string; children: ReactNode } ) {
 	const { searchQuery } = useContext( EditorConfigContext );
 	const [ isOpen, setIsOpen ] = useState( false );
@@ -222,54 +214,35 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Word wrap', 'custom-html-block-extension' ) }>
 									<EditorOptions.WordWrap />
-									{ 'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap ? (
-										<Disabled>
-											<EditorOptions.WordWrapColumn />
-										</Disabled>
-									) : (
+									<div
+										inert={ inertValue(
+											'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap
+										) }
+									>
 										<EditorOptions.WordWrapColumn />
-									) }
-									{ 'off' === editorOptions.wordWrap ? (
-										<Disabled>
-											<EditorOptions.WrappingIndent />
-										</Disabled>
-									) : (
+									</div>
+									<div inert={ inertValue( 'off' === editorOptions.wordWrap ) }>
 										<EditorOptions.WrappingIndent />
-									) }
+									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>
 									<EditorOptions.MinimapEnabled />
-									{ ! editorOptions.minimap.enabled ? (
-										<Disabled>
-											<Stack direction="column" gap="lg">
-												<EditorOptions.MinimapSide />
-												<EditorOptions.MinimapMaxColumn />
-												<EditorOptions.MinimapScale />
-												<EditorOptions.MinimapShowSlider />
-												<EditorOptions.MinimapSize />
-												<EditorOptions.MinimapRenderCharacters />
-											</Stack>
-										</Disabled>
-									) : (
-										<>
+									<div inert={ inertValue( ! editorOptions.minimap.enabled ) }>
+										<Stack direction="column" gap="lg">
 											<EditorOptions.MinimapSide />
 											<EditorOptions.MinimapMaxColumn />
 											<EditorOptions.MinimapScale />
 											<EditorOptions.MinimapShowSlider />
 											<EditorOptions.MinimapSize />
 											<EditorOptions.MinimapRenderCharacters />
-										</>
-									) }
+										</Stack>
+									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Cursor', 'custom-html-block-extension' ) }>
 									<EditorOptions.CursorStyle />
-									{ 'line' !== editorOptions.cursorStyle ? (
-										<Disabled>
-											<EditorOptions.CursorWidth />
-										</Disabled>
-									) : (
+									<div inert={ inertValue( 'line' !== editorOptions.cursorStyle ) }>
 										<EditorOptions.CursorWidth />
-									) }
+									</div>
 									<EditorOptions.CursorBlinking />
 									<EditorOptions.CursorSurroundingLines />
 									<EditorOptions.CursorSurroundingLinesStyle />
@@ -277,65 +250,37 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Code folding', 'custom-html-block-extension' ) }>
 									<EditorOptions.Folding />
-									{ ! editorOptions.folding ? (
-										<Disabled>
-											<Stack direction="column" gap="lg">
-												<EditorOptions.ShowFoldingControls />
-												<EditorOptions.FoldingStrategy />
-												<EditorOptions.LineDecorationsWidth />
-												<EditorOptions.FoldingHighlight />
-												<EditorOptions.UnfoldOnClickAfterEndOfLine />
-											</Stack>
-										</Disabled>
-									) : (
-										<>
+									<div inert={ inertValue( ! editorOptions.folding ) }>
+										<Stack direction="column" gap="lg">
 											<EditorOptions.ShowFoldingControls />
 											<EditorOptions.FoldingStrategy />
 											<EditorOptions.LineDecorationsWidth />
 											<EditorOptions.FoldingHighlight />
 											<EditorOptions.UnfoldOnClickAfterEndOfLine />
-										</>
-									) }
+										</Stack>
+									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Line number', 'custom-html-block-extension' ) }>
 									<EditorOptions.LineNumbers />
-									{ 'off' === editorOptions.lineNumbers ? (
-										<Disabled>
-											<Stack direction="column" gap="lg">
-												<EditorOptions.LineNumbersMinChars />
-												<EditorOptions.SelectOnLineNumbers />
-												<EditorOptions.RenderFinalNewline />
-											</Stack>
-										</Disabled>
-									) : (
-										<>
+									<div inert={ inertValue( 'off' === editorOptions.lineNumbers ) }>
+										<Stack direction="column" gap="lg">
 											<EditorOptions.LineNumbersMinChars />
 											<EditorOptions.SelectOnLineNumbers />
 											<EditorOptions.RenderFinalNewline />
-										</>
-									) }
+										</Stack>
+									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Suggest', 'custom-html-block-extension' ) }>
 									<EditorOptions.QuickSuggestions />
-									{ ! editorOptions.quickSuggestions ? (
-										<Disabled>
-											<Stack direction="column" gap="lg">
-												<EditorOptions.AcceptSuggestionOnEnter />
-												<EditorOptions.QuickSuggestionsDelay />
-												<EditorOptions.SuggestFontSize />
-												<EditorOptions.SuggestLineHeight />
-												<EditorOptions.SuggestShowIcons />
-											</Stack>
-										</Disabled>
-									) : (
-										<>
+									<div inert={ inertValue( ! editorOptions.quickSuggestions ) }>
+										<Stack direction="column" gap="lg">
 											<EditorOptions.AcceptSuggestionOnEnter />
 											<EditorOptions.QuickSuggestionsDelay />
 											<EditorOptions.SuggestFontSize />
 											<EditorOptions.SuggestLineHeight />
 											<EditorOptions.SuggestShowIcons />
-										</>
-									) }
+										</Stack>
+									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Auto completion', 'custom-html-block-extension' ) }>
 									<EditorOptions.AutoIndent />
@@ -374,21 +319,13 @@ export default function EditorConfig() {
 									<EditorOptions.OccurrencesHighlight />
 									<EditorOptions.RenderWhitespace />
 									<EditorOptions.RenderLineHighlight />
-									{ 'none' === editorOptions.renderLineHighlight ? (
-										<Disabled>
-											<EditorOptions.RenderLineHighlightOnlyWhenFocus />
-										</Disabled>
-									) : (
+									<div inert={ inertValue( 'none' === editorOptions.renderLineHighlight ) }>
 										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
-									) }
+									</div>
 									<EditorOptions.RenderIndentGuides />
-									{ ! editorOptions.renderIndentGuides ? (
-										<Disabled>
-											<EditorOptions.HighlightActiveIndentGuide />
-										</Disabled>
-									) : (
+									<div inert={ inertValue( ! editorOptions.renderIndentGuides ) }>
 										<EditorOptions.HighlightActiveIndentGuide />
-									) }
+									</div>
 									<EditorOptions.RenderControlCharacters />
 									<EditorOptions.Rulers />
 								</SettingsPanel>
@@ -403,43 +340,29 @@ export default function EditorConfig() {
 									<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
 									<EditorOptions.ScrollbarScrollByPage />
 									<EditorOptions.ScrollbarHorizontal />
-									{ 'hidden' === editorOptions.scrollbar.horizontal ? (
-										<Disabled>
-											<Stack direction="column" gap="lg">
-												<EditorOptions.ScrollbarHorizontalHasArrows />
-												<EditorOptions.ScrollbarHorizontalScrollbarSize />
-											</Stack>
-										</Disabled>
-									) : (
-										<>
+									<div inert={ inertValue( 'hidden' === editorOptions.scrollbar.horizontal ) }>
+										<Stack direction="column" gap="lg">
 											<EditorOptions.ScrollbarHorizontalHasArrows />
 											<EditorOptions.ScrollbarHorizontalScrollbarSize />
-										</>
-									) }
+										</Stack>
+									</div>
 									<EditorOptions.ScrollbarVertical />
-									{ 'hidden' === editorOptions.scrollbar.vertical ? (
-										<Disabled>
-											<Stack direction="column" gap="lg">
-												<EditorOptions.ScrollbarVerticalHasArrows />
-												<EditorOptions.ScrollbarVerticalScrollbarSize />
-											</Stack>
-										</Disabled>
-									) : (
-										<>
+									<div inert={ inertValue( 'hidden' === editorOptions.scrollbar.vertical ) }>
+										<Stack direction="column" gap="lg">
 											<EditorOptions.ScrollbarVerticalHasArrows />
 											<EditorOptions.ScrollbarVerticalScrollbarSize />
-										</>
-									) }
-									{ ( ! editorOptions.scrollbar.horizontalHasArrows &&
-										! editorOptions.scrollbar.verticalHasArrows ) ||
-									( 'hidden' === editorOptions.scrollbar.horizontal &&
-										'hidden' === editorOptions.scrollbar.vertical ) ? (
-										<Disabled>
-											<EditorOptions.ScrollbarArrowSize />
-										</Disabled>
-									) : (
+										</Stack>
+									</div>
+									<div
+										inert={ inertValue(
+											( ! editorOptions.scrollbar.horizontalHasArrows &&
+												! editorOptions.scrollbar.verticalHasArrows ) ||
+												( 'hidden' === editorOptions.scrollbar.horizontal &&
+													'hidden' === editorOptions.scrollbar.vertical )
+										) }
+									>
 										<EditorOptions.ScrollbarArrowSize />
-									) }
+									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Other', 'custom-html-block-extension' ) }>
 									<EditorOptions.UseTabStops />

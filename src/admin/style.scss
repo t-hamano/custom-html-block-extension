@@ -31,8 +31,8 @@
 		margin: 0 auto;
 	}
 
-	// Gutenberg component styles
-	.components-disabled {
+	// Non-interactive (inert) settings
+	[inert] {
 		opacity: 0.3;
 	}
 }
