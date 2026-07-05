@@ -38,6 +38,18 @@ export const EditorConfigContext = createContext< EditorConfigContextType >(
 );
 
 /**
+ * Returns the value for the `inert` attribute, making a subtree
+ * non-interactive when `condition` is true. Uses the empty-string form
+ * required by React 18 (see the `inert` type augmentation in global.d.ts).
+ *
+ * @param {boolean} condition Whether the subtree should be inert.
+ * @return {''|undefined} The `inert` attribute value.
+ */
+function inertValue( condition: boolean ): '' | undefined {
+	return condition ? '' : undefined;
+}
+
+/**
  * Whether a setting with the given title should render under the current
  * search query. Settings whose title doesn't match the query are hidden.
  *
@@ -223,21 +235,19 @@ export default function EditorConfig() {
 								<SettingsPanel title={ __( 'Word wrap', 'custom-html-block-extension' ) }>
 									<EditorOptions.WordWrap />
 									<div
-										inert={
+										inert={ inertValue(
 											'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap
-												? ''
-												: undefined
-										}
+										) }
 									>
 										<EditorOptions.WordWrapColumn />
 									</div>
-									<div inert={ 'off' === editorOptions.wordWrap ? '' : undefined }>
+									<div inert={ inertValue( 'off' === editorOptions.wordWrap ) }>
 										<EditorOptions.WrappingIndent />
 									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>
 									<EditorOptions.MinimapEnabled />
-									<div inert={ ! editorOptions.minimap.enabled ? '' : undefined }>
+									<div inert={ inertValue( ! editorOptions.minimap.enabled ) }>
 										<Stack direction="column" gap="lg">
 											<EditorOptions.MinimapSide />
 											<EditorOptions.MinimapMaxColumn />
@@ -250,7 +260,7 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Cursor', 'custom-html-block-extension' ) }>
 									<EditorOptions.CursorStyle />
-									<div inert={ 'line' !== editorOptions.cursorStyle ? '' : undefined }>
+									<div inert={ inertValue( 'line' !== editorOptions.cursorStyle ) }>
 										<EditorOptions.CursorWidth />
 									</div>
 									<EditorOptions.CursorBlinking />
@@ -260,7 +270,7 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Code folding', 'custom-html-block-extension' ) }>
 									<EditorOptions.Folding />
-									<div inert={ ! editorOptions.folding ? '' : undefined }>
+									<div inert={ inertValue( ! editorOptions.folding ) }>
 										<Stack direction="column" gap="lg">
 											<EditorOptions.ShowFoldingControls />
 											<EditorOptions.FoldingStrategy />
@@ -272,7 +282,7 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Line number', 'custom-html-block-extension' ) }>
 									<EditorOptions.LineNumbers />
-									<div inert={ 'off' === editorOptions.lineNumbers ? '' : undefined }>
+									<div inert={ inertValue( 'off' === editorOptions.lineNumbers ) }>
 										<Stack direction="column" gap="lg">
 											<EditorOptions.LineNumbersMinChars />
 											<EditorOptions.SelectOnLineNumbers />
@@ -282,7 +292,7 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Suggest', 'custom-html-block-extension' ) }>
 									<EditorOptions.QuickSuggestions />
-									<div inert={ ! editorOptions.quickSuggestions ? '' : undefined }>
+									<div inert={ inertValue( ! editorOptions.quickSuggestions ) }>
 										<Stack direction="column" gap="lg">
 											<EditorOptions.AcceptSuggestionOnEnter />
 											<EditorOptions.QuickSuggestionsDelay />
@@ -329,11 +339,11 @@ export default function EditorConfig() {
 									<EditorOptions.OccurrencesHighlight />
 									<EditorOptions.RenderWhitespace />
 									<EditorOptions.RenderLineHighlight />
-									<div inert={ 'none' === editorOptions.renderLineHighlight ? '' : undefined }>
+									<div inert={ inertValue( 'none' === editorOptions.renderLineHighlight ) }>
 										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
 									</div>
 									<EditorOptions.RenderIndentGuides />
-									<div inert={ ! editorOptions.renderIndentGuides ? '' : undefined }>
+									<div inert={ inertValue( ! editorOptions.renderIndentGuides ) }>
 										<EditorOptions.HighlightActiveIndentGuide />
 									</div>
 									<EditorOptions.RenderControlCharacters />
@@ -350,28 +360,26 @@ export default function EditorConfig() {
 									<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
 									<EditorOptions.ScrollbarScrollByPage />
 									<EditorOptions.ScrollbarHorizontal />
-									<div inert={ 'hidden' === editorOptions.scrollbar.horizontal ? '' : undefined }>
+									<div inert={ inertValue( 'hidden' === editorOptions.scrollbar.horizontal ) }>
 										<Stack direction="column" gap="lg">
 											<EditorOptions.ScrollbarHorizontalHasArrows />
 											<EditorOptions.ScrollbarHorizontalScrollbarSize />
 										</Stack>
 									</div>
 									<EditorOptions.ScrollbarVertical />
-									<div inert={ 'hidden' === editorOptions.scrollbar.vertical ? '' : undefined }>
+									<div inert={ inertValue( 'hidden' === editorOptions.scrollbar.vertical ) }>
 										<Stack direction="column" gap="lg">
 											<EditorOptions.ScrollbarVerticalHasArrows />
 											<EditorOptions.ScrollbarVerticalScrollbarSize />
 										</Stack>
 									</div>
 									<div
-										inert={
+										inert={ inertValue(
 											( ! editorOptions.scrollbar.horizontalHasArrows &&
 												! editorOptions.scrollbar.verticalHasArrows ) ||
-											( 'hidden' === editorOptions.scrollbar.horizontal &&
-												'hidden' === editorOptions.scrollbar.vertical )
-												? ''
-												: undefined
-										}
+												( 'hidden' === editorOptions.scrollbar.horizontal &&
+													'hidden' === editorOptions.scrollbar.vertical )
+										) }
 									>
 										<EditorOptions.ScrollbarArrowSize />
 									</div>
