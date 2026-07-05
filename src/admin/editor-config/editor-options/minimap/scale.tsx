@@ -35,24 +35,28 @@ export default function MinimapScale() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<RangeControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.minimap.scale }
-					min={ 1 }
-					max={ 3 }
-					allowReset
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					image="editor-options/minimap/scale.gif"
-					value={ editorOptions.minimap.scale }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<RangeControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.minimap.scale }
+				min={ 1 }
+				max={ 3 }
+				allowReset
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				image="editor-options/minimap/scale.gif"
+				value={ editorOptions.minimap.scale }
+			/>
+		</Stack>
 	);
 }

@@ -31,20 +31,18 @@ export default function Theme() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack gap="sm">
-				<SelectControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorSettings.theme }
-					options={ [
-						{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
-						{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
-						...themes,
-					] }
-					onChange={ onChange }
-				/>
-			</Stack>
-		</div>
+		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
+			<SelectControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorSettings.theme }
+				options={ [
+					{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
+					{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
+					...themes,
+				] }
+				onChange={ onChange }
+			/>
+		</Stack>
 	);
 }

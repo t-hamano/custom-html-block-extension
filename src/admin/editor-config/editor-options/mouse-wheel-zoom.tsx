@@ -31,22 +31,26 @@ export default function MouseWheelZoom() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.mouseWheelZoom }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					isToggle
-					defaultToggle={ false }
-					image="editor-options/mouse-wheel-zoom.gif"
-					value={ editorOptions.mouseWheelZoom }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.mouseWheelZoom }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				isToggle
+				defaultToggle={ false }
+				image="editor-options/mouse-wheel-zoom.gif"
+				value={ editorOptions.mouseWheelZoom }
+			/>
+		</Stack>
 	);
 }

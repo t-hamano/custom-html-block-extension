@@ -39,18 +39,22 @@ export default function FindSeedSearchStringFromSelection() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					isToggle
-					defaultToggle
-					image="editor-options/find/seed-search-string-from-selection.gif"
-					value={ isEnabled }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				isToggle
+				defaultToggle
+				image="editor-options/find/seed-search-string-from-selection.gif"
+				value={ isEnabled }
+			/>
+		</Stack>
 	);
 }

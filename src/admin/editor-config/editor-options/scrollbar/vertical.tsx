@@ -56,23 +56,27 @@ export default function ScrollbarVertical() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<SelectControl< EditorOptions[ 'scrollbar' ][ 'vertical' ] >
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.scrollbar.vertical }
-					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ items }
-					colCount="3"
-					value={ editorOptions.scrollbar.vertical }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<SelectControl< EditorOptions[ 'scrollbar' ][ 'vertical' ] >
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.scrollbar.vertical }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ items }
+				colCount="3"
+				value={ editorOptions.scrollbar.vertical }
+			/>
+		</Stack>
 	);
 }

@@ -31,32 +31,36 @@ export default function ScrollBeyondLastLine() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.scrollBeyondLastLine }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/scroll-beyond-last-line_1.gif',
-							isDefault: true,
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/scroll-beyond-last-line_2.gif',
-						},
-					] }
-					value={ editorOptions.scrollBeyondLastLine }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.scrollBeyondLastLine }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/scroll-beyond-last-line_1.gif',
+						isDefault: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/scroll-beyond-last-line_2.gif',
+					},
+				] }
+				value={ editorOptions.scrollBeyondLastLine }
+			/>
+		</Stack>
 	);
 }

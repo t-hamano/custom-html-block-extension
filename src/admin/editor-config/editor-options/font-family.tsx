@@ -31,49 +31,53 @@ export default function FontFamily() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<SelectControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.fontFamily }
-					options={ [
-						...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
-							label: label ?? name,
-							value: name,
-						} ) ),
-						{
-							label: __( 'Monospace', 'custom-html-block-extension' ),
-							value: 'monospace',
-						},
-					] }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					title={ title }
-					description={
-						<>
-							<Text render={ <p /> }>
-								{ __(
-									'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.',
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<SelectControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.fontFamily }
+				options={ [
+					...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
+						label: label ?? name,
+						value: name,
+					} ) ),
+					{
+						label: __( 'Monospace', 'custom-html-block-extension' ),
+						value: 'monospace',
+					},
+				] }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				title={ title }
+				description={
+					<>
+						<Text render={ <p /> }>
+							{ __(
+								'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.',
+								'custom-html-block-extension'
+							) }
+						</Text>
+						<Text render={ <p /> }>
+							<Link
+								href={ __(
+									'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
 									'custom-html-block-extension'
 								) }
-							</Text>
-							<Text render={ <p /> }>
-								<Link
-									href={ __(
-										'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
-										'custom-html-block-extension'
-									) }
-									openInNewTab
-								>
-									{ __( 'GitHub project page', 'custom-html-block-extension' ) }
-								</Link>
-							</Text>
-						</>
-					}
-				/>
-			</Stack>
-		</div>
+								openInNewTab
+							>
+								{ __( 'GitHub project page', 'custom-html-block-extension' ) }
+							</Link>
+						</Text>
+					</>
+				}
+			/>
+		</Stack>
 	);
 }

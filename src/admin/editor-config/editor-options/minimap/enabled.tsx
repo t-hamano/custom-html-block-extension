@@ -34,26 +34,30 @@ export default function MinimapEnabled() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.minimap.enabled }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					description={ __(
-						'Minimap gives you a high-level overview of your source code, which is useful for quick navigation and code understanding. You can click or drag the shaded area to quickly jump to different sections.',
-						'custom-html-block-extension'
-					) }
-					isToggle
-					defaultToggle
-					image="editor-options/minimap/enabled.gif"
-					value={ editorOptions.minimap.enabled }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.minimap.enabled }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				description={ __(
+					'Minimap gives you a high-level overview of your source code, which is useful for quick navigation and code understanding. You can click or drag the shaded area to quickly jump to different sections.',
+					'custom-html-block-extension'
+				) }
+				isToggle
+				defaultToggle
+				image="editor-options/minimap/enabled.gif"
+				value={ editorOptions.minimap.enabled }
+			/>
+		</Stack>
 	);
 }

@@ -64,22 +64,26 @@ export default function RenderWhitespace() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<SelectControl< EditorOptions[ 'renderWhitespace' ] >
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.renderWhitespace }
-					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ items }
-					value={ editorOptions.renderWhitespace }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<SelectControl< EditorOptions[ 'renderWhitespace' ] >
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.renderWhitespace }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ items }
+				value={ editorOptions.renderWhitespace }
+			/>
+		</Stack>
 	);
 }

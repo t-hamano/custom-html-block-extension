@@ -66,23 +66,27 @@ export default function MinimapSize() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<SelectControl< EditorOptions[ 'minimap' ][ 'size' ] >
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.minimap.size }
-					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ items }
-					colCount="3"
-					value={ editorOptions.minimap.size }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<SelectControl< EditorOptions[ 'minimap' ][ 'size' ] >
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.minimap.size }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ items }
+				colCount="3"
+				value={ editorOptions.minimap.size }
+			/>
+		</Stack>
 	);
 }

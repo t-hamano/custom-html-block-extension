@@ -34,19 +34,17 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack gap="sm">
-				<SelectControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ String( editorOptions.fontWeight ) }
-					options={ fontWeights.map( ( fontWeight ) => ( {
-						label: String( fontWeight ),
-						value: String( fontWeight ),
-					} ) ) }
-					onChange={ onChange }
-				/>
-			</Stack>
-		</div>
+		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
+			<SelectControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ String( editorOptions.fontWeight ) }
+				options={ fontWeights.map( ( fontWeight ) => ( {
+					label: String( fontWeight ),
+					value: String( fontWeight ),
+				} ) ) }
+				onChange={ onChange }
+			/>
+		</Stack>
 	);
 }

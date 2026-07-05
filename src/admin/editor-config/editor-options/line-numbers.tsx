@@ -56,23 +56,27 @@ export default function LineNumbers() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<SelectControl< EditorOptions[ 'lineNumbers' ] >
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.lineNumbers }
-					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ items }
-					colCount="4"
-					value={ editorOptions.lineNumbers }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<SelectControl< EditorOptions[ 'lineNumbers' ] >
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.lineNumbers }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ items }
+				colCount="4"
+				value={ editorOptions.lineNumbers }
+			/>
+		</Stack>
 	);
 }

@@ -31,22 +31,22 @@ export default function DragAndDrop() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.dragAndDrop }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					isToggle
-					defaultToggle={ false }
-					image="editor-options/drag-and-drop.gif"
-					value={ editorOptions.dragAndDrop }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl label={ title } checked={ editorOptions.dragAndDrop } onChange={ onChange } />
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				isToggle
+				defaultToggle={ false }
+				image="editor-options/drag-and-drop.gif"
+				value={ editorOptions.dragAndDrop }
+			/>
+		</Stack>
 	);
 }

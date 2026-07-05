@@ -54,23 +54,27 @@ export default function AutoClosingBrackets() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<SelectControl< EditorOptions[ 'autoClosingBrackets' ] >
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.autoClosingBrackets }
-					options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ items }
-					colCount="3"
-					value={ editorOptions.autoClosingBrackets }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<SelectControl< EditorOptions[ 'autoClosingBrackets' ] >
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.autoClosingBrackets }
+				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ items }
+				colCount="3"
+				value={ editorOptions.autoClosingBrackets }
+			/>
+		</Stack>
 	);
 }

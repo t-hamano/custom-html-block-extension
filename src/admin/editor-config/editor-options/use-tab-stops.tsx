@@ -34,32 +34,32 @@ export default function UseTabStops() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.useTabStops }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							image: 'editor-options/use-tab-stops_1.gif',
-							value: true,
-							isDefault: true,
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							image: 'editor-options/use-tab-stops_2.gif',
-							value: false,
-						},
-					] }
-					value={ editorOptions.useTabStops }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl label={ title } checked={ editorOptions.useTabStops } onChange={ onChange } />
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						image: 'editor-options/use-tab-stops_1.gif',
+						value: true,
+						isDefault: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						image: 'editor-options/use-tab-stops_2.gif',
+						value: false,
+					},
+				] }
+				value={ editorOptions.useTabStops }
+			/>
+		</Stack>
 	);
 }

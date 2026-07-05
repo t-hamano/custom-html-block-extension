@@ -32,19 +32,23 @@ export default function LineNumbersMinChars() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<RangeControl
-					__next40pxDefaultSize
-					label={ title }
-					value={ editorOptions.lineNumbersMinChars }
-					min={ 1 }
-					max={ 10 }
-					allowReset
-					onChange={ onChange }
-				/>
-				<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<RangeControl
+				__next40pxDefaultSize
+				label={ title }
+				value={ editorOptions.lineNumbersMinChars }
+				min={ 1 }
+				max={ 10 }
+				allowReset
+				onChange={ onChange }
+			/>
+			<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
+		</Stack>
 	);
 }

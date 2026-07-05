@@ -31,32 +31,36 @@ export default function RoundedSelection() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.roundedSelection }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/rounded-selection_1.jpg',
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							isDefault: true,
-							image: 'editor-options/rounded-selection_2.jpg',
-						},
-					] }
-					value={ editorOptions.roundedSelection }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.roundedSelection }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/rounded-selection_1.jpg',
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						isDefault: true,
+						image: 'editor-options/rounded-selection_2.jpg',
+					},
+				] }
+				value={ editorOptions.roundedSelection }
+			/>
+		</Stack>
 	);
 }

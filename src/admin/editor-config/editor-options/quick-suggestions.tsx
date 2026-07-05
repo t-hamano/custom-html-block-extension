@@ -32,26 +32,30 @@ export default function QuickSuggestions() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.quickSuggestions }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					description={ __(
-						'Get suggestions as you type codes. Accepting suggestions will autocomplete code and help faster coding.',
-						'custom-html-block-extension'
-					) }
-					isToggle
-					defaultToggle
-					image="editor-options/quick-suggestions.gif"
-					value={ editorOptions.quickSuggestions }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.quickSuggestions }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				description={ __(
+					'Get suggestions as you type codes. Accepting suggestions will autocomplete code and help faster coding.',
+					'custom-html-block-extension'
+				) }
+				isToggle
+				defaultToggle
+				image="editor-options/quick-suggestions.gif"
+				value={ editorOptions.quickSuggestions }
+			/>
+		</Stack>
 	);
 }

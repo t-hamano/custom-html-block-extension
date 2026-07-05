@@ -31,32 +31,36 @@ export default function OverviewRulerBorder() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.overviewRulerBorder }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							image: 'editor-options/overview-ruler-border_1.jpg',
-							value: true,
-							isDefault: true,
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							image: 'editor-options/overview-ruler-border_2.jpg',
-							value: false,
-						},
-					] }
-					value={ editorOptions.overviewRulerBorder }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.overviewRulerBorder }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						image: 'editor-options/overview-ruler-border_1.jpg',
+						value: true,
+						isDefault: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						image: 'editor-options/overview-ruler-border_2.jpg',
+						value: false,
+					},
+				] }
+				value={ editorOptions.overviewRulerBorder }
+			/>
+		</Stack>
 	);
 }

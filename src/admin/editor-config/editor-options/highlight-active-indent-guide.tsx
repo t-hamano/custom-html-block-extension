@@ -31,32 +31,36 @@ export default function HighlightActiveIndentGuide() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<Stack justify="start" align="start" wrap="wrap" gap="sm">
-				<ToggleControl
-					label={ title }
-					checked={ editorOptions.highlightActiveIndentGuide }
-					onChange={ onChange }
-				/>
-				<ItemHelp
-					onChange={ onChange }
-					title={ title }
-					items={ [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/highlight-active-indent-guide_1.gif',
-							isDefault: true,
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/highlight-active-indent-guide_2.gif',
-						},
-					] }
-					value={ editorOptions.highlightActiveIndentGuide }
-				/>
-			</Stack>
-		</div>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
+			<ToggleControl
+				label={ title }
+				checked={ editorOptions.highlightActiveIndentGuide }
+				onChange={ onChange }
+			/>
+			<ItemHelp
+				onChange={ onChange }
+				title={ title }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/highlight-active-indent-guide_1.gif',
+						isDefault: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/highlight-active-indent-guide_2.gif',
+					},
+				] }
+				value={ editorOptions.highlightActiveIndentGuide }
+			/>
+		</Stack>
 	);
 }
