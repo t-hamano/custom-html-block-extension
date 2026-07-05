@@ -31,8 +31,7 @@
 		margin: 0 auto;
 	}
 
-	// Dim non-interactive (inert) settings, mirroring the previous
-	// `Disabled` component styling.
+	// Non-interactive (inert) settings
 	[inert] {
 		opacity: 0.3;
 	}
