@@ -160,7 +160,7 @@ class Admin {
 				'type' => $value['type'],
 			);
 
-			if ( $value['type'] === 'object' ) {
+			if ( 'object' === $value['type'] ) {
 				$properties_editor_options[ $key ]['properties'] = array();
 
 				$default_editor_options[ $key ] = array();

@@ -529,7 +529,7 @@ class Settings {
 		$default_editor_options = array();
 
 		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
-			if ( $value['type'] === 'object' ) {
+			if ( 'object' === $value['type'] ) {
 				$default_editor_options[ $key ] = array();
 
 				foreach ( $value['items'] as $sub_key => $sub_value ) {

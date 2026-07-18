@@ -7,7 +7,7 @@
 
 namespace Custom_Html_Block_Extension;
 
-class ThemePluginEditor {
+class Theme_Plugin_Editor {
 
 	/**
 	 * Constructor
@@ -131,4 +131,4 @@ class ThemePluginEditor {
 	}
 }
 
-new ThemePluginEditor();
+new Theme_Plugin_Editor();
