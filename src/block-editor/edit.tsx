@@ -2,13 +2,12 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useEffect, useMemo, useState, useRef } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import { useSelect, useDispatch, useRegistry } from '@wordpress/data';
 import * as blockEditor from '@wordpress/block-editor';
 import {
 	BlockControls,
 	BlockIcon,
-	transformStyles,
 	useBlockProps,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
@@ -16,7 +15,6 @@ import { parse, serialize, getBlockContent } from '@wordpress/blocks';
 import {
 	ResizableBox,
 	ToolbarButton,
-	SandBox,
 	ToolbarGroup,
 	Modal,
 	Notice,
@@ -33,19 +31,12 @@ import type { Block, BlockEditProps } from '@wordpress/blocks';
 import './style.scss';
 import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
 
-// Opt in to the `@wordpress/block-editor` private APIs to access `InnerContent`,
-// which renders a Custom HTML block's embedded inner blocks as editable blocks.
-// This is a private API with no backward-compatibility guarantee: the consent
-// string and `InnerContent` itself may change or be removed in any WordPress
-// release.
-const { unlock } = __dangerousOptInToUnstableAPIsOnlyForCoreModules(
+const { InnerContent } = __dangerousOptInToUnstableAPIsOnlyForCoreModules(
 	'I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.',
 	'@wordpress/block-editor'
-);
-
-const { InnerContent } = unlock(
-	( blockEditor as unknown as { privateApis: unknown } ).privateApis
-) as { InnerContent: React.ComponentType< { clientId: string } > };
+).unlock( ( blockEditor as unknown as { privateApis: unknown } ).privateApis ) as {
+	InnerContent: React.ComponentType< { clientId: string } >;
+};
 
 type HTMLEditProps = BlockEditProps< {
 	content: string;
@@ -55,24 +46,12 @@ type HTMLEditProps = BlockEditProps< {
 	toggleSelection: ( isSelectionEnabled: boolean ) => void;
 };
 
-// The parsed block carries `innerContent` (static HTML fragments interleaved
-// with `null` markers for inner block positions), which the installed
-// `@wordpress/blocks` types don't yet expose on `Block`.
 type BlockWithInnerContent = Block & {
 	innerContent?: Array< string | null >;
 };
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
-
-const DEFAULT_STYLES = `
-	html,body,:root {
-		margin: 0 !important;
-		padding: 0 !important;
-		overflow: visible !important;
-		min-height: auto !important;
-	}
-`;
 
 export default function HTMLEdit( {
 	clientId,
@@ -94,34 +73,19 @@ export default function HTMLEdit( {
 	const registry = useRegistry();
 	const { updateBlock, replaceInnerBlocks } = useDispatch( blockEditorStore );
 
-	const { content, hasInnerBlocks } = useSelect(
+	const { content, isPreviewMode } = useSelect(
 		( select ) => {
-			const block = select( blockEditorStore ).getBlock( clientId );
+			const { getBlock, getSettings } = select( blockEditorStore );
+			const block = getBlock( clientId );
 			return {
 				content: block ? getBlockContent( block ) : '',
-				hasInnerBlocks: ( block?.innerBlocks?.length ?? 0 ) > 0,
+				isPreviewMode: ( getSettings() as { isPreviewMode?: boolean } ).isPreviewMode,
 			};
 		},
 		[ clientId ]
 	);
 
-	const { settingStyles, isPreviewMode } = useSelect( ( select ) => {
-		const settings = select( blockEditorStore ).getSettings();
-		return {
-			settingStyles: settings.styles,
-			isPreviewMode: ( settings as { isPreviewMode?: boolean } ).isPreviewMode,
-		};
-	}, [] );
-
-	const styles = useMemo(
-		() => [
-			DEFAULT_STYLES,
-			...transformStyles(
-				( settingStyles ?? [] ).filter( ( style: { css?: string } ) => style.css )
-			),
-		],
-		[ settingStyles ]
-	);
+	const hasContent = !! content.trim();
 
 	const onResizeStart = () => {
 		toggleSelection( false );
@@ -203,33 +167,6 @@ export default function HTMLEdit( {
 		setIsPreview( false );
 	}
 
-	function renderPreview() {
-		if ( ! content?.trim() ) {
-			return (
-				<Placeholder
-					icon={ <BlockIcon icon={ code } /> }
-					label={ __( 'Custom HTML', 'custom-html-block-extension' ) }
-					instructions={ __(
-						'Add custom HTML code and preview how it looks.',
-						'custom-html-block-extension'
-					) }
-				/>
-			);
-		}
-		// Render editable inner blocks in place, but only in the user-toggled
-		// preview — not in the read-only preview mode, where nothing should be
-		// interactive.
-		if ( hasInnerBlocks && isPreview && ! isPreviewMode ) {
-			return <InnerContent clientId={ clientId } />;
-		}
-		return (
-			<>
-				<SandBox html={ content } styles={ styles } />
-				{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
-			</>
-		);
-	}
-
 	return (
 		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
 			<BlockControls>
@@ -252,7 +189,19 @@ export default function HTMLEdit( {
 				</ToolbarGroup>
 			</BlockControls>
 			{ isPreview || isPreviewMode ? (
-				renderPreview()
+				<>
+					{ ! hasContent && (
+						<Placeholder
+							icon={ <BlockIcon icon={ code } /> }
+							label={ __( 'Custom HTML', 'custom-html-block-extension' ) }
+							instructions={ __(
+								'Add custom HTML code and preview how it looks.',
+								'custom-html-block-extension'
+							) }
+						/>
+					) }
+					{ hasContent && <InnerContent clientId={ clientId } /> }
+				</>
 			) : (
 				<Stack direction="column" gap="sm">
 					{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
