@@ -2,15 +2,14 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useEffect, useMemo, useState, useRef } from '@wordpress/element';
-import { useSelect, useDispatch, useRegistry } from '@wordpress/data';
+import { useMemo, useState, useRef } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import {
 	BlockControls,
 	transformStyles,
 	useBlockProps,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { parse, serialize, getBlockContent } from '@wordpress/blocks';
 import {
 	ResizableBox,
 	ToolbarButton,
@@ -22,7 +21,7 @@ import {
 } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 import { fullscreen } from '@wordpress/icons';
-import type { Block, BlockEditProps } from '@wordpress/blocks';
+import type { BlockEditProps } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
@@ -38,13 +37,6 @@ type HTMLEditProps = BlockEditProps< {
 	toggleSelection: ( isSelectionEnabled: boolean ) => void;
 };
 
-// The parsed block carries `innerContent` (static HTML fragments interleaved
-// with `null` markers for inner block positions), which the installed
-// `@wordpress/blocks` types don't yet expose on `Block`.
-type BlockWithInnerContent = Block & {
-	innerContent?: Array< string | null >;
-};
-
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
 
@@ -58,13 +50,12 @@ const DEFAULT_STYLES = `
 `;
 
 export default function HTMLEdit( {
-	clientId,
 	attributes,
 	isSelected,
 	setAttributes,
 	toggleSelection,
 }: HTMLEditProps ) {
-	const { height } = attributes;
+	const { content, height } = attributes;
 	const { editorSettings, editorOptions } = window.chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState< boolean >();
@@ -73,17 +64,6 @@ export default function HTMLEdit( {
 	const [ errorMessage, setErrorMessage ] = useState< string >();
 
 	const ref = useRef< HTMLDivElement >( null );
-
-	const registry = useRegistry();
-	const { updateBlock, replaceInnerBlocks } = useDispatch( blockEditorStore );
-
-	const content = useSelect(
-		( select ) => {
-			const block = select( blockEditorStore ).getBlock( clientId );
-			return block ? getBlockContent( block ) : '';
-		},
-		[ clientId ]
-	);
 
 	const settingStyles = useSelect(
 		( select ) => select( blockEditorStore ).getSettings().styles,
@@ -117,54 +97,9 @@ export default function HTMLEdit( {
 		setAttributes( { height: newHeight } );
 	};
 
-	// Re-parse the edited content: static HTML becomes the block's
-	// `innerContent` fragments and `<!-- wp:* -->` delimited segments become
-	// inner blocks mounted at their positions within the static markup.
-	const onChange = ( nextContent: string ) => {
-		if ( nextContent === content ) {
-			return;
-		}
-
-		const [ parsedBlock ] = parse(
-			`<!-- wp:html -->\n${ nextContent }\n<!-- /wp:html -->`
-		) as BlockWithInnerContent[];
-		const nextInnerBlocks = parsedBlock?.innerBlocks ?? [];
-		const prevInnerBlocks = registry.select( blockEditorStore ).getBlocks( clientId );
-		// Keep the existing inner blocks, and thereby their client IDs and
-		// selection, when their markup is unchanged — e.g. when only the
-		// surrounding static HTML was edited.
-		const innerBlocksUnchanged =
-			prevInnerBlocks.length === nextInnerBlocks.length &&
-			prevInnerBlocks.every(
-				( block: Block, index: number ) =>
-					serialize( block ) === serialize( nextInnerBlocks[ index ] )
-			);
-
-		registry.batch( () => {
-			updateBlock( clientId, {
-				innerContent: parsedBlock?.innerContent ?? ( nextContent ? [ nextContent ] : [] ),
-			} as Partial< Block > );
-			if ( ! innerBlocksUnchanged ) {
-				replaceInnerBlocks( clientId, nextInnerBlocks, false );
-			}
-		} );
+	const onChange = ( value: string ) => {
+		setAttributes( { content: value } );
 	};
-
-	// Migrate the deprecated `content` attribute. The block's markup now lives
-	// in its inner content, but a block created via `createBlock( 'core/html',
-	// { content } )` still arrives with a `content` attribute. As soon as it
-	// loads, move that markup into the block's inner content and clear the
-	// attribute.
-	useEffect( () => {
-		if ( ! attributes.content ) {
-			return;
-		}
-
-		updateBlock( clientId, {
-			attributes: { content: undefined },
-			innerContent: [ attributes.content ],
-		} as Partial< Block > );
-	}, [ attributes.content ] );
 
 	const onError = ( error: MonacoError ) => {
 		if ( ( error.type === 'timeout' || error.type === 'scripterror' ) && error.msg ) {
