@@ -4,8 +4,10 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useMemo, useState, useRef } from '@wordpress/element';
 import { useSelect, useDispatch, useRegistry } from '@wordpress/data';
+import * as blockEditor from '@wordpress/block-editor';
 import {
 	BlockControls,
+	BlockIcon,
 	transformStyles,
 	useBlockProps,
 	store as blockEditorStore,
@@ -19,9 +21,11 @@ import {
 	ToolbarGroup,
 	Modal,
 	Notice,
+	Placeholder,
 } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
-import { fullscreen } from '@wordpress/icons';
+import { code, fullscreen } from '@wordpress/icons';
+import { __dangerousOptInToUnstableAPIsOnlyForCoreModules } from '@wordpress/private-apis';
 import type { Block, BlockEditProps } from '@wordpress/blocks';
 
 /**
@@ -29,6 +33,20 @@ import type { Block, BlockEditProps } from '@wordpress/blocks';
  */
 import './style.scss';
 import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
+
+// Opt in to the `@wordpress/block-editor` private APIs to access `InnerContent`,
+// which renders a Custom HTML block's embedded inner blocks as editable blocks.
+// This is a private API with no backward-compatibility guarantee: the consent
+// string and `InnerContent` itself may change or be removed in any WordPress
+// release.
+const { unlock } = __dangerousOptInToUnstableAPIsOnlyForCoreModules(
+	'I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.',
+	'@wordpress/block-editor'
+);
+
+const { InnerContent } = unlock(
+	( blockEditor as unknown as { privateApis: unknown } ).privateApis
+) as { InnerContent: React.ComponentType< { clientId: string } > };
 
 type HTMLEditProps = BlockEditProps< {
 	content: string;
@@ -77,10 +95,13 @@ export default function HTMLEdit( {
 	const registry = useRegistry();
 	const { updateBlock, replaceInnerBlocks } = useDispatch( blockEditorStore );
 
-	const content = useSelect(
+	const { content, hasInnerBlocks } = useSelect(
 		( select ) => {
 			const block = select( blockEditorStore ).getBlock( clientId );
-			return block ? getBlockContent( block ) : '';
+			return {
+				content: block ? getBlockContent( block ) : '',
+				hasInnerBlocks: ( block?.innerBlocks?.length ?? 0 ) > 0,
+			};
 		},
 		[ clientId ]
 	);
@@ -164,6 +185,7 @@ export default function HTMLEdit( {
 			attributes: { content: undefined },
 			innerContent: [ attributes.content ],
 		} as Partial< Block > );
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ attributes.content ] );
 
 	const onError = ( error: MonacoError ) => {
@@ -202,13 +224,31 @@ export default function HTMLEdit( {
 				</ToolbarGroup>
 			</BlockControls>
 			<Disabled.Consumer>
-				{ ( isDisabled ) =>
-					isPreview || isDisabled ? (
-						<>
-							<SandBox html={ content } styles={ styles } />
-							{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
-						</>
-					) : (
+				{ ( isDisabled ) => {
+					if ( isPreview || isDisabled ) {
+						if ( ! content?.trim() ) {
+							return (
+								<Placeholder
+									icon={ <BlockIcon icon={ code } /> }
+									label={ __( 'Custom HTML', 'custom-html-block-extension' ) }
+									instructions={ __(
+										'Add custom HTML code and preview how it looks.',
+										'custom-html-block-extension'
+									) }
+								/>
+							);
+						}
+						if ( hasInnerBlocks && isPreview && ! isDisabled ) {
+							return <InnerContent clientId={ clientId } />;
+						}
+						return (
+							<>
+								<SandBox html={ content } styles={ styles } />
+								{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
+							</>
+						);
+					}
+					return (
 						<Stack direction="column" gap="sm">
 							{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
 							<ResizableBox
@@ -241,8 +281,8 @@ export default function HTMLEdit( {
 								/>
 							</ResizableBox>
 						</Stack>
-					)
-				}
+					);
+				} }
 			</Disabled.Consumer>
 			{ isModalEditorOpen && (
 				<Modal
