@@ -16,7 +16,6 @@ import { parse, serialize, getBlockContent } from '@wordpress/blocks';
 import {
 	ResizableBox,
 	ToolbarButton,
-	Disabled,
 	SandBox,
 	ToolbarGroup,
 	Modal,
@@ -106,10 +105,13 @@ export default function HTMLEdit( {
 		[ clientId ]
 	);
 
-	const settingStyles = useSelect(
-		( select ) => select( blockEditorStore ).getSettings().styles,
-		[]
-	);
+	const { settingStyles, isPreviewMode } = useSelect( ( select ) => {
+		const settings = select( blockEditorStore ).getSettings();
+		return {
+			settingStyles: settings.styles,
+			isPreviewMode: ( settings as { isPreviewMode?: boolean } ).isPreviewMode,
+		};
+	}, [] );
 
 	const styles = useMemo(
 		() => [
@@ -185,8 +187,7 @@ export default function HTMLEdit( {
 			attributes: { content: undefined },
 			innerContent: [ attributes.content ],
 		} as Partial< Block > );
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ attributes.content ] );
+	}, [ clientId, updateBlock, attributes.content ] );
 
 	const onError = ( error: MonacoError ) => {
 		if ( ( error.type === 'timeout' || error.type === 'scripterror' ) && error.msg ) {
@@ -200,6 +201,33 @@ export default function HTMLEdit( {
 
 	function switchToHTML() {
 		setIsPreview( false );
+	}
+
+	function renderPreview() {
+		if ( ! content?.trim() ) {
+			return (
+				<Placeholder
+					icon={ <BlockIcon icon={ code } /> }
+					label={ __( 'Custom HTML', 'custom-html-block-extension' ) }
+					instructions={ __(
+						'Add custom HTML code and preview how it looks.',
+						'custom-html-block-extension'
+					) }
+				/>
+			);
+		}
+		// Render editable inner blocks in place, but only in the user-toggled
+		// preview — not in the read-only preview mode, where nothing should be
+		// interactive.
+		if ( hasInnerBlocks && isPreview && ! isPreviewMode ) {
+			return <InnerContent clientId={ clientId } />;
+		}
+		return (
+			<>
+				<SandBox html={ content } styles={ styles } />
+				{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
+			</>
+		);
 	}
 
 	return (
@@ -223,67 +251,42 @@ export default function HTMLEdit( {
 					</ToolbarButton>
 				</ToolbarGroup>
 			</BlockControls>
-			<Disabled.Consumer>
-				{ ( isDisabled ) => {
-					if ( isPreview || isDisabled ) {
-						if ( ! content?.trim() ) {
-							return (
-								<Placeholder
-									icon={ <BlockIcon icon={ code } /> }
-									label={ __( 'Custom HTML', 'custom-html-block-extension' ) }
-									instructions={ __(
-										'Add custom HTML code and preview how it looks.',
-										'custom-html-block-extension'
-									) }
-								/>
-							);
-						}
-						if ( hasInnerBlocks && isPreview && ! isDisabled ) {
-							return <InnerContent clientId={ clientId } />;
-						}
-						return (
-							<>
-								<SandBox html={ content } styles={ styles } />
-								{ ! isSelected && <div className="block-library-html__preview-overlay"></div> }
-							</>
-						);
-					}
-					return (
-						<Stack direction="column" gap="sm">
-							{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
-							<ResizableBox
-								size={ { height } }
-								minHeight={ MIN_HEIGHT }
-								enable={ {
-									top: false,
-									right: false,
-									bottom: true,
-									left: false,
-									topRight: false,
-									bottomRight: false,
-									bottomLeft: false,
-									topLeft: false,
-								} }
-								onResizeStart={ onResizeStart }
-								onResizeStop={ onResizeStop }
-								showHandle={ isSelected }
-							>
-								<MonacoEditor
-									language="html"
-									theme={ editorSettings.theme }
-									options={ editorOptions }
-									value={ content }
-									useEmmet={ editorSettings.emmet }
-									tabSize={ editorSettings.tabSize }
-									insertSpaces={ editorSettings.insertSpaces }
-									onChange={ onChange }
-									onError={ onError }
-								/>
-							</ResizableBox>
-						</Stack>
-					);
-				} }
-			</Disabled.Consumer>
+			{ isPreview || isPreviewMode ? (
+				renderPreview()
+			) : (
+				<Stack direction="column" gap="sm">
+					{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
+					<ResizableBox
+						size={ { height } }
+						minHeight={ MIN_HEIGHT }
+						enable={ {
+							top: false,
+							right: false,
+							bottom: true,
+							left: false,
+							topRight: false,
+							bottomRight: false,
+							bottomLeft: false,
+							topLeft: false,
+						} }
+						onResizeStart={ onResizeStart }
+						onResizeStop={ onResizeStop }
+						showHandle={ isSelected }
+					>
+						<MonacoEditor
+							language="html"
+							theme={ editorSettings.theme }
+							options={ editorOptions }
+							value={ content }
+							useEmmet={ editorSettings.emmet }
+							tabSize={ editorSettings.tabSize }
+							insertSpaces={ editorSettings.insertSpaces }
+							onChange={ onChange }
+							onError={ onError }
+						/>
+					</ResizableBox>
+				</Stack>
+			) }
 			{ isModalEditorOpen && (
 				<Modal
 					title={ __( 'HTML editor', 'custom-html-block-extension' ) }
