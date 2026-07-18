@@ -71,7 +71,8 @@ Object.keys( themeList ).forEach( function ( key ) {
 	themes.push( {
 		label: themeList[ key ],
 		value: key,
-		data: require( `./${ key }.json` ),
+		// @ts-expect-error -- `require` is provided by webpack to bundle theme JSON.
+		data: require( `./${ key }.json` ) as Monaco.editor.IStandaloneThemeData,
 	} );
 } );
 
