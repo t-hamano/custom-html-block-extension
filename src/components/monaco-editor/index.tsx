@@ -18,6 +18,9 @@ import type { CSSProperties } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { useResizeObserver } from '@wordpress/compose';
+import { isAppleOS } from '@wordpress/keycodes';
+import { useDispatch } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
 
 /**
  * Internal dependencies
@@ -90,6 +93,8 @@ export default function MonacoEditor( {
 	const onChangeRef = useRef( onChange );
 	onChangeRef.current = onChange;
 
+	const { createNotice } = useDispatch( noticesStore );
+
 	const [ resizeListener, size ] = useResizeObserver();
 
 	// Init loader.
@@ -140,10 +145,18 @@ export default function MonacoEditor( {
 			}
 			const { defaultView } = container.ownerDocument;
 
-			const editor = monaco.editor.create(
-				container,
-				options as Monaco.editor.IStandaloneEditorConstructionOptions
-			);
+			const editor = monaco.editor.create( container, {
+				ariaLabel: isAppleOS()
+					? __(
+							'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
+							'custom-html-block-extension'
+					  )
+					: __(
+							'Editor content. To change the Tab key behavior, press Ctrl+M.',
+							'custom-html-block-extension'
+					  ),
+				...options,
+			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 
 			const model = editor.getModel();
@@ -224,6 +237,36 @@ export default function MonacoEditor( {
 			subscriptionRef.current = editor.onDidChangeModelContent( ( event ) => {
 				onChangeRef.current?.( editor.getValue(), event );
 			} );
+
+			// Toggle tab focus mode with Ctrl+M (Ctrl+Shift+M on Apple OS).
+			editor.addCommand(
+				isAppleOS()
+					? // eslint-disable-next-line no-bitwise
+					  monaco.KeyMod.WinCtrl | monaco.KeyMod.Shift | monaco.KeyCode.KeyM
+					: // eslint-disable-next-line no-bitwise
+					  monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
+				() => {
+					const nextTabFocusMode = ! editor.getOption( monaco.editor.EditorOption.tabFocusMode );
+					editor.updateOptions( { tabFocusMode: nextTabFocusMode } );
+					createNotice(
+						'info',
+						nextTabFocusMode
+							? __(
+									'Pressing Tab will now move focus to the next focusable element.',
+									'custom-html-block-extension'
+							  )
+							: __(
+									'Pressing Tab will now insert the tab character.',
+									'custom-html-block-extension'
+							  ),
+						{
+							type: 'snackbar',
+							speak: true,
+							isDismissible: true,
+						}
+					);
+				}
+			);
 
 			setIsEditorReady( true );
 		}
