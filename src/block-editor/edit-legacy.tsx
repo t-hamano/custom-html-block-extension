@@ -4,8 +4,10 @@
 import { __ } from '@wordpress/i18n';
 import { useMemo, useState, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { useViewportMatch } from '@wordpress/compose';
 import {
 	BlockControls,
+	InspectorControls,
 	transformStyles,
 	useBlockProps,
 	store as blockEditorStore,
@@ -18,6 +20,10 @@ import {
 	ToolbarGroup,
 	Modal,
 	Notice,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+	__experimentalToolsPanel as ToolsPanel,
+	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 import { fullscreen } from '@wordpress/icons';
@@ -32,6 +38,7 @@ import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
 type HTMLEditProps = BlockEditProps< {
 	content: string;
 	height: number;
+	showPreviewByDefault: boolean;
 } > & {
 	// Injected by the block editor but not included in BlockEditProps.
 	toggleSelection: ( isSelectionEnabled: boolean ) => void;
@@ -55,15 +62,25 @@ export default function HTMLEdit( {
 	setAttributes,
 	toggleSelection,
 }: HTMLEditProps ) {
-	const { content, height } = attributes;
+	const { content, height, showPreviewByDefault } = attributes;
 	const { editorSettings, editorOptions } = window.chbeObj;
 
-	const [ isPreview, setIsPreview ] = useState< boolean >();
+	const [ isPreview, setIsPreview ] = useState< boolean >( showPreviewByDefault );
 	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState< boolean >();
 
 	const [ errorMessage, setErrorMessage ] = useState< string >();
 
 	const ref = useRef< HTMLDivElement >( null );
+
+	const isMobile = useViewportMatch( 'medium', '<' );
+	const dropdownMenuProps = ! isMobile
+		? {
+				popoverProps: {
+					placement: 'left-start' as const,
+					offset: 259,
+				},
+		  }
+		: {};
 
 	const settingStyles = useSelect(
 		( select ) => select( blockEditorStore ).getSettings().styles,
@@ -117,6 +134,45 @@ export default function HTMLEdit( {
 
 	return (
 		<div { ...useBlockProps( { ref, className: 'block-library-html__edit' } ) }>
+			<InspectorControls>
+				<ToolsPanel
+					label={ __( 'Settings', 'custom-html-block-extension' ) }
+					resetAll={ () => setAttributes( { showPreviewByDefault: false } ) }
+					dropdownMenuProps={ dropdownMenuProps }
+				>
+					<ToolsPanelItem
+						isShownByDefault
+						label={ __( 'Default mode', 'custom-html-block-extension' ) }
+						hasValue={ () => showPreviewByDefault }
+						onDeselect={ () => setAttributes( { showPreviewByDefault: false } ) }
+					>
+						<ToggleGroupControl
+							__next40pxDefaultSize
+							isBlock
+							label={ __( 'Default mode', 'custom-html-block-extension' ) }
+							help={ __(
+								'The mode shown when the block first loads.',
+								'custom-html-block-extension'
+							) }
+							value={ showPreviewByDefault ? 'preview' : 'html' }
+							onChange={ ( value ) =>
+								setAttributes( {
+									showPreviewByDefault: value === 'preview',
+								} )
+							}
+						>
+							<ToggleGroupControlOption
+								value="html"
+								label={ __( 'HTML', 'custom-html-block-extension' ) }
+							/>
+							<ToggleGroupControlOption
+								value="preview"
+								label={ __( 'Preview', 'custom-html-block-extension' ) }
+							/>
+						</ToggleGroupControl>
+					</ToolsPanelItem>
+				</ToolsPanel>
+			</InspectorControls>
 			<BlockControls>
 				{ ! isPreview && (
 					<ToolbarGroup>

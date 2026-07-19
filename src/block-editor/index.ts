@@ -32,6 +32,10 @@ const customHtmlBlockExtension = ( settings: BlockConfiguration ): BlockConfigur
 				type: 'number',
 				default: 300,
 			},
+			showPreviewByDefault: {
+				type: 'boolean',
+				default: false,
+			},
 		},
 		edit: ( hasInnerContent ? edit : editLegacy ) as BlockConfiguration[ 'edit' ],
 	};
