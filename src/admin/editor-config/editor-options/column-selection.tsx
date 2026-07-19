@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
+import { isAppleOS } from '@wordpress/keycodes';
 import { ToggleControl } from '@wordpress/components';
 import { Stack, Text } from '@wordpress/ui';
 
@@ -49,35 +50,26 @@ export default function ColumnSelection() {
 				description={
 					<>
 						<Text render={ <p /> }>
-							{ __(
-								'Always enable column selection. Following command can be used to select column selection even when disabled.',
-								'custom-html-block-extension'
-							) }
+							{ isAppleOS()
+								? createInterpolateElement(
+										__(
+											'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Option</code> + drag mouse, or <code>Shift</code> + <code>Option</code> + <code>Command</code> + arrow key.',
+											'custom-html-block-extension'
+										),
+										{
+											code: <code />,
+										}
+								  )
+								: createInterpolateElement(
+										__(
+											'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Alt</code> + drag mouse, or <code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key.',
+											'custom-html-block-extension'
+										),
+										{
+											code: <code />,
+										}
+								  ) }
 						</Text>
-						<ul>
-							<li>
-								{ createInterpolateElement(
-									__(
-										'Windows: <code>Shift</code> + <code>Alt</code> + drag mouse, or "<code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key',
-										'custom-html-block-extension'
-									),
-									{
-										code: <code />,
-									}
-								) }
-							</li>
-							<li>
-								{ createInterpolateElement(
-									__(
-										'macOS: <code>Shift</code> + <code>Option</code> + drag mouse, or <code>Shift</code> + <code>Option</code> + <code>Command</code> + arrow key',
-										'custom-html-block-extension'
-									),
-									{
-										code: <code />,
-									}
-								) }
-							</li>
-						</ul>
 					</>
 				}
 				isToggle

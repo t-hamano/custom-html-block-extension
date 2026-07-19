@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
+import { isAppleOS } from '@wordpress/keycodes';
 import { ToggleControl } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 
@@ -16,7 +17,9 @@ import ItemHelp from '../components/item-help';
 export default function MouseWheelZoom() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Ctrl + mouse wheel to zoom in / out', 'custom-html-block-extension' );
+	const title = isAppleOS()
+		? __( 'Command + mouse wheel to zoom in / out', 'custom-html-block-extension' )
+		: __( 'Ctrl + mouse wheel to zoom in / out', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

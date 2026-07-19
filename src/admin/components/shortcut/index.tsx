@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
+import { isAppleOS } from '@wordpress/keycodes';
 import { Button, Modal } from '@wordpress/components';
 import { Link, Stack, Text } from '@wordpress/ui';
 
@@ -41,35 +42,25 @@ export default function Shortcut() {
 							) }
 						</Text>
 						<Text render={ <p /> }>
-							{ __(
-								'Check the following link for a list of shortcuts.',
-								'custom-html-block-extension'
-							) }
+							<Link
+								href={
+									isAppleOS()
+										? __(
+												'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf',
+												'custom-html-block-extension'
+										  )
+										: __(
+												'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf',
+												'custom-html-block-extension'
+										  )
+								}
+								openInNewTab
+							>
+								{ isAppleOS()
+									? __( 'Keyboard shortcuts for macOS', 'custom-html-block-extension' )
+									: __( 'Keyboard shortcuts for Windows', 'custom-html-block-extension' ) }
+							</Link>
 						</Text>
-						<ul>
-							<li>
-								<Link
-									href={ __(
-										'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf',
-										'custom-html-block-extension'
-									) }
-									openInNewTab
-								>
-									{ __( 'Keyboard shortcuts for Windows', 'custom-html-block-extension' ) }
-								</Link>
-							</li>
-							<li>
-								<Link
-									href={ __(
-										'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf',
-										'custom-html-block-extension'
-									) }
-									openInNewTab
-								>
-									{ __( 'Keyboard shortcuts for macOS', 'custom-html-block-extension' ) }
-								</Link>
-							</li>
-						</ul>
 					</Stack>
 				</Modal>
 			) }
