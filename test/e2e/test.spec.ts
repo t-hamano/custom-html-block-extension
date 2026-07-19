@@ -3,66 +3,65 @@
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
-test.describe( 'Custom HTML Block Extension', () => {
-	test.describe( 'Editor', () => {
-		test( 'input by Emmet should be expanded on the classic editor', async ( {
-			admin,
-			page,
-			requestUtils,
-		} ) => {
-			await admin.visitAdminPage( '' );
-			const wpPointerCloseButton = page.locator( '#wp-pointer-0 a.close' );
-			const isVisible = await wpPointerCloseButton.isVisible();
-			if ( isVisible ) {
-				await wpPointerCloseButton.click();
-			}
-			await requestUtils.activatePlugin( 'classic-editor' );
-			await admin.visitAdminPage( 'post-new.php' );
-			await page.click( '#content-tmce' );
-			await page.click( '#content-html' );
-			await page.click( '#monaco-editor .monaco-editor' );
-			await page.keyboard.type( 'p.selector' );
-			await page.keyboard.down( 'Tab' );
-			const textarea = await page.locator( '#wp-content-editor-container textarea.wp-editor-area' );
-			expect( textarea ).toHaveValue( '<p class="selector"></p>' );
-			await requestUtils.deactivatePlugin( 'classic-editor' );
-		} );
+test.describe( 'Editor', () => {
+	test( 'input by Emmet should be expanded on the classic editor', async ( {
+		admin,
+		page,
+		requestUtils,
+	} ) => {
+		await admin.visitAdminPage( '' );
+		const wpPointerCloseButton = page.locator( '#wp-pointer-0 a.close' );
+		const isVisible = await wpPointerCloseButton.isVisible();
+		if ( isVisible ) {
+			await wpPointerCloseButton.click();
+		}
+		await requestUtils.activatePlugin( 'classic-editor' );
+		await admin.visitAdminPage( 'post-new.php' );
+		await page.click( '#content-tmce' );
+		await page.click( '#content-html' );
+		await page.click( '#monaco-editor .monaco-editor' );
+		await page.keyboard.type( 'p.selector' );
+		await page.keyboard.down( 'Tab' );
+		const textarea = await page.locator( '#wp-content-editor-container textarea.wp-editor-area' );
+		expect( textarea ).toHaveValue( '<p class="selector"></p>' );
+		await requestUtils.deactivatePlugin( 'classic-editor' );
+	} );
 
-		test( 'input by Emmet should be expanded on the theme editor', async ( { admin, page } ) => {
-			await admin.visitAdminPage( 'theme-editor.php' );
-			// Hide file editor warning modal.
-			const dismissButton = page.locator( '.file-editor-warning-dismiss' );
-			const isVisible = await dismissButton.isVisible();
-			if ( isVisible ) {
-				await dismissButton.click();
-			}
-			await page.click( '#monaco-editor .monaco-editor' );
-			// Monaco maps its Ctrl/Cmd modifier from navigator.userAgent, so a
-			// "Macintosh" UA (e.g. Playwright's WebKit) needs Meta+A to select all.
-			const shortcut = await page.evaluate( () =>
-				window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
-			);
-			await page.keyboard.press( shortcut );
-			await page.keyboard.type( '.selector{fz100', { delay: 50 } );
-			await page.keyboard.press( 'Tab' );
-			const textarea = await page.locator( '#newcontent' );
-			expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
-		} );
+	test( 'input by Emmet should be expanded on the theme editor', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'theme-editor.php' );
+		// Hide file editor warning modal.
+		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+		const isVisible = await dismissButton.isVisible();
+		if ( isVisible ) {
+			await dismissButton.click();
+		}
+		await page.click( '#monaco-editor .monaco-editor' );
+		// Monaco maps its Ctrl/Cmd modifier from navigator.userAgent, so a
+		// "Macintosh" UA (e.g. Playwright's WebKit) needs Meta+A to select all.
+		const shortcut = await page.evaluate( () =>
+			window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
+		);
+		await page.keyboard.press( shortcut );
+		await page.keyboard.type( '.selector{fz100', { delay: 50 } );
+		await page.keyboard.press( 'Tab' );
+		const textarea = await page.locator( '#newcontent' );
+		expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
+	} );
 
-		test( 'input by Emmet should be expanded on the block editor', async ( {
-			admin,
-			page,
-			editor,
-		} ) => {
-			await admin.createNewPost();
-			await editor.insertBlock( { name: 'core/html' } );
-			await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
-			await page.keyboard.type( 'ul.list>li.item*5' );
-			await page.keyboard.down( 'Tab' );
-			const postContent = await editor.getEditedPostContent();
-			const replacedPostContent = postContent.replace( /\r\n/g, '\n' );
+	test( 'input by Emmet should be expanded on the block editor', async ( {
+		admin,
+		page,
+		editor,
+	} ) => {
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/html' } );
+		await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
+		await page.keyboard.type( 'ul.list>li.item*5' );
+		await page.keyboard.down( 'Tab' );
+		const postContent = await editor.getEditedPostContent();
+		const replacedPostContent = postContent.replace( /\r\n/g, '\n' );
 
-			expect( replacedPostContent ).toBe( `<!-- wp:html -->
+		expect( replacedPostContent ).toBe( `<!-- wp:html -->
 <ul class="list">
   <li class="item"></li>
   <li class="item"></li>
@@ -71,120 +70,119 @@ test.describe( 'Custom HTML Block Extension', () => {
   <li class="item"></li>
 </ul>
 <!-- /wp:html -->` );
-		} );
-
-		test( 'block should render in the default mode selected in the settings', async ( {
-			admin,
-			page,
-			editor,
-		} ) => {
-			await admin.createNewPost();
-			await editor.insertBlock( { name: 'core/html' } );
-
-			// A block starts in the HTML editing mode.
-			await expect(
-				page.getByRole( 'button', { name: 'HTML', exact: true, pressed: true } )
-			).toBeVisible();
-
-			// Switch the default mode to Preview.
-			// TODO: Always click the Settings tab once the minimum supported version
-			// is 7.1, where the block always has inner blocks and thus the tab.
-			await editor.openDocumentSettingsSidebar();
-			const settingsTab = page.getByRole( 'tab', { name: 'Settings' } );
-			if ( await settingsTab.isVisible() ) {
-				await settingsTab.click();
-			}
-			await page
-				.getByRole( 'radiogroup', { name: 'Default mode' } )
-				.getByRole( 'radio', { name: 'Preview' } )
-				.click();
-
-			// The default mode is only applied when the block mounts, so re-render
-			// it by switching the editor to the code mode and back.
-			await page.evaluate( () =>
-				( window.wp as any ).data.dispatch( 'core/editor' ).switchEditorMode( 'text' )
-			);
-			await page.evaluate( () =>
-				( window.wp as any ).data.dispatch( 'core/editor' ).switchEditorMode( 'visual' )
-			);
-
-			// Select the re-rendered block to reveal its toolbar.
-			await editor.canvas.getByRole( 'document', { name: 'Block: Custom HTML' } ).click();
-
-			// The block now starts in the Preview mode.
-			await expect(
-				page.getByRole( 'button', { name: 'Preview', exact: true, pressed: true } )
-			).toBeVisible();
-		} );
 	} );
 
-	test.describe( 'Settings page', () => {
-		test( 'should be rendered', async ( { admin, page } ) => {
-			await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
-			// Hide welcome guide.
-			const welcomeGuide = page.getByRole( 'dialog', {
-				name: 'About Custom HTML Block Extension',
-			} );
-			const isVisible = await welcomeGuide.isVisible();
-			if ( isVisible ) {
-				await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
-			}
+	test( 'block should render in the default mode selected in the settings', async ( {
+		admin,
+		page,
+		editor,
+	} ) => {
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/html' } );
 
-			// Editsor config tab
-			await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeVisible();
-			// Tools tab
-			await page.getByRole( 'tab', { name: 'Tools' } ).click();
-			await expect( page.getByRole( 'button', { name: 'Export', exact: true } ) ).toBeVisible();
-			// Options tab
-			await page.getByRole( 'tab', { name: 'Options' } ).click();
-			await expect( page.getByRole( 'button', { name: 'Save Options' } ) ).toBeVisible();
+		// A block starts in the HTML editing mode.
+		await expect(
+			page.getByRole( 'button', { name: 'HTML', exact: true, pressed: true } )
+		).toBeVisible();
+
+		// Switch the default mode to Preview.
+		// TODO: Always click the Settings tab once the minimum supported version
+		// is 7.1, where the block always has inner blocks and thus the tab.
+		await editor.openDocumentSettingsSidebar();
+		const settingsTab = page.getByRole( 'tab', { name: 'Settings' } );
+		if ( await settingsTab.isVisible() ) {
+			await settingsTab.click();
+		}
+		await page
+			.getByRole( 'radiogroup', { name: 'Default mode' } )
+			.getByRole( 'radio', { name: 'Preview' } )
+			.click();
+
+		// The default mode is only applied when the block mounts, so re-render
+		// it by switching the editor to the code mode and back.
+		await page.evaluate( () =>
+			( window.wp as any ).data.dispatch( 'core/editor' ).switchEditorMode( 'text' )
+		);
+		await page.evaluate( () =>
+			( window.wp as any ).data.dispatch( 'core/editor' ).switchEditorMode( 'visual' )
+		);
+
+		// Select the re-rendered block to reveal its toolbar.
+		await editor.canvas.getByRole( 'document', { name: 'Block: Custom HTML' } ).click();
+
+		// The block now starts in the Preview mode.
+		await expect(
+			page.getByRole( 'button', { name: 'Preview', exact: true, pressed: true } )
+		).toBeVisible();
+	} );
+} );
+
+test.describe( 'Settings page', () => {
+	test( 'should be rendered', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		// Hide welcome guide.
+		const welcomeGuide = page.getByRole( 'dialog', {
+			name: 'About Custom HTML Block Extension',
+		} );
+		const isVisible = await welcomeGuide.isVisible();
+		if ( isVisible ) {
+			await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
+		}
+
+		// Editsor config tab
+		await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeVisible();
+		// Tools tab
+		await page.getByRole( 'tab', { name: 'Tools' } ).click();
+		await expect( page.getByRole( 'button', { name: 'Export', exact: true } ) ).toBeVisible();
+		// Options tab
+		await page.getByRole( 'tab', { name: 'Options' } ).click();
+		await expect( page.getByRole( 'button', { name: 'Save Options' } ) ).toBeVisible();
+	} );
+
+	test( 'tab focus mode should move focus out of the code editor', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		// Hide welcome guide.
+		const welcomeGuide = page.getByRole( 'dialog', {
+			name: 'About Custom HTML Block Extension',
+		} );
+		if ( await welcomeGuide.isVisible() ) {
+			await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
+		}
+
+		const editor = page.locator( '.chbe-admin-editor-config-editor-preview .monaco-editor' );
+		const textbox = editor.getByRole( 'textbox', {
+			name: /^Editor content\. To change the Tab key behavior, press Ctrl\+(Shift\+)?M\.$/,
 		} );
 
-		test( 'tab focus mode should move focus out of the code editor', async ( { admin, page } ) => {
-			await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
-			// Hide welcome guide.
-			const welcomeGuide = page.getByRole( 'dialog', {
-				name: 'About Custom HTML Block Extension',
-			} );
-			if ( await welcomeGuide.isVisible() ) {
-				await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
+		await editor.click();
+		await expect( textbox ).toBeFocused();
+
+		// While tab focus mode is disabled, Tab stays inside the editor.
+		await page.keyboard.press( 'Tab' );
+		await expect( textbox ).toBeFocused();
+
+		// The plugin picks the combo from navigator.platform (isAppleOS), while
+		// Monaco maps Ctrl/Cmd from navigator.userAgent ("Macintosh" => Meta).
+		const shortcut = await page.evaluate( () => {
+			const { platform, userAgent } = window.navigator;
+			const isAppleOS =
+				platform.indexOf( 'Mac' ) !== -1 || [ 'iPad', 'iPhone' ].includes( platform );
+			if ( isAppleOS ) {
+				return 'Control+Shift+m';
 			}
-
-			const editor = page.locator( '.chbe-admin-editor-config-editor-preview .monaco-editor' );
-			const textbox = editor.getByRole( 'textbox', {
-				name: /^Editor content\. To change the Tab key behavior, press Ctrl\+(Shift\+)?M\.$/,
-			} );
-
-			await editor.click();
-			await expect( textbox ).toBeFocused();
-
-			// While tab focus mode is disabled, Tab stays inside the editor.
-			await page.keyboard.press( 'Tab' );
-			await expect( textbox ).toBeFocused();
-
-			// The plugin picks the combo from navigator.platform (isAppleOS), while
-			// Monaco maps Ctrl/Cmd from navigator.userAgent ("Macintosh" => Meta).
-			const shortcut = await page.evaluate( () => {
-				const { platform, userAgent } = window.navigator;
-				const isAppleOS =
-					platform.indexOf( 'Mac' ) !== -1 || [ 'iPad', 'iPhone' ].includes( platform );
-				if ( isAppleOS ) {
-					return 'Control+Shift+m';
-				}
-				return userAgent.includes( 'Macintosh' ) ? 'Meta+m' : 'Control+m';
-			} );
-
-			// Toggle tab focus mode.
-			await page.keyboard.press( shortcut );
-
-			// The change should be announced to screen readers.
-			await expect( page.getByRole( 'button', { name: 'Dismiss this notice' } ) ).toContainText(
-				'Pressing Tab will now move focus to the next focusable element.'
-			);
-
-			// Tab should move focus out of the editor to the Save settings button.
-			await page.keyboard.press( 'Tab' );
-			await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeFocused();
+			return userAgent.includes( 'Macintosh' ) ? 'Meta+m' : 'Control+m';
 		} );
+
+		// Toggle tab focus mode.
+		await page.keyboard.press( shortcut );
+
+		// The change should be announced to screen readers.
+		await expect( page.getByRole( 'button', { name: 'Dismiss this notice' } ) ).toContainText(
+			'Pressing Tab will now move focus to the next focusable element.'
+		);
+
+		// Tab should move focus out of the editor to the Save settings button.
+		await page.keyboard.press( 'Tab' );
+		await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeFocused();
 	} );
 } );
