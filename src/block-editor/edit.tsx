@@ -201,7 +201,6 @@ export default function HTMLEdit( {
 					>
 						<ToggleGroupControl
 							__next40pxDefaultSize
-							__nextHasNoMarginBottom
 							isBlock
 							label={ __( 'Default mode', 'custom-html-block-extension' ) }
 							help={ __(
