@@ -7,7 +7,7 @@
 
 namespace Custom_Html_Block_Extension;
 
-class BlockEditor {
+class Block_Editor {
 
 	/**
 	 * Constructor
@@ -85,4 +85,4 @@ class BlockEditor {
 	}
 }
 
-new BlockEditor();
+new Block_Editor();
