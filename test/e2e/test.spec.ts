@@ -72,6 +72,50 @@ test.describe( 'Custom HTML Block Extension', () => {
 </ul>
 <!-- /wp:html -->` );
 		} );
+
+		test( 'block should render in the default mode selected in the settings', async ( {
+			admin,
+			page,
+			editor,
+		} ) => {
+			await admin.createNewPost();
+			await editor.insertBlock( { name: 'core/html' } );
+
+			// A block starts in the HTML editing mode.
+			await expect(
+				page.getByRole( 'button', { name: 'HTML', exact: true, pressed: true } )
+			).toBeVisible();
+
+			// Switch the default mode to Preview.
+			// TODO: Always click the Settings tab once the minimum supported version
+			// is 7.1, where the block always has inner blocks and thus the tab.
+			await editor.openDocumentSettingsSidebar();
+			const settingsTab = page.getByRole( 'tab', { name: 'Settings' } );
+			if ( await settingsTab.isVisible() ) {
+				await settingsTab.click();
+			}
+			await page
+				.getByRole( 'radiogroup', { name: 'Default mode' } )
+				.getByRole( 'radio', { name: 'Preview' } )
+				.click();
+
+			// The default mode is only applied when the block mounts, so re-render
+			// it by switching the editor to the code mode and back.
+			await page.evaluate( () =>
+				( window.wp as any ).data.dispatch( 'core/editor' ).switchEditorMode( 'text' )
+			);
+			await page.evaluate( () =>
+				( window.wp as any ).data.dispatch( 'core/editor' ).switchEditorMode( 'visual' )
+			);
+
+			// Select the re-rendered block to reveal its toolbar.
+			await editor.canvas.getByRole( 'document', { name: 'Block: Custom HTML' } ).click();
+
+			// The block now starts in the Preview mode.
+			await expect(
+				page.getByRole( 'button', { name: 'Preview', exact: true, pressed: true } )
+			).toBeVisible();
+		} );
 	} );
 
 	test.describe( 'Settings page', () => {
