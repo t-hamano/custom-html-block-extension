@@ -51,4 +51,9 @@ declare module 'react' {
 	}
 }
 
+// `privateApis` is exported at runtime but missing from the package types.
+declare module '@wordpress/block-editor' {
+	export const privateApis: unknown;
+}
+
 export {};

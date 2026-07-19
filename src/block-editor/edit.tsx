@@ -34,7 +34,7 @@ import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
 const { InnerContent } = __dangerousOptInToUnstableAPIsOnlyForCoreModules(
 	'I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.',
 	'@wordpress/block-editor'
-).unlock( ( blockEditor as unknown as { privateApis: unknown } ).privateApis ) as {
+).unlock( blockEditor.privateApis ) as {
 	InnerContent: React.ComponentType< { clientId: string } >;
 };
 
