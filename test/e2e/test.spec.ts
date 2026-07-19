@@ -82,7 +82,9 @@ test.describe( 'Custom HTML Block Extension', () => {
 		test( 'should be rendered', async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 			// Hide welcome guide.
-			const welcomeGuide = page.locator( 'role=dialog[name="About Custom HTML Block Extension"i]' );
+			const welcomeGuide = page.getByRole( 'dialog', {
+				name: 'About Custom HTML Block Extension',
+			} );
 			const isVisible = await welcomeGuide.isVisible();
 			if ( isVisible ) {
 				await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
@@ -96,6 +98,41 @@ test.describe( 'Custom HTML Block Extension', () => {
 			// Options tab
 			await page.getByRole( 'tab', { name: 'Options' } ).click();
 			await expect( page.getByRole( 'button', { name: 'Save Options' } ) ).toBeVisible();
+		} );
+
+		test( 'tab focus mode should move focus out of the code editor', async ( { admin, page } ) => {
+			await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+			// Hide welcome guide.
+			const welcomeGuide = page.getByRole( 'dialog', {
+				name: 'About Custom HTML Block Extension',
+			} );
+			if ( await welcomeGuide.isVisible() ) {
+				await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
+			}
+
+			const editor = page.locator( '.chbe-admin-editor-config-editor-preview .monaco-editor' );
+			const textbox = editor.getByRole( 'textbox', {
+				name: 'Editor content. To change the Tab key behavior, press Ctrl+M.',
+			} );
+
+			await editor.click();
+			await expect( textbox ).toBeFocused();
+
+			// While tab focus mode is disabled, Tab stays inside the editor.
+			await page.keyboard.press( 'Tab' );
+			await expect( textbox ).toBeFocused();
+
+			// Toggle tab focus mode.
+			await page.keyboard.press( 'Control+m' );
+
+			// The change should be announced to screen readers.
+			await expect( page.getByRole( 'button', { name: 'Dismiss this notice' } ) ).toContainText(
+				'Pressing Tab will now move focus to the next focusable element.'
+			);
+
+			// Tab should move focus out of the editor to the Save settings button.
+			await page.keyboard.press( 'Tab' );
+			await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeFocused();
 		} );
 	} );
 } );
