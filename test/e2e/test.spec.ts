@@ -28,16 +28,7 @@ test.describe( 'Custom HTML Block Extension', () => {
 			await requestUtils.deactivatePlugin( 'classic-editor' );
 		} );
 
-		test( 'input by Emmet should be expanded on the theme editor', async ( {
-			admin,
-			page,
-			pageUtils,
-			browserName,
-		} ) => {
-			test.skip(
-				browserName === 'webkit',
-				"FIXME: For some reason, the Select All shortcut doesn't work in Webkit browser"
-			);
+		test( 'input by Emmet should be expanded on the theme editor', async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'theme-editor.php' );
 			// Hide file editor warning modal.
 			const dismissButton = page.locator( '.file-editor-warning-dismiss' );
@@ -46,7 +37,12 @@ test.describe( 'Custom HTML Block Extension', () => {
 				await dismissButton.click();
 			}
 			await page.click( '#monaco-editor .monaco-editor' );
-			await pageUtils.pressKeys( 'primary+a' );
+			// Monaco maps its Ctrl/Cmd modifier from navigator.userAgent, so a
+			// "Macintosh" UA (e.g. Playwright's WebKit) needs Meta+A to select all.
+			const shortcut = await page.evaluate( () =>
+				window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
+			);
+			await page.keyboard.press( shortcut );
 			await page.keyboard.type( '.selector{fz100', { delay: 50 } );
 			await page.keyboard.press( 'Tab' );
 			const textarea = await page.locator( '#newcontent' );
@@ -112,7 +108,7 @@ test.describe( 'Custom HTML Block Extension', () => {
 
 			const editor = page.locator( '.chbe-admin-editor-config-editor-preview .monaco-editor' );
 			const textbox = editor.getByRole( 'textbox', {
-				name: 'Editor content. To change the Tab key behavior, press Ctrl+M.',
+				name: /^Editor content\. To change the Tab key behavior, press Ctrl\+(Shift\+)?M\.$/,
 			} );
 
 			await editor.click();
@@ -122,8 +118,20 @@ test.describe( 'Custom HTML Block Extension', () => {
 			await page.keyboard.press( 'Tab' );
 			await expect( textbox ).toBeFocused();
 
+			// The plugin picks the combo from navigator.platform (isAppleOS), while
+			// Monaco maps Ctrl/Cmd from navigator.userAgent ("Macintosh" => Meta).
+			const shortcut = await page.evaluate( () => {
+				const { platform, userAgent } = window.navigator;
+				const isAppleOS =
+					platform.indexOf( 'Mac' ) !== -1 || [ 'iPad', 'iPhone' ].includes( platform );
+				if ( isAppleOS ) {
+					return 'Control+Shift+m';
+				}
+				return userAgent.includes( 'Macintosh' ) ? 'Meta+m' : 'Control+m';
+			} );
+
 			// Toggle tab focus mode.
-			await page.keyboard.press( 'Control+m' );
+			await page.keyboard.press( shortcut );
 
 			// The change should be announced to screen readers.
 			await expect( page.getByRole( 'button', { name: 'Dismiss this notice' } ) ).toContainText(
