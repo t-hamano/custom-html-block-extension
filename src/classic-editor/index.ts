@@ -49,7 +49,7 @@ initLoader()
 			const properties = {
 				theme,
 				value: textarea.value,
-				language: 'php',
+				language: 'html',
 				automaticLayout: true,
 				...editorOptions,
 				// Override some properties to match the classic editor.
