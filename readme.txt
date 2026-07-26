@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 7.0
-Tested up to: 7.0
-Stable tag: 4.0.1
+Tested up to: 7.1
+Stable tag: 4.1.0
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,20 @@ License: OFL License
 Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 4.1.0 =
+* Tested to WordPress 7.1
+* Drop support for WordPress 6.9
+* Enhancement: Add per-block setting to choose the initial mode
+* Enhancement: Consolidate the help buttons in the settings page header into a dropdown menu
+* Enhancement: Show the fullscreen HTML editor button in the preview mode
+* Enhancement: Refresh the card design on the settings page
+* Enhancement: Support the innerContent-based Custom HTML block
+* a11y: Improve tab focus mode accessibility in the editor
+* a11y: Fix focus loss on the settings page
+* Fix: Uploaded file name is not vertically aligned with the upload button on the settings page
+* Fix: Some items are missing from the right-click context menu in the classic editor
+* Fix: Hide panels with no matching settings when filtering settings on the settings page
 
 = 4.0.1 =
 * Fix: Undo clears all content right after the editor loads
