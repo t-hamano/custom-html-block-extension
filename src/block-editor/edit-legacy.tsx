@@ -174,15 +174,13 @@ export default function HTMLEdit( {
 				</ToolsPanel>
 			</InspectorControls>
 			<BlockControls>
-				{ ! isPreview && (
-					<ToolbarGroup>
-						<ToolbarButton
-							icon={ fullscreen }
-							label={ __( 'Open HTML editor', 'custom-html-block-extension' ) }
-							onClick={ () => setIsModalEditorOpen( true ) }
-						/>
-					</ToolbarGroup>
-				) }
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={ fullscreen }
+						label={ __( 'Open HTML editor', 'custom-html-block-extension' ) }
+						onClick={ () => setIsModalEditorOpen( true ) }
+					/>
+				</ToolbarGroup>
 				<ToolbarGroup>
 					<ToolbarButton isPressed={ ! isPreview } onClick={ switchToHTML }>
 						{ __( 'HTML', 'custom-html-block-extension' ) }
