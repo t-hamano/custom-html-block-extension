@@ -104,7 +104,7 @@ export default function ImportTool() {
 							'custom-html-block-extension'
 						) }
 					</Text>
-					<Stack justify="start" wrap="wrap" gap="lg">
+					<Stack justify="start" align="center" wrap="wrap" gap="lg">
 						<FormFileUpload
 							accept="application/json"
 							onChange={ onUploadFile }
