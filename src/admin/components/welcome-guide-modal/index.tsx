@@ -1,0 +1,147 @@
+/**
+ * WordPress dependencies
+ */
+import { __, sprintf } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
+import { Guide, __experimentalHeading as Heading } from '@wordpress/components';
+import { Stack, Text } from '@wordpress/ui';
+
+type WelcomeGuideModalProps = {
+	onClose: () => void;
+};
+
+export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps ) {
+	const onFinish = () => {
+		onClose();
+		if ( ! window.chbeObj.dismissWelcomeGuide ) {
+			apiFetch( {
+				path: '/custom-html-block-extension/v1/dismiss_welcome_guide',
+				method: 'POST',
+			} );
+			window.chbeObj.dismissWelcomeGuide = true;
+		}
+	};
+
+	return (
+		<Guide
+			onFinish={ onFinish }
+			className="chbe-admin-welcome-guide-modal"
+			contentLabel={ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
+			finishButtonText={ __( 'Get started', 'custom-html-block-extension' ) }
+			pages={ [
+				{
+					image: (
+						<img
+							src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_1.gif' }
+							alt={ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
+						/>
+					),
+					content: (
+						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
+							<Heading level="2" as="h1">
+								{ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
+							</Heading>
+							<Text render={ <p /> }>
+								{ sprintf(
+									/* translators: %s is replaced with the number. */
+									__( 'Version: %s', 'custom-html-block-extension' ),
+									window.chbeObj.version
+								) }
+							</Text>
+							<Text render={ <p /> }>
+								{ __(
+									'Custom HTML Block Extension extends Custom HTML block to evolve into the advanced code editor.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+						</Stack>
+					),
+				},
+				{
+					image: (
+						<img
+							src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_2.gif' }
+							alt={ __( 'Various color themes', 'custom-html-block-extension' ) }
+						/>
+					),
+					content: (
+						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
+							<Heading level="2" as="h1">
+								{ __( 'Various color themes', 'custom-html-block-extension' ) }
+							</Heading>
+							<Text render={ <p /> }>
+								{ __(
+									'There are 50 different color themes to choose from, and you can select the one that best suits your taste.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+						</Stack>
+					),
+				},
+				{
+					image: (
+						<img
+							src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_3.gif' }
+							alt={ __( 'Faster coding with Emmet', 'custom-html-block-extension' ) }
+						/>
+					),
+					content: (
+						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
+							<Heading level="2" as="h1">
+								{ __( 'Faster coding with Emmet', 'custom-html-block-extension' ) }
+							</Heading>
+							<Text render={ <p /> }>
+								{ __(
+									'Emmet allows you to type shortcuts that are then expanded into full pieces of code. Type less, saving both keystrokes.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+						</Stack>
+					),
+				},
+				{
+					image: (
+						<img
+							src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_4.jpg' }
+							alt={ __( 'High customizability', 'custom-html-block-extension' ) }
+						/>
+					),
+					content: (
+						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
+							<Heading level="2" as="h1">
+								{ __( 'High customizability', 'custom-html-block-extension' ) }
+							</Heading>
+							<Text render={ <p /> }>
+								{ __(
+									'You can change all kinds of settings to create your ideal editor in advanced mode.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+						</Stack>
+					),
+				},
+				{
+					image: (
+						<img
+							src={ window.chbeObj.pluginUrl + '/assets/images/admin/welcome-guide/slide_5.jpg' }
+							alt={ __( 'More support', 'custom-html-block-extension' ) }
+						/>
+					),
+					content: (
+						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
+							<Heading level="2" as="h1">
+								{ __( 'More support', 'custom-html-block-extension' ) }
+							</Heading>
+							<Text render={ <p /> }>
+								{ __(
+									'Supports the classic editor, the theme/plugin editor, and import/export editor settings.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+						</Stack>
+					),
+				},
+			] }
+		/>
+	);
+}

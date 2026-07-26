@@ -6,8 +6,8 @@
 // Components
 @use "./components/snackbars/style" as snackbars;
 @use "./components/header/style" as header;
-@use "./components/shortcut/style" as shortcut;
-@use "./components/welcome-guide/style" as welcomeGuide;
+@use "./components/keyboard-shortcuts-modal/style" as keyboardShortcutsModal;
+@use "./components/welcome-guide-modal/style" as welcomeGuideModal;
 
 // Monaco Editor common styles
 @use "../components/monaco-editor/style" as monacoEditor;
