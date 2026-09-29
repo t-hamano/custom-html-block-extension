@@ -33,7 +33,7 @@
 		"@wordpress/icons": "^15.2.0",
 		"@wordpress/ui": "0.18.0",
 		"emmet-monaco-es": "^5.7.0",
-		"monaco-editor": "^0.55.1",
+		"monaco-editor": "^0.57.0",
 		"webfontloader": "^1.6.28"
 	},
 	"devDependencies": {
@@ -56,7 +56,7 @@
 		"@wordpress/keycodes": "^4.51.0",
 		"@wordpress/notices": "^5.51.0",
 		"@wordpress/private-apis": "^1.51.0",
-		"@wordpress/scripts": "^34.2.0",
+		"@wordpress/scripts": "^36.0.0",
 		"clsx": "2.1.1",
 		"eslint-import-resolver-typescript": "^4.4.4",
 		"husky": "^9.1.7",
