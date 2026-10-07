@@ -1,5 +1,5 @@
 /**
- * Custom monaco editor component which is a customized version of @monaco-editor/react.
+ * Custom monaco editor component which is a customized version of `@monaco-editor/react`.
  *
  * @see https://github.com/suren-atoyan/monaco-react
  */

@@ -39,7 +39,7 @@ function makeCancelable< T >( promise: Promise< T > ): CancelablePromise< T > {
 }
 
 /**
- * Custom monaco editor loader which is a customized version of @monaco-editor/loader.
+ * Custom monaco editor loader which is a customized version of `@monaco-editor/loader`.
  *
  * @param targetWindow The window object to load the editor.
  * @see https://github.com/suren-atoyan/monaco-loader
