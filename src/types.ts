@@ -55,7 +55,7 @@ export type EditorOptions = {
 	hideCursorInOverviewRuler: boolean;
 	highlightActiveIndentGuide: boolean;
 	hover: {
-		enabled: boolean;
+		enabled: 'on' | 'off' | 'onKeyboardModifier';
 	};
 	letterSpacing: number;
 	lineDecorationsWidth: number;

@@ -173,8 +173,8 @@ class Settings {
 			'type'  => 'object',
 			'items' => array(
 				'enabled' => array(
-					'type'    => 'boolean',
-					'default' => true,
+					'type'    => 'string',
+					'default' => 'on',
 				),
 			),
 		),
@@ -583,6 +583,12 @@ class Settings {
 		// object, so wrap the legacy boolean into the `enabled` property.
 		if ( isset( $editor_options['hover'] ) && is_bool( $editor_options['hover'] ) ) {
 			$editor_options['hover'] = array( 'enabled' => $editor_options['hover'] );
+		}
+
+		// `hover.enabled` was previously persisted as a boolean but monaco types
+		// it as a string enum, so map legacy booleans onto the new values.
+		if ( isset( $editor_options['hover']['enabled'] ) && is_bool( $editor_options['hover']['enabled'] ) ) {
+			$editor_options['hover']['enabled'] = $editor_options['hover']['enabled'] ? 'on' : 'off';
 		}
 
 		return $editor_options;
