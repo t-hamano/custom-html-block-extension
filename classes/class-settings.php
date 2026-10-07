@@ -555,22 +555,36 @@ class Settings {
 		// These options were previously persisted as booleans but monaco types
 		// them as string enums, so map legacy booleans onto the new values.
 
+		// Changed to `'on' | 'smart' | 'off'` in monaco-editor 0.19.0.
+		// Type definitions: https://unpkg.com/monaco-editor@0.19.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['acceptSuggestionOnEnter'] ) && is_bool( $editor_options['acceptSuggestionOnEnter'] ) ) {
 			$editor_options['acceptSuggestionOnEnter'] = $editor_options['acceptSuggestionOnEnter'] ? 'on' : 'off';
 		}
 
+		// Changed to `'off' | 'explicit' | 'on'` in monaco-editor 0.35.0.
+		// Upstream change: https://github.com/microsoft/vscode/pull/169113
+		// Type definitions: https://unpkg.com/monaco-editor@0.35.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['cursorSmoothCaretAnimation'] ) && is_bool( $editor_options['cursorSmoothCaretAnimation'] ) ) {
 			$editor_options['cursorSmoothCaretAnimation'] = $editor_options['cursorSmoothCaretAnimation'] ? 'on' : 'off';
 		}
 
+		// Changed to `'off' | 'singleFile' | 'multiFile'` in monaco-editor 0.45.0.
+		// Upstream change: https://github.com/microsoft/vscode/pull/197690
+		// Type definitions: https://unpkg.com/monaco-editor@0.45.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['occurrencesHighlight'] ) && is_bool( $editor_options['occurrencesHighlight'] ) ) {
 			$editor_options['occurrencesHighlight'] = $editor_options['occurrencesHighlight'] ? 'singleFile' : 'off';
 		}
 
+		// Changed to `'on' | 'off' | 'dimmed'` in monaco-editor 0.35.0.
+		// Upstream change: https://github.com/microsoft/vscode/pull/168220
+		// Type definitions: https://unpkg.com/monaco-editor@0.35.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['renderFinalNewline'] ) && is_bool( $editor_options['renderFinalNewline'] ) ) {
 			$editor_options['renderFinalNewline'] = $editor_options['renderFinalNewline'] ? 'on' : 'off';
 		}
 
+		// Changed to `'never' | 'always' | 'selection'` in monaco-editor 0.27.0.
+		// Upstream change: https://github.com/microsoft/vscode/pull/128659
+		// Type definitions: https://unpkg.com/monaco-editor@0.27.0/esm/vs/editor/editor.api.d.ts
 		if (
 			isset( $editor_options['find']['seedSearchStringFromSelection'] ) &&
 			is_bool( $editor_options['find']['seedSearchStringFromSelection'] )
@@ -581,12 +595,18 @@ class Settings {
 
 		// `hover` was previously persisted as a boolean but monaco expects an
 		// object, so wrap the legacy boolean into the `enabled` property.
+		// Changed to `IEditorHoverOptions` in monaco-editor 0.14.0.
+		// Type definitions: https://unpkg.com/monaco-editor@0.14.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['hover'] ) && is_bool( $editor_options['hover'] ) ) {
 			$editor_options['hover'] = array( 'enabled' => $editor_options['hover'] );
 		}
 
 		// `hover.enabled` was previously persisted as a boolean but monaco types
 		// it as a string enum, so map legacy booleans onto the new values.
+		// Changed to `'on' | 'off' | 'onKeyboardModifier'` in monaco-editor 0.56.0
+		// (not mentioned in the CHANGELOG).
+		// Upstream change: https://github.com/microsoft/vscode/pull/274001
+		// Type definitions: https://unpkg.com/monaco-editor@0.56.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['hover']['enabled'] ) && is_bool( $editor_options['hover']['enabled'] ) ) {
 			$editor_options['hover']['enabled'] = $editor_options['hover']['enabled'] ? 'on' : 'off';
 		}
