@@ -139,12 +139,12 @@ add_filter( 'chbe_additional_font_families', 'my_chbe_additional_font_families' 
 
 #### Property description
 
-| Name       | Type   | Description                                                  |
-| ---------- | ------ | ------------------------------------------------------------ |
-| label      | string | The label that appears in the font family pull-down in the plugin settings screen. |
-| name       | string | Enter **the value of the font-family property** that you defined in the CSS file in STEP3. |
+| Name       | Type   | Description                                                                                                                                                           |
+| ---------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| label      | string | The label that appears in the font family pull-down in the plugin settings screen.                                                                                    |
+| name       | string | Enter **the value of the font-family property** that you defined in the CSS file in STEP3.                                                                            |
 | stylesheet | string | Describe **the URL of the CSS file** you placed in STEP2. We recommend using `get_template_directory_uri` function if you've placed the CSS file in the theme folder, |
-| weight     | array  | Write font weight variations according to the fonts defined in the CSS file. It is recommended to use numeric values 100 to 900 instead of weight names. |
+| weight     | array  | Write font weight variations according to the fonts defined in the CSS file. It is recommended to use numeric values 100 to 900 instead of weight names.              |
 
 ### STEP5: Sets custom font
 
