@@ -27,6 +27,19 @@ module.exports = [
 					allowedTextDomain: 'custom-html-block-extension',
 				},
 			],
+			'@wordpress/use-import-as': [
+				'error',
+				{
+					'@wordpress/components': {
+						__experimentalConfirmDialog: 'ConfirmDialog',
+						__experimentalHeading: 'Heading',
+						__experimentalToggleGroupControl: 'ToggleGroupControl',
+						__experimentalToggleGroupControlOption: 'ToggleGroupControlOption',
+						__experimentalToolsPanel: 'ToolsPanel',
+						__experimentalToolsPanelItem: 'ToolsPanelItem',
+					},
+				},
+			],
 		},
 	},
 	...defaultConfig.configs[ 'test-e2e' ].map( ( config ) => ( {
