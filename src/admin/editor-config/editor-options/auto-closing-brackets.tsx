@@ -62,7 +62,6 @@ export default function AutoClosingBrackets() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'autoClosingBrackets' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.autoClosingBrackets }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

@@ -61,7 +61,6 @@ export default function AutoIndent() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'autoIndent' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.autoIndent }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

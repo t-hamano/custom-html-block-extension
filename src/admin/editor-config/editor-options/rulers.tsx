@@ -41,7 +41,6 @@ export default function Rulers() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.rulers.length ? editorOptions.rulers[ 0 ] : 0 }
 				min={ 0 }

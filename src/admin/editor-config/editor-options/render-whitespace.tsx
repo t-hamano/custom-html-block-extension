@@ -72,7 +72,6 @@ export default function RenderWhitespace() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'renderWhitespace' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.renderWhitespace }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

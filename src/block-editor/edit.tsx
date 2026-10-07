@@ -200,7 +200,6 @@ export default function HTMLEdit( {
 						onDeselect={ () => setAttributes( { showPreviewByDefault: false } ) }
 					>
 						<ToggleGroupControl
-							__next40pxDefaultSize
 							isBlock
 							label={ __( 'Default mode', 'custom-html-block-extension' ) }
 							help={ __(

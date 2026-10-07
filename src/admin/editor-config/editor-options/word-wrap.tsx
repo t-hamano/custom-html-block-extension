@@ -74,7 +74,6 @@ export default function WordWrap() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'wordWrap' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.wordWrap }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

@@ -54,7 +54,6 @@ export default function ShowFoldingControls() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'showFoldingControls' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.showFoldingControls }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

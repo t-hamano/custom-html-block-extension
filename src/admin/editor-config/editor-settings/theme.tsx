@@ -33,7 +33,6 @@ export default function Theme() {
 	return (
 		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
 			<SelectControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorSettings.theme }
 				options={ [

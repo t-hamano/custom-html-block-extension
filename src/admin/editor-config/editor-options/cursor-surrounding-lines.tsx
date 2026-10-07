@@ -43,7 +43,6 @@ export default function CursorSurroundingLines() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.cursorSurroundingLines }
 				min={ 0 }
