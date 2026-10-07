@@ -33,7 +33,7 @@
 		"@wordpress/icons": "^18.0.0",
 		"@wordpress/ui": "0.24.0",
 		"emmet-monaco-es": "^5.7.0",
-		"monaco-editor": "^0.55.1",
+		"monaco-editor": "0.57.0",
 		"webfontloader": "^1.6.28"
 	},
 	"devDependencies": {

@@ -23,12 +23,17 @@ export default function Hover() {
 		return null;
 	}
 
+	// monaco types this option as 'on' | 'off' | 'onKeyboardModifier'. The
+	// 'onKeyboardModifier' mode is not exposed in the UI yet, so the toggle only
+	// maps between 'on' and 'off'.
+	const isEnabled = 'on' === editorOptions.hover.enabled;
+
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
 			hover: {
 				...editorOptions.hover,
-				enabled: value,
+				enabled: value ? 'on' : 'off',
 			},
 		} );
 	};
@@ -41,18 +46,14 @@ export default function Hover() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<ToggleControl
-				label={ title }
-				checked={ editorOptions.hover.enabled }
-				onChange={ onChange }
-			/>
+			<ToggleControl label={ title } checked={ isEnabled } onChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
 				isToggle
 				defaultToggle
 				image="editor-options/hover.gif"
-				value={ editorOptions.hover.enabled }
+				value={ isEnabled }
 			/>
 		</Stack>
 	);
