@@ -45,7 +45,6 @@ export default function Filter( {
 		<Stack className="chbe-admin-editor-config-filter" gap="sm">
 			<div style={ { flex: 1 } }>
 				<ToggleGroupControl
-					size="__unstable-large"
 					label={ __( 'Mode', 'custom-html-block-extension' ) }
 					value={ editorMode }
 					onChange={ ( value ) => setEditorMode( value as EditorMode ) }

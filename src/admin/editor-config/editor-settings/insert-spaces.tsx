@@ -48,7 +48,6 @@ export default function InsertSpaces() {
 	return (
 		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
 			<ToggleGroupControl
-				size="__unstable-large"
 				label={ __( 'Indent type', 'custom-html-block-extension' ) }
 				value={ editorSettings.insertSpaces ? 'space' : 'tab' }
 				onChange={ onChange }

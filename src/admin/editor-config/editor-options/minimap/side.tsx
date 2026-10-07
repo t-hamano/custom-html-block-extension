@@ -60,7 +60,6 @@ export default function MinimapSide() {
 			gap="sm"
 		>
 			<ToggleGroupControl
-				size="__unstable-large"
 				label={ title }
 				value={ editorOptions.minimap.side }
 				onChange={ onChange }
