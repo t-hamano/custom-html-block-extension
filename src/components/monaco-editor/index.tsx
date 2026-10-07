@@ -150,11 +150,11 @@ export default function MonacoEditor( {
 					? __(
 							'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
 							'custom-html-block-extension'
-					  )
+						)
 					: __(
 							'Editor content. To change the Tab key behavior, press Ctrl+M.',
 							'custom-html-block-extension'
-					  ),
+						),
 				...options,
 			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
@@ -242,9 +242,9 @@ export default function MonacoEditor( {
 			editor.addCommand(
 				isAppleOS()
 					? // eslint-disable-next-line no-bitwise
-					  monaco.KeyMod.WinCtrl | monaco.KeyMod.Shift | monaco.KeyCode.KeyM
+						monaco.KeyMod.WinCtrl | monaco.KeyMod.Shift | monaco.KeyCode.KeyM
 					: // eslint-disable-next-line no-bitwise
-					  monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
+						monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
 				() => {
 					const nextTabFocusMode = ! editor.getOption( monaco.editor.EditorOption.tabFocusMode );
 					editor.updateOptions( { tabFocusMode: nextTabFocusMode } );
@@ -254,11 +254,11 @@ export default function MonacoEditor( {
 							? __(
 									'Pressing Tab will now move focus to the next focusable element.',
 									'custom-html-block-extension'
-							  )
+								)
 							: __(
 									'Pressing Tab will now insert the tab character.',
 									'custom-html-block-extension'
-							  ),
+								),
 						{
 							type: 'snackbar',
 							speak: true,

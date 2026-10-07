@@ -59,7 +59,7 @@ export default function ColumnSelection() {
 										{
 											code: <code />,
 										}
-								  )
+									)
 								: createInterpolateElement(
 										__(
 											'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Alt</code> + drag mouse, or <code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key.',
@@ -68,7 +68,7 @@ export default function ColumnSelection() {
 										{
 											code: <code />,
 										}
-								  ) }
+									) }
 						</Text>
 					</>
 				}

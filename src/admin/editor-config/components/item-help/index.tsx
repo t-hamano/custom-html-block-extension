@@ -91,7 +91,7 @@ export default function ItemHelp( {
 														/* translators: %s is replaced with the setting label. */
 														__( '%s (Default)', 'custom-html-block-extension' ),
 														item.label
-												  )
+													)
 												: item.label }
 										</Heading>
 										<Button

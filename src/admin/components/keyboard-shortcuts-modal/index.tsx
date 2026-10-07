@@ -37,11 +37,11 @@ export default function KeyboardShortcutsModal( { onClose }: KeyboardShortcutsMo
 								? __(
 										'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf',
 										'custom-html-block-extension'
-								  )
+									)
 								: __(
 										'https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf',
 										'custom-html-block-extension'
-								  )
+									)
 						}
 						openInNewTab
 					>

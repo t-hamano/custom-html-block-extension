@@ -79,7 +79,7 @@ export default function HTMLEdit( {
 					placement: 'left-start' as const,
 					offset: 259,
 				},
-		  }
+			}
 		: {};
 
 	const settingStyles = useSelect(
