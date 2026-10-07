@@ -17,13 +17,13 @@ test.describe( 'Editor', () => {
 		}
 		await requestUtils.activatePlugin( 'classic-editor' );
 		await admin.visitAdminPage( 'post-new.php' );
-		await page.click( '#content-tmce' );
-		await page.click( '#content-html' );
-		await page.click( '#monaco-editor .monaco-editor' );
+		await page.locator( '#content-tmce' ).click();
+		await page.locator( '#content-html' ).click();
+		await page.locator( '#monaco-editor .monaco-editor' ).click();
 		await page.keyboard.type( 'p.selector' );
 		await page.keyboard.down( 'Tab' );
-		const textarea = await page.locator( '#wp-content-editor-container textarea.wp-editor-area' );
-		expect( textarea ).toHaveValue( '<p class="selector"></p>' );
+		const textarea = page.locator( '#wp-content-editor-container textarea.wp-editor-area' );
+		await expect( textarea ).toHaveValue( '<p class="selector"></p>' );
 		await requestUtils.deactivatePlugin( 'classic-editor' );
 	} );
 
@@ -35,7 +35,7 @@ test.describe( 'Editor', () => {
 		if ( isVisible ) {
 			await dismissButton.click();
 		}
-		await page.click( '#monaco-editor .monaco-editor' );
+		await page.locator( '#monaco-editor .monaco-editor' ).click();
 		// Monaco maps its Ctrl/Cmd modifier from navigator.userAgent, so a
 		// "Macintosh" UA (e.g. Playwright's WebKit) needs Meta+A to select all.
 		const shortcut = await page.evaluate( () =>
@@ -44,8 +44,8 @@ test.describe( 'Editor', () => {
 		await page.keyboard.press( shortcut );
 		await page.keyboard.type( '.selector{fz100', { delay: 50 } );
 		await page.keyboard.press( 'Tab' );
-		const textarea = await page.locator( '#newcontent' );
-		expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
+		const textarea = page.locator( '#newcontent' );
+		await expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
 	} );
 
 	test( 'input by Emmet should be expanded on the block editor', async ( {
