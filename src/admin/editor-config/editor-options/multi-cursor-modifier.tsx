@@ -59,7 +59,6 @@ export default function MultiCursorModifier() {
 			gap="sm"
 		>
 			<ToggleGroupControl
-				size="__unstable-large"
 				label={ title }
 				value={ editorOptions.multiCursorModifier }
 				onChange={ onChange }
