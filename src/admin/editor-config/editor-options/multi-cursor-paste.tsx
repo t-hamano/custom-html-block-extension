@@ -59,7 +59,6 @@ export default function MultiCursorPaste() {
 			gap="sm"
 		>
 			<ToggleGroupControl
-				size="__unstable-large"
 				label={ title }
 				value={ editorOptions.multiCursorPaste }
 				onChange={ onChange }
