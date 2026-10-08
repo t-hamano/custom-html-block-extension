@@ -85,7 +85,7 @@ export default function HTMLEdit( {
 					// ) - button width (24px) - border (1px) + padding (16px) + spacing (20px)
 					offset: 259,
 				},
-		  }
+			}
 		: {};
 
 	const registry = useRegistry();
