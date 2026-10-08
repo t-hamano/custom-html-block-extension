@@ -86,13 +86,8 @@ test.describe( 'Editor', () => {
 		).toBeVisible();
 
 		// Switch the default mode to Preview.
-		// TODO: Always click the Settings tab once the minimum supported version
-		// is 7.1, where the block always has inner blocks and thus the tab.
 		await editor.openDocumentSettingsSidebar();
-		const settingsTab = page.getByRole( 'tab', { name: 'Settings' } );
-		if ( await settingsTab.isVisible() ) {
-			await settingsTab.click();
-		}
+		await page.getByRole( 'tab', { name: 'Settings' } ).click();
 		await page
 			.getByRole( 'radiogroup', { name: 'Default mode' } )
 			.getByRole( 'radio', { name: 'Preview' } )
