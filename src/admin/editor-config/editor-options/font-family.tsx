@@ -39,7 +39,6 @@ export default function FontFamily() {
 			gap="sm"
 		>
 			<SelectControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.fontFamily }
 				options={ [

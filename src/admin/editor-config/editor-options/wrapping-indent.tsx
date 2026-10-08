@@ -64,7 +64,6 @@ export default function WrappingIndent() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'wrappingIndent' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.wrappingIndent }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

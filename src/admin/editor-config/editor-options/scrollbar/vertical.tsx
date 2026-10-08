@@ -64,7 +64,6 @@ export default function ScrollbarVertical() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'scrollbar' ][ 'vertical' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.scrollbar.vertical }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

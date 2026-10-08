@@ -59,7 +59,6 @@ export default function MatchBrackets() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'matchBrackets' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.matchBrackets }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

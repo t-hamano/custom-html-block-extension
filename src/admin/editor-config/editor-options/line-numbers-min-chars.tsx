@@ -40,7 +40,6 @@ export default function LineNumbersMinChars() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.lineNumbersMinChars }
 				min={ 1 }

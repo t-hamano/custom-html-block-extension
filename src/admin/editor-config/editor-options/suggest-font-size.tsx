@@ -40,7 +40,6 @@ export default function SuggestFontSize() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.suggestFontSize }
 				min={ 10 }

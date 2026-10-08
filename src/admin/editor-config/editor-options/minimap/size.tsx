@@ -74,7 +74,6 @@ export default function MinimapSize() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'minimap' ][ 'size' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.minimap.size }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

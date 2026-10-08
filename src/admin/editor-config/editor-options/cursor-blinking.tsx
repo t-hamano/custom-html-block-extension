@@ -69,7 +69,6 @@ export default function CursorBlinking() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'cursorBlinking' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.cursorBlinking }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

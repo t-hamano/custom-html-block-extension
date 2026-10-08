@@ -40,7 +40,6 @@ export default function LineDecorationsWidth() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.lineDecorationsWidth }
 				min={ 0 }

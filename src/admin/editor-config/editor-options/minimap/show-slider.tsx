@@ -57,7 +57,6 @@ export default function MinimapShowSlider() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'minimap' ][ 'showSlider' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.minimap.showSlider }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

@@ -64,7 +64,6 @@ export default function ScrollbarHorizontal() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'scrollbar' ][ 'horizontal' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.scrollbar.horizontal }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

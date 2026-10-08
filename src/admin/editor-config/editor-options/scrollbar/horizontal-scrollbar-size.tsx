@@ -58,7 +58,6 @@ export default function ScrollbarHorizontalScrollbarSize() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ value }
 				min={ 5 }

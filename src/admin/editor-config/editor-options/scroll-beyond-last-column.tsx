@@ -43,7 +43,6 @@ export default function ScrollBeyondLastColumn() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.scrollBeyondLastColumn }
 				min={ 0 }

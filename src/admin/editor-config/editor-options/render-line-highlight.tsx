@@ -64,7 +64,6 @@ export default function RenderLineHighlight() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'renderLineHighlight' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.renderLineHighlight }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

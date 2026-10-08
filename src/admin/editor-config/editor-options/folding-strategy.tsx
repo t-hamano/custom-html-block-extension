@@ -58,7 +58,6 @@ export default function FoldingStrategy() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'foldingStrategy' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.foldingStrategy }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
