@@ -40,7 +40,6 @@ export default function SuggestLineHeight() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.suggestLineHeight }
 				min={ 10 }

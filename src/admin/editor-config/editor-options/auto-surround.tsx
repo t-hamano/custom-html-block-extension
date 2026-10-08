@@ -67,7 +67,6 @@ export default function AutoSurround() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'autoSurround' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.autoSurround }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

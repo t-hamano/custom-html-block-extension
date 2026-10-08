@@ -36,7 +36,6 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 	return (
 		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
 			<SelectControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ String( editorOptions.fontWeight ) }
 				options={ fontWeights.map( ( fontWeight ) => ( {

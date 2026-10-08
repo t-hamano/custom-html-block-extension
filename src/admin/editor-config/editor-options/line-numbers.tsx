@@ -64,7 +64,6 @@ export default function LineNumbers() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'lineNumbers' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.lineNumbers }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

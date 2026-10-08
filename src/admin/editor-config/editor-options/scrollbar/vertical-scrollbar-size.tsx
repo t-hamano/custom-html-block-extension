@@ -58,7 +58,6 @@ export default function ScrollbarVerticalScrollbarSize() {
 			gap="sm"
 		>
 			<RangeControl
-				__next40pxDefaultSize
 				label={ title }
 				value={ value }
 				min={ 5 }

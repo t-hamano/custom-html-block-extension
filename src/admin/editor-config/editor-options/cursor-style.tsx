@@ -74,7 +74,6 @@ export default function CursorStyle() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'cursorStyle' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.cursorStyle }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }

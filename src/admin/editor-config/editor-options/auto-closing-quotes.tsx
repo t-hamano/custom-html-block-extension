@@ -62,7 +62,6 @@ export default function AutoClosingQuotes() {
 			gap="sm"
 		>
 			<SelectControl< EditorOptions[ 'autoClosingQuotes' ] >
-				__next40pxDefaultSize
 				label={ title }
 				value={ editorOptions.autoClosingQuotes }
 				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
