@@ -9,33 +9,30 @@ test.describe( 'Editor', () => {
 		page,
 		requestUtils,
 	} ) => {
-		await admin.visitAdminPage( '' );
-		const wpPointerCloseButton = page.locator( '#wp-pointer-0 a.close' );
-		const isVisible = await wpPointerCloseButton.isVisible();
-		if ( isVisible ) {
-			await wpPointerCloseButton.click();
-		}
+		// Hide WP pointer.
+		await page.addLocatorHandler( page.locator( '#wp-pointer-0' ), async ( wpPointer ) => {
+			await wpPointer.locator( 'a.close' ).click();
+		} );
 		await requestUtils.activatePlugin( 'classic-editor' );
 		await admin.visitAdminPage( 'post-new.php' );
-		await page.click( '#content-tmce' );
-		await page.click( '#content-html' );
-		await page.click( '#monaco-editor .monaco-editor' );
+		await page.locator( '#content-tmce' ).click();
+		await page.locator( '#content-html' ).click();
+		await page.locator( '#monaco-editor .monaco-editor' ).click();
 		await page.keyboard.type( 'p.selector' );
 		await page.keyboard.down( 'Tab' );
-		const textarea = await page.locator( '#wp-content-editor-container textarea.wp-editor-area' );
-		expect( textarea ).toHaveValue( '<p class="selector"></p>' );
+		const textarea = page.locator( '#wp-content-editor-container textarea.wp-editor-area' );
+		await expect( textarea ).toHaveValue( '<p class="selector"></p>' );
 		await requestUtils.deactivatePlugin( 'classic-editor' );
 	} );
 
 	test( 'input by Emmet should be expanded on the theme editor', async ( { admin, page } ) => {
-		await admin.visitAdminPage( 'theme-editor.php' );
 		// Hide file editor warning modal.
 		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
-		const isVisible = await dismissButton.isVisible();
-		if ( isVisible ) {
+		await page.addLocatorHandler( dismissButton, async () => {
 			await dismissButton.click();
-		}
-		await page.click( '#monaco-editor .monaco-editor' );
+		} );
+		await admin.visitAdminPage( 'theme-editor.php' );
+		await page.locator( '#monaco-editor .monaco-editor' ).click();
 		// Monaco maps its Ctrl/Cmd modifier from navigator.userAgent, so a
 		// "Macintosh" UA (e.g. Playwright's WebKit) needs Meta+A to select all.
 		const shortcut = await page.evaluate( () =>
@@ -44,8 +41,8 @@ test.describe( 'Editor', () => {
 		await page.keyboard.press( shortcut );
 		await page.keyboard.type( '.selector{fz100', { delay: 50 } );
 		await page.keyboard.press( 'Tab' );
-		const textarea = await page.locator( '#newcontent' );
-		expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
+		const textarea = page.locator( '#newcontent' );
+		await expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
 	} );
 
 	test( 'input by Emmet should be expanded on the block editor', async ( {
@@ -114,15 +111,14 @@ test.describe( 'Editor', () => {
 
 test.describe( 'Settings page', () => {
 	test( 'should be rendered', async ( { admin, page } ) => {
-		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 		// Hide welcome guide.
 		const welcomeGuide = page.getByRole( 'dialog', {
 			name: 'About Custom HTML Block Extension',
 		} );
-		const isVisible = await welcomeGuide.isVisible();
-		if ( isVisible ) {
+		await page.addLocatorHandler( welcomeGuide, async () => {
 			await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
-		}
+		} );
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
 		// Editsor config tab
 		await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeVisible();
@@ -135,14 +131,14 @@ test.describe( 'Settings page', () => {
 	} );
 
 	test( 'tab focus mode should move focus out of the code editor', async ( { admin, page } ) => {
-		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 		// Hide welcome guide.
 		const welcomeGuide = page.getByRole( 'dialog', {
 			name: 'About Custom HTML Block Extension',
 		} );
-		if ( await welcomeGuide.isVisible() ) {
+		await page.addLocatorHandler( welcomeGuide, async () => {
 			await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
-		}
+		} );
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
 		const editor = page.locator( '.chbe-admin-editor-config-editor-preview .monaco-editor' );
 		const textbox = editor.getByRole( 'textbox', {
