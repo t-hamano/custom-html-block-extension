@@ -11,7 +11,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import registerHtmlLanguage from './html-language';
+import registerWordPressHtmlTokenizer from './wordpress-html-tokenizer';
 
 type LoaderError = {
 	type: 'cancelation' | 'timeout' | 'scripterror';
@@ -84,7 +84,7 @@ export default function initLoader(
 				clearTimeout( timeout );
 				const { monaco } = targetWindow;
 				if ( monaco ) {
-					registerHtmlLanguage( monaco );
+					registerWordPressHtmlTokenizer( monaco );
 				}
 				return resolve( monaco );
 			} );
