@@ -132,6 +132,7 @@ export type EditorOptions = {
  */
 export type Options = {
 	permissionBlockEditor: boolean;
+	permissionBlockHtmlMode: boolean;
 	permissionClassicEditor: boolean;
 	permissionThemePluginEditor: boolean;
 	permissionRoles: string[];

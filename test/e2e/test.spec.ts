@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
+import type { RequestUtils } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Editor', () => {
 	test( 'input by Emmet should be expanded on the classic editor', async ( {
@@ -386,6 +387,86 @@ test.describe( 'Editor', () => {
 		await expect(
 			page.getByRole( 'button', { name: 'Preview', exact: true, pressed: true } )
 		).toBeVisible();
+	} );
+
+	test( 'block HTML should be edited with the code editor in the "Edit as HTML" mode', async ( {
+		admin,
+		page,
+		editor,
+	} ) => {
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/paragraph', attributes: { content: 'Hello' } } );
+		await editor.clickBlockOptionsMenuItem( 'Edit as HTML' );
+
+		const codeEditor = editor.canvas.locator( '[data-type="core/paragraph"] .monaco-editor' );
+		await expect( codeEditor ).toBeVisible();
+		await expect(
+			editor.canvas.locator( '.block-editor-block-list__block-html-textarea' )
+		).toHaveCount( 0 );
+
+		// Type before the closing tag of `<p>Hello</p>`.
+		await codeEditor.click();
+		await page.keyboard.press( 'End' );
+		for ( let i = 0; i < 4; i++ ) {
+			await page.keyboard.press( 'ArrowLeft' );
+		}
+		await page.keyboard.type( ' World' );
+
+		// The changes are committed on blur.
+		await editor.canvas.getByRole( 'textbox', { name: 'Add title' } ).click();
+		await expect
+			.poll( editor.getBlocks )
+			.toMatchObject( [ { name: 'core/paragraph', attributes: { content: 'Hello World' } } ] );
+
+		// Switching to the visual mode while the code editor has focus keeps the content.
+		await codeEditor.click();
+		await page.evaluate( () => {
+			const { dispatch, select } = ( window.wp as any ).data;
+			const [ clientId ] = select( 'core/block-editor' ).getBlockOrder();
+			dispatch( 'core/block-editor' ).toggleBlockMode( clientId );
+		} );
+		await expect( editor.canvas.getByRole( 'document', { name: 'Block: Paragraph' } ) ).toHaveText(
+			'Hello World'
+		);
+	} );
+} );
+
+test.describe( 'Block "Edit as HTML" mode option', () => {
+	const updateOptions = ( requestUtils: RequestUtils, permissionBlockHtmlMode: boolean ) =>
+		requestUtils.rest( {
+			path: '/custom-html-block-extension/v1/update_options',
+			method: 'POST',
+			data: {
+				options: {
+					permissionBlockEditor: true,
+					permissionBlockHtmlMode,
+					permissionClassicEditor: true,
+					permissionThemePluginEditor: true,
+					permissionRoles: [ 'administrator', 'editor', 'author', 'contributor' ],
+				},
+			},
+		} );
+
+	test.afterAll( async ( { requestUtils } ) => {
+		await updateOptions( requestUtils, true );
+	} );
+
+	test( 'core textarea should be used when the option is disabled', async ( {
+		admin,
+		editor,
+		requestUtils,
+	} ) => {
+		await updateOptions( requestUtils, false );
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/paragraph', attributes: { content: 'Hello' } } );
+		await editor.clickBlockOptionsMenuItem( 'Edit as HTML' );
+
+		await expect(
+			editor.canvas.locator( '.block-editor-block-list__block-html-textarea' )
+		).toHaveValue( '<p>Hello</p>' );
+		await expect(
+			editor.canvas.locator( '[data-type="core/paragraph"] .monaco-editor' )
+		).toHaveCount( 0 );
 	} );
 } );
 

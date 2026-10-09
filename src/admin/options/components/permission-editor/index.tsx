@@ -21,6 +21,13 @@ export default function PermissionEditor() {
 		} );
 	};
 
+	const onBlockHtmlModeChange = ( value: boolean ) => {
+		setOptions( {
+			...options,
+			permissionBlockHtmlMode: value,
+		} );
+	};
+
 	const onClassicEditorChange = ( value: boolean ) => {
 		setOptions( {
 			...options,
@@ -48,6 +55,11 @@ export default function PermissionEditor() {
 						label={ __( 'Block editor', 'custom-html-block-extension' ) }
 						checked={ options.permissionBlockEditor }
 						onChange={ onBlockEditorChange }
+					/>
+					<ToggleControl
+						label={ __( 'Block "Edit as HTML" mode', 'custom-html-block-extension' ) }
+						checked={ options.permissionBlockHtmlMode }
+						onChange={ onBlockHtmlModeChange }
 					/>
 					<ToggleControl
 						label={ __( 'Classic editor', 'custom-html-block-extension' ) }

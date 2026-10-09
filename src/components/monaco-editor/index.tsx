@@ -44,6 +44,8 @@ export type MonacoEditorProps = {
 	tabSize?: number;
 	insertSpaces?: boolean;
 	onChange?: ( value: string, event?: unknown ) => void;
+	onBlur?: ( value: string ) => void;
+	onContentHeightChange?: ( height: number ) => void;
 	onFontLoad?: ( result: FontLoadResult ) => void;
 	onError?: ( error: MonacoError ) => void;
 };
@@ -79,19 +81,25 @@ export default function MonacoEditor( {
 	tabSize,
 	insertSpaces,
 	onChange = () => null,
+	onBlur = () => null,
+	onContentHeightChange = () => null,
 	onFontLoad = () => null,
 	onError = () => null,
 }: MonacoEditorProps ) {
 	const containerRef = useRef< HTMLDivElement >( null );
 	const monacoRef = useRef< typeof Monaco | null >( null );
 	const editorRef = useRef< Monaco.editor.IStandaloneCodeEditor | null >( null );
-	const subscriptionRef = useRef< Monaco.IDisposable | null >( null );
+	const subscriptionsRef = useRef< Monaco.IDisposable[] >( [] );
 
 	const [ isEditorReady, setIsEditorReady ] = useState( false );
 	const [ isMonacoMounting, setIsMonacoMounting ] = useState( true );
 
 	const onChangeRef = useRef( onChange );
 	onChangeRef.current = onChange;
+	const onBlurRef = useRef( onBlur );
+	onBlurRef.current = onBlur;
+	const onContentHeightChangeRef = useRef( onContentHeightChange );
+	onContentHeightChangeRef.current = onContentHeightChange;
 
 	const { createNotice } = useDispatch( noticesStore );
 
@@ -232,11 +240,22 @@ export default function MonacoEditor( {
 				}
 			);
 
-			// Subscribe to content changes once; the callback is read from a ref
+			// Subscribe to editor events once; the callbacks are read from refs
 			// so prop changes don't require re-subscribing.
-			subscriptionRef.current = editor.onDidChangeModelContent( ( event ) => {
-				onChangeRef.current?.( editor.getValue(), event );
-			} );
+			subscriptionsRef.current = [
+				editor.onDidChangeModelContent( ( event ) => {
+					onChangeRef.current?.( editor.getValue(), event );
+				} ),
+				editor.onDidBlurEditorWidget( () => {
+					onBlurRef.current?.( editor.getValue() );
+				} ),
+				editor.onDidContentSizeChange( ( { contentHeight, contentHeightChanged } ) => {
+					if ( contentHeightChanged ) {
+						onContentHeightChangeRef.current?.( contentHeight );
+					}
+				} ),
+			];
+			onContentHeightChangeRef.current?.( editor.getContentHeight() );
 
 			// Toggle tab focus mode with Ctrl+M (Ctrl+Shift+M on Apple OS).
 			editor.addCommand(
@@ -345,7 +364,9 @@ export default function MonacoEditor( {
 
 	// Dispose editor.
 	function disposeEditor() {
-		subscriptionRef.current?.dispose();
+		// Unsubscribe first, since disposing the model blurs the editor and
+		// empties its value.
+		subscriptionsRef.current.forEach( ( subscription ) => subscription.dispose() );
 		const editor = editorRef.current;
 		if ( ! editor ) {
 			return;

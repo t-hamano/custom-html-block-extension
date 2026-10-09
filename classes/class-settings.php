@@ -438,6 +438,10 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => true,
 		),
+		'permissionBlockHtmlMode'     => array(
+			'type'    => 'boolean',
+			'default' => true,
+		),
 		'permissionClassicEditor'     => array(
 			'type'    => 'boolean',
 			'default' => true,
