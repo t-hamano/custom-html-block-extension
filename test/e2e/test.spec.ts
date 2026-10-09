@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
-import type { RequestUtils } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Editor', () => {
 	test( 'input by Emmet should be expanded on the classic editor', async ( {
@@ -428,45 +427,6 @@ test.describe( 'Editor', () => {
 		await expect( editor.canvas.getByRole( 'document', { name: 'Block: Paragraph' } ) ).toHaveText(
 			'Hello World'
 		);
-	} );
-} );
-
-test.describe( 'Block "Edit as HTML" mode option', () => {
-	const updateOptions = ( requestUtils: RequestUtils, permissionBlockHtmlMode: boolean ) =>
-		requestUtils.rest( {
-			path: '/custom-html-block-extension/v1/update_options',
-			method: 'POST',
-			data: {
-				options: {
-					permissionBlockEditor: true,
-					permissionBlockHtmlMode,
-					permissionClassicEditor: true,
-					permissionThemePluginEditor: true,
-					permissionRoles: [ 'administrator', 'editor', 'author', 'contributor' ],
-				},
-			},
-		} );
-
-	test.afterAll( async ( { requestUtils } ) => {
-		await updateOptions( requestUtils, true );
-	} );
-
-	test( 'core textarea should be used when the option is disabled', async ( {
-		admin,
-		editor,
-		requestUtils,
-	} ) => {
-		await updateOptions( requestUtils, false );
-		await admin.createNewPost();
-		await editor.insertBlock( { name: 'core/paragraph', attributes: { content: 'Hello' } } );
-		await editor.clickBlockOptionsMenuItem( 'Edit as HTML' );
-
-		await expect(
-			editor.canvas.locator( '.block-editor-block-list__block-html-textarea' )
-		).toHaveValue( '<p>Hello</p>' );
-		await expect(
-			editor.canvas.locator( '[data-type="core/paragraph"] .monaco-editor' )
-		).toHaveCount( 0 );
 	} );
 } );
 

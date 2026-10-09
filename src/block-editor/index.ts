@@ -35,25 +35,20 @@ const customHtmlBlockExtension = ( settings: BlockConfiguration ): BlockConfigur
 	return newSettings;
 };
 
-const { options } = window.chbeObj;
+addFilter(
+	'blocks.registerBlockType',
+	'wildworks/custom-html-block-extension',
+	customHtmlBlockExtension
+);
 
-if ( options.permissionBlockEditor ) {
-	addFilter(
-		'blocks.registerBlockType',
-		'wildworks/custom-html-block-extension',
-		customHtmlBlockExtension
-	);
-}
+addFilter(
+	'editor.BlockListBlock',
+	'wildworks/custom-html-block-extension/block-html',
+	withBlockHTMLListBlock
+);
 
-if ( options.permissionBlockHtmlMode ) {
-	addFilter(
-		'editor.BlockListBlock',
-		'wildworks/custom-html-block-extension/block-html',
-		withBlockHTMLListBlock
-	);
-	addFilter(
-		'editor.BlockEdit',
-		'wildworks/custom-html-block-extension/block-html',
-		withBlockHTMLEdit
-	);
-}
+addFilter(
+	'editor.BlockEdit',
+	'wildworks/custom-html-block-extension/block-html',
+	withBlockHTMLEdit
+);

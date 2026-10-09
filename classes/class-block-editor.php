@@ -15,7 +15,7 @@ class Block_Editor {
 	public function __construct() {
 		// Abort the process if the editor isn't allowed to use this extension.
 		$options = Settings::get_options();
-		if ( ! $options['permissionBlockEditor'] && ! $options['permissionBlockHtmlMode'] ) {
+		if ( ! $options['permissionBlockEditor'] ) {
 			return;
 		}
 
@@ -54,7 +54,6 @@ class Block_Editor {
 				'editorSettings' => Settings::get_editor_settings(),
 				'editorOptions'  => Settings::get_editor_options(),
 				'fontFamily'     => Settings::get_font_families(),
-				'options'        => Settings::get_options(),
 			)
 		);
 
