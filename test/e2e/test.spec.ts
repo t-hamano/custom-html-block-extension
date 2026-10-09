@@ -157,18 +157,196 @@ test.describe( 'Editor', () => {
 		expect( tokens ).toEqual( [
 			[ '<!--', 'delimiter.html' ],
 			[ ' ', '' ],
-			[ 'wp:separator', 'tag.html' ],
+			[ 'wp:separator', 'type.html' ],
 			[ ' ', '' ],
 			[ '/-->', 'delimiter.html' ],
 			[ ' ', '' ],
 			[ '[', 'delimiter.html' ],
-			[ 'gallery', 'tag.html' ],
+			[ 'gallery', 'keyword.flow.html' ],
 			[ ' ', '' ],
 			[ 'ids', 'attribute.name.html' ],
 			[ '=', 'delimiter.html' ],
 			[ '"1"', 'attribute.value.html' ],
 			[ ']', 'delimiter.html' ],
 		] );
+	} );
+
+	test( 'WordPress-specific syntax should be highlighted in PHP on the theme editor', async ( {
+		admin,
+		page,
+	} ) => {
+		// Hide file editor warning modal.
+		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+		await page.addLocatorHandler( dismissButton, async () => {
+			await dismissButton.click();
+		} );
+		await admin.visitAdminPage( 'theme-editor.php' );
+		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+
+		const tokens = await page.evaluate( async () => {
+			const { monaco } = window;
+			// PHP code in the block attributes is embedded in JSON.
+			const text = '<!-- wp:image {"id":<?php echo $id; ?>} --> [gallery]';
+			// Wait for the tokenizer, which is created lazily.
+			await monaco?.editor.colorize( text, 'php', {} );
+			return (
+				monaco?.editor
+					.tokenize( text, 'php' )[ 0 ]
+					.map( ( { offset, type }, index, lineTokens ) => [
+						text.slice( offset, lineTokens[ index + 1 ]?.offset ),
+						type,
+					] )
+					// Ignore whitespace and JSON, which is tokenized by the embedded language.
+					.filter( ( [ , type ] ) => /\.(html|php)$/.test( type ) )
+			);
+		} );
+
+		expect( tokens ).toEqual( [
+			[ '<!--', 'delimiter.html' ],
+			[ 'wp:image', 'type.html' ],
+			[ '<?php', 'metatag.php' ],
+			[ 'echo', 'keyword.php' ],
+			[ '$id', 'variable.php' ],
+			[ ';', 'delimiter.php' ],
+			[ '?>', 'metatag.php' ],
+			[ '-->', 'delimiter.html' ],
+			[ '[', 'delimiter.html' ],
+			[ 'gallery', 'keyword.flow.html' ],
+			[ ']', 'delimiter.html' ],
+		] );
+	} );
+
+	test( 'block delimiters and tags should not be colorized as bracket pairs on the theme editor', async ( {
+		admin,
+		page,
+	} ) => {
+		// Hide file editor warning modal.
+		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+		await page.addLocatorHandler( dismissButton, async () => {
+			await dismissButton.click();
+		} );
+		await admin.visitAdminPage( 'theme-editor.php' );
+		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+
+		await page.evaluate( () => {
+			const { monaco, editor } = window;
+			editor?.setModel(
+				monaco?.editor.createModel( '<!-- wp:group {"layout":{}} -->\n<div></div>', 'html' ) ?? null
+			);
+		} );
+
+		// Only the brackets in the block attributes are colorized.
+		await expect
+			.poll( async () =>
+				(
+					await page
+						.locator( '#monaco-editor .view-line [class*="bracket-highlighting"]' )
+						.allTextContents()
+				).join( '' )
+			)
+			.toBe( '{{}}' );
+	} );
+
+	test( 'matching block delimiters should be highlighted on the theme editor', async ( {
+		admin,
+		page,
+	} ) => {
+		// Hide file editor warning modal.
+		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+		await page.addLocatorHandler( dismissButton, async () => {
+			await dismissButton.click();
+		} );
+		await admin.visitAdminPage( 'theme-editor.php' );
+		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+
+		await page.evaluate( () => {
+			const { monaco, editor } = window;
+			editor?.setModel(
+				monaco?.editor.createModel(
+					[
+						'<!-- wp:group -->',
+						'<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->',
+						'<!-- /wp:group -->',
+					].join( '\n' ),
+					'html'
+				) ?? null
+			);
+		} );
+
+		const getHighlightedBlockNames = ( lineNumber: number, column: number ) =>
+			page.evaluate(
+				( position ) => {
+					const { editor } = window;
+					editor?.setPosition( position );
+					const model = editor?.getModel();
+					return (
+						model
+							?.getAllDecorations()
+							.filter( ( { options } ) => 'bracket-match' === options.className )
+							.map( ( { range } ) => [ range.startLineNumber, model.getValueInRange( range ) ] )
+							// Exclude `<!--` and `-->`, which are highlighted as matching brackets.
+							.filter( ( [ , text ] ) => String( text ).startsWith( 'wp:' ) )
+					);
+				},
+				{ lineNumber, column }
+			);
+
+		// On the opening delimiter of `wp:group`.
+		await expect
+			.poll( () => getHighlightedBlockNames( 1, 8 ) )
+			.toEqual( [
+				[ 1, 'wp:group' ],
+				[ 3, 'wp:group' ],
+			] );
+		// On the closing delimiter of `wp:paragraph`.
+		await expect
+			.poll( () => getHighlightedBlockNames( 2, 45 ) )
+			.toEqual( [
+				[ 2, 'wp:paragraph' ],
+				[ 2, 'wp:paragraph' ],
+			] );
+	} );
+
+	test( 'unpaired block delimiters should be reported on the theme editor', async ( {
+		admin,
+		page,
+	} ) => {
+		// Hide file editor warning modal.
+		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+		await page.addLocatorHandler( dismissButton, async () => {
+			await dismissButton.click();
+		} );
+		await admin.visitAdminPage( 'theme-editor.php' );
+		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+
+		await page.evaluate( () => {
+			const { monaco, editor } = window;
+			editor?.setModel(
+				monaco?.editor.createModel(
+					[
+						'<!-- wp:group -->',
+						'<!-- wp:paragraph --><p>Hello</p>',
+						'<!-- /wp:group -->',
+						'<!-- wp:separator /-->',
+						'<!-- /wp:quote -->',
+					].join( '\n' ),
+					'html'
+				) ?? null
+			);
+		} );
+
+		await expect
+			.poll( () =>
+				page.evaluate( () =>
+					window.monaco?.editor
+						.getModelMarkers( { owner: 'custom-html-block-extension' } )
+						.map( ( { startLineNumber, message } ) => [ startLineNumber, message ] )
+				)
+			)
+			.toEqual( [
+				[ 2, 'Block "wp:paragraph" is not closed.' ],
+				[ 5, 'Block "wp:quote" is closed without being opened.' ],
+			] );
 	} );
 
 	test( 'block should render in the default mode selected in the settings', async ( {
