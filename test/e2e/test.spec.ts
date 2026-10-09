@@ -45,6 +45,65 @@ test.describe( 'Editor', () => {
 		await expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
 	} );
 
+	test( 'JSON schema should be loaded on the theme editor', async ( { admin, page } ) => {
+		// Hide file editor warning modal.
+		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+		await page.addLocatorHandler( dismissButton, async () => {
+			await dismissButton.click();
+		} );
+		await admin.visitAdminPage( 'theme-editor.php', 'file=theme.json' );
+		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+
+		// `version` must be an integer in the theme.json schema.
+		await page.evaluate( () => {
+			const model = window.editor?.getModel();
+			model?.setValue( model.getValue().replace( /"version":\s*\d+/, '"version": "3"' ) );
+		} );
+
+		await expect
+			.poll( () =>
+				page.evaluate( () =>
+					window.monaco?.editor.getModelMarkers( {} ).map( ( { message } ) => message )
+				)
+			)
+			.toContain( 'Incorrect type. Expected "integer".' );
+	} );
+
+	test( 'JSON schema should be loaded when `$schema` is changed on the theme editor', async ( {
+		admin,
+		page,
+	} ) => {
+		// Hide file editor warning modal.
+		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
+		await page.addLocatorHandler( dismissButton, async () => {
+			await dismissButton.click();
+		} );
+		await admin.visitAdminPage( 'theme-editor.php', 'file=theme.json' );
+		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+
+		// Change `$schema` and `version` at once so that the error is reported only by the new schema.
+		await page.evaluate( () => {
+			const model = window.editor?.getModel();
+			model?.setValue(
+				model
+					.getValue()
+					.replace(
+						/"\$schema":\s*"[^"]*"/,
+						'"$schema": "https://schemas.wp.org/wp/6.6/theme.json"'
+					)
+					.replace( /"version":\s*\d+/, '"version": "3"' )
+			);
+		} );
+
+		await expect
+			.poll( () =>
+				page.evaluate( () =>
+					window.monaco?.editor.getModelMarkers( {} ).map( ( { message } ) => message )
+				)
+			)
+			.toContain( 'Incorrect type. Expected "integer".' );
+	} );
+
 	test( 'input by Emmet should be expanded on the block editor', async ( {
 		admin,
 		page,
