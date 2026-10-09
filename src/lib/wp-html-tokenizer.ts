@@ -3,302 +3,67 @@
  */
 import type * as Monaco from 'monaco-editor';
 
-/**
- * Monarch tokenizer for HTML, extended to highlight WordPress-specific syntax:
- * block delimiters (e.g. `<!-- wp:group {"layout":{"type":"constrained"}} -->`)
- * and shortcodes (e.g. `[gallery ids="1,2,3"]`).
- *
- * Copied from the built-in HTML tokenizer of monaco-editor 0.57.0 (MIT License).
- * When updating monaco-editor, keep the non-WordPress parts in sync with upstream.
- *
- * @see https://github.com/microsoft/monaco-editor/blob/v0.57.0/src/languages/definitions/html/html.ts
- */
-const language = {
-	defaultToken: '',
-	tokenPostfix: '.html',
-	ignoreCase: true,
-
-	// WordPress block name, e.g. `wp:paragraph`, `wp:my-plugin/my-block`. It must be followed by
-	// attributes or the end of the delimiter, otherwise the comment isn't a block delimiter.
-	blockName: /wp:(?:[a-z][a-z0-9_-]*\/)?[a-z][a-z0-9_-]*(?=\s+(?:\{|\/?-->)|\s*$)/,
-
-	// The main tokenizer for our languages
-	tokenizer: {
-		root: [
-			[ /<!DOCTYPE/, 'metatag', '@doctype' ],
-			[ /(<!--)(\s+)(@blockName)/, [ 'delimiter', '', { token: 'tag', next: '@blockDelimiter' } ] ],
-			[
-				/(<!--)(\s+)(\/)(@blockName)/,
-				[ 'delimiter', '', 'delimiter', { token: 'tag', next: '@blockDelimiter' } ],
-			],
-			[ /<!--/, 'comment', '@comment' ],
-			[ /(<)((?:[\w\-]+:)?[\w\-]+)(\s*)(\/>)/, [ 'delimiter', 'tag', '', 'delimiter' ] ],
-			[ /(<)(script)/, [ 'delimiter', { token: 'tag', next: '@script' } ] ],
-			[ /(<)(style)/, [ 'delimiter', { token: 'tag', next: '@style' } ] ],
-			[ /(<)((?:[\w\-]+:)?[\w\-]+)/, [ 'delimiter', { token: 'tag', next: '@otherTag' } ] ],
-			[ /(<\/)((?:[\w\-]+:)?[\w\-]+)/, [ 'delimiter', { token: 'tag', next: '@otherTag' } ] ],
-			[ /(\[\/?)([a-z_][\w\-]*)/, [ 'delimiter', { token: 'tag', next: '@shortcode' } ] ],
-			[ /</, 'delimiter' ],
-			[ /\[/ ],
-			[ /[^<\[]+/ ], // text
-		],
-
-		doctype: [
-			[ /[^>]+/, 'metatag.content' ],
-			[ />/, 'metatag', '@pop' ],
-		],
-
-		comment: [
-			[ /-->/, 'comment', '@pop' ],
-			[ /[^-]+/, 'comment.content' ],
-			[ /./, 'comment.content' ],
-		],
-
-		otherTag: [
-			[ /\/?>/, 'delimiter', '@pop' ],
-			[ /"([^"]*)"/, 'attribute.value' ],
-			[ /'([^']*)'/, 'attribute.value' ],
-			[ /[\w\-]+/, 'attribute.name' ],
-			[ /=/, 'delimiter' ],
-			[ /[ \t\r\n]+/ ], // whitespace
-		],
-
-		// -- BEGIN WordPress block delimiters handling
-
-		// After <!-- wp:name or <!-- /wp:name
-		blockDelimiter: [
-			[ /\/?-->/, 'delimiter', '@pop' ],
-			[
-				/\{/,
-				{
-					token: '@rematch',
-					next: '@blockAttributes',
-					nextEmbedded: 'text/javascript',
-				},
-			],
-			[ /[ \t\r\n]+/ ], // whitespace
-		],
-
-		// Block attributes as a JSON object. The serializer escapes `--` in the JSON,
-		// so `-->` always closes the block delimiter.
-		blockAttributes: [ [ /\/?-->/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' } ] ],
-
-		// -- END WordPress block delimiters handling
-
-		// -- BEGIN WordPress shortcodes handling
-
-		// After [name or [/name
-		shortcode: [
-			[ /\/?\]/, 'delimiter', '@pop' ],
-			[ /"([^"]*)"/, 'attribute.value' ],
-			[ /'([^']*)'/, 'attribute.value' ],
-			[ /[\w\-]+/, 'attribute.name' ],
-			[ /=/, 'delimiter' ],
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /</, { token: '@rematch', next: '@pop' } ], // cover unclosed e.g. [name <p>
-		],
-
-		// -- END WordPress shortcodes handling
-
-		// -- BEGIN <script> tags handling
-
-		// After <script
-		script: [
-			[ /type/, 'attribute.name', '@scriptAfterType' ],
-			[ /"([^"]*)"/, 'attribute.value' ],
-			[ /'([^']*)'/, 'attribute.value' ],
-			[ /[\w\-]+/, 'attribute.name' ],
-			[ /=/, 'delimiter' ],
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@scriptEmbedded',
-					nextEmbedded: 'text/javascript',
-				},
-			],
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /(<\/)(script\s*)(>)/, [ 'delimiter', 'tag', { token: 'delimiter', next: '@pop' } ] ],
-		],
-
-		// After <script ... type
-		scriptAfterType: [
-			[ /=/, 'delimiter', '@scriptAfterTypeEquals' ],
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@scriptEmbedded',
-					nextEmbedded: 'text/javascript',
-				},
-			], // cover invalid e.g. <script type>
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /<\/script\s*>/, { token: '@rematch', next: '@pop' } ],
-		],
-
-		// After <script ... type =
-		scriptAfterTypeEquals: [
-			[
-				/"module"/,
-				{
-					token: 'attribute.value',
-					switchTo: '@scriptWithCustomType.text/javascript',
-				},
-			],
-			[
-				/'module'/,
-				{
-					token: 'attribute.value',
-					switchTo: '@scriptWithCustomType.text/javascript',
-				},
-			],
-			[
-				/"([^"]*)"/,
-				{
-					token: 'attribute.value',
-					switchTo: '@scriptWithCustomType.$1',
-				},
-			],
-			[
-				/'([^']*)'/,
-				{
-					token: 'attribute.value',
-					switchTo: '@scriptWithCustomType.$1',
-				},
-			],
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@scriptEmbedded',
-					nextEmbedded: 'text/javascript',
-				},
-			], // cover invalid e.g. <script type=>
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /<\/script\s*>/, { token: '@rematch', next: '@pop' } ],
-		],
-
-		// After <script ... type = $S2
-		scriptWithCustomType: [
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@scriptEmbedded.$S2',
-					nextEmbedded: '$S2',
-				},
-			],
-			[ /"([^"]*)"/, 'attribute.value' ],
-			[ /'([^']*)'/, 'attribute.value' ],
-			[ /[\w\-]+/, 'attribute.name' ],
-			[ /=/, 'delimiter' ],
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /<\/script\s*>/, { token: '@rematch', next: '@pop' } ],
-		],
-
-		scriptEmbedded: [
-			[ /<\/script/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' } ],
-			[ /[^<]+/, '' ],
-		],
-
-		// -- END <script> tags handling
-
-		// -- BEGIN <style> tags handling
-
-		// After <style
-		style: [
-			[ /type/, 'attribute.name', '@styleAfterType' ],
-			[ /"([^"]*)"/, 'attribute.value' ],
-			[ /'([^']*)'/, 'attribute.value' ],
-			[ /[\w\-]+/, 'attribute.name' ],
-			[ /=/, 'delimiter' ],
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@styleEmbedded',
-					nextEmbedded: 'text/css',
-				},
-			],
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /(<\/)(style\s*)(>)/, [ 'delimiter', 'tag', { token: 'delimiter', next: '@pop' } ] ],
-		],
-
-		// After <style ... type
-		styleAfterType: [
-			[ /=/, 'delimiter', '@styleAfterTypeEquals' ],
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@styleEmbedded',
-					nextEmbedded: 'text/css',
-				},
-			], // cover invalid e.g. <style type>
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /<\/style\s*>/, { token: '@rematch', next: '@pop' } ],
-		],
-
-		// After <style ... type =
-		styleAfterTypeEquals: [
-			[
-				/"([^"]*)"/,
-				{
-					token: 'attribute.value',
-					switchTo: '@styleWithCustomType.$1',
-				},
-			],
-			[
-				/'([^']*)'/,
-				{
-					token: 'attribute.value',
-					switchTo: '@styleWithCustomType.$1',
-				},
-			],
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@styleEmbedded',
-					nextEmbedded: 'text/css',
-				},
-			], // cover invalid e.g. <style type=>
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /<\/style\s*>/, { token: '@rematch', next: '@pop' } ],
-		],
-
-		// After <style ... type = $S2
-		styleWithCustomType: [
-			[
-				/>/,
-				{
-					token: 'delimiter',
-					next: '@styleEmbedded.$S2',
-					nextEmbedded: '$S2',
-				},
-			],
-			[ /"([^"]*)"/, 'attribute.value' ],
-			[ /'([^']*)'/, 'attribute.value' ],
-			[ /[\w\-]+/, 'attribute.name' ],
-			[ /=/, 'delimiter' ],
-			[ /[ \t\r\n]+/ ], // whitespace
-			[ /<\/style\s*>/, { token: '@rematch', next: '@pop' } ],
-		],
-
-		styleEmbedded: [
-			[ /<\/style/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' } ],
-			[ /[^<]+/, '' ],
-		],
-
-		// -- END <style> tags handling
-	},
+// `loader` lazily loads the built-in language definition. monaco registers it to every
+// built-in language, but it isn't included in the public type definitions.
+type LanguageExtensionPoint = Monaco.languages.ILanguageExtensionPoint & {
+	loader?: () => Promise< { language: Monaco.languages.IMonarchLanguage } >;
 };
 
-// The Monarch compiler detects rules with `instanceof RegExp`, which fails for regular
-// expressions created in another realm, e.g. when monaco is loaded in the editor canvas
-// iframe. Convert them into strings so that the definition can be compiled in any window.
+// WordPress block name, e.g. `wp:paragraph`, `wp:my-plugin/my-block`. It must be followed by
+// attributes or the end of the delimiter, otherwise the comment isn't a block delimiter.
+const blockName = /wp:(?:[a-z][a-z0-9_-]*\/)?[a-z][a-z0-9_-]*(?=\s+(?:\{|\/?-->)|\s*$)/;
+
+const wpRootRules = [
+	[ /(<!--)(\s+)(@blockName)/, [ 'delimiter', '', { token: 'tag', next: '@blockDelimiter' } ] ],
+	[
+		/(<!--)(\s+)(\/)(@blockName)/,
+		[ 'delimiter', '', 'delimiter', { token: 'tag', next: '@blockDelimiter' } ],
+	],
+	[ /(\[\/?)([a-z_][\w\-]*)/, [ 'delimiter', { token: 'tag', next: '@shortcode' } ] ],
+];
+
+const wpStates = {
+	// After <!-- wp:name or <!-- /wp:name
+	blockDelimiter: [
+		[ /\/?-->/, 'delimiter', '@pop' ],
+		[
+			/\{/,
+			{
+				token: '@rematch',
+				next: '@blockAttributes',
+				nextEmbedded: 'text/javascript',
+			},
+		],
+		[ /[ \t\r\n]+/ ], // whitespace
+	],
+
+	// Block attributes as a JSON object. The serializer escapes `--` in the JSON,
+	// so `-->` always closes the block delimiter.
+	blockAttributes: [ [ /\/?-->/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' } ] ],
+
+	// After [name or [/name
+	shortcode: [
+		[ /\/?\]/, 'delimiter', '@pop' ],
+		[ /"([^"]*)"/, 'attribute.value' ],
+		[ /'([^']*)'/, 'attribute.value' ],
+		[ /[\w\-]+/, 'attribute.name' ],
+		[ /=/, 'delimiter' ],
+		[ /[ \t\r\n]+/ ], // whitespace
+		[ /</, { token: '@rematch', next: '@pop' } ], // cover unclosed e.g. [name <p>
+	],
+};
+
+// `instanceof RegExp` fails for regular expressions created in another realm, e.g. the built-in
+// definition loaded by monaco in the editor canvas iframe.
+function isRegExp( value: unknown ): value is RegExp {
+	return Object.prototype.toString.call( value ) === '[object RegExp]';
+}
+
+// The Monarch compiler detects rules with `instanceof RegExp`, which fails for the rules defined
+// in this file when monaco is loaded in the editor canvas iframe. Convert all regular expressions
+// into strings so that the definition can be compiled in any window.
 function serializeRegExps( value: unknown ): unknown {
-	if ( value instanceof RegExp ) {
+	if ( isRegExp( value ) ) {
 		return value.source;
 	}
 	if ( Array.isArray( value ) ) {
@@ -312,16 +77,54 @@ function serializeRegExps( value: unknown ): unknown {
 	return value;
 }
 
+// Extend the built-in HTML language definition to highlight WordPress-specific syntax:
+// block delimiters (e.g. `<!-- wp:group {"layout":{"type":"constrained"}} -->`)
+// and shortcodes (e.g. `[gallery ids="1,2,3"]`).
+function extendHtmlLanguage(
+	language: Monaco.languages.IMonarchLanguage
+): Monaco.languages.IMonarchLanguage {
+	const { root, ...states } = language.tokenizer;
+	return serializeRegExps( {
+		...language,
+		blockName,
+		tokenizer: {
+			// The first state is the start state.
+			root: [
+				...wpRootRules,
+				// Stop the text rule at `[` so that shortcodes in the middle of text are matched.
+				...root.map( ( rule ) =>
+					Array.isArray( rule ) && isRegExp( rule[ 0 ] ) && rule[ 0 ].source === '[^<]+'
+						? [ /[^<\[]+/ ]
+						: rule
+				),
+				[ /\[/ ],
+			],
+			...states,
+			...wpStates,
+		},
+	} ) as Monaco.languages.IMonarchLanguage;
+}
+
 /**
- * Override the built-in HTML tokenizer with the one that supports WordPress-specific syntax.
- * This must be called before any HTML model is created, otherwise the lazily loaded built-in
- * tokenizer may take precedence.
+ * Replace the built-in HTML tokenizer with the one that also highlights WordPress-specific syntax.
+ * This must be called before any HTML model is created.
  *
  * @param monaco The monaco instance.
  */
 export default function registerWpHtmlTokenizer( monaco: typeof Monaco ) {
-	monaco.languages.setMonarchTokensProvider(
-		'html',
-		serializeRegExps( language ) as Monaco.languages.IMonarchLanguage
-	);
+	const html: LanguageExtensionPoint | undefined = monaco.languages
+		.getLanguages()
+		.find( ( { id } ) => 'html' === id );
+	const loader = html?.loader;
+
+	// Keep the built-in tokenizer if its definition can't be loaded.
+	if ( ! loader ) {
+		return;
+	}
+
+	// Registering a factory synchronously disposes the built-in one, so it can't override
+	// this tokenizer later even when the built-in definition is loaded asynchronously.
+	monaco.languages.registerTokensProviderFactory( 'html', {
+		create: async () => extendHtmlLanguage( ( await loader() ).language ),
+	} );
 }

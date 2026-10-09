@@ -79,23 +79,30 @@ test.describe( 'Editor', () => {
 		await expect( editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ) ).toBeVisible();
 
 		// The tokenizer is registered to the monaco instance loaded in the editor canvas iframe.
-		const tokens = await page.locator( 'iframe[name="editor-canvas"]' ).evaluate( ( iframe ) => {
-			const { monaco } = ( iframe as HTMLIFrameElement ).contentWindow as Window;
-			const text = '<!-- wp:separator /-->[gallery ids="1"]';
-			return monaco?.editor
-				.tokenize( text, 'html' )[ 0 ]
-				.map( ( { offset, type }, index, lineTokens ) => [
-					text.slice( offset, lineTokens[ index + 1 ]?.offset ),
-					type,
-				] );
-		} );
+		const tokens = await page
+			.locator( 'iframe[name="editor-canvas"]' )
+			.evaluate( async ( iframe ) => {
+				const { monaco } = ( iframe as HTMLIFrameElement ).contentWindow as Window;
+				// The shortcode follows text to check that the text rule stops at `[`.
+				const text = '<!-- wp:separator /--> [gallery ids="1"]';
+				// Wait for the tokenizer, which is created lazily.
+				await monaco?.editor.colorize( text, 'html', {} );
+				return monaco?.editor
+					.tokenize( text, 'html' )[ 0 ]
+					.map( ( { offset, type }, index, lineTokens ) => [
+						text.slice( offset, lineTokens[ index + 1 ]?.offset ),
+						type,
+					] );
+			} );
 
 		expect( tokens ).toEqual( [
 			[ '<!--', 'delimiter.html' ],
 			[ ' ', '' ],
 			[ 'wp:separator', 'tag.html' ],
 			[ ' ', '' ],
-			[ '/-->[', 'delimiter.html' ],
+			[ '/-->', 'delimiter.html' ],
+			[ ' ', '' ],
+			[ '[', 'delimiter.html' ],
 			[ 'gallery', 'tag.html' ],
 			[ ' ', '' ],
 			[ 'ids', 'attribute.name.html' ],
