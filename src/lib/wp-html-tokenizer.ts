@@ -319,7 +319,7 @@ function serializeRegExps( value: unknown ): unknown {
  *
  * @param monaco The monaco instance.
  */
-export default function registerWordPressHtmlTokenizer( monaco: typeof Monaco ) {
+export default function registerWpHtmlTokenizer( monaco: typeof Monaco ) {
 	monaco.languages.setMonarchTokensProvider(
 		'html',
 		serializeRegExps( language ) as Monaco.languages.IMonarchLanguage
