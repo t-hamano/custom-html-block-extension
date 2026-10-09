@@ -12,6 +12,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import registerWpHtmlTokenizer from './wp-html-tokenizer';
+import registerWpBlockDelimiters from './wp-block-delimiters';
 
 type LoaderError = {
 	type: 'cancelation' | 'timeout' | 'scripterror';
@@ -85,6 +86,7 @@ export default function initLoader(
 				const { monaco } = targetWindow;
 				if ( monaco ) {
 					registerWpHtmlTokenizer( monaco );
+					registerWpBlockDelimiters( monaco );
 				}
 				return resolve( monaco );
 			} );

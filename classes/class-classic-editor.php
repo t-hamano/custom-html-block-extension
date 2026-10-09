@@ -50,6 +50,8 @@ class Classic_Editor {
 			return;
 		}
 
+		$asset_file = include CHBE_PATH . '/build/classic-editor.asset.php';
+
 		wp_enqueue_style(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/style-classic-editor.css',
@@ -67,7 +69,7 @@ class Classic_Editor {
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/classic-editor.js',
-			array( 'wp-backbone' ),
+			array_merge( $asset_file['dependencies'], array( 'wp-backbone' ) ),
 			filemtime( CHBE_PATH . '/build/classic-editor.js' ),
 			true
 		);

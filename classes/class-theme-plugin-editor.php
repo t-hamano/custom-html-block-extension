@@ -95,6 +95,8 @@ class Theme_Plugin_Editor {
 			$language = 'php';
 		}
 
+		$asset_file = include CHBE_PATH . '/build/theme-plugin-editor.asset.php';
+
 		wp_enqueue_style(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/style-theme-plugin-editor.css',
@@ -112,7 +114,7 @@ class Theme_Plugin_Editor {
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/theme-plugin-editor.js',
-			array(),
+			$asset_file['dependencies'],
 			filemtime( CHBE_PATH . '/build/theme-plugin-editor.js' ),
 			true
 		);
