@@ -69,6 +69,42 @@ test.describe( 'Editor', () => {
 <!-- /wp:html -->` );
 	} );
 
+	test( 'WordPress-specific syntax should be highlighted on the block editor', async ( {
+		admin,
+		page,
+		editor,
+	} ) => {
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/html' } );
+		await expect( editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ) ).toBeVisible();
+
+		// The tokenizer is registered to the monaco instance loaded in the editor canvas iframe.
+		const tokens = await page.locator( 'iframe[name="editor-canvas"]' ).evaluate( ( iframe ) => {
+			const { monaco } = ( iframe as HTMLIFrameElement ).contentWindow as Window;
+			const text = '<!-- wp:separator /-->[gallery ids="1"]';
+			return monaco?.editor
+				.tokenize( text, 'html' )[ 0 ]
+				.map( ( { offset, type }, index, lineTokens ) => [
+					text.slice( offset, lineTokens[ index + 1 ]?.offset ),
+					type,
+				] );
+		} );
+
+		expect( tokens ).toEqual( [
+			[ '<!--', 'delimiter.html' ],
+			[ ' ', '' ],
+			[ 'wp:separator', 'tag.html' ],
+			[ ' ', '' ],
+			[ '/-->[', 'delimiter.html' ],
+			[ 'gallery', 'tag.html' ],
+			[ ' ', '' ],
+			[ 'ids', 'attribute.name.html' ],
+			[ '=', 'delimiter.html' ],
+			[ '"1"', 'attribute.value.html' ],
+			[ ']', 'delimiter.html' ],
+		] );
+	} );
+
 	test( 'block should render in the default mode selected in the settings', async ( {
 		admin,
 		page,

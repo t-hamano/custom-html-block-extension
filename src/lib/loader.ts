@@ -8,6 +8,11 @@ import type * as Monaco from 'monaco-editor';
  */
 import { __ } from '@wordpress/i18n';
 
+/**
+ * Internal dependencies
+ */
+import registerHtmlLanguage from './html-language';
+
 type LoaderError = {
 	type: 'cancelation' | 'timeout' | 'scripterror';
 	msg: string;
@@ -77,7 +82,11 @@ export default function initLoader(
 			require.config( config );
 			require( [ 'vs/editor/editor.main' ], () => {
 				clearTimeout( timeout );
-				return resolve( targetWindow.monaco );
+				const { monaco } = targetWindow;
+				if ( monaco ) {
+					registerHtmlLanguage( monaco );
+				}
+				return resolve( monaco );
 			} );
 		};
 
