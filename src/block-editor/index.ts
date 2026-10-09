@@ -11,7 +11,7 @@ import icon from '../components/block-icon';
 import edit from './edit';
 import { withBlockHTMLListBlock, withBlockHTMLEdit } from './block-html';
 
-const customHtmlBlockExtension = ( settings: BlockConfiguration ): BlockConfiguration => {
+const extendCustomHtmlBlockSettings = ( settings: BlockConfiguration ): BlockConfiguration => {
 	if ( 'core/html' !== settings.name ) {
 		return settings;
 	}
@@ -37,18 +37,14 @@ const customHtmlBlockExtension = ( settings: BlockConfiguration ): BlockConfigur
 
 addFilter(
 	'blocks.registerBlockType',
-	'wildworks/custom-html-block-extension',
-	customHtmlBlockExtension
+	'custom-html-block-extension/custom-html-block/extend-settings',
+	extendCustomHtmlBlockSettings
 );
 
 addFilter(
 	'editor.BlockListBlock',
-	'wildworks/custom-html-block-extension/block-html',
+	'custom-html-block-extension/block-html-list-block',
 	withBlockHTMLListBlock
 );
 
-addFilter(
-	'editor.BlockEdit',
-	'wildworks/custom-html-block-extension/block-html',
-	withBlockHTMLEdit
-);
+addFilter( 'editor.BlockEdit', 'custom-html-block-extension/block-html-edit', withBlockHTMLEdit );
