@@ -53,15 +53,22 @@ const wpStates = {
 	],
 };
 
-// `instanceof RegExp` fails for regular expressions created in another realm, e.g. the built-in
-// definition loaded by monaco in the editor canvas iframe.
+/**
+ * Check if the value is a regular expression, including one created in another window, e.g. the
+ * built-in definition loaded by monaco in the editor canvas iframe.
+ *
+ * @param value The value to check.
+ */
 function isRegExp( value: unknown ): value is RegExp {
 	return Object.prototype.toString.call( value ) === '[object RegExp]';
 }
 
-// The Monarch compiler detects rules with `instanceof RegExp`, which fails for the rules defined
-// in this file when monaco is loaded in the editor canvas iframe. Convert all regular expressions
-// into strings so that the definition can be compiled in any window.
+/**
+ * Convert all regular expressions into strings, since the Monarch compiler rejects `RegExp`
+ * objects created in another window, e.g. when monaco runs in the editor canvas iframe.
+ *
+ * @param value The value to convert.
+ */
 function serializeRegExps( value: unknown ): unknown {
 	if ( isRegExp( value ) ) {
 		return value.source;
@@ -77,9 +84,12 @@ function serializeRegExps( value: unknown ): unknown {
 	return value;
 }
 
-// Extend the built-in HTML language definition to highlight WordPress-specific syntax:
-// block delimiters (e.g. `<!-- wp:group {"layout":{"type":"constrained"}} -->`)
-// and shortcodes (e.g. `[gallery ids="1,2,3"]`).
+/**
+ * Extend the built-in HTML language definition with block delimiters and shortcodes. `root` is kept
+ * first as the start state, and its text rule stops at `[` to match shortcodes within text.
+ *
+ * @param language The built-in HTML language definition.
+ */
 function extendHtmlLanguage(
 	language: Monaco.languages.IMonarchLanguage
 ): Monaco.languages.IMonarchLanguage {
@@ -88,10 +98,8 @@ function extendHtmlLanguage(
 		...language,
 		blockName,
 		tokenizer: {
-			// The first state is the start state.
 			root: [
 				...wpRootRules,
-				// Stop the text rule at `[` so that shortcodes in the middle of text are matched.
 				...root.map( ( rule ) =>
 					Array.isArray( rule ) && isRegExp( rule[ 0 ] ) && rule[ 0 ].source === '[^<]+'
 						? [ /[^<\[]+/ ]
@@ -106,8 +114,9 @@ function extendHtmlLanguage(
 }
 
 /**
- * Replace the built-in HTML tokenizer with the one that also highlights WordPress-specific syntax.
- * This must be called before any HTML model is created.
+ * Replace the built-in HTML tokenizer factory with one that also highlights WordPress-specific
+ * syntax. Must be called before any HTML model is created. Does nothing if the built-in
+ * definition can't be loaded.
  *
  * @param monaco The monaco instance.
  */
@@ -117,13 +126,10 @@ export default function registerWpHtmlTokenizer( monaco: typeof Monaco ) {
 		.find( ( { id } ) => 'html' === id );
 	const loader = html?.loader;
 
-	// Keep the built-in tokenizer if its definition can't be loaded.
 	if ( ! loader ) {
 		return;
 	}
 
-	// Registering a factory synchronously disposes the built-in one, so it can't override
-	// this tokenizer later even when the built-in definition is loaded asynchronously.
 	monaco.languages.registerTokensProviderFactory( 'html', {
 		create: async () => extendHtmlLanguage( ( await loader() ).language ),
 	} );
