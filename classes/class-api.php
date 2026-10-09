@@ -45,6 +45,27 @@ class Api {
 				)
 			);
 		}
+
+		register_rest_route(
+			CHBE_NAMESPACE . '/v1',
+			'/get_json_schema',
+			array(
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'get_json_schema' ),
+					'permission_callback' => static function () {
+						return current_user_can( 'edit_themes' ) || current_user_can( 'edit_plugins' );
+					},
+					'args'                => array(
+						'url' => array(
+							'type'              => 'string',
+							'required'          => true,
+							'validate_callback' => array( $this, 'validate_json_schema_url' ),
+						),
+					),
+				),
+			)
+		);
 	}
 
 	/**
@@ -134,6 +155,45 @@ class Api {
 				'editorOptions'  => Settings::get_editor_options(),
 			)
 		);
+	}
+
+	/**
+	 * Function to get a JSON schema.
+	 *
+	 * The browser can't fetch the schema directly because schemas.wp.org redirects
+	 * to GitHub without CORS headers, so the server fetches it instead.
+	 */
+	public function get_json_schema( $request ) {
+		$url       = $request->get_param( 'url' );
+		$cache_key = 'chbe_json_schema_' . md5( $url );
+		$schema    = get_transient( $cache_key );
+
+		if ( false === $schema ) {
+			$response = wp_safe_remote_get( $url );
+			$schema   = json_decode( wp_remote_retrieve_body( $response ) );
+
+			if ( 200 !== wp_remote_retrieve_response_code( $response ) || ! is_object( $schema ) ) {
+				return new \WP_Error(
+					'chbe_json_schema_not_found',
+					__( 'Failed to load the JSON schema.', 'custom-html-block-extension' ),
+					array( 'status' => 404 )
+				);
+			}
+
+			set_transient( $cache_key, $schema, DAY_IN_SECONDS );
+		}
+
+		return rest_ensure_response( $schema );
+	}
+
+	/**
+	 * Allow only schemas on schemas.wp.org so that the endpoint can't be used
+	 * to fetch arbitrary URLs.
+	 */
+	public function validate_json_schema_url( $url ) {
+		return is_string( $url )
+			&& 'https' === wp_parse_url( $url, PHP_URL_SCHEME )
+			&& 'schemas.wp.org' === wp_parse_url( $url, PHP_URL_HOST );
 	}
 }
 

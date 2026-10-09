@@ -6,11 +6,48 @@ import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 
 /**
+ * WordPress dependencies
+ */
+import apiFetch from '@wordpress/api-fetch';
+import { debounce } from '@wordpress/compose';
+
+/**
  * Internal dependencies
  */
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+
+/**
+ * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
+ * since schemas.wp.org doesn't return CORS headers. Each URL is requested only once.
+ *
+ * @param monaco The monaco instance.
+ * @return Function that receives the content of the JSON file.
+ */
+function createJsonSchemaLoader( monaco: typeof Monaco ) {
+	const requestedUrls = new Set< string >();
+
+	return ( content: string ) => {
+		const url = content.match( /"\$schema"\s*:\s*"(https:\/\/schemas\.wp\.org\/[^"]+)"/ )?.[ 1 ];
+		if ( ! url || requestedUrls.has( url ) ) {
+			return;
+		}
+		requestedUrls.add( url );
+
+		apiFetch( {
+			path: `/custom-html-block-extension/v1/get_json_schema?url=${ encodeURIComponent( url ) }`,
+		} )
+			.then( ( schema ) => {
+				const { diagnosticsOptions } = monaco.json.jsonDefaults;
+				monaco.json.jsonDefaults.setDiagnosticsOptions( {
+					...diagnosticsOptions,
+					schemas: [ ...( diagnosticsOptions.schemas ?? [] ), { uri: url, schema } ],
+				} );
+			} )
+			.catch( () => {} );
+	};
+}
 
 initLoader()
 	.then( ( monaco ) => {
@@ -61,6 +98,17 @@ initLoader()
 				wp.themePluginEditor.dirty = true;
 			}
 		} );
+
+		// Load the JSON schema specified by `$schema`, such as theme.json, and load it again
+		// when `$schema` is changed. Wait until typing stops so that a URL being typed isn't requested.
+		if ( 'json' === language ) {
+			const loadJsonSchema = createJsonSchemaLoader( monaco );
+			loadJsonSchema( textarea.value );
+
+			editor
+				.getModel()
+				?.onDidChangeContent( debounce( () => loadJsonSchema( editor.getValue() ), 500 ) );
+		}
 
 		// Enable Emmet.
 		if ( emmet && language ) {
