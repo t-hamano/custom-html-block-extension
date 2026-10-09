@@ -98,12 +98,12 @@ test.describe( 'Editor', () => {
 		expect( tokens ).toEqual( [
 			[ '<!--', 'delimiter.html' ],
 			[ ' ', '' ],
-			[ 'wp:separator', 'tag.html' ],
+			[ 'wp:separator', 'type.html' ],
 			[ ' ', '' ],
 			[ '/-->', 'delimiter.html' ],
 			[ ' ', '' ],
 			[ '[', 'delimiter.html' ],
-			[ 'gallery', 'tag.html' ],
+			[ 'gallery', 'keyword.flow.html' ],
 			[ ' ', '' ],
 			[ 'ids', 'attribute.name.html' ],
 			[ '=', 'delimiter.html' ],
@@ -144,7 +144,7 @@ test.describe( 'Editor', () => {
 
 		expect( tokens ).toEqual( [
 			[ '<!--', 'delimiter.html' ],
-			[ 'wp:image', 'tag.html' ],
+			[ 'wp:image', 'type.html' ],
 			[ '<?php', 'metatag.php' ],
 			[ 'echo', 'keyword.php' ],
 			[ '$id', 'variable.php' ],
@@ -152,12 +152,12 @@ test.describe( 'Editor', () => {
 			[ '?>', 'metatag.php' ],
 			[ '-->', 'delimiter.html' ],
 			[ '[', 'delimiter.html' ],
-			[ 'gallery', 'tag.html' ],
+			[ 'gallery', 'keyword.flow.html' ],
 			[ ']', 'delimiter.html' ],
 		] );
 	} );
 
-	test( 'block delimiters should not be colorized as bracket pairs on the theme editor', async ( {
+	test( 'block delimiters and tags should not be colorized as bracket pairs on the theme editor', async ( {
 		admin,
 		page,
 	} ) => {
@@ -172,21 +172,20 @@ test.describe( 'Editor', () => {
 		await page.evaluate( () => {
 			const { monaco, editor } = window;
 			editor?.setModel(
-				monaco?.editor.createModel( '<!-- wp:group {"layout":{}} -->', 'html' ) ?? null
+				monaco?.editor.createModel( '<!-- wp:group {"layout":{}} -->\n<div></div>', 'html' ) ?? null
 			);
 		} );
 
-		const tokens = page.locator( '#monaco-editor .view-line span span' );
-		// Brackets in the block attributes are still colorized.
-		await expect( tokens.getByText( '{', { exact: true } ).first() ).toHaveClass(
-			/bracket-highlighting/
-		);
-		await expect( tokens.getByText( '<!--', { exact: true } ) ).not.toHaveClass(
-			/bracket-highlighting/
-		);
-		await expect( tokens.getByText( '-->', { exact: true } ) ).not.toHaveClass(
-			/bracket-highlighting/
-		);
+		// Only the brackets in the block attributes are colorized.
+		await expect
+			.poll( async () =>
+				(
+					await page
+						.locator( '#monaco-editor .view-line [class*="bracket-highlighting"]' )
+						.allTextContents()
+				).join( '' )
+			)
+			.toBe( '{{}}' );
 	} );
 
 	test( 'matching block delimiters should be highlighted on the theme editor', async ( {

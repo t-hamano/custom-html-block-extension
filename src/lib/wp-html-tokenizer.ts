@@ -28,10 +28,12 @@ function createWpRules( languageId: 'html' | 'php' ) {
 	const switchToPhp = ( state: string ) =>
 		isPhp ? [ [ phpStart, { token: '@rematch', switchTo: `@phpInSimpleState.${ state }` } ] ] : [];
 
+	// Use `type` for block names and `keyword.flow` for shortcode names, which have colors different
+	// from tag names in the built-in themes.
 	const rootRules = [
 		[
 			/(<!--)(\s+)(@blockName)/,
-			[ `delimiter${ postfix }`, '', { token: `tag${ postfix }`, next: '@blockDelimiter' } ],
+			[ `delimiter${ postfix }`, '', { token: `type${ postfix }`, next: '@blockDelimiter' } ],
 		],
 		[
 			/(<!--)(\s+)(\/)(@blockName)/,
@@ -39,12 +41,12 @@ function createWpRules( languageId: 'html' | 'php' ) {
 				`delimiter${ postfix }`,
 				'',
 				`delimiter${ postfix }`,
-				{ token: `tag${ postfix }`, next: '@blockDelimiter' },
+				{ token: `type${ postfix }`, next: '@blockDelimiter' },
 			],
 		],
 		[
 			/(\[\/?)([a-z_][\w\-]*)/,
-			[ `delimiter${ postfix }`, { token: `tag${ postfix }`, next: '@shortcode' } ],
+			[ `delimiter${ postfix }`, { token: `keyword.flow${ postfix }`, next: '@shortcode' } ],
 		],
 	];
 
@@ -185,7 +187,6 @@ export default function registerWpHtmlTokenizer( monaco: typeof Monaco ) {
 
 	monaco.languages.setLanguageConfiguration( 'html', {
 		colorizedBracketPairs: [
-			[ '<', '>' ],
 			[ '{', '}' ],
 			[ '(', ')' ],
 		],
