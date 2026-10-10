@@ -186,6 +186,11 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `auto-closing-brackets_1.gif`〜`_3.gif`、`auto-closing-quotes_1.gif`〜`_3.gif`（5.2秒）
 - `auto-indent_1.gif`〜`_3.gif`（3.9秒）
 - `auto-surround_1.gif`〜`_4.gif`（5.8秒）
+- `cursor-blinking_1.gif`〜`_4.gif`（3秒）: 操作はなく、キャレットの点滅だけを写す。最初にエディタにフォーカスし直し、点滅が始まるまでの500msを捨てて（spec の `trimStart: 500`）、4枚の点滅の始まりをそろえる。点滅の周期は1秒なので、3秒にするとループのつなぎ目もずれない。`_5.jpg`（solid）は静止画なので対象外。
+- `cursor-smooth-caret-animation_1.gif`・`_2.gif`（6秒）: キャレットの80msの移動アニメーションを写すため、止まっている間も40msごとのコマにする。
+- `cursor-surrounding-lines_1.gif`・`_2.gif`（約4.7秒）
+- `cursor-surrounding-lines-style_1.gif`・`_2.gif`（6.8秒）: マウスを動かす位置（下端・上端を交互に2回ずつ）も同じにする。
+- `folding-strategy_1.gif`・`_2.gif`（6.2秒）
 
 ### 撮影対象外
 
