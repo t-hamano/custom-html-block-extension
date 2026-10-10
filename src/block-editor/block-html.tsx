@@ -60,7 +60,6 @@ function BlockHTML( { clientId }: { clientId: string } ) {
 	);
 	const blockContent = useMemo( () => ( block ? getBlockContent( block ) : '' ), [ block ] );
 	const [ html, setHtml ] = useState( blockContent );
-	const [ height, setHeight ] = useState( MIN_HEIGHT );
 
 	// The editor resizes to fit its content, so it must not add space below the last line.
 	const options = useMemo(
@@ -102,22 +101,18 @@ function BlockHTML( { clientId }: { clientId: string } ) {
 	};
 
 	return (
-		<div style={ { height } }>
-			<MonacoEditor
-				language="html"
-				theme={ editorSettings.theme }
-				options={ options }
-				value={ html }
-				useEmmet={ editorSettings.emmet }
-				tabSize={ editorSettings.tabSize }
-				insertSpaces={ editorSettings.insertSpaces }
-				onChange={ setHtml }
-				onBlur={ onBlur }
-				onContentHeightChange={ ( contentHeight ) =>
-					setHeight( Math.min( Math.max( contentHeight, MIN_HEIGHT ), MAX_HEIGHT ) )
-				}
-			/>
-		</div>
+		<MonacoEditor
+			language="html"
+			theme={ editorSettings.theme }
+			options={ options }
+			value={ html }
+			useEmmet={ editorSettings.emmet }
+			tabSize={ editorSettings.tabSize }
+			insertSpaces={ editorSettings.insertSpaces }
+			onChange={ setHtml }
+			onBlur={ onBlur }
+			autoHeight={ { min: MIN_HEIGHT, max: MAX_HEIGHT } }
+		/>
 	);
 }
 

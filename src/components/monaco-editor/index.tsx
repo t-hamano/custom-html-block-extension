@@ -45,7 +45,8 @@ export type MonacoEditorProps = {
 	insertSpaces?: boolean;
 	onChange?: ( value: string, event?: unknown ) => void;
 	onBlur?: ( value: string ) => void;
-	onContentHeightChange?: ( height: number ) => void;
+	// Resize the editor to fit its content within these bounds.
+	autoHeight?: { min: number; max: number };
 	onFontLoad?: ( result: FontLoadResult ) => void;
 	onError?: ( error: MonacoError ) => void;
 };
@@ -82,10 +83,11 @@ export default function MonacoEditor( {
 	insertSpaces,
 	onChange = () => null,
 	onBlur = () => null,
-	onContentHeightChange = () => null,
+	autoHeight,
 	onFontLoad = () => null,
 	onError = () => null,
 }: MonacoEditorProps ) {
+	const wrapperRef = useRef< HTMLDivElement >( null );
 	const containerRef = useRef< HTMLDivElement >( null );
 	const monacoRef = useRef< typeof Monaco | null >( null );
 	const editorRef = useRef< Monaco.editor.IStandaloneCodeEditor | null >( null );
@@ -98,8 +100,8 @@ export default function MonacoEditor( {
 	onChangeRef.current = onChange;
 	const onBlurRef = useRef( onBlur );
 	onBlurRef.current = onBlur;
-	const onContentHeightChangeRef = useRef( onContentHeightChange );
-	onContentHeightChangeRef.current = onContentHeightChange;
+	const autoHeightRef = useRef( autoHeight );
+	autoHeightRef.current = autoHeight;
 
 	const { createNotice } = useDispatch( noticesStore );
 
@@ -251,11 +253,11 @@ export default function MonacoEditor( {
 				} ),
 				editor.onDidContentSizeChange( ( { contentHeight, contentHeightChanged } ) => {
 					if ( contentHeightChanged ) {
-						onContentHeightChangeRef.current?.( contentHeight );
+						updateHeight( contentHeight );
 					}
 				} ),
 			];
-			onContentHeightChangeRef.current?.( editor.getContentHeight() );
+			updateHeight( editor.getContentHeight() );
 
 			// Toggle tab focus mode with Ctrl+M (Ctrl+Shift+M on Apple OS).
 			editor.addCommand(
@@ -384,6 +386,18 @@ export default function MonacoEditor( {
 		editorRef.current = null;
 	}
 
+	// Resize synchronously so that the editor never renders with the previous height.
+	function updateHeight( contentHeight: number ) {
+		const wrapper = wrapperRef.current;
+		const bounds = autoHeightRef.current;
+		if ( ! wrapper || ! bounds ) {
+			return;
+		}
+		const height = Math.min( Math.max( contentHeight, bounds.min ), bounds.max );
+		wrapper.style.height = `${ height }px`;
+		editorRef.current?.layout();
+	}
+
 	// Load web font.
 	function loadFont( fontFamily?: string ) {
 		const container = containerRef.current;
@@ -424,7 +438,10 @@ export default function MonacoEditor( {
 	}
 
 	return (
-		<div style={ wrapperStyles }>
+		<div
+			ref={ wrapperRef }
+			style={ autoHeight ? { position: 'relative', minHeight: autoHeight.min } : wrapperStyles }
+		>
 			{ resizeListener }
 			{ ! isEditorReady && (
 				<div style={ loadingStyles }>{ __( 'Loading…', 'custom-html-block-extension' ) }</div>
