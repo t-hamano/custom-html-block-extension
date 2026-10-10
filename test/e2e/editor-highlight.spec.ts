@@ -4,6 +4,11 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Code highlighting', () => {
+	// wp-env activates every listed plugin, including the Classic Editor, on a fresh environment.
+	test.beforeAll( async ( { requestUtils } ) => {
+		await requestUtils.deactivatePlugin( 'classic-editor' );
+	} );
+
 	test( 'WordPress-specific syntax should be highlighted on the block editor', async ( {
 		admin,
 		page,
