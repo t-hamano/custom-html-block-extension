@@ -56,4 +56,14 @@ declare module '@wordpress/block-editor' {
 	export const privateApis: unknown;
 }
 
+// The `__unstableIsHtml` option of `useBlockProps` is missing from the package types.
+declare module '@wordpress/block-editor/components/use-block-props' {
+	interface UseBlockProps {
+		< Props extends Record< string, unknown > >(
+			props: Props,
+			options: { __unstableIsHtml?: boolean }
+		): Omit< Props, 'ref' > & Merged & Reserved;
+	}
+}
+
 export {};

@@ -44,6 +44,9 @@ export type MonacoEditorProps = {
 	tabSize?: number;
 	insertSpaces?: boolean;
 	onChange?: ( value: string, event?: unknown ) => void;
+	onBlur?: ( value: string ) => void;
+	// Resize the editor to fit its content within these bounds.
+	autoHeight?: { min: number; max: number };
 	onFontLoad?: ( result: FontLoadResult ) => void;
 	onError?: ( error: MonacoError ) => void;
 };
@@ -79,19 +82,26 @@ export default function MonacoEditor( {
 	tabSize,
 	insertSpaces,
 	onChange = () => null,
+	onBlur = () => null,
+	autoHeight,
 	onFontLoad = () => null,
 	onError = () => null,
 }: MonacoEditorProps ) {
+	const wrapperRef = useRef< HTMLDivElement >( null );
 	const containerRef = useRef< HTMLDivElement >( null );
 	const monacoRef = useRef< typeof Monaco | null >( null );
 	const editorRef = useRef< Monaco.editor.IStandaloneCodeEditor | null >( null );
-	const subscriptionRef = useRef< Monaco.IDisposable | null >( null );
+	const subscriptionsRef = useRef< Monaco.IDisposable[] >( [] );
 
 	const [ isEditorReady, setIsEditorReady ] = useState( false );
 	const [ isMonacoMounting, setIsMonacoMounting ] = useState( true );
 
 	const onChangeRef = useRef( onChange );
 	onChangeRef.current = onChange;
+	const onBlurRef = useRef( onBlur );
+	onBlurRef.current = onBlur;
+	const autoHeightRef = useRef( autoHeight );
+	autoHeightRef.current = autoHeight;
 
 	const { createNotice } = useDispatch( noticesStore );
 
@@ -232,11 +242,22 @@ export default function MonacoEditor( {
 				}
 			);
 
-			// Subscribe to content changes once; the callback is read from a ref
+			// Subscribe to editor events once; the callbacks are read from refs
 			// so prop changes don't require re-subscribing.
-			subscriptionRef.current = editor.onDidChangeModelContent( ( event ) => {
-				onChangeRef.current?.( editor.getValue(), event );
-			} );
+			subscriptionsRef.current = [
+				editor.onDidChangeModelContent( ( event ) => {
+					onChangeRef.current?.( editor.getValue(), event );
+				} ),
+				editor.onDidBlurEditorWidget( () => {
+					onBlurRef.current?.( editor.getValue() );
+				} ),
+				editor.onDidContentSizeChange( ( { contentHeight, contentHeightChanged } ) => {
+					if ( contentHeightChanged ) {
+						updateHeight( contentHeight );
+					}
+				} ),
+			];
+			updateHeight( editor.getContentHeight() );
 
 			// Toggle tab focus mode with Ctrl+M (Ctrl+Shift+M on Apple OS).
 			editor.addCommand(
@@ -345,7 +366,9 @@ export default function MonacoEditor( {
 
 	// Dispose editor.
 	function disposeEditor() {
-		subscriptionRef.current?.dispose();
+		// Unsubscribe first, since disposing the model blurs the editor and
+		// empties its value.
+		subscriptionsRef.current.forEach( ( subscription ) => subscription.dispose() );
 		const editor = editorRef.current;
 		if ( ! editor ) {
 			return;
@@ -361,6 +384,18 @@ export default function MonacoEditor( {
 		}
 		editor.dispose();
 		editorRef.current = null;
+	}
+
+	// Resize synchronously so that the editor never renders with the previous height.
+	function updateHeight( contentHeight: number ) {
+		const wrapper = wrapperRef.current;
+		const bounds = autoHeightRef.current;
+		if ( ! wrapper || ! bounds ) {
+			return;
+		}
+		const height = Math.min( Math.max( contentHeight, bounds.min ), bounds.max );
+		wrapper.style.height = `${ height }px`;
+		editorRef.current?.layout();
 	}
 
 	// Load web font.
@@ -403,7 +438,10 @@ export default function MonacoEditor( {
 	}
 
 	return (
-		<div style={ wrapperStyles }>
+		<div
+			ref={ wrapperRef }
+			style={ autoHeight ? { position: 'relative', minHeight: autoHeight.min } : wrapperStyles }
+		>
 			{ resizeListener }
 			{ ! isEditorReady && (
 				<div style={ loadingStyles }>{ __( 'Loading…', 'custom-html-block-extension' ) }</div>

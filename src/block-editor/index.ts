@@ -9,8 +9,9 @@ import type { BlockConfiguration } from '@wordpress/blocks';
  */
 import icon from '../components/block-icon';
 import edit from './edit';
+import { withBlockHTMLListBlock, withBlockHTMLEdit } from './block-html';
 
-const customHtmlBlockExtension = ( settings: BlockConfiguration ): BlockConfiguration => {
+const customHtmlRegisterBlockType = ( settings: BlockConfiguration ): BlockConfiguration => {
 	if ( 'core/html' !== settings.name ) {
 		return settings;
 	}
@@ -36,6 +37,14 @@ const customHtmlBlockExtension = ( settings: BlockConfiguration ): BlockConfigur
 
 addFilter(
 	'blocks.registerBlockType',
-	'wildworks/custom-html-block-extension',
-	customHtmlBlockExtension
+	'custom-html-block-extension/custom-html-register-block-type',
+	customHtmlRegisterBlockType
 );
+
+addFilter(
+	'editor.BlockListBlock',
+	'custom-html-block-extension/block-html-list-block',
+	withBlockHTMLListBlock
+);
+
+addFilter( 'editor.BlockEdit', 'custom-html-block-extension/block-html-edit', withBlockHTMLEdit );

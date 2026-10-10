@@ -387,6 +387,47 @@ test.describe( 'Editor', () => {
 			page.getByRole( 'button', { name: 'Preview', exact: true, pressed: true } )
 		).toBeVisible();
 	} );
+
+	test( 'block HTML should be edited with the code editor in the "Edit as HTML" mode', async ( {
+		admin,
+		page,
+		editor,
+	} ) => {
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/paragraph', attributes: { content: 'Hello' } } );
+		await editor.clickBlockOptionsMenuItem( 'Edit as HTML' );
+
+		const codeEditor = editor.canvas.locator( '[data-type="core/paragraph"] .monaco-editor' );
+		await expect( codeEditor ).toBeVisible();
+		await expect(
+			editor.canvas.locator( '.block-editor-block-list__block-html-textarea' )
+		).toHaveCount( 0 );
+
+		// Type before the closing tag of `<p>Hello</p>`.
+		await codeEditor.click();
+		await page.keyboard.press( 'End' );
+		for ( let i = 0; i < 4; i++ ) {
+			await page.keyboard.press( 'ArrowLeft' );
+		}
+		await page.keyboard.type( ' World' );
+
+		// The changes are committed on blur.
+		await editor.canvas.getByRole( 'textbox', { name: 'Add title' } ).click();
+		await expect
+			.poll( editor.getBlocks )
+			.toMatchObject( [ { name: 'core/paragraph', attributes: { content: 'Hello World' } } ] );
+
+		// Switching to the visual mode while the code editor has focus keeps the content.
+		await codeEditor.click();
+		await page.evaluate( () => {
+			const { dispatch, select } = ( window.wp as any ).data;
+			const [ clientId ] = select( 'core/block-editor' ).getBlockOrder();
+			dispatch( 'core/block-editor' ).toggleBlockMode( clientId );
+		} );
+		await expect( editor.canvas.getByRole( 'document', { name: 'Block: Paragraph' } ) ).toHaveText(
+			'Hello World'
+		);
+	} );
 } );
 
 test.describe( 'Settings page', () => {
