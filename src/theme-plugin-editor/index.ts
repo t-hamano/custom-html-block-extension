@@ -75,6 +75,11 @@ initLoader()
 			language,
 			automaticLayout: true,
 			...editorOptions,
+			// Pass the indentation as editor options, since Monaco re-detects the
+			// indentation from the content and overrides the model options otherwise.
+			tabSize,
+			insertSpaces,
+			detectIndentation: false,
 		};
 
 		// Create monaco editor.
@@ -127,11 +132,6 @@ initLoader()
 				monaco.editor.setTheme( targetTheme.value );
 			}
 		}
-
-		editor.getModel()?.updateOptions( {
-			tabSize,
-			insertSpaces,
-		} );
 
 		// Load webfont.
 		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
