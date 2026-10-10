@@ -28,7 +28,7 @@ export default function AutoClosingQuotes() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
-			image: 'editor-options/auto-closing-brackets_1.gif',
+			image: 'editor-options/auto-closing-quotes_1.gif',
 		},
 		{
 			label: __(
@@ -37,12 +37,12 @@ export default function AutoClosingQuotes() {
 			),
 			value: 'beforeWhitespace',
 			isDefault: true,
-			image: 'editor-options/auto-closing-brackets_2.gif',
+			image: 'editor-options/auto-closing-quotes_2.gif',
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
-			image: 'editor-options/auto-closing-brackets_3.gif',
+			image: 'editor-options/auto-closing-quotes_3.gif',
 		},
 	] as const;
 

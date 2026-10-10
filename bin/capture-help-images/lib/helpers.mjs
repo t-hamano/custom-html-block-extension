@@ -158,6 +158,100 @@ export function mouseSteps( ctx, { map = ctx.map, down, actions = {}, overrides 
 	} );
 }
 
+// Steps from operations at times set directly, e.g. to keep GIFs shown side by
+// side in step. Items (page coordinates):
+//   { at: { x, y }, wait }          put the mouse there, then wait
+//   { to: point | ( page ) => point, ms, axis: 'x' | 'y', wait }
+//                                   glide there (axis: along x / y first), then wait
+//   { click: true, wait }           click at the current position, then wait
+//   { action, wait }                run an action, then wait
+//   { wait }                        wait
+// Glides are split into `frame` ms frames and waits into `holdFrame` ms frames.
+export function plan( items, { frame = 50, holdFrame = 100 } = {} ) {
+	const steps = [];
+	let cur = null;
+	// Long waits are split into short frames, so that changes during a wait
+	// (e.g. a hover appearing) are captured. Identical frames are merged later.
+	const hold = ( dur, first = {} ) => {
+		let rest = dur;
+		let props = first;
+		do {
+			const d = Math.min( rest, holdFrame );
+			steps.push( { dur: d, ...props } );
+			props = {};
+			rest -= d;
+		} while ( rest > 0 );
+	};
+	const ease = ( t ) => ( t < 0.5 ? 2 * t * t : 1 - ( -2 * t + 2 ) ** 2 / 2 );
+	for ( const it of items ) {
+		if ( it.at ) {
+			cur = it.at;
+			hold( it.wait ?? 100, { x: it.at.x, y: it.at.y } );
+		} else if ( it.to ) {
+			const ms = it.ms ?? 400;
+			const n = Math.max( 1, Math.ceil( ms / frame ) );
+			// One position per frame, set at the start of the frame, so that every
+			// capture shows the same positions regardless of timing jitter.
+			let path;
+			const first = async ( page ) => {
+				const target = typeof it.to === 'function' ? await it.to( page ) : it.to;
+				const from = cur;
+				let legs = [ target ];
+				if ( it.axis === 'x' ) {
+					legs = [ { x: target.x, y: from.y }, target ];
+				} else if ( it.axis === 'y' ) {
+					legs = [ { x: from.x, y: target.y }, target ];
+				}
+				const lens = [];
+				let p = from;
+				for ( const l of legs ) {
+					lens.push( Math.hypot( l.x - p.x, l.y - p.y ) );
+					p = l;
+				}
+				const total = lens.reduce( ( a, b ) => a + b, 0 ) || 1;
+				// Each leg takes its share of the time and eases on its own.
+				const at = ( r ) => {
+					let q = from;
+					let start = 0;
+					for ( let i = 0; i < legs.length; i++ ) {
+						const share = lens[ i ] / total;
+						if ( r <= start + share || i === legs.length - 1 ) {
+							const e = ease( Math.min( 1, ( r - start ) / ( share || 1 ) ) );
+							return { x: q.x + ( legs[ i ].x - q.x ) * e, y: q.y + ( legs[ i ].y - q.y ) * e };
+						}
+						start += share;
+						q = legs[ i ];
+					}
+					return target;
+				};
+				path = Array.from( { length: n }, ( _, k ) => at( ( k + 1 ) / n ) );
+				cur = target;
+				await page.mouse.move( path[ 0 ].x, path[ 0 ].y );
+			};
+			for ( let k = 0; k < n; k++ ) {
+				steps.push( {
+					dur: frame,
+					action: k === 0 ? first : ( page ) => page.mouse.move( path[ k ].x, path[ k ].y ),
+				} );
+			}
+			if ( it.wait ) {
+				hold( it.wait );
+			}
+		} else if ( it.click ) {
+			hold( it.wait ?? 300, {
+				action: async ( page ) => {
+					await page.mouse.down();
+					await page.waitForTimeout( 80 );
+					await page.mouse.up();
+				},
+			} );
+		} else {
+			hold( it.wait ?? 100, { action: it.action } );
+		}
+	}
+	return steps;
+}
+
 // Image coordinates relative to the crop, shifted by (dx, dy).
 export const cropMap =
 	( ctx, dx = 0, dy = 0 ) =>

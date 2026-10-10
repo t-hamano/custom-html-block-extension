@@ -107,8 +107,12 @@ export async function stage(
 	const opts = deepMerge( structuredClone( DEFAULTS.options ), options );
 	const pinned = structuredClone( opts );
 	free.forEach( ( k ) => delete pinned[ k ] );
-	// The plugin's "Light" theme falls back to Monaco's `vs`.
+	// The plugin's "Light" theme falls back to Monaco's `vs`; other names are the
+	// plugin's themes in src/lib/themes.
 	theme = theme === 'light' ? 'vs' : theme;
+	const themeData = [ 'vs', 'vs-dark', 'hc-black' ].includes( theme )
+		? null
+		: JSON.parse( fs.readFileSync( `${ ROOT }/src/lib/themes/${ theme }.json`, 'utf8' ) );
 	await page.evaluate(
 		async ( {
 			x,
@@ -118,6 +122,7 @@ export async function stage(
 			opts,
 			pinned,
 			theme,
+			themeData,
 			value,
 			tabSize,
 			insertSpaces,
@@ -157,6 +162,9 @@ export async function stage(
 				ed = monaco.editor.create( container, { ...opts, model } );
 				ed.__origUpdateOptions = ed.updateOptions.bind( ed );
 			}
+			if ( themeData ) {
+				monaco.editor.defineTheme( theme, themeData );
+			}
 			monaco.editor.setTheme( theme );
 			ed.getModel().updateOptions( { tabSize, insertSpaces } );
 			ed.getModel().setValue( value );
@@ -168,7 +176,21 @@ export async function stage(
 			monaco.editor.remeasureFonts();
 			ed.layout();
 		},
-		{ x, y, width, height, opts, pinned, theme, value, tabSize, insertSpaces, background, recreate }
+		{
+			x,
+			y,
+			width,
+			height,
+			opts,
+			pinned,
+			theme,
+			themeData,
+			value,
+			tabSize,
+			insertSpaces,
+			background,
+			recreate,
+		}
 	);
 	await page.waitForTimeout( 400 );
 }
@@ -208,13 +230,15 @@ export async function editorEval( page, fn, arg ) {
 
 // Draw a Windows-like mouse cursor that follows the mouse, since screenshots
 // don't include the OS cursor. The shape follows the CSS `cursor` under the mouse.
-export async function installCursor( page ) {
+// `wheel` also draws a mouse icon whose wheel lights up while the wheel turns, and
+// `pointer: false` draws the icon alone.
+export async function installCursor( page, { wheel = false, pointer = true } = {} ) {
 	const meta = JSON.parse( fs.readFileSync( `${ WORK }/cursors/cursors.json`, 'utf8' ) );
 	const png = ( name ) =>
 		'data:image/png;base64,' +
 		fs.readFileSync( `${ WORK }/cursors/${ name }.png` ).toString( 'base64' );
 	await page.evaluate(
-		( { arrow, link, meta } ) => {
+		( { arrow, link, meta, wheel, pointer } ) => {
 			const el = document.createElement( 'div' );
 			el.id = '__cursor';
 			Object.assign( el.style, {
@@ -299,9 +323,58 @@ export async function installCursor( page ) {
 					el.style.mixBlendMode = k.blend;
 					current = kind;
 				}
-				el.style.display = 'block';
+				el.style.display = pointer ? 'block' : 'none';
 				el.style.transform = `translate(${ x - k.hx }px, ${ y - k.hy }px)`;
 			};
+			// A mouse icon next to the cursor; its wheel lights up with an arrow of
+			// the direction while the wheel turns.
+			let placeIcon = () => {};
+			if ( wheel ) {
+				const icon = document.createElement( 'div' );
+				Object.assign( icon.style, {
+					position: 'fixed',
+					left: '0',
+					top: '0',
+					zIndex: '2147483647',
+					pointerEvents: 'none',
+					display: 'none',
+				} );
+				icon.innerHTML =
+					'<svg width="28" height="26" viewBox="0 0 28 26" style="display:block">' +
+					'<rect x="1" y="1" width="15" height="23" rx="7.5" fill="#fff" stroke="#1e1e1e" stroke-width="1.5"/>' +
+					'<path d="M1.5 10.5H15.5M8.5 1.5V10.5" stroke="#1e1e1e" stroke-width="1"/>' +
+					'<rect class="w" x="7" y="3.5" width="3" height="5.5" rx="1.5" fill="#8c8f94"/>' +
+					'<path class="u" d="M22.5 1 L27 7 H24.5 V12 H20.5 V7 H18 Z" fill="#3582c4" stroke="#fff" stroke-width="1" visibility="hidden"/>' +
+					'<path class="d" d="M22.5 25 L27 19 H24.5 V14 H20.5 V19 H18 Z" fill="#3582c4" stroke="#fff" stroke-width="1" visibility="hidden"/>' +
+					'</svg>';
+				document.body.appendChild( icon );
+				const w = icon.querySelector( '.w' );
+				const up = icon.querySelector( '.u' );
+				const down = icon.querySelector( '.d' );
+				let idle;
+				document.addEventListener(
+					'wheel',
+					( e ) => {
+						clearTimeout( idle );
+						w.setAttribute( 'fill', '#3582c4' );
+						up.setAttribute( 'visibility', e.deltaY < 0 ? 'visible' : 'hidden' );
+						down.setAttribute( 'visibility', e.deltaY > 0 ? 'visible' : 'hidden' );
+						idle = setTimeout( () => {
+							w.setAttribute( 'fill', '#8c8f94' );
+							up.setAttribute( 'visibility', 'hidden' );
+							down.setAttribute( 'visibility', 'hidden' );
+						}, 250 );
+					},
+					{ capture: true, passive: true }
+				);
+				placeIcon = ( x, y ) => {
+					icon.style.display = 'block';
+					// Without the cursor, the mouse icon itself marks the mouse position.
+					icon.style.transform = pointer
+						? `translate(${ x + 13 }px, ${ y + 16 }px)`
+						: `translate(${ x - 8 }px, ${ y - 12 }px)`;
+				};
+			}
 			let last = [ 0, 0 ];
 			// Depending on the gesture, Monaco suppresses either the pointer or the
 			// mouse events, so listen to both.
@@ -309,6 +382,7 @@ export async function installCursor( page ) {
 				last = [ e.clientX, e.clientY ];
 				update( e.clientX, e.clientY );
 				placeMark( e.clientX, e.clientY );
+				placeIcon( e.clientX, e.clientY );
 			};
 			document.addEventListener( 'pointermove', onMove, true );
 			document.addEventListener( 'mousemove', onMove, true );
@@ -321,7 +395,7 @@ export async function installCursor( page ) {
 				refresh: () => update( ...last ),
 			};
 		},
-		{ arrow: png( 'aero_arrow' ), link: png( 'aero_link' ), meta }
+		{ arrow: png( 'aero_arrow' ), link: png( 'aero_link' ), meta, wheel, pointer }
 	);
 }
 

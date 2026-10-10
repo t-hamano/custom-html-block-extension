@@ -4,7 +4,8 @@
 // A spec: {
 //   rel: 'editor-options/foo.jpg',       // the image to capture, relative to IMG
 //   value,                                // code (default: the preview code)
-//   theme,                                // 'vs-dark' (default) or 'light'
+//   size: [ width, height ],              // image size (default: the current image's size)
+//   theme,                                // 'vs-dark' (default), 'light' or a theme in src/lib/themes
 //   options,                              // editor options over the plugin defaults
 //   tabSize, insertSpaces,
 //   recreate: true,                       // recreate the editor for options read at creation
@@ -20,6 +21,8 @@
 //   caret: false,                         // hide the text caret
 //   showScrollbars: true,                 // keep the scrollbars visible
 //   cursor: true,                         // draw the mouse cursor and click marks (GIF)
+//   wheelIcon: true,                      // with `cursor`, draw a mouse icon showing the wheel instead
+//   trimStart,                            // drop the first `trimStart` ms of the GIF
 //   moveMs,                               // how long the mouse moves between frames (default: 80)
 // }
 //
@@ -55,6 +58,20 @@ export async function openSession() {
 	return { page, capture: ( spec ) => capture( page, spec ), close };
 }
 
+// Drop the frames in the first `ms`, e.g. a warm-up before the shown loop.
+function trimFrames( work, ms ) {
+	const durs = JSON.parse( fs.readFileSync( `${ work }/durations.json`, 'utf8' ) );
+	let skip = 0;
+	let t = 0;
+	while ( skip < durs.length && t + durs[ skip ] <= ms ) {
+		t += durs[ skip ];
+		skip++;
+	}
+	const name = ( i ) => `${ work }/frames/${ String( i ).padStart( 4, '0' ) }.png`;
+	durs.slice( skip ).forEach( ( d, i ) => fs.renameSync( name( i + skip ), name( i ) ) );
+	fs.writeFileSync( `${ work }/durations.json`, JSON.stringify( durs.slice( skip ) ) );
+}
+
 async function capture( page, spec ) {
 	const started = Date.now();
 	// Where the editor is placed on the page (the admin menu is on the left).
@@ -78,7 +95,7 @@ async function capture( page, spec ) {
 		recreate: spec.recreate ?? false,
 	} );
 	if ( spec.cursor ) {
-		await installCursor( page );
+		await installCursor( page, { wheel: spec.wheelIcon, pointer: ! spec.wheelIcon } );
 	}
 	// Let link detection, folding ranges and fonts settle.
 	await page.waitForTimeout( 1200 );
@@ -150,13 +167,15 @@ async function capture( page, spec ) {
 	};
 
 	const a = spec.anchor ?? { line: 1, column: 1, ax: 0, ay: 0 };
-	const [ W, H ] = py(
-		'-c',
-		`from PIL import Image; im = Image.open('${ IMG }/${ spec.rel }'); print(im.size[0], im.size[1])`
-	)
-		.trim()
-		.split( ' ' )
-		.map( Number );
+	const [ W, H ] =
+		spec.size ??
+		py(
+			'-c',
+			`from PIL import Image; im = Image.open('${ IMG }/${ spec.rel }'); print(im.size[0], im.size[1])`
+		)
+			.trim()
+			.split( ' ' )
+			.map( Number );
 	const clip = spec.clip
 		? await spec.clip( ctx, W, H )
 		: await clipAt( page, { stageX: EX, stageY: EY, ...a, width: W, height: H } );
@@ -191,6 +210,9 @@ async function capture( page, spec ) {
 	if ( spec.rel.endsWith( '.gif' ) ) {
 		const steps = await spec.steps( ctx );
 		await replay( page, { steps, outDir: `${ work }/frames`, moveMs: spec.moveMs ?? 80 } );
+		if ( spec.trimStart ) {
+			trimFrames( work, spec.trimStart );
+		}
 		py( `${ TOOL }/py/make_gif.py`, `${ work }/frames`, `${ work }/durations.json`, out, crop );
 	} else {
 		await page.waitForTimeout( 300 );
