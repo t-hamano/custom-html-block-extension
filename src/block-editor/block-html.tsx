@@ -61,9 +61,12 @@ function BlockHTML( { clientId }: { clientId: string } ) {
 	const blockContent = useMemo( () => ( block ? getBlockContent( block ) : '' ), [ block ] );
 	const [ html, setHtml ] = useState( blockContent );
 
-	// The editor resizes to fit its content, so it must not add space below the last line.
 	const options = useMemo(
-		() => ( { ...window.chbeObj.editorOptions, scrollBeyondLastLine: false } ),
+		() => ( {
+			...window.chbeObj.editorOptions,
+			// The editor resizes to fit its content, so it must not add space below the last line.
+			scrollBeyondLastLine: false,
+		} ),
 		[]
 	);
 
