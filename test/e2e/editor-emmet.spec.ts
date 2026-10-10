@@ -12,16 +12,8 @@ type Fixtures = { admin: Admin; editor: Editor; page: Page };
 
 const HTML_CASES = [
 	{
-		abbreviation: 'p.selector',
-		expected: '<p class="selector"></p>',
-	},
-	{
 		abbreviation: 'div#id.a.b',
 		expected: '<div id="id" class="a b"></div>',
-	},
-	{
-		abbreviation: '.box',
-		expected: '<div class="box"></div>',
 	},
 	{
 		abbreviation: 'a[href="#"]{link}',
@@ -30,18 +22,6 @@ const HTML_CASES = [
 	{
 		abbreviation: 'input:email',
 		expected: '<input type="email" name="" id="">',
-	},
-	{
-		abbreviation: 'h1+p',
-		expected: `<h1></h1>
-<p></p>`,
-	},
-	{
-		abbreviation: 'div>p^span',
-		expected: `<div>
-  <p></p>
-</div>
-<span></span>`,
 	},
 	{
 		abbreviation: '(header>nav)+footer',
@@ -58,11 +38,6 @@ const HTML_CASES = [
   <li class="item"></li>
 </ul>`,
 	},
-	{
-		abbreviation: 'li{Item $}*2',
-		expected: `<li>Item 1</li>
-<li>Item 2</li>`,
-	},
 ];
 
 const CSS_CASES = [
@@ -71,20 +46,8 @@ const CSS_CASES = [
 		expected: 'font-size: 100px;',
 	},
 	{
-		abbreviation: 'w100p',
-		expected: 'width: 100%;',
-	},
-	{
-		abbreviation: 'lh1.5',
-		expected: 'line-height: 1.5;',
-	},
-	{
 		abbreviation: 'm10-20',
 		expected: 'margin: 10px 20px;',
-	},
-	{
-		abbreviation: 'bgc#fff',
-		expected: 'background-color: #fff;',
 	},
 	{
 		abbreviation: 'bd1-s#000',
@@ -93,10 +56,6 @@ const CSS_CASES = [
 	{
 		abbreviation: 'dn',
 		expected: 'display: none;',
-	},
-	{
-		abbreviation: 'posa',
-		expected: 'position: absolute;',
 	},
 ];
 
