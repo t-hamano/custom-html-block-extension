@@ -156,6 +156,27 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - **`cursor-surrounding-lines*` の4枚は、スティッキースクロールをオフにする（`options: { stickyScroll: { enabled: false } }`）。** プラグインの Monaco ではスティッキースクロールが初期値でオンになっている。オンのとき、Monaco は「Number of lines to keep before and after the cursor」の値に関係なく、カーソルの上下に5行以上の余白を取る。そのため0〜5のどの値でも動きが同じになり、設定の違いが画像に表れない。HTML ではスティッキースクロールの見出し行は表示されないので、オフにしてもほかの見た目は変わらない。プラグイン側でスティッキースクロールが無効になったら、この例外は不要になる。
 - **スクロールやドラッグをする GIF は、ホバーをオフにする（`options: { hover: { enabled: 'off' } }`）。** これらの GIF ではマウスをコードの上に置いたまま操作するため、少し待つとタグや属性の説明のホバーが表示される。元の GIF には写っておらず、説明したい動き（スクロールやスクロールバーの表示など）を隠してしまう。
 
+### 画像ごとの設定
+
+次の画像は、レビューを受けて、その画像が説明する設定のほかにも初期値と異なる設定で撮っている。撮り直すときも同じ設定にする。
+
+- **`minimap/max-column.gif`、`minimap/render-characters_1.jpg`・`_2.jpg`、`minimap/show-slider_1.jpg`・`_2.gif`、`minimap/side_1.jpg`・`_2.jpg`:** `minimap.scale: 2`。初期値の1では、元画像よりミニマップの文字が小さく読めないため。
+- **`scrollbar/arrow-size_1.jpg`・`_2.jpg`、`scrollbar/horizontal-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/vertical-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/horizontal_2.jpg`・`_3.jpg`、`scrollbar/vertical_2.jpg`・`_3.jpg`:** `scrollbar.verticalScrollbarSize: 20`、`scrollbar.horizontalScrollbarSize: 20`。元画像のスクロールバーは20pxで、初期値の10pxではスクロールバーや矢印のエリアが小さすぎるため。
+- **`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`overview-ruler-border_1.jpg`・`_2.jpg`:** `scrollbar.verticalScrollbarSize: 20`。理由は同上。
+- **`scrollbar/horizontal_1.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`:** `scrollbar.horizontalScrollbarSize: 20`。理由は同上。
+- **`suggest/show-icons_1.jpg`・`_2.jpg`:** `fontSize: 19`、`lineHeight: 32`、`suggestFontSize: 19`、`suggestLineHeight: 32`。元画像の文字の大きさに合わせるため。
+- **`auto-indent_1.gif`〜`_3.gif`、`match-brackets_1.gif`〜`_3.gif`:** `fontSize: 19`、`lineHeight: 36`。理由は同上。
+- **`occurrences-highlight_1.jpg`・`_2.jpg`:** `fontSize: 15.6`、`lineHeight: 30`。理由は同上。
+- **`render-control-characters_1.jpg`・`_2.jpg`:** `fontSize: 23.8`、`lineHeight: 42`。理由は同上。
+- **`rounded-selection_1.jpg`・`_2.jpg`:** `fontSize: 26.7`、`lineHeight: 28`。理由は同上。
+- **`word-wrap_1.jpg`〜`_4.jpg`:** `fontSize: 10.2`、`lineHeight: 19`、`wordWrapColumn: 36`。さらに、表示領域の幅（`layoutInfo.contentWidth`）を337pxにして、1行目が元画像と同じ「`<h1>Long long title.Long long title.Long long title.`」（52文字）で折り返すようにする。初期値の文字の大きさでは、元画像と折り返す位置が変わり、設定ごとの違いが分かりにくくなるため。
+- **`suggest-font-size_2.jpg`:** `suggestFontSize: 17`、`suggestLineHeight: 24`。ヘルプの説明は「値を30にした例」だが、30では候補の文字が大きすぎるため、元画像の見た目に合わせている。
+- **`multi-cursor-modifier.gif`:** `quickSuggestions: false`、`suggestOnTriggerCharacters: false`。入力中に候補が表示され、複数カーソルでの入力が見えにくくなるため。
+- **`sticky-tab-stops_1.gif`・`_2.gif`:** `renderWhitespace: 'all'`、`tabSize: 4`。コードも4スペースでインデントする。この設定はスペースのインデントでだけ意味があり、空白を表示しないと、スペースであることも設定ごとの違いも分からないため。
+- **`render-line-highlight_1.jpg`〜`_3.jpg`、`render-whitespace_1.jpg`〜`_5.jpg`:** テーマを Clouds（`theme: 'clouds'`）にする。元画像は Clouds で撮られており、Light では行のハイライトと空白記号が薄くて見えにくいため。`render-line-highlight_4.jpg`（ハイライトなし）は Light のまま。
+- **`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`:** `stickyScroll: { enabled: false }`。理由は「例外」を参照。
+- **`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`:** `hover: { enabled: 'off' }`。理由は「例外」を参照。
+
 ### 撮影対象外
 
 次の3枚はスクリプトでは撮れない。撮り直しや更新が必要なときは、ユーザーに手動での撮影を依頼する。
