@@ -10,8 +10,7 @@ import clsx from 'clsx';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { createContext, useCallback, useContext, useState } from '@wordpress/element';
-import { __experimentalHeading as Heading } from '@wordpress/components';
-import { Card, CollapsibleCard, Stack } from '@wordpress/ui';
+import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -150,9 +149,9 @@ export default function EditorConfig() {
 	return (
 		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="xl">
 			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="xl">
-				<Heading as="h2" level="3">
+				<Text variant="heading-xl" render={ <h2 /> }>
 					{ __( 'Preview', 'custom-html-block-extension' ) }
-				</Heading>
+				</Text>
 				<EditorPreview isEditorDisabled={ isEditorDisabled } setFontWeights={ setFontWeights } />
 				<Controls
 					isWaiting={ isWaiting }

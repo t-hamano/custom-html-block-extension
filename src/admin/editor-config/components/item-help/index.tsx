@@ -9,13 +9,7 @@ import type { ReactNode } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
-import {
-	Button,
-	Modal,
-	ToggleControl,
-	__experimentalHeading as Heading,
-} from '@wordpress/components';
-import { Stack, Text } from '@wordpress/ui';
+import { Button, Dialog, IconButton, Stack, SwitchControl, Text } from '@wordpress/ui';
 
 type ItemHelpProps = {
 	title: string;
@@ -54,13 +48,25 @@ export default function ItemHelp( {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	return (
-		<>
-			{ isModalOpen && (
-				<Modal
-					title={ title }
-					className="chbe-admin-editor-config-item-help-modal"
-					onRequestClose={ () => setIsModalOpen( false ) }
-				>
+		<Dialog.Root open={ isModalOpen } onOpenChange={ setIsModalOpen }>
+			<Dialog.Trigger
+				className="chbe-admin-editor-config-item-help-toggle"
+				render={
+					<IconButton
+						icon={ info }
+						label={ __( 'Information', 'custom-html-block-extension' ) }
+						variant="minimal"
+						tone="neutral"
+						size="small"
+					/>
+				}
+			/>
+			<Dialog.Popup className="chbe-admin-editor-config-item-help-modal" size="large">
+				<Dialog.Header>
+					<Dialog.Title>{ title }</Dialog.Title>
+					<Dialog.CloseIconButton />
+				</Dialog.Header>
+				<Dialog.Content>
 					<Stack direction="column" align="start" gap="lg">
 						{ description && (
 							<Stack
@@ -85,7 +91,7 @@ export default function ItemHelp( {
 							>
 								{ items.map( ( item, index ) => (
 									<div className="chbe-admin-editor-config-item-help-modal__item" key={ index }>
-										<Heading as="h3" level="4">
+										<Text variant="heading-lg" render={ <h3 /> }>
 											{ item.isDefault
 												? sprintf(
 														/* translators: %s is replaced with the setting label. */
@@ -93,10 +99,10 @@ export default function ItemHelp( {
 														item.label
 													)
 												: item.label }
-										</Heading>
+										</Text>
 										<Button
 											className="chbe-admin-editor-config-item-help-modal__item-button"
-											variant={ value === item.value ? 'primary' : undefined }
+											variant={ value === item.value ? 'solid' : 'minimal' }
 											onClick={ () => {
 												onChange?.( item.value );
 												setIsModalOpen( false );
@@ -126,9 +132,9 @@ export default function ItemHelp( {
 							/>
 						) }
 						{ isToggle && (
-							<ToggleControl
+							<SwitchControl
 								checked={ Boolean( value ) }
-								onChange={ ( newValue ) => {
+								onCheckedChange={ ( newValue ) => {
 									onChange?.( newValue );
 									setIsModalOpen( false );
 								} }
@@ -136,16 +142,8 @@ export default function ItemHelp( {
 							/>
 						) }
 					</Stack>
-				</Modal>
-			) }
-			<Button
-				className="chbe-admin-editor-config-item-help-toggle"
-				icon={ info }
-				iconSize={ 20 }
-				label={ __( 'Information', 'custom-html-block-extension' ) }
-				onClick={ () => setIsModalOpen( true ) }
-				size="small"
-			/>
-		</>
+				</Dialog.Content>
+			</Dialog.Popup>
+		</Dialog.Root>
 	);
 }

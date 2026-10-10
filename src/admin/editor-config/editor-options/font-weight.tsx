@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 
 /**
@@ -11,6 +10,7 @@ import { Stack } from '@wordpress/ui';
  */
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
+import SelectControl from '../components/select-control';
 
 type FontWeightProps = {
 	fontWeights: number[];
