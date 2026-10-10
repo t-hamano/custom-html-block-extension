@@ -11,7 +11,7 @@ import icon from '../components/block-icon';
 import edit from './edit';
 import { withBlockHTMLListBlock, withBlockHTMLEdit } from './block-html';
 
-const extendCustomHtmlBlockSettings = ( settings: BlockConfiguration ): BlockConfiguration => {
+const customHtmlRegisterBlockType = ( settings: BlockConfiguration ): BlockConfiguration => {
 	if ( 'core/html' !== settings.name ) {
 		return settings;
 	}
@@ -37,8 +37,8 @@ const extendCustomHtmlBlockSettings = ( settings: BlockConfiguration ): BlockCon
 
 addFilter(
 	'blocks.registerBlockType',
-	'custom-html-block-extension/custom-html-block/extend-settings',
-	extendCustomHtmlBlockSettings
+	'custom-html-block-extension/custom-html-register-block-type',
+	customHtmlRegisterBlockType
 );
 
 addFilter(
