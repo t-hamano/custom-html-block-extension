@@ -140,7 +140,6 @@ test.describe( 'Emmet', () => {
 				);
 				await page.keyboard.press( shortcut );
 				await page.keyboard.type( '.selector{' );
-				// CSS suggestions are labeled with the expanded text.
 				await expand( page, monacoEditor, abbreviation, expected );
 				await expect( page.locator( '#newcontent' ) ).toHaveValue( `.selector{${ expected }}` );
 			} );
