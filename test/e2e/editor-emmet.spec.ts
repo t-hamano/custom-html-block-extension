@@ -19,6 +19,10 @@ test.describe( 'Emmet', () => {
 		await page.locator( '#content-html' ).click();
 		await page.locator( '#monaco-editor .monaco-editor' ).click();
 		await page.keyboard.type( 'p.selector' );
+		// Emmet expands via the suggest widget, so Tab must wait for the suggestion.
+		await expect(
+			page.getByRole( 'listbox', { name: 'Suggest' } ).getByLabel( 'p.selector' )
+		).toBeVisible();
 		await page.keyboard.down( 'Tab' );
 		const textarea = page.locator( '#wp-content-editor-container textarea.wp-editor-area' );
 		await expect( textarea ).toHaveValue( '<p class="selector"></p>' );
@@ -40,6 +44,9 @@ test.describe( 'Emmet', () => {
 		);
 		await page.keyboard.press( shortcut );
 		await page.keyboard.type( '.selector{fz100', { delay: 50 } );
+		await expect(
+			page.getByRole( 'listbox', { name: 'Suggest' } ).getByLabel( 'font-size: 100px;' )
+		).toBeVisible();
 		await page.keyboard.press( 'Tab' );
 		const textarea = page.locator( '#newcontent' );
 		await expect( textarea ).toHaveValue( '.selector{font-size: 100px;}' );
@@ -54,6 +61,9 @@ test.describe( 'Emmet', () => {
 		await editor.insertBlock( { name: 'core/html' } );
 		await editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).click();
 		await page.keyboard.type( 'ul.list>li.item*5' );
+		await expect(
+			editor.canvas.getByRole( 'listbox', { name: 'Suggest' } ).getByLabel( 'ul.list>li.item*5' )
+		).toBeVisible();
 		await page.keyboard.down( 'Tab' );
 		const postContent = await editor.getEditedPostContent();
 		const replacedPostContent = postContent.replace( /\r\n/g, '\n' );
