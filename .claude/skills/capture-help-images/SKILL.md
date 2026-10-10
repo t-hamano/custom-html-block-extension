@@ -114,8 +114,9 @@ node artifacts/capture-help-images/scripts/<名前>.mjs
 spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 
 - `rel`: 撮影する画像の、`assets/images/admin/editor-config` からの相対パス。サイズはこの画像に合わせる。
+- `size: [ width, height ]`: 今の画像と違うサイズで撮る（ルール1でほかの画像にそろえるときなど）。
 - `value`: エディタのコード。省略すると、設定画面のプレビューの初期コード（`PREVIEW_CODE`）。
-- `theme`: `'vs-dark'`（初期値）か `'light'`。
+- `theme`: `'vs-dark'`（初期値）、`'light'`、または `src/lib/themes` のテーマのファイル名（`'clouds'`、`'chrome-devtools'` など）。
 - `options`: プラグインの初期値に上書きするエディタの設定。
 - `stage`、`stageX`、`stageY`: エディタのサイズ（初期値 600×400）とページ上の位置（初期値 40, 40）。
 - `anchor: { line, column, ax, ay }`: その行・文字の左上が、画像の (ax, ay) に来るように切り抜く。
@@ -127,6 +128,8 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `caret: false`: テキストのキャレットを隠す。
 - `showScrollbars: true`: スクロールバーを常に表示する。
 - `cursor: true`: マウスカーソルとクリック時の黄色い円を描く（GIF）。
+- `wheelIcon: true`: `cursor: true` と一緒に使い、マウスカーソルの代わりにマウスのアイコンを描く。ホイールを回している間、アイコンのホイールが光り、回した向きの矢印が出る。
+- `trimStart`: GIF の先頭の指定した ms を捨てる。
 - `recreate: true`: エディタを作り直す。スクロールバーの矢印など、作るときにしか読まれない設定に使う。
 - `allowOutside: true`: エディタの外（ページの背景）も切り抜く。
 
@@ -136,7 +139,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 
 - **操作**（`steps` の `action` や `setup` で `( page )` を渡して使う）: `focus( line, column )`、`select( l1, c1, l2, c2 )`、`addCursor( line, column )`、`type( text )`、`press( key )`、`wheel( notches, horizontal )`、`clickAt( where )`、`setSettingValue( value, patch )`
 - **位置**（`clickAt` に渡す）: `foldingControl( line )`、`afterLineEnd( line, gap )`
-- **ステップ**: `timeline( ctx, actions )`（今の GIF のコマの表示時間に、コマ番号ごとの操作を付ける）、`mouseSteps( ctx, { map, down, actions } )`（今の GIF のマウスの動きを再生する）、`cropMap( ctx, dx, dy )`（切り抜きからの相対座標を変換する）
+- **ステップ**: `plan( items, { frame, holdFrame } )`（操作の時刻を直接決める。並べて表示する GIF に使う。ルール2）、`timeline( ctx, actions )`（今の GIF のコマの表示時間に、コマ番号ごとの操作を付ける）、`mouseSteps( ctx, { map, down, actions } )`（今の GIF のマウスの動きを再生する）、`cropMap( ctx, dx, dy )`（切り抜きからの相対座標を変換する）
 - **準備・切り抜き**: `scrollToLine`、`resize`、`rectOf`、`layoutInfo`、`editorWidth`、`alignRightWidget`（右端に付くウィジェットの位置を合わせる）、`fitRight`・`rightClip`（エディタの右端で切り抜く）、`backdrop`（ページの背景）、`placeSettingControl`（設定のコントロールをエディタの上に置く）、`inScrollablePage`（ページのスクロールを再現する）
 - **注釈**: `arrows( ctx, { fixedX, fixedY } )`（今の画像の赤い矢印を測って描き直す）
 - **その他**: `PREVIEW_CODE`、`IMG`、`WORK`
@@ -194,7 +197,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
   - `hover: { enabled: 'off' }`: `scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`
   - `quickSuggestions: false`、`suggestOnTriggerCharacters: false`: `multi-cursor-modifier.gif`
   - `minimap: { enabled: false }`: `scrollbar/scroll-by-page.gif`
-  - マウスカーソルを描かず、ホイールの動きを示すマウスのアイコンだけを描く（spec の `wheelIcon: true`）: `scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`
+  - マウスカーソルを描かず、ホイールの動きを示すマウスのアイコンだけを描く（spec の `wheelIcon: true`）: `scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`（Ctrl を押しながら回す）
   - キャレットを隠し（spec の `caret: false`）、`showFoldingControls: 'always'`: `select-on-line-numbers_1.gif`・`_2.gif`。`_1` だけ、クリックのあとにキャレットが点滅し、折りたたみ矢印がフェードで表示し直されるため。
   - スクロールバーを CSS で隠す: `render-line-highlight-only-when-focus_1.gif`・`_2.gif`。マウスの出入りでスクロールバーがフェードし、その時刻が撮るたびにずれるため。
 - **余白（ルール1）:** `rounded-selection_1.jpg`・`_2.jpg` は、元画像と同じく1行目を空行にして上に余白を入れ、2行目の「` Lorem `」を左右の半角スペースごと選択する（コードは `<p>  Lorem  ipsum dolor sit amet</p>`）。選択範囲の角の形が見えるようにするため。行のハイライトは消す（`renderLineHighlight: 'none'`）。

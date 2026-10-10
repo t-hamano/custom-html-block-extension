@@ -24,7 +24,15 @@ for i, f in enumerate(frames):
     montage.paste(f, (0, h * i))
 # 64 colors keeps anti-aliased text smooth at about half the size of 256.
 colors = int(os.environ.get('GIF_COLORS', '64'))
-palette = montage.quantize(colors=colors, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+# Keep black and white, e.g. for the mouse I-beam that inverts the pixels below it:
+# a few pixels don't get their own color and map to a different one in each GIF.
+quantized = montage.quantize(colors=colors - 2, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+rgb = quantized.getpalette()[: 3 * len(quantized.getcolors())]
+for c in ([0, 0, 0], [255, 255, 255]):
+    if not any(rgb[i : i + 3] == c for i in range(0, len(rgb), 3)):
+        rgb += c
+palette = Image.new('P', (1, 1))
+palette.putpalette(rgb)
 
 pal_frames = [f.quantize(palette=palette, dither=Image.Dither.NONE) for f in frames]
 pal_frames[0].save(
