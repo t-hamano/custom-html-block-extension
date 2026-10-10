@@ -165,6 +165,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - **`scrollbar/horizontal_2.jpg`・`_3.jpg`:** `scrollbar/horizontal_1.gif` と同じ配置で撮る。高さ199pxのエディタの下に白いページ（`#fff`）を41px入れ、コード領域の左端から256×240を切り抜く。3枚を並べたときにサイズと位置をそろえるため。
 - **`scrollbar/vertical_2.jpg`・`_3.jpg`:** `scrollbar/vertical_1.gif` と同じ配置で撮る。高さ199pxのエディタの上に白いページ（`#fff`）を41px入れ、エディタの右端から256×240を切り抜く。3枚を並べたときにサイズと位置をそろえるため。
 - **`scrollbar/scroll-by-page.gif`:** `minimap: { enabled: false }`、`wordWrap: 'on'`。コードは `h3`・`p`（長い Lorem ipsum）・`li` 4つの塊1つで、折り返し後に約5ページ分の長さにする。スクロールバーの下側を約0.6秒おきに5回クリックする。ミニマップがあるとスクロールバーの動きが見えにくく、コードが長すぎると1回のクリックでスライダーがほとんど動かないため。
+- **`line-decorations-width.gif`:** `showFoldingControls: 'always'`。折りたたみの矢印はこの幅の領域に表示される。初期値（マウスを乗せたときだけ表示）では領域に何も写らず、どこの幅が変わっているのか分からないため。
 - **`suggest/show-icons_1.jpg`・`_2.jpg`:** `fontSize: 19`、`lineHeight: 32`、`suggestFontSize: 19`、`suggestLineHeight: 32`。元画像の文字の大きさに合わせるため。
 - **`auto-indent_1.gif`〜`_3.gif`、`match-brackets_1.gif`〜`_3.gif`:** `fontSize: 19`、`lineHeight: 36`。理由は同上。
 - **`occurrences-highlight_1.jpg`・`_2.jpg`:** `fontSize: 15.6`、`lineHeight: 30`。理由は同上。
