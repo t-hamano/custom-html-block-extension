@@ -24,29 +24,31 @@
 	}
 
 	.chbe-admin-editor-config-item-help-modal__items {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		gap: variables.$grid-unit-30;
 
-		@media screen and (max-width: 782px) {
-			flex-flow: column;
+		@media screen and (min-width: 783px) {
+
+			@each $count in 2, 3, 4, 5 {
+				&.is-col-#{$count} {
+					grid-template-columns: repeat($count, minmax(0, 1fr));
+				}
+			}
 		}
 
-		&.is-col-2 > * {
-			width: calc(50% - 12px);
+		&:has(.chbe-admin-editor-config-item-help-modal__item-description) > * {
+			grid-row: span 3;
 		}
+	}
 
-		&.is-col-3 > * {
-			width: calc(33.33% - 16px);
-		}
-
-		&.is-col-4 > * {
-			width: calc(25% - 18px);
-		}
-
-		&.is-col-5 > * {
-			width: calc(20% - 20px);
-		}
+	// Share the title, image, and description rows across all items.
+	.chbe-admin-editor-config-item-help-modal__item {
+		display: grid;
+		grid-row: span 2;
+		grid-template-rows: subgrid;
+		row-gap: variables.$grid-unit-20;
+		place-items: start;
 	}
 
 	.chbe-admin-editor-config-item-help-modal__item-button {
