@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 
 /**
@@ -13,6 +12,7 @@ import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
+import SelectControl from '../components/select-control';
 
 export default function WordWrap() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -76,7 +76,7 @@ export default function WordWrap() {
 			<SelectControl< EditorOptions[ 'wordWrap' ] >
 				label={ title }
 				value={ editorOptions.wordWrap }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+				options={ items }
 				onChange={ onChange }
 			/>
 			<ItemHelp

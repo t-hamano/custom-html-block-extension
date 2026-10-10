@@ -4,8 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
-import { Button } from '@wordpress/components';
-import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
+import { Button, Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -64,7 +63,7 @@ export default function ExportTool() {
 							'custom-html-block-extension'
 						) }
 					</Text>
-					<Button variant="primary" onClick={ onExportOptions } __next40pxDefaultSize>
+					<Button onClick={ onExportOptions }>
 						{ __( 'Export', 'custom-html-block-extension' ) }
 					</Button>
 				</Stack>

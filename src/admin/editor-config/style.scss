@@ -7,7 +7,7 @@
 .chbe-admin-editor-config {
 	flex-direction: row-reverse;
 
-	.components-select-control {
+	.chbe-admin-editor-config__select-control {
 		min-width: 200px;
 	}
 
@@ -16,7 +16,8 @@
 		max-width: 300px;
 	}
 
-	.components-toggle-control {
+	// Switch controls
+	.chbe-admin-editor-config__setting-item > :has([role="switch"]) {
 		max-width: 300px;
 	}
 

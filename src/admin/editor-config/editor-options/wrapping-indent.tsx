@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 
 /**
@@ -13,6 +12,7 @@ import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
+import SelectControl from '../components/select-control';
 
 export default function WrappingIndent() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -66,7 +66,7 @@ export default function WrappingIndent() {
 			<SelectControl< EditorOptions[ 'wrappingIndent' ] >
 				label={ title }
 				value={ editorOptions.wrappingIndent }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
+				options={ items }
 				onChange={ onChange }
 			/>
 			<ItemHelp

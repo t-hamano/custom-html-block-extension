@@ -9,8 +9,8 @@ import type { ChangeEvent } from 'react';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext, useState } from '@wordpress/element';
-import { Button, FormFileUpload } from '@wordpress/components';
-import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
+import { FormFileUpload } from '@wordpress/components';
+import { Button, Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -109,20 +109,14 @@ export default function ImportTool() {
 							accept="application/json"
 							onChange={ onUploadFile }
 							render={ ( { openFileDialog } ) => (
-								<Button variant="secondary" onClick={ openFileDialog } __next40pxDefaultSize>
+								<Button variant="outline" onClick={ openFileDialog }>
 									{ __( 'Upload file', 'custom-html-block-extension' ) }
 								</Button>
 							) }
 						/>
 						{ importFile && <span>{ importFile.name }</span> }
 					</Stack>
-					<Button
-						variant="primary"
-						disabled={ ! importFile }
-						onClick={ onImportOptions }
-						__next40pxDefaultSize
-						accessibleWhenDisabled
-					>
+					<Button disabled={ ! importFile } onClick={ onImportOptions }>
 						{ __( 'Import', 'custom-html-block-extension' ) }
 					</Button>
 				</Stack>

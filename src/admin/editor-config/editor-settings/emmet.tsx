@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Notice, ToggleControl } from '@wordpress/components';
-import { Link, Stack, Text } from '@wordpress/ui';
+import { Link, Notice, Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -38,7 +37,11 @@ export default function Emmet() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<ToggleControl label={ title } checked={ editorSettings.emmet } onChange={ onChange } />
+			<SwitchControl
+				label={ title }
+				checked={ editorSettings.emmet }
+				onCheckedChange={ onChange }
+			/>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
@@ -66,12 +69,14 @@ export default function Emmet() {
 								{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
 							</Link>
 						</Text>
-						<Notice status="warning" isDismissible={ false }>
-							{ __(
-								'Save and reload the browser to reflect this settings in the preview editor area.',
-								'custom-html-block-extension'
-							) }
-						</Notice>
+						<Notice.Root intent="warning">
+							<Notice.Description>
+								{ __(
+									'Save and reload the browser to reflect this settings in the preview editor area.',
+									'custom-html-block-extension'
+								) }
+							</Notice.Description>
+						</Notice.Root>
 					</>
 				}
 				isToggle
