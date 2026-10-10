@@ -149,93 +149,26 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 ### 基本
 
 - **エディタの設定:** プラグインの初期値（`classes/class-settings.php`）を使い、その画像が説明している設定だけを上書きする。ただし、下の「見やすくするためのルール」に当てはまる場合は、ほかの設定も変える。
-- **テーマ:** 今の画像に合わせる。背景が暗ければ Visual Studio Dark、明るければ Light。
+- **テーマ:** 今の画像に合わせる。背景が暗ければ Visual Studio Dark、明るければ Light。見せたい色が見えにくい場合はルール9に従う。
 - **画像サイズ:** 今の画像と同じにする（ルール1でそろえた画像は、そのサイズ）。
 - **画質:** JPG は画質92・色の間引きなし（4:4:4）、GIF は64色・ディザなしで、黒と白を必ずパレットに含める（白い背景の上で反転するマウスの I ビームが、GIF ごとに別の色にならないように）。
 - **GIF の長さ:** 今の GIF の長さを目安にする。並べて表示する GIF はルール2に従う。
 - **撮影範囲:** 今の画像で特定の行・文字が写っている位置に、同じ行・文字が来るように切り抜く。
-- **マウス:** カーソルとクリック時の黄色い円をページ上に描く。スクリーンショットには OS のカーソルが写らないため。ホイールは `wheel()` を使う（1回50px）。
+- **マウス:** カーソルとクリック時の黄色い円をページ上に描く。スクリーンショットには OS のカーソルが写らないため。ホイールは `wheel()` を使い（1回50px）、ルール10に従ってマウスのアイコンを描く。
 
 ### 見やすくするためのルール
 
 1. **同じ設定の画像は、写す条件をそろえる。** ヘルプでは同じ設定の画像が並べて表示されるので、画像サイズ・コード・エディタの大きさ・切り抜く位置をそろえ、違いは説明する設定の値だけにする。片方にだけページの余白が写る場合は、もう片方にも同じ余白を入れる。
-2. **同じ操作の GIF は、フレーム単位でそろえる。** 並べた GIF はそれぞれ独立してループするので、全体の長さや操作の時刻が違うと、ループのたびにずれていく。グループ内の全画像で同じ操作を同じ時刻に行い、全体の長さもそろえる。今の GIF のコマを読み取る `timeline()` は使わず、`plan()` などで操作の時刻を直接決める。マウスの移動は、各コマの始めに決まった位置へ動かし、撮るたびに位置がぶれないようにする。説明に関係ない動き（キャレットの点滅、折りたたみ矢印やスクロールバーのフェード）が一部の画像にだけ出ると、コマの区切りが変わるので止める（ルール4）。点滅のように周期のある動きは、長さを周期の倍数にして、ループのつなぎ目もずれないようにする。
-3. **初期値のままでは違いが見えない設定は、関係する設定やコードを一時的に変える。** 例: スティッキースクロールのオフ、折りたたみ矢印の常時表示、コードの長さの調整、空白の表示。
-4. **説明に関係ない表示は消す。** 例: マウスを止めて操作する GIF のホバー、入力中の候補、スクロールバーの動きを隠すミニマップ、意味のないマウスカーソル。
-5. **小さくて読めない要素は、元画像と同じくらいの大きさにする。** 例: フォントサイズ、ミニマップの倍率、スクロールバーの幅。
+2. **同じ操作の GIF は、フレーム単位でそろえる。** 並べた GIF はそれぞれ独立してループするので、全体の長さや操作の時刻が違うと、ループのたびにずれていく。グループ内の全画像で同じ操作を同じ時刻に行い、全体の長さもそろえる。今の GIF のコマを読み取る `timeline()` は使わず、`plan()` などで操作の時刻を直接決める。マウスの移動は、各コマの始めに決まった位置へ動かし、撮るたびに位置がぶれないようにする。説明に関係ない動き（キャレットの点滅、折りたたみ矢印やスクロールバーのフェード）が一部の画像にだけ出ると、コマの区切りが変わるので止める（ルール4）。点滅のように周期のある動きは、長さを周期の倍数にして、ループのつなぎ目もずれないようにする。点滅の始まりもそろえる（フォーカスし直し、点滅が始まるまでを `trimStart` で捨てる）。設定によって操作の回数が違う場合（例: タブストップの有無で、同じ幅を選ぶのに必要なキーの回数が違う）は、操作の時刻ではなく結果の見た目をそろえる。片方で1回押す時刻から、もう片方は短い間隔で必要な回数だけ押す。
+3. **初期値のままでは違いが見えない設定は、関係する設定やコードを一時的に変える。** 例: スティッキースクロールのオフ、折りたたみ矢印の常時表示、コードの長さの調整（値ごとに違いが出る長さにする）、空白の表示。静止画では違いが出ない場合は GIF にする（例: 表示領域の幅を変えて、折り返しの違いを見せる）。
+4. **説明に関係ない表示は消す。** 例: マウスを止めて操作する GIF のホバー、入力中の候補、スクロールバーの動きを隠すミニマップ、意味のないマウスカーソル、見せたい部分に重なる行のハイライト。
+5. **小さくて読めない要素は、元画像と同じくらいの大きさにする。** 例: フォントサイズ、ミニマップの倍率、スクロールバーの幅。ミニマップの文字の描き方のように、その要素自体を見せる画像では、さらに大きくしてよい。
 6. **マウスは縦か横に直線で動かし、対象の上で止める。** 元画像の軌跡は再現しない。行き過ぎないようにする。
-7. **赤い矢印は、指す対象の位置から決める。** 元画像と同じ座標ではなく、スクロールバーの矢印や行番号など、指す対象の中心を指す。
+7. **赤い矢印は、指す対象の位置から決める。** 元画像と同じ座標ではなく、スクロールバーの矢印や行番号など、指す対象の中心を指す。違いが小さくて見つけにくい場合（例: 行番号のハイライトの有無だけが違う）は、元画像になくても矢印を足し、同じ設定の画像すべての同じ位置に入れる。
 8. **ループの最後まで意味のある表示にする。** 例: スクロールしすぎて何もない領域を写さない。
-
-### 画像ごとの設定
-
-上のルールに沿って、次の画像は初期値と異なる設定で撮っている。撮り直すときも同じ設定にする。
-
-- **ミニマップの倍率（ルール5）:**
-  - `minimap.scale: 2`: `minimap/max-column.gif`、`minimap/show-slider_1.jpg`・`_2.gif`
-  - `minimap.scale: 3`: `minimap/render-characters_1.jpg`・`_2.jpg`、`minimap/side_1.jpg`・`_2.jpg`（ミニマップ自体を見せる画像なので、さらに大きくする）
-- **スクロールバーの幅（ルール5、元画像は20px）:**
-  - 縦横とも `20`: `scrollbar/arrow-size_1.jpg`・`_2.jpg`、`scrollbar/horizontal-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/vertical-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/horizontal_2.jpg`・`_3.jpg`、`scrollbar/vertical_2.jpg`・`_3.jpg`
-  - `verticalScrollbarSize: 20`: `scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`overview-ruler-border_1.jpg`・`_2.jpg`
-  - `horizontalScrollbarSize: 20`: `scrollbar/horizontal_1.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`
-- **フォントサイズ（ルール5）:**
-  - `fontSize: 19`、`lineHeight: 32`、`suggestFontSize: 19`、`suggestLineHeight: 32`: `suggest/show-icons_1.jpg`・`_2.jpg`
-  - `fontSize: 19`、`lineHeight: 36`: `auto-indent_1.gif`〜`_3.gif`、`match-brackets_1.gif`〜`_3.gif`
-  - `fontSize: 15.6`、`lineHeight: 30`: `occurrences-highlight_1.jpg`・`_2.jpg`
-  - `fontSize: 23.8`、`lineHeight: 42`: `render-control-characters_1.jpg`・`_2.jpg`
-  - `fontSize: 26.7`、`lineHeight: 28`: `rounded-selection_1.jpg`・`_2.jpg`
-  - `fontSize: 10.2`、`lineHeight: 19`: `word-wrap_1.gif`〜`_4.gif`、`wrapping-indent_1.jpg`〜`_4.jpg`。`wrapping-indent` は、元画像と同じ位置で折り返すよう、表示領域の幅（`layoutInfo.contentWidth`）を365pxにする（3行目が行頭の4スペースを含めて56文字で折り返す、`<p>` の中身は「`Long Long text.`」×11）。
-  - `suggestFontSize: 17`、`suggestLineHeight: 24`: `suggest-font-size_2.jpg`。ヘルプの説明は「値を30にした例」だが、30では候補の文字が大きすぎるため、元画像の見た目に合わせている。
-- **違いを見せるための設定・コード（ルール3）:**
-  - `stickyScroll: { enabled: false }`: `cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`。スティッキースクロールがオンだと、Monaco は「Number of lines to keep before and after the cursor」の値に関係なくカーソルの上下に5行以上の余白を取り、0〜5で違いが出ない。HTML では見出し行が出ないので、オフにしてもほかの見た目は変わらない。プラグイン側で無効になったら不要。
-  - `showFoldingControls: 'always'`: `line-decorations-width.gif`。折りたたみの矢印はこの幅の領域に表示されるので、常に表示してどこの幅が変わるかを見せる。
-  - `renderWhitespace: 'all'`、`tabSize: 4`（コードも4スペースでインデント）: `sticky-tab-stops_1.gif`・`_2.gif`。この設定はスペースのインデントでだけ意味があるため、空白を見せる。
-  - コードの長さ: `minimap/size_1.jpg`〜`_3.jpg`。`_1`（proportional）と `_3`（fit）は約200行、`_2`（fill）は約30行（`h3` から始まる15行の塊を13回と2回）。長いコードでは fill と fit が同じに、短いコードでは fit と proportional が同じになるため、proportional ははみ出してスクロールする様子、fill は拡大して高さいっぱいに表示する様子、fit は縮めて全体を表示する様子を見せる。
-  - 表示領域の幅を変える: `word-wrap_1.gif`〜`_4.gif`。bounded は表示領域の幅と `wordWrapColumn` の小さいほうで折り返すので、静止画では必ず on か wordWrapColumn と同じ見た目になる。そこで GIF にし、表示領域の幅を337px（52文字）から150px（約24文字）に狭めて戻す（`wordWrapColumn: 36`）。on は幅に合わせて、wordWrapColumn は36文字で固定、bounded は36文字までは幅に合わせて折り返す。エディタの右側にはページ（`#f0f0f1`）が見え、ミニマップは消す（`minimap: { enabled: false }`）。
-  - コードの長さ: `scrollbar/scroll-by-page.gif`。`h3`・`p`（長い Lorem ipsum）・`li` 4つの塊1つを `wordWrap: 'on'` で折り返し、約5ページ分にする。スクロールバーの下側を約0.6秒おきに5回クリックする。長すぎると1回のクリックでスライダーがほとんど動かない。
-- **関係ない表示を消す設定（ルール4）:**
-  - `hover: { enabled: 'off' }`: `scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`
-  - `quickSuggestions: false`、`suggestOnTriggerCharacters: false`: `multi-cursor-modifier.gif`
-  - `minimap: { enabled: false }`: `scrollbar/scroll-by-page.gif`
-  - マウスカーソルを描かず、ホイールの動きを示すマウスのアイコンだけを描く（spec の `wheelIcon: true`）: `scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`（Ctrl を押しながら回す）
-  - キャレットを隠し（spec の `caret: false`）、`showFoldingControls: 'always'`: `select-on-line-numbers_1.gif`・`_2.gif`。`_1` だけ、クリックのあとにキャレットが点滅し、折りたたみ矢印がフェードで表示し直されるため。
-  - スクロールバーを CSS で隠す: `render-line-highlight-only-when-focus_1.gif`・`_2.gif`。マウスの出入りでスクロールバーがフェードし、その時刻が撮るたびにずれるため。
-- **余白（ルール1）:** `rounded-selection_1.jpg`・`_2.jpg` は、元画像と同じく1行目を空行にして上に余白を入れ、2行目の「` Lorem `」を左右の半角スペースごと選択する（コードは `<p>  Lorem  ipsum dolor sit amet</p>`）。選択範囲の角の形が見えるようにするため。行のハイライトは消す（`renderLineHighlight: 'none'`）。
-- **配置（ルール1）:**
-  - `show-folding-controls_1.jpg`: `_2.gif` と同じく、エディタの左にページ（`#f0f0f1`）22pxを入れて200×280で切り抜く。コードはプレビューの初期コード（末尾の改行なし）。
-  - `minimap/show-slider_1.jpg`: `_2.gif` と同じく、プレビューの初期コードを6回繰り返し、エディタの右端から300pxと右のページ（`#f0f0f1`）20pxを320×280で切り抜く。
-  - `scrollbar/horizontal_2.jpg`・`_3.jpg`: `_1.gif` と同じく、高さ199pxのエディタの下に白いページ（`#fff`）41pxを入れ、コード領域の左端から256×240で切り抜く。
-  - `scrollbar/vertical_2.jpg`・`_3.jpg`: `_1.gif` と同じく、高さ199pxのエディタの上に白いページ（`#fff`）41pxを入れ、エディタの右端から256×240で切り抜く。
-- **赤い矢印（ルール7）:** `render-line-highlight_1.jpg`〜`_4.jpg` は、カーソルのある2行目の行番号を下から上向きの矢印で指す。設定ごとの違いは行と行番号のハイライトの有無で、特に all と line は行番号の部分だけが違い、矢印がないとどこが違うのか分かりにくいため。4枚とも同じ位置に入れる（ルール1）。
-- **テーマ（ルール5）:**
-  - Clouds（`theme: 'clouds'`）: `render-line-highlight_1.jpg`〜`_3.jpg`。元画像は Clouds で撮られており、Light では行のハイライトが薄くて見えにくいため。`render-line-highlight_4.jpg`（ハイライトなし）は Light のまま。
-  - Chrome DevTools（`theme: 'chrome-devtools'`）: `render-whitespace_1.jpg`〜`_5.jpg`。空白記号が赤い点で表示され、選択範囲の上でも見える。Clouds や Light では、選択範囲の背景と空白記号の色が近く、選択範囲の中の点がほとんど見えないため（特に selection の `_3`）。
-  - Chrome DevTools（`theme: 'chrome-devtools'`）: `render-line-highlight-only-when-focus_1.gif`・`_2.gif`。行を灰色（`#0000001A`）で塗ってハイライトする。Light では薄い枠線だけで見えにくいため。
-
-### タイミングをそろえた GIF のグループ（ルール2）
-
-- `auto-closing-brackets_1.gif`〜`_3.gif`、`auto-closing-quotes_1.gif`〜`_3.gif`（5.2秒）
-- `auto-indent_1.gif`〜`_3.gif`（3.9秒）
-- `auto-surround_1.gif`〜`_4.gif`（5.8秒）
-- `cursor-blinking_1.gif`〜`_4.gif`（3秒）: 最初にエディタにフォーカスし直し、点滅が始まるまでの500msを捨てて（spec の `trimStart: 500`）、4枚の点滅の始まりをそろえる。点滅の周期は1秒。`_5.jpg` は静止画なので対象外。
-- `cursor-smooth-caret-animation_1.gif`・`_2.gif`（6秒）: キャレットの80msの移動アニメーションを写すため、止まっている間も40msごとのコマにする。
-- `cursor-surrounding-lines_1.gif`・`_2.gif`（約4.7秒）
-- `cursor-surrounding-lines-style_1.gif`・`_2.gif`（6.8秒）: マウスの位置（下端・上端を交互に2回ずつ）もそろえる。
-- `folding-strategy_1.gif`・`_2.gif`（6.2秒）
-- `format-on-paste_1.gif`・`_2.gif`（4.7秒）
-- `highlight-active-indent-guide_1.gif`・`_2.gif`（5.2秒）
-- `line-numbers_3.gif`・`_4.gif`（5.6秒）
-- `match-brackets_1.gif`〜`_3.gif`（4.8秒）: キャレットをタグの内側 → `<` の直後 → `<` の直前 → `<` の直後 → 内側の順に動かし、always・never・near の違いを見せる。
-- `multi-cursor-paste_1.gif`・`_2.gif`（7秒）
-- `quick-suggestions-delay_1.gif`・`_2.gif`（6秒）: 入力の時刻をそろえ、候補が表示されるまでの時間の違いを見せる。
-- `render-line-highlight-only-when-focus_1.gif`・`_2.gif`（7.9秒）
-- `scroll-beyond-last-column_1.gif`・`_2.gif`（6.3秒）: スクロールバーのスライダーを同じ距離（120px）だけ左にドラッグして戻す。
-- `scroll-beyond-last-line_1.gif`・`_2.gif`（5.5秒）: ホイールを2ノッチずつ5回下に、5回上に回す。
-- `select-on-line-numbers_1.gif`・`_2.gif`（5.25秒）
-- `smooth-scrolling_1.gif`・`_2.gif`（5.7秒）: ホイールを1ノッチずつ0.7秒おきに3回下に、3回上に回す。スムーズスクロールの動きを写すため、止まっている間も50msごとのコマにする。
-- `sticky-tab-stops_1.gif`・`_2.gif`（5.6秒）: キーを押す回数が違うので、押す時刻ではなく選択範囲をそろえる。`_1` で → か ← を1回押す時刻から、`_2` は80msおきに4回押し、1インデント（4スペース）分の選択範囲を同じ時刻に作る。↓・↑ は両方とも1回。
-- `use-tab-stops_1.gif`・`_2.gif`（5.2秒）: 4行目の6スペースのインデントの末尾で、1.2秒ごとに Backspace を3回押す。タブストップが有効なら1回でインデント1段分（6 → 4 → 2 → 0）、無効なら1スペースずつ（6 → 5 → 4 → 3）減る。行頭の空白を表示する（`renderWhitespace: 'boundary'`）。
-- `word-wrap_1.gif`〜`_4.gif`（5.8秒）: 表示領域の幅を同じ時刻に同じ速さで変える。
+9. **見せたい色が背景に埋もれる場合は、テーマを変える。** 今の画像のテーマで行のハイライトや空白記号などが見えにくい場合は、プラグインのテーマ（`src/lib/themes`）から見やすいものを選ぶ。例: 行のハイライトを薄い枠線ではなく塗りで表示するテーマ（Clouds、Chrome DevTools）、選択範囲の上でも空白記号が見えるテーマ（Chrome DevTools）。
+10. **ホイールの操作は、マウスのアイコンで見せる。** マウスカーソルの代わりに、ホイールを回している間だけ光り、回した向きの矢印が出るマウスのアイコンを描く（`wheelIcon: true`）。
+11. **短いアニメーションは、短いコマで写す。** スムーズスクロールやキャレットの移動のような100ms以下の動きは、止まっている間も40〜50msごとのコマにする（`plan()` の `holdFrame`）。
 
 ### 撮影対象外
 
