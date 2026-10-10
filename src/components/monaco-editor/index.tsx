@@ -166,6 +166,9 @@ export default function MonacoEditor( {
 							'custom-html-block-extension'
 						),
 				...options,
+				tabSize,
+				insertSpaces,
+				detectIndentation: false,
 			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 
@@ -339,7 +342,7 @@ export default function MonacoEditor( {
 	// Change tab size, insert spaces.
 	useEffect( () => {
 		if ( isEditorReady ) {
-			editorRef.current?.getModel()?.updateOptions( {
+			editorRef.current?.updateOptions( {
 				tabSize,
 				insertSpaces,
 			} );

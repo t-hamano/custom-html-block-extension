@@ -52,6 +52,9 @@ initLoader()
 				language: 'html',
 				automaticLayout: true,
 				...editorOptions,
+				tabSize,
+				insertSpaces,
+				detectIndentation: false,
 				// Override some properties to match the classic editor.
 				scrollBeyondLastLine: false,
 				scrollbar: {
@@ -111,11 +114,6 @@ initLoader()
 					monaco.editor.setTheme( targetTheme.value );
 				}
 			}
-
-			editor.getModel()?.updateOptions( {
-				tabSize,
-				insertSpaces,
-			} );
 
 			// Catch the Ctrl+S command to save draft or publish post.
 			editor.addCommand(

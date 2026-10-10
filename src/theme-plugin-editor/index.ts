@@ -75,6 +75,9 @@ initLoader()
 			language,
 			automaticLayout: true,
 			...editorOptions,
+			tabSize,
+			insertSpaces,
+			detectIndentation: false,
 		};
 
 		// Create monaco editor.
@@ -127,11 +130,6 @@ initLoader()
 				monaco.editor.setTheme( targetTheme.value );
 			}
 		}
-
-		editor.getModel()?.updateOptions( {
-			tabSize,
-			insertSpaces,
-		} );
 
 		// Load webfont.
 		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
