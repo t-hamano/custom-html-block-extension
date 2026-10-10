@@ -181,13 +181,14 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
   - `fontSize: 15.6`、`lineHeight: 30`: `occurrences-highlight_1.jpg`・`_2.jpg`
   - `fontSize: 23.8`、`lineHeight: 42`: `render-control-characters_1.jpg`・`_2.jpg`
   - `fontSize: 26.7`、`lineHeight: 28`: `rounded-selection_1.jpg`・`_2.jpg`
-  - `fontSize: 10.2`、`lineHeight: 19`: `word-wrap_1.jpg`〜`_4.jpg`、`wrapping-indent_1.jpg`〜`_4.jpg`。元画像と同じ位置で折り返すよう、表示領域の幅（`layoutInfo.contentWidth`）を `word-wrap` は337px（1行目が「`<h1>Long long title.Long long title.Long long title.`」の52文字で折り返す、`wordWrapColumn: 36`）、`wrapping-indent` は365px（3行目が行頭の4スペースを含めて56文字で折り返す、`<p>` の中身は「`Long Long text.`」×11）にする。
+  - `fontSize: 10.2`、`lineHeight: 19`: `word-wrap_1.gif`〜`_4.gif`、`wrapping-indent_1.jpg`〜`_4.jpg`。`wrapping-indent` は、元画像と同じ位置で折り返すよう、表示領域の幅（`layoutInfo.contentWidth`）を365pxにする（3行目が行頭の4スペースを含めて56文字で折り返す、`<p>` の中身は「`Long Long text.`」×11）。
   - `suggestFontSize: 17`、`suggestLineHeight: 24`: `suggest-font-size_2.jpg`。ヘルプの説明は「値を30にした例」だが、30では候補の文字が大きすぎるため、元画像の見た目に合わせている。
 - **違いを見せるための設定・コード（ルール3）:**
   - `stickyScroll: { enabled: false }`: `cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`。スティッキースクロールがオンだと、Monaco は「Number of lines to keep before and after the cursor」の値に関係なくカーソルの上下に5行以上の余白を取り、0〜5で違いが出ない。HTML では見出し行が出ないので、オフにしてもほかの見た目は変わらない。プラグイン側で無効になったら不要。
   - `showFoldingControls: 'always'`: `line-decorations-width.gif`。折りたたみの矢印はこの幅の領域に表示されるので、常に表示してどこの幅が変わるかを見せる。
   - `renderWhitespace: 'all'`、`tabSize: 4`（コードも4スペースでインデント）: `sticky-tab-stops_1.gif`・`_2.gif`。この設定はスペースのインデントでだけ意味があるため、空白を見せる。
   - コードの長さ: `minimap/size_1.jpg`〜`_3.jpg`。`_1`（proportional）と `_3`（fit）は約200行、`_2`（fill）は約30行（`h3` から始まる15行の塊を13回と2回）。長いコードでは fill と fit が同じに、短いコードでは fit と proportional が同じになるため、proportional ははみ出してスクロールする様子、fill は拡大して高さいっぱいに表示する様子、fit は縮めて全体を表示する様子を見せる。
+  - 表示領域の幅を変える: `word-wrap_1.gif`〜`_4.gif`。bounded は表示領域の幅と `wordWrapColumn` の小さいほうで折り返すので、静止画では必ず on か wordWrapColumn と同じ見た目になる。そこで GIF にし、表示領域の幅を337px（52文字）から150px（約24文字）に狭めて戻す（`wordWrapColumn: 36`）。on は幅に合わせて、wordWrapColumn は36文字で固定、bounded は36文字までは幅に合わせて折り返す。エディタの右側にはページ（`#f0f0f1`）が見え、ミニマップは消す（`minimap: { enabled: false }`）。
   - コードの長さ: `scrollbar/scroll-by-page.gif`。`h3`・`p`（長い Lorem ipsum）・`li` 4つの塊1つを `wordWrap: 'on'` で折り返し、約5ページ分にする。スクロールバーの下側を約0.6秒おきに5回クリックする。長すぎると1回のクリックでスライダーがほとんど動かない。
 - **関係ない表示を消す設定（ルール4）:**
   - `hover: { enabled: 'off' }`: `scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`
@@ -220,6 +221,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `quick-suggestions-delay_1.gif`・`_2.gif`（6秒）: 入力の時刻をそろえ、候補が表示されるまでの時間の違いを見せる。
 - `scroll-beyond-last-column_1.gif`・`_2.gif`（6.3秒）: スクロールバーのスライダーを同じ距離（120px）だけ左にドラッグして戻す。
 - `scroll-beyond-last-line_1.gif`・`_2.gif`（5.5秒）: ホイールを2ノッチずつ5回下に、5回上に回す。
+- `word-wrap_1.gif`〜`_4.gif`（5.8秒）: 表示領域の幅を同じ時刻に同じ速さで変える。
 
 ### 撮影対象外
 

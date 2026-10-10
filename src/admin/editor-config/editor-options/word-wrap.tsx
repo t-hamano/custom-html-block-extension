@@ -28,20 +28,20 @@ export default function WordWrap() {
 		{
 			label: __( 'Off', 'custom-html-block-extension' ),
 			value: 'off',
-			image: 'editor-options/word-wrap_1.jpg',
+			image: 'editor-options/word-wrap_1.gif',
 			description: __( 'The lines will never wrap.', 'custom-html-block-extension' ),
 			isDefault: true,
 		},
 		{
 			label: __( 'On', 'custom-html-block-extension' ),
 			value: 'on',
-			image: 'editor-options/word-wrap_2.jpg',
+			image: 'editor-options/word-wrap_2.gif',
 			description: __( 'The lines will always wrap.', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Depends on word wrap column', 'custom-html-block-extension' ),
 			value: 'wordWrapColumn',
-			image: 'editor-options/word-wrap_3.jpg',
+			image: 'editor-options/word-wrap_3.gif',
 			description: __(
 				'The lines will be wrapped according to "Word wrap column" setting.',
 				'custom-html-block-extension'
@@ -50,7 +50,7 @@ export default function WordWrap() {
 		{
 			label: __( 'Flexible', 'custom-html-block-extension' ),
 			value: 'bounded',
-			image: 'editor-options/word-wrap_4.jpg',
+			image: 'editor-options/word-wrap_4.gif',
 			description: __(
 				"The lines will be wrapped at the lesser of editor's width or word wrap column setting.",
 				'custom-html-block-extension'
