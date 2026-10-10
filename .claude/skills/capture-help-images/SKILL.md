@@ -5,7 +5,7 @@ description: 設定画面「Editor config」のヘルプ画像（assets/images/a
 
 # ヘルプ画像の撮影
 
-`bin/capture-help-images/` のスクリプトで、設定画面のプレビューエディタを撮影する。
+`bin/capture-help-images/` の API を使って、画像ごとに撮影スクリプトを書き、設定画面のプレビューエディタを撮影する。画像ごとの撮影内容はリポジトリに残さない。差し替えは数枚単位で行い、ユーザーが目視で確認して細かい調整を指示する。
 
 ## 準備
 
@@ -14,91 +14,157 @@ description: 設定画面「Editor config」のヘルプ画像（assets/images/a
 
 撮影は Windows の Chrome で行う。WSL の Chromium は文字幅を整数に丸めるため、元画像と文字の位置がずれる。Chrome への接続は、WSL から直接つながらないため PowerShell で中継している。
 
-初回の実行時に、`artifacts/capture-help-images/` に Python の仮想環境（Pillow、NumPy）とカーソル画像（`C:\Windows\Cursors` から取り出す）が自動で用意される。
+初回の実行時に、`artifacts/capture-help-images/` に Python の仮想環境（Pillow、NumPy）とカーソル画像（`C:\Windows\Cursors` から取り出す）が自動で用意される。以下では `PY=artifacts/capture-help-images/venv/bin/python` とする。
 
-## 撮影
+## 手順
 
-```sh
-node bin/capture-help-images/run.mjs <画像のパスの一部> ...
+### 1. 今の画像を調べる
+
+- サイズ、テーマ、写っているコード、切り抜きの位置を Read で見て確認する。
+- 文字の行の位置と左右の端は `grid.py` で測る。
+
+  ```sh
+  $PY bin/capture-help-images/py/grid.py <画像> [GIF のコマ番号] [この x より左を無視]
+  ```
+
+- GIF は、コマの表示時間・マウスの位置・クリックを `track.py` で読み取り、`sheet.py` でコマの一覧を作って見る。スクリプトで指定するコマ番号は、この一覧のコマ番号と同じ。
+
+  ```sh
+  $PY bin/capture-help-images/py/track.py <GIF> artifacts/capture-help-images/cursors > track.json
+  $PY bin/capture-help-images/py/sheet.py <GIF> sheet.png 1 track.json
+  ```
+
+### 2. 撮影スクリプトを書く
+
+`artifacts/capture-help-images/scripts/<名前>.mjs`（git の管理外）に書く。
+
+```js
+import {
+	openSession,
+	focus,
+	press,
+	timeline,
+	arrows,
+} from '../../../bin/capture-help-images/index.mjs';
+
+const session = await openSession();
+try {
+	// 静止画: 2行目の先頭にカーソルを置き、画像の赤い矢印を同じ位置に描き直す。
+	await session.capture( {
+		rel: 'editor-options/glyph-margin_1.jpg',
+		options: { glyphMargin: true },
+		value: '<p class="description">Lorem ipsum dolor sit amet</p>\n',
+		caret: false,
+		anchor: { line: 1, column: 1, ax: 83, ay: 0 },
+		setup: ( ctx ) => focus( 2, 1 )( ctx.page ),
+		annotations: ( ctx ) => arrows( ctx, { fixedX: true, fixedY: true } ),
+	} );
+	// GIF: 今の GIF と同じコマの表示時間で、3コマ目と5コマ目に Enter を押す。
+	await session.capture( {
+		rel: 'editor-options/find/loop.gif',
+		value: '<p>Search Text1</p>\n<p>Search Text2</p>\n',
+		setup: async ( ctx ) => {
+			await focus( 1, 1 )( ctx.page );
+			await press( 'Control+F' )( ctx.page );
+		},
+		steps: ( ctx ) => timeline( ctx, { 3: press( 'Enter' ), 5: press( 'Enter' ) } ),
+	} );
+} finally {
+	await session.close();
+}
 ```
 
-- 例: `node bin/capture-help-images/run.mjs hover minimap/`
-- 引数なしで全画像を撮る。1時間以上かかるので、バックグラウンドで実行する。
-- 撮った画像は、元画像の隣に `{名前}_new.{拡張子}` で保存される。
-- 出力に `WARN ... the crop goes outside the editor` が出た画像は、切り抜きがエディタの外にはみ出している。ページの背景を写す仕様（`allowOutside: true`）以外は、仕様を直す。
-
-環境変数:
-
-- `WP_BASE_URL`、`WP_USERNAME`、`WP_PASSWORD`: WordPress の URL とログイン情報（初期値は `http://localhost:8888`、`admin`、`password`）
-- `CAPTURE_BROWSER=chromium`: Playwright の Chromium で撮る。仕様の動作確認用で、文字の描画が変わるので納品用には使わない。
-- `CAPTURE_WORK_DIR`: 作業フォルダ（初期値は `artifacts/capture-help-images`）
-- `WINDOWS_CURSORS_DIR`: カーソル画像の取り出し元（初期値は `/mnt/c/Windows/Cursors`）
-
-## 確認と差し替え
-
-元画像と並べた比較画像を作り、Read で見て確認する。
+### 3. 撮影して確認する
 
 ```sh
-PY=artifacts/capture-help-images/venv/bin/python
-# 静止画: 出力ファイル、倍率、画像の相対パス（複数可）
-$PY bin/capture-help-images/py/pairs.py compare.png 1 editor-options/links_1.jpg
-# GIF: 出力ファイル、画像の相対パス、倍率、何コマおきに並べるか（各コマの左が元、右が新）
-$PY bin/capture-help-images/py/gifpairs.py compare.png editor-options/hover.gif 0.5 2
+node artifacts/capture-help-images/scripts/<名前>.mjs
 ```
 
-確認すること:
+- 撮った画像は、今の画像の隣に `{名前}_new.{拡張子}` で保存される。
+- 出力に `WARN ... the crop goes outside the editor` が出たら、切り抜きがエディタの外にはみ出している。ページの背景を写す場合（`allowOutside: true`）以外は、スクリプトを直す。
+- 今の画像と並べた比較画像を作り、Read で見て確認する。
 
-- 同じ行・文字が同じ位置に写っているか。
-- GIF の操作（入力、クリック、スクロール）の内容とタイミングが元と同じか。
-- 元画像にないもの（ホバー、意図しない選択範囲など）が写っていないか。
+  ```sh
+  # 静止画: 出力ファイル、倍率、画像の相対パス（複数可）
+  $PY bin/capture-help-images/py/pairs.py compare.png 1 editor-options/glyph-margin_1.jpg
+  # GIF: 出力ファイル、画像の相対パス、倍率、何コマおきに並べるか（各コマの左が今、右が新）
+  $PY bin/capture-help-images/py/gifpairs.py compare.png editor-options/find/loop.gif 0.5 1
+  ```
+
+  確認すること:
+
+  - 同じ行・文字が同じ位置に写っているか。
+  - GIF の操作（入力、クリック、スクロール）の内容とタイミングが今の画像と同じか。
+  - 今の画像にないもの（ホバー、意図しない選択範囲など）が写っていないか。
+
+- 比較画像をユーザーに見せ、目視での確認と調整の指示を受ける。指示に沿ってスクリプトを直し、撮り直す。
+
+### 4. 差し替える
 
 ユーザーが問題ないと判断したら、`_new` の画像を元のファイル名に置き換える。
+
+## API
+
+`index.mjs` から読み込む。
+
+### `openSession()`
+
+`{ page, capture( spec ), close() }` を返す。`capture()` は1枚撮影して、保存したファイルのパスを返す。
+
+spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
+
+- `rel`: 撮影する画像の、`assets/images/admin/editor-config` からの相対パス。サイズはこの画像に合わせる。
+- `value`: エディタのコード。省略すると、設定画面のプレビューの初期コード（`PREVIEW_CODE`）。
+- `theme`: `'vs-dark'`（初期値）か `'light'`。
+- `options`: プラグインの初期値に上書きするエディタの設定。
+- `stage`、`stageX`、`stageY`: エディタのサイズ（初期値 600×400）とページ上の位置（初期値 40, 40）。
+- `anchor: { line, column, ax, ay }`: その行・文字の左上が、画像の (ax, ay) に来るように切り抜く。
+- `clip( ctx, W, H )`: `anchor` の代わりに、切り抜く範囲を返す。
+- `orig: { x0, y0, cw, lh }`: 今の画像の文字の位置（1行1文字目の座標、1文字の幅、行の高さ）。`ctx.map()` で、今の画像の座標を今のエディタの同じ文字の位置に変換する。省略すると、`ctx.map()` は切り抜きの左上からの座標をそのまま使う。
+- `setup( ctx )`: 切り抜く前の準備。静止画では、写す状態にする。
+- `steps( ctx )`: GIF のコマごとの操作。`[{ dur, x, y, down, mods, wheel, action }]`。マウスは各コマの終わりに次の `x, y` へ動く。
+- `annotations( ctx )`: 静止画に描く注釈（赤い矢印）。
+- `caret: false`: テキストのキャレットを隠す。
+- `showScrollbars: true`: スクロールバーを常に表示する。
+- `cursor: true`: マウスカーソルとクリック時の黄色い円を描く（GIF）。
+- `recreate: true`: エディタを作り直す。スクロールバーの矢印など、作るときにしか読まれない設定に使う。
+- `allowOutside: true`: エディタの外（ページの背景）も切り抜く。
+
+`ctx` の主な項目: `page`、`EX`・`EY`（エディタの位置）、`clip`、`pos( line, column )`（文字の左上のページ座標）、`map( x, y )`、`track()`（今の GIF の解析結果）、`editorEval( fn, arg )`（`fn( monaco, editor, arg )` をページで実行）、`css( text )`。
+
+### ヘルパー
+
+- **操作**（`steps` の `action` や `setup` で `( page )` を渡して使う）: `focus( line, column )`、`select( l1, c1, l2, c2 )`、`addCursor( line, column )`、`type( text )`、`press( key )`、`wheel( notches, horizontal )`、`clickAt( where )`、`setSettingValue( value, patch )`
+- **位置**（`clickAt` に渡す）: `foldingControl( line )`、`afterLineEnd( line, gap )`
+- **ステップ**: `timeline( ctx, actions )`（今の GIF のコマの表示時間に、コマ番号ごとの操作を付ける）、`mouseSteps( ctx, { map, down, actions } )`（今の GIF のマウスの動きを再生する）、`cropMap( ctx, dx, dy )`（切り抜きからの相対座標を変換する）
+- **準備・切り抜き**: `scrollToLine`、`resize`、`rectOf`、`layoutInfo`、`editorWidth`、`alignRightWidget`（右端に付くウィジェットの位置を合わせる）、`fitRight`・`rightClip`（エディタの右端で切り抜く）、`backdrop`（ページの背景）、`placeSettingControl`（設定のコントロールをエディタの上に置く）、`inScrollablePage`（ページのスクロールを再現する）
+- **注釈**: `arrows( ctx, { fixedX, fixedY } )`（今の画像の赤い矢印を測って描き直す）
+- **その他**: `PREVIEW_CODE`、`IMG`、`WORK`
 
 ## 撮影の決まり
 
 - **エディタの設定:** プラグインの初期値（`classes/class-settings.php`）を使い、その画像が説明している設定だけを上書きする。
-- **テーマ:** 元画像に合わせる。背景が暗ければ Visual Studio Dark、明るければ Light。
-- **画質:** 元画像と同じピクセルサイズ。JPG は画質92・色の間引きなし（4:4:4）、GIF は64色・ディザなし。
-- **コマの表示時間:** 元 GIF と同じにする。
-- **撮影範囲:** 元画像で特定の行・文字が写っている位置に、同じ行・文字が来るように切り抜く。
+- **テーマ:** 今の画像に合わせる。背景が暗ければ Visual Studio Dark、明るければ Light。
+- **画質:** 今の画像と同じピクセルサイズ。JPG は画質92・色の間引きなし（4:4:4）、GIF は64色・ディザなし。
+- **コマの表示時間:** 今の GIF と同じにする。
+- **撮影範囲:** 今の画像で特定の行・文字が写っている位置に、同じ行・文字が来るように切り抜く。
 - **マウス:** カーソルとクリック時の黄色い円をページ上に描く。スクリーンショットには OS のカーソルが写らないため。
-- **ホイール:** `page.mouse.wheel()` を使う。1回50pxで、元 GIF の1ノッチと同じ。
+- **ホイール:** `wheel()` を使う。1回50pxで、元 GIF の1ノッチと同じ。
 
 ### 例外
 
-- **`cursor-surrounding-lines*` の4枚は、スティッキースクロールをオフにする。** プラグインの Monaco ではスティッキースクロールが初期値でオンになっている。オンのとき、Monaco は「Number of lines to keep before and after the cursor」の値に関係なく、カーソルの上下に5行以上の余白を取る。そのため0〜5のどの値でも動きが同じになり、設定の違いが画像に表れない。HTML ではスティッキースクロールの見出し行は表示されないので、オフにしてもほかの見た目は変わらない。プラグイン側でスティッキースクロールが無効になったら、この例外は不要になる。
-- **スクロールやドラッグをする GIF（`specs/gif7.mjs` の全仕様）は、ホバーをオフにする。** これらの GIF ではマウスをコードの上に置いたまま操作するため、少し待つとタグや属性の説明のホバーが表示される。元 GIF には写っておらず、説明したい動き（スクロールやスクロールバーの表示など）を隠してしまう。
+- **`cursor-surrounding-lines*` の4枚は、スティッキースクロールをオフにする（`options: { stickyScroll: { enabled: false } }`）。** プラグインの Monaco ではスティッキースクロールが初期値でオンになっている。オンのとき、Monaco は「Number of lines to keep before and after the cursor」の値に関係なく、カーソルの上下に5行以上の余白を取る。そのため0〜5のどの値でも動きが同じになり、設定の違いが画像に表れない。HTML ではスティッキースクロールの見出し行は表示されないので、オフにしてもほかの見た目は変わらない。プラグイン側でスティッキースクロールが無効になったら、この例外は不要になる。
+- **スクロールやドラッグをする GIF は、ホバーをオフにする（`options: { hover: { enabled: 'off' } }`）。** これらの GIF ではマウスをコードの上に置いたまま操作するため、少し待つとタグや属性の説明のホバーが表示される。元の GIF には写っておらず、説明したい動き（スクロールやスクロールバーの表示など）を隠してしまう。
 
 ### 撮影対象外
 
-次の3枚はスクリプトでは撮れないため、仕様もない。撮り直しや更新が必要なときは、ユーザーに手動での撮影を依頼する。
+次の3枚はスクリプトでは撮れない。撮り直しや更新が必要なときは、ユーザーに手動での撮影を依頼する。
 
 - `contextmenu_2.jpg`: 「Enable context menu」をオフにしたときの画像。エディタの上にブラウザ自体の右クリックメニューが表示されている。このメニューは OS が描くので、Playwright のスクリーンショットには写らない。
 - `copy-with-syntax-highlighting_1.jpg`・`_2.jpg`: 「Copy with syntax highlighting」をオン（`_1`）・オフ（`_2`）にして、エディタからコピーしたコードを Word に貼り付けた画像。オンでは色付き、オフでは色なしで貼り付けられる。ブラウザの外の画面なので撮れない。
-
-## 構成
-
-- `run.mjs`: 実行用。`specs/` の全仕様を読み込み、引数で絞り込む。仕様の項目は冒頭のコメントにある。
-- `specs/`: 画像ごとの撮影仕様（コード、設定、範囲、操作）。`static*.mjs` は静止画、`gif*.mjs` は GIF。
-- `lib/cap.mjs`: エディタの配置、カーソルの描画、操作の再生と録画。
-- `lib/wincdp.mjs`: Windows の Chrome をヘッドレスで起動し、WSL から接続する。
-- `lib/defaults.php`: プラグインの初期設定を JSON で出力する。
-- `data/tracks/`: 2021年の元 GIF から読み取った、コマの表示時間とマウスの位置。
-- `data/arrows.json`: 元画像にある赤い矢印の位置と形。
-- `py/`: 画像の書き出し、比較画像の作成、元画像の解析。
-
-## 仕様を変える・追加するとき
-
-- 既存の仕様の `value`（コード）、`options`、`anchor`（範囲）、`steps`（操作）などを変える。
-- 新しい GIF を元画像から再現するときは、`py/track.py` でコマの表示時間とマウスの位置を読み取り、`data/tracks/` に置く。
-
-  ```sh
-  $PY bin/capture-help-images/py/track.py <GIF> artifacts/capture-help-images/cursors > bin/capture-help-images/data/tracks/<相対パスの / を _ にした名前>.json
-  ```
-
-- スクロールバーの矢印など、エディタを作るときにしか読まれない設定がある。その場合は仕様に `recreate: true` を付ける。
 
 ## 注意
 
 - 撮影用の Chrome（プロファイル `C:\Temp\chbe-capture-profile`）は撮影の終了時に終了する。途中で止めて残った場合も、次の実行の開始時に終了する。ほかの Chrome は終了しない。
 - 設定はページ上で上書きするだけで、保存はしない。設定画面の「Save settings」は押さない。
+- 環境変数: `WP_BASE_URL`・`WP_USERNAME`・`WP_PASSWORD`（初期値 `http://localhost:8888`・`admin`・`password`）、`CAPTURE_BROWSER=chromium`（Playwright の Chromium で撮る。動作確認用で、文字の描画が変わるので差し替えには使わない）、`CAPTURE_WORK_DIR`、`WINDOWS_CURSORS_DIR`。

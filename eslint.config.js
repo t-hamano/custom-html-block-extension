@@ -5,7 +5,7 @@ const defaultConfig = require( '@wordpress/eslint-plugin' );
 
 module.exports = [
 	{
-		ignores: [ '**/node_modules/**', '**/vendor/**', '**/build/**' ],
+		ignores: [ '**/node_modules/**', '**/vendor/**', '**/build/**', 'artifacts/**' ],
 	},
 	...defaultConfig.configs.recommended,
 	{
