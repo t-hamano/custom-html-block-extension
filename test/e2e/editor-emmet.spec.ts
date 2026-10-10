@@ -32,20 +32,6 @@ const CSS_CASES = [
 	{ abbreviation: 'bgc#fff', expected: 'background-color: #fff;' },
 ];
 
-// Opens a file in the theme editor and selects its content to replace it.
-async function openThemeEditor( { admin, page }: Fixtures, file: string ) {
-	await admin.visitAdminPage( 'theme-editor.php', `file=${ file }` );
-	const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
-	await monacoEditor.click();
-	// Monaco maps its Ctrl/Cmd modifier from navigator.userAgent, so a
-	// "Macintosh" UA (e.g. Playwright's WebKit) needs Meta+A to select all.
-	const shortcut = await page.evaluate( () =>
-		window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
-	);
-	await page.keyboard.press( shortcut );
-	return monacoEditor;
-}
-
 // Emmet expands via the suggest widget, so Tab must wait for the suggestion.
 async function expand( page: Page, monacoEditor: Locator, abbreviation: string, label: string ) {
 	await page.keyboard.type( abbreviation );
@@ -63,7 +49,16 @@ const EDITORS: {
 }[] = [
 	{
 		name: 'theme editor (HTML)',
-		open: ( fixtures ) => openThemeEditor( fixtures, 'templates/index.html' ),
+		open: async ( { admin, page } ) => {
+			await admin.visitAdminPage( 'theme-editor.php', 'file=templates/index.html' );
+			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+			await monacoEditor.click();
+			const shortcut = await page.evaluate( () =>
+				window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
+			);
+			await page.keyboard.press( shortcut );
+			return monacoEditor;
+		},
 		getValue: ( { page } ) => page.locator( '#newcontent' ).inputValue(),
 	},
 	{
@@ -136,8 +131,14 @@ test.describe( 'Emmet', () => {
 
 	test.describe( 'theme editor (CSS)', () => {
 		for ( const { abbreviation, expected } of CSS_CASES ) {
-			test( `should expand "${ abbreviation }"`, async ( { admin, editor, page } ) => {
-				const monacoEditor = await openThemeEditor( { admin, editor, page }, 'style.css' );
+			test( `should expand "${ abbreviation }"`, async ( { admin, page } ) => {
+				await admin.visitAdminPage( 'theme-editor.php', 'file=style.css' );
+				const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+				await monacoEditor.click();
+				const shortcut = await page.evaluate( () =>
+					window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
+				);
+				await page.keyboard.press( shortcut );
 				await page.keyboard.type( '.selector{' );
 				// CSS suggestions are labeled with the expanded text.
 				await expand( page, monacoEditor, abbreviation, expected );
