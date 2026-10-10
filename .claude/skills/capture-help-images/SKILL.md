@@ -215,6 +215,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `line-numbers_3.gif`・`_4.gif`（5.6秒）
 - `match-brackets_1.gif`〜`_3.gif`（4.8秒）: キャレットをタグの内側 → `<` の直後 → `<` の直前 → `<` の直後 → 内側の順に動かし、always・never・near の違いを見せる。
 - `multi-cursor-paste_1.gif`・`_2.gif`（7秒）
+- `quick-suggestions-delay_1.gif`・`_2.gif`（6秒）: 入力の時刻をそろえ、候補が表示されるまでの時間の違いを見せる。
 
 ### 撮影対象外
 
