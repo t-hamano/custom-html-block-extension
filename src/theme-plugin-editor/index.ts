@@ -75,8 +75,6 @@ initLoader()
 			language,
 			automaticLayout: true,
 			...editorOptions,
-			// Pass the indentation as editor options, since Monaco re-detects the
-			// indentation from the content and overrides the model options otherwise.
 			tabSize,
 			insertSpaces,
 			detectIndentation: false,
