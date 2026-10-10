@@ -143,59 +143,77 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 
 ## 撮影の決まり
 
-- **エディタの設定:** プラグインの初期値（`classes/class-settings.php`）を使い、その画像が説明している設定だけを上書きする。
+### 基本
+
+- **エディタの設定:** プラグインの初期値（`classes/class-settings.php`）を使い、その画像が説明している設定だけを上書きする。ただし、下の「見やすくするためのルール」に当てはまる場合は、ほかの設定も変える。
 - **テーマ:** 今の画像に合わせる。背景が暗ければ Visual Studio Dark、明るければ Light。
-- **画質:** 今の画像と同じピクセルサイズ。JPG は画質92・色の間引きなし（4:4:4）、GIF は64色・ディザなし。
-- **コマの表示時間:** 今の GIF と同じにする。
+- **画像サイズ:** 今の画像と同じにする（ルール1でそろえた画像は、そのサイズ）。
+- **画質:** JPG は画質92・色の間引きなし（4:4:4）、GIF は64色・ディザなし。
+- **GIF の長さ:** 今の GIF の長さを目安にする。並べて表示する GIF はルール2に従う。
 - **撮影範囲:** 今の画像で特定の行・文字が写っている位置に、同じ行・文字が来るように切り抜く。
-- **マウス:** カーソルとクリック時の黄色い円をページ上に描く。スクリーンショットには OS のカーソルが写らないため。
-- **ホイール:** `wheel()` を使う。1回50pxで、元 GIF の1ノッチと同じ。
+- **マウス:** カーソルとクリック時の黄色い円をページ上に描く。スクリーンショットには OS のカーソルが写らないため。ホイールは `wheel()` を使う（1回50px）。
+
+### 見やすくするためのルール
+
+1. **同じ設定の画像は、写す条件をそろえる。** ヘルプでは同じ設定の画像が並べて表示されるので、画像サイズ・コード・エディタの大きさ・切り抜く位置をそろえ、違いは説明する設定の値だけにする。片方にだけページの余白が写る場合は、もう片方にも同じ余白を入れる。
+2. **同じ操作の GIF は、フレーム単位でそろえる。** 並べた GIF はそれぞれ独立してループするので、全体の長さや操作の時刻が違うと、ループのたびにずれていく。グループ内の全画像で同じ操作を同じ時刻に行い、全体の長さもそろえる。今の GIF のコマを読み取る `timeline()` は使わず、`plan()` などで操作の時刻を直接決める。点滅のように周期のある動きは、長さを周期の倍数にして、ループのつなぎ目もずれないようにする。
+3. **初期値のままでは違いが見えない設定は、関係する設定やコードを一時的に変える。** 例: スティッキースクロールのオフ、折りたたみ矢印の常時表示、コードの長さの調整、空白の表示。
+4. **説明に関係ない表示は消す。** 例: マウスを止めて操作する GIF のホバー、入力中の候補、スクロールバーの動きを隠すミニマップ、意味のないマウスカーソル。
+5. **小さくて読めない要素は、元画像と同じくらいの大きさにする。** 例: フォントサイズ、ミニマップの倍率、スクロールバーの幅。
+6. **マウスは縦か横に直線で動かし、対象の上で止める。** 元画像の軌跡は再現しない。行き過ぎないようにする。
+7. **赤い矢印は、指す対象の位置から決める。** 元画像と同じ座標ではなく、スクロールバーの矢印や行番号など、指す対象の中心を指す。
+8. **ループの最後まで意味のある表示にする。** 例: スクロールしすぎて何もない領域を写さない。
 
 ### 画像ごとの設定
 
-次の画像は、その画像が説明する設定のほかにも、初期値と異なる設定で撮っている。撮り直すときも同じ設定にする。
+上のルールに沿って、次の画像は初期値と異なる設定で撮っている。撮り直すときも同じ設定にする。
 
-- **`minimap/max-column.gif`、`minimap/show-slider_1.jpg`・`_2.gif`:** `minimap.scale: 2`。初期値の1では、元画像よりミニマップの文字が小さく読めないため。
-- **`minimap/show-slider_1.jpg`:** `minimap/show-slider_2.gif` と同じ配置で撮る。コードは設定画面のプレビューの初期コードを6回繰り返したもので、エディタの右端から300pxと、その右のページ（背景 `#f0f0f1`）20pxを切り抜き、320×280にする。`_2` はマウスがミニマップから右のページへ出入りする GIF で、並べたときにサイズと位置をそろえるため。マウスは写さない。
-- **`minimap/size_1.jpg`〜`_3.jpg`:** 画像ごとにコードの長さを変える。`_1`（proportional）と `_3`（fit）は約200行、`_2`（fill）は約30行にする（`h3` から始まる15行の塊を、それぞれ13回と2回繰り返す）。3つの違いはコードの長さによってしか表れないため。長いコードでは fill と fit がどちらもミニマップを縮めて全体を表示し、短いコードでは fit と proportional がどちらも等倍で表示する。そこで、proportional は長いコードではみ出してスクロールする様子、fill は短いコードで拡大して高さいっぱいに表示する様子、fit は長いコードを縮めて全体を表示する様子を見せる。
-- **`minimap/render-characters_1.jpg`・`_2.jpg`、`minimap/side_1.jpg`・`_2.jpg`:** `minimap.scale: 3`。理由は同上。これらはミニマップ自体を見せる画像なので、さらに大きくして元画像に近づけている。
-- **`scrollbar/arrow-size_1.jpg`・`_2.jpg`、`scrollbar/horizontal-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/vertical-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/horizontal_2.jpg`・`_3.jpg`、`scrollbar/vertical_2.jpg`・`_3.jpg`:** `scrollbar.verticalScrollbarSize: 20`、`scrollbar.horizontalScrollbarSize: 20`。元画像のスクロールバーは20pxで、初期値の10pxではスクロールバーや矢印のエリアが小さすぎるため。
-- **`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`overview-ruler-border_1.jpg`・`_2.jpg`:** `scrollbar.verticalScrollbarSize: 20`。理由は同上。
-- **`scrollbar/horizontal_1.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`:** `scrollbar.horizontalScrollbarSize: 20`。理由は同上。
-- **`scrollbar/horizontal_2.jpg`・`_3.jpg`:** `scrollbar/horizontal_1.gif` と同じ配置で撮る。高さ199pxのエディタの下に白いページ（`#fff`）を41px入れ、コード領域の左端から256×240を切り抜く。3枚を並べたときにサイズと位置をそろえるため。
-- **`scrollbar/vertical_2.jpg`・`_3.jpg`:** `scrollbar/vertical_1.gif` と同じ配置で撮る。高さ199pxのエディタの上に白いページ（`#fff`）を41px入れ、エディタの右端から256×240を切り抜く。3枚を並べたときにサイズと位置をそろえるため。
-- **`scrollbar/scroll-by-page.gif`:** `minimap: { enabled: false }`、`wordWrap: 'on'`。コードは `h3`・`p`（長い Lorem ipsum）・`li` 4つの塊1つで、折り返し後に約5ページ分の長さにする。スクロールバーの下側を約0.6秒おきに5回クリックする。ミニマップがあるとスクロールバーの動きが見えにくく、コードが長すぎると1回のクリックでスライダーがほとんど動かないため。
-- **`line-decorations-width.gif`:** `showFoldingControls: 'always'`。折りたたみの矢印はこの幅の領域に表示される。初期値（マウスを乗せたときだけ表示）では領域に何も写らず、どこの幅が変わっているのか分からないため。
-- **`suggest/show-icons_1.jpg`・`_2.jpg`:** `fontSize: 19`、`lineHeight: 32`、`suggestFontSize: 19`、`suggestLineHeight: 32`。元画像の文字の大きさに合わせるため。
-- **`auto-indent_1.gif`〜`_3.gif`、`match-brackets_1.gif`〜`_3.gif`:** `fontSize: 19`、`lineHeight: 36`。理由は同上。
-- **`occurrences-highlight_1.jpg`・`_2.jpg`:** `fontSize: 15.6`、`lineHeight: 30`。理由は同上。
-- **`render-control-characters_1.jpg`・`_2.jpg`:** `fontSize: 23.8`、`lineHeight: 42`。理由は同上。
-- **`rounded-selection_1.jpg`・`_2.jpg`:** `fontSize: 26.7`、`lineHeight: 28`。理由は同上。
-- **`word-wrap_1.jpg`〜`_4.jpg`:** `fontSize: 10.2`、`lineHeight: 19`、`wordWrapColumn: 36`。さらに、表示領域の幅（`layoutInfo.contentWidth`）を337pxにして、1行目が元画像と同じ「`<h1>Long long title.Long long title.Long long title.`」（52文字）で折り返すようにする。初期値の文字の大きさでは、元画像と折り返す位置が変わり、設定ごとの違いが分かりにくくなるため。
-- **`wrapping-indent_1.jpg`〜`_4.jpg`:** `fontSize: 10.2`、`lineHeight: 19`。さらに、表示領域の幅（`layoutInfo.contentWidth`）を365pxにして、3行目の折り返し前が元画像と同じ「`<p>Long Long text.Long Long text.Long Long text.Long`」（行頭の4スペースを含めて56文字）になるようにする。3行目の `<p>` の中身は「`Long Long text.`」を11回繰り返す。初期値の文字の大きさでは、折り返しが少なく、インデントの違いが分かりにくくなるため。
-- **`suggest-font-size_2.jpg`:** `suggestFontSize: 17`、`suggestLineHeight: 24`。ヘルプの説明は「値を30にした例」だが、30では候補の文字が大きすぎるため、元画像の見た目に合わせている。
-- **`multi-cursor-modifier.gif`:** `quickSuggestions: false`、`suggestOnTriggerCharacters: false`。入力中に候補が表示され、複数カーソルでの入力が見えにくくなるため。
-- **`sticky-tab-stops_1.gif`・`_2.gif`:** `renderWhitespace: 'all'`、`tabSize: 4`。コードも4スペースでインデントする。この設定はスペースのインデントでだけ意味があり、空白を表示しないと、スペースであることも設定ごとの違いも分からないため。
-- **`render-line-highlight_1.jpg`〜`_3.jpg`、`render-whitespace_1.jpg`〜`_5.jpg`:** テーマを Clouds（`theme: 'clouds'`）にする。元画像は Clouds で撮られており、Light では行のハイライトと空白記号が薄くて見えにくいため。`render-line-highlight_4.jpg`（ハイライトなし）は Light のまま。
-- **`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`:** `stickyScroll: { enabled: false }`。プラグインの Monaco ではスティッキースクロールが初期値でオンになっている。オンのとき、Monaco は「Number of lines to keep before and after the cursor」の値に関係なく、カーソルの上下に5行以上の余白を取る。そのため0〜5のどの値でも動きが同じになり、設定の違いが画像に表れない。HTML ではスティッキースクロールの見出し行は表示されないので、オフにしてもほかの見た目は変わらない。プラグイン側でスティッキースクロールが無効になったら、この設定は不要になる。
-- **`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`:** `hover: { enabled: 'off' }`。これらの GIF ではマウスをコードの上に置いたまま操作するため、少し待つとタグや属性の説明のホバーが表示される。元の GIF には写っておらず、説明したい動き（スクロールやスクロールバーの表示など）を隠してしまうため。
+- **ミニマップの倍率（ルール5）:**
+  - `minimap.scale: 2`: `minimap/max-column.gif`、`minimap/show-slider_1.jpg`・`_2.gif`
+  - `minimap.scale: 3`: `minimap/render-characters_1.jpg`・`_2.jpg`、`minimap/side_1.jpg`・`_2.jpg`（ミニマップ自体を見せる画像なので、さらに大きくする）
+- **スクロールバーの幅（ルール5、元画像は20px）:**
+  - 縦横とも `20`: `scrollbar/arrow-size_1.jpg`・`_2.jpg`、`scrollbar/horizontal-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/vertical-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/horizontal_2.jpg`・`_3.jpg`、`scrollbar/vertical_2.jpg`・`_3.jpg`
+  - `verticalScrollbarSize: 20`: `scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`overview-ruler-border_1.jpg`・`_2.jpg`
+  - `horizontalScrollbarSize: 20`: `scrollbar/horizontal_1.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`
+- **フォントサイズ（ルール5）:**
+  - `fontSize: 19`、`lineHeight: 32`、`suggestFontSize: 19`、`suggestLineHeight: 32`: `suggest/show-icons_1.jpg`・`_2.jpg`
+  - `fontSize: 19`、`lineHeight: 36`: `auto-indent_1.gif`〜`_3.gif`、`match-brackets_1.gif`〜`_3.gif`
+  - `fontSize: 15.6`、`lineHeight: 30`: `occurrences-highlight_1.jpg`・`_2.jpg`
+  - `fontSize: 23.8`、`lineHeight: 42`: `render-control-characters_1.jpg`・`_2.jpg`
+  - `fontSize: 26.7`、`lineHeight: 28`: `rounded-selection_1.jpg`・`_2.jpg`
+  - `fontSize: 10.2`、`lineHeight: 19`: `word-wrap_1.jpg`〜`_4.jpg`、`wrapping-indent_1.jpg`〜`_4.jpg`。元画像と同じ位置で折り返すよう、表示領域の幅（`layoutInfo.contentWidth`）を `word-wrap` は337px（1行目が「`<h1>Long long title.Long long title.Long long title.`」の52文字で折り返す、`wordWrapColumn: 36`）、`wrapping-indent` は365px（3行目が行頭の4スペースを含めて56文字で折り返す、`<p>` の中身は「`Long Long text.`」×11）にする。
+  - `suggestFontSize: 17`、`suggestLineHeight: 24`: `suggest-font-size_2.jpg`。ヘルプの説明は「値を30にした例」だが、30では候補の文字が大きすぎるため、元画像の見た目に合わせている。
+- **違いを見せるための設定・コード（ルール3）:**
+  - `stickyScroll: { enabled: false }`: `cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`。スティッキースクロールがオンだと、Monaco は「Number of lines to keep before and after the cursor」の値に関係なくカーソルの上下に5行以上の余白を取り、0〜5で違いが出ない。HTML では見出し行が出ないので、オフにしてもほかの見た目は変わらない。プラグイン側で無効になったら不要。
+  - `showFoldingControls: 'always'`: `line-decorations-width.gif`。折りたたみの矢印はこの幅の領域に表示されるので、常に表示してどこの幅が変わるかを見せる。
+  - `renderWhitespace: 'all'`、`tabSize: 4`（コードも4スペースでインデント）: `sticky-tab-stops_1.gif`・`_2.gif`。この設定はスペースのインデントでだけ意味があるため、空白を見せる。
+  - コードの長さ: `minimap/size_1.jpg`〜`_3.jpg`。`_1`（proportional）と `_3`（fit）は約200行、`_2`（fill）は約30行（`h3` から始まる15行の塊を13回と2回）。長いコードでは fill と fit が同じに、短いコードでは fit と proportional が同じになるため、proportional ははみ出してスクロールする様子、fill は拡大して高さいっぱいに表示する様子、fit は縮めて全体を表示する様子を見せる。
+  - コードの長さ: `scrollbar/scroll-by-page.gif`。`h3`・`p`（長い Lorem ipsum）・`li` 4つの塊1つを `wordWrap: 'on'` で折り返し、約5ページ分にする。スクロールバーの下側を約0.6秒おきに5回クリックする。長すぎると1回のクリックでスライダーがほとんど動かない。
+- **関係ない表示を消す設定（ルール4）:**
+  - `hover: { enabled: 'off' }`: `scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`
+  - `quickSuggestions: false`、`suggestOnTriggerCharacters: false`: `multi-cursor-modifier.gif`
+  - `minimap: { enabled: false }`: `scrollbar/scroll-by-page.gif`
+  - マウスカーソルを描かず、マウスのアイコンだけを描く: `scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`
+- **配置（ルール1）:**
+  - `minimap/show-slider_1.jpg`: `_2.gif` と同じく、プレビューの初期コードを6回繰り返し、エディタの右端から300pxと右のページ（`#f0f0f1`）20pxを320×280で切り抜く。
+  - `scrollbar/horizontal_2.jpg`・`_3.jpg`: `_1.gif` と同じく、高さ199pxのエディタの下に白いページ（`#fff`）41pxを入れ、コード領域の左端から256×240で切り抜く。
+  - `scrollbar/vertical_2.jpg`・`_3.jpg`: `_1.gif` と同じく、高さ199pxのエディタの上に白いページ（`#fff`）41pxを入れ、エディタの右端から256×240で切り抜く。
+- **テーマ:** `render-line-highlight_1.jpg`〜`_3.jpg`、`render-whitespace_1.jpg`〜`_5.jpg` は Clouds（`theme: 'clouds'`）にする。元画像は Clouds で撮られており、Light では行のハイライトと空白記号が薄くて見えにくいため。`render-line-highlight_4.jpg`（ハイライトなし）は Light のまま。
 
-### 並べて表示する GIF
-
-同じ設定の画像はヘルプで並べて表示され、それぞれ独立してループする。全体の長さや操作のタイミングが画像ごとに違うと、ループするうちに操作がずれていく。そのため、次のグループは、グループ内の全画像で同じ操作を同じタイミング（同じコマの表示時間）で行う。今の GIF のコマを読み取る `timeline()` は使わず、操作の時刻をスクリプトで直接決める。
+### タイミングをそろえた GIF のグループ（ルール2）
 
 - `auto-closing-brackets_1.gif`〜`_3.gif`、`auto-closing-quotes_1.gif`〜`_3.gif`（5.2秒）
 - `auto-indent_1.gif`〜`_3.gif`（3.9秒）
 - `auto-surround_1.gif`〜`_4.gif`（5.8秒）
-- `cursor-blinking_1.gif`〜`_4.gif`（3秒）: 操作はなく、キャレットの点滅だけを写す。最初にエディタにフォーカスし直し、点滅が始まるまでの500msを捨てて（spec の `trimStart: 500`）、4枚の点滅の始まりをそろえる。点滅の周期は1秒なので、3秒にするとループのつなぎ目もずれない。`_5.jpg`（solid）は静止画なので対象外。
+- `cursor-blinking_1.gif`〜`_4.gif`（3秒）: 最初にエディタにフォーカスし直し、点滅が始まるまでの500msを捨てて（spec の `trimStart: 500`）、4枚の点滅の始まりをそろえる。点滅の周期は1秒。`_5.jpg` は静止画なので対象外。
 - `cursor-smooth-caret-animation_1.gif`・`_2.gif`（6秒）: キャレットの80msの移動アニメーションを写すため、止まっている間も40msごとのコマにする。
 - `cursor-surrounding-lines_1.gif`・`_2.gif`（約4.7秒）
-- `cursor-surrounding-lines-style_1.gif`・`_2.gif`（6.8秒）: マウスを動かす位置（下端・上端を交互に2回ずつ）も同じにする。
+- `cursor-surrounding-lines-style_1.gif`・`_2.gif`（6.8秒）: マウスの位置（下端・上端を交互に2回ずつ）もそろえる。
 - `folding-strategy_1.gif`・`_2.gif`（6.2秒）
 - `format-on-paste_1.gif`・`_2.gif`（4.7秒）
 - `highlight-active-indent-guide_1.gif`・`_2.gif`（5.2秒）
-- `line-numbers_3.gif`・`_4.gif`（5.6秒）: `_1.jpg`・`_2.jpg` は静止画なので対象外。
-- `match-brackets_1.gif`〜`_3.gif`（4.8秒）: キャレットをタグの内側（`<` から離れた位置）→ `<` の直後 → `<` の直前 → `<` の直後 → 内側の順に動かす。always は常に、never は常に強調せず、near は `<` の隣にあるときだけ強調するので、3つの違いが分かる。
+- `line-numbers_3.gif`・`_4.gif`（5.6秒）
+- `match-brackets_1.gif`〜`_3.gif`（4.8秒）: キャレットをタグの内側 → `<` の直後 → `<` の直前 → `<` の直後 → 内側の順に動かし、always・never・near の違いを見せる。
 - `multi-cursor-paste_1.gif`・`_2.gif`（7秒）
 
 ### 撮影対象外
