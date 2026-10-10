@@ -201,7 +201,9 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
   - `scrollbar/horizontal_2.jpg`・`_3.jpg`: `_1.gif` と同じく、高さ199pxのエディタの下に白いページ（`#fff`）41pxを入れ、コード領域の左端から256×240で切り抜く。
   - `scrollbar/vertical_2.jpg`・`_3.jpg`: `_1.gif` と同じく、高さ199pxのエディタの上に白いページ（`#fff`）41pxを入れ、エディタの右端から256×240で切り抜く。
 - **赤い矢印（ルール7）:** `render-line-highlight_1.jpg`〜`_4.jpg` は、カーソルのある2行目の行番号を下から上向きの矢印で指す。設定ごとの違いは行と行番号のハイライトの有無で、特に all と line は行番号の部分だけが違い、矢印がないとどこが違うのか分かりにくいため。4枚とも同じ位置に入れる（ルール1）。
-- **テーマ:** `render-line-highlight_1.jpg`〜`_3.jpg`、`render-whitespace_1.jpg`〜`_5.jpg` は Clouds（`theme: 'clouds'`）にする。元画像は Clouds で撮られており、Light では行のハイライトと空白記号が薄くて見えにくいため。`render-line-highlight_4.jpg`（ハイライトなし）は Light のまま。
+- **テーマ（ルール5）:**
+  - Clouds（`theme: 'clouds'`）: `render-line-highlight_1.jpg`〜`_3.jpg`。元画像は Clouds で撮られており、Light では行のハイライトが薄くて見えにくいため。`render-line-highlight_4.jpg`（ハイライトなし）は Light のまま。
+  - Chrome DevTools（`theme: 'chrome-devtools'`）: `render-whitespace_1.jpg`〜`_5.jpg`。空白記号が赤い点で表示され、選択範囲の上でも見える。Clouds や Light では、選択範囲の背景と空白記号の色が近く、選択範囲の中の点がほとんど見えないため（特に selection の `_3`）。
 
 ### タイミングをそろえた GIF のグループ（ルール2）
 
