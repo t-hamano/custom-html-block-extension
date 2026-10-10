@@ -45,6 +45,15 @@ export default function ImportTool() {
 		setImportFile( file );
 	};
 
+	const createInvalidFormatNotice = () => {
+		createErrorNotice(
+			__( 'The format of JSON file is not correct.', 'custom-html-block-extension' ),
+			{
+				type: 'snackbar',
+			}
+		);
+	};
+
 	// Import editor config.
 	const onImportOptions = () => {
 		if ( ! importFile ) {
@@ -64,28 +73,29 @@ export default function ImportTool() {
 					path: '/custom-html-block-extension/v1/import_editor_config',
 					method: 'POST',
 					data,
-				} ).then( ( response ) => {
-					setTimeout( () => {
-						createSuccessNotice(
-							__( 'Imported the editor config.', 'custom-html-block-extension' ),
-							{
-								type: 'snackbar',
-							}
-						);
-						setEditorSettings( response.editorSettings );
-						setEditorOptions( response.editorOptions );
-						setImportFile( null );
+				} )
+					.then( ( response ) => {
+						setTimeout( () => {
+							createSuccessNotice(
+								__( 'Imported the editor config.', 'custom-html-block-extension' ),
+								{
+									type: 'snackbar',
+								}
+							);
+							setEditorSettings( response.editorSettings );
+							setEditorOptions( response.editorOptions );
+							setImportFile( null );
+							setIsWaiting( false );
+						}, 600 );
+					} )
+					.catch( () => {
+						// The editor config is missing or has invalid values.
+						createInvalidFormatNotice();
 						setIsWaiting( false );
-					}, 600 );
-				} );
+					} );
 			} catch {
 				// Invalid JSON format.
-				createErrorNotice(
-					__( 'The format of JSON file is not correct.', 'custom-html-block-extension' ),
-					{
-						type: 'snackbar',
-					}
-				);
+				createInvalidFormatNotice();
 				return false;
 			}
 		};

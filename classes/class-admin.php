@@ -127,24 +127,17 @@ class Admin {
 	 */
 	public function register_settings() {
 		// Register editor settings.
-		$properties_editor_settings = array();
-		$default_editor_settings    = array();
+		$default_editor_settings = array();
 
 		foreach ( Settings::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
-			$properties_editor_settings[ $key ] = array(
-				'type' => $value['type'],
-			);
-			$default_editor_settings[ $key ]    = $value['default'];
+			$default_editor_settings[ $key ] = $value['default'];
 		}
 
 		$args_editor_settings = array(
 			'type'         => 'object',
 			'description'  => __( 'Editor settings.', 'custom-html-block-extension' ),
 			'show_in_rest' => array(
-				'schema' => array(
-					'type'       => 'object',
-					'properties' => $properties_editor_settings,
-				),
+				'schema' => Settings::get_editor_settings_schema(),
 			),
 			'default'      => $default_editor_settings,
 		);
@@ -152,24 +145,14 @@ class Admin {
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_settings'], $args_editor_settings );
 
 		// Register editor options.
-		$properties_editor_options = array();
-		$default_editor_options    = array();
+		$default_editor_options = array();
 
 		foreach ( Settings::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
-			$properties_editor_options[ $key ] = array(
-				'type' => $value['type'],
-			);
-
 			if ( 'object' === $value['type'] ) {
-				$properties_editor_options[ $key ]['properties'] = array();
-
 				$default_editor_options[ $key ] = array();
 
 				foreach ( $value['items'] as $sub_key => $sub_value ) {
-					$properties_editor_options[ $key ]['properties'][ $sub_key ] = array(
-						'type' => $sub_value['type'],
-					);
-					$default_editor_options[ $key ][ $sub_key ]                  = $sub_value['default'];
+					$default_editor_options[ $key ][ $sub_key ] = $sub_value['default'];
 				}
 			} else {
 				$default_editor_options[ $key ] = $value['default'];
@@ -180,10 +163,7 @@ class Admin {
 			'type'         => 'object',
 			'description'  => __( 'Editor settings.', 'custom-html-block-extension' ),
 			'show_in_rest' => array(
-				'schema' => array(
-					'type'       => 'object',
-					'properties' => $properties_editor_options,
-				),
+				'schema' => Settings::get_editor_options_schema(),
 			),
 			'default'      => $default_editor_options,
 		);
@@ -191,24 +171,17 @@ class Admin {
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );
 
 		// Register options.
-		$properties_options = array();
-		$default_options    = array();
+		$default_options = array();
 
 		foreach ( Settings::DEFAULT_OPTIONS as $key => $value ) {
-			$properties_options[ $key ] = array(
-				'type' => $value['type'],
-			);
-			$default_options[ $key ]    = $value['default'];
+			$default_options[ $key ] = $value['default'];
 		}
 
 		$args_options = array(
 			'type'         => 'object',
 			'description'  => __( 'Editor settings.', 'custom-html-block-extension' ),
 			'show_in_rest' => array(
-				'schema' => array(
-					'type'       => 'object',
-					'properties' => $properties_options,
-				),
+				'schema' => Settings::get_options_schema(),
 			),
 			'default'      => $default_options,
 		);
