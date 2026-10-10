@@ -119,9 +119,9 @@ const EDITORS: {
 
 test.describe( 'Emmet', () => {
 	test.beforeEach( async ( { page } ) => {
-		// Hide WP pointer.
+		// Hide WP pointer. Dispatch the click because the file editor warning modal may cover it.
 		await page.addLocatorHandler( page.locator( '#wp-pointer-0' ), async ( wpPointer ) => {
-			await wpPointer.locator( 'a.close' ).click();
+			await wpPointer.locator( 'a.close' ).dispatchEvent( 'click' );
 		} );
 		// Hide file editor warning modal.
 		const dismissButton = page.locator( '.file-editor-warning-dismiss' );
