@@ -179,6 +179,14 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - **`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`:** `stickyScroll: { enabled: false }`。プラグインの Monaco ではスティッキースクロールが初期値でオンになっている。オンのとき、Monaco は「Number of lines to keep before and after the cursor」の値に関係なく、カーソルの上下に5行以上の余白を取る。そのため0〜5のどの値でも動きが同じになり、設定の違いが画像に表れない。HTML ではスティッキースクロールの見出し行は表示されないので、オフにしてもほかの見た目は変わらない。プラグイン側でスティッキースクロールが無効になったら、この設定は不要になる。
 - **`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`:** `hover: { enabled: 'off' }`。これらの GIF ではマウスをコードの上に置いたまま操作するため、少し待つとタグや属性の説明のホバーが表示される。元の GIF には写っておらず、説明したい動き（スクロールやスクロールバーの表示など）を隠してしまうため。
 
+### 並べて表示する GIF
+
+同じ設定の画像はヘルプで並べて表示され、それぞれ独立してループする。全体の長さや操作のタイミングが画像ごとに違うと、ループするうちに操作がずれていく。そのため、次のグループは、グループ内の全画像で同じ操作を同じタイミング（同じコマの表示時間）で行う。今の GIF のコマを読み取る `timeline()` は使わず、操作の時刻をスクリプトで直接決める。
+
+- `auto-closing-brackets_1.gif`〜`_3.gif`、`auto-closing-quotes_1.gif`〜`_3.gif`（5.2秒）
+- `auto-indent_1.gif`〜`_3.gif`（3.9秒）
+- `auto-surround_1.gif`〜`_4.gif`（5.8秒）
+
 ### 撮影対象外
 
 次の3枚はスクリプトでは撮れない。撮り直しや更新が必要なときは、ユーザーに手動での撮影を依頼する。
