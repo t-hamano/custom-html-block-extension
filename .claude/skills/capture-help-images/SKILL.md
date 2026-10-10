@@ -194,6 +194,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `folding-strategy_1.gif`・`_2.gif`（6.2秒）
 - `format-on-paste_1.gif`・`_2.gif`（4.7秒）
 - `highlight-active-indent-guide_1.gif`・`_2.gif`（5.2秒）
+- `line-numbers_3.gif`・`_4.gif`（5.6秒）: `_1.jpg`・`_2.jpg` は静止画なので対象外。
 
 ### 撮影対象外
 
