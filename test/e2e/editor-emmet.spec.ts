@@ -25,14 +25,12 @@ const HTML_CASES = [
 	},
 ];
 
-// The classic editor and the Custom HTML block only support HTML.
 const CSS_CASES = [
 	{ abbreviation: 'fz100', expected: 'font-size: 100px;' },
 	{ abbreviation: 'm10-20', expected: 'margin: 10px 20px;' },
 	{ abbreviation: 'bgc#fff', expected: 'background-color: #fff;' },
 ];
 
-// Emmet expands via the suggest widget, so Tab must wait for the suggestion.
 async function expand( page: Page, monacoEditor: Locator, abbreviation: string, label: string ) {
 	await page.keyboard.type( abbreviation );
 	await expect(
@@ -66,7 +64,6 @@ const EDITORS: {
 		plugin: 'classic-editor',
 		open: async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'post-new.php' );
-			// The editor opens in the last used tab, so switch to "Text" via "Visual".
 			await page.locator( '#content-tmce' ).click();
 			await page.locator( '#content-html' ).click();
 			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
