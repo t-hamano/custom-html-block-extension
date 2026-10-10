@@ -37,17 +37,11 @@ type BlockEditProps = {
 const MIN_HEIGHT = 80;
 const MAX_HEIGHT = 500;
 
-// `__unstableIsHtml` is missing from the package types.
-const useHtmlBlockProps = useBlockProps as unknown as (
-	props: Record< string, unknown >,
-	options: { __unstableIsHtml: boolean }
-) => Record< string, unknown >;
-
 // Client ID of the block that is in the HTML mode.
 const HtmlModeContext = createContext< string | null >( null );
 
 function BlockHTMLWrapper( { children }: { children: ReactNode } ) {
-	return <div { ...useHtmlBlockProps( {}, { __unstableIsHtml: true } ) }>{ children }</div>;
+	return <div { ...useBlockProps( {}, { __unstableIsHtml: true } ) }>{ children }</div>;
 }
 
 // Monaco version of `BlockHTML` in `@wordpress/block-editor`.
