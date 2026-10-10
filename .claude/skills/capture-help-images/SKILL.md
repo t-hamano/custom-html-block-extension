@@ -19,10 +19,10 @@ description: 設定画面「Editor config」のヘルプ画像（assets/images/a
 ## 撮影
 
 ```sh
-npm run capture:help-images -- <画像のパスの一部> ...
+node bin/capture-help-images/run.mjs <画像のパスの一部> ...
 ```
 
-- 例: `npm run capture:help-images -- hover minimap/`
+- 例: `node bin/capture-help-images/run.mjs hover minimap/`
 - 引数なしで全画像を撮る。1時間以上かかるので、バックグラウンドで実行する。
 - 撮った画像は、元画像の隣に `{名前}_new.{拡張子}` で保存される。
 - 出力に `WARN ... the crop goes outside the editor` が出た画像は、切り抜きがエディタの外にはみ出している。ページの背景を写す仕様（`allowOutside: true`）以外は、仕様を直す。
