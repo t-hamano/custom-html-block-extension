@@ -165,6 +165,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - **`render-control-characters_1.jpg`・`_2.jpg`:** `fontSize: 23.8`、`lineHeight: 42`。理由は同上。
 - **`rounded-selection_1.jpg`・`_2.jpg`:** `fontSize: 26.7`、`lineHeight: 28`。理由は同上。
 - **`word-wrap_1.jpg`〜`_4.jpg`:** `fontSize: 10.2`、`lineHeight: 19`、`wordWrapColumn: 36`。さらに、表示領域の幅（`layoutInfo.contentWidth`）を337pxにして、1行目が元画像と同じ「`<h1>Long long title.Long long title.Long long title.`」（52文字）で折り返すようにする。初期値の文字の大きさでは、元画像と折り返す位置が変わり、設定ごとの違いが分かりにくくなるため。
+- **`wrapping-indent_1.jpg`〜`_4.jpg`:** `fontSize: 10.2`、`lineHeight: 19`。さらに、表示領域の幅（`layoutInfo.contentWidth`）を365pxにして、3行目の折り返し前が元画像と同じ「`<p>Long Long text.Long Long text.Long Long text.Long`」（行頭の4スペースを含めて56文字）になるようにする。3行目の `<p>` の中身は「`Long Long text.`」を11回繰り返す。初期値の文字の大きさでは、折り返しが少なく、インデントの違いが分かりにくくなるため。
 - **`suggest-font-size_2.jpg`:** `suggestFontSize: 17`、`suggestLineHeight: 24`。ヘルプの説明は「値を30にした例」だが、30では候補の文字が大きすぎるため、元画像の見た目に合わせている。
 - **`multi-cursor-modifier.gif`:** `quickSuggestions: false`、`suggestOnTriggerCharacters: false`。入力中に候補が表示され、複数カーソルでの入力が見えにくくなるため。
 - **`sticky-tab-stops_1.gif`・`_2.gif`:** `renderWhitespace: 'all'`、`tabSize: 4`。コードも4スペースでインデントする。この設定はスペースのインデントでだけ意味があり、空白を表示しないと、スペースであることも設定ごとの違いも分からないため。
