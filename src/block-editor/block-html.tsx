@@ -34,7 +34,7 @@ type BlockEditProps = {
 	name: string;
 };
 
-const MIN_HEIGHT = 100;
+const MIN_HEIGHT = 80;
 const MAX_HEIGHT = 500;
 
 // `__unstableIsHtml` is missing from the package types.
