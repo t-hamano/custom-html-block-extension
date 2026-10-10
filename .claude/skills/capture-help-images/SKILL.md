@@ -151,14 +151,9 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - **マウス:** カーソルとクリック時の黄色い円をページ上に描く。スクリーンショットには OS のカーソルが写らないため。
 - **ホイール:** `wheel()` を使う。1回50pxで、元 GIF の1ノッチと同じ。
 
-### 例外
-
-- **`cursor-surrounding-lines*` の4枚は、スティッキースクロールをオフにする（`options: { stickyScroll: { enabled: false } }`）。** プラグインの Monaco ではスティッキースクロールが初期値でオンになっている。オンのとき、Monaco は「Number of lines to keep before and after the cursor」の値に関係なく、カーソルの上下に5行以上の余白を取る。そのため0〜5のどの値でも動きが同じになり、設定の違いが画像に表れない。HTML ではスティッキースクロールの見出し行は表示されないので、オフにしてもほかの見た目は変わらない。プラグイン側でスティッキースクロールが無効になったら、この例外は不要になる。
-- **スクロールやドラッグをする GIF は、ホバーをオフにする（`options: { hover: { enabled: 'off' } }`）。** これらの GIF ではマウスをコードの上に置いたまま操作するため、少し待つとタグや属性の説明のホバーが表示される。元の GIF には写っておらず、説明したい動き（スクロールやスクロールバーの表示など）を隠してしまう。
-
 ### 画像ごとの設定
 
-次の画像は、レビューを受けて、その画像が説明する設定のほかにも初期値と異なる設定で撮っている。撮り直すときも同じ設定にする。
+次の画像は、その画像が説明する設定のほかにも、初期値と異なる設定で撮っている。撮り直すときも同じ設定にする。
 
 - **`minimap/max-column.gif`、`minimap/render-characters_1.jpg`・`_2.jpg`、`minimap/show-slider_1.jpg`・`_2.gif`、`minimap/side_1.jpg`・`_2.jpg`:** `minimap.scale: 2`。初期値の1では、元画像よりミニマップの文字が小さく読めないため。
 - **`scrollbar/arrow-size_1.jpg`・`_2.jpg`、`scrollbar/horizontal-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/vertical-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/horizontal_2.jpg`・`_3.jpg`、`scrollbar/vertical_2.jpg`・`_3.jpg`:** `scrollbar.verticalScrollbarSize: 20`、`scrollbar.horizontalScrollbarSize: 20`。元画像のスクロールバーは20pxで、初期値の10pxではスクロールバーや矢印のエリアが小さすぎるため。
@@ -174,8 +169,8 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - **`multi-cursor-modifier.gif`:** `quickSuggestions: false`、`suggestOnTriggerCharacters: false`。入力中に候補が表示され、複数カーソルでの入力が見えにくくなるため。
 - **`sticky-tab-stops_1.gif`・`_2.gif`:** `renderWhitespace: 'all'`、`tabSize: 4`。コードも4スペースでインデントする。この設定はスペースのインデントでだけ意味があり、空白を表示しないと、スペースであることも設定ごとの違いも分からないため。
 - **`render-line-highlight_1.jpg`〜`_3.jpg`、`render-whitespace_1.jpg`〜`_5.jpg`:** テーマを Clouds（`theme: 'clouds'`）にする。元画像は Clouds で撮られており、Light では行のハイライトと空白記号が薄くて見えにくいため。`render-line-highlight_4.jpg`（ハイライトなし）は Light のまま。
-- **`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`:** `stickyScroll: { enabled: false }`。理由は「例外」を参照。
-- **`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`:** `hover: { enabled: 'off' }`。理由は「例外」を参照。
+- **`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`:** `stickyScroll: { enabled: false }`。プラグインの Monaco ではスティッキースクロールが初期値でオンになっている。オンのとき、Monaco は「Number of lines to keep before and after the cursor」の値に関係なく、カーソルの上下に5行以上の余白を取る。そのため0〜5のどの値でも動きが同じになり、設定の違いが画像に表れない。HTML ではスティッキースクロールの見出し行は表示されないので、オフにしてもほかの見た目は変わらない。プラグイン側でスティッキースクロールが無効になったら、この設定は不要になる。
+- **`scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`:** `hover: { enabled: 'off' }`。これらの GIF ではマウスをコードの上に置いたまま操作するため、少し待つとタグや属性の説明のホバーが表示される。元の GIF には写っておらず、説明したい動き（スクロールやスクロールバーの表示など）を隠してしまうため。
 
 ### 撮影対象外
 
