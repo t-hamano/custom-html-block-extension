@@ -162,6 +162,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - **`scrollbar/arrow-size_1.jpg`・`_2.jpg`、`scrollbar/horizontal-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/vertical-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/horizontal_2.jpg`・`_3.jpg`、`scrollbar/vertical_2.jpg`・`_3.jpg`:** `scrollbar.verticalScrollbarSize: 20`、`scrollbar.horizontalScrollbarSize: 20`。元画像のスクロールバーは20pxで、初期値の10pxではスクロールバーや矢印のエリアが小さすぎるため。
 - **`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`overview-ruler-border_1.jpg`・`_2.jpg`:** `scrollbar.verticalScrollbarSize: 20`。理由は同上。
 - **`scrollbar/horizontal_1.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`:** `scrollbar.horizontalScrollbarSize: 20`。理由は同上。
+- **`scrollbar/scroll-by-page.gif`:** `minimap: { enabled: false }`、`wordWrap: 'on'`。コードは `h3`・`p`（長い Lorem ipsum）・`li` 4つの塊1つで、折り返し後に約5ページ分の長さにする。スクロールバーの下側を約0.6秒おきに5回クリックする。ミニマップがあるとスクロールバーの動きが見えにくく、コードが長すぎると1回のクリックでスライダーがほとんど動かないため。
 - **`suggest/show-icons_1.jpg`・`_2.jpg`:** `fontSize: 19`、`lineHeight: 32`、`suggestFontSize: 19`、`suggestLineHeight: 32`。元画像の文字の大きさに合わせるため。
 - **`auto-indent_1.gif`〜`_3.gif`、`match-brackets_1.gif`〜`_3.gif`:** `fontSize: 19`、`lineHeight: 36`。理由は同上。
 - **`occurrences-highlight_1.jpg`・`_2.jpg`:** `fontSize: 15.6`、`lineHeight: 30`。理由は同上。
