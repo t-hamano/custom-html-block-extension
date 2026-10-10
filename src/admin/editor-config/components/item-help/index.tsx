@@ -84,7 +84,7 @@ export default function ItemHelp( {
 								className={ `chbe-admin-editor-config-item-help-modal__items is-col-${ colCount }` }
 							>
 								{ items.map( ( item, index ) => (
-									<Stack direction="column" align="start" gap="lg" key={ index }>
+									<div className="chbe-admin-editor-config-item-help-modal__item" key={ index }>
 										<Heading as="h3" level="4">
 											{ item.isDefault
 												? sprintf(
@@ -107,8 +107,15 @@ export default function ItemHelp( {
 												alt={ item.title }
 											/>
 										</Button>
-										{ item.description && <Text render={ <p /> }>{ item.description }</Text> }
-									</Stack>
+										{ item.description && (
+											<Text
+												render={ <p /> }
+												className="chbe-admin-editor-config-item-help-modal__item-description"
+											>
+												{ item.description }
+											</Text>
+										) }
+									</div>
 								) ) }
 							</div>
 						) }
