@@ -11,10 +11,45 @@ import { test, expect, type Admin, type Editor } from '@wordpress/e2e-test-utils
 type Fixtures = { admin: Admin; editor: Editor; page: Page };
 
 const HTML_CASES = [
-	{ abbreviation: 'p.selector', expected: '<p class="selector"></p>' },
-	{ abbreviation: 'div#id.a.b', expected: '<div id="id" class="a b"></div>' },
-	{ abbreviation: 'a[href="#"]{link}', expected: '<a href="#">link</a>' },
-	{ abbreviation: 'p{text}', expected: '<p>text</p>' },
+	{
+		abbreviation: 'p.selector',
+		expected: '<p class="selector"></p>',
+	},
+	{
+		abbreviation: 'div#id.a.b',
+		expected: '<div id="id" class="a b"></div>',
+	},
+	{
+		abbreviation: '.box',
+		expected: '<div class="box"></div>',
+	},
+	{
+		abbreviation: 'a[href="#"]{link}',
+		expected: '<a href="#">link</a>',
+	},
+	{
+		abbreviation: 'input:email',
+		expected: '<input type="email" name="" id="">',
+	},
+	{
+		abbreviation: 'h1+p',
+		expected: `<h1></h1>
+<p></p>`,
+	},
+	{
+		abbreviation: 'div>p^span',
+		expected: `<div>
+  <p></p>
+</div>
+<span></span>`,
+	},
+	{
+		abbreviation: '(header>nav)+footer',
+		expected: `<header>
+  <nav></nav>
+</header>
+<footer></footer>`,
+	},
 	{
 		abbreviation: 'ul.list>li.item*3',
 		expected: `<ul class="list">
@@ -23,12 +58,46 @@ const HTML_CASES = [
   <li class="item"></li>
 </ul>`,
 	},
+	{
+		abbreviation: 'li{Item $}*2',
+		expected: `<li>Item 1</li>
+<li>Item 2</li>`,
+	},
 ];
 
 const CSS_CASES = [
-	{ abbreviation: 'fz100', expected: 'font-size: 100px;' },
-	{ abbreviation: 'm10-20', expected: 'margin: 10px 20px;' },
-	{ abbreviation: 'bgc#fff', expected: 'background-color: #fff;' },
+	{
+		abbreviation: 'fz100',
+		expected: 'font-size: 100px;',
+	},
+	{
+		abbreviation: 'w100p',
+		expected: 'width: 100%;',
+	},
+	{
+		abbreviation: 'lh1.5',
+		expected: 'line-height: 1.5;',
+	},
+	{
+		abbreviation: 'm10-20',
+		expected: 'margin: 10px 20px;',
+	},
+	{
+		abbreviation: 'bgc#fff',
+		expected: 'background-color: #fff;',
+	},
+	{
+		abbreviation: 'bd1-s#000',
+		expected: 'border: 1px solid #000;',
+	},
+	{
+		abbreviation: 'dn',
+		expected: 'display: none;',
+	},
+	{
+		abbreviation: 'posa',
+		expected: 'position: absolute;',
+	},
 ];
 
 async function expand( page: Page, monacoEditor: Locator, abbreviation: string, label: string ) {
@@ -55,6 +124,7 @@ const EDITORS: {
 				window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
 			);
 			await page.keyboard.press( shortcut );
+			await page.keyboard.press( 'Delete' );
 			return monacoEditor;
 		},
 		getValue: ( { page } ) => page.locator( '#newcontent' ).inputValue(),
@@ -136,6 +206,7 @@ test.describe( 'Emmet', () => {
 					window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
 				);
 				await page.keyboard.press( shortcut );
+				await page.keyboard.press( 'Delete' );
 				await page.keyboard.type( '.selector{' );
 				await expand( page, monacoEditor, abbreviation, expected );
 				await expect( page.locator( '#newcontent' ) ).toHaveValue( `.selector{${ expected }}` );
