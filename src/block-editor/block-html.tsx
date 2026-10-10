@@ -68,6 +68,7 @@ function BlockHTML( { clientId }: { clientId: string } ) {
 		setHtml( blockContent );
 	}, [ blockContent ] );
 
+	// Apply the edited HTML to the block on blur, as the core `BlockHTML` does.
 	const onBlur = ( nextHtml: string ) => {
 		if ( ! block || nextHtml === blockContent ) {
 			return;
