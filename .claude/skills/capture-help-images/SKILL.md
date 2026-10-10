@@ -194,7 +194,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
   - `hover: { enabled: 'off' }`: `scroll-beyond-last-line_1.gif`・`_2.gif`、`smooth-scrolling_1.gif`・`_2.gif`、`mouse-wheel-zoom.gif`、`scroll-beyond-last-column_1.gif`・`_2.gif`、`scrollbar/horizontal_1.gif`、`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`minimap/enabled.gif`、`drag-and-drop.gif`、`cursor-surrounding-lines_1.gif`・`_2.gif`、`cursor-surrounding-lines-style_1.gif`・`_2.gif`、`render-line-highlight-only-when-focus_1.gif`・`_2.gif`
   - `quickSuggestions: false`、`suggestOnTriggerCharacters: false`: `multi-cursor-modifier.gif`
   - `minimap: { enabled: false }`: `scrollbar/scroll-by-page.gif`
-  - マウスカーソルを描かず、マウスのアイコンだけを描く: `scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`
+  - マウスカーソルを描かず、ホイールの動きを示すマウスのアイコンだけを描く（spec の `wheelIcon: true`）: `scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`、`scroll-beyond-last-line_1.gif`・`_2.gif`
 - **余白（ルール1）:** `rounded-selection_1.jpg`・`_2.jpg` は、元画像と同じく1行目を空行にして上に余白を入れ、2行目の「` Lorem `」を左右の半角スペースごと選択する（コードは `<p>  Lorem  ipsum dolor sit amet</p>`）。選択範囲の角の形が見えるようにするため。行のハイライトは消す（`renderLineHighlight: 'none'`）。
 - **配置（ルール1）:**
   - `minimap/show-slider_1.jpg`: `_2.gif` と同じく、プレビューの初期コードを6回繰り返し、エディタの右端から300pxと右のページ（`#f0f0f1`）20pxを320×280で切り抜く。
@@ -221,6 +221,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `quick-suggestions-delay_1.gif`・`_2.gif`（6秒）: 入力の時刻をそろえ、候補が表示されるまでの時間の違いを見せる。
 - `scroll-beyond-last-column_1.gif`・`_2.gif`（6.3秒）: スクロールバーのスライダーを同じ距離（120px）だけ左にドラッグして戻す。
 - `scroll-beyond-last-line_1.gif`・`_2.gif`（5.5秒）: ホイールを2ノッチずつ5回下に、5回上に回す。
+- `use-tab-stops_1.gif`・`_2.gif`（5.2秒）: 4行目の6スペースのインデントの末尾で、1.2秒ごとに Backspace を3回押す。タブストップが有効なら1回でインデント1段分（6 → 4 → 2 → 0）、無効なら1スペースずつ（6 → 5 → 4 → 3）減る。行頭の空白を表示する（`renderWhitespace: 'boundary'`）。
 - `word-wrap_1.gif`〜`_4.gif`（5.8秒）: 表示領域の幅を同じ時刻に同じ速さで変える。
 
 ### 撮影対象外
