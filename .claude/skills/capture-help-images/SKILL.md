@@ -196,6 +196,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `highlight-active-indent-guide_1.gif`・`_2.gif`（5.2秒）
 - `line-numbers_3.gif`・`_4.gif`（5.6秒）: `_1.jpg`・`_2.jpg` は静止画なので対象外。
 - `match-brackets_1.gif`〜`_3.gif`（4.8秒）: キャレットをタグの内側（`<` から離れた位置）→ `<` の直後 → `<` の直前 → `<` の直後 → 内側の順に動かす。always は常に、never は常に強調せず、near は `<` の隣にあるときだけ強調するので、3つの違いが分かる。
+- `multi-cursor-paste_1.gif`・`_2.gif`（7秒）
 
 ### 撮影対象外
 
