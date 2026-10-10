@@ -60,7 +60,7 @@ export default function ScrollBeyondLastColumn() {
 							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
 							'0'
 						),
-						image: 'editor-options/suggest-line-height_1.jpg',
+						image: 'editor-options/scroll-beyond-last-column_1.gif',
 						value: 0,
 					},
 					{
@@ -69,7 +69,7 @@ export default function ScrollBeyondLastColumn() {
 							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
 							'20'
 						),
-						image: 'editor-options/suggest-line-height_2.jpg',
+						image: 'editor-options/scroll-beyond-last-column_2.gif',
 						value: 20,
 					},
 				] }
