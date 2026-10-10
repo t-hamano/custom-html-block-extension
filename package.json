@@ -75,6 +75,7 @@
 		"plugin-zip": "npm run build && wp-scripts plugin-zip",
 		"clean": "rimraf build",
 		"check-licenses": "wp-scripts check-licenses",
+		"capture:help-images": "node bin/capture-help-images/run.mjs",
 		"lint": "npm run lint:css && npm run lint:js && npm run lint:types && npm run lint:php && npm run lint:md-docs && npm run lint:pkg-json",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",

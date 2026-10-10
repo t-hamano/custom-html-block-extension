@@ -1,0 +1,22 @@
+[
+	{ "i": 0, "dur": 1010, "kind": "text", "x": 309, "y": 9, "score": 1.0 },
+	{ "i": 1, "dur": 100, "kind": "pointer", "x": 291, "y": 0, "score": 0.73, "click": 272 },
+	{ "i": 2, "dur": 400, "kind": "text", "x": 309, "y": 9, "score": 1.0 },
+	{ "i": 3, "dur": 100, "kind": "text", "x": 309, "y": 9, "score": 1.0 },
+	{ "i": 4, "dur": 100, "kind": "text", "x": 311, "y": 21, "score": 0.88 },
+	{ "i": 5, "dur": 100, "kind": "text", "x": 311, "y": 38, "score": 0.88 },
+	{ "i": 6, "dur": 120, "kind": "text", "x": 311, "y": 44, "score": 1.0 },
+	{ "i": 7, "dur": 100, "kind": "text", "x": 311, "y": 48, "score": 1.0 },
+	{ "i": 8, "dur": 400, "kind": "text", "x": 311, "y": 49, "score": 1.0 },
+	{ "i": 9, "dur": 100, "kind": "pointer", "x": 296, "y": 28, "score": 0.87, "click": 208 },
+	{ "i": 10, "dur": 400, "kind": "text", "x": 311, "y": 49, "score": 1.0 },
+	{ "i": 11, "dur": 100, "kind": "text", "x": 311, "y": 55, "score": 1.0 },
+	{ "i": 12, "dur": 120, "kind": "text", "x": 311, "y": 64, "score": 1.0 },
+	{ "i": 13, "dur": 100, "kind": "text", "x": 311, "y": 65, "score": 1.0 },
+	{ "i": 14, "dur": 100, "kind": "text", "x": 311, "y": 66, "score": 1.0 },
+	{ "i": 15, "dur": 510, "kind": "text", "x": 311, "y": 66, "score": 1.0 },
+	{ "i": 16, "dur": 200, "kind": "pointer", "x": 296, "y": 45, "score": 0.87, "click": 200 },
+	{ "i": 17, "dur": 300, "kind": "text", "x": 311, "y": 66, "score": 1.0 },
+	{ "i": 18, "dur": 500, "kind": "text", "x": 311, "y": 66, "score": 1.0 },
+	{ "i": 19, "dur": 320, "kind": "text", "x": 311, "y": 66, "score": 1.0 }
+]

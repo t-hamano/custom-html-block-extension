@@ -42,6 +42,21 @@ module.exports = [
 			],
 		},
 	},
+	{
+		// Functions passed to `page.evaluate()` run in the browser and reuse the
+		// names of their arguments.
+		files: [ 'bin/capture-help-images/**/*.mjs' ],
+		languageOptions: {
+			globals: {
+				getComputedStyle: 'readonly',
+				HTMLInputElement: 'readonly',
+			},
+		},
+		rules: {
+			'no-console': 'off',
+			'no-shadow': 'off',
+		},
+	},
 	...defaultConfig.configs[ 'test-playwright' ].map( ( config ) => ( {
 		...config,
 		files: [ 'test/e2e/**/*.ts' ],

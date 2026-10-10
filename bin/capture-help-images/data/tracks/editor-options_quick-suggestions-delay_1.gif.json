@@ -1,0 +1,18 @@
+[
+	{ "i": 0, "dur": 790, "kind": null, "x": 76, "y": 0, "score": 0.46 },
+	{ "i": 1, "dur": 500, "kind": "text", "x": 74, "y": 8, "score": 0.62 },
+	{ "i": 2, "dur": 520, "kind": null, "x": 76, "y": 0, "score": 0.46 },
+	{ "i": 3, "dur": 200, "kind": "text", "x": 74, "y": 8, "score": 0.62 },
+	{ "i": 4, "dur": 500, "kind": "pointer", "x": 144, "y": 100, "score": 0.93 },
+	{ "i": 5, "dur": 400, "kind": "pointer", "x": 145, "y": 100, "score": 0.93 },
+	{ "i": 6, "dur": 500, "kind": "text", "x": 74, "y": 8, "score": 0.62 },
+	{ "i": 7, "dur": 510, "kind": null, "x": 76, "y": 0, "score": 0.46 },
+	{ "i": 8, "dur": 100, "kind": "text", "x": 74, "y": 8, "score": 0.62 },
+	{ "i": 9, "dur": 400, "kind": "pointer", "x": 144, "y": 100, "score": 0.93 },
+	{ "i": 10, "dur": 500, "kind": "pointer", "x": 145, "y": 100, "score": 0.93 },
+	{ "i": 11, "dur": 100, "kind": "pointer", "x": 144, "y": 100, "score": 0.93 },
+	{ "i": 12, "dur": 510, "kind": "text", "x": 74, "y": 8, "score": 0.62 },
+	{ "i": 13, "dur": 500, "kind": null, "x": 76, "y": 0, "score": 0.46 },
+	{ "i": 14, "dur": 100, "kind": "text", "x": 74, "y": 8, "score": 0.62 },
+	{ "i": 15, "dur": 100, "kind": null, "x": 76, "y": 0, "score": 0.46 }
+]

@@ -1,0 +1,12 @@
+[
+	{ "i": 0, "dur": 480, "kind": "default", "x": 108, "y": 46, "score": 0.91 },
+	{ "i": 1, "dur": 490, "kind": "default", "x": 110, "y": 48, "score": 0.88 },
+	{ "i": 2, "dur": 100, "kind": "default", "x": 108, "y": 46, "score": 0.91 },
+	{ "i": 3, "dur": 510, "kind": "default", "x": 77, "y": 46, "score": 0.94 },
+	{ "i": 4, "dur": 460, "kind": "default", "x": 93, "y": 48, "score": 0.9 },
+	{ "i": 5, "dur": 230, "kind": "default", "x": 77, "y": 46, "score": 0.94 },
+	{ "i": 6, "dur": 510, "kind": "default", "x": 47, "y": 45, "score": 0.95 },
+	{ "i": 7, "dur": 510, "kind": "default", "x": 63, "y": 48, "score": 0.95 },
+	{ "i": 8, "dur": 130, "kind": "default", "x": 47, "y": 45, "score": 0.95 },
+	{ "i": 9, "dur": 100, "kind": "default", "x": 63, "y": 48, "score": 0.95 }
+]

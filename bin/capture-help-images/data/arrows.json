@@ -1,0 +1,282 @@
+{
+	"editor-options/comments_insert-space_1.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 68.7, 19.5 ],
+			"headHalfWidth": 12.999883863784328,
+			"headHeight": 18.5,
+			"shaftHalfWidth": 1.9999860636541194,
+			"length": 40
+		}
+	],
+	"editor-options/comments_insert-space_2.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 68.7, 19.5 ],
+			"headHalfWidth": 12.999883863784328,
+			"headHeight": 18.5,
+			"shaftHalfWidth": 1.9999860636541194,
+			"length": 40
+		}
+	],
+	"editor-options/glyph-margin_1.jpg": [
+		{
+			"angle": 180,
+			"tip": [ 51.5, 72.8 ],
+			"headHalfWidth": 19.506541863799935,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 3.499109572582298,
+			"length": 58
+		}
+	],
+	"editor-options/glyph-margin_2.jpg": [
+		{
+			"angle": 180,
+			"tip": [ 51.5, 72.8 ],
+			"headHalfWidth": 19.50657193931135,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 3.4990228543441027,
+			"length": 58
+		}
+	],
+	"editor-options/hide-cursor-in-overview-ruler_1.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 222.5, 64.1 ],
+			"headHalfWidth": 19.506557781193898,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 3.499073166233152,
+			"length": 58
+		}
+	],
+	"editor-options/hide-cursor-in-overview-ruler_2.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 222.5, 64.1 ],
+			"headHalfWidth": 19.506557781193898,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 3.499073166233152,
+			"length": 58
+		}
+	],
+	"editor-options/overview-ruler-border_1.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 313.5, 56.2 ],
+			"headHalfWidth": 19.50655592753037,
+			"headHeight": 28.5,
+			"shaftHalfWidth": 3.4990780584053853,
+			"length": 58
+		}
+	],
+	"editor-options/overview-ruler-border_2.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 313.5, 56.1 ],
+			"headHalfWidth": 19.5065577811939,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 3.499073166233152,
+			"length": 58
+		}
+	],
+	"editor-options/render-final-newline_1.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 33.7, 119.5 ],
+			"headHalfWidth": 11.49995504324059,
+			"headHeight": 16.5,
+			"shaftHalfWidth": 1.9999938695328074,
+			"length": 36
+		}
+	],
+	"editor-options/render-final-newline_2.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 33.7, 119.5 ],
+			"headHalfWidth": 11.49995504324059,
+			"headHeight": 16.5,
+			"shaftHalfWidth": 1.9999938695328074,
+			"length": 36
+		}
+	],
+	"editor-options/scrollbar/arrow-size_1.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 236.5, 23.5 ],
+			"headHalfWidth": 18.495202150579786,
+			"headHeight": 27.5,
+			"shaftHalfWidth": 3.4992003584299645,
+			"length": 56
+		}
+	],
+	"editor-options/scrollbar/arrow-size_2.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 236.5, 31.6 ],
+			"headHalfWidth": 18.494948623916834,
+			"headHeight": 27.5,
+			"shaftHalfWidth": 3.4991581039861392,
+			"length": 56
+		}
+	],
+	"editor-options/scrollbar/horizontal-has-arrows_1.jpg": [
+		{
+			"angle": 90,
+			"tip": [ 42.3, 138.5 ],
+			"headHalfWidth": 18.506667315235667,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 2.9993819728759203,
+			"length": 57
+		}
+	],
+	"editor-options/scrollbar/horizontal-has-arrows_2.jpg": [
+		{
+			"angle": 90,
+			"tip": [ 42.3, 138.5 ],
+			"headHalfWidth": 18.506667315235667,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 2.9993819728759203,
+			"length": 57
+		}
+	],
+	"editor-options/scrollbar/horizontal-scrollbar-size_1.jpg": [
+		{
+			"angle": 90,
+			"tip": [ 71.1, 126.5 ],
+			"headHalfWidth": 18.499933481644725,
+			"headHeight": 28.5,
+			"shaftHalfWidth": 2.9999907613395447,
+			"length": 56
+		}
+	],
+	"editor-options/scrollbar/horizontal-scrollbar-size_2.jpg": [
+		{
+			"angle": 90,
+			"tip": [ 71.0, 106.5 ],
+			"headHalfWidth": 18.499780839976633,
+			"headHeight": 28.5,
+			"shaftHalfWidth": 2.999969561107866,
+			"length": 56
+		}
+	],
+	"editor-options/scrollbar/horizontal_2.jpg": [
+		{
+			"angle": 90,
+			"tip": [ 28.3, 172.5 ],
+			"headHalfWidth": 18.506667315235667,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 2.9993819728759203,
+			"length": 57
+		}
+	],
+	"editor-options/scrollbar/horizontal_3.jpg": [
+		{
+			"angle": 90,
+			"tip": [ 28.3, 172.5 ],
+			"headHalfWidth": 18.506667315235667,
+			"headHeight": 29.5,
+			"shaftHalfWidth": 2.9993819728759203,
+			"length": 57
+		}
+	],
+	"editor-options/scrollbar/use-shadows_1.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 26.9, 28.5 ],
+			"headHalfWidth": 19.006687790557663,
+			"headHeight": 28.5,
+			"shaftHalfWidth": 3.4991132193998027,
+			"length": 57
+		}
+	],
+	"editor-options/scrollbar/use-shadows_2.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 26.9, 28.5 ],
+			"headHalfWidth": 19.006687984344804,
+			"headHeight": 28.5,
+			"shaftHalfWidth": 3.499112936883849,
+			"length": 58
+		}
+	],
+	"editor-options/scrollbar/vertical-has-arrows_1.jpg": [
+		{
+			"angle": -45,
+			"tip": [ 352.6, 9.6 ],
+			"headHalfWidth": 18.533895676910234,
+			"headHeight": 28.5,
+			"shaftHalfWidth": 2.984080169458444,
+			"length": 57
+		}
+	],
+	"editor-options/scrollbar/vertical-has-arrows_2.jpg": [
+		{
+			"angle": -45,
+			"tip": [ 352.7, 9.6 ],
+			"headHalfWidth": 18.53411553680143,
+			"headHeight": 28.5,
+			"shaftHalfWidth": 2.983681903180784,
+			"length": 57
+		}
+	],
+	"editor-options/scrollbar/vertical-scrollbar-size_1.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 319.5, 115.5 ],
+			"headHalfWidth": 18.495768956221333,
+			"headHeight": 27.5,
+			"shaftHalfWidth": 3.4992948260368886,
+			"length": 56
+		}
+	],
+	"editor-options/scrollbar/vertical-scrollbar-size_2.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 299.5, 115.6 ],
+			"headHalfWidth": 18.494961630512726,
+			"headHeight": 27.5,
+			"shaftHalfWidth": 3.499160271752121,
+			"length": 56
+		}
+	],
+	"editor-options/scrollbar/vertical_2.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 224.5, 113.5 ],
+			"headHalfWidth": 18.495716066291127,
+			"headHeight": 27.5,
+			"shaftHalfWidth": 3.499286011048521,
+			"length": 56
+		}
+	],
+	"editor-options/scrollbar/vertical_3.jpg": [
+		{
+			"angle": 0,
+			"tip": [ 224.5, 113.5 ],
+			"headHalfWidth": 18.495716066291127,
+			"headHeight": 27.5,
+			"shaftHalfWidth": 3.499286011048521,
+			"length": 56
+		}
+	],
+	"editor-options/suggest/show-icons_1.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 43.5, 270.5 ],
+			"headHalfWidth": 23.501179482990764,
+			"headHeight": 35.5,
+			"shaftHalfWidth": 3.9999890356090404,
+			"length": 71
+		}
+	],
+	"editor-options/suggest/show-icons_2.jpg": [
+		{
+			"angle": -90,
+			"tip": [ 34.6, 270.5 ],
+			"headHalfWidth": 23.501097099371187,
+			"headHeight": 35.5,
+			"shaftHalfWidth": 3.9999905990112428,
+			"length": 71
+		}
+	]
+}

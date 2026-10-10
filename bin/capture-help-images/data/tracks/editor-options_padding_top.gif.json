@@ -1,0 +1,20 @@
+[
+	{ "i": 0, "dur": 510, "kind": "default", "x": 384, "y": 278, "score": 0.95 },
+	{ "i": 1, "dur": 500, "kind": "default", "x": 384, "y": 280, "score": 0.95 },
+	{ "i": 2, "dur": 100, "kind": "default", "x": 384, "y": 278, "score": 0.95 },
+	{ "i": 3, "dur": 100, "kind": "default", "x": 384, "y": 278, "score": 0.95 },
+	{ "i": 4, "dur": 400, "kind": "default", "x": 384, "y": 290, "score": 0.95 },
+	{ "i": 5, "dur": 420, "kind": "default", "x": 384, "y": 300, "score": 0.95 },
+	{ "i": 6, "dur": 400, "kind": "pointer", "x": 243, "y": 283, "score": 0.81 },
+	{ "i": 7, "dur": 400, "kind": "default", "x": 246, "y": 297, "score": 0.94 },
+	{ "i": 8, "dur": 100, "kind": "default", "x": 246, "y": 297, "score": 0.94 },
+	{ "i": 9, "dur": 500, "kind": "default", "x": 246, "y": 202, "score": 0.94 },
+	{ "i": 10, "dur": 200, "kind": "default", "x": 246, "y": 202, "score": 0.94 },
+	{ "i": 11, "dur": 390, "kind": "default", "x": 246, "y": 192, "score": 0.94 },
+	{ "i": 12, "dur": 410, "kind": "default", "x": 246, "y": 287, "score": 0.94 },
+	{ "i": 13, "dur": 400, "kind": "default", "x": 384, "y": 300, "score": 0.95 },
+	{ "i": 14, "dur": 100, "kind": "default", "x": 384, "y": 300, "score": 0.95 },
+	{ "i": 15, "dur": 300, "kind": "default", "x": 384, "y": 290, "score": 0.95 },
+	{ "i": 16, "dur": 100, "kind": "default", "x": 384, "y": 290, "score": 0.95 },
+	{ "i": 17, "dur": 300, "kind": "default", "x": 384, "y": 278, "score": 0.95 }
+]

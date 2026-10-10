@@ -1,0 +1,15 @@
+[
+	{ "i": 0, "dur": 630, "kind": null, "x": 3, "y": 8, "score": 0.0 },
+	{ "i": 1, "dur": 370, "kind": "default", "x": 62, "y": 93, "score": 0.57 },
+	{ "i": 2, "dur": 510, "kind": "default", "x": 62, "y": 93, "score": 0.57 },
+	{ "i": 3, "dur": 200, "kind": "default", "x": 83, "y": 27, "score": 0.56 },
+	{ "i": 4, "dur": 200, "kind": "default", "x": 90, "y": 0, "score": 0.69 },
+	{ "i": 5, "dur": 300, "kind": "default", "x": 90, "y": 0, "score": 0.69 },
+	{ "i": 6, "dur": 250, "kind": "default", "x": 29, "y": 1, "score": 0.58 },
+	{ "i": 7, "dur": 50, "kind": "default", "x": 81, "y": 26, "score": 0.81 },
+	{ "i": 8, "dur": 140, "kind": "default", "x": 62, "y": 93, "score": 0.57 },
+	{ "i": 9, "dur": 310, "kind": "default", "x": 62, "y": 93, "score": 0.57 },
+	{ "i": 10, "dur": 500, "kind": null, "x": 3, "y": 8, "score": 0.0 },
+	{ "i": 11, "dur": 300, "kind": "default", "x": 62, "y": 93, "score": 0.57 },
+	{ "i": 12, "dur": 70, "kind": null, "x": 3, "y": 8, "score": 0.0 }
+]
