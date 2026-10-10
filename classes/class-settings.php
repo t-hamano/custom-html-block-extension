@@ -309,8 +309,11 @@ class Settings {
 			'default' => 'none',
 		),
 		'rulers'                           => array(
-			'type'    => 'number',
-			'default' => 0,
+			'type'    => 'array',
+			'items'   => array(
+				'type' => 'number',
+			),
+			'default' => array(),
 		),
 		'roundedSelection'                 => array(
 			'type'    => 'boolean',
@@ -448,6 +451,9 @@ class Settings {
 		),
 		'permissionRoles'             => array(
 			'type'    => 'array',
+			'items'   => array(
+				'type' => 'string',
+			),
 			'default' => array( 'administrator', 'editor', 'author', 'contributor' ),
 		),
 	);
@@ -551,7 +557,7 @@ class Settings {
 	 * Normalize editor options persisted by older plugin versions so they match
 	 * the current schema.
 	 */
-	private static function migrate_legacy_editor_options( $editor_options ) {
+	public static function migrate_legacy_editor_options( $editor_options ) {
 		// These options were previously persisted as booleans but monaco types
 		// them as string enums, so map legacy booleans onto the new values.
 
@@ -611,6 +617,12 @@ class Settings {
 			$editor_options['hover']['enabled'] = $editor_options['hover']['enabled'] ? 'on' : 'off';
 		}
 
+		// `rulers` previously defaulted to `0` but monaco expects an array of
+		// columns, so map the legacy default onto an empty array.
+		if ( isset( $editor_options['rulers'] ) && 0 === $editor_options['rulers'] ) {
+			$editor_options['rulers'] = array();
+		}
+
 		return $editor_options;
 	}
 
@@ -628,6 +640,54 @@ class Settings {
 		$current_options = (array) get_option( Option::OPTION_NAMES['options'] );
 
 		return array_merge( $default_options, $current_options );
+	}
+
+	/**
+	 * Get the schema of editor settings.
+	 */
+	public static function get_editor_settings_schema() {
+		return self::get_schema( self::DEFAULT_EDITOR_SETTINGS );
+	}
+
+	/**
+	 * Get the schema of editor options.
+	 */
+	public static function get_editor_options_schema() {
+		return self::get_schema( self::DEFAULT_EDITOR_OPTIONS );
+	}
+
+	/**
+	 * Get the schema of options.
+	 */
+	public static function get_options_schema() {
+		return self::get_schema( self::DEFAULT_OPTIONS );
+	}
+
+	/**
+	 * Build an object schema from the default values.
+	 */
+	private static function get_schema( $defaults ) {
+		$properties = array();
+
+		foreach ( $defaults as $key => $value ) {
+			if ( 'object' === $value['type'] ) {
+				$properties[ $key ] = self::get_schema( $value['items'] );
+				continue;
+			}
+
+			$properties[ $key ] = array(
+				'type' => $value['type'],
+			);
+
+			if ( isset( $value['items'] ) ) {
+				$properties[ $key ]['items'] = $value['items'];
+			}
+		}
+
+		return array(
+			'type'       => 'object',
+			'properties' => $properties,
+		);
 	}
 
 	/**

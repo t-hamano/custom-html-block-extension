@@ -21,16 +21,35 @@ class Api {
 	 * Register REST API route
 	 */
 	public function register_routes() {
-		$routes = array(
-			'get_editor_config',
-			'update_editor_config',
-			'delete_editor_config',
-			'update_options',
-			'dismiss_welcome_guide',
-			'import_editor_config',
+		$editor_config_args = array(
+			'editorSettings' => array_merge(
+				Settings::get_editor_settings_schema(),
+				array( 'required' => true )
+			),
+			'editorOptions'  => array_merge(
+				Settings::get_editor_options_schema(),
+				array(
+					'required'          => true,
+					'sanitize_callback' => array( $this, 'sanitize_editor_options' ),
+				)
+			),
 		);
 
-		foreach ( $routes as $route ) {
+		$routes = array(
+			'get_editor_config'     => array(),
+			'update_editor_config'  => $editor_config_args,
+			'delete_editor_config'  => array(),
+			'update_options'        => array(
+				'options' => array_merge(
+					Settings::get_options_schema(),
+					array( 'required' => true )
+				),
+			),
+			'dismiss_welcome_guide' => array(),
+			'import_editor_config'  => $editor_config_args,
+		);
+
+		foreach ( $routes as $route => $args ) {
 			register_rest_route(
 				CHBE_NAMESPACE . '/v1',
 				'/' . $route,
@@ -41,6 +60,7 @@ class Api {
 						'permission_callback' => static function () {
 							return current_user_can( 'manage_options' );
 						},
+						'args'                => $args,
 					),
 				)
 			);
@@ -155,6 +175,14 @@ class Api {
 				'editorOptions'  => Settings::get_editor_options(),
 			)
 		);
+	}
+
+	/**
+	 * Migrate legacy values before validating editor options, since files
+	 * exported by older versions can contain them.
+	 */
+	public function sanitize_editor_options( $value, $request, $param ) {
+		return rest_parse_request_arg( Settings::migrate_legacy_editor_options( $value ), $request, $param );
 	}
 
 	/**
