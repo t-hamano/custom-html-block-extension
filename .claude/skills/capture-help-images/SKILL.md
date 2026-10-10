@@ -157,6 +157,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 
 - **`minimap/max-column.gif`、`minimap/show-slider_1.jpg`・`_2.gif`:** `minimap.scale: 2`。初期値の1では、元画像よりミニマップの文字が小さく読めないため。
 - **`minimap/show-slider_1.jpg`:** `minimap/show-slider_2.gif` と同じ配置で撮る。コードは設定画面のプレビューの初期コードを6回繰り返したもので、エディタの右端から300pxと、その右のページ（背景 `#f0f0f1`）20pxを切り抜き、320×280にする。`_2` はマウスがミニマップから右のページへ出入りする GIF で、並べたときにサイズと位置をそろえるため。マウスは写さない。
+- **`minimap/size_1.jpg`〜`_3.jpg`:** 画像ごとにコードの長さを変える。`_1`（proportional）と `_3`（fit）は約200行、`_2`（fill）は約30行にする（`h3` から始まる15行の塊を、それぞれ13回と2回繰り返す）。3つの違いはコードの長さによってしか表れないため。長いコードでは fill と fit がどちらもミニマップを縮めて全体を表示し、短いコードでは fit と proportional がどちらも等倍で表示する。そこで、proportional は長いコードではみ出してスクロールする様子、fill は短いコードで拡大して高さいっぱいに表示する様子、fit は長いコードを縮めて全体を表示する様子を見せる。
 - **`minimap/render-characters_1.jpg`・`_2.jpg`、`minimap/side_1.jpg`・`_2.jpg`:** `minimap.scale: 3`。理由は同上。これらはミニマップ自体を見せる画像なので、さらに大きくして元画像に近づけている。
 - **`scrollbar/arrow-size_1.jpg`・`_2.jpg`、`scrollbar/horizontal-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/vertical-has-arrows_1.jpg`・`_2.jpg`、`scrollbar/horizontal_2.jpg`・`_3.jpg`、`scrollbar/vertical_2.jpg`・`_3.jpg`:** `scrollbar.verticalScrollbarSize: 20`、`scrollbar.horizontalScrollbarSize: 20`。元画像のスクロールバーは20pxで、初期値の10pxではスクロールバーや矢印のエリアが小さすぎるため。
 - **`scrollbar/vertical_1.gif`、`scrollbar/scroll-by-page.gif`、`overview-ruler-border_1.jpg`・`_2.jpg`:** `scrollbar.verticalScrollbarSize: 20`。理由は同上。
