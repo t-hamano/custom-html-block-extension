@@ -194,6 +194,7 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
   - `quickSuggestions: false`、`suggestOnTriggerCharacters: false`: `multi-cursor-modifier.gif`
   - `minimap: { enabled: false }`: `scrollbar/scroll-by-page.gif`
   - マウスカーソルを描かず、マウスのアイコンだけを描く: `scrollbar/always-consume-mouse-wheel_1.gif`・`_2.gif`
+- **余白（ルール1）:** `rounded-selection_1.jpg`・`_2.jpg` は、元画像と同じく1行目を空行にして上に余白を入れ、2行目の「` Lorem `」を左右の半角スペースごと選択する（コードは `<p>  Lorem  ipsum dolor sit amet</p>`）。選択範囲の角の形が見えるようにするため。行のハイライトは消す（`renderLineHighlight: 'none'`）。
 - **配置（ルール1）:**
   - `minimap/show-slider_1.jpg`: `_2.gif` と同じく、プレビューの初期コードを6回繰り返し、エディタの右端から300pxと右のページ（`#f0f0f1`）20pxを320×280で切り抜く。
   - `scrollbar/horizontal_2.jpg`・`_3.jpg`: `_1.gif` と同じく、高さ199pxのエディタの下に白いページ（`#fff`）41pxを入れ、コード領域の左端から256×240で切り抜く。
@@ -217,6 +218,8 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `match-brackets_1.gif`〜`_3.gif`（4.8秒）: キャレットをタグの内側 → `<` の直後 → `<` の直前 → `<` の直後 → 内側の順に動かし、always・never・near の違いを見せる。
 - `multi-cursor-paste_1.gif`・`_2.gif`（7秒）
 - `quick-suggestions-delay_1.gif`・`_2.gif`（6秒）: 入力の時刻をそろえ、候補が表示されるまでの時間の違いを見せる。
+- `scroll-beyond-last-column_1.gif`・`_2.gif`（6.3秒）: スクロールバーのスライダーを同じ距離（120px）だけ左にドラッグして戻す。
+- `scroll-beyond-last-line_1.gif`・`_2.gif`（5.5秒）: ホイールを2ノッチずつ5回下に、5回上に回す。
 
 ### 撮影対象外
 
