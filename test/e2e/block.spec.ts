@@ -4,7 +4,6 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Block', () => {
-	// wp-env activates every listed plugin, including the Classic Editor, on a fresh environment.
 	test.beforeAll( async ( { requestUtils } ) => {
 		await requestUtils.deactivatePlugin( 'classic-editor' );
 	} );
