@@ -191,6 +191,8 @@ spec の主な項目（全項目は `lib/capture.mjs` の冒頭）:
 - `cursor-surrounding-lines_1.gif`・`_2.gif`（約4.7秒）
 - `cursor-surrounding-lines-style_1.gif`・`_2.gif`（6.8秒）: マウスを動かす位置（下端・上端を交互に2回ずつ）も同じにする。
 - `folding-strategy_1.gif`・`_2.gif`（6.2秒）
+- `format-on-paste_1.gif`・`_2.gif`（4.7秒）
+- `highlight-active-indent-guide_1.gif`・`_2.gif`（5.2秒）
 
 ### 撮影対象外
 
