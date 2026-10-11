@@ -14,17 +14,20 @@ import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
-import type { Ruler } from '../../../types';
+import type { EditorOptions } from '../../../types';
 
 const MAX_RULERS = 5;
 const MAX_COLUMN = 100;
 
-const getColumn = ( ruler: Ruler ) => ( 'number' === typeof ruler ? ruler : ruler.column );
+const getColumn = ( ruler: EditorOptions[ 'rulers' ][ number ] ) =>
+	'number' === typeof ruler ? ruler : ruler.column;
 
-const getColor = ( ruler: Ruler ) => ( 'number' === typeof ruler ? undefined : ruler.color );
+const getColor = ( ruler: EditorOptions[ 'rulers' ][ number ] ) =>
+	'number' === typeof ruler ? undefined : ruler.color;
 
 // A ruler without a color is stored as a plain number so existing settings stay valid.
-const toRuler = ( column: number, color?: string ): Ruler => ( color ? { column, color } : column );
+const toRuler = ( column: number, color?: string ): EditorOptions[ 'rulers' ][ number ] =>
+	color ? { column, color } : column;
 
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -38,10 +41,10 @@ export default function Rulers() {
 
 	const { rulers } = editorOptions;
 	// No rulers is shown as a single control at `0`.
-	const values: Ruler[] = rulers.length ? rulers : [ 0 ];
+	const values: EditorOptions[ 'rulers' ] = rulers.length ? rulers : [ 0 ];
 	const isSingle = values.length === 1;
 
-	const updateRulers = ( nextRulers: Ruler[] ) => {
+	const updateRulers = ( nextRulers: EditorOptions[ 'rulers' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			rulers: nextRulers,

@@ -314,7 +314,6 @@ class Settings {
 		),
 		'rulers'                           => array(
 			'type'    => 'array',
-			// A ruler is a column number, or `{ column, color }` when it has its own color.
 			'items'   => array(
 				'type'                 => array( 'number', 'object' ),
 				'minimum'              => 1,
