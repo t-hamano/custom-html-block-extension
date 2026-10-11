@@ -315,7 +315,9 @@ class Settings {
 		'rulers'                           => array(
 			'type'    => 'array',
 			'items'   => array(
-				'type' => 'number',
+				'type'    => 'number',
+				'minimum' => 1,
+				'maximum' => 200,
 			),
 			'default' => array(),
 		),
