@@ -40,6 +40,32 @@ initLoader()
 			emmetHTML( monaco, [ 'html', 'php' ] );
 		}
 
+		// Restore the cursor position and selection saved when the post was submitted,
+		// since the page is reloaded after saving.
+		const viewStateKey = `chbe-view-state-${
+			( document.getElementById( 'post_ID' ) as HTMLInputElement | null )?.value ?? ''
+		}`;
+		let savedViewState: Monaco.editor.ICodeEditorViewState | null = null;
+		try {
+			const storedViewState = window.sessionStorage.getItem( viewStateKey );
+			window.sessionStorage.removeItem( viewStateKey );
+			savedViewState = storedViewState ? JSON.parse( storedViewState ) : null;
+		} catch {}
+
+		document.getElementById( 'post' )?.addEventListener( 'submit', () => {
+			// Ignore the submission for previewing, which doesn't reload the page.
+			const previewInput = document.getElementById( 'wp-preview' ) as HTMLInputElement | null;
+			if ( ! isMonacoEditorEnabled || ! window.editor || 'dopreview' === previewInput?.value ) {
+				return;
+			}
+			try {
+				window.sessionStorage.setItem(
+					viewStateKey,
+					JSON.stringify( window.editor.saveViewState() )
+				);
+			} catch {}
+		} );
+
 		// Setting up the monaco editor.
 		const runEditor = () => {
 			const { editorSettings, editorOptions, fontFamily } = window.chbeObj;
@@ -91,6 +117,25 @@ initLoader()
 			// Change editor area height.
 			const contentHeight = Math.max( 300, editor.getContentHeight() );
 			monacoEditorContainer.style.height = `${ contentHeight }px`;
+
+			if ( savedViewState ) {
+				editor.restoreViewState( savedViewState );
+				savedViewState = null;
+				editor.focus();
+
+				// The page scrolls instead of the editor, so scroll the page to the cursor.
+				const position = editor.getPosition();
+				const visiblePosition = position && editor.getScrolledVisiblePosition( position );
+				if ( visiblePosition ) {
+					window.scrollTo( {
+						top:
+							window.scrollY +
+							monacoEditorContainer.getBoundingClientRect().top +
+							visiblePosition.top -
+							window.innerHeight / 2,
+					} );
+				}
+			}
 
 			// Event emitted when the contents of the editor have changed.
 			editor.getModel()?.onDidChangeContent( () => {
