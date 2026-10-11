@@ -12,15 +12,16 @@ type Fixtures = { admin: Admin; editor: Editor; page: Page };
 
 const COMMAND_LABEL = 'Emmet: Wrap with Abbreviation';
 
-async function getSelectAllShortcut( page: Page ) {
-	return page.evaluate( () =>
-		window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
+async function getShortcut( page: Page, key: string ) {
+	const modifier = await page.evaluate( () =>
+		window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta' : 'Control'
 	);
+	return `${ modifier }+${ key }`;
 }
 
 async function clearEditor( page: Page, monacoEditor: Locator ) {
 	await monacoEditor.click();
-	await page.keyboard.press( await getSelectAllShortcut( page ) );
+	await page.keyboard.press( await getShortcut( page, 'a' ) );
 	await page.keyboard.press( 'Delete' );
 }
 
@@ -118,7 +119,7 @@ test.describe( 'Wrap with Abbreviation', () => {
 				const fixtures = { admin, editor, page };
 				const monacoEditor = await target.open( fixtures );
 				await page.keyboard.type( 'This span should be in red' );
-				await page.keyboard.press( await getSelectAllShortcut( page ) );
+				await page.keyboard.press( await getShortcut( page, 'a' ) );
 				const input = await openWrapInput( page, monacoEditor, target.getFrame( fixtures ) );
 				await input.pressSequentially( 'span.red' );
 				await page.keyboard.press( 'Enter' );
@@ -132,7 +133,7 @@ test.describe( 'Wrap with Abbreviation', () => {
 				const fixtures = { admin, editor, page };
 				const monacoEditor = await target.open( fixtures );
 				await page.keyboard.type( 'text' );
-				await page.keyboard.press( await getSelectAllShortcut( page ) );
+				await page.keyboard.press( await getShortcut( page, 'a' ) );
 				const input = await openWrapInput( page, monacoEditor, target.getFrame( fixtures ) );
 				await input.pressSequentially( 'div' );
 				// The result is previewed in the editor.
@@ -152,7 +153,7 @@ test.describe( 'Wrap with Abbreviation', () => {
 			const monacoEditor = await target.open( fixtures );
 			// Set the value directly so that the Emmet suggestion, e.g. "footer", isn't accepted.
 			await page.evaluate( () => window.editor?.setValue( 'foo\nbar' ) );
-			await page.keyboard.press( await getSelectAllShortcut( page ) );
+			await page.keyboard.press( await getShortcut( page, 'a' ) );
 			const input = await openWrapInput( page, monacoEditor );
 			await input.pressSequentially( 'ul>li*' );
 			await page.keyboard.press( 'Enter' );
@@ -177,14 +178,14 @@ test.describe( 'Wrap with Abbreviation', () => {
 			const [ target ] = EDITORS;
 			const monacoEditor = await target.open( fixtures );
 			await page.keyboard.type( 'text' );
-			await page.keyboard.press( await getSelectAllShortcut( page ) );
+			await page.keyboard.press( await getShortcut( page, 'a' ) );
 			const input = await openWrapInput( page, monacoEditor );
 			await input.pressSequentially( 'section>div' );
 			await page.keyboard.press( 'Enter' );
 			await expect
 				.poll( () => target.getValue( fixtures ) )
 				.toBe( '<section>\n  <div>text</div>\n</section>' );
-			await page.keyboard.press( ( await getSelectAllShortcut( page ) ).replace( 'a', 'z' ) );
+			await page.keyboard.press( await getShortcut( page, 'z' ) );
 			await expect.poll( () => target.getValue( fixtures ) ).toBe( 'text' );
 		} );
 
@@ -193,7 +194,7 @@ test.describe( 'Wrap with Abbreviation', () => {
 			const [ target ] = EDITORS;
 			const monacoEditor = await target.open( fixtures );
 			await page.keyboard.type( 'text' );
-			await page.keyboard.press( await getSelectAllShortcut( page ) );
+			await page.keyboard.press( await getShortcut( page, 'a' ) );
 			await monacoEditor.locator( '.view-lines' ).click( { button: 'right' } );
 			const input = page.getByRole( 'textbox', { name: 'Abbreviation' } );
 			// Retry since the menu may ignore a click right after it opens.
