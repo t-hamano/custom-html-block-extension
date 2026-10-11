@@ -43,6 +43,10 @@ export default function QuickSuggestionsTypes() {
 			value: 'on',
 			image: 'editor-options/quick-suggestions-types_1.gif',
 			isDefault: true,
+			description: __(
+				'Suggestions are shown in a list below the cursor while typing.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Show as ghost text', 'custom-html-block-extension' ),
@@ -70,6 +74,9 @@ export default function QuickSuggestionsTypes() {
 		},
 	];
 
+	// The descriptions are only for the help dialog.
+	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
+
 	const onChange = ( tokenType: TokenType, value: Value ) => {
 		setEditorOptions( {
 			...editorOptions,
@@ -93,9 +100,9 @@ export default function QuickSuggestionsTypes() {
 					<SelectControl
 						key={ tokenType.value }
 						label={ tokenType.label }
-						items={ items }
+						items={ selectItems }
 						value={
-							items.find(
+							selectItems.find(
 								( item ) => item.value === editorOptions.quickSuggestions[ tokenType.value ]
 							) ?? null
 						}
