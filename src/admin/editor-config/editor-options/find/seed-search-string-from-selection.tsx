@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack, Text } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -28,17 +28,29 @@ export default function FindSeedSearchStringFromSelection() {
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
 			image: 'editor-options/find/seed-search-string-from-selection_1.gif',
+			description: __(
+				'Uses the selected text, or the word at the cursor if no text is selected.',
+				'custom-html-block-extension'
+			),
 			isDefault: true,
 		},
 		{
 			label: __( 'Only from selected text', 'custom-html-block-extension' ),
 			value: 'selection',
 			image: 'editor-options/find/seed-search-string-from-selection_2.gif',
+			description: __(
+				'Uses only the selected text. If no text is selected, the previous search string is kept.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
 			image: 'editor-options/find/seed-search-string-from-selection_3.gif',
+			description: __(
+				'Does not use the selected text. The previous search string is kept.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
@@ -79,22 +91,10 @@ export default function FindSeedSearchStringFromSelection() {
 				items={ items }
 				colCount="3"
 				value={ editorOptions.find.seedSearchStringFromSelection }
-				description={
-					<>
-						<Text render={ <p /> }>
-							{ __(
-								'When the find widget is opened, the selected text or the word at the cursor is used as the search string.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ __(
-								'If "Only from selected text" is selected, only the selected text is used, and the word at the cursor is not.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-					</>
-				}
+				description={ __(
+					'When the find widget is opened, the selected text or the word at the cursor is used as the search string.',
+					'custom-html-block-extension'
+				) }
 			/>
 		</Stack>
 	);
