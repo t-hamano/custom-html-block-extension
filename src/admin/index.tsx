@@ -59,6 +59,7 @@ function Admin() {
 		theme: window.chbeObj.editorSettings.theme,
 		tabSize: window.chbeObj.editorSettings.tabSize,
 		insertSpaces: window.chbeObj.editorSettings.insertSpaces,
+		detectIndentation: window.chbeObj.editorSettings.detectIndentation,
 		emmet: window.chbeObj.editorSettings.emmet,
 	} );
 	const [ editorOptions, setEditorOptions ] = useState( window.chbeObj.editorOptions );

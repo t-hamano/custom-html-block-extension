@@ -182,6 +182,7 @@ export default function EditorConfig() {
 								<EditorSettings.Theme />
 								<EditorSettings.TabSize />
 								<EditorSettings.InsertSpaces />
+								<EditorSettings.DetectIndentation />
 								<EditorSettings.Emmet />
 								<EditorOptions.FontFamily />
 								<EditorOptions.FontWeight fontWeights={ fontWeights } />
@@ -200,6 +201,7 @@ export default function EditorConfig() {
 									<EditorSettings.Theme />
 									<EditorSettings.TabSize />
 									<EditorSettings.InsertSpaces />
+									<EditorSettings.DetectIndentation />
 									<EditorSettings.Emmet />
 									<EditorOptions.Contextmenu />
 									<EditorOptions.GlyphMargin />

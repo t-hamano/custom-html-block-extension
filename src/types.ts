@@ -10,6 +10,7 @@ export type EditorSettings = {
 	theme: string;
 	tabSize: number;
 	insertSpaces: boolean;
+	detectIndentation: boolean;
 	emmet: boolean;
 };
 
