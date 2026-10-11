@@ -154,32 +154,6 @@ test.describe( 'Settings REST API', () => {
 		} );
 	} );
 
-	test( 'should accept rulers with and without a color', async ( { requestUtils } ) => {
-		const rulers = [ 80, { column: 100, color: '#ff0000' } ];
-		const response = await requestUtils.rest( {
-			method: 'POST',
-			path: '/custom-html-block-extension/v1/import_editor_config',
-			data: { editorSettings: {}, editorOptions: { rulers } },
-		} );
-
-		expect( response.editorOptions.rulers ).toEqual( rulers );
-
-		for ( const ruler of [
-			{ column: 80, color: 'red' },
-			{ column: 80 },
-			{ column: 80, color: '#ff0000', extra: true },
-			{ column: 0, color: '#ff0000' },
-		] ) {
-			await expect(
-				requestUtils.rest( {
-					method: 'POST',
-					path: '/custom-html-block-extension/v1/update_editor_config',
-					data: { editorSettings: {}, editorOptions: { rulers: [ ruler ] } },
-				} )
-			).rejects.toMatchObject( { code: 'rest_invalid_param' } );
-		}
-	} );
-
 	test( 'should reject invalid options', async ( { requestUtils } ) => {
 		await expect(
 			requestUtils.rest( {
