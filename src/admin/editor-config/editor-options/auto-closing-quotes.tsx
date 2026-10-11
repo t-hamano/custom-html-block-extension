@@ -27,7 +27,13 @@ export default function AutoClosingQuotes() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
+			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_1.gif',
+		},
+		{
+			label: __( 'Determined by the language', 'custom-html-block-extension' ),
+			value: 'languageDefined',
+			image: 'editor-options/auto-closing-quotes_2.gif',
 		},
 		{
 			label: __(
@@ -35,13 +41,12 @@ export default function AutoClosingQuotes() {
 				'custom-html-block-extension'
 			),
 			value: 'beforeWhitespace',
-			isDefault: true,
-			image: 'editor-options/auto-closing-quotes_2.gif',
+			image: 'editor-options/auto-closing-quotes_3.gif',
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
-			image: 'editor-options/auto-closing-quotes_3.gif',
+			image: 'editor-options/auto-closing-quotes_4.gif',
 		},
 	];
 
@@ -72,7 +77,7 @@ export default function AutoClosingQuotes() {
 				onChange={ onChange }
 				title={ title }
 				items={ items }
-				colCount="3"
+				colCount="2"
 				value={ editorOptions.autoClosingQuotes }
 			/>
 		</Stack>

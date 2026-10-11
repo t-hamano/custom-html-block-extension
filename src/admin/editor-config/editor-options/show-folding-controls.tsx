@@ -35,6 +35,11 @@ export default function ShowFoldingControls() {
 			value: 'mouseover',
 			isDefault: true,
 		},
+		{
+			label: __( 'Never show', 'custom-html-block-extension' ),
+			image: 'editor-options/show-folding-controls_3.gif',
+			value: 'never',
+		},
 	];
 
 	const onChange = ( value: EditorOptions[ 'showFoldingControls' ] ) => {
@@ -64,6 +69,7 @@ export default function ShowFoldingControls() {
 				onChange={ onChange }
 				title={ title }
 				items={ items }
+				colCount="3"
 				value={ editorOptions.showFoldingControls }
 			/>
 		</Stack>
