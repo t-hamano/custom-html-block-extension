@@ -16,6 +16,7 @@ import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 const MAX_RULERS = 5;
+const MAX_COLUMN = 100;
 
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -46,12 +47,12 @@ export default function Rulers() {
 			return;
 		}
 		updateRulers(
-			values.map( ( item, i ) => ( i === index ? toNumber( nextValue, 1, 80 ) : item ) )
+			values.map( ( item, i ) => ( i === index ? toNumber( nextValue, 1, MAX_COLUMN ) : item ) )
 		);
 	};
 
 	const onAdd = () => {
-		updateRulers( [ ...rulers, toNumber( rulers[ rulers.length - 1 ] + 10, 1, 80 ) ] );
+		updateRulers( [ ...rulers, toNumber( rulers[ rulers.length - 1 ] + 10, 1, MAX_COLUMN ) ] );
 	};
 
 	const onRemove = ( index: number ) => {
@@ -83,7 +84,7 @@ export default function Rulers() {
 								hideLabelFromVision={ 0 !== index }
 								value={ value }
 								min={ isSingle ? 0 : 1 }
-								max={ 80 }
+								max={ MAX_COLUMN }
 								onChange={ ( newValue ) => onChange( index, newValue ) }
 							/>
 						</div>
