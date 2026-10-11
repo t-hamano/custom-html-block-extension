@@ -55,6 +55,7 @@
 		"@wordpress/i18n": "^6.30.0",
 		"@wordpress/keycodes": "^4.57.0",
 		"@wordpress/notices": "^5.57.0",
+		"@wordpress/primitives": "^4.57.0",
 		"@wordpress/private-apis": "^2.0.0",
 		"@wordpress/scripts": "^36.1.0",
 		"clsx": "2.1.1",
