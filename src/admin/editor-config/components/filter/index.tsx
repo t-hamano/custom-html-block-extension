@@ -9,7 +9,7 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
 import { Icon, InputControl, InputLayout, Stack } from '@wordpress/ui';
-import { useDebounce } from '@wordpress/compose';
+import { useDebounce, useViewportMatch } from '@wordpress/compose';
 
 const MODES = [
 	{
@@ -40,9 +40,14 @@ export default function Filter( {
 	const [ searchQueryState, setSearchQueryState ] = useState( searchQuery );
 
 	const debouncedOnChangeSearchQuery = useDebounce( setSearchQuery, 100 );
+	const isLargeViewport = useViewportMatch( 'large' );
 
 	return (
-		<Stack className="chbe-admin-editor-config-filter" gap="sm">
+		<Stack
+			className="chbe-admin-editor-config-filter"
+			direction={ isLargeViewport ? 'row' : 'column' }
+			gap="sm"
+		>
 			<div style={ { flex: 1 } }>
 				<ToggleGroupControl
 					label={ __( 'Mode', 'custom-html-block-extension' ) }
