@@ -114,7 +114,6 @@ export default function Rulers() {
 							popoverProps={ { placement: 'bottom-end' } }
 							renderToggle={ ( { isOpen, onToggle } ) => (
 								<Button
-									className="chbe-admin-editor-config__ruler-color"
 									variant="minimal"
 									tone="neutral"
 									size="compact"
@@ -126,7 +125,12 @@ export default function Rulers() {
 										index + 1
 									) }
 									onClick={ onToggle }
-									style={ { marginBottom: 4 } }
+									style={ {
+										width: 'var(--wpds-dimension-size-md)',
+										minWidth: 0,
+										paddingInline: 0,
+										marginBottom: 4,
+									} }
 								>
 									<ColorIndicator colorValue={ getColor( ruler ) } />
 								</Button>

@@ -17,13 +17,6 @@
 		max-width: 300px;
 	}
 
-	// Make the ruler color button square like `IconButton`.
-	.chbe-admin-editor-config__ruler-color {
-		--wp-ui-button-aspect-ratio: 1;
-		--wp-ui-button-padding-inline: 0px;
-		--wp-ui-button-min-width: unset;
-	}
-
 	.chbe-admin-editor-config__settings {
 		flex: 1;
 	}
