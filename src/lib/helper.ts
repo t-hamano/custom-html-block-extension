@@ -12,3 +12,33 @@ export const toNumber = ( value: string | number, min = 0, max: number | null = 
 
 	return num;
 };
+
+// Whether two JSON-compatible values are deeply equal, regardless of key order.
+export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
+	if ( a === b ) {
+		return true;
+	}
+
+	if ( typeof a !== 'object' || typeof b !== 'object' || null === a || null === b ) {
+		return false;
+	}
+
+	if ( Array.isArray( a ) !== Array.isArray( b ) ) {
+		return false;
+	}
+
+	const aRecord = a as Record< string, unknown >;
+	const bRecord = b as Record< string, unknown >;
+	const aKeys = Object.keys( aRecord );
+	const bKeys = Object.keys( bRecord );
+
+	if ( aKeys.length !== bKeys.length ) {
+		return false;
+	}
+
+	return aKeys.every(
+		( key ) =>
+			Object.prototype.hasOwnProperty.call( bRecord, key ) &&
+			isDeepEqual( aRecord[ key ], bRecord[ key ] )
+	);
+};
