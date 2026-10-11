@@ -36,7 +36,6 @@ export type MonacoError = {
 
 export type MonacoEditorProps = {
 	className?: string;
-	// Additional styles of the wrapper element.
 	style?: CSSProperties;
 	language?: string;
 	theme?: string;
