@@ -22,10 +22,17 @@ export default function QuickSuggestions() {
 		return null;
 	}
 
+	const isEnabled = editorOptions.suggestOnTriggerCharacters;
+
 	const onChange = ( value: boolean ) => {
+		const quickSuggestionsValue = value ? 'on' : 'off';
 		setEditorOptions( {
 			...editorOptions,
-			quickSuggestions: value,
+			quickSuggestions: {
+				other: quickSuggestionsValue,
+				comments: quickSuggestionsValue,
+				strings: quickSuggestionsValue,
+			},
 			suggestOnTriggerCharacters: value,
 		} );
 	};
@@ -38,11 +45,7 @@ export default function QuickSuggestions() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.quickSuggestions }
-				onCheckedChange={ onChange }
-			/>
+			<SwitchControl label={ title } checked={ isEnabled } onCheckedChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
@@ -53,7 +56,7 @@ export default function QuickSuggestions() {
 				isToggle
 				defaultToggle
 				image="editor-options/quick-suggestions.gif"
-				value={ editorOptions.quickSuggestions }
+				value={ isEnabled }
 			/>
 		</Stack>
 	);

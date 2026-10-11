@@ -281,8 +281,21 @@ class Settings {
 			),
 		),
 		'quickSuggestions'                 => array(
-			'type'    => 'boolean',
-			'default' => true,
+			'type'  => 'object',
+			'items' => array(
+				'other'    => array(
+					'type'    => 'string',
+					'default' => 'on',
+				),
+				'comments' => array(
+					'type'    => 'string',
+					'default' => 'on',
+				),
+				'strings'  => array(
+					'type'    => 'string',
+					'default' => 'on',
+				),
+			),
 		),
 		'quickSuggestionsDelay'            => array(
 			'type'    => 'number',
@@ -621,6 +634,18 @@ class Settings {
 		// Type definitions: https://unpkg.com/monaco-editor@0.56.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['hover']['enabled'] ) && is_bool( $editor_options['hover']['enabled'] ) ) {
 			$editor_options['hover']['enabled'] = $editor_options['hover']['enabled'] ? 'on' : 'off';
+		}
+
+		// `quickSuggestions` was previously persisted as a boolean but the plugin
+		// now stores monaco's per-token-type object, so apply the legacy boolean
+		// to every token type, as monaco itself does.
+		if ( isset( $editor_options['quickSuggestions'] ) && is_bool( $editor_options['quickSuggestions'] ) ) {
+			$value                              = $editor_options['quickSuggestions'] ? 'on' : 'off';
+			$editor_options['quickSuggestions'] = array(
+				'other'    => $value,
+				'comments' => $value,
+				'strings'  => $value,
+			);
 		}
 
 		// `rulers` previously defaulted to `0` but monaco expects an array of
