@@ -52,7 +52,7 @@ export default function MinimapSize() {
 			),
 			image: 'editor-options/minimap/size_3.jpg',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'minimap' ][ 'size' ] ) => {
 		setEditorOptions( {
@@ -74,7 +74,7 @@ export default function MinimapSize() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.minimap.size ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'minimap' ][ 'size' ] )

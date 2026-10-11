@@ -48,7 +48,7 @@ export default function AutoSurround() {
 			value: 'never',
 			image: 'editor-options/auto-surround_4.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'autoSurround' ] ) => {
 		setEditorOptions( {
@@ -67,7 +67,7 @@ export default function AutoSurround() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.autoSurround ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'autoSurround' ] )

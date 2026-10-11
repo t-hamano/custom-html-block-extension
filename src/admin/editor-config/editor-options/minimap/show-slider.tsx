@@ -35,7 +35,7 @@ export default function MinimapShowSlider() {
 			image: 'editor-options/minimap/show-slider_2.gif',
 			isDefault: true,
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'minimap' ][ 'showSlider' ] ) => {
 		setEditorOptions( {
@@ -57,7 +57,7 @@ export default function MinimapShowSlider() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.minimap.showSlider ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'minimap' ][ 'showSlider' ] )

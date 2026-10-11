@@ -41,7 +41,7 @@ export default function AutoIndent() {
 			isDefault: true,
 			image: 'editor-options/auto-indent_3.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'autoIndent' ] ) => {
 		setEditorOptions( {
@@ -61,7 +61,7 @@ export default function AutoIndent() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.autoIndent ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'autoIndent' ] )

@@ -53,7 +53,7 @@ export default function RenderWhitespace() {
 			value: 'none',
 			image: 'editor-options/render-whitespace_5.jpg',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'renderWhitespace' ] ) => {
 		setEditorOptions( {
@@ -72,7 +72,7 @@ export default function RenderWhitespace() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.renderWhitespace ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'renderWhitespace' ] )

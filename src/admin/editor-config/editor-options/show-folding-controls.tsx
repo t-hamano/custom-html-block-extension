@@ -35,7 +35,7 @@ export default function ShowFoldingControls() {
 			value: 'mouseover',
 			isDefault: true,
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'showFoldingControls' ] ) => {
 		setEditorOptions( {
@@ -54,7 +54,7 @@ export default function ShowFoldingControls() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.showFoldingControls ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'showFoldingControls' ] )

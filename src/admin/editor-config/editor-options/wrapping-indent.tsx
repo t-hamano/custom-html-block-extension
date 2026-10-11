@@ -45,7 +45,7 @@ export default function WrappingIndent() {
 			image: 'editor-options/wrapping-indent_4.jpg',
 			value: 'deepIndent',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'wrappingIndent' ] ) => {
 		setEditorOptions( {
@@ -64,7 +64,7 @@ export default function WrappingIndent() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.wrappingIndent ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'wrappingIndent' ] )

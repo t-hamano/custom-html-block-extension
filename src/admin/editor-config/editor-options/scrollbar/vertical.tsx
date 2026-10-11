@@ -41,7 +41,7 @@ export default function ScrollbarVertical() {
 			image: 'editor-options/scrollbar/vertical_3.jpg',
 			value: 'hidden',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'scrollbar' ][ 'vertical' ] ) => {
 		onRefreshEditor();
@@ -64,7 +64,7 @@ export default function ScrollbarVertical() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.scrollbar.vertical ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'scrollbar' ][ 'vertical' ] )

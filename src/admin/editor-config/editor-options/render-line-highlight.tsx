@@ -45,7 +45,7 @@ export default function RenderLineHighlight() {
 			value: 'none',
 			image: 'editor-options/render-line-highlight_4.jpg',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'renderLineHighlight' ] ) => {
 		setEditorOptions( {
@@ -64,7 +64,7 @@ export default function RenderLineHighlight() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.renderLineHighlight ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'renderLineHighlight' ] )

@@ -41,7 +41,7 @@ export default function ScrollbarHorizontal() {
 			image: 'editor-options/scrollbar/horizontal_3.jpg',
 			value: 'hidden',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'scrollbar' ][ 'horizontal' ] ) => {
 		onRefreshEditor();
@@ -64,7 +64,7 @@ export default function ScrollbarHorizontal() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={
 					items.find( ( item ) => item.value === editorOptions.scrollbar.horizontal ) ?? null
 				}

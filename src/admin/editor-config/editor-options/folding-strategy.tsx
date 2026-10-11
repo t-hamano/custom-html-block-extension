@@ -39,7 +39,7 @@ export default function FoldingStrategy() {
 			value: 'indentation',
 			image: 'editor-options/folding-strategy_2.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'foldingStrategy' ] ) => {
 		setEditorOptions( {
@@ -58,7 +58,7 @@ export default function FoldingStrategy() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.foldingStrategy ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'foldingStrategy' ] )

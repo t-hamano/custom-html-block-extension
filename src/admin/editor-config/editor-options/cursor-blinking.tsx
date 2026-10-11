@@ -50,7 +50,7 @@ export default function CursorBlinking() {
 			value: 'solid',
 			image: 'editor-options/cursor-blinking_5.jpg',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'cursorBlinking' ] ) => {
 		setEditorOptions( {
@@ -69,7 +69,7 @@ export default function CursorBlinking() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.cursorBlinking ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'cursorBlinking' ] )

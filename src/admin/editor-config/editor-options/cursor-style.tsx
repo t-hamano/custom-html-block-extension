@@ -55,7 +55,7 @@ export default function CursorStyle() {
 			value: 'underline-thin',
 			image: 'editor-options/cursor-style_6.jpg',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'cursorStyle' ] ) => {
 		setEditorOptions( {
@@ -74,7 +74,7 @@ export default function CursorStyle() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.cursorStyle ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'cursorStyle' ] )

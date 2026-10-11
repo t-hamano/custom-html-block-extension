@@ -43,7 +43,7 @@ export default function AutoClosingBrackets() {
 			value: 'never',
 			image: 'editor-options/auto-closing-brackets_3.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'autoClosingBrackets' ] ) => {
 		setEditorOptions( {
@@ -62,7 +62,7 @@ export default function AutoClosingBrackets() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.autoClosingBrackets ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'autoClosingBrackets' ] )

@@ -43,7 +43,7 @@ export default function AutoClosingQuotes() {
 			value: 'never',
 			image: 'editor-options/auto-closing-quotes_3.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'autoClosingQuotes' ] ) => {
 		setEditorOptions( {
@@ -62,7 +62,7 @@ export default function AutoClosingQuotes() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.autoClosingQuotes ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'autoClosingQuotes' ] )

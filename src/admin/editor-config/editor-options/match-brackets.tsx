@@ -40,7 +40,7 @@ export default function MatchBrackets() {
 			value: 'near',
 			image: 'editor-options/match-brackets_3.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'matchBrackets' ] ) => {
 		setEditorOptions( {
@@ -59,7 +59,7 @@ export default function MatchBrackets() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.matchBrackets ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'matchBrackets' ] )

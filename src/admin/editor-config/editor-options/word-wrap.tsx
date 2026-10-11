@@ -55,7 +55,7 @@ export default function WordWrap() {
 				'custom-html-block-extension'
 			),
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'wordWrap' ] ) => {
 		setEditorOptions( {
@@ -74,7 +74,7 @@ export default function WordWrap() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.wordWrap ) ?? null }
 				onValueChange={ ( item ) => item && onChange( item.value as EditorOptions[ 'wordWrap' ] ) }
 			/>

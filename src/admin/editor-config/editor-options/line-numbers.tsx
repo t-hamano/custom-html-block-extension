@@ -45,7 +45,7 @@ export default function LineNumbers() {
 			value: 'interval',
 			image: 'editor-options/line-numbers_4.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'lineNumbers' ] ) => {
 		setEditorOptions( {
@@ -64,7 +64,7 @@ export default function LineNumbers() {
 		>
 			<SelectControl
 				label={ title }
-				items={ [ ...items ] }
+				items={ items }
 				value={ items.find( ( item ) => item.value === editorOptions.lineNumbers ) ?? null }
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'lineNumbers' ] )
