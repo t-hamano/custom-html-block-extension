@@ -64,9 +64,11 @@ test.describe( 'Classic editor', () => {
 			window.editor?.setPosition( { lineNumber: 80, column: 4 } );
 			window.editor?.focus();
 		} );
+		// Monaco determines the modifier key from the user agent, not from the OS running the test.
+		const isMac = await page.evaluate( () => window.navigator.userAgent.includes( 'Macintosh' ) );
 		await Promise.all( [
 			page.waitForURL( /message=/ ),
-			page.keyboard.press( 'ControlOrMeta+S' ),
+			page.keyboard.press( isMac ? 'Meta+s' : 'Control+s' ),
 		] );
 
 		await expect.poll( () => getCursorPosition( page ) ).toEqual( { lineNumber: 80, column: 4 } );
