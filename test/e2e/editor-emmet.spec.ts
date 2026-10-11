@@ -155,6 +155,33 @@ test.describe( 'Emmet', () => {
 		} );
 	}
 
+	test.describe( 'classic editor (mode switching)', () => {
+		test.beforeAll( async ( { requestUtils } ) => {
+			await requestUtils.activatePlugin( 'classic-editor' );
+		} );
+
+		test.afterAll( async ( { requestUtils } ) => {
+			await requestUtils.deactivatePlugin( 'classic-editor' );
+		} );
+
+		test( 'should not duplicate suggestions after switching the mode', async ( {
+			admin,
+			page,
+		} ) => {
+			const [ { abbreviation, expected } ] = HTML_CASES;
+			await admin.visitAdminPage( 'post-new.php' );
+			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+			for ( let i = 0; i < 2; i++ ) {
+				await page.locator( '#content-tmce' ).click();
+				await page.locator( '#content-html' ).click();
+				await expect( monacoEditor ).toBeVisible();
+			}
+			await monacoEditor.click();
+			await expand( page, monacoEditor, abbreviation, abbreviation );
+			await expect( page.locator( '#content' ) ).toHaveValue( expected );
+		} );
+	} );
+
 	test.describe( 'theme editor (CSS)', () => {
 		for ( const { abbreviation, expected } of CSS_CASES ) {
 			test( `should expand "${ abbreviation }"`, async ( { admin, page } ) => {
