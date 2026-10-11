@@ -1,9 +1,7 @@
-@use "~@wordpress/base-styles/variables" as variables;
-
 .chbe-admin-snackbars {
 	right: 0;
-	bottom: variables.$grid-unit-20;
-	padding: 0 variables.$grid-unit-20;
+	bottom: var(--wpds-dimension-padding-lg);
+	padding: 0 var(--wpds-dimension-padding-lg);
 	position: fixed;
 
 	.components-snackbar-list__notice-container {
