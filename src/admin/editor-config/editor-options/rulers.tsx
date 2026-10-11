@@ -126,6 +126,8 @@ export default function Rulers() {
 									) }
 									onClick={ onToggle }
 									style={ {
+										// Make the button square like `IconButton`. The default
+										// `min-width` and inline padding make it wider than its height.
 										width: 'var(--wpds-dimension-size-md)',
 										minWidth: 0,
 										paddingInline: 0,
