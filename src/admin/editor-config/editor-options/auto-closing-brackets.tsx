@@ -27,6 +27,7 @@ export default function AutoClosingBrackets() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
+			isDefault: true,
 			image: 'editor-options/auto-closing-brackets_1.gif',
 		},
 		{
@@ -40,7 +41,6 @@ export default function AutoClosingBrackets() {
 				'custom-html-block-extension'
 			),
 			value: 'beforeWhitespace',
-			isDefault: true,
 			image: 'editor-options/auto-closing-brackets_3.gif',
 		},
 		{

@@ -27,6 +27,7 @@ export default function AutoClosingQuotes() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
+			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_1.gif',
 		},
 		{
@@ -40,7 +41,6 @@ export default function AutoClosingQuotes() {
 				'custom-html-block-extension'
 			),
 			value: 'beforeWhitespace',
-			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_3.gif',
 		},
 		{
