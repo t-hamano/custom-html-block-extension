@@ -27,36 +27,6 @@ const ACTIVE_CLASS_NAME = 'chbe-has-text-editor';
 // Same as the minimum height of the core textarea.
 const MIN_HEIGHT = 200;
 
-/**
- * Wait for the core text editor to be mounted, since it may mount after this
- * component.
- *
- * @param isEnabled Whether to look for the element.
- */
-function useTextEditorBody( isEnabled: boolean ) {
-	const [ element, setElement ] = useState< HTMLElement | null >( null );
-
-	useEffect( () => {
-		if ( ! isEnabled ) {
-			setElement( null );
-			return;
-		}
-
-		const find = () => {
-			const body = document.querySelector< HTMLElement >( TEXT_EDITOR_BODY_SELECTOR );
-			setElement( body?.isConnected ? body : null );
-		};
-		find();
-
-		const observer = new MutationObserver( find );
-		observer.observe( document.body, { childList: true, subtree: true } );
-
-		return () => observer.disconnect();
-	}, [ isEnabled ] );
-
-	return element;
-}
-
 // Monaco version of `PostTextEditor` in `@wordpress/editor`.
 function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void } ) {
 	const { editorSettings, editorOptions } = window.chbeObj;
@@ -128,7 +98,28 @@ export default function TextEditor() {
 	);
 	// Fall back to the core textarea if Monaco fails to load.
 	const [ hasError, setHasError ] = useState( false );
-	const body = useTextEditorBody( isTextMode && ! hasError );
+	const isEnabled = isTextMode && ! hasError;
+	const [ body, setBody ] = useState< HTMLElement | null >( null );
+
+	// Wait for the core text editor to be mounted, since it may mount after
+	// this component.
+	useEffect( () => {
+		if ( ! isEnabled ) {
+			setBody( null );
+			return;
+		}
+
+		const find = () => {
+			const element = document.querySelector< HTMLElement >( TEXT_EDITOR_BODY_SELECTOR );
+			setBody( element?.isConnected ? element : null );
+		};
+		find();
+
+		const observer = new MutationObserver( find );
+		observer.observe( document.body, { childList: true, subtree: true } );
+
+		return () => observer.disconnect();
+	}, [ isEnabled ] );
 
 	useEffect( () => {
 		if ( ! body ) {
