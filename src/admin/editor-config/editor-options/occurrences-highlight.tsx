@@ -3,12 +3,11 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
+import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
-import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -23,33 +22,16 @@ export default function OccurrencesHighlight() {
 		return null;
 	}
 
-	const items = [
-		{
-			label: __( 'Enable', 'custom-html-block-extension' ),
-			value: 'singleFile',
-			image: 'editor-options/occurrences-highlight_1.jpg',
-			isDefault: true,
-		},
-		{
-			label: __( 'Enable across all editors on the page', 'custom-html-block-extension' ),
-			value: 'multiFile',
-			image: 'editor-options/occurrences-highlight_1.jpg',
-			description: __(
-				'Also highlights matches in the other code editors on the same page, such as other Custom HTML blocks. This is an experimental feature of the editor.',
-				'custom-html-block-extension'
-			),
-		},
-		{
-			label: __( 'Disable', 'custom-html-block-extension' ),
-			value: 'off',
-			image: 'editor-options/occurrences-highlight_2.jpg',
-		},
-	];
+	// monaco types this option as 'off' | 'singleFile' | 'multiFile'. 'multiFile'
+	// highlights across every editor on the page, which is of little use for
+	// separate Custom HTML blocks, so the toggle only maps between 'singleFile' and
+	// 'off'.
+	const isEnabled = 'singleFile' === editorOptions.occurrencesHighlight;
 
-	const onChange = ( value: EditorOptions[ 'occurrencesHighlight' ] ) => {
+	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			occurrencesHighlight: value,
+			occurrencesHighlight: value ? 'singleFile' : 'off',
 		} );
 	};
 
@@ -61,22 +43,24 @@ export default function OccurrencesHighlight() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl
-				label={ title }
-				items={ items }
-				value={
-					items.find( ( item ) => item.value === editorOptions.occurrencesHighlight ) ?? null
-				}
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'occurrencesHighlight' ] )
-				}
-			/>
+			<SwitchControl label={ title } checked={ isEnabled } onCheckedChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				items={ items }
-				colCount="3"
-				value={ editorOptions.occurrencesHighlight }
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/occurrences-highlight_1.jpg',
+						isDefault: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/occurrences-highlight_2.jpg',
+					},
+				] }
+				value={ isEnabled }
 			/>
 		</Stack>
 	);
