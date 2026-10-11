@@ -22,13 +22,6 @@ test.describe( 'Settings page', () => {
 		page,
 		requestUtils,
 	} ) => {
-		// Hide welcome guide.
-		const welcomeGuide = page.getByRole( 'dialog', {
-			name: 'About Custom HTML Block Extension',
-		} );
-		await page.addLocatorHandler( welcomeGuide, async () => {
-			await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
-		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
 		const saveButton = page.getByRole( 'button', { name: 'Save settings' } );

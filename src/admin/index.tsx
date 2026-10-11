@@ -63,7 +63,6 @@ function Admin() {
 		emmet: window.chbeObj.editorSettings.emmet,
 	} );
 	const [ editorOptions, setEditorOptions ] = useState( window.chbeObj.editorOptions );
-	// Last saved editor config, used to detect unsaved changes.
 	const [ savedEditorConfig, setSavedEditorConfig ] = useState( {
 		editorSettings,
 		editorOptions,
