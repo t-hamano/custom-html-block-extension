@@ -51,16 +51,19 @@ function inertValue( condition: boolean ): '' | undefined {
 // Name of the CSS custom highlight for the words matching the search query.
 const SEARCH_HIGHLIGHT_NAME = 'chbe-editor-config-search';
 
-// Words in the search query, split by whitespace and lowercased.
-function getSearchWords( searchQuery: string ): string[] {
-	return searchQuery.toLowerCase().split( /\s+/ ).filter( Boolean );
+// Case-insensitive patterns for the words in the search query. Unlike
+// lowercasing, the match offsets stay valid for the original text.
+function getSearchPatterns( searchQuery: string ): RegExp[] {
+	return searchQuery
+		.split( /\s+/ )
+		.filter( Boolean )
+		.map( ( word ) => new RegExp( word.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' ), 'giu' ) );
 }
 
 // Whether a setting with the given title matches the current search query.
 export function useSearchVisibility( title: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
-	const lowerTitle = title.toLowerCase();
-	return getSearchWords( searchQuery ).every( ( word ) => lowerTitle.includes( word ) );
+	return getSearchPatterns( searchQuery ).every( ( pattern ) => title.search( pattern ) !== -1 );
 }
 
 // Highlights the words matching the search query in the setting labels.
@@ -70,8 +73,8 @@ function useSearchHighlight( searchQuery: string ) {
 	const ref = useRef< HTMLDivElement >( null );
 
 	useEffect( () => {
-		const words = getSearchWords( searchQuery );
-		if ( ! ref.current || ! words.length || ! ( 'highlights' in CSS ) ) {
+		const patterns = getSearchPatterns( searchQuery );
+		if ( ! ref.current || ! patterns.length || ! ( 'highlights' in CSS ) ) {
 			return;
 		}
 
@@ -84,16 +87,12 @@ function useSearchHighlight( searchQuery: string ) {
 				const walker = document.createTreeWalker( label, NodeFilter.SHOW_TEXT );
 				while ( walker.nextNode() ) {
 					const node = walker.currentNode;
-					const text = node.textContent?.toLowerCase() ?? '';
-					words.forEach( ( word ) => {
-						for (
-							let index = text.indexOf( word );
-							index !== -1;
-							index = text.indexOf( word, index + word.length )
-						) {
+					const text = node.textContent ?? '';
+					patterns.forEach( ( pattern ) => {
+						for ( const match of text.matchAll( pattern ) ) {
 							const range = new Range();
-							range.setStart( node, index );
-							range.setEnd( node, index + word.length );
+							range.setStart( node, match.index );
+							range.setEnd( node, match.index + match[ 0 ].length );
 							ranges.push( range );
 						}
 					} );
