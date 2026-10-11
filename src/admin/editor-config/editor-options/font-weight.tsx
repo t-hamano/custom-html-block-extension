@@ -3,14 +3,13 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
-import SelectControl from '../components/select-control';
 
 type FontWeightProps = {
 	fontWeights: number[];
@@ -26,6 +25,11 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 		return null;
 	}
 
+	const items = fontWeights.map( ( fontWeight ) => ( {
+		label: String( fontWeight ),
+		value: String( fontWeight ),
+	} ) );
+
 	const onChange = ( value: string ) => {
 		setEditorOptions( {
 			...editorOptions,
@@ -37,12 +41,11 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
 			<SelectControl
 				label={ title }
-				value={ String( editorOptions.fontWeight ) }
-				options={ fontWeights.map( ( fontWeight ) => ( {
-					label: String( fontWeight ),
-					value: String( fontWeight ),
-				} ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={
+					items.find( ( item ) => item.value === String( editorOptions.fontWeight ) ) ?? null
+				}
+				onValueChange={ ( item ) => item?.value && onChange( item.value ) }
 			/>
 		</Stack>
 	);

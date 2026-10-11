@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -12,7 +12,6 @@ import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../../components/item-help';
-import SelectControl from '../../components/select-control';
 
 export default function ScrollbarVertical() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -63,11 +62,13 @@ export default function ScrollbarVertical() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'scrollbar' ][ 'vertical' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.scrollbar.vertical }
-				options={ items }
-				onChange={ onChange }
+				items={ [ ...items ] }
+				value={ items.find( ( item ) => item.value === editorOptions.scrollbar.vertical ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'scrollbar' ][ 'vertical' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

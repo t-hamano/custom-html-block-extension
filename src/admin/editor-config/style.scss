@@ -7,7 +7,7 @@
 .chbe-admin-editor-config {
 	flex-direction: row-reverse;
 
-	.chbe-admin-editor-config__select-control {
+	.chbe-admin-editor-config__setting-item > :has([role="combobox"]) {
 		min-width: 200px;
 	}
 

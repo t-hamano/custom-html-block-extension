@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Link, Stack, Text } from '@wordpress/ui';
+import { Link, SelectControl, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -11,7 +11,6 @@ import { Link, Stack, Text } from '@wordpress/ui';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
-import SelectControl from '../components/select-control';
 
 export default function FontFamily() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -22,6 +21,17 @@ export default function FontFamily() {
 	if ( ! isVisible ) {
 		return null;
 	}
+
+	const items = [
+		...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
+			label: label ?? name,
+			value: name,
+		} ) ),
+		{
+			label: __( 'Monospace', 'custom-html-block-extension' ),
+			value: 'monospace',
+		},
+	];
 
 	const onChange = ( value: string ) => {
 		setEditorOptions( {
@@ -40,18 +50,9 @@ export default function FontFamily() {
 		>
 			<SelectControl
 				label={ title }
-				value={ editorOptions.fontFamily }
-				options={ [
-					...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
-						label: label ?? name,
-						value: name,
-					} ) ),
-					{
-						label: __( 'Monospace', 'custom-html-block-extension' ),
-						value: 'monospace',
-					},
-				] }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.fontFamily ) ?? null }
+				onValueChange={ ( item ) => item?.value && onChange( item.value ) }
 			/>
 			<ItemHelp
 				title={ title }

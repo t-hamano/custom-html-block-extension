@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -12,7 +12,6 @@ import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { EditorConfigContext, useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
-import SelectControl from '../components/select-control';
 
 export default function AutoIndent() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -60,11 +59,13 @@ export default function AutoIndent() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'autoIndent' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.autoIndent }
-				options={ items }
-				onChange={ onChange }
+				items={ [ ...items ] }
+				value={ items.find( ( item ) => item.value === editorOptions.autoIndent ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'autoIndent' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

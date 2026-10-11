@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -11,7 +11,6 @@ import { Stack } from '@wordpress/ui';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import themes from '../../../lib/themes';
-import SelectControl from '../components/select-control';
 
 export default function Theme() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
@@ -22,6 +21,12 @@ export default function Theme() {
 	if ( ! isVisible ) {
 		return null;
 	}
+
+	const items = [
+		{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
+		{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
+		...themes,
+	];
 
 	const onChange = ( value: string ) => {
 		setEditorSettings( {
@@ -34,13 +39,9 @@ export default function Theme() {
 		<Stack className="chbe-admin-editor-config__setting-item" gap="sm">
 			<SelectControl
 				label={ title }
-				value={ editorSettings.theme }
-				options={ [
-					{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
-					{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
-					...themes,
-				] }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorSettings.theme ) ?? null }
+				onValueChange={ ( item ) => item?.value && onChange( item.value ) }
 			/>
 		</Stack>
 	);
