@@ -148,7 +148,10 @@ export default function addWrapWithAbbreviationAction(
 				isOpen = false;
 				revertPreview();
 
-				if ( shouldApply && wrappedTexts ) {
+				if ( ! shouldApply || ! wrappedTexts ) {
+					// Restore the selections moved by the preview.
+					editor.setSelections( selections );
+				} else {
 					editor.pushUndoStop();
 					editor.executeEdits(
 						'chbe.wrapWithAbbreviation',

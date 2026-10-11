@@ -173,6 +173,20 @@ test.describe( 'Wrap with Abbreviation', () => {
 			await expect.poll( () => target.getValue( fixtures ) ).toBe( '<p class="a">text</p>' );
 		} );
 
+		test( 'should keep dollar signs in the text', async ( { admin, editor, page } ) => {
+			const fixtures = { admin, editor, page };
+			const [ target ] = EDITORS;
+			const monacoEditor = await target.open( fixtures );
+			await page.evaluate( () => window.editor?.setValue( "s.replace( /a/, '$1 $$' )" ) );
+			await page.keyboard.press( await getShortcut( page, 'a' ) );
+			const input = await openWrapInput( page, monacoEditor );
+			await input.pressSequentially( 'script' );
+			await page.keyboard.press( 'Enter' );
+			await expect
+				.poll( () => target.getValue( fixtures ) )
+				.toBe( "<script>s.replace( /a/, '$1 $$' )</script>" );
+		} );
+
 		test( 'should be undone at once', async ( { admin, editor, page } ) => {
 			const fixtures = { admin, editor, page };
 			const [ target ] = EDITORS;

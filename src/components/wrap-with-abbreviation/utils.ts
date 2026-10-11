@@ -4,6 +4,9 @@
 import { expandAbbreviation } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 
+// A private use character that doesn't appear in the text.
+const DOLLAR_PLACEHOLDER = '\uE000';
+
 export type WrapTarget = {
 	range: Monaco.IRange;
 	lines: string[];
@@ -24,7 +27,7 @@ export function getWrapTargets(
 	model: Monaco.editor.ITextModel,
 	selections: Monaco.Selection[]
 ): WrapTarget[] {
-	return [ ...selections ]
+	const targets = [ ...selections ]
 		.sort( ( a, b ) =>
 			a.startLineNumber === b.startLineNumber
 				? a.startColumn - b.startColumn
@@ -64,6 +67,17 @@ export function getWrapTargets(
 				baseIndent,
 			};
 		} );
+
+	// Skip the targets overlapping the previous one, e.g. multiple empty selections on the same line.
+	return targets.filter( ( { range }, index ) => {
+		const previous = targets[ index - 1 ]?.range;
+		return (
+			! previous ||
+			range.startLineNumber > previous.endLineNumber ||
+			( range.startLineNumber === previous.endLineNumber &&
+				range.startColumn >= previous.endColumn )
+		);
+	} );
 }
 
 /**
@@ -100,16 +114,18 @@ export function wrapWithAbbreviation(
 	}
 
 	try {
+		// Emmet escapes "$" in the text as a snippet syntax, so replace it with a placeholder
+		// character and restore it after the expansion.
 		return expandAbbreviation( abbreviation, {
 			type: 'markup',
 			syntax: 'html',
-			text: target.lines,
+			text: target.lines.map( ( line ) => line.replaceAll( '$', DOLLAR_PLACEHOLDER ) ),
 			options: {
 				'output.field': ( _index: number, placeholder: string ) => placeholder,
 				'output.indent': indent,
 				'output.baseIndent': target.baseIndent,
 			},
-		} );
+		} ).replaceAll( DOLLAR_PLACEHOLDER, '$' );
 	} catch {
 		return null;
 	}
