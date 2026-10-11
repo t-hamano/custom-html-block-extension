@@ -71,3 +71,82 @@ test.describe( 'Settings page', () => {
 		await expect( page.getByRole( 'button', { name: 'Save settings' } ) ).toBeFocused();
 	} );
 } );
+
+test.describe( 'Settings REST API', () => {
+	test.afterEach( async ( { requestUtils } ) => {
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/delete_editor_config',
+		} );
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/update_options',
+			data: { options: {} },
+		} );
+	} );
+
+	test( 'should reject an invalid editor config', async ( { requestUtils } ) => {
+		for ( const path of [
+			'/custom-html-block-extension/v1/update_editor_config',
+			'/custom-html-block-extension/v1/import_editor_config',
+		] ) {
+			await expect(
+				requestUtils.rest( {
+					method: 'POST',
+					path,
+					data: { editorSettings: { tabSize: 'abc' }, editorOptions: {} },
+				} )
+			).rejects.toMatchObject( { code: 'rest_invalid_param' } );
+
+			await expect(
+				requestUtils.rest( {
+					method: 'POST',
+					path,
+					data: { editorSettings: {} },
+				} )
+			).rejects.toMatchObject( { code: 'rest_missing_callback_param' } );
+		}
+	} );
+
+	test( 'should migrate legacy editor options on import', async ( { requestUtils } ) => {
+		const response = await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/import_editor_config',
+			data: {
+				editorSettings: { tabSize: 4 },
+				editorOptions: {
+					acceptSuggestionOnEnter: false,
+					find: { seedSearchStringFromSelection: true },
+					hover: false,
+					rulers: 0,
+				},
+			},
+		} );
+
+		expect( response.editorSettings ).toMatchObject( { tabSize: 4 } );
+		expect( response.editorOptions ).toMatchObject( {
+			acceptSuggestionOnEnter: 'off',
+			find: { seedSearchStringFromSelection: 'always' },
+			hover: { enabled: 'off' },
+			rulers: [],
+		} );
+	} );
+
+	test( 'should reject invalid options', async ( { requestUtils } ) => {
+		await expect(
+			requestUtils.rest( {
+				method: 'POST',
+				path: '/custom-html-block-extension/v1/update_options',
+				data: { options: { permissionBlockEditor: 'abc' } },
+			} )
+		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
+
+		await expect(
+			requestUtils.rest( {
+				method: 'POST',
+				path: '/custom-html-block-extension/v1/update_options',
+				data: {},
+			} )
+		).rejects.toMatchObject( { code: 'rest_missing_callback_param' } );
+	} );
+} );
