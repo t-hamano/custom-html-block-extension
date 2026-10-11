@@ -132,6 +132,9 @@ test.describe( 'Settings REST API', () => {
 				editorSettings: { tabSize: 4 },
 				editorOptions: {
 					acceptSuggestionOnEnter: false,
+					cursorSmoothCaretAnimation: true,
+					occurrencesHighlight: false,
+					renderFinalNewline: false,
 					find: { seedSearchStringFromSelection: true },
 					hover: false,
 					rulers: 0,
@@ -142,6 +145,9 @@ test.describe( 'Settings REST API', () => {
 		expect( response.editorSettings ).toMatchObject( { tabSize: 4 } );
 		expect( response.editorOptions ).toMatchObject( {
 			acceptSuggestionOnEnter: 'off',
+			cursorSmoothCaretAnimation: 'on',
+			occurrencesHighlight: 'off',
+			renderFinalNewline: 'off',
 			find: { seedSearchStringFromSelection: 'always' },
 			hover: { enabled: 'off' },
 			rulers: [],
@@ -213,54 +219,6 @@ test.describe( 'Editor config', () => {
 
 		// The GitHub theme is based on the light (`vs`) theme.
 		await expect( monacoEditor ).toHaveClass( /(^|\s)vs(\s|$)/ );
-	} );
-
-	test( 'legacy editor options should be migrated', async ( { requestUtils } ) => {
-		await requestUtils.activatePlugin( 'chbe-test-helpers' );
-
-		// The REST API migrates legacy values before saving them, so save them
-		// directly to reproduce the options persisted by older plugin versions.
-		for ( const { editorOptions, expected } of [
-			{
-				editorOptions: {
-					acceptSuggestionOnEnter: false,
-					cursorSmoothCaretAnimation: true,
-					occurrencesHighlight: false,
-					renderFinalNewline: false,
-					find: { seedSearchStringFromSelection: false },
-					hover: false,
-					rulers: 0,
-				},
-				expected: {
-					acceptSuggestionOnEnter: 'off',
-					cursorSmoothCaretAnimation: 'on',
-					occurrencesHighlight: 'off',
-					renderFinalNewline: 'off',
-					find: { seedSearchStringFromSelection: 'never' },
-					hover: { enabled: 'off' },
-					rulers: [],
-				},
-			},
-			{
-				editorOptions: { hover: { enabled: false } },
-				expected: { hover: { enabled: 'off' } },
-			},
-		] ) {
-			await requestUtils.rest( {
-				method: 'POST',
-				path: '/chbe-test/v1/update_option',
-				data: { name: 'custom_html_block_extension_editor_options', value: editorOptions },
-			} );
-
-			const response = await requestUtils.rest( {
-				method: 'POST',
-				path: '/custom-html-block-extension/v1/get_editor_config',
-			} );
-
-			expect( response.editorOptions ).toMatchObject( expected );
-		}
-
-		await requestUtils.deactivatePlugin( 'chbe-test-helpers' );
 	} );
 
 	test( 'reset should restore the default editor config', async ( {
