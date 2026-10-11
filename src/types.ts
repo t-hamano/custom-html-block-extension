@@ -100,7 +100,7 @@ export type EditorOptions = {
 	renderLineHighlightOnlyWhenFocus: boolean;
 	renderWhitespace: 'none' | 'boundary' | 'selection' | 'trailing' | 'all';
 	roundedSelection: boolean;
-	rulers: number[];
+	rulers: ( number | { column: number; color: string } )[];
 	scrollBeyondLastColumn: number;
 	scrollBeyondLastLine: boolean;
 	scrollbar: {

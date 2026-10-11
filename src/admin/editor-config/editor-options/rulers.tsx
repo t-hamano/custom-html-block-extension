@@ -3,9 +3,9 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
+import { ColorIndicator, ColorPicker, Dropdown, RangeControl } from '@wordpress/components';
 import { plus, trash } from '@wordpress/icons';
-import { Button, IconButton, Stack } from '@wordpress/ui';
+import { Button, IconButton, Stack, Tooltip } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -14,9 +14,20 @@ import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
+import type { EditorOptions } from '../../../types';
 
 const MAX_RULERS = 5;
 const MAX_COLUMN = 100;
+
+const getColumn = ( ruler: EditorOptions[ 'rulers' ][ number ] ) =>
+	'number' === typeof ruler ? ruler : ruler.column;
+
+const getColor = ( ruler: EditorOptions[ 'rulers' ][ number ] ) =>
+	'number' === typeof ruler ? undefined : ruler.color;
+
+// A ruler without a color is stored as a plain number so existing settings stay valid.
+const toRuler = ( column: number, color?: string ): EditorOptions[ 'rulers' ][ number ] =>
+	color ? { column, color } : column;
 
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -30,10 +41,10 @@ export default function Rulers() {
 
 	const { rulers } = editorOptions;
 	// No rulers is shown as a single control at `0`.
-	const values = rulers.length ? rulers : [ 0 ];
+	const values: EditorOptions[ 'rulers' ] = rulers.length ? rulers : [ 0 ];
 	const isSingle = values.length === 1;
 
-	const updateRulers = ( nextRulers: number[] ) => {
+	const updateRulers = ( nextRulers: EditorOptions[ 'rulers' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			rulers: nextRulers,
@@ -47,12 +58,23 @@ export default function Rulers() {
 			return;
 		}
 		updateRulers(
-			values.map( ( item, i ) => ( i === index ? toNumber( nextValue, 1, MAX_COLUMN ) : item ) )
+			values.map( ( item, i ) =>
+				i === index ? toRuler( toNumber( nextValue, 1, MAX_COLUMN ), getColor( item ) ) : item
+			)
+		);
+	};
+
+	const onChangeColor = ( index: number, color?: string ) => {
+		updateRulers(
+			rulers.map( ( item, i ) => ( i === index ? toRuler( getColumn( item ), color ) : item ) )
 		);
 	};
 
 	const onAdd = () => {
-		updateRulers( [ ...rulers, toNumber( rulers[ rulers.length - 1 ] + 10, 1, MAX_COLUMN ) ] );
+		updateRulers( [
+			...rulers,
+			toNumber( getColumn( rulers[ rulers.length - 1 ] ) + 10, 1, MAX_COLUMN ),
+		] );
 	};
 
 	const onRemove = ( index: number ) => {
@@ -67,8 +89,8 @@ export default function Rulers() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 340 } }>
-				{ values.map( ( value, index ) => (
+			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 300 } }>
+				{ values.map( ( ruler, index ) => (
 					<Stack key={ index } align="end" gap="xs" style={ { width: '100%' } }>
 						<div style={ { flex: 1 } }>
 							<RangeControl
@@ -82,12 +104,67 @@ export default function Rulers() {
 											)
 								}
 								hideLabelFromVision={ 0 !== index }
-								value={ value }
+								value={ getColumn( ruler ) }
 								min={ isSingle ? 0 : 1 }
 								max={ MAX_COLUMN }
 								onChange={ ( newValue ) => onChange( index, newValue ) }
 							/>
 						</div>
+						<Dropdown
+							popoverProps={ { placement: 'bottom-end' } }
+							renderToggle={ ( { isOpen, onToggle } ) => {
+								const label = sprintf(
+									/* translators: %d: The ruler number. */
+									__( 'Vertical line %d color', 'custom-html-block-extension' ),
+									index + 1
+								);
+								return (
+									<Tooltip.Root>
+										<Tooltip.Trigger
+											render={
+												<Button
+													variant="minimal"
+													tone="neutral"
+													size="compact"
+													disabled={ ! rulers.length }
+													focusableWhenDisabled
+													aria-expanded={ isOpen }
+													aria-label={ label }
+													onClick={ onToggle }
+													style={ {
+														marginBottom: 4,
+														// Make the button square like `IconButton`. The default
+														// `min-width` and inline padding make it wider than its height.
+														width: 'var(--wpds-dimension-size-md)',
+														minWidth: 0,
+														paddingInline: 0,
+													} }
+												/>
+											}
+										>
+											<ColorIndicator colorValue={ getColor( ruler ) } />
+										</Tooltip.Trigger>
+										<Tooltip.Popup>{ label }</Tooltip.Popup>
+									</Tooltip.Root>
+								);
+							} }
+							renderContent={ () => (
+								<Stack direction="column" align="end">
+									<ColorPicker
+										color={ getColor( ruler ) ?? '#fff' }
+										onChange={ ( color ) => onChangeColor( index, color ) }
+									/>
+									<Button
+										variant="outline"
+										size="compact"
+										disabled={ ! getColor( ruler ) }
+										onClick={ () => onChangeColor( index ) }
+									>
+										{ __( 'Reset', 'custom-html-block-extension' ) }
+									</Button>
+								</Stack>
+							) }
+						/>
 						<IconButton
 							icon={ trash }
 							label={ __( 'Remove ruler', 'custom-html-block-extension' ) }
