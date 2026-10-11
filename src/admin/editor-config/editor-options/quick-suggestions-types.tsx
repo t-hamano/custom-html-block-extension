@@ -35,6 +35,8 @@ export default function QuickSuggestionsTypes() {
 		return null;
 	}
 
+	// monaco also allows `'offWhenInlineCompletions'`, but the plugin registers
+	// no inline completion provider, so it would behave the same as `'on'`.
 	const items = [
 		{
 			label: __( 'Show in the suggestion list', 'custom-html-block-extension' ),

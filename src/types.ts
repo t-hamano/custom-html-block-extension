@@ -86,8 +86,6 @@ export type EditorOptions = {
 		bottom: number;
 		top: number;
 	};
-	// monaco also allows `'offWhenInlineCompletions'`, but the plugin registers
-	// no inline completion provider, so it would behave the same as `'on'`.
 	quickSuggestions: {
 		other: 'on' | 'inline' | 'off';
 		comments: 'on' | 'inline' | 'off';
