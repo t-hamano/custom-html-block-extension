@@ -1,8 +1,9 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
+import { createInterpolateElement, useContext } from '@wordpress/element';
+import { isAppleOS } from '@wordpress/keycodes';
 import { SelectControl, Stack, Text } from '@wordpress/ui';
 
 /**
@@ -21,6 +22,18 @@ export default function Hover() {
 
 	if ( ! isVisible ) {
 		return null;
+	}
+
+	// monaco shows hints on the modifier key that is not used for multi cursor.
+	let modifierKey;
+	if ( 'alt' === editorOptions.multiCursorModifier ) {
+		modifierKey = isAppleOS()
+			? __( 'Command', 'custom-html-block-extension' )
+			: __( 'Ctrl', 'custom-html-block-extension' );
+	} else {
+		modifierKey = isAppleOS()
+			? __( 'Option', 'custom-html-block-extension' )
+			: __( 'Alt', 'custom-html-block-extension' );
 	}
 
 	const items = [
@@ -76,9 +89,18 @@ export default function Hover() {
 							) }
 						</Text>
 						<Text render={ <p /> }>
-							{ __(
-								'If "Enable only while holding a modifier key" is selected, hints are shown only while holding the modifier key that is not used for "Multi cursor modifier key".',
-								'custom-html-block-extension'
+							{ createInterpolateElement(
+								sprintf(
+									/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
+									__(
+										'If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
+										'custom-html-block-extension'
+									),
+									modifierKey
+								),
+								{
+									code: <code />,
+								}
 							) }
 						</Text>
 					</>

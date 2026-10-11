@@ -28,6 +28,10 @@ export default function CursorSmoothCaretAnimation() {
 			label: __( 'Enable', 'custom-html-block-extension' ),
 			value: 'on',
 			image: 'editor-options/cursor-smooth-caret-animation_1.gif',
+			description: __(
+				'Animates the cursor whenever it moves, including while typing.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Enable only when the cursor is moved explicitly', 'custom-html-block-extension' ),
