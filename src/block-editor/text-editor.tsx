@@ -7,7 +7,7 @@ import { useDispatch, useSelect } from '@wordpress/data';
 /**
  * Internal dependencies
  */
-import MonacoEditor from '../components/monaco-editor';
+import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
 
 // Selectors of the `core/editor` store used here. `@wordpress/editor` isn't
 // imported, so that the script doesn't depend on it.
@@ -58,7 +58,7 @@ function useTextEditorBody( isEnabled: boolean ) {
 }
 
 // Monaco version of `PostTextEditor` in `@wordpress/editor`.
-function PostTextEditor() {
+function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void } ) {
 	const { editorSettings, editorOptions } = window.chbeObj;
 	const { value, type, id } = useSelect( ( select ) => {
 		const { getCurrentPostType, getCurrentPostId, getEditedPostContent } = select(
@@ -110,6 +110,7 @@ function PostTextEditor() {
 				detectIndentation={ editorSettings.detectIndentation }
 				onChange={ onChange }
 				autoHeight={ { min: MIN_HEIGHT, max: Infinity } }
+				onError={ onError }
 			/>
 		</div>
 	);
@@ -126,7 +127,9 @@ export default function TextEditor() {
 			( select( 'core/editor' ) as EditorSelectors | undefined )?.getEditorMode?.() === 'text',
 		[]
 	);
-	const body = useTextEditorBody( isTextMode );
+	// Fall back to the core textarea if Monaco fails to load.
+	const [ hasError, setHasError ] = useState( false );
+	const body = useTextEditorBody( isTextMode && ! hasError );
 
 	useEffect( () => {
 		if ( ! body ) {
@@ -140,5 +143,14 @@ export default function TextEditor() {
 		return null;
 	}
 
-	return createPortal( <PostTextEditor />, body );
+	return createPortal(
+		<PostTextEditor
+			onError={ ( error ) => {
+				if ( error.type === 'timeout' || error.type === 'scripterror' ) {
+					setHasError( true );
+				}
+			} }
+		/>,
+		body
+	);
 }
