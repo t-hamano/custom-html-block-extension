@@ -1,5 +1,3 @@
-@use "~@wordpress/base-styles/variables" as variables;
-
 // Toggle button
 .chbe-admin-editor-config-item-help-toggle {
 	margin-top: -2px;
@@ -25,7 +23,7 @@
 	.chbe-admin-editor-config-item-help-modal__items {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		gap: variables.$grid-unit-30;
+		gap: var(--wpds-dimension-gap-xl);
 
 		@media screen and (min-width: 783px) {
 
@@ -46,12 +44,12 @@
 		display: grid;
 		grid-row: span 2;
 		grid-template-rows: subgrid;
-		row-gap: variables.$grid-unit-20;
+		row-gap: var(--wpds-dimension-gap-lg);
 		place-items: start;
 	}
 
 	.chbe-admin-editor-config-item-help-modal__item-button {
 		height: auto;
-		padding: variables.$grid-unit-05;
+		padding: var(--wpds-dimension-padding-xs);
 	}
 }

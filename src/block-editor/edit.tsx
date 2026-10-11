@@ -302,7 +302,10 @@ export default function HTMLEdit( {
 						<Dialog.Title>{ __( 'HTML editor', 'custom-html-block-extension' ) }</Dialog.Title>
 						<Dialog.CloseIconButton />
 					</Dialog.Header>
-					<Dialog.Content className="chbe-fullscreen-editor__content">
+					<Dialog.Content
+						className="chbe-fullscreen-editor__content"
+						render={ <Stack direction="column" /> }
+					>
 						<MonacoEditor
 							language="html"
 							theme={ editorSettings.theme }

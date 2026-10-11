@@ -1,19 +1,15 @@
-@use "~@wordpress/base-styles/variables" as variables;
-@use "~@wordpress/base-styles/colors" as colors;
-
-
 .chbe-admin-header {
-	padding: variables.$grid-unit-20 0;
-	background-color: colors.$white;
+	padding: var(--wpds-dimension-padding-lg) 0;
+	background-color: var(--wpds-color-background-surface-neutral-strong);
 
 	.chbe-admin-header__info {
 		position: absolute;
 		top: 0;
-		right: variables.$grid-unit-20 + variables.$grid-unit-05;
+		right: var(--wpds-dimension-padding-xl);
 
 		@media screen and (max-width: 782px) {
 			position: static;
-			margin-top: variables.$grid-unit-20;
+			margin-top: var(--wpds-dimension-gap-lg);
 		}
 	}
 }

@@ -1,7 +1,5 @@
 // WordPress base styles
 @use "~@wordpress/base-styles/mixins" as mixins;
-@use "~@wordpress/base-styles/variables" as variables;
-@use "~@wordpress/base-styles/colors" as colors;
 @use "~@wordpress/base-styles/z-index" as zIndex;
 
 // Components
@@ -36,7 +34,7 @@
 	.chbe-admin-container {
 		position: relative;
 		max-width: 1200px;
-		padding: 0 variables.$grid-unit-20 + variables.$grid-unit-05;
+		padding: 0 var(--wpds-dimension-padding-xl);
 		margin: 0 auto;
 		width: 100%;
 		box-sizing: border-box;
@@ -69,8 +67,8 @@
 
 	.chbe-admin__tab-list {
 		justify-content: center;
-		background: colors.$white;
-		box-shadow: 0 1px 0 rgba(213, 213, 213, 0.5);
+		background: var(--wpds-color-background-surface-neutral-strong);
+		box-shadow: 0 1px 0 var(--wpds-color-stroke-surface-neutral);
 		width: 100%;
 
 		button {
