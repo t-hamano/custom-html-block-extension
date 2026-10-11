@@ -27,15 +27,18 @@ export default function FindSeedSearchStringFromSelection() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
+			image: 'editor-options/find/seed-search-string-from-selection_1.gif',
 			isDefault: true,
 		},
 		{
 			label: __( 'Only from selected text', 'custom-html-block-extension' ),
 			value: 'selection',
+			image: 'editor-options/find/seed-search-string-from-selection_2.gif',
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
+			image: 'editor-options/find/seed-search-string-from-selection_3.gif',
 		},
 	];
 
@@ -71,7 +74,11 @@ export default function FindSeedSearchStringFromSelection() {
 				}
 			/>
 			<ItemHelp
+				onChange={ onChange }
 				title={ title }
+				items={ items }
+				colCount="3"
+				value={ editorOptions.find.seedSearchStringFromSelection }
 				description={
 					<>
 						<Text render={ <p /> }>
@@ -88,7 +95,6 @@ export default function FindSeedSearchStringFromSelection() {
 						</Text>
 					</>
 				}
-				image="editor-options/find/seed-search-string-from-selection.gif"
 			/>
 		</Stack>
 	);

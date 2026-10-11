@@ -27,15 +27,18 @@ export default function AcceptSuggestionOnEnter() {
 		{
 			label: __( 'Enable', 'custom-html-block-extension' ),
 			value: 'on',
+			image: 'editor-options/accept-suggestion-on-enter_1.gif',
 			isDefault: true,
 		},
 		{
 			label: __( 'Only when it makes a text change', 'custom-html-block-extension' ),
 			value: 'smart',
+			image: 'editor-options/accept-suggestion-on-enter_2.gif',
 		},
 		{
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: 'off',
+			image: 'editor-options/accept-suggestion-on-enter_3.gif',
 		},
 	];
 
@@ -65,7 +68,11 @@ export default function AcceptSuggestionOnEnter() {
 				}
 			/>
 			<ItemHelp
+				onChange={ onChange }
 				title={ title }
+				items={ items }
+				colCount="3"
+				value={ editorOptions.acceptSuggestionOnEnter }
 				description={
 					<>
 						<Text render={ <p /> }>
