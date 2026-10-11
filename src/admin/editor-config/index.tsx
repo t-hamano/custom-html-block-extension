@@ -9,7 +9,14 @@ import clsx from 'clsx';
  */
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { createContext, useCallback, useContext, useState } from '@wordpress/element';
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from '@wordpress/element';
 import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
@@ -41,13 +48,67 @@ function inertValue( condition: boolean ): '' | undefined {
 	return condition ? '' : undefined;
 }
 
-// Whether a setting with the given title matches the current search query.
+// Name of the CSS custom highlight for the words matching the search query.
+const SEARCH_HIGHLIGHT_NAME = 'chbe-editor-config-search';
+
+// Words in the search query, split by whitespace and lowercased.
+function getSearchWords( searchQuery: string ): string[] {
+	return searchQuery.toLowerCase().split( /\s+/ ).filter( Boolean );
+}
+
+// Whether a setting with the given title matches the current search query, that is,
+// the title contains every word of the query in any order (case-insensitive).
 export function useSearchVisibility( title: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
-	if ( ! searchQuery ) {
-		return true;
-	}
-	return title.toLowerCase().includes( searchQuery.toLowerCase() );
+	const lowerTitle = title.toLowerCase();
+	return getSearchWords( searchQuery ).every( ( word ) => lowerTitle.includes( word ) );
+}
+
+// Highlights the words matching the search query in the setting labels.
+// The controls only accept a string label, so instead of wrapping the words in
+// `<mark>`, the CSS Custom Highlight API styles the matched text ranges.
+function useSearchHighlight( searchQuery: string ) {
+	const ref = useRef< HTMLDivElement >( null );
+
+	useEffect( () => {
+		const words = getSearchWords( searchQuery );
+		if ( ! ref.current || ! words.length || ! ( 'highlights' in CSS ) ) {
+			return;
+		}
+
+		const ranges: Range[] = [];
+		ref.current
+			.querySelectorAll(
+				'.chbe-admin-editor-config__setting-item :is(label, .components-base-control__label)'
+			)
+			.forEach( ( label ) => {
+				const walker = document.createTreeWalker( label, NodeFilter.SHOW_TEXT );
+				while ( walker.nextNode() ) {
+					const node = walker.currentNode;
+					const text = node.textContent?.toLowerCase() ?? '';
+					words.forEach( ( word ) => {
+						for (
+							let index = text.indexOf( word );
+							index !== -1;
+							index = text.indexOf( word, index + word.length )
+						) {
+							const range = new Range();
+							range.setStart( node, index );
+							range.setEnd( node, index + word.length );
+							ranges.push( range );
+						}
+					} );
+				}
+			} );
+
+		CSS.highlights.set( SEARCH_HIGHLIGHT_NAME, new Highlight( ...ranges ) );
+
+		return () => {
+			CSS.highlights.delete( SEARCH_HIGHLIGHT_NAME );
+		};
+	}, [ searchQuery ] );
+
+	return ref;
 }
 
 // Collapsible panel, forced open while a search query is active and otherwise
@@ -87,6 +148,7 @@ export default function EditorConfig() {
 	const [ isEditorDisabled, setIsEditorDisabled ] = useState( false );
 	const [ editorMode, setEditorMode ] = useState< EditorMode >( 'basic' );
 	const [ searchQuery, setSearchQuery ] = useState( '' );
+	const settingsRef = useSearchHighlight( searchQuery );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
 	const { createNotice, createSuccessNotice } = useDispatch( noticesStore );
 
@@ -167,6 +229,7 @@ export default function EditorConfig() {
 					setSearchQuery={ setSearchQuery }
 				/>
 				<Stack
+					ref={ settingsRef }
 					direction="column"
 					className={ clsx(
 						editorMode === 'basic' && ! searchQuery
