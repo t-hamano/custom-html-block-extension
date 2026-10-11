@@ -72,11 +72,11 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 	}, [] );
 	const { editEntityRecord } = useDispatch( 'core' );
 
-	// Like the core textarea, the editor resizes to fit its content and the page
-	// scrolls instead of the editor.
 	const options = useMemo(
 		() => ( {
 			...editorOptions,
+			// Like the core textarea, the editor resizes to fit its content and the page
+			// scrolls instead of the editor.
 			scrollBeyondLastLine: false,
 			scrollbar: {
 				...editorOptions.scrollbar,
