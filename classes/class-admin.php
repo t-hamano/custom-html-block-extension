@@ -108,14 +108,13 @@ class Admin {
 			CHBE_NAMESPACE . '-admin',
 			'chbeObj',
 			array(
-				'pluginUrl'           => CHBE_URL,
-				'version'             => CHBE_VERSION,
-				'editorSettings'      => Settings::get_editor_settings(),
-				'editorOptions'       => Settings::get_editor_options(),
-				'options'             => Settings::get_options(),
-				'userRoles'           => Settings::get_user_roles(),
-				'fontFamily'          => Settings::get_font_families(),
-				'dismissWelcomeGuide' => get_option( Option::OPTION_NAMES['dismiss_welcome_guide'] ),
+				'pluginUrl'      => CHBE_URL,
+				'version'        => CHBE_VERSION,
+				'editorSettings' => Settings::get_editor_settings(),
+				'editorOptions'  => Settings::get_editor_options(),
+				'options'        => Settings::get_options(),
+				'userRoles'      => Settings::get_user_roles(),
+				'fontFamily'     => Settings::get_font_families(),
 			)
 		);
 

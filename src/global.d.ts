@@ -18,7 +18,6 @@ declare global {
 		options: Options;
 		fontFamily: FontFamily[];
 		userRoles: { label: string; value: string }[];
-		dismissWelcomeGuide: boolean;
 		language?: string;
 	}
 

@@ -36,17 +36,16 @@ class Api {
 		);
 
 		$routes = array(
-			'get_editor_config'     => array(),
-			'update_editor_config'  => $editor_config_args,
-			'delete_editor_config'  => array(),
-			'update_options'        => array(
+			'get_editor_config'    => array(),
+			'update_editor_config' => $editor_config_args,
+			'delete_editor_config' => array(),
+			'update_options'       => array(
 				'options' => array_merge(
 					Settings::get_schema( Settings::DEFAULT_OPTIONS ),
 					array( 'required' => true )
 				),
 			),
-			'dismiss_welcome_guide' => array(),
-			'import_editor_config'  => $editor_config_args,
+			'import_editor_config' => $editor_config_args,
 		);
 
 		foreach ( $routes as $route => $args ) {
@@ -148,14 +147,6 @@ class Api {
 				'message' => __( 'Options saved.', 'custom-html-block-extension' ),
 			)
 		);
-	}
-
-	/**
-	 * Function to dismiss welcome guide.
-	 */
-	public function dismiss_welcome_guide() {
-		update_option( Option::OPTION_NAMES['dismiss_welcome_guide'], 1 );
-		return array();
 	}
 
 	/**

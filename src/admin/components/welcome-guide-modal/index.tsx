@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import { Guide } from '@wordpress/components';
 import { Stack, Text } from '@wordpress/ui';
 
@@ -11,20 +10,9 @@ type WelcomeGuideModalProps = {
 };
 
 export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps ) {
-	const onFinish = () => {
-		onClose();
-		if ( ! window.chbeObj.dismissWelcomeGuide ) {
-			apiFetch( {
-				path: '/custom-html-block-extension/v1/dismiss_welcome_guide',
-				method: 'POST',
-			} );
-			window.chbeObj.dismissWelcomeGuide = true;
-		}
-	};
-
 	return (
 		<Guide
-			onFinish={ onFinish }
+			onFinish={ onClose }
 			className="chbe-admin-welcome-guide-modal"
 			contentLabel={ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
 			finishButtonText={ __( 'Get started', 'custom-html-block-extension' ) }
