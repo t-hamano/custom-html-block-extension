@@ -68,21 +68,22 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 	};
 
 	return (
-		<div className="chbe-text-editor">
-			<MonacoEditor
-				language="html"
-				theme={ editorSettings.theme }
-				options={ options }
-				value={ postContent }
-				useEmmet={ editorSettings.emmet }
-				tabSize={ editorSettings.tabSize }
-				insertSpaces={ editorSettings.insertSpaces }
-				detectIndentation={ editorSettings.detectIndentation }
-				onChange={ onChange }
-				autoHeight={ { min: MIN_HEIGHT, max: Infinity } }
-				onError={ onError }
-			/>
-		</div>
+		<MonacoEditor
+			language="html"
+			theme={ editorSettings.theme }
+			options={ options }
+			value={ postContent }
+			useEmmet={ editorSettings.emmet }
+			tabSize={ editorSettings.tabSize }
+			insertSpaces={ editorSettings.insertSpaces }
+			detectIndentation={ editorSettings.detectIndentation }
+			onChange={ onChange }
+			autoHeight={ { min: MIN_HEIGHT, max: Infinity } }
+			onError={ onError }
+			// Keep the z-indexes inside the editor, such as the minimap, from stacking
+			// above the sticky toolbar of the code editor.
+			style={ { isolation: 'isolate' } }
+		/>
 	);
 }
 

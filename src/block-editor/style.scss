@@ -26,9 +26,3 @@
 		display: none !important;
 	}
 }
-
-.chbe-text-editor {
-	// Keep the z-indexes inside the editor, such as the minimap, from stacking
-	// above the sticky toolbar of the code editor.
-	isolation: isolate;
-}
