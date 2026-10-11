@@ -75,7 +75,6 @@ export default function Filter( {
 					value={ searchQueryState }
 					onValueChange={ ( value ) => {
 						setSearchQueryState( value );
-						// Whitespace alone is not a search.
 						debouncedOnChangeSearchQuery( value.trim() );
 					} }
 				/>
