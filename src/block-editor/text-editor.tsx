@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { createPortal, useEffect, useState } from '@wordpress/element';
+import { createPortal, useEffect, useMemo, useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
@@ -23,6 +23,9 @@ const TEXT_EDITOR_BODY_SELECTOR = '.editor-text-editor__body';
 
 // Added to the text editor body to hide the core textarea and its label.
 const ACTIVE_CLASS_NAME = 'chbe-has-text-editor';
+
+// Same as the minimum height of the core textarea.
+const MIN_HEIGHT = 200;
 
 /**
  * Wait for the core text editor to be mounted, since it may mount after this
@@ -69,6 +72,21 @@ function PostTextEditor() {
 	}, [] );
 	const { editEntityRecord } = useDispatch( 'core' );
 
+	// Like the core textarea, the editor resizes to fit its content and the page
+	// scrolls instead of the editor.
+	const options = useMemo(
+		() => ( {
+			...editorOptions,
+			scrollBeyondLastLine: false,
+			scrollbar: {
+				...editorOptions.scrollbar,
+				vertical: 'hidden' as const,
+				alwaysConsumeMouseWheel: false,
+			},
+		} ),
+		[ editorOptions ]
+	);
+
 	// Write the content the same way as the core `PostTextEditor`. When switching
 	// back to the visual editor, the content is parsed into blocks.
 	const onChange = ( content: string ) => {
@@ -84,13 +102,14 @@ function PostTextEditor() {
 			<MonacoEditor
 				language="html"
 				theme={ editorSettings.theme }
-				options={ editorOptions }
+				options={ options }
 				value={ value }
 				useEmmet={ editorSettings.emmet }
 				tabSize={ editorSettings.tabSize }
 				insertSpaces={ editorSettings.insertSpaces }
 				detectIndentation={ editorSettings.detectIndentation }
 				onChange={ onChange }
+				autoHeight={ { min: MIN_HEIGHT, max: Infinity } }
 			/>
 		</div>
 	);
