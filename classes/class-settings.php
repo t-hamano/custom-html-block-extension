@@ -314,10 +314,25 @@ class Settings {
 		),
 		'rulers'                           => array(
 			'type'    => 'array',
+			// A ruler is a column number, or `{ column, color }` when it has its own color.
 			'items'   => array(
-				'type'    => 'number',
-				'minimum' => 1,
-				'maximum' => 100,
+				'type'                 => array( 'number', 'object' ),
+				'minimum'              => 1,
+				'maximum'              => 100,
+				'properties'           => array(
+					'column' => array(
+						'type'     => 'number',
+						'minimum'  => 1,
+						'maximum'  => 100,
+						'required' => true,
+					),
+					'color'  => array(
+						'type'     => 'string',
+						'format'   => 'hex-color',
+						'required' => true,
+					),
+				),
+				'additionalProperties' => false,
 			),
 			'default' => array(),
 		),

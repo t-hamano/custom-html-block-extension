@@ -15,6 +15,12 @@ export type EditorSettings = {
 };
 
 /**
+ * A ruler column, or `{ column, color }` when the ruler has its own color.
+ * A ruler without a color uses the theme's ruler color.
+ */
+export type Ruler = number | { column: number; color: string };
+
+/**
  * Editor options persisted in `chbeObj.editorOptions` and passed (after
  * casting) to `monaco.editor.create`.
  */
@@ -96,7 +102,7 @@ export type EditorOptions = {
 	renderLineHighlightOnlyWhenFocus: boolean;
 	renderWhitespace: 'none' | 'boundary' | 'selection' | 'trailing' | 'all';
 	roundedSelection: boolean;
-	rulers: number[];
+	rulers: Ruler[];
 	scrollBeyondLastColumn: number;
 	scrollBeyondLastLine: boolean;
 	scrollbar: {
