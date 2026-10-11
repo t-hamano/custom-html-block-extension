@@ -74,7 +74,6 @@ export default function QuickSuggestionsTypes() {
 		},
 	];
 
-	// The descriptions are only for the help dialog.
 	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
 
 	const onChange = ( tokenType: TokenType, value: Value ) => {
@@ -87,8 +86,6 @@ export default function QuickSuggestionsTypes() {
 		} );
 	};
 
-	// The help dialog applies a value to every token type, and shows it as
-	// selected only while every token type has that value.
 	const { other, comments, strings } = editorOptions.quickSuggestions;
 	const allValue = other === comments && other === strings ? other : undefined;
 
