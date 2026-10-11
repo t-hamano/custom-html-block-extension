@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { Path, SVG, Polygon } from '@wordpress/components';
+import { Path, SVG, Polygon } from '@wordpress/primitives';
 
 const BlockIcon = (
 	<SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
