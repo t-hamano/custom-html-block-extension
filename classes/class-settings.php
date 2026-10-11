@@ -421,6 +421,19 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => false,
 		),
+		'stickyScroll'                     => array(
+			'type'  => 'object',
+			'items' => array(
+				'enabled'      => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'maxLineCount' => array(
+					'type'    => 'number',
+					'default' => 5,
+				),
+			),
+		),
 		'stickyTabStops'                   => array(
 			'type'    => 'boolean',
 			'default' => false,

@@ -80,6 +80,8 @@ export { default as SelectOnLineNumbers } from './select-on-line-numbers';
 export { default as SelectionHighlight } from './selection-highlight';
 export { default as ShowFoldingControls } from './show-folding-controls';
 export { default as SmoothScrolling } from './smooth-scrolling';
+export { default as StickyScrollEnabled } from './sticky-scroll/enabled';
+export { default as StickyScrollMaxLineCount } from './sticky-scroll/max-line-count';
 export { default as StickyTabStops } from './sticky-tab-stops';
 export { default as SuggestFontSize } from './suggest-font-size';
 export { default as SuggestLineHeight } from './suggest-line-height';

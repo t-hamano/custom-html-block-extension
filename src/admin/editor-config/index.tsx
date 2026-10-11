@@ -372,6 +372,10 @@ export default function EditorConfig() {
 									<EditorOptions.FastScrollSensitivity />
 									<EditorOptions.Hover />
 									<EditorOptions.SmoothScrolling />
+									<EditorOptions.StickyScrollEnabled />
+									<div inert={ inertValue( ! editorOptions.stickyScroll.enabled ) }>
+										<EditorOptions.StickyScrollMaxLineCount />
+									</div>
 									<EditorOptions.ScrollBeyondLastLine />
 									<EditorOptions.ScrollBeyondLastColumn />
 									<EditorOptions.MouseWheelZoom />
