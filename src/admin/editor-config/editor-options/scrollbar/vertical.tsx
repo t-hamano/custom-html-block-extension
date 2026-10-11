@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -42,7 +41,7 @@ export default function ScrollbarVertical() {
 			image: 'editor-options/scrollbar/vertical_3.jpg',
 			value: 'hidden',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'scrollbar' ][ 'vertical' ] ) => {
 		onRefreshEditor();
@@ -63,11 +62,13 @@ export default function ScrollbarVertical() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'scrollbar' ][ 'vertical' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.scrollbar.vertical }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.scrollbar.vertical ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'scrollbar' ][ 'vertical' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

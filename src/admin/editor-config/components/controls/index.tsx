@@ -2,9 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useRef, useState } from '@wordpress/element';
-import { Button, __experimentalConfirmDialog as ConfirmDialog } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { AlertDialog, Button, Stack } from '@wordpress/ui';
 
 type ControlsProps = {
 	isWaiting: boolean;
@@ -13,48 +11,24 @@ type ControlsProps = {
 };
 
 export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }: ControlsProps ) {
-	const [ isModalOpen, setIsModalOpen ] = useState( false );
-	const resetButtonRef = useRef< HTMLButtonElement >( null );
-
 	return (
-		<>
-			<Stack gap="sm">
-				<Button
-					variant="primary"
-					disabled={ isWaiting }
-					onClick={ onUpdateOptions }
-					__next40pxDefaultSize
-					accessibleWhenDisabled
-				>
-					{ __( 'Save settings', 'custom-html-block-extension' ) }
-				</Button>
-				<Button
-					ref={ resetButtonRef }
-					variant="secondary"
-					disabled={ isWaiting }
-					onClick={ () => setIsModalOpen( true ) }
-					__next40pxDefaultSize
-					accessibleWhenDisabled
-				>
+		<Stack gap="sm">
+			<Button disabled={ isWaiting } onClick={ onUpdateOptions }>
+				{ __( 'Save settings', 'custom-html-block-extension' ) }
+			</Button>
+			<AlertDialog.Root onConfirm={ onResetOptions }>
+				<AlertDialog.Trigger render={ <Button variant="outline" disabled={ isWaiting } /> }>
 					{ __( 'Reset', 'custom-html-block-extension' ) }
-				</Button>
-			</Stack>
-			{ isModalOpen && (
-				<ConfirmDialog
-					onConfirm={ async () => {
-						setIsModalOpen( false );
-						await onResetOptions();
-						resetButtonRef.current?.focus();
-					} }
-					onCancel={ () => setIsModalOpen( false ) }
-					confirmButtonText={ __( 'Reset settings', 'custom-html-block-extension' ) }
-				>
-					{ __(
+				</AlertDialog.Trigger>
+				<AlertDialog.Popup
+					title={ __( 'Reset settings', 'custom-html-block-extension' ) }
+					description={ __(
 						'Are you sure that reset all settings to default values ?',
 						'custom-html-block-extension'
 					) }
-				</ConfirmDialog>
-			) }
-		</>
+					confirmButtonText={ __( 'Reset settings', 'custom-html-block-extension' ) }
+				/>
+			</AlertDialog.Root>
+		</Stack>
 	);
 }

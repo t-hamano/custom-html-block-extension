@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -44,7 +43,7 @@ export default function AutoClosingBrackets() {
 			value: 'never',
 			image: 'editor-options/auto-closing-brackets_3.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'autoClosingBrackets' ] ) => {
 		setEditorOptions( {
@@ -61,11 +60,13 @@ export default function AutoClosingBrackets() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'autoClosingBrackets' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.autoClosingBrackets }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.autoClosingBrackets ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'autoClosingBrackets' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

@@ -4,8 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { help } from '@wordpress/icons';
-import { DropdownMenu, Icon, __experimentalHeading as Heading } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { Button, Icon, Menu, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -24,33 +23,33 @@ export default function Header() {
 	return (
 		<header className="chbe-admin-header">
 			<div className="chbe-admin-container">
-				<Heading as="h1">
-					<Stack justify="center" gap="sm">
+				<Text variant="heading-2xl" render={ <h1 /> }>
+					<Stack justify="center" align="center" gap="sm">
 						<Icon icon={ BlockIcon } size={ 32 } />
 						<span>{ __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) }</span>
 					</Stack>
-				</Heading>
-				<DropdownMenu
-					className="chbe-admin-header__info"
-					icon={ help }
-					label={ __( 'Help', 'custom-html-block-extension' ) }
-					text={ __( 'Help', 'custom-html-block-extension' ) }
-					toggleProps={ {
-						variant: 'tertiary',
-						showTooltip: false,
-						size: 'compact',
-					} }
-					controls={ [
-						{
-							title: __( 'Welcome guide', 'custom-html-block-extension' ),
-							onClick: () => setOpenModal( 'welcome-guide' ),
-						},
-						{
-							title: __( 'Keyboard shortcuts', 'custom-html-block-extension' ),
-							onClick: () => setOpenModal( 'keyboard-shortcuts' ),
-						},
-					] }
-				/>
+				</Text>
+				<Menu.Root>
+					<Menu.Trigger
+						className="chbe-admin-header__info"
+						render={ <Button variant="minimal" size="compact" /> }
+					>
+						<Button.Icon icon={ help } />
+						{ __( 'Help', 'custom-html-block-extension' ) }
+					</Menu.Trigger>
+					<Menu.Popup>
+						<Menu.Item onClick={ () => setOpenModal( 'welcome-guide' ) }>
+							<Menu.ItemLabel>
+								{ __( 'Welcome guide', 'custom-html-block-extension' ) }
+							</Menu.ItemLabel>
+						</Menu.Item>
+						<Menu.Item onClick={ () => setOpenModal( 'keyboard-shortcuts' ) }>
+							<Menu.ItemLabel>
+								{ __( 'Keyboard shortcuts', 'custom-html-block-extension' ) }
+							</Menu.ItemLabel>
+						</Menu.Item>
+					</Menu.Popup>
+				</Menu.Root>
 				{ openModal === 'welcome-guide' && (
 					<WelcomeGuideModal onClose={ () => setOpenModal( null ) } />
 				) }

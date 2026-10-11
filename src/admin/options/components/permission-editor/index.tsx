@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
-import { Card, CollapsibleCard, Stack } from '@wordpress/ui';
+import { Card, CollapsibleCard, Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -44,20 +43,20 @@ export default function PermissionEditor() {
 			</CollapsibleCard.Header>
 			<CollapsibleCard.Content>
 				<Stack direction="column" gap="lg">
-					<ToggleControl
+					<SwitchControl
 						label={ __( 'Block editor', 'custom-html-block-extension' ) }
 						checked={ options.permissionBlockEditor }
-						onChange={ onBlockEditorChange }
+						onCheckedChange={ onBlockEditorChange }
 					/>
-					<ToggleControl
+					<SwitchControl
 						label={ __( 'Classic editor', 'custom-html-block-extension' ) }
 						checked={ options.permissionClassicEditor }
-						onChange={ onClassicEditorChange }
+						onCheckedChange={ onClassicEditorChange }
 					/>
-					<ToggleControl
+					<SwitchControl
 						label={ __( 'Theme and Plugin editor', 'custom-html-block-extension' ) }
 						checked={ options.permissionThemePluginEditor }
-						onChange={ onThemePluginEditorChange }
+						onCheckedChange={ onThemePluginEditorChange }
 					/>
 				</Stack>
 			</CollapsibleCard.Content>

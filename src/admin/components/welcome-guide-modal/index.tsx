@@ -3,7 +3,7 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { Guide, __experimentalHeading as Heading } from '@wordpress/components';
+import { Guide } from '@wordpress/components';
 import { Stack, Text } from '@wordpress/ui';
 
 type WelcomeGuideModalProps = {
@@ -38,9 +38,9 @@ export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps )
 					),
 					content: (
 						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
-							<Heading level="2" as="h1">
+							<Text variant="heading-xl" render={ <h1 /> }>
 								{ __( 'About Custom HTML Block Extension', 'custom-html-block-extension' ) }
-							</Heading>
+							</Text>
 							<Text render={ <p /> }>
 								{ sprintf(
 									/* translators: %s is replaced with the number. */
@@ -66,9 +66,9 @@ export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps )
 					),
 					content: (
 						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
-							<Heading level="2" as="h1">
+							<Text variant="heading-xl" render={ <h1 /> }>
 								{ __( 'Various color themes', 'custom-html-block-extension' ) }
-							</Heading>
+							</Text>
 							<Text render={ <p /> }>
 								{ __(
 									'There are 50 different color themes to choose from, and you can select the one that best suits your taste.',
@@ -87,9 +87,9 @@ export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps )
 					),
 					content: (
 						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
-							<Heading level="2" as="h1">
+							<Text variant="heading-xl" render={ <h1 /> }>
 								{ __( 'Faster coding with Emmet', 'custom-html-block-extension' ) }
-							</Heading>
+							</Text>
 							<Text render={ <p /> }>
 								{ __(
 									'Emmet allows you to type shortcuts that are then expanded into full pieces of code. Type less, saving both keystrokes.',
@@ -108,9 +108,9 @@ export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps )
 					),
 					content: (
 						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
-							<Heading level="2" as="h1">
+							<Text variant="heading-xl" render={ <h1 /> }>
 								{ __( 'High customizability', 'custom-html-block-extension' ) }
-							</Heading>
+							</Text>
 							<Text render={ <p /> }>
 								{ __(
 									'You can change all kinds of settings to create your ideal editor in advanced mode.',
@@ -129,9 +129,9 @@ export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps )
 					),
 					content: (
 						<Stack className="chbe-admin-welcome-guide-modal__content" direction="column" gap="lg">
-							<Heading level="2" as="h1">
+							<Text variant="heading-xl" render={ <h1 /> }>
 								{ __( 'More support', 'custom-html-block-extension' ) }
-							</Heading>
+							</Text>
 							<Text render={ <p /> }>
 								{ __(
 									'Supports the classic editor, the theme/plugin editor, and import/export editor settings.',

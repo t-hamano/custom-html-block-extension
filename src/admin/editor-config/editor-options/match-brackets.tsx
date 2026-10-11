@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -41,7 +40,7 @@ export default function MatchBrackets() {
 			value: 'near',
 			image: 'editor-options/match-brackets_3.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'matchBrackets' ] ) => {
 		setEditorOptions( {
@@ -58,11 +57,13 @@ export default function MatchBrackets() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'matchBrackets' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.matchBrackets }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.matchBrackets ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'matchBrackets' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

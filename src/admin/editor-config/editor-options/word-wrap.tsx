@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -56,7 +55,7 @@ export default function WordWrap() {
 				'custom-html-block-extension'
 			),
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'wordWrap' ] ) => {
 		setEditorOptions( {
@@ -73,11 +72,11 @@ export default function WordWrap() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'wordWrap' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.wordWrap }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.wordWrap ) ?? null }
+				onValueChange={ ( item ) => item && onChange( item.value as EditorOptions[ 'wordWrap' ] ) }
 			/>
 			<ItemHelp
 				onChange={ onChange }

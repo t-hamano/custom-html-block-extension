@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -36,7 +35,7 @@ export default function MinimapShowSlider() {
 			image: 'editor-options/minimap/show-slider_2.gif',
 			isDefault: true,
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'minimap' ][ 'showSlider' ] ) => {
 		setEditorOptions( {
@@ -56,11 +55,13 @@ export default function MinimapShowSlider() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'minimap' ][ 'showSlider' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.minimap.showSlider }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.minimap.showSlider ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'minimap' ][ 'showSlider' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

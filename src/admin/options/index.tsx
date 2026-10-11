@@ -4,8 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
-import { Button } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { Button, Stack } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -43,13 +42,7 @@ export default function Options() {
 			<PermissionEditor />
 			<PermissionUserRole />
 			<Stack gap="sm">
-				<Button
-					variant="primary"
-					disabled={ isWaiting }
-					onClick={ onUpdateOptions }
-					__next40pxDefaultSize
-					accessibleWhenDisabled
-				>
+				<Button disabled={ isWaiting } onClick={ onUpdateOptions }>
 					{ __( 'Save Options', 'custom-html-block-extension' ) }
 				</Button>
 			</Stack>

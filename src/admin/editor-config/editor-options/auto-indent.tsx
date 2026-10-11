@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -42,7 +41,7 @@ export default function AutoIndent() {
 			isDefault: true,
 			image: 'editor-options/auto-indent_3.gif',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'autoIndent' ] ) => {
 		setEditorOptions( {
@@ -60,11 +59,13 @@ export default function AutoIndent() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'autoIndent' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.autoIndent }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.autoIndent ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'autoIndent' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

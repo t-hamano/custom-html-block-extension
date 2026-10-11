@@ -2,6 +2,7 @@
 @use "~@wordpress/base-styles/mixins" as mixins;
 @use "~@wordpress/base-styles/variables" as variables;
 @use "~@wordpress/base-styles/colors" as colors;
+@use "~@wordpress/base-styles/z-index" as zIndex;
 
 // Components
 @use "./components/snackbars/style" as snackbars;
@@ -17,8 +18,16 @@
 @include mixins.wordpress-admin-schemes();
 
 // WordPress admin
-.settings_page_custom-html-block-extension #wpcontent {
-	padding-left: 0;
+.settings_page_custom-html-block-extension {
+	// Show dialogs above the admin menu and admin bar, like the Modal component.
+	// Remove once `@wordpress/ui` is updated to a release that includes:
+	// - https://github.com/WordPress/gutenberg/pull/83878
+	// - https://github.com/WordPress/gutenberg/pull/84379
+	--wp-ui-dialog-z-index: #{zIndex.z-index(".components-modal__screen-overlay")};
+
+	#wpcontent {
+		padding-left: 0;
+	}
 }
 
 #custom-html-block-extension-admin {
@@ -53,8 +62,7 @@
 		z-index: 1;
 		margin-left: 89px;
 
-		.components-spinner {
-			margin: 0;
+		svg {
 			transform: scale(1.5);
 		}
 	}

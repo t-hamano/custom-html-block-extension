@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
-import { Card, CollapsibleCard, Stack } from '@wordpress/ui';
+import { Card, CollapsibleCard, Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -39,11 +38,11 @@ export default function PermissionUserRole() {
 			<CollapsibleCard.Content>
 				<Stack direction="column" gap="lg">
 					{ userRoles.map( ( role, index ) => (
-						<ToggleControl
+						<SwitchControl
 							key={ index }
 							label={ role.label }
 							checked={ options.permissionRoles.includes( role.value ) }
-							onChange={ () => onChange( role.value ) }
+							onCheckedChange={ () => onChange( role.value ) }
 						/>
 					) ) }
 				</Stack>

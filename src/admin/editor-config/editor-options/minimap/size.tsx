@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -53,7 +52,7 @@ export default function MinimapSize() {
 			),
 			image: 'editor-options/minimap/size_3.jpg',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'minimap' ][ 'size' ] ) => {
 		setEditorOptions( {
@@ -73,11 +72,13 @@ export default function MinimapSize() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'minimap' ][ 'size' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.minimap.size }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.minimap.size ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'minimap' ][ 'size' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

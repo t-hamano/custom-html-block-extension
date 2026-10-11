@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -41,7 +40,7 @@ export default function Links() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<ToggleControl label={ title } checked={ editorOptions.links } onChange={ onChange } />
+			<SwitchControl label={ title } checked={ editorOptions.links } onCheckedChange={ onChange } />
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }

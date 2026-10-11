@@ -7,8 +7,7 @@ import clsx from 'clsx';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Spinner } from '@wordpress/components';
-import { Stack, Tabs } from '@wordpress/ui';
+import { Spinner, Stack, Tabs } from '@wordpress/ui';
 import { createRoot, createContext, useState } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 

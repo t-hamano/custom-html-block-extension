@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -42,7 +41,7 @@ export default function ScrollbarHorizontal() {
 			image: 'editor-options/scrollbar/horizontal_3.jpg',
 			value: 'hidden',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'scrollbar' ][ 'horizontal' ] ) => {
 		onRefreshEditor();
@@ -63,11 +62,15 @@ export default function ScrollbarHorizontal() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'scrollbar' ][ 'horizontal' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.scrollbar.horizontal }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={
+					items.find( ( item ) => item.value === editorOptions.scrollbar.horizontal ) ?? null
+				}
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'scrollbar' ][ 'horizontal' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

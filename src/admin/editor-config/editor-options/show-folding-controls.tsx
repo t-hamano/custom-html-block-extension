@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -36,7 +35,7 @@ export default function ShowFoldingControls() {
 			value: 'mouseover',
 			isDefault: true,
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'showFoldingControls' ] ) => {
 		setEditorOptions( {
@@ -53,11 +52,13 @@ export default function ShowFoldingControls() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'showFoldingControls' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.showFoldingControls }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.showFoldingControls ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'showFoldingControls' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }

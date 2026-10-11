@@ -43,6 +43,12 @@ module.exports = [
 		},
 	},
 	{
+		files: [ 'src/admin/**' ],
+		rules: {
+			'@wordpress/use-recommended-components': [ 'error', { allowUseWithCaution: true } ],
+		},
+	},
+	{
 		// Functions passed to `page.evaluate()` run in the browser and reuse the
 		// names of their arguments.
 		files: [ 'bin/capture-help-images/**/*.mjs' ],

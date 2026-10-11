@@ -4,8 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
-import { ToggleControl } from '@wordpress/components';
-import { Stack, Text } from '@wordpress/ui';
+import { Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -39,10 +38,10 @@ export default function ColumnSelection() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<ToggleControl
+			<SwitchControl
 				label={ __( 'Enable column selection', 'custom-html-block-extension' ) }
 				checked={ editorOptions.columnSelection }
-				onChange={ onChange }
+				onCheckedChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }

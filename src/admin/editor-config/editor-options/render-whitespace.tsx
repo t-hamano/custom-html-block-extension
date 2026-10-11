@@ -3,8 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -54,7 +53,7 @@ export default function RenderWhitespace() {
 			value: 'none',
 			image: 'editor-options/render-whitespace_5.jpg',
 		},
-	] as const;
+	];
 
 	const onChange = ( value: EditorOptions[ 'renderWhitespace' ] ) => {
 		setEditorOptions( {
@@ -71,11 +70,13 @@ export default function RenderWhitespace() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SelectControl< EditorOptions[ 'renderWhitespace' ] >
+			<SelectControl
 				label={ title }
-				value={ editorOptions.renderWhitespace }
-				options={ items.map( ( { label, value } ) => ( { label, value } ) ) }
-				onChange={ onChange }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.renderWhitespace ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'renderWhitespace' ] )
+				}
 			/>
 			<ItemHelp
 				onChange={ onChange }
