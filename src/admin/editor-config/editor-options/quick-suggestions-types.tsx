@@ -87,6 +87,22 @@ export default function QuickSuggestionsTypes() {
 		} );
 	};
 
+	// The help dialog applies a value to every token type, and shows it as
+	// selected only while every token type has that value.
+	const { other, comments, strings } = editorOptions.quickSuggestions;
+	const allValue = other === comments && other === strings ? other : undefined;
+
+	const onChangeAll = ( value: Value ) => {
+		setEditorOptions( {
+			...editorOptions,
+			quickSuggestions: {
+				other: value,
+				comments: value,
+				strings: value,
+			},
+		} );
+	};
+
 	return (
 		<Stack
 			className="chbe-admin-editor-config__setting-item"
@@ -118,6 +134,8 @@ export default function QuickSuggestionsTypes() {
 				) }
 				items={ items }
 				colCount="3"
+				value={ allValue }
+				onChange={ onChangeAll }
 			/>
 		</Stack>
 	);
