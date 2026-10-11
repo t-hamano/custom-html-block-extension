@@ -140,7 +140,9 @@ export default function Rulers() {
 							renderContent={ () => (
 								<Stack direction="column" align="end">
 									<ColorPicker
-										color={ getColor( ruler ) }
+										// Keep the picker controlled. With `undefined`, it falls back to
+										// its own stale state after a reset.
+										color={ getColor( ruler ) ?? '#fff' }
 										onChange={ ( color ) => onChangeColor( index, color ) }
 									/>
 									<Button
