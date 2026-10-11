@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
 
 const MAX_RULERS = 5;
-const MAX_COLUMN = 200;
+const MAX_COLUMN = 100;
 
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );

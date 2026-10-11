@@ -317,7 +317,7 @@ class Settings {
 			'items'   => array(
 				'type'    => 'number',
 				'minimum' => 1,
-				'maximum' => 200,
+				'maximum' => 100,
 			),
 			'default' => array(),
 		),
