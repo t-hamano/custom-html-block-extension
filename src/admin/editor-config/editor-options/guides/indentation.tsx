@@ -52,13 +52,13 @@ export default function GuidesIndentation() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
-						image: 'editor-options/render-indent-guides_1.jpg',
+						image: 'editor-options/guides/indentation_1.jpg',
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
-						image: 'editor-options/render-indent-guides_2.jpg',
+						image: 'editor-options/guides/indentation_2.jpg',
 					},
 				] }
 				value={ editorOptions.guides.indentation }

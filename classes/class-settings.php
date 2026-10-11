@@ -632,6 +632,9 @@ class Settings {
 		// `guides.indentation` and `guides.highlightActiveIndentation`, so move
 		// legacy values into `guides`. The legacy value wins because the defaults
 		// already fill `guides` before this runs.
+		// Changed to `IGuidesOptions` in monaco-editor 0.29.0.
+		// Upstream change: https://github.com/microsoft/vscode/pull/133509
+		// Type definitions: https://unpkg.com/monaco-editor@0.29.0/esm/vs/editor/editor.api.d.ts
 		$legacy_guides = array(
 			'renderIndentGuides'         => 'indentation',
 			'highlightActiveIndentGuide' => 'highlightActiveIndentation',

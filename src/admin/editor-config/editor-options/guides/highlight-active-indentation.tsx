@@ -55,13 +55,13 @@ export default function GuidesHighlightActiveIndentation() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
-						image: 'editor-options/highlight-active-indent-guide_1.gif',
+						image: 'editor-options/guides/highlight-active-indentation_1.gif',
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
-						image: 'editor-options/highlight-active-indent-guide_2.gif',
+						image: 'editor-options/guides/highlight-active-indentation_2.gif',
 					},
 				] }
 				value={ editorOptions.guides.highlightActiveIndentation }
