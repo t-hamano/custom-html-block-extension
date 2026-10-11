@@ -17,6 +17,9 @@ import { debounce } from '@wordpress/compose';
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import addWrapWithAbbreviationAction, {
+	isUpdatingPreview,
+} from '../components/wrap-with-abbreviation';
 
 /**
  * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
@@ -89,9 +92,14 @@ initLoader()
 
 		// Event emitted when the contents of the editor have changed.
 		editor.getModel()?.onDidChangeContent( () => {
-			// Apply changes in the editor to the original textarea.
+			// Apply changes in the editor to the original textarea, except for the preview
+			// of "Wrap with Abbreviation" until it's confirmed.
 			const editorValue = editor.getModel()?.getValue();
-			if ( editorValue === undefined || textarea.value === editorValue ) {
+			if (
+				isUpdatingPreview( editor ) ||
+				editorValue === undefined ||
+				textarea.value === editorValue
+			) {
 				return;
 			}
 			textarea.value = editorValue;
@@ -117,6 +125,7 @@ initLoader()
 		if ( emmet && language ) {
 			if ( language.match( /htm|php/ ) ) {
 				emmetHTML( monaco, [ 'html', 'php' ] );
+				addWrapWithAbbreviationAction( monaco, editor );
 			} else if ( language.match( /sass|scss|css|less/ ) ) {
 				emmetCSS( monaco, [ 'sass', 'scss', 'css', 'less' ] );
 			}

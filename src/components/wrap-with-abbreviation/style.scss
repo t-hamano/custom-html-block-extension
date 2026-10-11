@@ -1,0 +1,12 @@
+// WordPress base styles
+@use "~@wordpress/base-styles/colors";
+@use "~@wordpress/base-styles/variables";
+
+.chbe-wrap-with-abbreviation {
+	box-sizing: border-box;
+	width: 400px;
+	padding: variables.$grid-unit-10;
+	background: colors.$white;
+	border-radius: variables.$radius-medium;
+	box-shadow: variables.$elevation-medium;
+}

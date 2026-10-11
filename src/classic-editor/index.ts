@@ -11,6 +11,9 @@ import type * as Monaco from 'monaco-editor';
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import addWrapWithAbbreviationAction, {
+	isUpdatingPreview,
+} from '../components/wrap-with-abbreviation';
 
 initLoader()
 	.then( ( monaco ) => {
@@ -69,7 +72,7 @@ initLoader()
 		// Setting up the monaco editor.
 		const runEditor = () => {
 			const { editorSettings, editorOptions, fontFamily } = window.chbeObj;
-			const { theme, tabSize, insertSpaces, detectIndentation } = editorSettings;
+			const { theme, tabSize, insertSpaces, detectIndentation, emmet } = editorSettings;
 
 			// Generate an element to apply the monaco editor.
 			const monacoEditorContainer = document.createElement( 'div' );
@@ -114,6 +117,10 @@ initLoader()
 				focusTarget.focus = ( options ) => originalFocus( { ...options, preventScroll: true } );
 			}
 
+			if ( emmet ) {
+				addWrapWithAbbreviationAction( monaco, editor );
+			}
+
 			// Change editor area height.
 			const contentHeight = Math.max( 300, editor.getContentHeight() );
 			monacoEditorContainer.style.height = `${ contentHeight }px`;
@@ -139,16 +146,21 @@ initLoader()
 
 			// Event emitted when the contents of the editor have changed.
 			editor.getModel()?.onDidChangeContent( () => {
-				// Apply changes in the editor to the original textarea.
-				const editorValue = editor.getModel()?.getValue();
-				if ( editorValue === undefined || textarea.value === editorValue ) {
-					return;
-				}
-				textarea.value = editorValue;
-
 				// Change editor area height.
 				const newContentHeight = Math.max( 300, editor.getContentHeight() );
 				monacoEditorContainer.style.height = `${ newContentHeight }px`;
+
+				// Apply changes in the editor to the original textarea, except for the preview
+				// of "Wrap with Abbreviation" until it's confirmed.
+				const editorValue = editor.getModel()?.getValue();
+				if (
+					isUpdatingPreview( editor ) ||
+					editorValue === undefined ||
+					textarea.value === editorValue
+				) {
+					return;
+				}
+				textarea.value = editorValue;
 			} );
 
 			// Update editor settings.
