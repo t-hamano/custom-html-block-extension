@@ -28,17 +28,29 @@ export default function AcceptSuggestionOnEnter() {
 			label: __( 'Enable', 'custom-html-block-extension' ),
 			value: 'on',
 			image: 'editor-options/accept-suggestion-on-enter_1.gif',
+			description: __(
+				'Pressing Enter accepts the suggestion, even if it is the same as the word already typed.',
+				'custom-html-block-extension'
+			),
 			isDefault: true,
 		},
 		{
 			label: __( 'Only when it makes a text change', 'custom-html-block-extension' ),
 			value: 'smart',
 			image: 'editor-options/accept-suggestion-on-enter_2.gif',
+			description: __(
+				'Pressing Enter accepts the suggestion only when it changes the text. If the suggestion is the same as the word already typed, pressing Enter inserts a new line instead.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: 'off',
 			image: 'editor-options/accept-suggestion-on-enter_3.gif',
+			description: __(
+				'Pressing Enter always inserts a new line. Use Tab to accept the suggestion.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
@@ -74,25 +86,17 @@ export default function AcceptSuggestionOnEnter() {
 				colCount="3"
 				value={ editorOptions.acceptSuggestionOnEnter }
 				description={
-					<>
-						<Text render={ <p /> }>
-							{ createInterpolateElement(
-								__(
-									'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
-									'custom-html-block-extension'
-								),
-								{
-									code: <code />,
-								}
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ __(
-								'If "Only when it makes a text change" is selected, the suggestion is accepted only when it changes the text. For example, if the suggestion is the same as the word already typed, pressing Enter inserts a new line instead.',
+					<Text render={ <p /> }>
+						{ createInterpolateElement(
+							__(
+								'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
 								'custom-html-block-extension'
-							) }
-						</Text>
-					</>
+							),
+							{
+								code: <code />,
+							}
+						) }
+					</Text>
 				}
 			/>
 		</Stack>
