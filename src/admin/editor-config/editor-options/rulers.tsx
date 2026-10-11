@@ -95,6 +95,7 @@ export default function Rulers() {
 							size="compact"
 							disabled={ isSingle }
 							onClick={ () => onRemove( index ) }
+							style={ { marginBottom: 4 } }
 						/>
 					</Stack>
 				) ) }
