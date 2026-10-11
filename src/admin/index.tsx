@@ -29,21 +29,38 @@ export const AdminContext = createContext< AdminContextType >( {} as AdminContex
 
 // Sample code based on indent type and tab size settings.
 const htmlCode = () => {
-	let str = `<div class="container">
-	<h2 class="title">Hello World</h2>
-	<div class="row">
-		<div class="col">
-			<h3 class="subheading">Subtitle</h3>
-			<img src="image.png" alt="WordPress" width="470" height="317">
+	let str = `<!-- wp:group {"layout":{"type":"constrained"}} -->
+<div class="wp-block-group">
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">Hello World</h2>
+	<!-- /wp:heading -->
+	<!-- wp:columns -->
+	<div class="wp-block-columns">
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:image {"width":"470px","height":"317px"} -->
+			<figure class="wp-block-image is-resized"><img src="image.png" alt="WordPress" width="470" height="317"></figure>
+			<!-- /wp:image -->
+			<!-- wp:paragraph -->
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<!-- /wp:paragraph -->
 		</div>
-		<div class="col">
-			<h3 class="subheading">Subtitle</h3>
-			<img src="image.png" alt="WordPress" width="470" height="317">
-			<a href="https://wordpress.org/" target="_blank">WordPress.org</a>
+		<!-- /wp:column -->
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:shortcode -->
+			[gallery ids="1,2,3" columns="3" size="medium"]
+			<!-- /wp:shortcode -->
+			<!-- wp:html -->
+			[caption id="attachment_1" align="aligncenter"]<a href="https://wordpress.org/" target="_blank">WordPress.org</a>[/caption]
+			<!-- /wp:html -->
 		</div>
+		<!-- /wp:column -->
 	</div>
+	<!-- /wp:columns -->
+	<!-- wp:latest-posts {"postsToShow":3} /-->
 </div>
+<!-- /wp:group -->
 `;
 
 	const { editorSettings } = window.chbeObj;
