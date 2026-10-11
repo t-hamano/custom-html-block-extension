@@ -48,7 +48,8 @@ export type EditorOptions = {
 	foldingHighlight: boolean;
 	foldingStrategy: 'auto' | 'indentation';
 	fontFamily: string;
-	fontLigatures: boolean;
+	// A string is used as the CSS `font-feature-settings` value.
+	fontLigatures: boolean | string;
 	fontSize: number;
 	fontWeight: string;
 	formatOnPaste: boolean;
@@ -86,7 +87,13 @@ export type EditorOptions = {
 		bottom: number;
 		top: number;
 	};
-	quickSuggestions: boolean;
+	// monaco also allows `'offWhenInlineCompletions'`, but the plugin registers
+	// no inline completion provider, so it would behave the same as `'on'`.
+	quickSuggestions: {
+		other: 'on' | 'inline' | 'off';
+		comments: 'on' | 'inline' | 'off';
+		strings: 'on' | 'inline' | 'off';
+	};
 	quickSuggestionsDelay: number;
 	suggestOnTriggerCharacters: boolean;
 	renderControlCharacters: boolean;
