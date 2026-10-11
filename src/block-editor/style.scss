@@ -1,6 +1,4 @@
 // WordPress base styles
-@use "~@wordpress/base-styles/variables" as variables;
-@use "~@wordpress/base-styles/colors" as colors;
 @use "~@wordpress/base-styles/z-index" as zIndex;
 
 // Monaco Editor styles
@@ -15,13 +13,8 @@
 	--wp-ui-dialog-z-index: #{zIndex.z-index(".components-modal__screen-overlay")};
 }
 
-.chbe-fullscreen-editor__content {
-	display: flex;
-	flex-flow: column;
-
-	> * {
-		flex: 1;
-	}
+.chbe-fullscreen-editor__content > * {
+	flex: 1;
 }
 
 // Code editor in the post and site editors

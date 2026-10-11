@@ -21,7 +21,7 @@
 
 			&:focus {
 				box-shadow: none;
-				border: 1px solid;
+				border: var(--wpds-border-width-xs) solid;
 			}
 
 			&.disabled {
@@ -43,7 +43,7 @@
 	}
 
 	.find-part {
-		margin-top: 4px;
+		margin-top: var(--wpds-dimension-gap-xs);
 	}
 
 	.inputarea {

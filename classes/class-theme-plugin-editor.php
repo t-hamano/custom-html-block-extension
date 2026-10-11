@@ -100,7 +100,7 @@ class Theme_Plugin_Editor {
 		wp_enqueue_style(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/style-theme-plugin-editor.css',
-			array(),
+			array( 'wp-theme' ),
 			filemtime( CHBE_PATH . '/build/style-theme-plugin-editor.css' )
 		);
 
