@@ -89,7 +89,7 @@ export default function Rulers() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 340 } }>
+			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 300 } }>
 				{ values.map( ( ruler, index ) => (
 					<Stack key={ index } align="end" gap="xs" style={ { width: '100%' } }>
 						<div style={ { flex: 1 } }>
