@@ -29,5 +29,5 @@
 
 .chbe-text-editor {
 	height: max(calc(100vh - 360px), 300px);
-	border: variables.$border-width solid colors.$gray-600;
+	border: var(--wpds-border-width-xs) solid var(--wpds-color-stroke-interactive-neutral);
 }
