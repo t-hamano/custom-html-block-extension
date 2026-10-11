@@ -284,6 +284,7 @@ export default function HTMLEdit( {
 							useEmmet={ editorSettings.emmet }
 							tabSize={ editorSettings.tabSize }
 							insertSpaces={ editorSettings.insertSpaces }
+							detectIndentation={ editorSettings.detectIndentation }
 							onChange={ onChange }
 							onError={ onError }
 						/>
@@ -305,6 +306,7 @@ export default function HTMLEdit( {
 						useEmmet={ editorSettings.emmet }
 						tabSize={ editorSettings.tabSize }
 						insertSpaces={ editorSettings.insertSpaces }
+						detectIndentation={ editorSettings.detectIndentation }
 						onChange={ onChange }
 						onError={ onError }
 					/>

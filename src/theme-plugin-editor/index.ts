@@ -56,7 +56,7 @@ initLoader()
 		}
 
 		const { editorSettings, editorOptions, language, fontFamily } = window.chbeObj;
-		const { theme, tabSize, insertSpaces, emmet } = editorSettings;
+		const { theme, tabSize, insertSpaces, detectIndentation, emmet } = editorSettings;
 
 		const textarea = document.getElementById( 'newcontent' ) as HTMLTextAreaElement | null;
 		if ( ! textarea ) {
@@ -77,7 +77,7 @@ initLoader()
 			...editorOptions,
 			tabSize,
 			insertSpaces,
-			detectIndentation: false,
+			detectIndentation,
 		};
 
 		// Create monaco editor.

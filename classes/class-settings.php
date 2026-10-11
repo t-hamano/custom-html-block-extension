@@ -11,19 +11,23 @@ class Settings {
 
 	// Default editor settings.
 	const DEFAULT_EDITOR_SETTINGS = array(
-		'theme'        => array(
+		'theme'             => array(
 			'type'    => 'string',
 			'default' => 'vs-dark',
 		),
-		'insertSpaces' => array(
+		'insertSpaces'      => array(
 			'type'    => 'boolean',
 			'default' => true,
 		),
-		'tabSize'      => array(
+		'tabSize'           => array(
 			'type'    => 'number',
 			'default' => 2,
 		),
-		'emmet'        => array(
+		'detectIndentation' => array(
+			'type'    => 'boolean',
+			'default' => false,
+		),
+		'emmet'             => array(
 			'type'    => 'boolean',
 			'default' => true,
 		),
