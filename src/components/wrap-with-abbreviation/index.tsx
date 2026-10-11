@@ -9,7 +9,6 @@ import type { FocusEvent } from 'react';
  */
 import { __ } from '@wordpress/i18n';
 import { createRoot } from '@wordpress/element';
-import { registerDocument } from '@wordpress/style-runtime';
 
 /**
  * Internal dependencies
@@ -130,8 +129,6 @@ export default function addWrapWithAbbreviationAction(
 				editor.layoutContentWidget( widget );
 			};
 
-			// Inject the styles of the UI components, since the editor can be in an iframe.
-			const unregisterDocument = registerDocument( container.ownerDocument );
 			const root = createRoot( container );
 
 			const unmount = () => {
@@ -140,7 +137,6 @@ export default function addWrapWithAbbreviationAction(
 				}
 				unmountWidget = null;
 				root.unmount();
-				unregisterDocument();
 			};
 
 			const { ownerDocument } = container;
