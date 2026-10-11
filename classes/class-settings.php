@@ -644,7 +644,7 @@ class Settings {
 				if ( ! isset( $editor_options['guides'] ) || ! is_array( $editor_options['guides'] ) ) {
 					$editor_options['guides'] = wp_list_pluck( self::DEFAULT_EDITOR_OPTIONS['guides']['items'], 'default' );
 				}
-				$editor_options['guides'][ $key ] = (bool) $editor_options[ $legacy_key ];
+				$editor_options['guides'][ $key ] = $editor_options[ $legacy_key ];
 				unset( $editor_options[ $legacy_key ] );
 			}
 		}
