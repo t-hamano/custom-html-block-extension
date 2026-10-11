@@ -21,17 +21,19 @@ export default function QuickSuggestionsTypes() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Suggestions while typing', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
 	const tokenTypes: { label: string; value: TokenType }[] = [
 		{ label: __( 'Suggestions in code', 'custom-html-block-extension' ), value: 'other' },
 		{ label: __( 'Suggestions in comments', 'custom-html-block-extension' ), value: 'comments' },
 		{ label: __( 'Suggestions in strings', 'custom-html-block-extension' ), value: 'strings' },
 	];
+	// The title only appears in the help dialog, so also match the labels shown.
+	const isVisible = useSearchVisibility(
+		[ title, ...tokenTypes.map( ( tokenType ) => tokenType.label ) ].join( ' ' )
+	);
+
+	if ( ! isVisible ) {
+		return null;
+	}
 
 	const items = [
 		{
