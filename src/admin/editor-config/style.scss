@@ -16,19 +16,6 @@
 		max-width: 300px;
 	}
 
-	.chbe-admin-editor-config-rulers {
-		width: 100%;
-		max-width: 340px;
-	}
-
-	.chbe-admin-editor-config-rulers__item {
-		width: 100%;
-
-		.components-range-control {
-			flex: 1;
-		}
-	}
-
 	.chbe-admin-editor-config__setting-item > :has([role="switch"]) {
 		max-width: 300px;
 	}

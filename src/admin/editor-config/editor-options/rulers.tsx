@@ -66,30 +66,27 @@ export default function Rulers() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<Stack className="chbe-admin-editor-config-rulers" direction="column" align="start" gap="sm">
+			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 340 } }>
 				{ values.map( ( value, index ) => (
-					<Stack
-						key={ index }
-						className="chbe-admin-editor-config-rulers__item"
-						align="end"
-						gap="xs"
-					>
-						<RangeControl
-							label={
-								0 === index
-									? title
-									: sprintf(
-											/* translators: %d: The ruler number. */
-											__( 'Vertical line position %d', 'custom-html-block-extension' ),
-											index + 1
-										)
-							}
-							hideLabelFromVision={ 0 !== index }
-							value={ value }
-							min={ isSingle ? 0 : 1 }
-							max={ 80 }
-							onChange={ ( newValue ) => onChange( index, newValue ) }
-						/>
+					<Stack key={ index } align="end" gap="xs" style={ { width: '100%' } }>
+						<div style={ { flex: 1 } }>
+							<RangeControl
+								label={
+									0 === index
+										? title
+										: sprintf(
+												/* translators: %d: The ruler number. */
+												__( 'Vertical line position %d', 'custom-html-block-extension' ),
+												index + 1
+											)
+								}
+								hideLabelFromVision={ 0 !== index }
+								value={ value }
+								min={ isSingle ? 0 : 1 }
+								max={ 80 }
+								onChange={ ( newValue ) => onChange( index, newValue ) }
+							/>
+						</div>
 						<IconButton
 							icon={ trash }
 							label={ __( 'Remove ruler', 'custom-html-block-extension' ) }
