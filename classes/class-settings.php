@@ -643,13 +643,6 @@ class Settings {
 	}
 
 	/**
-	 * Get the schema of options.
-	 */
-	public static function get_options_schema() {
-		return self::get_schema( self::DEFAULT_OPTIONS );
-	}
-
-	/**
 	 * Build an object schema from the default values.
 	 */
 	public static function get_schema( $defaults ) {

@@ -181,7 +181,7 @@ class Admin {
 			'type'         => 'object',
 			'description'  => __( 'Editor settings.', 'custom-html-block-extension' ),
 			'show_in_rest' => array(
-				'schema' => Settings::get_options_schema(),
+				'schema' => Settings::get_schema( Settings::DEFAULT_OPTIONS ),
 			),
 			'default'      => $default_options,
 		);

@@ -41,7 +41,7 @@ class Api {
 			'delete_editor_config'  => array(),
 			'update_options'        => array(
 				'options' => array_merge(
-					Settings::get_options_schema(),
+					Settings::get_schema( Settings::DEFAULT_OPTIONS ),
 					array( 'required' => true )
 				),
 			),
