@@ -24,6 +24,8 @@ export default function AutoIndent() {
 		return null;
 	}
 
+	// Monaco also accepts 'full', but it only differs from 'advanced' with the
+	// language's indentationRules, which none of the languages here define.
 	const items = [
 		{
 			label: __( 'None', 'custom-html-block-extension' ),
@@ -45,11 +47,6 @@ export default function AutoIndent() {
 			value: 'advanced',
 			isDefault: true,
 			image: 'editor-options/auto-indent_4.gif',
-		},
-		{
-			label: __( 'Full', 'custom-html-block-extension' ),
-			value: 'full',
-			image: 'editor-options/auto-indent_5.gif',
 		},
 	];
 
@@ -81,7 +78,7 @@ export default function AutoIndent() {
 				onChange={ onChange }
 				title={ title }
 				items={ items }
-				colCount="5"
+				colCount="4"
 				value={ editorOptions.autoIndent }
 			/>
 		</Stack>

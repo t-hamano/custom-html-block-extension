@@ -37,7 +37,7 @@ export default function ShowFoldingControls() {
 		},
 		{
 			label: __( 'Never show', 'custom-html-block-extension' ),
-			image: 'editor-options/show-folding-controls_3.jpg',
+			image: 'editor-options/show-folding-controls_3.gif',
 			value: 'never',
 		},
 	];
