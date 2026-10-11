@@ -22,9 +22,12 @@ export default function QuickSuggestions() {
 		return null;
 	}
 
-	// `quickSuggestions` can also be off for every token type while
-	// suggestions still show on trigger characters, so this toggle follows
-	// `suggestOnTriggerCharacters`.
+	// monaco shows suggestions in two cases: while typing (`quickSuggestions`,
+	// set per token type in "Suggestions while typing"), and right after typing
+	// a trigger character such as `<` (`suggestOnTriggerCharacters`). This
+	// toggle turns both on or off. Its checked state follows
+	// `suggestOnTriggerCharacters`, because "Suggestions while typing" can be
+	// off for every token type while trigger characters still show suggestions.
 	const isEnabled = editorOptions.suggestOnTriggerCharacters;
 
 	const onChange = ( value: boolean ) => {
