@@ -48,9 +48,9 @@ export default function addWrapWithAbbreviationAction(
 	editor: Monaco.editor.IStandaloneCodeEditor
 ) {
 	let isOpen = false;
-	let unmountWidget: ( () => void ) | null = null;
+	let disposeWidget: ( () => void ) | null = null;
 
-	editor.onDidDispose( () => unmountWidget?.() );
+	editor.onDidDispose( () => disposeWidget?.() );
 
 	editor.addAction( {
 		id: 'chbe.wrapWithAbbreviation',
@@ -131,15 +131,22 @@ export default function addWrapWithAbbreviationAction(
 
 			const root = createRoot( container );
 
+			const { ownerDocument } = container;
+
 			const unmount = () => {
-				if ( unmountWidget !== unmount ) {
+				if ( disposeWidget !== dispose ) {
 					return;
 				}
-				unmountWidget = null;
+				disposeWidget = null;
 				root.unmount();
 			};
 
-			const { ownerDocument } = container;
+			// Clean up the widget without accessing the model, which may be already disposed.
+			const dispose = () => {
+				isOpen = false;
+				ownerDocument.removeEventListener( 'pointerdown', onPointerDown, true );
+				unmount();
+			};
 
 			const close = ( shouldApply: boolean, shouldFocusEditor: boolean ) => {
 				if ( ! isOpen ) {
@@ -201,7 +208,7 @@ export default function addWrapWithAbbreviationAction(
 			};
 
 			isOpen = true;
-			unmountWidget = unmount;
+			disposeWidget = dispose;
 			ownerDocument.addEventListener( 'pointerdown', onPointerDown, true );
 			editor.addContentWidget( widget );
 			// Render the widget immediately, since the input can't be focused while it's hidden.
