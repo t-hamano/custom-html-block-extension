@@ -4,8 +4,20 @@
 import { expandAbbreviation } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 
-// A private use character that doesn't appear in the text.
-const DOLLAR_PLACEHOLDER = '\uE000';
+/**
+ * Get a private use character that doesn't appear in the text.
+ *
+ * @param lines The text lines.
+ * @return The placeholder character.
+ */
+function getPlaceholder( lines: string[] ): string {
+	const text = lines.join( '\n' );
+	let code = 0xe000;
+	while ( text.includes( String.fromCharCode( code ) ) ) {
+		code++;
+	}
+	return String.fromCharCode( code );
+}
 
 export type WrapTarget = {
 	range: Monaco.IRange;
@@ -47,14 +59,15 @@ export function getWrapTargets(
 				endColumn = model.getLineMaxColumn( endLineNumber );
 			}
 
-			// Exclude the leading and trailing whitespace.
+			// Exclude the leading and trailing whitespace, unless only whitespace is selected.
 			const firstColumn = model.getLineFirstNonWhitespaceColumn( startLineNumber );
-			if ( firstColumn && startColumn < firstColumn ) {
-				startColumn = firstColumn;
-			}
 			const lastColumn = model.getLineLastNonWhitespaceColumn( endLineNumber );
-			if ( lastColumn && endColumn > lastColumn ) {
-				endColumn = lastColumn;
+			const trimmedStartColumn =
+				firstColumn && startColumn < firstColumn ? firstColumn : startColumn;
+			const trimmedEndColumn = lastColumn && endColumn > lastColumn ? lastColumn : endColumn;
+			if ( startLineNumber < endLineNumber || trimmedStartColumn < trimmedEndColumn ) {
+				startColumn = trimmedStartColumn;
+				endColumn = trimmedEndColumn;
 			}
 
 			const range = { startLineNumber, startColumn, endLineNumber, endColumn };
@@ -116,16 +129,17 @@ export function wrapWithAbbreviation(
 	try {
 		// Emmet escapes "$" in the text as a snippet syntax, so replace it with a placeholder
 		// character and restore it after the expansion.
+		const dollarPlaceholder = getPlaceholder( [ ...target.lines, abbreviation ] );
 		return expandAbbreviation( abbreviation, {
 			type: 'markup',
 			syntax: 'html',
-			text: target.lines.map( ( line ) => line.replaceAll( '$', DOLLAR_PLACEHOLDER ) ),
+			text: target.lines.map( ( line ) => line.replaceAll( '$', dollarPlaceholder ) ),
 			options: {
 				'output.field': ( _index: number, placeholder: string ) => placeholder,
 				'output.indent': indent,
 				'output.baseIndent': target.baseIndent,
 			},
-		} ).replaceAll( DOLLAR_PLACEHOLDER, '$' );
+		} ).replaceAll( dollarPlaceholder, '$' );
 	} catch {
 		return null;
 	}
