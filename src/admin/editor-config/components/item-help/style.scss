@@ -5,6 +5,11 @@
 
 // Modal component
 .chbe-admin-editor-config-item-help-modal {
+	$viewport-width: calc(100vw - 2 * var(--viewport-inset));
+
+	// Fit the width to the content, up to the size's max-width.
+	width: max-content;
+	max-width: min(var(--wpds-dimension-surface-width-2xl), #{$viewport-width});
 
 	img {
 		display: block;
