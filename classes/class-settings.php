@@ -165,11 +165,20 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => false,
 		),
-		'hideCursorInOverviewRuler'        => array(
-			'type'    => 'boolean',
-			'default' => true,
+		'guides'                           => array(
+			'type'  => 'object',
+			'items' => array(
+				'highlightActiveIndentation' => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'indentation'                => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+			),
 		),
-		'highlightActiveIndentGuide'       => array(
+		'hideCursorInOverviewRuler'        => array(
 			'type'    => 'boolean',
 			'default' => true,
 		),
@@ -295,10 +304,6 @@ class Settings {
 		'renderFinalNewline'               => array(
 			'type'    => 'string',
 			'default' => 'on',
-		),
-		'renderIndentGuides'               => array(
-			'type'    => 'boolean',
-			'default' => true,
 		),
 		'renderLineHighlight'              => array(
 			'type'    => 'string',
@@ -621,6 +626,24 @@ class Settings {
 		// Type definitions: https://unpkg.com/monaco-editor@0.56.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['hover']['enabled'] ) && is_bool( $editor_options['hover']['enabled'] ) ) {
 			$editor_options['hover']['enabled'] = $editor_options['hover']['enabled'] ? 'on' : 'off';
+		}
+
+		// `renderIndentGuides` and `highlightActiveIndentGuide` were replaced by
+		// `guides.indentation` and `guides.highlightActiveIndentation`, so move
+		// legacy values into `guides`. The legacy value wins because the defaults
+		// already fill `guides` before this runs.
+		$legacy_guides = array(
+			'renderIndentGuides'         => 'indentation',
+			'highlightActiveIndentGuide' => 'highlightActiveIndentation',
+		);
+		foreach ( $legacy_guides as $legacy_key => $key ) {
+			if ( array_key_exists( $legacy_key, $editor_options ) ) {
+				if ( ! isset( $editor_options['guides'] ) || ! is_array( $editor_options['guides'] ) ) {
+					$editor_options['guides'] = wp_list_pluck( self::DEFAULT_EDITOR_OPTIONS['guides']['items'], 'default' );
+				}
+				$editor_options['guides'][ $key ] = (bool) $editor_options[ $legacy_key ];
+				unset( $editor_options[ $legacy_key ] );
+			}
 		}
 
 		// `rulers` previously defaulted to `0` but monaco expects an array of

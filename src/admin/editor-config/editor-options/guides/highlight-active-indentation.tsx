@@ -8,11 +8,11 @@ import { Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import { AdminContext } from '../../../index';
+import { useSearchVisibility } from '../../index';
+import ItemHelp from '../../components/item-help';
 
-export default function HighlightActiveIndentGuide() {
+export default function GuidesHighlightActiveIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Highlight the active indent guide', 'custom-html-block-extension' );
@@ -22,10 +22,16 @@ export default function HighlightActiveIndentGuide() {
 		return null;
 	}
 
+	// monaco also accepts 'always', which keeps highlighting the active indent
+	// guide while a bracket pair guide is highlighted. The plugin doesn't enable
+	// bracket pair guides, so it would behave the same as `true`.
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			highlightActiveIndentGuide: value,
+			guides: {
+				...editorOptions.guides,
+				highlightActiveIndentation: value,
+			},
 		} );
 	};
 
@@ -39,7 +45,7 @@ export default function HighlightActiveIndentGuide() {
 		>
 			<SwitchControl
 				label={ title }
-				checked={ editorOptions.highlightActiveIndentGuide }
+				checked={ editorOptions.guides.highlightActiveIndentation }
 				onCheckedChange={ onChange }
 			/>
 			<ItemHelp
@@ -58,7 +64,7 @@ export default function HighlightActiveIndentGuide() {
 						image: 'editor-options/highlight-active-indent-guide_2.gif',
 					},
 				] }
-				value={ editorOptions.highlightActiveIndentGuide }
+				value={ editorOptions.guides.highlightActiveIndentation }
 			/>
 		</Stack>
 	);

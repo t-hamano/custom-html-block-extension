@@ -8,11 +8,11 @@ import { Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import { AdminContext } from '../../../index';
+import { useSearchVisibility } from '../../index';
+import ItemHelp from '../../components/item-help';
 
-export default function RenderIndentGuides() {
+export default function GuidesIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Show indent guides', 'custom-html-block-extension' );
@@ -25,7 +25,10 @@ export default function RenderIndentGuides() {
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			renderIndentGuides: value,
+			guides: {
+				...editorOptions.guides,
+				indentation: value,
+			},
 		} );
 	};
 
@@ -39,7 +42,7 @@ export default function RenderIndentGuides() {
 		>
 			<SwitchControl
 				label={ title }
-				checked={ editorOptions.renderIndentGuides }
+				checked={ editorOptions.guides.indentation }
 				onCheckedChange={ onChange }
 			/>
 			<ItemHelp
@@ -58,7 +61,7 @@ export default function RenderIndentGuides() {
 						image: 'editor-options/render-indent-guides_2.jpg',
 					},
 				] }
-				value={ editorOptions.renderIndentGuides }
+				value={ editorOptions.guides.indentation }
 			/>
 		</Stack>
 	);

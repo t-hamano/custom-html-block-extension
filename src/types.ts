@@ -53,8 +53,11 @@ export type EditorOptions = {
 	fontWeight: string;
 	formatOnPaste: boolean;
 	glyphMargin: boolean;
+	guides: {
+		highlightActiveIndentation: boolean;
+		indentation: boolean;
+	};
 	hideCursorInOverviewRuler: boolean;
-	highlightActiveIndentGuide: boolean;
 	hover: {
 		enabled: 'on' | 'off' | 'onKeyboardModifier';
 	};
@@ -91,7 +94,6 @@ export type EditorOptions = {
 	suggestOnTriggerCharacters: boolean;
 	renderControlCharacters: boolean;
 	renderFinalNewline: 'on' | 'off' | 'dimmed';
-	renderIndentGuides: boolean;
 	renderLineHighlight: 'none' | 'gutter' | 'line' | 'all';
 	renderLineHighlightOnlyWhenFocus: boolean;
 	renderWhitespace: 'none' | 'boundary' | 'selection' | 'trailing' | 'all';
