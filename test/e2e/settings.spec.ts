@@ -216,7 +216,10 @@ test.describe( 'Editor config', () => {
 	} );
 
 	test( 'legacy editor options should be migrated', async ( { requestUtils } ) => {
-		// `update_editor_config` saves the request body as is, so legacy values are stored.
+		await requestUtils.activatePlugin( 'chbe-test-helpers' );
+
+		// The REST API migrates legacy values before saving them, so save them
+		// directly to reproduce the options persisted by older plugin versions.
 		for ( const { editorOptions, expected } of [
 			{
 				editorOptions: {
@@ -245,8 +248,8 @@ test.describe( 'Editor config', () => {
 		] ) {
 			await requestUtils.rest( {
 				method: 'POST',
-				path: '/custom-html-block-extension/v1/update_editor_config',
-				data: { editorSettings: {}, editorOptions },
+				path: '/chbe-test/v1/update_option',
+				data: { name: 'custom_html_block_extension_editor_options', value: editorOptions },
 			} );
 
 			const response = await requestUtils.rest( {
@@ -256,6 +259,8 @@ test.describe( 'Editor config', () => {
 
 			expect( response.editorOptions ).toMatchObject( expected );
 		}
+
+		await requestUtils.deactivatePlugin( 'chbe-test-helpers' );
 	} );
 
 	test( 'reset should restore the default editor config', async ( {
