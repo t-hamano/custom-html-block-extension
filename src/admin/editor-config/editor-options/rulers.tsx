@@ -1,10 +1,11 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { plus, trash } from '@wordpress/icons';
+import { Button, IconButton, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -13,6 +14,8 @@ import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
+
+const MAX_RULERS = 5;
 
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -24,12 +27,35 @@ export default function Rulers() {
 		return null;
 	}
 
-	const onChange = ( value: number | undefined ) => {
-		const nextValue = value ?? 0;
+	const { rulers } = editorOptions;
+	// No rulers is shown as a single control at `0`.
+	const values = rulers.length ? rulers : [ 0 ];
+	const isSingle = values.length === 1;
+
+	const updateRulers = ( nextRulers: number[] ) => {
 		setEditorOptions( {
 			...editorOptions,
-			rulers: 0 < nextValue ? [ toNumber( nextValue, 1, 80 ) ] : [],
+			rulers: nextRulers,
 		} );
+	};
+
+	const onChange = ( index: number, value: number | undefined ) => {
+		const nextValue = value ?? 0;
+		if ( isSingle && 0 >= nextValue ) {
+			updateRulers( [] );
+			return;
+		}
+		updateRulers(
+			values.map( ( item, i ) => ( i === index ? toNumber( nextValue, 1, 80 ) : item ) )
+		);
+	};
+
+	const onAdd = () => {
+		updateRulers( [ ...rulers, toNumber( rulers[ rulers.length - 1 ] + 10, 1, 80 ) ] );
+	};
+
+	const onRemove = ( index: number ) => {
+		updateRulers( rulers.filter( ( _, i ) => i !== index ) );
 	};
 
 	return (
@@ -40,15 +66,50 @@ export default function Rulers() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.rulers.length ? editorOptions.rulers[ 0 ] : 0 }
-				min={ 0 }
-				max={ 80 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp onChange={ onChange } title={ title } image="editor-options/rulers.gif" />
+			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 340 } }>
+				{ values.map( ( value, index ) => (
+					<Stack key={ index } align="end" gap="xs" style={ { width: '100%' } }>
+						<div style={ { flex: 1 } }>
+							<RangeControl
+								label={
+									0 === index
+										? title
+										: sprintf(
+												/* translators: %d: The ruler number. */
+												__( 'Vertical line position %d', 'custom-html-block-extension' ),
+												index + 1
+											)
+								}
+								hideLabelFromVision={ 0 !== index }
+								value={ value }
+								min={ isSingle ? 0 : 1 }
+								max={ 80 }
+								onChange={ ( newValue ) => onChange( index, newValue ) }
+							/>
+						</div>
+						<IconButton
+							icon={ trash }
+							label={ __( 'Remove ruler', 'custom-html-block-extension' ) }
+							variant="minimal"
+							tone="neutral"
+							size="compact"
+							disabled={ isSingle }
+							onClick={ () => onRemove( index ) }
+							style={ { marginBottom: 4 } }
+						/>
+					</Stack>
+				) ) }
+				<Button
+					variant="outline"
+					size="compact"
+					disabled={ ! rulers.length || rulers.length >= MAX_RULERS }
+					onClick={ onAdd }
+				>
+					<Button.Icon icon={ plus } />
+					{ __( 'Add ruler', 'custom-html-block-extension' ) }
+				</Button>
+			</Stack>
+			<ItemHelp title={ title } image="editor-options/rulers.gif" />
 		</Stack>
 	);
 }
