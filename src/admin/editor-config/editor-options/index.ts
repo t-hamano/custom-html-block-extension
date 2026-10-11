@@ -38,6 +38,7 @@ export { default as LineNumbers } from './line-numbers';
 export { default as LineNumbersMinChars } from './line-numbers-min-chars';
 export { default as Links } from './links';
 export { default as MatchBrackets } from './match-brackets';
+export { default as MinimapAutohide } from './minimap/autohide';
 export { default as MinimapEnabled } from './minimap/enabled';
 export { default as MinimapMaxColumn } from './minimap/max-column';
 export { default as MinimapRenderCharacters } from './minimap/render-characters';

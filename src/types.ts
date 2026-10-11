@@ -68,6 +68,7 @@ export type EditorOptions = {
 	links: boolean;
 	matchBrackets: 'never' | 'near' | 'always';
 	minimap: {
+		autohide: 'none' | 'mouseover' | 'scroll';
 		enabled: boolean;
 		maxColumn: number;
 		renderCharacters: boolean;

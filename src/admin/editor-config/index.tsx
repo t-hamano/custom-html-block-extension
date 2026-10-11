@@ -309,6 +309,7 @@ export default function EditorConfig() {
 											<EditorOptions.MinimapSide />
 											<EditorOptions.MinimapMaxColumn />
 											<EditorOptions.MinimapScale />
+											<EditorOptions.MinimapAutohide />
 											<EditorOptions.MinimapShowSlider />
 											<EditorOptions.MinimapSize />
 											<EditorOptions.MinimapRenderCharacters />
