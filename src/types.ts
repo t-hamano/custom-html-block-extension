@@ -149,6 +149,14 @@ export type FontFamily = {
 };
 
 /**
+ * Pair of editor settings and editor options.
+ */
+export type EditorConfig = {
+	editorSettings: EditorSettings;
+	editorOptions: EditorOptions;
+};
+
+/**
  * Value provided by `AdminContext`.
  */
 export type AdminContextType = {
@@ -156,11 +164,13 @@ export type AdminContextType = {
 	isWaiting: boolean;
 	editorSettings: EditorSettings;
 	editorOptions: EditorOptions;
+	savedEditorConfig: EditorConfig;
 	options: Options;
 	setCode: Dispatch< SetStateAction< string > >;
 	setIsWaiting: Dispatch< SetStateAction< boolean > >;
 	setEditorOptions: Dispatch< SetStateAction< EditorOptions > >;
 	setEditorSettings: Dispatch< SetStateAction< EditorSettings > >;
+	setSavedEditorConfig: Dispatch< SetStateAction< EditorConfig > >;
 	setOptions: Dispatch< SetStateAction< Options > >;
 };
 

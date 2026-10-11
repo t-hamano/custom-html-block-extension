@@ -6,14 +6,20 @@ import { AlertDialog, Button, Stack } from '@wordpress/ui';
 
 type ControlsProps = {
 	isWaiting: boolean;
+	isDirty: boolean;
 	onUpdateOptions: () => void;
 	onResetOptions: () => void | Promise< void >;
 };
 
-export default function Controls( { isWaiting, onUpdateOptions, onResetOptions }: ControlsProps ) {
+export default function Controls( {
+	isWaiting,
+	isDirty,
+	onUpdateOptions,
+	onResetOptions,
+}: ControlsProps ) {
 	return (
 		<Stack gap="sm">
-			<Button disabled={ isWaiting } onClick={ onUpdateOptions }>
+			<Button disabled={ isWaiting || ! isDirty } onClick={ onUpdateOptions }>
 				{ __( 'Save settings', 'custom-html-block-extension' ) }
 			</Button>
 			<AlertDialog.Root onConfirm={ onResetOptions }>

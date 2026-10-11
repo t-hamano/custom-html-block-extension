@@ -21,7 +21,8 @@ import { AdminContext } from '../../../index';
 import type { EditorSettings, EditorOptions } from '../../../../types';
 
 export default function ImportTool() {
-	const { setEditorSettings, setEditorOptions, setIsWaiting } = useContext( AdminContext );
+	const { setEditorSettings, setEditorOptions, setSavedEditorConfig, setIsWaiting } =
+		useContext( AdminContext );
 
 	const [ importFile, setImportFile ] = useState< File | null >( null );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
@@ -84,6 +85,7 @@ export default function ImportTool() {
 							);
 							setEditorSettings( response.editorSettings );
 							setEditorOptions( response.editorOptions );
+							setSavedEditorConfig( response );
 							setImportFile( null );
 							setIsWaiting( false );
 						}, 600 );

@@ -17,6 +17,36 @@ test.describe( 'Settings page', () => {
 		await expect( page.getByRole( 'button', { name: 'Save Options' } ) ).toBeVisible();
 	} );
 
+	test( 'should enable the save button only when there are unsaved changes', async ( {
+		admin,
+		page,
+		requestUtils,
+	} ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+
+		const saveButton = page.getByRole( 'button', { name: 'Save settings' } );
+		await expect( saveButton ).toBeDisabled();
+
+		// Changing a setting enables the button, and reverting it disables it again.
+		await page.getByRole( 'radio', { name: 'Tab', exact: true } ).click();
+		await expect( saveButton ).toBeEnabled();
+		await page.getByRole( 'radio', { name: 'Space', exact: true } ).click();
+		await expect( saveButton ).toBeDisabled();
+
+		// Saving the changed setting disables the button.
+		await page.getByRole( 'radio', { name: 'Tab', exact: true } ).click();
+		await saveButton.click();
+		await expect( page.getByRole( 'button', { name: 'Dismiss this notice' } ) ).toContainText(
+			'Settings saved.'
+		);
+		await expect( saveButton ).toBeDisabled();
+
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/delete_editor_config',
+		} );
+	} );
+
 	test( 'tab focus mode should move focus out of the code editor', async ( { admin, page } ) => {
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 

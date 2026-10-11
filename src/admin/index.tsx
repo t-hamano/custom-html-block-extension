@@ -63,6 +63,10 @@ function Admin() {
 		emmet: window.chbeObj.editorSettings.emmet,
 	} );
 	const [ editorOptions, setEditorOptions ] = useState( window.chbeObj.editorOptions );
+	const [ savedEditorConfig, setSavedEditorConfig ] = useState( {
+		editorSettings,
+		editorOptions,
+	} );
 	const [ options, setOptions ] = useState( window.chbeObj.options );
 	const [ code, setCode ] = useState( htmlCode );
 
@@ -90,11 +94,13 @@ function Admin() {
 							isWaiting,
 							editorSettings,
 							editorOptions,
+							savedEditorConfig,
 							options,
 							setCode,
 							setIsWaiting,
 							setEditorOptions,
 							setEditorSettings,
+							setSavedEditorConfig,
 							setOptions,
 						} }
 					>

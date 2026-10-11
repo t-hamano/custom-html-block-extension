@@ -23,6 +23,7 @@ import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
+import { isDeepEqual } from '../../lib/helper';
 import type {
 	EditorConfigContextType,
 	EditorSettings as EditorSettingsType,
@@ -79,9 +80,11 @@ export default function EditorConfig() {
 		isWaiting,
 		editorSettings,
 		editorOptions,
+		savedEditorConfig,
 		setIsWaiting,
 		setEditorOptions,
 		setEditorSettings,
+		setSavedEditorConfig,
 	} = useContext( AdminContext );
 
 	const [ isEditorDisabled, setIsEditorDisabled ] = useState( false );
@@ -89,6 +92,10 @@ export default function EditorConfig() {
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
 	const { createNotice, createSuccessNotice } = useDispatch( noticesStore );
+
+	const isDirty =
+		! isDeepEqual( editorSettings, savedEditorConfig.editorSettings ) ||
+		! isDeepEqual( editorOptions, savedEditorConfig.editorOptions );
 
 	// Update editor config.
 	const onUpdateOptions = () => {
@@ -102,6 +109,9 @@ export default function EditorConfig() {
 				editorOptions,
 			},
 		} ).then( ( response ) => {
+			if ( response.success ) {
+				setSavedEditorConfig( { editorSettings, editorOptions } );
+			}
 			setTimeout( () => {
 				createNotice( response.success ? 'success' : 'error', response.message, {
 					type: 'snackbar',
@@ -122,6 +132,7 @@ export default function EditorConfig() {
 			// Sets default editor config.
 			setEditorSettings( response.editorSettings );
 			setEditorOptions( response.editorOptions );
+			setSavedEditorConfig( response );
 
 			return new Promise< void >( ( resolve ) => {
 				setTimeout( () => {
@@ -155,6 +166,7 @@ export default function EditorConfig() {
 				<EditorPreview isEditorDisabled={ isEditorDisabled } setFontWeights={ setFontWeights } />
 				<Controls
 					isWaiting={ isWaiting }
+					isDirty={ isDirty }
 					onUpdateOptions={ onUpdateOptions }
 					onResetOptions={ onResetOptions }
 				/>
