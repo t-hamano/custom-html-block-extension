@@ -360,6 +360,19 @@ export default function MonacoEditor( {
 		}
 	}, [ tabSize, insertSpaces, detectIndentation, isEditorReady ] );
 
+	// Change bracket pair colorization. The standalone editor doesn't pass the
+	// `bracketPairColorization` editor option on to the model, so set it on the
+	// model directly. Changing the indentation options resets the model's
+	// colorization options to the defaults, so apply it again after them.
+	useEffect( () => {
+		const model = editorRef.current?.getModel();
+		if ( isEditorReady && model && options.bracketPairColorization ) {
+			model.updateOptions( {
+				bracketColorizationOptions: options.bracketPairColorization,
+			} );
+		}
+	}, [ options.bracketPairColorization, tabSize, insertSpaces, detectIndentation, isEditorReady ] );
+
 	// Set value.
 	useEffect( () => {
 		const editor = editorRef.current;

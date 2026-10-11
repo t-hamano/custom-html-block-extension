@@ -24,6 +24,10 @@ export type EditorOptions = {
 	autoClosingQuotes: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
 	autoIndent: 'none' | 'keep' | 'brackets' | 'advanced' | 'full';
 	autoSurround: 'languageDefined' | 'quotes' | 'brackets' | 'never';
+	bracketPairColorization: {
+		enabled: boolean;
+		independentColorPoolPerBracketType: boolean;
+	};
 	columnSelection: boolean;
 	comments: {
 		insertSpace: boolean;

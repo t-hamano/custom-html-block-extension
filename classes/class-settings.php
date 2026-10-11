@@ -55,6 +55,19 @@ class Settings {
 			'type'    => 'string',
 			'default' => 'languageDefined',
 		),
+		'bracketPairColorization'          => array(
+			'type'  => 'object',
+			'items' => array(
+				'enabled'                            => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'independentColorPoolPerBracketType' => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+			),
+		),
 		'columnSelection'                  => array(
 			'type'    => 'boolean',
 			'default' => false,
