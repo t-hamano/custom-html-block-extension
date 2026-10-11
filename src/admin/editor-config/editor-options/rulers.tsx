@@ -114,6 +114,7 @@ export default function Rulers() {
 							popoverProps={ { placement: 'bottom-end' } }
 							renderToggle={ ( { isOpen, onToggle } ) => (
 								<Button
+									className="chbe-admin-editor-config__ruler-color"
 									variant="minimal"
 									tone="neutral"
 									size="compact"
