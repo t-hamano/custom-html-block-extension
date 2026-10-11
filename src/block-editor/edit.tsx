@@ -18,15 +18,13 @@ import {
 	ResizableBox,
 	ToolbarButton,
 	ToolbarGroup,
-	Modal,
-	Notice,
 	Placeholder,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	__experimentalToolsPanel as ToolsPanel,
 	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
+import { Dialog, Notice, Stack } from '@wordpress/ui';
 import { code, fullscreen } from '@wordpress/icons';
 import { __dangerousOptInToUnstableAPIsOnlyForCoreModules } from '@wordpress/private-apis';
 import type { Block, BlockEditProps } from '@wordpress/blocks';
@@ -71,7 +69,7 @@ export default function HTMLEdit( {
 	const { editorSettings, editorOptions } = window.chbeObj;
 
 	const [ isPreview, setIsPreview ] = useState< boolean >( showPreviewByDefault );
-	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState< boolean >();
+	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState< boolean >( false );
 
 	const [ errorMessage, setErrorMessage ] = useState< string >();
 
@@ -258,7 +256,11 @@ export default function HTMLEdit( {
 				</>
 			) : (
 				<Stack direction="column" gap="sm">
-					{ errorMessage && <Notice status="warning">{ errorMessage }</Notice> }
+					{ errorMessage && (
+						<Notice.Root intent="warning">
+							<Notice.Description>{ errorMessage }</Notice.Description>
+						</Notice.Root>
+					) }
 					<ResizableBox
 						size={ { height } }
 						minHeight={ MIN_HEIGHT }
@@ -291,27 +293,31 @@ export default function HTMLEdit( {
 					</ResizableBox>
 				</Stack>
 			) }
-			{ isModalEditorOpen && (
-				<Modal
-					title={ __( 'HTML editor', 'custom-html-block-extension' ) }
-					className="chbe-fullscreen-editor"
-					isFullScreen
-					onRequestClose={ () => setIsModalEditorOpen( false ) }
+			<Dialog.Root open={ isModalEditorOpen } onOpenChange={ setIsModalEditorOpen }>
+				<Dialog.Popup
+					size="full"
+					portal={ <Dialog.Portal className="chbe-fullscreen-editor-portal" /> }
 				>
-					<MonacoEditor
-						language="html"
-						theme={ editorSettings.theme }
-						options={ editorOptions }
-						value={ content }
-						useEmmet={ editorSettings.emmet }
-						tabSize={ editorSettings.tabSize }
-						insertSpaces={ editorSettings.insertSpaces }
-						detectIndentation={ editorSettings.detectIndentation }
-						onChange={ onChange }
-						onError={ onError }
-					/>
-				</Modal>
-			) }
+					<Dialog.Header>
+						<Dialog.Title>{ __( 'HTML editor', 'custom-html-block-extension' ) }</Dialog.Title>
+						<Dialog.CloseIconButton />
+					</Dialog.Header>
+					<Dialog.Content className="chbe-fullscreen-editor__content">
+						<MonacoEditor
+							language="html"
+							theme={ editorSettings.theme }
+							options={ editorOptions }
+							value={ content }
+							useEmmet={ editorSettings.emmet }
+							tabSize={ editorSettings.tabSize }
+							insertSpaces={ editorSettings.insertSpaces }
+							detectIndentation={ editorSettings.detectIndentation }
+							onChange={ onChange }
+							onError={ onError }
+						/>
+					</Dialog.Content>
+				</Dialog.Popup>
+			</Dialog.Root>
 		</div>
 	);
 }
