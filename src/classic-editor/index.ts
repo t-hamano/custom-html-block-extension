@@ -35,10 +35,15 @@ initLoader()
 			'.ed_button, .ui-button, #wp-link-url, #wp-link-text, #wp-link-submit, #wp-link-search'
 		);
 
+		// Enable Emmet once, since the editor is recreated on every switch to the text mode.
+		if ( window.chbeObj.editorSettings.emmet ) {
+			emmetHTML( monaco, [ 'html', 'php' ] );
+		}
+
 		// Setting up the monaco editor.
 		const runEditor = () => {
 			const { editorSettings, editorOptions, fontFamily } = window.chbeObj;
-			const { theme, tabSize, insertSpaces, emmet } = editorSettings;
+			const { theme, tabSize, insertSpaces } = editorSettings;
 
 			// Generate an element to apply the monaco editor.
 			const monacoEditorContainer = document.createElement( 'div' );
@@ -100,11 +105,6 @@ initLoader()
 				const newContentHeight = Math.max( 300, editor.getContentHeight() );
 				monacoEditorContainer.style.height = `${ newContentHeight }px`;
 			} );
-
-			// Enable Emmet.
-			if ( emmet ) {
-				emmetHTML( monaco, [ 'html', 'php' ] );
-			}
 
 			// Update editor settings.
 			if ( 'vs-dark' !== theme && 'light' !== theme ) {
