@@ -16,3 +16,13 @@
 .chbe-fullscreen-editor__content > * {
 	flex: 1;
 }
+
+// Code editor in the post and site editors
+.chbe-has-text-editor {
+	// Hide the core textarea and its visually hidden label,
+	// also from assistive technology.
+	> textarea.editor-post-text-editor,
+	> label[for^="post-content-"] {
+		display: none !important;
+	}
+}

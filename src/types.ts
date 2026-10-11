@@ -86,7 +86,11 @@ export type EditorOptions = {
 		bottom: number;
 		top: number;
 	};
-	quickSuggestions: boolean;
+	quickSuggestions: {
+		other: 'on' | 'inline' | 'off';
+		comments: 'on' | 'inline' | 'off';
+		strings: 'on' | 'inline' | 'off';
+	};
 	quickSuggestionsDelay: number;
 	suggestOnTriggerCharacters: boolean;
 	renderControlCharacters: boolean;
@@ -96,7 +100,7 @@ export type EditorOptions = {
 	renderLineHighlightOnlyWhenFocus: boolean;
 	renderWhitespace: 'none' | 'boundary' | 'selection' | 'trailing' | 'all';
 	roundedSelection: boolean;
-	rulers: number[];
+	rulers: ( number | { column: number; color: string } )[];
 	scrollBeyondLastColumn: number;
 	scrollBeyondLastLine: boolean;
 	scrollbar: {
