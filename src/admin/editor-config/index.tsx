@@ -56,8 +56,7 @@ function getSearchWords( searchQuery: string ): string[] {
 	return searchQuery.toLowerCase().split( /\s+/ ).filter( Boolean );
 }
 
-// Whether a setting with the given title matches the current search query, that is,
-// the title contains every word of the query in any order (case-insensitive).
+// Whether a setting with the given title matches the current search query.
 export function useSearchVisibility( title: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
 	const lowerTitle = title.toLowerCase();
@@ -65,8 +64,8 @@ export function useSearchVisibility( title: string ): boolean {
 }
 
 // Highlights the words matching the search query in the setting labels.
-// The controls only accept a string label, so instead of wrapping the words in
-// `<mark>`, the CSS Custom Highlight API styles the matched text ranges.
+// The controls only accept a string label, so the CSS Custom Highlight API
+// styles the matched text ranges.
 function useSearchHighlight( searchQuery: string ) {
 	const ref = useRef< HTMLDivElement >( null );
 
