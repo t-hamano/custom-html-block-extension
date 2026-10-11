@@ -1,5 +1,3 @@
-@use "~@wordpress/base-styles/variables" as variables;
-
 @use "./components/editor-preview/style" as editorPreview;
 @use "./components/item-help/style" as itemHelp;
 
@@ -43,7 +41,7 @@
 
 	.chbe-admin-editor-config__preview {
 		position: sticky;
-		top: variables.$grid-unit-50;
+		top: var(--wpds-dimension-gap-3xl);
 		width: 50%;
 
 		@media screen and (max-width: 782px) {
