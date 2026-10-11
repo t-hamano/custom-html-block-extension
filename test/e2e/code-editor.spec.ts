@@ -44,6 +44,7 @@ async function insertText( page: Page, text: string, position: 'start' | 'end' )
 test.describe( 'Code editor', () => {
 	test.beforeAll( async ( { requestUtils } ) => {
 		await requestUtils.deactivatePlugin( 'classic-editor' );
+		await requestUtils.activateTheme( 'twentytwentyfive' );
 	} );
 
 	test.afterEach( async ( { requestUtils } ) => {
@@ -52,6 +53,10 @@ test.describe( 'Code editor', () => {
 			path: '/custom-html-block-extension/v1/update_options',
 			data: { options: { permissionBlockEditor: true } },
 		} );
+	} );
+
+	test.afterAll( async ( { requestUtils } ) => {
+		await requestUtils.deleteAllTemplates( 'wp_template' );
 	} );
 
 	test( 'post content should be edited with the Monaco editor in the code editor', async ( {
@@ -96,43 +101,29 @@ test.describe( 'Code editor', () => {
 		await expect( page.locator( '.editor-text-editor .monaco-editor' ) ).toHaveCount( 0 );
 	} );
 
-	test.describe( 'Site editor', () => {
-		test.beforeAll( async ( { requestUtils } ) => {
-			await requestUtils.activateTheme( 'twentytwentyfive' );
+	test( 'template content should be edited with the Monaco editor in the code editor', async ( {
+		admin,
+		page,
+		editor,
+		pageUtils,
+	} ) => {
+		await admin.visitSiteEditor( {
+			postId: 'twentytwentyfive//index',
+			postType: 'wp_template',
+			canvas: 'edit',
 		} );
+		await pageUtils.pressKeys( 'secondary+M' );
 
-		test.afterAll( async ( { requestUtils } ) => {
-			await requestUtils.deleteAllTemplates( 'wp_template' );
-		} );
+		const codeEditor = page.locator( '.editor-text-editor .monaco-editor' );
+		await expect( codeEditor ).toBeVisible();
+		await expect( page.locator( 'textarea.editor-post-text-editor' ) ).toBeHidden();
 
-		test( 'template content should be edited with the Monaco editor in the code editor', async ( {
-			admin,
-			page,
-			editor,
-			pageUtils,
-		} ) => {
-			await admin.visitSiteEditor( {
-				postId: 'twentytwentyfive//index',
-				postType: 'wp_template',
-				canvas: 'edit',
-			} );
-			await pageUtils.pressKeys( 'secondary+M' );
+		await insertText( page, '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->\n', 'start' );
 
-			const codeEditor = page.locator( '.editor-text-editor .monaco-editor' );
-			await expect( codeEditor ).toBeVisible();
-			await expect( page.locator( 'textarea.editor-post-text-editor' ) ).toBeHidden();
-
-			await insertText(
-				page,
-				'<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->\n',
-				'start'
-			);
-
-			// The content is parsed into blocks when switching back to the visual editor.
-			await page.getByRole( 'button', { name: 'Exit code editor' } ).click();
-			await expect
-				.poll( async () => ( await editor.getBlocks() )[ 0 ] )
-				.toMatchObject( { name: 'core/paragraph', attributes: { content: 'Hello' } } );
-		} );
+		// The content is parsed into blocks when switching back to the visual editor.
+		await page.getByRole( 'button', { name: 'Exit code editor' } ).click();
+		await expect
+			.poll( async () => ( await editor.getBlocks() )[ 0 ] )
+			.toMatchObject( { name: 'core/paragraph', attributes: { content: 'Hello' } } );
 	} );
 } );
