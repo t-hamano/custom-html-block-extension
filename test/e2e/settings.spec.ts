@@ -132,6 +132,9 @@ test.describe( 'Settings REST API', () => {
 				editorSettings: { tabSize: 4 },
 				editorOptions: {
 					acceptSuggestionOnEnter: false,
+					cursorSmoothCaretAnimation: true,
+					occurrencesHighlight: false,
+					renderFinalNewline: false,
 					find: { seedSearchStringFromSelection: true },
 					hover: false,
 					rulers: 0,
@@ -142,6 +145,9 @@ test.describe( 'Settings REST API', () => {
 		expect( response.editorSettings ).toMatchObject( { tabSize: 4 } );
 		expect( response.editorOptions ).toMatchObject( {
 			acceptSuggestionOnEnter: 'off',
+			cursorSmoothCaretAnimation: 'on',
+			occurrencesHighlight: 'off',
+			renderFinalNewline: 'off',
 			find: { seedSearchStringFromSelection: 'always' },
 			hover: { enabled: 'off' },
 			rulers: [],
@@ -164,5 +170,147 @@ test.describe( 'Settings REST API', () => {
 				data: {},
 			} )
 		).rejects.toMatchObject( { code: 'rest_missing_callback_param' } );
+	} );
+} );
+
+test.describe( 'Editor config', () => {
+	test.beforeAll( async ( { requestUtils } ) => {
+		await requestUtils.deactivatePlugin( 'classic-editor' );
+	} );
+
+	test.afterEach( async ( { requestUtils } ) => {
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/delete_editor_config',
+		} );
+	} );
+
+	test( 'saved editor settings should be applied to the code editor', async ( {
+		admin,
+		editor,
+		page,
+	} ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+
+		await page.getByRole( 'spinbutton', { name: 'Indent width' } ).fill( '4' );
+		await page.getByRole( 'combobox', { name: 'Theme' } ).click();
+		await page.getByRole( 'option', { name: 'GitHub', exact: true } ).click();
+		await page.getByRole( 'button', { name: 'Save settings' } ).click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'Settings saved.' } )
+		).toBeVisible();
+
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/html' } );
+		const monacoEditor = editor.canvas.locator( '[data-type="core/html"] .monaco-editor' );
+		await expect( monacoEditor ).toBeVisible();
+
+		const tabSize = await monacoEditor.evaluate(
+			( element ) =>
+				element.ownerDocument.defaultView?.monaco?.editor
+					.getEditors()
+					.find( ( instance ) => instance.getDomNode() === element )
+					?.getModel()
+					?.getOptions().tabSize
+		);
+		expect( tabSize ).toBe( 4 );
+
+		// The GitHub theme is based on the light (`vs`) theme.
+		await expect( monacoEditor ).toHaveClass( /(^|\s)vs(\s|$)/ );
+	} );
+
+	test( 'reset should restore the default editor config', async ( {
+		admin,
+		page,
+		requestUtils,
+	} ) => {
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/update_editor_config',
+			data: { editorSettings: { tabSize: 4 }, editorOptions: { fontSize: 20 } },
+		} );
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+
+		const tabSize = page.getByRole( 'spinbutton', { name: 'Indent width' } );
+		await expect( tabSize ).toHaveValue( '4' );
+
+		// The range controls also have "Reset" buttons, so pick the one opening the dialog.
+		await page
+			.getByRole( 'button', { name: 'Reset', exact: true } )
+			.and( page.locator( '[aria-haspopup="dialog"]' ) )
+			.click();
+		await page.getByRole( 'button', { name: 'Reset settings' } ).click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'Settings have been reset.' } )
+		).toBeVisible();
+		await expect( tabSize ).toHaveValue( '2' );
+
+		const response = await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/get_editor_config',
+		} );
+		expect( response.editorSettings ).toMatchObject( { tabSize: 2 } );
+		expect( response.editorOptions ).toMatchObject( { fontSize: 14 } );
+	} );
+
+	test( 'exported editor config should be restored by importing it', async ( {
+		admin,
+		page,
+		requestUtils,
+	}, testInfo ) => {
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/update_editor_config',
+			data: { editorSettings: { tabSize: 4 }, editorOptions: { fontSize: 20 } },
+		} );
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		await page.getByRole( 'tab', { name: 'Tools' } ).click();
+
+		const downloadPromise = page.waitForEvent( 'download' );
+		await page.getByRole( 'button', { name: 'Export', exact: true } ).click();
+		const download = await downloadPromise;
+		expect( download.suggestedFilename() ).toMatch( /^chbe-export-\d{4}-\d{2}-\d{2}\.json$/ );
+
+		const exportedFile = testInfo.outputPath( download.suggestedFilename() );
+		await download.saveAs( exportedFile );
+
+		// Reset the editor config, then import the exported file.
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/delete_editor_config',
+		} );
+		await page.reload();
+		await page.getByRole( 'tab', { name: 'Tools' } ).click();
+		await page.locator( 'input[type="file"]' ).setInputFiles( exportedFile );
+		await page.getByRole( 'button', { name: 'Import', exact: true } ).click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'Imported the editor config.' } )
+		).toBeVisible();
+
+		const response = await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/get_editor_config',
+		} );
+		expect( response.editorSettings ).toMatchObject( { tabSize: 4 } );
+		expect( response.editorOptions ).toMatchObject( { fontSize: 20 } );
+	} );
+
+	test( 'importing a non-JSON file should show an error notice', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		await page.getByRole( 'tab', { name: 'Tools' } ).click();
+
+		await page.locator( 'input[type="file"]' ).setInputFiles( 'readme.txt' );
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'It is not a JSON file.' } )
+		).toBeVisible();
+		await expect( page.getByRole( 'button', { name: 'Import', exact: true } ) ).toBeDisabled();
 	} );
 } );

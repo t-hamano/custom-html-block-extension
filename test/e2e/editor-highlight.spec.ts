@@ -287,4 +287,21 @@ test.describe( 'Code highlighting', () => {
 			)
 			.toContain( 'Incorrect type. Expected "integer".' );
 	} );
+
+	test( 'JSON schema endpoint should reject URLs other than https://schemas.wp.org', async ( {
+		requestUtils,
+	} ) => {
+		for ( const url of [
+			'https://example.com/schema.json',
+			'http://schemas.wp.org/trunk/theme.json',
+		] ) {
+			await expect(
+				requestUtils.rest( {
+					method: 'GET',
+					path: '/custom-html-block-extension/v1/get_json_schema',
+					params: { url },
+				} )
+			).rejects.toMatchObject( { code: 'rest_invalid_param', data: { status: 400 } } );
+		}
+	} );
 } );
