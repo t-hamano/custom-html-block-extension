@@ -60,14 +60,14 @@ function useTextEditorBody( isEnabled: boolean ) {
 // Monaco version of `PostTextEditor` in `@wordpress/editor`.
 function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void } ) {
 	const { editorSettings, editorOptions } = window.chbeObj;
-	const { value, type, id } = useSelect( ( select ) => {
+	const { postContent, currentPostType, currentPostId } = useSelect( ( select ) => {
 		const { getCurrentPostType, getCurrentPostId, getEditedPostContent } = select(
 			'core/editor'
 		) as EditorSelectors;
 		return {
-			value: getEditedPostContent(),
-			type: getCurrentPostType(),
-			id: getCurrentPostId(),
+			postContent: getEditedPostContent(),
+			currentPostType: getCurrentPostType(),
+			currentPostId: getCurrentPostId(),
 		};
 	}, [] );
 	const { editEntityRecord } = useDispatch( 'core' );
@@ -90,7 +90,7 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 	// Write the content the same way as the core `PostTextEditor`. When switching
 	// back to the visual editor, the content is parsed into blocks.
 	const onChange = ( content: string ) => {
-		editEntityRecord( 'postType', type, id, {
+		editEntityRecord( 'postType', currentPostType, currentPostId, {
 			content,
 			blocks: undefined,
 			selection: undefined,
@@ -103,7 +103,7 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 				language="html"
 				theme={ editorSettings.theme }
 				options={ options }
-				value={ value }
+				value={ postContent }
 				useEmmet={ editorSettings.emmet }
 				tabSize={ editorSettings.tabSize }
 				insertSpaces={ editorSettings.insertSpaces }
