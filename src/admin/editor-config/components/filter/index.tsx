@@ -75,7 +75,7 @@ export default function Filter( {
 					value={ searchQueryState }
 					onValueChange={ ( value ) => {
 						setSearchQueryState( value );
-						debouncedOnChangeSearchQuery( value );
+						debouncedOnChangeSearchQuery( value.trim() );
 					} }
 				/>
 			</div>
