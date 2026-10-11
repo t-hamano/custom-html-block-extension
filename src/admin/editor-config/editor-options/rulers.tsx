@@ -131,7 +131,7 @@ export default function Rulers() {
 								</Button>
 							) }
 							renderContent={ () => (
-								<Stack direction="column" align="end" gap="sm" style={ { padding: 8 } }>
+								<Stack direction="column" align="end">
 									<ColorPicker
 										color={ getColor( ruler ) }
 										onChange={ ( color ) => onChangeColor( index, color ) }
@@ -142,7 +142,7 @@ export default function Rulers() {
 										disabled={ ! getColor( ruler ) }
 										onClick={ () => onChangeColor( index ) }
 									>
-										{ __( 'Reset to theme color', 'custom-html-block-extension' ) }
+										{ __( 'Reset', 'custom-html-block-extension' ) }
 									</Button>
 								</Stack>
 							) }
