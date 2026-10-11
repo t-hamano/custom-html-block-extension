@@ -48,8 +48,9 @@ export type EditorOptions = {
 	foldingHighlight: boolean;
 	foldingStrategy: 'auto' | 'indentation';
 	fontFamily: string;
-	// A string is used as the CSS `font-feature-settings` value.
-	fontLigatures: boolean | string;
+	// monaco also allows a CSS `font-feature-settings` string, but only Fira
+	// Code supports ligatures among the fonts here, so the plugin keeps a toggle.
+	fontLigatures: boolean;
 	fontSize: number;
 	fontWeight: string;
 	formatOnPaste: boolean;

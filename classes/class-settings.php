@@ -146,9 +146,7 @@ class Settings {
 			'default' => 'Fira Code',
 		),
 		'fontLigatures'                    => array(
-			// A string is used as the CSS `font-feature-settings` value. `string`
-			// comes first so that strings such as "1" are not coerced to booleans.
-			'type'    => array( 'string', 'boolean' ),
+			'type'    => 'boolean',
 			'default' => false,
 		),
 		'fontSize'                         => array(

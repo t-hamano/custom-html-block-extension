@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { InputControl, Stack, SwitchControl } from '@wordpress/ui';
+import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -22,25 +22,10 @@ export default function FontLigatures() {
 		return null;
 	}
 
-	const { fontLigatures } = editorOptions;
-
 	const onChange = ( value: boolean ) => {
-		// Keep custom font feature settings when ligatures are already enabled.
-		if ( value && false !== fontLigatures ) {
-			return;
-		}
 		setEditorOptions( {
 			...editorOptions,
 			fontLigatures: value,
-		} );
-	};
-
-	// An empty value enables only the default ligatures, so store `true`
-	// rather than an empty string, which monaco treats as disabled.
-	const onChangeFeatureSettings = ( value: string ) => {
-		setEditorOptions( {
-			...editorOptions,
-			fontLigatures: value.trim() ? value : true,
 		} );
 	};
 
@@ -52,27 +37,11 @@ export default function FontLigatures() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 340 } }>
-				<SwitchControl
-					label={ title }
-					checked={ false !== fontLigatures }
-					onCheckedChange={ onChange }
-				/>
-				{ false !== fontLigatures && (
-					<div style={ { width: '100%' } }>
-						<InputControl
-							label={ __( 'Font feature settings', 'custom-html-block-extension' ) }
-							description={ __(
-								'Value of the CSS font-feature-settings property. Leave empty to use the default ligatures.',
-								'custom-html-block-extension'
-							) }
-							placeholder={ `"ss01", "ss02"` }
-							value={ 'string' === typeof fontLigatures ? fontLigatures : '' }
-							onValueChange={ onChangeFeatureSettings }
-						/>
-					</div>
-				) }
-			</Stack>
+			<SwitchControl
+				label={ title }
+				checked={ editorOptions.fontLigatures }
+				onCheckedChange={ onChange }
+			/>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
@@ -93,7 +62,7 @@ export default function FontLigatures() {
 						isDefault: true,
 					},
 				] }
-				value={ false !== fontLigatures }
+				value={ editorOptions.fontLigatures }
 			/>
 		</Stack>
 	);
