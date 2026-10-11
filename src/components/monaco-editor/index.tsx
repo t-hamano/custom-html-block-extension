@@ -54,6 +54,9 @@ export type MonacoEditorProps = {
 
 const wrapperStyles: CSSProperties = {
 	position: 'relative',
+	// Keep the z-indexes inside the editor, such as the minimap, from stacking
+	// above the surrounding UI.
+	isolation: 'isolate',
 	height: '100%',
 };
 
@@ -452,7 +455,11 @@ export default function MonacoEditor( {
 	return (
 		<div
 			ref={ wrapperRef }
-			style={ autoHeight ? { position: 'relative', minHeight: autoHeight.min } : wrapperStyles }
+			style={
+				autoHeight
+					? { position: 'relative', isolation: 'isolate', minHeight: autoHeight.min }
+					: wrapperStyles
+			}
 		>
 			{ resizeListener }
 			{ ! isEditorReady && (
