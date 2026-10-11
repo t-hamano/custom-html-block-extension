@@ -5,7 +5,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { ColorIndicator, ColorPicker, Dropdown, RangeControl } from '@wordpress/components';
 import { plus, trash } from '@wordpress/icons';
-import { Button, IconButton, Stack } from '@wordpress/ui';
+import { Button, IconButton, Stack, Tooltip } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -112,31 +112,42 @@ export default function Rulers() {
 						</div>
 						<Dropdown
 							popoverProps={ { placement: 'bottom-end' } }
-							renderToggle={ ( { isOpen, onToggle } ) => (
-								<Button
-									variant="minimal"
-									tone="neutral"
-									size="compact"
-									disabled={ ! rulers.length }
-									aria-expanded={ isOpen }
-									aria-label={ sprintf(
-										/* translators: %d: The ruler number. */
-										__( 'Vertical line %d color', 'custom-html-block-extension' ),
-										index + 1
-									) }
-									onClick={ onToggle }
-									style={ {
-										marginBottom: 4,
-										// Make the button square like `IconButton`. The default
-										// `min-width` and inline padding make it wider than its height.
-										width: 'var(--wpds-dimension-size-md)',
-										minWidth: 0,
-										paddingInline: 0,
-									} }
-								>
-									<ColorIndicator colorValue={ getColor( ruler ) } />
-								</Button>
-							) }
+							renderToggle={ ( { isOpen, onToggle } ) => {
+								const label = sprintf(
+									/* translators: %d: The ruler number. */
+									__( 'Vertical line %d color', 'custom-html-block-extension' ),
+									index + 1
+								);
+								return (
+									<Tooltip.Root>
+										<Tooltip.Trigger
+											render={
+												<Button
+													variant="minimal"
+													tone="neutral"
+													size="compact"
+													disabled={ ! rulers.length }
+													focusableWhenDisabled
+													aria-expanded={ isOpen }
+													aria-label={ label }
+													onClick={ onToggle }
+													style={ {
+														marginBottom: 4,
+														// Make the button square like `IconButton`. The default
+														// `min-width` and inline padding make it wider than its height.
+														width: 'var(--wpds-dimension-size-md)',
+														minWidth: 0,
+														paddingInline: 0,
+													} }
+												/>
+											}
+										>
+											<ColorIndicator colorValue={ getColor( ruler ) } />
+										</Tooltip.Trigger>
+										<Tooltip.Popup>{ label }</Tooltip.Popup>
+									</Tooltip.Root>
+								);
+							} }
 							renderContent={ () => (
 								<Stack direction="column" align="end">
 									<ColorPicker
