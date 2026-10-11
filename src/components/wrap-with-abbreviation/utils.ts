@@ -76,7 +76,7 @@ export function getWrapTargets(
 
 			return {
 				range,
-				lines: dedent( model.getValueInRange( range ).split( /\r?\n/ ) ),
+				lines: dedent( model.getValueInRange( range ).split( /\r?\n/ ), baseIndent ),
 				baseIndent,
 			};
 		} );
@@ -101,27 +101,24 @@ export function getWrapTargets(
 /**
  * Remove the common indentation from the second and subsequent lines.
  *
- * @param lines The lines to dedent.
+ * @param lines      The lines to dedent.
+ * @param baseIndent The indentation of the first line.
  * @return The dedented lines.
  */
-function dedent( lines: string[] ): string[] {
-	// Use the whitespace prefix shared by the lines, so that mixed tabs and spaces keep
-	// their relative indentation.
-	const commonIndent =
-		lines
-			.slice( 1 )
-			.filter( ( line ) => line.trim() )
-			.map( ( line ) => line.slice( 0, line.search( /\S/ ) ) )
-			.reduce< string | null >( ( common, indent ) => {
-				if ( null === common ) {
-					return indent;
-				}
-				let length = 0;
-				while ( length < common.length && common[ length ] === indent[ length ] ) {
-					length++;
-				}
-				return common.slice( 0, length );
-			}, null )?.length ?? 0;
+function dedent( lines: string[], baseIndent: string ): string[] {
+	// Use the whitespace prefix shared by the lines including the first one, so that
+	// deeper indentation and mixed tabs and spaces keep their relative indentation.
+	const commonIndent = lines
+		.slice( 1 )
+		.filter( ( line ) => line.trim() )
+		.map( ( line ) => line.slice( 0, line.search( /\S/ ) ) )
+		.reduce( ( common, indent ) => {
+			let length = 0;
+			while ( length < common.length && common[ length ] === indent[ length ] ) {
+				length++;
+			}
+			return common.slice( 0, length );
+		}, baseIndent ).length;
 
 	return lines.map( ( line, index ) => ( 0 === index ? line : line.slice( commonIndent ) ) );
 }
