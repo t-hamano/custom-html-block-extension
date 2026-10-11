@@ -131,6 +131,15 @@ initLoader()
 			}
 		}
 
+		// Catch the Ctrl+S command to update the file.
+		editor.addCommand(
+			// eslint-disable-next-line no-bitwise
+			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
+			() => {
+				document.querySelector< HTMLInputElement >( '#template #submit' )?.click();
+			}
+		);
+
 		// Load webfont.
 		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
