@@ -32,7 +32,7 @@ export default function CursorSmoothCaretAnimation() {
 		{
 			label: __( 'Enable only when the cursor is moved explicitly', 'custom-html-block-extension' ),
 			value: 'explicit',
-			image: 'editor-options/cursor-smooth-caret-animation_3.gif',
+			image: 'editor-options/cursor-smooth-caret-animation_2.gif',
 			description: __(
 				'Animates the cursor when it is moved with the keyboard or mouse, but not while typing.',
 				'custom-html-block-extension'
@@ -41,7 +41,7 @@ export default function CursorSmoothCaretAnimation() {
 		{
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: 'off',
-			image: 'editor-options/cursor-smooth-caret-animation_2.gif',
+			image: 'editor-options/cursor-smooth-caret-animation_3.gif',
 			isDefault: true,
 		},
 	];

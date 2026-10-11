@@ -36,12 +36,12 @@ export default function RenderFinalNewline() {
 		{
 			label: __( 'Dimmed', 'custom-html-block-extension' ),
 			value: 'dimmed',
-			image: 'editor-options/render-final-newline_3.jpg',
+			image: 'editor-options/render-final-newline_2.jpg',
 		},
 		{
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: 'off',
-			image: 'editor-options/render-final-newline_2.jpg',
+			image: 'editor-options/render-final-newline_3.jpg',
 		},
 	];
 
