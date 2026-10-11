@@ -22,9 +22,10 @@ export default function OccurrencesHighlight() {
 		return null;
 	}
 
-	// monaco types this option as 'off' | 'singleFile' | 'multiFile'. The 'multiFile'
-	// mode is not exposed in the UI yet, so the toggle only maps between 'singleFile'
-	// and 'off'.
+	// monaco types this option as 'off' | 'singleFile' | 'multiFile'. 'multiFile'
+	// highlights across every editor on the page, which is of little use for
+	// separate Custom HTML blocks, so the toggle only maps between 'singleFile' and
+	// 'off'.
 	const isEnabled = 'singleFile' === editorOptions.occurrencesHighlight;
 
 	const onChange = ( value: boolean ) => {

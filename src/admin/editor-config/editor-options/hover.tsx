@@ -1,13 +1,15 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { __, sprintf } from '@wordpress/i18n';
+import { createInterpolateElement, useContext } from '@wordpress/element';
+import { isAppleOS } from '@wordpress/keycodes';
+import { SelectControl, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -15,24 +17,47 @@ import ItemHelp from '../components/item-help';
 export default function Hover() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable hover hints', 'custom-html-block-extension' );
+	const title = __( 'Hover hints', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
 		return null;
 	}
 
-	// monaco types this option as 'on' | 'off' | 'onKeyboardModifier'. The
-	// 'onKeyboardModifier' mode is not exposed in the UI yet, so the toggle only
-	// maps between 'on' and 'off'.
-	const isEnabled = 'on' === editorOptions.hover.enabled;
+	// monaco shows hints on the modifier key that is not used for multi cursor.
+	let modifierKey;
+	if ( 'alt' === editorOptions.multiCursorModifier ) {
+		modifierKey = isAppleOS()
+			? __( 'Command', 'custom-html-block-extension' )
+			: __( 'Ctrl', 'custom-html-block-extension' );
+	} else {
+		modifierKey = isAppleOS()
+			? __( 'Option', 'custom-html-block-extension' )
+			: __( 'Alt', 'custom-html-block-extension' );
+	}
 
-	const onChange = ( value: boolean ) => {
+	const items = [
+		{
+			label: __( 'Enable', 'custom-html-block-extension' ),
+			value: 'on',
+			isDefault: true,
+		},
+		{
+			label: __( 'Enable only while holding a modifier key', 'custom-html-block-extension' ),
+			value: 'onKeyboardModifier',
+		},
+		{
+			label: __( 'Disable', 'custom-html-block-extension' ),
+			value: 'off',
+		},
+	];
+
+	const onChange = ( value: EditorOptions[ 'hover' ][ 'enabled' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			hover: {
 				...editorOptions.hover,
-				enabled: value ? 'on' : 'off',
+				enabled: value,
 			},
 		} );
 	};
@@ -45,14 +70,42 @@ export default function Hover() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SwitchControl label={ title } checked={ isEnabled } onCheckedChange={ onChange } />
+			<SelectControl
+				label={ title }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.hover.enabled ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'hover' ][ 'enabled' ] )
+				}
+			/>
 			<ItemHelp
-				onChange={ onChange }
 				title={ title }
-				isToggle
-				defaultToggle
+				description={
+					<>
+						<Text render={ <p /> }>
+							{ __(
+								'Shows hints when the mouse is over an element or attribute.',
+								'custom-html-block-extension'
+							) }
+						</Text>
+						<Text render={ <p /> }>
+							{ createInterpolateElement(
+								sprintf(
+									/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
+									__(
+										'If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
+										'custom-html-block-extension'
+									),
+									modifierKey
+								),
+								{
+									code: <code />,
+								}
+							) }
+						</Text>
+					</>
+				}
 				image="editor-options/hover.gif"
-				value={ isEnabled }
 			/>
 		</Stack>
 	);
