@@ -5,13 +5,6 @@ import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Settings page', () => {
 	test( 'should be rendered', async ( { admin, page } ) => {
-		// Hide welcome guide.
-		const welcomeGuide = page.getByRole( 'dialog', {
-			name: 'About Custom HTML Block Extension',
-		} );
-		await page.addLocatorHandler( welcomeGuide, async () => {
-			await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
-		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
 		// Editsor config tab
@@ -62,13 +55,6 @@ test.describe( 'Settings page', () => {
 	} );
 
 	test( 'tab focus mode should move focus out of the code editor', async ( { admin, page } ) => {
-		// Hide welcome guide.
-		const welcomeGuide = page.getByRole( 'dialog', {
-			name: 'About Custom HTML Block Extension',
-		} );
-		await page.addLocatorHandler( welcomeGuide, async () => {
-			await welcomeGuide.getByRole( 'button', { name: 'Close' } ).click();
-		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
 		const editor = page.locator( '.chbe-admin-editor-config-editor-preview .monaco-editor' );

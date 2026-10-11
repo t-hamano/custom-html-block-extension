@@ -16,9 +16,7 @@ import KeyboardShortcutsModal from '../keyboard-shortcuts-modal';
 type ModalName = 'welcome-guide' | 'keyboard-shortcuts';
 
 export default function Header() {
-	const [ openModal, setOpenModal ] = useState< ModalName | null >(
-		window.chbeObj.dismissWelcomeGuide ? null : 'welcome-guide'
-	);
+	const [ openModal, setOpenModal ] = useState< ModalName | null >( null );
 
 	return (
 		<header className="chbe-admin-header">
