@@ -43,7 +43,7 @@ initLoader()
 		// Setting up the monaco editor.
 		const runEditor = () => {
 			const { editorSettings, editorOptions, fontFamily } = window.chbeObj;
-			const { theme, tabSize, insertSpaces } = editorSettings;
+			const { theme, tabSize, insertSpaces, detectIndentation } = editorSettings;
 
 			// Generate an element to apply the monaco editor.
 			const monacoEditorContainer = document.createElement( 'div' );
@@ -59,7 +59,7 @@ initLoader()
 				...editorOptions,
 				tabSize,
 				insertSpaces,
-				detectIndentation: false,
+				detectIndentation,
 				// Override some properties to match the classic editor.
 				scrollBeyondLastLine: false,
 				scrollbar: {

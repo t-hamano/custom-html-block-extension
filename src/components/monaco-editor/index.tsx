@@ -43,6 +43,7 @@ export type MonacoEditorProps = {
 	useEmmet?: boolean;
 	tabSize?: number;
 	insertSpaces?: boolean;
+	detectIndentation?: boolean;
 	onChange?: ( value: string, event?: unknown ) => void;
 	onBlur?: ( value: string ) => void;
 	// Resize the editor to fit its content within these bounds.
@@ -81,6 +82,7 @@ export default function MonacoEditor( {
 	useEmmet = true,
 	tabSize,
 	insertSpaces,
+	detectIndentation = false,
 	onChange = () => null,
 	onBlur = () => null,
 	autoHeight,
@@ -168,7 +170,7 @@ export default function MonacoEditor( {
 				...options,
 				tabSize,
 				insertSpaces,
-				detectIndentation: false,
+				detectIndentation,
 			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 
@@ -180,6 +182,12 @@ export default function MonacoEditor( {
 				// This prevents undo right after load from wiping out the content.
 				if ( value ) {
 					model.setValue( value );
+				}
+
+				// The model is created empty, so detect the indentation from the initial value.
+				if ( detectIndentation ) {
+					const modelOptions = model.getOptions();
+					model.detectIndentation( modelOptions.insertSpaces, modelOptions.tabSize );
 				}
 			}
 
@@ -339,15 +347,16 @@ export default function MonacoEditor( {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ options.fontFamily, isEditorReady ] );
 
-	// Change tab size, insert spaces.
+	// Change tab size, insert spaces, detect indentation.
 	useEffect( () => {
 		if ( isEditorReady ) {
 			editorRef.current?.updateOptions( {
 				tabSize,
 				insertSpaces,
+				detectIndentation,
 			} );
 		}
-	}, [ tabSize, insertSpaces, isEditorReady ] );
+	}, [ tabSize, insertSpaces, detectIndentation, isEditorReady ] );
 
 	// Set value.
 	useEffect( () => {

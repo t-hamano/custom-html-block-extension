@@ -107,6 +107,7 @@ function BlockHTML( { clientId }: { clientId: string } ) {
 			useEmmet={ editorSettings.emmet }
 			tabSize={ editorSettings.tabSize }
 			insertSpaces={ editorSettings.insertSpaces }
+			detectIndentation={ editorSettings.detectIndentation }
 			onChange={ setHtml }
 			onBlur={ onBlur }
 			autoHeight={ { min: MIN_HEIGHT, max: MAX_HEIGHT } }

@@ -62,6 +62,7 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights }: Edi
 					useEmmet={ editorSettings.emmet }
 					tabSize={ editorSettings.tabSize }
 					insertSpaces={ editorSettings.insertSpaces }
+					detectIndentation={ editorSettings.detectIndentation }
 					onChange={ setCode }
 					onFontLoad={ onFontLoad }
 				/>
