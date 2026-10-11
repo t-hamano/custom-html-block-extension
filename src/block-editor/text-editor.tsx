@@ -122,7 +122,6 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
  */
 export default function TextEditor() {
 	const isTextMode = useSelect(
-		// The store isn't registered in editors without the code editor, e.g. the widgets editor.
 		( select ) =>
 			( select( 'core/editor' ) as EditorSelectors | undefined )?.getEditorMode?.() === 'text',
 		[]
