@@ -56,6 +56,7 @@ export { default as PaddingBottom } from './padding/bottom';
 export { default as PaddingTop } from './padding/top';
 export { default as QuickSuggestions } from './quick-suggestions';
 export { default as QuickSuggestionsDelay } from './quick-suggestions-delay';
+export { default as QuickSuggestionsTypes } from './quick-suggestions-types';
 export { default as RenderControlCharacters } from './render-control-characters';
 export { default as RenderFinalNewline } from './render-final-newline';
 export { default as RenderLineHighlight } from './render-line-highlight';

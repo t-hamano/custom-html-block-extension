@@ -349,8 +349,9 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Suggest', 'custom-html-block-extension' ) }>
 									<EditorOptions.QuickSuggestions />
-									<div inert={ inertValue( ! editorOptions.quickSuggestions ) }>
+									<div inert={ inertValue( ! editorOptions.suggestOnTriggerCharacters ) }>
 										<Stack direction="column" gap="lg">
+											<EditorOptions.QuickSuggestionsTypes />
 											<EditorOptions.AcceptSuggestionOnEnter />
 											<EditorOptions.QuickSuggestionsDelay />
 											<EditorOptions.SuggestFontSize />

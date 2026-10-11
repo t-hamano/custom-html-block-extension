@@ -139,6 +139,7 @@ test.describe( 'Settings REST API', () => {
 					hover: false,
 					renderIndentGuides: false,
 					highlightActiveIndentGuide: false,
+					quickSuggestions: false,
 					rulers: 0,
 				},
 			},
@@ -153,6 +154,7 @@ test.describe( 'Settings REST API', () => {
 			find: { seedSearchStringFromSelection: 'always' },
 			hover: { enabled: 'off' },
 			guides: { indentation: false, highlightActiveIndentation: false },
+			quickSuggestions: { other: 'off', comments: 'off', strings: 'off' },
 			rulers: [],
 		} );
 	} );

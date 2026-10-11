@@ -89,7 +89,11 @@ export type EditorOptions = {
 		bottom: number;
 		top: number;
 	};
-	quickSuggestions: boolean;
+	quickSuggestions: {
+		other: 'on' | 'inline' | 'off';
+		comments: 'on' | 'inline' | 'off';
+		strings: 'on' | 'inline' | 'off';
+	};
 	quickSuggestionsDelay: number;
 	suggestOnTriggerCharacters: boolean;
 	renderControlCharacters: boolean;

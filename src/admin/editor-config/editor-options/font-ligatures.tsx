@@ -22,6 +22,24 @@ export default function FontLigatures() {
 		return null;
 	}
 
+	// monaco also accepts a string, used as the CSS `font-feature-settings`
+	// value (e.g. '"ss01", "ss02"' for stylistic sets). Only Fira Code supports
+	// ligatures among the fonts here, so a free-form field is of little use and
+	// the toggle only maps between `true` and `false`.
+	const items = [
+		{
+			label: __( 'Enable', 'custom-html-block-extension' ),
+			value: true,
+			image: 'editor-options/font-ligatures_1.jpg',
+		},
+		{
+			label: __( 'Disable', 'custom-html-block-extension' ),
+			value: false,
+			image: 'editor-options/font-ligatures_2.jpg',
+			isDefault: true,
+		},
+	];
+
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
@@ -49,19 +67,7 @@ export default function FontLigatures() {
 					'Ligatures are special characters in a font that combine two or more characters into one. Only Fira Code font supports ligatures.',
 					'custom-html-block-extension'
 				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/font-ligatures_1.jpg',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/font-ligatures_2.jpg',
-					},
-				] }
+				items={ items }
 				value={ editorOptions.fontLigatures }
 			/>
 		</Stack>
