@@ -20,8 +20,7 @@ const AUTHOR = {
 async function openBlockEditor( { admin, editor }: Fixtures ) {
 	await admin.createNewPost();
 	await editor.insertBlock( { name: 'core/html' } );
-	// The core block uses a plain textarea.
-	return editor.canvas.locator( '[data-type="core/html"] textarea.block-editor-plain-text' );
+	return editor.canvas.locator( '[data-type="core/html"]' );
 }
 
 // Whether the plugin script, which localizes `chbeObj`, is loaded.

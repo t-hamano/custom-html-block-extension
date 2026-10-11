@@ -236,7 +236,11 @@ test.describe( 'Editor config', () => {
 		const tabSize = page.getByRole( 'spinbutton', { name: 'Indent width' } );
 		await expect( tabSize ).toHaveValue( '4' );
 
-		await page.getByRole( 'button', { name: 'Reset', exact: true } ).click();
+		// The range controls also have "Reset" buttons, so pick the one opening the dialog.
+		await page
+			.getByRole( 'button', { name: 'Reset', exact: true } )
+			.and( page.locator( '[aria-haspopup="dialog"]' ) )
+			.click();
 		await page.getByRole( 'button', { name: 'Reset settings' } ).click();
 		await expect(
 			page
