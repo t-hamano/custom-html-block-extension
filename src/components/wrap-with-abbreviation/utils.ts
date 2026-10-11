@@ -82,15 +82,20 @@ export function getWrapTargets(
 		} );
 
 	// Skip the targets overlapping the previous one, e.g. multiple empty selections on the same line.
-	return targets.filter( ( { range }, index ) => {
-		const previous = targets[ index - 1 ]?.range;
-		return (
+	const result: WrapTarget[] = [];
+	for ( const target of targets ) {
+		const previous = result[ result.length - 1 ]?.range;
+		const { range } = target;
+		if (
 			! previous ||
 			range.startLineNumber > previous.endLineNumber ||
 			( range.startLineNumber === previous.endLineNumber &&
 				range.startColumn >= previous.endColumn )
-		);
-	} );
+		) {
+			result.push( target );
+		}
+	}
+	return result;
 }
 
 /**
@@ -100,11 +105,23 @@ export function getWrapTargets(
  * @return The dedented lines.
  */
 function dedent( lines: string[] ): string[] {
-	const indents = lines
-		.slice( 1 )
-		.filter( ( line ) => line.trim() )
-		.map( ( line ) => line.search( /\S/ ) );
-	const commonIndent = indents.length ? Math.min( ...indents ) : 0;
+	// Use the whitespace prefix shared by the lines, so that mixed tabs and spaces keep
+	// their relative indentation.
+	const commonIndent =
+		lines
+			.slice( 1 )
+			.filter( ( line ) => line.trim() )
+			.map( ( line ) => line.slice( 0, line.search( /\S/ ) ) )
+			.reduce< string | null >( ( common, indent ) => {
+				if ( null === common ) {
+					return indent;
+				}
+				let length = 0;
+				while ( length < common.length && common[ length ] === indent[ length ] ) {
+					length++;
+				}
+				return common.slice( 0, length );
+			}, null )?.length ?? 0;
 
 	return lines.map( ( line, index ) => ( 0 === index ? line : line.slice( commonIndent ) ) );
 }
