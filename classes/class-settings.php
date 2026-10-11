@@ -643,20 +643,6 @@ class Settings {
 	}
 
 	/**
-	 * Get the schema of editor settings.
-	 */
-	public static function get_editor_settings_schema() {
-		return self::get_schema( self::DEFAULT_EDITOR_SETTINGS );
-	}
-
-	/**
-	 * Get the schema of editor options.
-	 */
-	public static function get_editor_options_schema() {
-		return self::get_schema( self::DEFAULT_EDITOR_OPTIONS );
-	}
-
-	/**
 	 * Get the schema of options.
 	 */
 	public static function get_options_schema() {
@@ -666,7 +652,7 @@ class Settings {
 	/**
 	 * Build an object schema from the default values.
 	 */
-	private static function get_schema( $defaults ) {
+	public static function get_schema( $defaults ) {
 		$properties = array();
 
 		foreach ( $defaults as $key => $value ) {

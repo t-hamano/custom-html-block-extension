@@ -23,11 +23,11 @@ class Api {
 	public function register_routes() {
 		$editor_config_args = array(
 			'editorSettings' => array_merge(
-				Settings::get_editor_settings_schema(),
+				Settings::get_schema( Settings::DEFAULT_EDITOR_SETTINGS ),
 				array( 'required' => true )
 			),
 			'editorOptions'  => array_merge(
-				Settings::get_editor_options_schema(),
+				Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS ),
 				array(
 					'required'          => true,
 					'sanitize_callback' => array( $this, 'sanitize_editor_options' ),
