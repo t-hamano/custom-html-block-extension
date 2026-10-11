@@ -25,6 +25,8 @@ export default function GuidesHighlightActiveIndentation() {
 	// monaco also accepts 'always', which keeps highlighting the active indent
 	// guide while a bracket pair guide is highlighted. The plugin doesn't enable
 	// bracket pair guides, so it would behave the same as `true`.
+	// `guides.bracketPairs` will be handled as part of
+	// https://github.com/t-hamano/custom-html-block-extension/issues/295.
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
