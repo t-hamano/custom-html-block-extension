@@ -368,6 +368,7 @@ export default function EditorConfig() {
 									<EditorOptions.FormatOnPaste />
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }>
+									<EditorOptions.MouseStyle />
 									<EditorOptions.MouseWheelScrollSensitivity />
 									<EditorOptions.FastScrollSensitivity />
 									<EditorOptions.Hover />

@@ -45,6 +45,7 @@ export { default as MinimapScale } from './minimap/scale';
 export { default as MinimapShowSlider } from './minimap/show-slider';
 export { default as MinimapSize } from './minimap/size';
 export { default as MinimapSide } from './minimap/side';
+export { default as MouseStyle } from './mouse-style';
 export { default as MouseWheelScrollSensitivity } from './mouse-wheel-scroll-sensitivity';
 export { default as MouseWheelZoom } from './mouse-wheel-zoom';
 export { default as MultiCursorModifier } from './multi-cursor-modifier';

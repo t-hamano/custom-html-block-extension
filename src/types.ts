@@ -76,6 +76,7 @@ export type EditorOptions = {
 		side: 'right' | 'left';
 		size: 'proportional' | 'fill' | 'fit';
 	};
+	mouseStyle: 'text' | 'default' | 'copy';
 	mouseWheelScrollSensitivity: number;
 	mouseWheelZoom: boolean;
 	multiCursorModifier: 'ctrlCmd' | 'alt';

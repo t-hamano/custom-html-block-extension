@@ -251,6 +251,10 @@ class Settings {
 			'type'    => 'string',
 			'default' => 'spread',
 		),
+		'mouseStyle'                       => array(
+			'type'    => 'string',
+			'default' => 'text',
+		),
 		'mouseWheelScrollSensitivity'      => array(
 			'type'    => 'number',
 			'default' => 1,
