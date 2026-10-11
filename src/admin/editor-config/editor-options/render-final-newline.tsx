@@ -3,11 +3,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
@@ -25,14 +26,29 @@ export default function RenderFinalNewline() {
 		return null;
 	}
 
-	// monaco types this option as 'on' | 'off' | 'dimmed'. The 'dimmed' mode is not
-	// exposed in the UI yet, so the toggle only maps between 'on' and 'off'.
-	const isEnabled = 'on' === editorOptions.renderFinalNewline;
+	const items = [
+		{
+			label: __( 'Enable', 'custom-html-block-extension' ),
+			value: 'on',
+			image: 'editor-options/render-final-newline_1.jpg',
+			isDefault: true,
+		},
+		{
+			label: __( 'Dimmed', 'custom-html-block-extension' ),
+			value: 'dimmed',
+			image: 'editor-options/render-final-newline_3.jpg',
+		},
+		{
+			label: __( 'Disable', 'custom-html-block-extension' ),
+			value: 'off',
+			image: 'editor-options/render-final-newline_2.jpg',
+		},
+	];
 
-	const onChange = ( value: boolean ) => {
+	const onChange = ( value: EditorOptions[ 'renderFinalNewline' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
-			renderFinalNewline: value ? 'on' : 'off',
+			renderFinalNewline: value,
 		} );
 	};
 
@@ -44,24 +60,20 @@ export default function RenderFinalNewline() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SwitchControl label={ title } checked={ isEnabled } onCheckedChange={ onChange } />
+			<SelectControl
+				label={ title }
+				items={ items }
+				value={ items.find( ( item ) => item.value === editorOptions.renderFinalNewline ) ?? null }
+				onValueChange={ ( item ) =>
+					item && onChange( item.value as EditorOptions[ 'renderFinalNewline' ] )
+				}
+			/>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/render-final-newline_1.jpg',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/render-final-newline_2.jpg',
-					},
-				] }
-				value={ isEnabled }
+				items={ items }
+				colCount="3"
+				value={ editorOptions.renderFinalNewline }
 			/>
 		</Stack>
 	);

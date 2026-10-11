@@ -3,11 +3,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { SelectControl, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import { useSearchVisibility } from '../../index';
 import ItemHelp from '../../components/item-help';
@@ -22,17 +23,28 @@ export default function FindSeedSearchStringFromSelection() {
 		return null;
 	}
 
-	// monaco types this option as 'never' | 'always' | 'selection'. The 'selection'
-	// mode is not exposed in the UI yet, so the toggle only maps between 'always'
-	// and 'never'.
-	const isEnabled = 'always' === editorOptions.find.seedSearchStringFromSelection;
+	const items = [
+		{
+			label: __( 'Always', 'custom-html-block-extension' ),
+			value: 'always',
+			isDefault: true,
+		},
+		{
+			label: __( 'Only from selected text', 'custom-html-block-extension' ),
+			value: 'selection',
+		},
+		{
+			label: __( 'Never', 'custom-html-block-extension' ),
+			value: 'never',
+		},
+	];
 
-	const onChange = ( value: boolean ) => {
+	const onChange = ( value: EditorOptions[ 'find' ][ 'seedSearchStringFromSelection' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			find: {
 				...editorOptions.find,
-				seedSearchStringFromSelection: value ? 'always' : 'never',
+				seedSearchStringFromSelection: value,
 			},
 		} );
 	};
@@ -45,14 +57,38 @@ export default function FindSeedSearchStringFromSelection() {
 			wrap="wrap"
 			gap="sm"
 		>
-			<SwitchControl label={ title } checked={ isEnabled } onCheckedChange={ onChange } />
+			<SelectControl
+				label={ title }
+				items={ items }
+				value={
+					items.find(
+						( item ) => item.value === editorOptions.find.seedSearchStringFromSelection
+					) ?? null
+				}
+				onValueChange={ ( item ) =>
+					item &&
+					onChange( item.value as EditorOptions[ 'find' ][ 'seedSearchStringFromSelection' ] )
+				}
+			/>
 			<ItemHelp
-				onChange={ onChange }
 				title={ title }
-				isToggle
-				defaultToggle
+				description={
+					<>
+						<Text render={ <p /> }>
+							{ __(
+								'When the find widget is opened, the selected text or the word at the cursor is used as the search string.',
+								'custom-html-block-extension'
+							) }
+						</Text>
+						<Text render={ <p /> }>
+							{ __(
+								'If "Only from selected text" is selected, only the selected text is used, and the word at the cursor is not.',
+								'custom-html-block-extension'
+							) }
+						</Text>
+					</>
+				}
 				image="editor-options/find/seed-search-string-from-selection.gif"
-				value={ isEnabled }
 			/>
 		</Stack>
 	);
