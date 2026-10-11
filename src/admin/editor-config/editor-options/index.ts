@@ -88,4 +88,5 @@ export { default as UnfoldOnClickAfterEndOfLine } from './unfold-on-click-after-
 export { default as UseTabStops } from './use-tab-stops';
 export { default as WordWrap } from './word-wrap';
 export { default as WordWrapColumn } from './word-wrap-column';
+export { default as WordWrapIndicator } from './word-wrap-indicator';
 export { default as WrappingIndent } from './wrapping-indent';
