@@ -77,7 +77,7 @@ export default function AutoClosingBrackets() {
 				onChange={ onChange }
 				title={ title }
 				items={ items }
-				colCount="4"
+				colCount="2"
 				value={ editorOptions.autoClosingBrackets }
 			/>
 		</Stack>
