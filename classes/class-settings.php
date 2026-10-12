@@ -80,6 +80,10 @@ class Settings {
 			'type'    => 'string',
 			'default' => 'blink',
 		),
+		'cursorHeight'                     => array(
+			'type'    => 'number',
+			'default' => 0,
+		),
 		'cursorSmoothCaretAnimation'       => array(
 			'type'    => 'string',
 			'default' => 'off',

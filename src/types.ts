@@ -31,6 +31,7 @@ export type EditorOptions = {
 	contextmenu: boolean;
 	copyWithSyntaxHighlighting: boolean;
 	cursorBlinking: 'blink' | 'smooth' | 'phase' | 'expand' | 'solid';
+	cursorHeight: number;
 	cursorSmoothCaretAnimation: 'off' | 'explicit' | 'on';
 	cursorStyle: 'line' | 'block' | 'underline' | 'line-thin' | 'block-outline' | 'underline-thin';
 	cursorSurroundingLines: number;

@@ -320,6 +320,14 @@ export default function EditorConfig() {
 									<div inert={ inertValue( 'line' !== editorOptions.cursorStyle ) }>
 										<EditorOptions.CursorWidth />
 									</div>
+									<div
+										inert={ inertValue(
+											'line' !== editorOptions.cursorStyle &&
+												'line-thin' !== editorOptions.cursorStyle
+										) }
+									>
+										<EditorOptions.CursorHeight />
+									</div>
 									<EditorOptions.CursorBlinking />
 									<EditorOptions.CursorSurroundingLines />
 									<EditorOptions.CursorSurroundingLinesStyle />
