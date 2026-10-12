@@ -364,6 +364,7 @@ export default function MonacoEditor( {
 	// `bracketPairColorization` editor option on to the model, so set it on the
 	// model directly. Changing the indentation options resets the model's
 	// colorization options to the defaults, so apply it again after them.
+	// See https://github.com/microsoft/monaco-editor/issues/3829
 	useEffect( () => {
 		const model = editorRef.current?.getModel();
 		if ( isEditorReady && model && options.bracketPairColorization ) {
