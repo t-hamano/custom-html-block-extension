@@ -159,6 +159,28 @@ test.describe( 'Settings REST API', () => {
 		} );
 	} );
 
+	test( 'should save guides options that mix booleans and strings', async ( { requestUtils } ) => {
+		const guides = {
+			bracketPairs: 'active',
+			bracketPairsHorizontal: false,
+			highlightActiveBracketPair: false,
+			highlightActiveIndentation: 'always',
+			indentation: true,
+		};
+
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/update_editor_config',
+			data: { editorSettings: {}, editorOptions: { guides } },
+		} );
+
+		const response = await requestUtils.rest( {
+			method: 'POST',
+			path: '/custom-html-block-extension/v1/get_editor_config',
+		} );
+		expect( response.editorOptions.guides ).toEqual( guides );
+	} );
+
 	test( 'should reject invalid options', async ( { requestUtils } ) => {
 		await expect(
 			requestUtils.rest( {

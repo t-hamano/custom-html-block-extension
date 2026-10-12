@@ -59,7 +59,10 @@ export type EditorOptions = {
 	formatOnPaste: boolean;
 	glyphMargin: boolean;
 	guides: {
-		highlightActiveIndentation: boolean;
+		bracketPairs: boolean | 'active';
+		bracketPairsHorizontal: boolean | 'active';
+		highlightActiveBracketPair: boolean;
+		highlightActiveIndentation: boolean | 'always';
 		indentation: boolean;
 	};
 	hideCursorInOverviewRuler: boolean;

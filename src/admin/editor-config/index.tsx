@@ -420,6 +420,13 @@ export default function EditorConfig() {
 									<div inert={ inertValue( ! editorOptions.guides.indentation ) }>
 										<EditorOptions.GuidesHighlightActiveIndentation />
 									</div>
+									<EditorOptions.GuidesBracketPairs />
+									<div inert={ inertValue( false === editorOptions.guides.bracketPairs ) }>
+										<Stack direction="column" gap="lg">
+											<EditorOptions.GuidesBracketPairsHorizontal />
+											<EditorOptions.GuidesHighlightActiveBracketPair />
+										</Stack>
+									</div>
 									<EditorOptions.RenderControlCharacters />
 									<EditorOptions.Rulers />
 								</SettingsPanel>
