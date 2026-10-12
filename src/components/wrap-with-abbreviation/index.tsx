@@ -211,7 +211,6 @@ export default function addWrapWithAbbreviationAction(
 			};
 
 			const onKeyDown = ( event: KeyboardEvent< HTMLInputElement > ) => {
-				// Prevent the block editor from handling the keys, e.g. Escape to deselect the block.
 				event.stopPropagation();
 				if ( event.nativeEvent.isComposing ) {
 					return;
