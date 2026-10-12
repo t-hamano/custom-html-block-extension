@@ -57,6 +57,8 @@ export default function WordWrap() {
 		},
 	];
 
+	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
+
 	const onChange = ( value: EditorOptions[ 'wordWrap' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
@@ -74,8 +76,8 @@ export default function WordWrap() {
 		>
 			<SelectControl
 				label={ title }
-				items={ items }
-				value={ items.find( ( item ) => item.value === editorOptions.wordWrap ) ?? null }
+				items={ selectItems }
+				value={ selectItems.find( ( item ) => item.value === editorOptions.wordWrap ) ?? null }
 				onValueChange={ ( item ) => item && onChange( item.value as EditorOptions[ 'wordWrap' ] ) }
 			/>
 			<ItemHelp

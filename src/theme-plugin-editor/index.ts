@@ -88,6 +88,13 @@ initLoader()
 		);
 		window.editor = editor;
 
+		// The standalone editor doesn't pass the `bracketPairColorization` editor
+		// option on to the model, so set it on the model directly.
+		// See https://github.com/microsoft/monaco-editor/issues/3829
+		editor.getModel()?.updateOptions( {
+			bracketColorizationOptions: editorOptions.bracketPairColorization,
+		} );
+
 		// Event emitted when the contents of the editor have changed.
 		editor.getModel()?.onDidChangeContent( () => {
 			// Apply changes in the editor to the original textarea.

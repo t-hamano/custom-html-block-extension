@@ -50,6 +50,8 @@ export default function CursorSmoothCaretAnimation() {
 		},
 	];
 
+	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
+
 	const onChange = ( value: EditorOptions[ 'cursorSmoothCaretAnimation' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
@@ -67,9 +69,10 @@ export default function CursorSmoothCaretAnimation() {
 		>
 			<SelectControl
 				label={ title }
-				items={ items }
+				items={ selectItems }
 				value={
-					items.find( ( item ) => item.value === editorOptions.cursorSmoothCaretAnimation ) ?? null
+					selectItems.find( ( item ) => item.value === editorOptions.cursorSmoothCaretAnimation ) ??
+					null
 				}
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'cursorSmoothCaretAnimation' ] )

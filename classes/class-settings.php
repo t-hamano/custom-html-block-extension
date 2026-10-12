@@ -55,6 +55,19 @@ class Settings {
 			'type'    => 'string',
 			'default' => 'languageDefined',
 		),
+		'bracketPairColorization'          => array(
+			'type'  => 'object',
+			'items' => array(
+				'enabled'                            => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'independentColorPoolPerBracketType' => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+			),
+		),
 		'columnSelection'                  => array(
 			'type'    => 'boolean',
 			'default' => false,
@@ -79,6 +92,10 @@ class Settings {
 		'cursorBlinking'                   => array(
 			'type'    => 'string',
 			'default' => 'blink',
+		),
+		'cursorHeight'                     => array(
+			'type'    => 'number',
+			'default' => 0,
 		),
 		'cursorSmoothCaretAnimation'       => array(
 			'type'    => 'string',
@@ -222,6 +239,10 @@ class Settings {
 		'minimap'                          => array(
 			'type'  => 'object',
 			'items' => array(
+				'autohide'         => array(
+					'type'    => 'string',
+					'default' => 'none',
+				),
 				'enabled'          => array(
 					'type'    => 'boolean',
 					'default' => true,
@@ -484,6 +505,10 @@ class Settings {
 			'type'    => 'number',
 			'default' => 80,
 		),
+		'wordWrapIndicator'                => array(
+			'type'    => 'boolean',
+			'default' => false,
+		),
 	);
 
 	// Default options.
@@ -580,9 +605,11 @@ class Settings {
 
 	/**
 	 * Get editor config options.
+	 *
+	 * Overrides the default editor options with the saved values. Object options
+	 * are merged one level deeper so that properties added later get their defaults.
 	 */
 	public static function get_editor_options() {
-		// Override default editor options with option values.
 		$default_editor_options = array();
 
 		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
@@ -600,6 +627,12 @@ class Settings {
 		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
 		$editor_options = array_merge( $default_editor_options, $current_editor_options );
+
+		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
+			if ( 'object' === $value['type'] && isset( $current_editor_options[ $key ] ) && is_array( $current_editor_options[ $key ] ) ) {
+				$editor_options[ $key ] = array_merge( $default_editor_options[ $key ], $current_editor_options[ $key ] );
+			}
+		}
 
 		return self::migrate_legacy_editor_options( $editor_options );
 	}

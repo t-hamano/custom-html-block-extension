@@ -20,7 +20,7 @@ type ItemHelpProps = {
 		image?: string;
 		isDefault?: boolean;
 		title?: string;
-		description?: string;
+		description?: ReactNode;
 	}[];
 	colCount?: string | number;
 	isToggle?: boolean;
