@@ -299,7 +299,10 @@ export default function EditorConfig() {
 										<EditorOptions.WordWrapColumn />
 									</div>
 									<div inert={ inertValue( 'off' === editorOptions.wordWrap ) }>
-										<EditorOptions.WrappingIndent />
+										<Stack direction="column" gap="lg">
+											<EditorOptions.WrappingIndent />
+											<EditorOptions.WordWrapIndicator />
+										</Stack>
 									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>

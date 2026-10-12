@@ -479,6 +479,10 @@ class Settings {
 			'type'    => 'number',
 			'default' => 80,
 		),
+		'wordWrapIndicator'                => array(
+			'type'    => 'boolean',
+			'default' => false,
+		),
 	);
 
 	// Default options.

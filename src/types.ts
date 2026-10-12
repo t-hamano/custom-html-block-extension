@@ -133,6 +133,7 @@ export type EditorOptions = {
 	useTabStops: boolean;
 	wordWrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded';
 	wordWrapColumn: number;
+	wordWrapIndicator: boolean;
 	wrappingIndent: 'none' | 'same' | 'indent' | 'deepIndent';
 };
 
