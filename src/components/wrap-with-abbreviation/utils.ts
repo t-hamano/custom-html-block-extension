@@ -49,8 +49,10 @@ export function getWrapTargets(
 			let { startLineNumber, startColumn, endLineNumber, endColumn } = selection;
 
 			if ( selection.isEmpty() ) {
-				startColumn = 1;
+				// Wrap the current line, or insert an empty element after the indentation
+				// if the line has only whitespace.
 				endColumn = model.getLineMaxColumn( endLineNumber );
+				startColumn = model.getLineFirstNonWhitespaceColumn( startLineNumber ) ? 1 : endColumn;
 			}
 
 			// Exclude the trailing line break, e.g. when the whole lines are selected.
@@ -90,7 +92,12 @@ export function getWrapTargets(
 			! previous ||
 			range.startLineNumber > previous.endLineNumber ||
 			( range.startLineNumber === previous.endLineNumber &&
-				range.startColumn >= previous.endColumn )
+				range.startColumn >= previous.endColumn &&
+				// Empty ranges at the same position, e.g. multiple cursors on a whitespace-only line.
+				! (
+					range.startColumn === previous.startColumn &&
+					range.startLineNumber === previous.startLineNumber
+				) )
 		) {
 			result.push( target );
 		}
