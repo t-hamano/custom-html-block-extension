@@ -47,6 +47,13 @@ test.describe( 'Code editor', () => {
 		await requestUtils.activateTheme( 'twentytwentyfive' );
 	} );
 
+	// Switching to the code editor is saved to the user's preferences, and the save is
+	// debounced, so it can land after a test ends. Reset the preferences before each test,
+	// and after the last one so later test files start in the visual editor.
+	test.beforeEach( async ( { requestUtils } ) => {
+		await requestUtils.resetPreferences();
+	} );
+
 	test.afterEach( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
@@ -100,10 +107,6 @@ test.describe( 'Code editor', () => {
 
 		await expect( page.locator( 'textarea.editor-post-text-editor' ) ).toBeVisible();
 		await expect( page.locator( '.editor-text-editor .monaco-editor' ) ).toHaveCount( 0 );
-
-		// The editor mode is saved to the user's preferences, so leaving it in the code
-		// editor would open later tests in the code editor too.
-		await page.getByRole( 'button', { name: 'Exit code editor' } ).click();
 	} );
 
 	test( 'template content should be edited with the Monaco editor in the code editor', async ( {
