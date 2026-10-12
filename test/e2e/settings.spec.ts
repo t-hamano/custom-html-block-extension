@@ -137,6 +137,8 @@ test.describe( 'Settings REST API', () => {
 					renderFinalNewline: false,
 					find: { seedSearchStringFromSelection: true },
 					hover: false,
+					renderIndentGuides: false,
+					highlightActiveIndentGuide: false,
 					quickSuggestions: false,
 					rulers: 0,
 				},
@@ -151,6 +153,7 @@ test.describe( 'Settings REST API', () => {
 			renderFinalNewline: 'off',
 			find: { seedSearchStringFromSelection: 'always' },
 			hover: { enabled: 'off' },
+			guides: { indentation: false, highlightActiveIndentation: false },
 			quickSuggestions: { other: 'off', comments: 'off', strings: 'off' },
 			rulers: [],
 		} );

@@ -8,24 +8,32 @@ import { Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import { AdminContext } from '../../../index';
+import { useSearchVisibility } from '../../index';
+import ItemHelp from '../../components/item-help';
 
-export default function RenderIndentGuides() {
+export default function GuidesHighlightActiveIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show indent guides', 'custom-html-block-extension' );
+	const title = __( 'Highlight the active indent guide', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
 		return null;
 	}
 
+	// monaco also accepts 'always', which keeps highlighting the active indent
+	// guide while a bracket pair guide is highlighted. The plugin doesn't enable
+	// bracket pair guides, so it would behave the same as `true`.
+	// `guides.bracketPairs` will be handled as part of
+	// https://github.com/t-hamano/custom-html-block-extension/issues/295.
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			renderIndentGuides: value,
+			guides: {
+				...editorOptions.guides,
+				highlightActiveIndentation: value,
+			},
 		} );
 	};
 
@@ -39,7 +47,7 @@ export default function RenderIndentGuides() {
 		>
 			<SwitchControl
 				label={ title }
-				checked={ editorOptions.renderIndentGuides }
+				checked={ editorOptions.guides.highlightActiveIndentation }
 				onCheckedChange={ onChange }
 			/>
 			<ItemHelp
@@ -49,16 +57,16 @@ export default function RenderIndentGuides() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
-						image: 'editor-options/render-indent-guides_1.jpg',
+						image: 'editor-options/guides/highlight-active-indentation_1.gif',
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
-						image: 'editor-options/render-indent-guides_2.jpg',
+						image: 'editor-options/guides/highlight-active-indentation_2.gif',
 					},
 				] }
-				value={ editorOptions.renderIndentGuides }
+				value={ editorOptions.guides.highlightActiveIndentation }
 			/>
 		</Stack>
 	);

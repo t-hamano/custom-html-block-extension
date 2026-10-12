@@ -400,9 +400,9 @@ export default function EditorConfig() {
 									<div inert={ inertValue( 'none' === editorOptions.renderLineHighlight ) }>
 										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
 									</div>
-									<EditorOptions.RenderIndentGuides />
-									<div inert={ inertValue( ! editorOptions.renderIndentGuides ) }>
-										<EditorOptions.HighlightActiveIndentGuide />
+									<EditorOptions.GuidesIndentation />
+									<div inert={ inertValue( ! editorOptions.guides.indentation ) }>
+										<EditorOptions.GuidesHighlightActiveIndentation />
 									</div>
 									<EditorOptions.RenderControlCharacters />
 									<EditorOptions.Rulers />
