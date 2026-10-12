@@ -47,6 +47,13 @@ test.describe( 'Code editor', () => {
 		await requestUtils.activateTheme( 'twentytwentyfive' );
 	} );
 
+	// Switching to the code editor is saved to the user's preferences, and the save is
+	// debounced, so it can land after a test ends. Reset the preferences before each test,
+	// and after the last one so later test files start in the visual editor.
+	test.beforeEach( async ( { requestUtils } ) => {
+		await requestUtils.resetPreferences();
+	} );
+
 	test.afterEach( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
@@ -56,6 +63,7 @@ test.describe( 'Code editor', () => {
 	} );
 
 	test.afterAll( async ( { requestUtils } ) => {
+		await requestUtils.resetPreferences();
 		await requestUtils.deleteAllTemplates( 'wp_template' );
 	} );
 
