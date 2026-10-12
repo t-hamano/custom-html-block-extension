@@ -50,10 +50,6 @@ export default function WordWrapIndicator() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/word-wrap-indicator_1.jpg',
-						description: __(
-							'An indicator is shown at the end of each line that wraps.',
-							'custom-html-block-extension'
-						),
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
