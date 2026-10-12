@@ -19,7 +19,7 @@ import { getWrapTargets, wrapWithAbbreviation } from './utils';
 const WIDGET_ID = 'chbe.wrapWithAbbreviation.widget';
 
 // Models whose content is being changed to update the preview.
-const previewingModels = new WeakSet< Monaco.editor.ITextModel >();
+const wrapPreviewModels = new WeakSet< Monaco.editor.ITextModel >();
 
 /**
  * Whether the content change is for the preview of the wrapped text, which
@@ -28,9 +28,9 @@ const previewingModels = new WeakSet< Monaco.editor.ITextModel >();
  * @param editor The editor instance.
  * @return Whether the preview is being updated.
  */
-export function isUpdatingPreview( editor: Monaco.editor.ICodeEditor ): boolean {
+export function isApplyingWrapPreview( editor: Monaco.editor.ICodeEditor ): boolean {
 	const model = editor.getModel();
-	return !! model && previewingModels.has( model );
+	return !! model && wrapPreviewModels.has( model );
 }
 
 /**
@@ -101,11 +101,11 @@ export default function addWrapWithAbbreviationAction(
 			};
 
 			const applyPreviewEdits = ( edits: Monaco.editor.IIdentifiedSingleEditOperation[] ) => {
-				previewingModels.add( model );
+				wrapPreviewModels.add( model );
 				try {
 					return model.applyEdits( edits, true );
 				} finally {
-					previewingModels.delete( model );
+					wrapPreviewModels.delete( model );
 				}
 			};
 

@@ -18,7 +18,7 @@ import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
 import addWrapWithAbbreviationAction, {
-	isUpdatingPreview,
+	isApplyingWrapPreview,
 } from '../components/wrap-with-abbreviation';
 
 /**
@@ -96,7 +96,7 @@ initLoader()
 			// of "Wrap with Abbreviation" until it's confirmed.
 			const editorValue = editor.getModel()?.getValue();
 			if (
-				isUpdatingPreview( editor ) ||
+				isApplyingWrapPreview( editor ) ||
 				editorValue === undefined ||
 				textarea.value === editorValue
 			) {

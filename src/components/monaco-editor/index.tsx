@@ -27,7 +27,7 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
-import addWrapWithAbbreviationAction, { isUpdatingPreview } from '../wrap-with-abbreviation';
+import addWrapWithAbbreviationAction, { isApplyingWrapPreview } from '../wrap-with-abbreviation';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -264,7 +264,7 @@ export default function MonacoEditor( {
 			subscriptionsRef.current = [
 				editor.onDidChangeModelContent( ( event ) => {
 					// Don't notify the preview of "Wrap with Abbreviation" until it's confirmed.
-					if ( isUpdatingPreview( editor ) ) {
+					if ( isApplyingWrapPreview( editor ) ) {
 						return;
 					}
 					onChangeRef.current?.( editor.getValue(), event );
