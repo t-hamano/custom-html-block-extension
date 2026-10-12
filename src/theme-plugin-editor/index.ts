@@ -17,6 +17,7 @@ import { debounce } from '@wordpress/compose';
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { withStickyScrollModel } from '../lib/helper';
 
 /**
  * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
@@ -74,7 +75,7 @@ initLoader()
 			value: textarea.value,
 			language,
 			automaticLayout: true,
-			...editorOptions,
+			...withStickyScrollModel( editorOptions ),
 			tabSize,
 			insertSpaces,
 			detectIndentation,

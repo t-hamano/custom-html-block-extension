@@ -11,6 +11,7 @@ import type * as Monaco from 'monaco-editor';
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { withStickyScrollModel } from '../lib/helper';
 
 initLoader()
 	.then( ( monaco ) => {
@@ -82,7 +83,7 @@ initLoader()
 				value: textarea.value,
 				language: 'html',
 				automaticLayout: true,
-				...editorOptions,
+				...withStickyScrollModel( editorOptions ),
 				tabSize,
 				insertSpaces,
 				detectIndentation,

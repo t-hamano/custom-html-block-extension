@@ -27,6 +27,7 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
+import { withStickyScrollModel } from '../../lib/helper';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -169,7 +170,7 @@ export default function MonacoEditor( {
 							'Editor content. To change the Tab key behavior, press Ctrl+M.',
 							'custom-html-block-extension'
 						),
-				...options,
+				...withStickyScrollModel( options ),
 				tabSize,
 				insertSpaces,
 				detectIndentation,
