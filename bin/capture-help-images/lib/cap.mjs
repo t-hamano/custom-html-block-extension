@@ -546,6 +546,23 @@ export async function clipAt(
 }
 
 export function outPath( rel ) {
-	const ext = path.extname( rel );
-	return `${ IMG }/${ rel.slice( 0, -ext.length ) }_new${ ext }`;
+	return `${ IMG }/${ rel }`;
+}
+
+// The committed version of an image, so that retakes still read the original
+// after the capture overwrites it. Falls back to the file for new images.
+export function origPath( rel ) {
+	const out = `${ WORK }/orig/${ rel }`;
+	try {
+		const data = execFileSync(
+			'git',
+			[ 'show', `HEAD:${ path.relative( ROOT, `${ IMG }/${ rel }` ) }` ],
+			{ cwd: ROOT, stdio: [ 'ignore', 'pipe', 'ignore' ], maxBuffer: 1 << 28 }
+		);
+		fs.mkdirSync( path.dirname( out ), { recursive: true } );
+		fs.writeFileSync( out, data );
+		return out;
+	} catch {
+		return `${ IMG }/${ rel }`;
+	}
 }
