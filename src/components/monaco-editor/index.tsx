@@ -173,6 +173,11 @@ export default function MonacoEditor( {
 				tabSize,
 				insertSpaces,
 				detectIndentation,
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...options.stickyScroll,
+					defaultModel: 'foldingProviderModel',
+				},
 			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 

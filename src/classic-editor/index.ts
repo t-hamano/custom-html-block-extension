@@ -93,6 +93,11 @@ initLoader()
 					vertical: 'hidden',
 					alwaysConsumeMouseWheel: false,
 				},
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...editorOptions.stickyScroll,
+					defaultModel: 'foldingProviderModel',
+				},
 			};
 
 			// Create monaco editor.

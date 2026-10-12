@@ -78,6 +78,11 @@ initLoader()
 			tabSize,
 			insertSpaces,
 			detectIndentation,
+			// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+			stickyScroll: {
+				...editorOptions.stickyScroll,
+				defaultModel: 'foldingProviderModel',
+			},
 		};
 
 		// Create monaco editor.

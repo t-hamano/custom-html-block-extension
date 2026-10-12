@@ -127,6 +127,10 @@ export type EditorOptions = {
 	selectionHighlight: boolean;
 	showFoldingControls: 'always' | 'never' | 'mouseover';
 	smoothScrolling: boolean;
+	stickyScroll: {
+		enabled: boolean;
+		maxLineCount: number;
+	};
 	stickyTabStops: boolean;
 	suggest: {
 		showIcons: boolean;
