@@ -54,6 +54,8 @@ export default function FindSeedSearchStringFromSelection() {
 		},
 	];
 
+	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
+
 	const onChange = ( value: EditorOptions[ 'find' ][ 'seedSearchStringFromSelection' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
@@ -74,9 +76,9 @@ export default function FindSeedSearchStringFromSelection() {
 		>
 			<SelectControl
 				label={ title }
-				items={ items }
+				items={ selectItems }
 				value={
-					items.find(
+					selectItems.find(
 						( item ) => item.value === editorOptions.find.seedSearchStringFromSelection
 					) ?? null
 				}
