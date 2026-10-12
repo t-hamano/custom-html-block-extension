@@ -48,6 +48,10 @@ export default function BracketPairColorizationEnabled() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Color matching brackets, such as (), [], and {}, according to their nesting level, so you can easily see which brackets form a pair.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
