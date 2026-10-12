@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { Link, Notice, Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
@@ -65,9 +65,14 @@ export default function Emmet() {
 							) }
 						</Text>
 						<Text render={ <p /> }>
-							{ __(
-								'Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (F1) to wrap it with an abbreviation.',
-								'custom-html-block-extension'
+							{ createInterpolateElement(
+								__(
+									'Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation.',
+									'custom-html-block-extension'
+								),
+								{
+									code: <code />,
+								}
 							) }
 							<br />
 							{ __(
