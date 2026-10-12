@@ -56,7 +56,6 @@ test.describe( 'Code editor', () => {
 	} );
 
 	test.afterAll( async ( { requestUtils } ) => {
-		await requestUtils.resetPreferences();
 		await requestUtils.deleteAllTemplates( 'wp_template' );
 	} );
 
@@ -100,10 +99,6 @@ test.describe( 'Code editor', () => {
 
 		await expect( page.locator( 'textarea.editor-post-text-editor' ) ).toBeVisible();
 		await expect( page.locator( '.editor-text-editor .monaco-editor' ) ).toHaveCount( 0 );
-
-		// The editor mode is saved to the user's preferences, so leaving it in the code
-		// editor would open later tests in the code editor too.
-		await page.getByRole( 'button', { name: 'Exit code editor' } ).click();
 	} );
 
 	test( 'template content should be edited with the Monaco editor in the code editor', async ( {
