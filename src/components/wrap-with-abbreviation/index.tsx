@@ -2,18 +2,18 @@
  * External dependencies
  */
 import type * as Monaco from 'monaco-editor';
-import type { FocusEvent } from 'react';
+import type { FocusEvent, KeyboardEvent } from 'react';
 
 /**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { createRoot } from '@wordpress/element';
+import { InputControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
-import AbbreviationInput from './abbreviation-input';
 import { getWrapTargets, wrapWithAbbreviation } from './utils';
 
 const WIDGET_ID = 'chbe.wrapWithAbbreviation.widget';
@@ -210,6 +210,21 @@ export default function addWrapWithAbbreviationAction(
 				}
 			};
 
+			const onKeyDown = ( event: KeyboardEvent< HTMLInputElement > ) => {
+				// Prevent the block editor from handling the keys, e.g. Escape to deselect the block.
+				event.stopPropagation();
+				if ( event.nativeEvent.isComposing ) {
+					return;
+				}
+				if ( 'Enter' === event.key ) {
+					event.preventDefault();
+					close( true, true );
+				} else if ( 'Escape' === event.key ) {
+					event.preventDefault();
+					close( false, true );
+				}
+			};
+
 			isOpen = true;
 			disposeWidget = dispose;
 			ownerDocument.addEventListener( 'pointerdown', onPointerDown, true );
@@ -217,11 +232,20 @@ export default function addWrapWithAbbreviationAction(
 			// Render the widget immediately, since the input can't be focused while it's hidden.
 			editor.render( true );
 			root.render(
-				<AbbreviationInput
-					onChange={ onChange }
-					onConfirm={ () => close( true, true ) }
-					onCancel={ () => close( false, true ) }
+				<InputControl
+					ref={ ( input ) => input?.focus() }
+					label={ __( 'Abbreviation', 'custom-html-block-extension' ) }
+					hideLabelFromVision
+					description={ __(
+						"Enter Abbreviation (Press 'Enter' to confirm or 'Escape' to cancel)",
+						'custom-html-block-extension'
+					) }
+					size="compact"
+					onChange={ ( event ) => onChange( event.target.value ) }
+					onKeyDown={ onKeyDown }
 					onBlur={ onBlur }
+					autoComplete="off"
+					spellCheck={ false }
 				/>
 			);
 		},
