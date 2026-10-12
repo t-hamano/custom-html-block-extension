@@ -42,12 +42,3 @@ export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
 			isDeepEqual( aRecord[ key ], bRecord[ key ] )
 	);
 };
-
-// Monaco's outline of HTML is flat, so the default `outlineModel` pins no lines.
-export const withStickyScrollModel = < T extends { stickyScroll?: object } >( options: T ) => ( {
-	...options,
-	stickyScroll: {
-		...options.stickyScroll,
-		defaultModel: 'foldingProviderModel' as const,
-	},
-} );

@@ -11,7 +11,6 @@ import type * as Monaco from 'monaco-editor';
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
-import { withStickyScrollModel } from '../lib/helper';
 
 initLoader()
 	.then( ( monaco ) => {
@@ -83,7 +82,7 @@ initLoader()
 				value: textarea.value,
 				language: 'html',
 				automaticLayout: true,
-				...withStickyScrollModel( editorOptions ),
+				...editorOptions,
 				tabSize,
 				insertSpaces,
 				detectIndentation,
@@ -93,6 +92,11 @@ initLoader()
 					...editorOptions.scrollbar,
 					vertical: 'hidden',
 					alwaysConsumeMouseWheel: false,
+				},
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...editorOptions.stickyScroll,
+					defaultModel: 'foldingProviderModel',
 				},
 			};
 

@@ -27,7 +27,6 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
-import { withStickyScrollModel } from '../../lib/helper';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -170,10 +169,15 @@ export default function MonacoEditor( {
 							'Editor content. To change the Tab key behavior, press Ctrl+M.',
 							'custom-html-block-extension'
 						),
-				...withStickyScrollModel( options ),
+				...options,
 				tabSize,
 				insertSpaces,
 				detectIndentation,
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...options.stickyScroll,
+					defaultModel: 'foldingProviderModel',
+				},
 			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 

@@ -17,7 +17,6 @@ import { debounce } from '@wordpress/compose';
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
-import { withStickyScrollModel } from '../lib/helper';
 
 /**
  * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
@@ -75,10 +74,15 @@ initLoader()
 			value: textarea.value,
 			language,
 			automaticLayout: true,
-			...withStickyScrollModel( editorOptions ),
+			...editorOptions,
 			tabSize,
 			insertSpaces,
 			detectIndentation,
+			// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+			stickyScroll: {
+				...editorOptions.stickyScroll,
+				defaultModel: 'foldingProviderModel',
+			},
 		};
 
 		// Create monaco editor.
