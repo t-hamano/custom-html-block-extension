@@ -8,14 +8,14 @@ import { Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import { AdminContext } from '../../../index';
+import { useSearchVisibility } from '../../index';
+import ItemHelp from '../../components/item-help';
 
-export default function HighlightActiveIndentGuide() {
+export default function GuidesIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight the active indent guide', 'custom-html-block-extension' );
+	const title = __( 'Show indent guides', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -25,7 +25,10 @@ export default function HighlightActiveIndentGuide() {
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			highlightActiveIndentGuide: value,
+			guides: {
+				...editorOptions.guides,
+				indentation: value,
+			},
 		} );
 	};
 
@@ -39,7 +42,7 @@ export default function HighlightActiveIndentGuide() {
 		>
 			<SwitchControl
 				label={ title }
-				checked={ editorOptions.highlightActiveIndentGuide }
+				checked={ editorOptions.guides.indentation }
 				onCheckedChange={ onChange }
 			/>
 			<ItemHelp
@@ -49,16 +52,16 @@ export default function HighlightActiveIndentGuide() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
-						image: 'editor-options/highlight-active-indent-guide_1.gif',
+						image: 'editor-options/guides/indentation_1.jpg',
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
-						image: 'editor-options/highlight-active-indent-guide_2.gif',
+						image: 'editor-options/guides/indentation_2.jpg',
 					},
 				] }
-				value={ editorOptions.highlightActiveIndentGuide }
+				value={ editorOptions.guides.indentation }
 			/>
 		</Stack>
 	);
