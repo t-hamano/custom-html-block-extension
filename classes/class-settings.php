@@ -566,9 +566,11 @@ class Settings {
 
 	/**
 	 * Get editor config options.
+	 *
+	 * Overrides the default editor options with the saved values. Object options
+	 * are merged one level deeper so that properties added later get their defaults.
 	 */
 	public static function get_editor_options() {
-		// Override default editor options with option values.
 		$default_editor_options = array();
 
 		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
@@ -587,8 +589,6 @@ class Settings {
 
 		$editor_options = array_merge( $default_editor_options, $current_editor_options );
 
-		// Merge object options one level deeper so that properties added in newer
-		// plugin versions get their defaults even when the option was saved before.
 		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
 			if ( 'object' === $value['type'] && isset( $current_editor_options[ $key ] ) && is_array( $current_editor_options[ $key ] ) ) {
 				$editor_options[ $key ] = array_merge( $default_editor_options[ $key ], $current_editor_options[ $key ] );
