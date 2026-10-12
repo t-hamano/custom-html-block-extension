@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { RangeControl } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
@@ -51,12 +51,33 @@ export default function StickyScrollMaxLineCount() {
 				onChange={ onChange }
 			/>
 			<ItemHelp
+				onChange={ onChange }
 				title={ title }
 				description={ __(
 					'The maximum number of lines that stay at the top of the editor while scrolling.',
 					'custom-html-block-extension'
 				) }
-				image="editor-options/sticky-scroll/max-line-count.gif"
+				items={ [
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'2'
+						),
+						image: 'editor-options/sticky-scroll/max-line-count_1.gif',
+						value: 2,
+					},
+					{
+						label: sprintf(
+							/* translators: %s is replaced with the number. */
+							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+							'5'
+						),
+						image: 'editor-options/sticky-scroll/max-line-count_2.gif',
+						value: 5,
+					},
+				] }
+				value={ editorOptions.stickyScroll.maxLineCount }
 			/>
 		</Stack>
 	);
