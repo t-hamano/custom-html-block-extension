@@ -3,6 +3,8 @@ export { default as AutoClosingBrackets } from './auto-closing-brackets';
 export { default as AutoClosingQuotes } from './auto-closing-quotes';
 export { default as AutoIndent } from './auto-indent';
 export { default as AutoSurround } from './auto-surround';
+export { default as BracketPairColorizationEnabled } from './bracket-pair-colorization/enabled';
+export { default as BracketPairColorizationIndependentColorPoolPerBracketType } from './bracket-pair-colorization/independent-color-pool-per-bracket-type';
 export { default as ColumnSelection } from './column-selection';
 export { default as CommentsInsertSpace } from './comments/insert-space';
 export { default as Contextmenu } from './contextmenu';

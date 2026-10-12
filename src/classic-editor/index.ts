@@ -102,6 +102,13 @@ initLoader()
 			);
 			window.editor = editor;
 
+			// The standalone editor doesn't pass the `bracketPairColorization` editor
+			// option on to the model, so set it on the model directly.
+			// See https://github.com/microsoft/monaco-editor/issues/3829
+			editor.getModel()?.updateOptions( {
+				bracketColorizationOptions: editorOptions.bracketPairColorization,
+			} );
+
 			// Force "preventScroll" on focus so clicking the editor doesn't scroll
 			// the page back to the cursor (e.g. after browser find-in-page). Only
 			// Chromium's EditContext element has this issue.

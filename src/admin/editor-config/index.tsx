@@ -406,6 +406,10 @@ export default function EditorConfig() {
 									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
 								>
 									<EditorOptions.MatchBrackets />
+									<EditorOptions.BracketPairColorizationEnabled />
+									<div inert={ inertValue( ! editorOptions.bracketPairColorization.enabled ) }>
+										<EditorOptions.BracketPairColorizationIndependentColorPoolPerBracketType />
+									</div>
 									<EditorOptions.OccurrencesHighlight />
 									<EditorOptions.RenderWhitespace />
 									<EditorOptions.RenderLineHighlight />
