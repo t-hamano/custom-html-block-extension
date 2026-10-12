@@ -48,16 +48,16 @@ export default function BracketPairColorizationIndependentColorPoolPerBracketTyp
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				description={ __(
-					'Give each bracket type, such as (), [], and {}, its own color sequence, instead of sharing one sequence across all types.',
-					'custom-html-block-extension'
-				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image:
 							'editor-options/bracket-pair-colorization/independent-color-pool-per-bracket-type_1.jpg',
+						description: __(
+							'Each bracket type, such as (), [], and {}, is colored by its own nesting level.',
+							'custom-html-block-extension'
+						),
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
@@ -65,6 +65,10 @@ export default function BracketPairColorizationIndependentColorPoolPerBracketTyp
 						image:
 							'editor-options/bracket-pair-colorization/independent-color-pool-per-bracket-type_2.jpg',
 						isDefault: true,
+						description: __(
+							'All bracket types share one color sequence, colored by their combined nesting level.',
+							'custom-html-block-extension'
+						),
 					},
 				] }
 				value={ editorOptions.bracketPairColorization.independentColorPoolPerBracketType }
