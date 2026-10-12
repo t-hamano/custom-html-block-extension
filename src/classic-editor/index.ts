@@ -268,7 +268,8 @@ initLoader()
 				if ( 100 === checkCount ) {
 					window.clearInterval( checkForChanges );
 				}
-				if ( model.getValue() !== textarea.value ) {
+				// The preview of "Wrap with Abbreviation" differs from the textarea until it's confirmed.
+				if ( ! isApplyingWrapPreview( editor ) && model.getValue() !== textarea.value ) {
 					model.setValue( textarea.value );
 					window.clearInterval( checkForChanges );
 					const editorPosition = getEditorPosition( textarea );

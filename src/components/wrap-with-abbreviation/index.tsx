@@ -18,15 +18,15 @@ import { getWrapTargets, wrapWithAbbreviation } from './utils';
 
 const WIDGET_ID = 'chbe.wrapWithAbbreviation.widget';
 
-// Models whose content is being changed to update the preview.
+// Models showing the preview of the wrapped text.
 const wrapPreviewModels = new WeakSet< Monaco.editor.ITextModel >();
 
 /**
- * Whether the content change is for the preview of the wrapped text, which
- * shouldn't be synced to the original content until it's confirmed.
+ * Whether the preview of the wrapped text is shown in the editor. The content
+ * shouldn't be synced with the original content until the preview is confirmed.
  *
  * @param editor The editor instance.
- * @return Whether the preview is being updated.
+ * @return Whether the preview is shown.
  */
 export function isApplyingWrapPreview( editor: Monaco.editor.ICodeEditor ): boolean {
 	const model = editor.getModel();
@@ -103,17 +103,8 @@ export default function addWrapWithAbbreviationAction(
 				} ),
 			};
 
-			const applyPreviewEdits = ( edits: Monaco.editor.IIdentifiedSingleEditOperation[] ) => {
-				wrapPreviewModels.add( model );
-				try {
-					return model.applyEdits( edits, true );
-				} finally {
-					wrapPreviewModels.delete( model );
-				}
-			};
-
 			const revertPreview = () => {
-				applyPreviewEdits( undoEdits );
+				model.applyEdits( undoEdits, true );
 				undoEdits = [];
 			};
 
@@ -127,7 +118,7 @@ export default function addWrapWithAbbreviationAction(
 				);
 				wrappedTexts = texts.every( ( text ) => null !== text ) ? ( texts as string[] ) : null;
 				if ( wrappedTexts ) {
-					undoEdits = applyPreviewEdits( getEdits( wrappedTexts ) );
+					undoEdits = model.applyEdits( getEdits( wrappedTexts ), true );
 				}
 				editor.layoutContentWidget( widget );
 			};
@@ -147,6 +138,7 @@ export default function addWrapWithAbbreviationAction(
 			// Clean up the widget without accessing the model, which may be already disposed.
 			const dispose = () => {
 				isOpen = false;
+				wrapPreviewModels.delete( model );
 				ownerDocument.removeEventListener( 'pointerdown', onPointerDown, true );
 				unmount();
 			};
@@ -157,6 +149,7 @@ export default function addWrapWithAbbreviationAction(
 				}
 				isOpen = false;
 				revertPreview();
+				wrapPreviewModels.delete( model );
 
 				if ( ! shouldApply || ! wrappedTexts ) {
 					// Restore the selections moved by the preview.
@@ -225,6 +218,7 @@ export default function addWrapWithAbbreviationAction(
 			};
 
 			isOpen = true;
+			wrapPreviewModels.add( model );
 			disposeWidget = dispose;
 			ownerDocument.addEventListener( 'pointerdown', onPointerDown, true );
 			editor.addContentWidget( widget );
