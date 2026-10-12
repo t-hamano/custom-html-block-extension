@@ -2,8 +2,8 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { createInterpolateElement, useContext } from '@wordpress/element';
+import { Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -48,10 +48,19 @@ export default function BracketPairColorizationEnabled() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				description={ __(
-					'Color matching brackets, such as (), [], and {}, according to their nesting level, so you can easily see which brackets form a pair.',
-					'custom-html-block-extension'
-				) }
+				description={
+					<Text render={ <p /> }>
+						{ createInterpolateElement(
+							__(
+								'Color matching brackets, such as <code>()</code>, <code>[]</code>, and <code>{}</code>, according to their nesting level, so you can easily see which brackets form a pair.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
+						) }
+					</Text>
+				}
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

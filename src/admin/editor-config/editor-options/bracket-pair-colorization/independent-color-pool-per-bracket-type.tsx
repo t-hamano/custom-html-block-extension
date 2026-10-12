@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
@@ -54,9 +54,14 @@ export default function BracketPairColorizationIndependentColorPoolPerBracketTyp
 						value: true,
 						image:
 							'editor-options/bracket-pair-colorization/independent-color-pool-per-bracket-type_1.jpg',
-						description: __(
-							'Each bracket type, such as (), [], and {}, is colored by its own nesting level.',
-							'custom-html-block-extension'
+						description: createInterpolateElement(
+							__(
+								'Each bracket type, such as <code>()</code>, <code>[]</code>, and <code>{}</code>, is colored by its own nesting level.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
 						),
 					},
 					{
