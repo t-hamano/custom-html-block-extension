@@ -49,7 +49,6 @@ export default function AbbreviationInput( {
 		<InputControl
 			label={ __( 'Abbreviation', 'custom-html-block-extension' ) }
 			hideLabelFromVision
-			className="chbe-wrap-with-abbreviation__input"
 			description={ __(
 				"Enter Abbreviation (Press 'Enter' to confirm or 'Escape' to cancel)",
 				'custom-html-block-extension'
