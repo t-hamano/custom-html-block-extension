@@ -80,7 +80,7 @@ try {
 node artifacts/capture-help-images/scripts/<名前>.mjs
 ```
 
-- 撮った画像は、今の画像に直接上書きされる。元の画像は git の HEAD から読むので、何度撮り直しても元の画像を基準にできる。元に戻すときは `git checkout -- <画像>`。
+- 撮った画像は、今の画像に直接上書きされる。元の画像は git の HEAD から読むので、何度撮り直しても元の画像を基準にできる。元に戻すときは `git checkout HEAD -- <画像>`。
 - 出力に `WARN ... the crop goes outside the editor` が出たら、切り抜きがエディタの外にはみ出している。ページの背景を写す場合（`allowOutside: true`）以外は、スクリプトを直す。
 - 元の画像（HEAD）と並べた比較画像を作り、Read で見て確認する。
 

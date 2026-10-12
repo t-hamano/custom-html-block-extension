@@ -11,9 +11,11 @@ BASE = str(ROOT / 'assets/images/admin/editor-config') + '/'
 
 
 def orig(rel):
-    """The committed version of an image (the capture overwrites the file)."""
-    return subprocess.run(['git', 'show', 'HEAD:assets/images/admin/editor-config/' + rel],
-                          cwd=ROOT, capture_output=True, check=True).stdout
+    """The committed version of an image (the capture overwrites the file).
+    Falls back to the file for new images."""
+    res = subprocess.run(['git', 'show', 'HEAD:assets/images/admin/editor-config/' + rel],
+                         cwd=ROOT, capture_output=True)
+    return res.stdout if res.returncode == 0 else Path(BASE + rel).read_bytes()
 out, scale, rels = sys.argv[1], float(sys.argv[2]), sys.argv[3:]
 tiles = []
 for rel in rels:
