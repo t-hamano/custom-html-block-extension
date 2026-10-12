@@ -50,7 +50,10 @@ export default function addWrapWithAbbreviationAction(
 	let isOpen = false;
 	let disposeWidget: ( () => void ) | null = null;
 
+	// Close the widget without reverting the preview when the editor or its model is disposed,
+	// e.g. the classic editor disposes the models when switching to the visual mode.
 	editor.onDidDispose( () => disposeWidget?.() );
+	editor.onDidChangeModel( () => disposeWidget?.() );
 
 	editor.addAction( {
 		id: 'chbe.wrapWithAbbreviation',
