@@ -557,7 +557,7 @@ export function origPath( rel ) {
 		const data = execFileSync(
 			'git',
 			[ 'show', `HEAD:${ path.relative( ROOT, `${ IMG }/${ rel }` ) }` ],
-			{ cwd: ROOT, stdio: [ 'ignore', 'pipe', 'ignore' ], maxBuffer: 1 << 28 }
+			{ cwd: ROOT, stdio: [ 'ignore', 'pipe', 'ignore' ], maxBuffer: 256 * 1024 * 1024 }
 		);
 		fs.mkdirSync( path.dirname( out ), { recursive: true } );
 		fs.writeFileSync( out, data );
