@@ -299,7 +299,10 @@ export default function EditorConfig() {
 										<EditorOptions.WordWrapColumn />
 									</div>
 									<div inert={ inertValue( 'off' === editorOptions.wordWrap ) }>
-										<EditorOptions.WrappingIndent />
+										<Stack direction="column" gap="lg">
+											<EditorOptions.WrappingIndent />
+											<EditorOptions.WordWrapIndicator />
+										</Stack>
 									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>
@@ -309,6 +312,7 @@ export default function EditorConfig() {
 											<EditorOptions.MinimapSide />
 											<EditorOptions.MinimapMaxColumn />
 											<EditorOptions.MinimapScale />
+											<EditorOptions.MinimapAutohide />
 											<EditorOptions.MinimapShowSlider />
 											<EditorOptions.MinimapSize />
 											<EditorOptions.MinimapRenderCharacters />
@@ -319,6 +323,14 @@ export default function EditorConfig() {
 									<EditorOptions.CursorStyle />
 									<div inert={ inertValue( 'line' !== editorOptions.cursorStyle ) }>
 										<EditorOptions.CursorWidth />
+									</div>
+									<div
+										inert={ inertValue(
+											'line' !== editorOptions.cursorStyle &&
+												'line-thin' !== editorOptions.cursorStyle
+										) }
+									>
+										<EditorOptions.CursorHeight />
 									</div>
 									<EditorOptions.CursorBlinking />
 									<EditorOptions.CursorSurroundingLines />
