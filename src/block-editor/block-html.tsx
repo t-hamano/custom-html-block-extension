@@ -23,6 +23,7 @@ import type { Block } from '@wordpress/blocks';
  * Internal dependencies
  */
 import MonacoEditor from '../components/monaco-editor';
+import useEditorConfigProps from './use-editor-config-props';
 
 type BlockListBlockProps = {
 	clientId: string;
@@ -46,7 +47,6 @@ function BlockHTMLWrapper( { children }: { children: ReactNode } ) {
 
 // Monaco version of `BlockHTML` in `@wordpress/block-editor`.
 function BlockHTML( { clientId }: { clientId: string } ) {
-	const { editorSettings } = window.chbeObj;
 	const { updateBlock } = useDispatch( blockEditorStore );
 	const block = useSelect(
 		( select ) => select( blockEditorStore ).getBlock( clientId ),
@@ -55,14 +55,11 @@ function BlockHTML( { clientId }: { clientId: string } ) {
 	const blockContent = useMemo( () => ( block ? getBlockContent( block ) : '' ), [ block ] );
 	const [ html, setHtml ] = useState( blockContent );
 
-	const options = useMemo(
-		() => ( {
-			...window.chbeObj.editorOptions,
-			// The editor resizes to fit its content, so it must not add space below the last line.
-			scrollBeyondLastLine: false,
-		} ),
-		[]
-	);
+	const editorConfigProps = useEditorConfigProps( ( editorOptions ) => ( {
+		...editorOptions,
+		// The editor resizes to fit its content, so it must not add space below the last line.
+		scrollBeyondLastLine: false,
+	} ) );
 
 	useEffect( () => {
 		setHtml( blockContent );
@@ -101,13 +98,8 @@ function BlockHTML( { clientId }: { clientId: string } ) {
 	return (
 		<MonacoEditor
 			language="html"
-			theme={ editorSettings.theme }
-			options={ options }
+			{ ...editorConfigProps }
 			value={ html }
-			useEmmet={ editorSettings.emmet }
-			tabSize={ editorSettings.tabSize }
-			insertSpaces={ editorSettings.insertSpaces }
-			detectIndentation={ editorSettings.detectIndentation }
 			onChange={ setHtml }
 			onBlur={ onBlur }
 			autoHeight={ { min: MIN_HEIGHT, max: MAX_HEIGHT } }
