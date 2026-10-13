@@ -20,21 +20,35 @@ jobs:
     strategy:
       matrix:
         include:
-          # Oldest and newest supported combinations run on all browsers.
+          # Browser differences only depend on the WordPress version,
+          # so all browsers run on the latest PHP only.
+          - php: '8.0'
+            wp: WordPress
+            browsers: chromium
           - php: '8.0'
             wp: WordPress#7.1
-            browsers: chromium firefox webkit
-          - php: '8.5'
-            wp: WordPress
-            browsers: chromium firefox webkit
+            browsers: chromium
 
-          # Other PHP versions mainly affect the server side, so Chromium is enough.
           - php: '8.2'
+            wp: WordPress
+            browsers: chromium
+          - php: '8.2'
+            wp: WordPress#7.1
+            browsers: chromium
+
+          - php: '8.4'
             wp: WordPress
             browsers: chromium
           - php: '8.4'
             wp: WordPress#7.1
             browsers: chromium
+
+          - php: '8.5'
+            wp: WordPress
+            browsers: chromium firefox webkit
+          - php: '8.5'
+            wp: WordPress#7.1
+            browsers: chromium firefox webkit
 
     name: PHP ${{ matrix.php }} / ${{ matrix.wp }} Test
 
