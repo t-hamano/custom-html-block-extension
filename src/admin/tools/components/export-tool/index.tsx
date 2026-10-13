@@ -15,12 +15,14 @@ import { getSettings } from '../../../api';
 
 export default function ExportTool() {
 	const { setIsWaiting } = useContext( AdminContext );
-	const { createSuccessNotice } = useDispatch( noticesStore );
+	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	// Export editor config.
 	const onExportOptions = async () => {
 		setIsWaiting( true );
-		getSettings().then( async ( { editorSettings, editorOptions } ) => {
+
+		try {
+			const { editorSettings, editorOptions } = await getSettings();
 			const date = new Date();
 			const fileDate =
 				date.getFullYear() +
@@ -30,21 +32,24 @@ export default function ExportTool() {
 				( '0' + date.getDate() ).slice( -2 );
 			const json = JSON.stringify( { editorSettings, editorOptions } );
 			const blob = new window.Blob( [ json ], { type: 'application/json' } );
-			const href = await URL.createObjectURL( blob );
+			const href = URL.createObjectURL( blob );
 			const link = document.createElement( 'a' );
 			link.href = href;
 			link.download = 'chbe-export-' + fileDate + '.json';
 			document.body.appendChild( link );
-
-			setTimeout( () => {
-				link.click();
-				document.body.removeChild( link );
-				createSuccessNotice( __( 'Exported the editor config.', 'custom-html-block-extension' ), {
-					type: 'snackbar',
-				} );
-				setIsWaiting( false );
-			}, 600 );
-		} );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			link.click();
+			document.body.removeChild( link );
+			URL.revokeObjectURL( href );
+			createSuccessNotice( __( 'Exported the editor config.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
+			} );
+		} catch ( error ) {
+			createErrorNotice( ( error as Error ).message, { type: 'snackbar' } );
+		} finally {
+			setIsWaiting( false );
+		}
 	};
 
 	return (

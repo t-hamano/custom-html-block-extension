@@ -154,30 +154,30 @@ export default function EditorConfig() {
 		! isDeepEqual( editorOptions, savedEditorConfig.editorOptions );
 
 	// Update editor config.
-	const onUpdateOptions = () => {
+	const onUpdateOptions = async () => {
 		setIsWaiting( true );
 
-		updateSettings( { editorSettings, editorOptions } )
-			.then( () => {
-				setSavedEditorConfig( { editorSettings, editorOptions } );
-				setTimeout( () => {
-					createSuccessNotice( __( 'Settings saved.', 'custom-html-block-extension' ), {
-						type: 'snackbar',
-					} );
-					setIsWaiting( false );
-				}, 600 );
-			} )
-			.catch( ( error: Error ) => {
-				createErrorNotice( error.message, { type: 'snackbar' } );
-				setIsWaiting( false );
+		try {
+			await updateSettings( { editorSettings, editorOptions } );
+			setSavedEditorConfig( { editorSettings, editorOptions } );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			createSuccessNotice( __( 'Settings saved.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
 			} );
+		} catch ( error ) {
+			createErrorNotice( ( error as Error ).message, { type: 'snackbar' } );
+		} finally {
+			setIsWaiting( false );
+		}
 	};
 
 	// Reset editor config.
-	const onResetOptions = () => {
+	const onResetOptions = async () => {
 		setIsWaiting( true );
 
-		return updateSettings( { editorSettings: null, editorOptions: null } ).then( ( response ) => {
+		try {
+			const response = await updateSettings( { editorSettings: null, editorOptions: null } );
 			// Sets default editor config.
 			setEditorSettings( response.editorSettings );
 			setEditorOptions( response.editorOptions );
@@ -185,17 +185,16 @@ export default function EditorConfig() {
 				editorSettings: response.editorSettings,
 				editorOptions: response.editorOptions,
 			} );
-
-			return new Promise< void >( ( resolve ) => {
-				setTimeout( () => {
-					createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
-						type: 'snackbar',
-					} );
-					setIsWaiting( false );
-					resolve();
-				}, 600 );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
 			} );
-		} );
+		} catch ( error ) {
+			createErrorNotice( ( error as Error ).message, { type: 'snackbar' } );
+		} finally {
+			setIsWaiting( false );
+		}
 	};
 
 	// Refresh editor.

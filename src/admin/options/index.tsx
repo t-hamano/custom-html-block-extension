@@ -20,22 +20,21 @@ export default function Options() {
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	// Update options.
-	const onUpdateOptions = () => {
+	const onUpdateOptions = async () => {
 		setIsWaiting( true );
 
-		updateSettings( { options } )
-			.then( () => {
-				setTimeout( () => {
-					createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
-						type: 'snackbar',
-					} );
-					setIsWaiting( false );
-				}, 600 );
-			} )
-			.catch( ( error: Error ) => {
-				createErrorNotice( error.message, { type: 'snackbar' } );
-				setIsWaiting( false );
+		try {
+			await updateSettings( { options } );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
 			} );
+		} catch ( error ) {
+			createErrorNotice( ( error as Error ).message, { type: 'snackbar' } );
+		} finally {
+			setIsWaiting( false );
+		}
 	};
 
 	return (
