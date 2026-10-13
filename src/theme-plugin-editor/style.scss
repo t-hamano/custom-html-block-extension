@@ -2,7 +2,7 @@
 @use "../components/monaco-editor/style";
 
 // Monaco Editor
-#monaco-editor {
+.chbe-monaco-editor {
 	height: calc(100vh - 295px);
 	min-height: 60vh;
 	margin-right: 4em;

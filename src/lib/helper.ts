@@ -1,3 +1,8 @@
+/**
+ * Internal dependencies
+ */
+import type { FontFamily } from '../types';
+
 // Round values to the specified minimum and maximum values.
 export const toNumber = ( value: string | number, min = 0, max: number | null = null ): number => {
 	let num = Number( value );
@@ -41,4 +46,49 @@ export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
 			Object.prototype.hasOwnProperty.call( bRecord, key ) &&
 			isDeepEqual( aRecord[ key ], bRecord[ key ] )
 	);
+};
+
+// Stylesheets added by `loadWebFont()`, mapped to their load state.
+const stylesheetLoads = new WeakMap< HTMLLinkElement, Promise< unknown > >();
+
+// Load a web font into the document, adding its stylesheet if it is not there yet.
+// Resolves to whether the font was loaded within 5 seconds.
+export const loadWebFont = async (
+	font: FontFamily,
+	ownerDocument: Document,
+	weight = 'normal'
+): Promise< boolean > => {
+	const load = async () => {
+		const { stylesheet } = font;
+		if ( stylesheet ) {
+			let link = ownerDocument.querySelector< HTMLLinkElement >( `link[href="${ stylesheet }"]` );
+			if ( ! link ) {
+				const newLink = ownerDocument.createElement( 'link' );
+				newLink.rel = 'stylesheet';
+				newLink.href = stylesheet;
+				stylesheetLoads.set(
+					newLink,
+					new Promise( ( resolve, reject ) => {
+						newLink.onload = resolve;
+						newLink.onerror = reject;
+					} )
+				);
+				ownerDocument.head.appendChild( newLink );
+				link = newLink;
+			}
+			// Wait for the stylesheet even if another editor added it and it is still loading.
+			await stylesheetLoads.get( link );
+		}
+		const fontFaces = await ownerDocument.fonts.load( `${ weight } 1em "${ font.name }"` );
+		return fontFaces.length > 0;
+	};
+
+	try {
+		return await Promise.race( [
+			load(),
+			new Promise< boolean >( ( resolve ) => setTimeout( () => resolve( false ), 5000 ) ),
+		] );
+	} catch {
+		return false;
+	}
 };
