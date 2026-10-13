@@ -47,15 +47,23 @@ test.describe( 'Code editor', () => {
 		await requestUtils.activateTheme( 'twentytwentyfive' );
 	} );
 
+	// Switching to the code editor is saved to the user's preferences, and the save is
+	// debounced, so it can land after a test ends. Reset the preferences before each test,
+	// and after the last one so later test files start in the visual editor.
+	test.beforeEach( async ( { requestUtils } ) => {
+		await requestUtils.resetPreferences();
+	} );
+
 	test.afterEach( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_options',
-			data: { options: { permissionBlockEditor: true } },
+			path: '/wp/v2/settings',
+			data: { custom_html_block_extension_options: { permissionBlockEditor: true } },
 		} );
 	} );
 
 	test.afterAll( async ( { requestUtils } ) => {
+		await requestUtils.resetPreferences();
 		await requestUtils.deleteAllTemplates( 'wp_template' );
 	} );
 
@@ -91,8 +99,8 @@ test.describe( 'Code editor', () => {
 	} ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_options',
-			data: { options: { permissionBlockEditor: false } },
+			path: '/wp/v2/settings',
+			data: { custom_html_block_extension_options: { permissionBlockEditor: false } },
 		} );
 		await admin.createNewPost();
 		await pageUtils.pressKeys( 'secondary+M' );

@@ -8,7 +8,6 @@ import clsx from 'clsx';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import {
 	createContext,
 	useCallback,
@@ -25,17 +24,14 @@ import { store as noticesStore } from '@wordpress/notices';
  * Internal dependencies
  */
 import { AdminContext } from '../index';
+import { updateSettings } from '../api';
 import EditorPreview from './components/editor-preview';
 import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
 import { isDeepEqual } from '../../lib/helper';
-import type {
-	EditorConfigContextType,
-	EditorSettings as EditorSettingsType,
-	EditorOptions as EditorOptionsType,
-} from '../../types';
+import type { EditorConfigContextType } from '../../types';
 
 /**
  * Context
@@ -151,59 +147,54 @@ export default function EditorConfig() {
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const settingsRef = useSearchHighlight( searchQuery );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
-	const { createNotice, createSuccessNotice } = useDispatch( noticesStore );
+	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	const isDirty =
 		! isDeepEqual( editorSettings, savedEditorConfig.editorSettings ) ||
 		! isDeepEqual( editorOptions, savedEditorConfig.editorOptions );
 
 	// Update editor config.
-	const onUpdateOptions = () => {
+	const onUpdateOptions = async () => {
 		setIsWaiting( true );
 
-		apiFetch< { success: boolean; message: string } >( {
-			path: '/custom-html-block-extension/v1/update_editor_config',
-			method: 'POST',
-			data: {
-				editorSettings,
-				editorOptions,
-			},
-		} ).then( ( response ) => {
-			if ( response.success ) {
-				setSavedEditorConfig( { editorSettings, editorOptions } );
-			}
-			setTimeout( () => {
-				createNotice( response.success ? 'success' : 'error', response.message, {
-					type: 'snackbar',
-				} );
-				setIsWaiting( false );
-			}, 600 );
-		} );
+		try {
+			await updateSettings( { editorSettings, editorOptions } );
+			setSavedEditorConfig( { editorSettings, editorOptions } );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			createSuccessNotice( __( 'Settings saved.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
+			} );
+		} catch ( error ) {
+			createErrorNotice( ( error as Error ).message, { type: 'snackbar' } );
+		} finally {
+			setIsWaiting( false );
+		}
 	};
 
 	// Reset editor config.
-	const onResetOptions = () => {
+	const onResetOptions = async () => {
 		setIsWaiting( true );
 
-		return apiFetch< { editorSettings: EditorSettingsType; editorOptions: EditorOptionsType } >( {
-			path: '/custom-html-block-extension/v1/delete_editor_config',
-			method: 'POST',
-		} ).then( ( response ) => {
+		try {
+			const response = await updateSettings( { editorSettings: null, editorOptions: null } );
 			// Sets default editor config.
 			setEditorSettings( response.editorSettings );
 			setEditorOptions( response.editorOptions );
-			setSavedEditorConfig( response );
-
-			return new Promise< void >( ( resolve ) => {
-				setTimeout( () => {
-					createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
-						type: 'snackbar',
-					} );
-					setIsWaiting( false );
-					resolve();
-				}, 600 );
+			setSavedEditorConfig( {
+				editorSettings: response.editorSettings,
+				editorOptions: response.editorOptions,
 			} );
-		} );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
+			} );
+		} catch ( error ) {
+			createErrorNotice( ( error as Error ).message, { type: 'snackbar' } );
+		} finally {
+			setIsWaiting( false );
+		}
 	};
 
 	// Refresh editor.
@@ -299,7 +290,10 @@ export default function EditorConfig() {
 										<EditorOptions.WordWrapColumn />
 									</div>
 									<div inert={ inertValue( 'off' === editorOptions.wordWrap ) }>
-										<EditorOptions.WrappingIndent />
+										<Stack direction="column" gap="lg">
+											<EditorOptions.WrappingIndent />
+											<EditorOptions.WordWrapIndicator />
+										</Stack>
 									</div>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>
@@ -309,6 +303,7 @@ export default function EditorConfig() {
 											<EditorOptions.MinimapSide />
 											<EditorOptions.MinimapMaxColumn />
 											<EditorOptions.MinimapScale />
+											<EditorOptions.MinimapAutohide />
 											<EditorOptions.MinimapShowSlider />
 											<EditorOptions.MinimapSize />
 											<EditorOptions.MinimapRenderCharacters />
@@ -319,6 +314,14 @@ export default function EditorConfig() {
 									<EditorOptions.CursorStyle />
 									<div inert={ inertValue( 'line' !== editorOptions.cursorStyle ) }>
 										<EditorOptions.CursorWidth />
+									</div>
+									<div
+										inert={ inertValue(
+											'line' !== editorOptions.cursorStyle &&
+												'line-thin' !== editorOptions.cursorStyle
+										) }
+									>
+										<EditorOptions.CursorHeight />
 									</div>
 									<EditorOptions.CursorBlinking />
 									<EditorOptions.CursorSurroundingLines />
@@ -372,6 +375,10 @@ export default function EditorConfig() {
 									<EditorOptions.FastScrollSensitivity />
 									<EditorOptions.Hover />
 									<EditorOptions.SmoothScrolling />
+									<EditorOptions.StickyScrollEnabled />
+									<div inert={ inertValue( ! editorOptions.stickyScroll.enabled ) }>
+										<EditorOptions.StickyScrollMaxLineCount />
+									</div>
 									<EditorOptions.ScrollBeyondLastLine />
 									<EditorOptions.ScrollBeyondLastColumn />
 									<EditorOptions.MouseWheelZoom />
@@ -394,15 +401,19 @@ export default function EditorConfig() {
 									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
 								>
 									<EditorOptions.MatchBrackets />
+									<EditorOptions.BracketPairColorizationEnabled />
+									<div inert={ inertValue( ! editorOptions.bracketPairColorization.enabled ) }>
+										<EditorOptions.BracketPairColorizationIndependentColorPoolPerBracketType />
+									</div>
 									<EditorOptions.OccurrencesHighlight />
 									<EditorOptions.RenderWhitespace />
 									<EditorOptions.RenderLineHighlight />
 									<div inert={ inertValue( 'none' === editorOptions.renderLineHighlight ) }>
 										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
 									</div>
-									<EditorOptions.RenderIndentGuides />
-									<div inert={ inertValue( ! editorOptions.renderIndentGuides ) }>
-										<EditorOptions.HighlightActiveIndentGuide />
+									<EditorOptions.GuidesIndentation />
+									<div inert={ inertValue( ! editorOptions.guides.indentation ) }>
+										<EditorOptions.GuidesHighlightActiveIndentation />
 									</div>
 									<EditorOptions.RenderControlCharacters />
 									<EditorOptions.Rulers />

@@ -12,10 +12,10 @@ import { AdminContext } from '../../index';
 import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
 
-export default function HighlightActiveIndentGuide() {
+export default function WordWrapIndicator() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight the active indent guide', 'custom-html-block-extension' );
+	const title = __( 'Show word wrap indicator', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -25,7 +25,7 @@ export default function HighlightActiveIndentGuide() {
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			highlightActiveIndentGuide: value,
+			wordWrapIndicator: value,
 		} );
 	};
 
@@ -39,7 +39,7 @@ export default function HighlightActiveIndentGuide() {
 		>
 			<SwitchControl
 				label={ title }
-				checked={ editorOptions.highlightActiveIndentGuide }
+				checked={ editorOptions.wordWrapIndicator }
 				onCheckedChange={ onChange }
 			/>
 			<ItemHelp
@@ -49,16 +49,16 @@ export default function HighlightActiveIndentGuide() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
-						image: 'editor-options/highlight-active-indent-guide_1.gif',
-						isDefault: true,
+						image: 'editor-options/word-wrap-indicator_1.jpg',
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
-						image: 'editor-options/highlight-active-indent-guide_2.gif',
+						image: 'editor-options/word-wrap-indicator_2.jpg',
+						isDefault: true,
 					},
 				] }
-				value={ editorOptions.highlightActiveIndentGuide }
+				value={ editorOptions.wordWrapIndicator }
 			/>
 		</Stack>
 	);

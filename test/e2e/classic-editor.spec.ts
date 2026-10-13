@@ -35,7 +35,7 @@ test.describe( 'Classic editor', () => {
 		await admin.visitAdminPage( 'post-new.php' );
 		await page.locator( '#content-tmce' ).click();
 		await page.locator( '#content-html' ).click();
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		( { id: postId } = await requestUtils.rest( {
 			method: 'POST',
@@ -58,7 +58,7 @@ test.describe( 'Classic editor', () => {
 
 	test( 'should keep the cursor position after saving', async ( { admin, page } ) => {
 		await admin.visitAdminPage( 'post.php', `post=${ postId }&action=edit` );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		await page.evaluate( () => {
 			window.editor?.setPosition( { lineNumber: 80, column: 4 } );
@@ -72,12 +72,12 @@ test.describe( 'Classic editor', () => {
 		] );
 
 		await expect.poll( () => getCursorPosition( page ) ).toEqual( { lineNumber: 80, column: 4 } );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toHaveClass( /focused/ );
-		await expect( page.locator( '#monaco-editor .cursors-layer .cursor' ) ).toBeInViewport();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toHaveClass( /focused/ );
+		await expect( page.locator( '.chbe-monaco-editor .cursors-layer .cursor' ) ).toBeInViewport();
 
 		// The saved position is restored only once.
 		await page.reload();
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 		await expect.poll( () => getCursorPosition( page ) ).toEqual( { lineNumber: 1, column: 1 } );
 	} );
 } );

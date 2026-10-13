@@ -54,6 +54,8 @@ export default function AcceptSuggestionOnEnter() {
 		},
 	];
 
+	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
+
 	const onChange = ( value: EditorOptions[ 'acceptSuggestionOnEnter' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
@@ -71,9 +73,10 @@ export default function AcceptSuggestionOnEnter() {
 		>
 			<SelectControl
 				label={ title }
-				items={ items }
+				items={ selectItems }
 				value={
-					items.find( ( item ) => item.value === editorOptions.acceptSuggestionOnEnter ) ?? null
+					selectItems.find( ( item ) => item.value === editorOptions.acceptSuggestionOnEnter ) ??
+					null
 				}
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'acceptSuggestionOnEnter' ] )

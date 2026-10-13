@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 
@@ -9,8 +8,9 @@ import type * as Monaco from 'monaco-editor';
  * Internal dependencies
  */
 import './style.scss';
-import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { applyTheme, applyBracketPairColorization } from '../lib/editor';
+import { loadWebFont } from '../lib/helper';
 import addWrapWithAbbreviationAction, {
 	isApplyingWrapPreview,
 } from '../components/wrap-with-abbreviation';
@@ -76,7 +76,7 @@ initLoader()
 
 			// Generate an element to apply the monaco editor.
 			const monacoEditorContainer = document.createElement( 'div' );
-			monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
+			monacoEditorContainer.classList.add( 'chbe-monaco-editor' );
 			editorContainer.appendChild( monacoEditorContainer );
 
 			// Monaco editor properties.
@@ -96,6 +96,11 @@ initLoader()
 					vertical: 'hidden',
 					alwaysConsumeMouseWheel: false,
 				},
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...editorOptions.stickyScroll,
+					defaultModel: 'foldingProviderModel',
+				},
 			};
 
 			// Create monaco editor.
@@ -104,6 +109,10 @@ initLoader()
 				properties as Monaco.editor.IStandaloneEditorConstructionOptions
 			);
 			window.editor = editor;
+
+			// Apply the bracket pair colorization and theme from the editor settings.
+			applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
+			applyTheme( monaco, theme );
 
 			// Force "preventScroll" on focus so clicking the editor doesn't scroll
 			// the page back to the cursor (e.g. after browser find-in-page). Only
@@ -163,15 +172,6 @@ initLoader()
 				textarea.value = editorValue;
 			} );
 
-			// Update editor settings.
-			if ( 'vs-dark' !== theme && 'light' !== theme ) {
-				const targetTheme = themes.find( ( data ) => theme === data.value );
-				if ( undefined !== targetTheme ) {
-					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-					monaco.editor.setTheme( targetTheme.value );
-				}
-			}
-
 			// Catch the Ctrl+S command to save draft or publish post.
 			editor.addCommand(
 				// eslint-disable-next-line no-bitwise
@@ -186,19 +186,11 @@ initLoader()
 			const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
 			if ( undefined !== font && 'label' in font ) {
-				const webfontConfig: WebFont.Config = {
-					timeout: 5000,
-					custom: {
-						families: [ font.name ],
-					},
-					active: () => monaco.editor.remeasureFonts(),
-				};
-
-				if ( 'stylesheet' in font && font.stylesheet ) {
-					webfontConfig.custom!.urls = [ font.stylesheet ];
-				}
-
-				webfontloader.load( webfontConfig );
+				loadWebFont( font, document, editorOptions.fontWeight ).then( ( isSuccess ) => {
+					if ( isSuccess ) {
+						monaco.editor.remeasureFonts();
+					}
+				} );
 			}
 
 			syncTriggers.forEach( ( button ) => {
@@ -223,7 +215,7 @@ initLoader()
 				'fixed' === toolbarPosition || 'absolute' === toolbarPosition
 					? toolbar.clientHeight + 1
 					: 0;
-			const monacoEditor = document.getElementById( 'monaco-editor' );
+			const monacoEditor = document.querySelector< HTMLElement >( '.chbe-monaco-editor' );
 			if ( monacoEditor ) {
 				monacoEditor.style.marginTop = `${ marginTop }px`;
 			}
@@ -342,33 +334,30 @@ initLoader()
 
 		// Use observer to add event because "add media" modal window is added dynamically.
 		const runObserve = () => {
-			const MutationObserverClass = window.MutationObserver || window.WebKitMutationObserver;
-			if ( MutationObserverClass ) {
-				new MutationObserverClass( () => {
-					const mediaInsertButtons = Array.from(
-						document.getElementsByClassName( 'media-button-insert' )
-					);
+			new MutationObserver( () => {
+				const mediaInsertButtons = Array.from(
+					document.getElementsByClassName( 'media-button-insert' )
+				);
 
-					if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
-						mediaInsertButtons.forEach( ( button ) => {
-							button.removeEventListener( 'mouseup', syncTextareaToEditor );
-							button.addEventListener( 'mouseup', syncTextareaToEditor );
-							button.removeEventListener( 'keydown', syncTextareaToEditor );
-							button.addEventListener( 'keydown', syncTextareaToEditor );
-						} );
-					}
-				} ).observe( document.documentElement, {
-					childList: true,
-					subtree: true,
-				} );
-			}
+				if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
+					mediaInsertButtons.forEach( ( button ) => {
+						button.removeEventListener( 'mouseup', syncTextareaToEditor );
+						button.addEventListener( 'mouseup', syncTextareaToEditor );
+						button.removeEventListener( 'keydown', syncTextareaToEditor );
+						button.addEventListener( 'keydown', syncTextareaToEditor );
+					} );
+				}
+			} ).observe( document.documentElement, {
+				childList: true,
+				subtree: true,
+			} );
 		};
 
 		// Switch to visual edit mode.
 		const toVisual = () => {
 			if ( isMonacoEditorEnabled ) {
 				monaco.editor.getModels().forEach( ( model ) => model.dispose() );
-				document.getElementById( 'monaco-editor' )?.remove();
+				document.querySelector( '.chbe-monaco-editor' )?.remove();
 				if ( tabHtml ) {
 					tabHtml.onclick = toHtml;
 				}

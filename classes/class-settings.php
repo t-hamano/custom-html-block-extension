@@ -55,6 +55,19 @@ class Settings {
 			'type'    => 'string',
 			'default' => 'languageDefined',
 		),
+		'bracketPairColorization'          => array(
+			'type'  => 'object',
+			'items' => array(
+				'enabled'                            => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'independentColorPoolPerBracketType' => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+			),
+		),
 		'columnSelection'                  => array(
 			'type'    => 'boolean',
 			'default' => false,
@@ -79,6 +92,10 @@ class Settings {
 		'cursorBlinking'                   => array(
 			'type'    => 'string',
 			'default' => 'blink',
+		),
+		'cursorHeight'                     => array(
+			'type'    => 'number',
+			'default' => 0,
 		),
 		'cursorSmoothCaretAnimation'       => array(
 			'type'    => 'string',
@@ -165,11 +182,20 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => false,
 		),
-		'hideCursorInOverviewRuler'        => array(
-			'type'    => 'boolean',
-			'default' => true,
+		'guides'                           => array(
+			'type'  => 'object',
+			'items' => array(
+				'highlightActiveIndentation' => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'indentation'                => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+			),
 		),
-		'highlightActiveIndentGuide'       => array(
+		'hideCursorInOverviewRuler'        => array(
 			'type'    => 'boolean',
 			'default' => true,
 		),
@@ -213,6 +239,10 @@ class Settings {
 		'minimap'                          => array(
 			'type'  => 'object',
 			'items' => array(
+				'autohide'         => array(
+					'type'    => 'string',
+					'default' => 'none',
+				),
 				'enabled'          => array(
 					'type'    => 'boolean',
 					'default' => true,
@@ -308,10 +338,6 @@ class Settings {
 		'renderFinalNewline'               => array(
 			'type'    => 'string',
 			'default' => 'on',
-		),
-		'renderIndentGuides'               => array(
-			'type'    => 'boolean',
-			'default' => true,
 		),
 		'renderLineHighlight'              => array(
 			'type'    => 'string',
@@ -421,6 +447,19 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => false,
 		),
+		'stickyScroll'                     => array(
+			'type'  => 'object',
+			'items' => array(
+				'enabled'      => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'maxLineCount' => array(
+					'type'    => 'number',
+					'default' => 5,
+				),
+			),
+		),
 		'stickyTabStops'                   => array(
 			'type'    => 'boolean',
 			'default' => false,
@@ -465,6 +504,10 @@ class Settings {
 		'wordWrapColumn'                   => array(
 			'type'    => 'number',
 			'default' => 80,
+		),
+		'wordWrapIndicator'                => array(
+			'type'    => 'boolean',
+			'default' => false,
 		),
 	);
 
@@ -536,14 +579,6 @@ class Settings {
 		),
 	);
 
-	// SVG Icon.
-	const ICON = <<<EOM
-	<svg class="wp-media-buttons-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path d="M3.8,19.6H1.1v-2.4H0v6h1.1v-2.6h2.7v2.6h1.1v-6H3.8V19.6z M5.7,18.3h1.7v4.9h1.1v-4.9h1.7v-1.1H5.7 C5.7,17.2,5.7,18.3,5.7,18.3z M15.2,17.2l-1.5,2.7l-1.4-2.7h-0.9l-0.8,6h1.1l0.5-4l1.5,2.8l1.5-2.8l0.5,4h1.1l-0.8-6H15.2z M19,22.2 v-5h-1.1v6h3.6v-1H19z"/>
-		<Polygon points="16.7,0 7,7.8 10,8.5 5.7,15.2 15.7,7.6 12.6,6.8"/>
-	</svg>
-	EOM;
-
 	/**
 	 * Get editor config settings.
 	 */
@@ -557,14 +592,19 @@ class Settings {
 
 		$current_editor_settings = (array) get_option( Option::OPTION_NAMES['editor_settings'] );
 
-		return array_merge( $default_editor_settings, $current_editor_settings );
+		return self::remove_unknown_properties(
+			array_merge( $default_editor_settings, $current_editor_settings ),
+			self::DEFAULT_EDITOR_SETTINGS
+		);
 	}
 
 	/**
 	 * Get editor config options.
+	 *
+	 * Overrides the default editor options with the saved values. Object options
+	 * are merged one level deeper so that properties added later get their defaults.
 	 */
 	public static function get_editor_options() {
-		// Override default editor options with option values.
 		$default_editor_options = array();
 
 		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
@@ -583,7 +623,47 @@ class Settings {
 
 		$editor_options = array_merge( $default_editor_options, $current_editor_options );
 
-		return self::migrate_legacy_editor_options( $editor_options );
+		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
+			if ( 'object' === $value['type'] && isset( $current_editor_options[ $key ] ) && is_array( $current_editor_options[ $key ] ) ) {
+				$editor_options[ $key ] = array_merge( $default_editor_options[ $key ], $current_editor_options[ $key ] );
+			}
+		}
+
+		return self::sanitize_editor_options( $editor_options );
+	}
+
+	/**
+	 * Sanitize editor options so they match the current schema.
+	 */
+	public static function sanitize_editor_options( $editor_options ) {
+		if ( ! is_array( $editor_options ) ) {
+			return $editor_options;
+		}
+
+		return self::remove_unknown_properties(
+			self::migrate_legacy_editor_options( $editor_options ),
+			self::DEFAULT_EDITOR_OPTIONS
+		);
+	}
+
+	/**
+	 * Remove properties that are not in the defaults, such as options removed
+	 * in older versions, since the settings schema doesn't allow them.
+	 */
+	public static function remove_unknown_properties( $values, $defaults ) {
+		if ( ! is_array( $values ) ) {
+			return $values;
+		}
+
+		$values = array_intersect_key( $values, $defaults );
+
+		foreach ( $defaults as $key => $value ) {
+			if ( 'object' === $value['type'] && isset( $values[ $key ] ) ) {
+				$values[ $key ] = self::remove_unknown_properties( $values[ $key ], $value['items'] );
+			}
+		}
+
+		return $values;
 	}
 
 	/**
@@ -648,6 +728,27 @@ class Settings {
 		// Type definitions: https://unpkg.com/monaco-editor@0.56.0/esm/vs/editor/editor.api.d.ts
 		if ( isset( $editor_options['hover']['enabled'] ) && is_bool( $editor_options['hover']['enabled'] ) ) {
 			$editor_options['hover']['enabled'] = $editor_options['hover']['enabled'] ? 'on' : 'off';
+		}
+
+		// `renderIndentGuides` and `highlightActiveIndentGuide` were replaced by
+		// `guides.indentation` and `guides.highlightActiveIndentation`, so move
+		// legacy values into `guides`. The legacy value wins because the defaults
+		// already fill `guides` before this runs.
+		// Changed to `IGuidesOptions` in monaco-editor 0.29.0.
+		// Upstream change: https://github.com/microsoft/vscode/pull/133509
+		// Type definitions: https://unpkg.com/monaco-editor@0.29.0/esm/vs/editor/editor.api.d.ts
+		$legacy_guides = array(
+			'renderIndentGuides'         => 'indentation',
+			'highlightActiveIndentGuide' => 'highlightActiveIndentation',
+		);
+		foreach ( $legacy_guides as $legacy_key => $key ) {
+			if ( array_key_exists( $legacy_key, $editor_options ) ) {
+				if ( ! isset( $editor_options['guides'] ) || ! is_array( $editor_options['guides'] ) ) {
+					$editor_options['guides'] = wp_list_pluck( self::DEFAULT_EDITOR_OPTIONS['guides']['items'], 'default' );
+				}
+				$editor_options['guides'][ $key ] = $editor_options[ $legacy_key ];
+				unset( $editor_options[ $legacy_key ] );
+			}
 		}
 
 		// `quickSuggestions` was previously persisted as a boolean but the plugin
@@ -726,12 +827,7 @@ class Settings {
 	 * Get all user roles.
 	 */
 	public static function get_user_roles() {
-		global $wp_roles;
-		if ( empty( $wp_roles ) ) {
-			$wp_roles = new \WP_Roles();
-		}
-
-		$roles            = $wp_roles->get_names();
+		$roles            = wp_roles()->get_names();
 		$translated_roles = array();
 
 		foreach ( $roles as $name => $display_name ) {
@@ -764,5 +860,3 @@ class Settings {
 		return false;
 	}
 }
-
-new Settings();

@@ -8,14 +8,14 @@ import { Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import { AdminContext } from '../../../index';
+import { useSearchVisibility } from '../../index';
+import ItemHelp from '../../components/item-help';
 
-export default function RenderIndentGuides() {
+export default function StickyScrollEnabled() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show indent guides', 'custom-html-block-extension' );
+	const title = __( 'Sticky scroll', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -25,7 +25,10 @@ export default function RenderIndentGuides() {
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
 			...editorOptions,
-			renderIndentGuides: value,
+			stickyScroll: {
+				...editorOptions.stickyScroll,
+				enabled: value,
+			},
 		} );
 	};
 
@@ -39,26 +42,20 @@ export default function RenderIndentGuides() {
 		>
 			<SwitchControl
 				label={ title }
-				checked={ editorOptions.renderIndentGuides }
+				checked={ editorOptions.stickyScroll.enabled }
 				onCheckedChange={ onChange }
 			/>
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/render-indent-guides_1.jpg',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/render-indent-guides_2.jpg',
-					},
-				] }
-				value={ editorOptions.renderIndentGuides }
+				description={ __(
+					'While scrolling, the start lines of the scopes containing the top of the editor, such as parent tags, stay at the top of the editor. Click a pinned line to jump to it.',
+					'custom-html-block-extension'
+				) }
+				isToggle
+				defaultToggle
+				image="editor-options/sticky-scroll/enabled.gif"
+				value={ editorOptions.stickyScroll.enabled }
 			/>
 		</Stack>
 	);

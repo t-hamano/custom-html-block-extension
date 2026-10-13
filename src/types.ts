@@ -24,6 +24,10 @@ export type EditorOptions = {
 	autoClosingQuotes: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
 	autoIndent: 'none' | 'keep' | 'brackets' | 'advanced' | 'full';
 	autoSurround: 'languageDefined' | 'quotes' | 'brackets' | 'never';
+	bracketPairColorization: {
+		enabled: boolean;
+		independentColorPoolPerBracketType: boolean;
+	};
 	columnSelection: boolean;
 	comments: {
 		insertSpace: boolean;
@@ -31,6 +35,7 @@ export type EditorOptions = {
 	contextmenu: boolean;
 	copyWithSyntaxHighlighting: boolean;
 	cursorBlinking: 'blink' | 'smooth' | 'phase' | 'expand' | 'solid';
+	cursorHeight: number;
 	cursorSmoothCaretAnimation: 'off' | 'explicit' | 'on';
 	cursorStyle: 'line' | 'block' | 'underline' | 'line-thin' | 'block-outline' | 'underline-thin';
 	cursorSurroundingLines: number;
@@ -53,8 +58,11 @@ export type EditorOptions = {
 	fontWeight: string;
 	formatOnPaste: boolean;
 	glyphMargin: boolean;
+	guides: {
+		highlightActiveIndentation: boolean;
+		indentation: boolean;
+	};
 	hideCursorInOverviewRuler: boolean;
-	highlightActiveIndentGuide: boolean;
 	hover: {
 		enabled: 'on' | 'off' | 'onKeyboardModifier';
 	};
@@ -68,6 +76,7 @@ export type EditorOptions = {
 	links: boolean;
 	matchBrackets: 'never' | 'near' | 'always';
 	minimap: {
+		autohide: 'none' | 'mouseover' | 'scroll';
 		enabled: boolean;
 		maxColumn: number;
 		renderCharacters: boolean;
@@ -95,7 +104,6 @@ export type EditorOptions = {
 	suggestOnTriggerCharacters: boolean;
 	renderControlCharacters: boolean;
 	renderFinalNewline: 'on' | 'off' | 'dimmed';
-	renderIndentGuides: boolean;
 	renderLineHighlight: 'none' | 'gutter' | 'line' | 'all';
 	renderLineHighlightOnlyWhenFocus: boolean;
 	renderWhitespace: 'none' | 'boundary' | 'selection' | 'trailing' | 'all';
@@ -119,6 +127,10 @@ export type EditorOptions = {
 	selectionHighlight: boolean;
 	showFoldingControls: 'always' | 'never' | 'mouseover';
 	smoothScrolling: boolean;
+	stickyScroll: {
+		enabled: boolean;
+		maxLineCount: number;
+	};
 	stickyTabStops: boolean;
 	suggest: {
 		showIcons: boolean;
@@ -129,6 +141,7 @@ export type EditorOptions = {
 	useTabStops: boolean;
 	wordWrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded';
 	wordWrapColumn: number;
+	wordWrapIndicator: boolean;
 	wrappingIndent: 'none' | 'same' | 'indent' | 'deepIndent';
 };
 

@@ -7,7 +7,6 @@
 /**
  * External dependencies
  */
-import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 import type { CSSProperties } from 'react';
@@ -25,8 +24,9 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
-import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
+import { applyTheme, applyBracketPairColorization } from '../../lib/editor';
+import { loadWebFont } from '../../lib/helper';
 import addWrapWithAbbreviationAction, { isApplyingWrapPreview } from '../wrap-with-abbreviation';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
@@ -36,7 +36,6 @@ export type MonacoError = {
 };
 
 export type MonacoEditorProps = {
-	className?: string;
 	style?: CSSProperties;
 	language?: string;
 	theme?: string;
@@ -76,7 +75,6 @@ const loadingStyles: CSSProperties = {
 };
 
 export default function MonacoEditor( {
-	className,
 	style,
 	language = 'html',
 	theme = 'vs-dark',
@@ -174,6 +172,11 @@ export default function MonacoEditor( {
 				tabSize,
 				insertSpaces,
 				detectIndentation,
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...options.stickyScroll,
+					defaultModel: 'foldingProviderModel',
+				},
 			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 
@@ -333,22 +336,6 @@ export default function MonacoEditor( {
 		}
 	}, [ options, isEditorReady ] );
 
-	// Change theme.
-	useEffect( () => {
-		const monaco = monacoRef.current;
-		if ( isEditorReady && monaco ) {
-			if ( 'vs-dark' === theme || 'light' === theme ) {
-				monaco.editor.setTheme( theme );
-			} else {
-				const targetTheme = themes.find( ( data ) => theme === data.value );
-				if ( targetTheme ) {
-					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-					monaco.editor.setTheme( targetTheme.value );
-				}
-			}
-		}
-	}, [ theme, isEditorReady ] );
-
 	// Change web font.
 	useEffect( () => {
 		if ( isEditorReady ) {
@@ -367,6 +354,25 @@ export default function MonacoEditor( {
 			} );
 		}
 	}, [ tabSize, insertSpaces, detectIndentation, isEditorReady ] );
+
+	// Change theme.
+	useEffect( () => {
+		const monaco = monacoRef.current;
+		if ( isEditorReady && monaco ) {
+			applyTheme( monaco, theme );
+		}
+	}, [ theme, isEditorReady ] );
+
+	// Change bracket pair colorization. Changing the indentation options resets
+	// the model's colorization options to the defaults, so apply it again after them.
+	useEffect( () => {
+		if ( isEditorReady ) {
+			applyBracketPairColorization(
+				editorRef.current?.getModel(),
+				options.bracketPairColorization
+			);
+		}
+	}, [ options.bracketPairColorization, tabSize, insertSpaces, detectIndentation, isEditorReady ] );
 
 	// Set value.
 	useEffect( () => {
@@ -426,36 +432,13 @@ export default function MonacoEditor( {
 		if ( ! container ) {
 			return;
 		}
-		const { ownerDocument } = container;
-		const { defaultView } = ownerDocument;
 		const font = window.chbeObj.fontFamily.find( ( data ) => fontFamily === data.name );
 
 		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig: WebFont.Config = {
-				timeout: 5000,
-				custom: {
-					families: [ font.name ],
-				},
-				active: () => {
-					monacoRef.current?.editor.remeasureFonts();
-					onFontLoad( { isSuccess: true, font } );
-				},
-				inactive: () => {
-					monacoRef.current?.editor.remeasureFonts();
-					onFontLoad( { isSuccess: false, font } );
-				},
-				context: defaultView ?? undefined,
-			};
-
-			// Add stylesheet if it is not in current document.
-			if ( 'stylesheet' in font && font.stylesheet ) {
-				const link = ownerDocument.querySelector( `link[href="${ font.stylesheet }"]` );
-				if ( ! link ) {
-					webfontConfig.custom!.urls = [ font.stylesheet ];
-				}
-			}
-
-			webfontloader.load( webfontConfig );
+			loadWebFont( font, container.ownerDocument, options.fontWeight ).then( ( isSuccess ) => {
+				monacoRef.current?.editor.remeasureFonts();
+				onFontLoad( { isSuccess, font } );
+			} );
 		}
 	}
 
@@ -471,7 +454,7 @@ export default function MonacoEditor( {
 			{ ! isEditorReady && (
 				<div style={ loadingStyles }>{ __( 'Loading…', 'custom-html-block-extension' ) }</div>
 			) }
-			<div ref={ containerRef } className={ className } id="monaco-editor" />
+			<div ref={ containerRef } className="chbe-monaco-editor" />
 		</div>
 	);
 }

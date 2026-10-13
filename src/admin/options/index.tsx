@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
 import { Button, Stack } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
@@ -12,29 +11,30 @@ import { store as noticesStore } from '@wordpress/notices';
  * Internal dependencies
  */
 import { AdminContext } from '../index';
+import { updateSettings } from '../api';
 import PermissionEditor from './components/permission-editor';
 import PermissionUserRole from './components/permission-user-role';
 
 export default function Options() {
 	const { isWaiting, options, setIsWaiting } = useContext( AdminContext );
-	const { createNotice } = useDispatch( noticesStore );
+	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
-	// Update editor config.
-	const onUpdateOptions = () => {
+	// Update options.
+	const onUpdateOptions = async () => {
 		setIsWaiting( true );
 
-		apiFetch< { success: boolean; message: string } >( {
-			path: '/custom-html-block-extension/v1/update_options',
-			method: 'POST',
-			data: { options },
-		} ).then( ( response ) => {
-			setTimeout( () => {
-				createNotice( response.success ? 'success' : 'error', response.message, {
-					type: 'snackbar',
-				} );
-				setIsWaiting( false );
-			}, 600 );
-		} );
+		try {
+			await updateSettings( { options } );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
+			} );
+		} catch ( error ) {
+			createErrorNotice( ( error as Error ).message, { type: 'snackbar' } );
+		} finally {
+			setIsWaiting( false );
+		}
 	};
 
 	return (

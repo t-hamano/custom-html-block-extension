@@ -75,8 +75,8 @@ test.describe( 'Permissions', () => {
 	test.afterEach( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_options',
-			data: { options: {} },
+			path: '/wp/v2/settings',
+			data: { custom_html_block_extension_options: null },
 		} );
 	} );
 
@@ -104,8 +104,8 @@ test.describe( 'Permissions', () => {
 			} ) => {
 				await requestUtils.rest( {
 					method: 'POST',
-					path: '/custom-html-block-extension/v1/update_options',
-					data: { options: { [ target.option ]: false } },
+					path: '/wp/v2/settings',
+					data: { custom_html_block_extension_options: { [ target.option ]: false } },
 				} );
 
 				const coreEditor = await target.open( { admin, editor, page } );
@@ -134,8 +134,12 @@ test.describe( 'Permissions', () => {
 		} ) => {
 			await requestUtils.rest( {
 				method: 'POST',
-				path: '/custom-html-block-extension/v1/update_options',
-				data: { options: { permissionRoles: [ 'administrator', 'editor', 'contributor' ] } },
+				path: '/wp/v2/settings',
+				data: {
+					custom_html_block_extension_options: {
+						permissionRoles: [ 'administrator', 'editor', 'contributor' ],
+					},
+				},
 			} );
 
 			// Log in as the author in the browser.

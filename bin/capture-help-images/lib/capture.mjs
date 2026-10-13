@@ -1,5 +1,5 @@
 // Capture session: places the preview editor, runs a spec and saves the image
-// next to the current one as {name}_new.{ext}.
+// over the current one. The original is read from the committed version.
 //
 // A spec: {
 //   rel: 'editor-options/foo.jpg',       // the image to capture, relative to IMG
@@ -44,10 +44,10 @@ import {
 	clipAt,
 	editorEval,
 	outPath,
+	origPath,
 	py,
 	TOOL,
 	WORK,
-	IMG,
 } from './cap.mjs';
 import { PREVIEW_CODE } from './helpers.mjs';
 
@@ -130,7 +130,7 @@ async function capture( page, spec ) {
 		// Frame durations, mouse positions and click marks of the current GIF.
 		track: () => {
 			track ??= JSON.parse(
-				py( `${ TOOL }/py/track.py`, `${ IMG }/${ spec.rel }`, `${ WORK }/cursors` )
+				py( `${ TOOL }/py/track.py`, origPath( spec.rel ), `${ WORK }/cursors` )
 			);
 			return track;
 		},
@@ -171,7 +171,7 @@ async function capture( page, spec ) {
 		spec.size ??
 		py(
 			'-c',
-			`from PIL import Image; im = Image.open('${ IMG }/${ spec.rel }'); print(im.size[0], im.size[1])`
+			`from PIL import Image; im = Image.open('${ origPath( spec.rel ) }'); print(im.size[0], im.size[1])`
 		)
 			.trim()
 			.split( ' ' )
