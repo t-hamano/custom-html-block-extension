@@ -7,7 +7,6 @@
 /**
  * External dependencies
  */
-import clsx from 'clsx';
 import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
@@ -36,7 +35,6 @@ export type MonacoError = {
 };
 
 export type MonacoEditorProps = {
-	className?: string;
 	style?: CSSProperties;
 	language?: string;
 	theme?: string;
@@ -76,7 +74,6 @@ const loadingStyles: CSSProperties = {
 };
 
 export default function MonacoEditor( {
-	className,
 	style,
 	language = 'html',
 	theme = 'vs-dark',
@@ -483,7 +480,7 @@ export default function MonacoEditor( {
 			{ ! isEditorReady && (
 				<div style={ loadingStyles }>{ __( 'Loading…', 'custom-html-block-extension' ) }</div>
 			) }
-			<div ref={ containerRef } className={ clsx( 'chbe-monaco-editor', className ) } />
+			<div ref={ containerRef } className="chbe-monaco-editor" />
 		</div>
 	);
 }
