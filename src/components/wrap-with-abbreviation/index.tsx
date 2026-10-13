@@ -222,7 +222,6 @@ export default function addWrapWithAbbreviationAction(
 			disposeWidget = dispose;
 			ownerDocument.addEventListener( 'pointerdown', onPointerDown, true );
 			editor.addContentWidget( widget );
-			// Render the widget immediately, since the input can't be focused while it's hidden.
 			editor.render( true );
 			root.render(
 				<InputControl
