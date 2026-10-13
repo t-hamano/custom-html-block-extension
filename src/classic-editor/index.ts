@@ -341,26 +341,23 @@ initLoader()
 
 		// Use observer to add event because "add media" modal window is added dynamically.
 		const runObserve = () => {
-			const MutationObserverClass = window.MutationObserver || window.WebKitMutationObserver;
-			if ( MutationObserverClass ) {
-				new MutationObserverClass( () => {
-					const mediaInsertButtons = Array.from(
-						document.getElementsByClassName( 'media-button-insert' )
-					);
+			new MutationObserver( () => {
+				const mediaInsertButtons = Array.from(
+					document.getElementsByClassName( 'media-button-insert' )
+				);
 
-					if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
-						mediaInsertButtons.forEach( ( button ) => {
-							button.removeEventListener( 'mouseup', syncTextareaToEditor );
-							button.addEventListener( 'mouseup', syncTextareaToEditor );
-							button.removeEventListener( 'keydown', syncTextareaToEditor );
-							button.addEventListener( 'keydown', syncTextareaToEditor );
-						} );
-					}
-				} ).observe( document.documentElement, {
-					childList: true,
-					subtree: true,
-				} );
-			}
+				if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
+					mediaInsertButtons.forEach( ( button ) => {
+						button.removeEventListener( 'mouseup', syncTextareaToEditor );
+						button.addEventListener( 'mouseup', syncTextareaToEditor );
+						button.removeEventListener( 'keydown', syncTextareaToEditor );
+						button.addEventListener( 'keydown', syncTextareaToEditor );
+					} );
+				}
+			} ).observe( document.documentElement, {
+				childList: true,
+				subtree: true,
+			} );
 		};
 
 		// Switch to visual edit mode.
