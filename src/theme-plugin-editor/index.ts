@@ -65,7 +65,7 @@ initLoader()
 
 		// Generate an element to apply the monaco editor.
 		const monacoEditorContainer = document.createElement( 'div' );
-		monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
+		monacoEditorContainer.classList.add( 'chbe-monaco-editor' );
 		textarea.parentNode?.insertBefore( monacoEditorContainer, textarea.nextElementSibling );
 
 		// Monaco editor properties.

@@ -73,7 +73,7 @@ initLoader()
 
 			// Generate an element to apply the monaco editor.
 			const monacoEditorContainer = document.createElement( 'div' );
-			monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
+			monacoEditorContainer.classList.add( 'chbe-monaco-editor' );
 			editorContainer.appendChild( monacoEditorContainer );
 
 			// Monaco editor properties.
@@ -223,7 +223,7 @@ initLoader()
 				'fixed' === toolbarPosition || 'absolute' === toolbarPosition
 					? toolbar.clientHeight + 1
 					: 0;
-			const monacoEditor = document.getElementById( 'monaco-editor' );
+			const monacoEditor = document.querySelector< HTMLElement >( '.chbe-monaco-editor' );
 			if ( monacoEditor ) {
 				monacoEditor.style.marginTop = `${ marginTop }px`;
 			}
@@ -364,7 +364,7 @@ initLoader()
 		const toVisual = () => {
 			if ( isMonacoEditorEnabled ) {
 				monaco.editor.getModels().forEach( ( model ) => model.dispose() );
-				document.getElementById( 'monaco-editor' )?.remove();
+				document.querySelector( '.chbe-monaco-editor' )?.remove();
 				if ( tabHtml ) {
 					tabHtml.onclick = toHtml;
 				}

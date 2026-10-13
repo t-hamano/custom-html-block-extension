@@ -40,7 +40,7 @@ const EDITORS: {
 		open: async ( { admin, page } ) => {
 			// The template is indented with tabs.
 			await admin.visitAdminPage( 'theme-editor.php', 'file=templates/index.html' );
-			return page.locator( '#monaco-editor .monaco-editor' );
+			return page.locator( '.chbe-monaco-editor .monaco-editor' );
 		},
 	},
 	{
@@ -51,7 +51,7 @@ const EDITORS: {
 			await admin.visitAdminPage( 'post-new.php' );
 			await page.locator( '#content-tmce' ).click();
 			await page.locator( '#content-html' ).click();
-			await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+			await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 			const { id } = await requestUtils.rest( {
 				method: 'POST',
@@ -59,7 +59,7 @@ const EDITORS: {
 				data: { content: CONTENT },
 			} );
 			await admin.visitAdminPage( 'post.php', `post=${ id }&action=edit` );
-			return page.locator( '#monaco-editor .monaco-editor' );
+			return page.locator( '.chbe-monaco-editor .monaco-editor' );
 		},
 		// Switch back to the visual mode, which is saved on the next page load.
 		cleanup: async ( { admin, page } ) => {

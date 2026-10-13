@@ -61,7 +61,7 @@ test.describe( 'Code highlighting', () => {
 			await dismissButton.click();
 		} );
 		await admin.visitAdminPage( 'theme-editor.php' );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		const tokens = await page.evaluate( async () => {
 			const { monaco } = window;
@@ -106,7 +106,7 @@ test.describe( 'Code highlighting', () => {
 			await dismissButton.click();
 		} );
 		await admin.visitAdminPage( 'theme-editor.php' );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		await page.evaluate( () => {
 			const { monaco, editor } = window;
@@ -120,7 +120,7 @@ test.describe( 'Code highlighting', () => {
 			.poll( async () =>
 				(
 					await page
-						.locator( '#monaco-editor .view-line [class*="bracket-highlighting"]' )
+						.locator( '.chbe-monaco-editor .view-line [class*="bracket-highlighting"]' )
 						.allTextContents()
 				).join( '' )
 			)
@@ -137,7 +137,7 @@ test.describe( 'Code highlighting', () => {
 			await dismissButton.click();
 		} );
 		await admin.visitAdminPage( 'theme-editor.php' );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		await page.evaluate( () => {
 			const { monaco, editor } = window;
@@ -197,7 +197,7 @@ test.describe( 'Code highlighting', () => {
 			await dismissButton.click();
 		} );
 		await admin.visitAdminPage( 'theme-editor.php' );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		await page.evaluate( () => {
 			const { monaco, editor } = window;
@@ -236,7 +236,7 @@ test.describe( 'Code highlighting', () => {
 			await dismissButton.click();
 		} );
 		await admin.visitAdminPage( 'theme-editor.php', 'file=theme.json' );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		// `version` must be an integer in the theme.json schema.
 		await page.evaluate( () => {
@@ -263,7 +263,7 @@ test.describe( 'Code highlighting', () => {
 			await dismissButton.click();
 		} );
 		await admin.visitAdminPage( 'theme-editor.php', 'file=theme.json' );
-		await expect( page.locator( '#monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
 
 		// Change `$schema` and `version` at once so that the error is reported only by the new schema.
 		await page.evaluate( () => {
