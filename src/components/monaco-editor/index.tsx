@@ -27,6 +27,7 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
+import { addClipboardCommand } from '../../lib/editor';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -204,61 +205,8 @@ export default function MonacoEditor( {
 				emmetHTML( monaco );
 			}
 
-			// Ctrl+X shortcut without a range selection will cut the block,
-			// so catch the command and execute custom action instead.
-			editor.addCommand(
-				// eslint-disable-next-line no-bitwise
-				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX,
-				() => {
-					const selection = editor.getSelection();
-					const position = editor.getPosition();
-					if ( ! selection || ! position ) {
-						return;
-					}
-					const lineNumber = position.lineNumber;
-					const isEmptySelection =
-						selection.startLineNumber === selection.endLineNumber &&
-						selection.startColumn === selection.endColumn;
-
-					if ( window.chbeObj.editorOptions.emptySelectionClipboard ) {
-						if ( isEmptySelection ) {
-							// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
-							editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-						}
-						editor.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
-					} else if ( ! isEmptySelection ) {
-						editor.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
-					}
-				}
-			);
-
-			// Ctrl+C shortcut without a range selection will copy the block,
-			// so catch the command and execute custom action instead.
-			editor.addCommand(
-				// eslint-disable-next-line no-bitwise
-				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC,
-				() => {
-					const selection = editor.getSelection();
-					const position = editor.getPosition();
-					if ( ! selection || ! position ) {
-						return;
-					}
-					const lineNumber = position.lineNumber;
-					const isEmptySelection =
-						selection.startLineNumber === selection.endLineNumber &&
-						selection.startColumn === selection.endColumn;
-
-					if ( window.chbeObj.editorOptions.emptySelectionClipboard ) {
-						if ( isEmptySelection ) {
-							// Select and copy the current line if there is no range selection and "Copy the current line without selection" is enabled.
-							editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-						}
-						editor.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
-					} else if ( ! isEmptySelection ) {
-						editor.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
-					}
-				}
-			);
+			addClipboardCommand( editor, monaco, 'cut' );
+			addClipboardCommand( editor, monaco, 'copy' );
 
 			// Subscribe to editor events once; the callbacks are read from refs
 			// so prop changes don't require re-subscribing.
