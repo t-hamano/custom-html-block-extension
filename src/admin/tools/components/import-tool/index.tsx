@@ -83,8 +83,7 @@ export default function ImportTool() {
 					editorSettings: data.editorSettings,
 					editorOptions: data.editorOptions,
 				} )
-					.then( async ( response ) => {
-						await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+					.then( ( response ) => {
 						createSuccessNotice(
 							__( 'Imported the editor config.', 'custom-html-block-extension' ),
 							{
