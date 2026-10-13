@@ -14,8 +14,8 @@ import { debounce } from '@wordpress/compose';
  * Internal dependencies
  */
 import './style.scss';
-import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { applyTheme, applyBracketPairColorization } from '../lib/editor';
 import { loadWebFont } from '../lib/helper';
 
 /**
@@ -92,12 +92,9 @@ initLoader()
 		);
 		window.editor = editor;
 
-		// The standalone editor doesn't pass the `bracketPairColorization` editor
-		// option on to the model, so set it on the model directly.
-		// See https://github.com/microsoft/monaco-editor/issues/3829
-		editor.getModel()?.updateOptions( {
-			bracketColorizationOptions: editorOptions.bracketPairColorization,
-		} );
+		// Apply the bracket pair colorization and theme from the editor settings.
+		applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
+		applyTheme( monaco, theme );
 
 		// Event emitted when the contents of the editor have changed.
 		editor.getModel()?.onDidChangeContent( () => {
@@ -131,15 +128,6 @@ initLoader()
 				emmetHTML( monaco, [ 'html', 'php' ] );
 			} else if ( language.match( /sass|scss|css|less/ ) ) {
 				emmetCSS( monaco, [ 'sass', 'scss', 'css', 'less' ] );
-			}
-		}
-
-		// Update editor settings.
-		if ( 'vs-dark' !== theme && 'light' !== theme ) {
-			const targetTheme = themes.find( ( data ) => theme === data.value );
-			if ( undefined !== targetTheme ) {
-				monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-				monaco.editor.setTheme( targetTheme.value );
 			}
 		}
 

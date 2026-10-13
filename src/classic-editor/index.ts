@@ -8,8 +8,8 @@ import type * as Monaco from 'monaco-editor';
  * Internal dependencies
  */
 import './style.scss';
-import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { applyTheme, applyBracketPairColorization } from '../lib/editor';
 import { loadWebFont } from '../lib/helper';
 
 initLoader()
@@ -107,12 +107,9 @@ initLoader()
 			);
 			window.editor = editor;
 
-			// The standalone editor doesn't pass the `bracketPairColorization` editor
-			// option on to the model, so set it on the model directly.
-			// See https://github.com/microsoft/monaco-editor/issues/3829
-			editor.getModel()?.updateOptions( {
-				bracketColorizationOptions: editorOptions.bracketPairColorization,
-			} );
+			// Apply the bracket pair colorization and theme from the editor settings.
+			applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
+			applyTheme( monaco, theme );
 
 			// Force "preventScroll" on focus so clicking the editor doesn't scroll
 			// the page back to the cursor (e.g. after browser find-in-page). Only
@@ -162,15 +159,6 @@ initLoader()
 				const newContentHeight = Math.max( 300, editor.getContentHeight() );
 				monacoEditorContainer.style.height = `${ newContentHeight }px`;
 			} );
-
-			// Update editor settings.
-			if ( 'vs-dark' !== theme && 'light' !== theme ) {
-				const targetTheme = themes.find( ( data ) => theme === data.value );
-				if ( undefined !== targetTheme ) {
-					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-					monaco.editor.setTheme( targetTheme.value );
-				}
-			}
 
 			// Catch the Ctrl+S command to save draft or publish post.
 			editor.addCommand(
