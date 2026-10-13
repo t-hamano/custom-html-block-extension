@@ -34,9 +34,7 @@ declare global {
 		isInitialized?: boolean;
 		enabledEmmet?: boolean;
 		editor?: Monaco.editor.IStandaloneCodeEditor;
-		WebKitMutationObserver?: typeof MutationObserver;
 		wp?: unknown;
-		jQuery?: unknown;
 	}
 }
 
