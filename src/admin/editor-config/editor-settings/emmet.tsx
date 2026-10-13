@@ -58,7 +58,8 @@ export default function Emmet() {
 								'Only valid for HTML tags and does not support inline CSS in the block and classic editor.',
 								'custom-html-block-extension'
 							) }
-							<br />
+						</Text>
+						<Text render={ <p /> }>
 							{ __(
 								'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.',
 								'custom-html-block-extension'
@@ -74,7 +75,8 @@ export default function Emmet() {
 									code: <code />,
 								}
 							) }
-							<br />
+						</Text>
+						<Text render={ <p /> }>
 							{ __(
 								'In the theme/plugin editor, this is available if the file extension is html or php.',
 								'custom-html-block-extension'
