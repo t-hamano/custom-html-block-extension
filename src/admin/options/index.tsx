@@ -25,6 +25,8 @@ export default function Options() {
 
 		try {
 			await updateSettings( { options } );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 			createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );

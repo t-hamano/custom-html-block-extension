@@ -160,6 +160,8 @@ export default function EditorConfig() {
 		try {
 			await updateSettings( { editorSettings, editorOptions } );
 			setSavedEditorConfig( { editorSettings, editorOptions } );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 			createSuccessNotice( __( 'Settings saved.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
@@ -183,6 +185,8 @@ export default function EditorConfig() {
 				editorSettings: response.editorSettings,
 				editorOptions: response.editorOptions,
 			} );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 			createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );

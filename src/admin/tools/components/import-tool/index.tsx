@@ -83,7 +83,9 @@ export default function ImportTool() {
 					editorSettings: data.editorSettings,
 					editorOptions: data.editorOptions,
 				} )
-					.then( ( response ) => {
+					.then( async ( response ) => {
+						// Keep the spinner visible briefly so it does not flash on fast responses.
+						await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 						createSuccessNotice(
 							__( 'Imported the editor config.', 'custom-html-block-extension' ),
 							{

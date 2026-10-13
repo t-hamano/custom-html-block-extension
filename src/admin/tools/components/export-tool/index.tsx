@@ -37,6 +37,8 @@ export default function ExportTool() {
 			link.href = href;
 			link.download = 'chbe-export-' + fileDate + '.json';
 			document.body.appendChild( link );
+			// Keep the spinner visible briefly so it does not flash on fast responses.
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 			link.click();
 			document.body.removeChild( link );
 			URL.revokeObjectURL( href );
