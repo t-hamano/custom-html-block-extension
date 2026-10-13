@@ -1,11 +1,5 @@
-.chbe-admin-snackbars {
-	right: 0;
-	bottom: var(--wpds-dimension-padding-lg);
-	padding: 0 var(--wpds-dimension-padding-lg);
-	position: fixed;
+@use "~@wordpress/base-styles/mixins" as mixins;
 
-	.components-snackbar-list__notice-container {
-		display: flex;
-		justify-content: flex-end;
-	}
+.chbe-admin-snackbars {
+	@include mixins.snackbar-container();
 }
