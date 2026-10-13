@@ -49,12 +49,11 @@ export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
 };
 
 // Load a web font into the document, adding its stylesheet if it is not there yet.
-// Resolves to whether the font was loaded within the timeout.
+// Resolves to whether the font was loaded within 5 seconds.
 export const loadWebFont = async (
 	font: FontFamily,
 	ownerDocument: Document,
-	weight = 'normal',
-	timeout = 5000
+	weight = 'normal'
 ): Promise< boolean > => {
 	const load = async () => {
 		const { stylesheet } = font;
@@ -76,7 +75,7 @@ export const loadWebFont = async (
 	try {
 		return await Promise.race( [
 			load(),
-			new Promise< boolean >( ( resolve ) => setTimeout( () => resolve( false ), timeout ) ),
+			new Promise< boolean >( ( resolve ) => setTimeout( () => resolve( false ), 5000 ) ),
 		] );
 	} catch {
 		return false;
