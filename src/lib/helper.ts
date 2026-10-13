@@ -48,6 +48,9 @@ export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
 	);
 };
 
+// Stylesheets added by `loadWebFont()`, mapped to their load state.
+const stylesheetLoads = new WeakMap< HTMLLinkElement, Promise< unknown > >();
+
 // Load a web font into the document, adding its stylesheet if it is not there yet.
 // Resolves to whether the font was loaded within 5 seconds.
 export const loadWebFont = async (
@@ -57,16 +60,24 @@ export const loadWebFont = async (
 ): Promise< boolean > => {
 	const load = async () => {
 		const { stylesheet } = font;
-		if ( stylesheet && ! ownerDocument.querySelector( `link[href="${ stylesheet }"]` ) ) {
-			const link = ownerDocument.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.href = stylesheet;
-			const isLoaded = new Promise( ( resolve, reject ) => {
-				link.onload = resolve;
-				link.onerror = reject;
-			} );
-			ownerDocument.head.appendChild( link );
-			await isLoaded;
+		if ( stylesheet ) {
+			let link = ownerDocument.querySelector< HTMLLinkElement >( `link[href="${ stylesheet }"]` );
+			if ( ! link ) {
+				const newLink = ownerDocument.createElement( 'link' );
+				newLink.rel = 'stylesheet';
+				newLink.href = stylesheet;
+				stylesheetLoads.set(
+					newLink,
+					new Promise( ( resolve, reject ) => {
+						newLink.onload = resolve;
+						newLink.onerror = reject;
+					} )
+				);
+				ownerDocument.head.appendChild( newLink );
+				link = newLink;
+			}
+			// Wait for the stylesheet even if another editor added it and it is still loading.
+			await stylesheetLoads.get( link );
 		}
 		const fontFaces = await ownerDocument.fonts.load( `${ weight } 1em "${ font.name }"` );
 		return fontFaces.length > 0;
