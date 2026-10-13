@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import webfontloader from 'webfontloader';
 import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 
@@ -17,6 +16,7 @@ import { debounce } from '@wordpress/compose';
 import './style.scss';
 import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { loadWebFont } from '../lib/helper';
 
 /**
  * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
@@ -156,19 +156,11 @@ initLoader()
 		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
 		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig: WebFont.Config = {
-				timeout: 5000,
-				custom: {
-					families: [ font.name ],
-				},
-				active: () => monaco.editor.remeasureFonts(),
-			};
-
-			if ( 'stylesheet' in font && font.stylesheet ) {
-				webfontConfig.custom!.urls = [ font.stylesheet ];
-			}
-
-			webfontloader.load( webfontConfig );
+			loadWebFont( font, document, editorOptions.fontWeight ).then( ( isSuccess ) => {
+				if ( isSuccess ) {
+					monaco.editor.remeasureFonts();
+				}
+			} );
 		}
 	} )
 	.catch( ( error ) => {
