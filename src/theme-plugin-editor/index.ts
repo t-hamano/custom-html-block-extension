@@ -15,8 +15,8 @@ import { debounce } from '@wordpress/compose';
  * Internal dependencies
  */
 import './style.scss';
-import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { getConstructionOptions, applyTheme, applyBracketPairColorization } from '../lib/editor';
 
 /**
  * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
@@ -68,36 +68,27 @@ initLoader()
 		monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
 		textarea.parentNode?.insertBefore( monacoEditorContainer, textarea.nextElementSibling );
 
-		// Monaco editor properties.
-		const properties = {
-			theme,
-			value: textarea.value,
-			language,
-			automaticLayout: true,
-			...editorOptions,
-			tabSize,
-			insertSpaces,
-			detectIndentation,
-			// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
-			stickyScroll: {
-				...editorOptions.stickyScroll,
-				defaultModel: 'foldingProviderModel',
-			},
-		};
-
 		// Create monaco editor.
 		const editor = monaco.editor.create(
 			monacoEditorContainer,
-			properties as Monaco.editor.IStandaloneEditorConstructionOptions
+			getConstructionOptions( {
+				defaults: {
+					theme,
+					value: textarea.value,
+					language,
+					automaticLayout: true,
+				},
+				options: editorOptions,
+				overrides: {
+					tabSize,
+					insertSpaces,
+					detectIndentation,
+				},
+			} )
 		);
 		window.editor = editor;
 
-		// The standalone editor doesn't pass the `bracketPairColorization` editor
-		// option on to the model, so set it on the model directly.
-		// See https://github.com/microsoft/monaco-editor/issues/3829
-		editor.getModel()?.updateOptions( {
-			bracketColorizationOptions: editorOptions.bracketPairColorization,
-		} );
+		applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
 
 		// Event emitted when the contents of the editor have changed.
 		editor.getModel()?.onDidChangeContent( () => {
@@ -134,14 +125,7 @@ initLoader()
 			}
 		}
 
-		// Update editor settings.
-		if ( 'vs-dark' !== theme && 'light' !== theme ) {
-			const targetTheme = themes.find( ( data ) => theme === data.value );
-			if ( undefined !== targetTheme ) {
-				monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-				monaco.editor.setTheme( targetTheme.value );
-			}
-		}
+		applyTheme( monaco, theme );
 
 		// Catch the Ctrl+S command to update the file.
 		editor.addCommand(

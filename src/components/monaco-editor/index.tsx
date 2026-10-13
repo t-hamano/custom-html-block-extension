@@ -25,8 +25,8 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
-import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
+import { getConstructionOptions, applyTheme, applyBracketPairColorization } from '../../lib/editor';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -159,26 +159,28 @@ export default function MonacoEditor( {
 			}
 			const { defaultView } = container.ownerDocument;
 
-			const editor = monaco.editor.create( container, {
-				ariaLabel: isAppleOS()
-					? __(
-							'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
-							'custom-html-block-extension'
-						)
-					: __(
-							'Editor content. To change the Tab key behavior, press Ctrl+M.',
-							'custom-html-block-extension'
-						),
-				...options,
-				tabSize,
-				insertSpaces,
-				detectIndentation,
-				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
-				stickyScroll: {
-					...options.stickyScroll,
-					defaultModel: 'foldingProviderModel',
-				},
-			} as Monaco.editor.IStandaloneEditorConstructionOptions );
+			const editor = monaco.editor.create(
+				container,
+				getConstructionOptions( {
+					defaults: {
+						ariaLabel: isAppleOS()
+							? __(
+									'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
+									'custom-html-block-extension'
+								)
+							: __(
+									'Editor content. To change the Tab key behavior, press Ctrl+M.',
+									'custom-html-block-extension'
+								),
+					},
+					options,
+					overrides: {
+						tabSize,
+						insertSpaces,
+						detectIndentation,
+					},
+				} )
+			);
 			editorRef.current = editor;
 
 			const model = editor.getModel();
@@ -334,15 +336,7 @@ export default function MonacoEditor( {
 	useEffect( () => {
 		const monaco = monacoRef.current;
 		if ( isEditorReady && monaco ) {
-			if ( 'vs-dark' === theme || 'light' === theme ) {
-				monaco.editor.setTheme( theme );
-			} else {
-				const targetTheme = themes.find( ( data ) => theme === data.value );
-				if ( targetTheme ) {
-					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-					monaco.editor.setTheme( targetTheme.value );
-				}
-			}
+			applyTheme( monaco, theme );
 		}
 	}, [ theme, isEditorReady ] );
 
@@ -365,17 +359,14 @@ export default function MonacoEditor( {
 		}
 	}, [ tabSize, insertSpaces, detectIndentation, isEditorReady ] );
 
-	// Change bracket pair colorization. The standalone editor doesn't pass the
-	// `bracketPairColorization` editor option on to the model, so set it on the
-	// model directly. Changing the indentation options resets the model's
-	// colorization options to the defaults, so apply it again after them.
-	// See https://github.com/microsoft/monaco-editor/issues/3829
+	// Change bracket pair colorization. Changing the indentation options resets
+	// the model's colorization options to the defaults, so apply it again after them.
 	useEffect( () => {
-		const model = editorRef.current?.getModel();
-		if ( isEditorReady && model && options.bracketPairColorization ) {
-			model.updateOptions( {
-				bracketColorizationOptions: options.bracketPairColorization,
-			} );
+		if ( isEditorReady ) {
+			applyBracketPairColorization(
+				editorRef.current?.getModel(),
+				options.bracketPairColorization
+			);
 		}
 	}, [ options.bracketPairColorization, tabSize, insertSpaces, detectIndentation, isEditorReady ] );
 
