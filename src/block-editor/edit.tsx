@@ -34,6 +34,7 @@ import type { Block, BlockEditProps } from '@wordpress/blocks';
  */
 import './style.scss';
 import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
+import useEditorConfigProps from './use-editor-config-props';
 
 const { InnerContent } = __dangerousOptInToUnstableAPIsOnlyForCoreModules(
 	'I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.',
@@ -66,7 +67,7 @@ export default function HTMLEdit( {
 	toggleSelection,
 }: HTMLEditProps ) {
 	const { height, showPreviewByDefault } = attributes;
-	const { editorSettings, editorOptions } = window.chbeObj;
+	const editorConfigProps = useEditorConfigProps();
 
 	const [ isPreview, setIsPreview ] = useState< boolean >( showPreviewByDefault );
 	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState< boolean >( false );
@@ -280,13 +281,8 @@ export default function HTMLEdit( {
 					>
 						<MonacoEditor
 							language="html"
-							theme={ editorSettings.theme }
-							options={ editorOptions }
+							{ ...editorConfigProps }
 							value={ content }
-							useEmmet={ editorSettings.emmet }
-							tabSize={ editorSettings.tabSize }
-							insertSpaces={ editorSettings.insertSpaces }
-							detectIndentation={ editorSettings.detectIndentation }
 							onChange={ onChange }
 							onError={ onError }
 						/>
@@ -308,13 +304,8 @@ export default function HTMLEdit( {
 					>
 						<MonacoEditor
 							language="html"
-							theme={ editorSettings.theme }
-							options={ editorOptions }
+							{ ...editorConfigProps }
 							value={ content }
-							useEmmet={ editorSettings.emmet }
-							tabSize={ editorSettings.tabSize }
-							insertSpaces={ editorSettings.insertSpaces }
-							detectIndentation={ editorSettings.detectIndentation }
 							onChange={ onChange }
 							onError={ onError }
 						/>

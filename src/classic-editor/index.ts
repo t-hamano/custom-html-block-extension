@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 
@@ -9,8 +8,14 @@ import type * as Monaco from 'monaco-editor';
  * Internal dependencies
  */
 import './style.scss';
-import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import {
+	getConstructionOptions,
+	applyTheme,
+	loadFont,
+	applyBracketPairColorization,
+	addSaveCommand,
+} from '../lib/editor';
 
 initLoader()
 	.then( ( monaco ) => {
@@ -68,7 +73,7 @@ initLoader()
 
 		// Setting up the monaco editor.
 		const runEditor = () => {
-			const { editorSettings, editorOptions, fontFamily } = window.chbeObj;
+			const { editorSettings, editorOptions } = window.chbeObj;
 			const { theme, tabSize, insertSpaces, detectIndentation } = editorSettings;
 
 			// Generate an element to apply the monaco editor.
@@ -76,43 +81,34 @@ initLoader()
 			monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
 			editorContainer.appendChild( monacoEditorContainer );
 
-			// Monaco editor properties.
-			const properties = {
-				theme,
-				value: textarea.value,
-				language: 'html',
-				automaticLayout: true,
-				...editorOptions,
-				tabSize,
-				insertSpaces,
-				detectIndentation,
-				// Override some properties to match the classic editor.
-				scrollBeyondLastLine: false,
-				scrollbar: {
-					...editorOptions.scrollbar,
-					vertical: 'hidden',
-					alwaysConsumeMouseWheel: false,
-				},
-				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
-				stickyScroll: {
-					...editorOptions.stickyScroll,
-					defaultModel: 'foldingProviderModel',
-				},
-			};
-
 			// Create monaco editor.
 			const editor = monaco.editor.create(
 				monacoEditorContainer,
-				properties as Monaco.editor.IStandaloneEditorConstructionOptions
+				getConstructionOptions( {
+					defaults: {
+						theme,
+						value: textarea.value,
+						language: 'html',
+						automaticLayout: true,
+					},
+					options: editorOptions,
+					overrides: {
+						tabSize,
+						insertSpaces,
+						detectIndentation,
+						// Override some properties to match the classic editor.
+						scrollBeyondLastLine: false,
+						scrollbar: {
+							...editorOptions.scrollbar,
+							vertical: 'hidden',
+							alwaysConsumeMouseWheel: false,
+						},
+					},
+				} )
 			);
 			window.editor = editor;
 
-			// The standalone editor doesn't pass the `bracketPairColorization` editor
-			// option on to the model, so set it on the model directly.
-			// See https://github.com/microsoft/monaco-editor/issues/3829
-			editor.getModel()?.updateOptions( {
-				bracketColorizationOptions: editorOptions.bracketPairColorization,
-			} );
+			applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
 
 			// Force "preventScroll" on focus so clicking the editor doesn't scroll
 			// the page back to the cursor (e.g. after browser find-in-page). Only
@@ -163,43 +159,15 @@ initLoader()
 				monacoEditorContainer.style.height = `${ newContentHeight }px`;
 			} );
 
-			// Update editor settings.
-			if ( 'vs-dark' !== theme && 'light' !== theme ) {
-				const targetTheme = themes.find( ( data ) => theme === data.value );
-				if ( undefined !== targetTheme ) {
-					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-					monaco.editor.setTheme( targetTheme.value );
-				}
-			}
+			applyTheme( monaco, theme );
 
 			// Catch the Ctrl+S command to save draft or publish post.
-			editor.addCommand(
-				// eslint-disable-next-line no-bitwise
-				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
-				() => {
-					// eslint-disable-next-line no-unused-expressions
-					draftButton ? draftButton.click() : publishButton?.click();
-				}
-			);
+			addSaveCommand( editor, monaco, () => {
+				// eslint-disable-next-line no-unused-expressions
+				draftButton ? draftButton.click() : publishButton?.click();
+			} );
 
-			// Load webfont.
-			const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
-
-			if ( undefined !== font && 'label' in font ) {
-				const webfontConfig: WebFont.Config = {
-					timeout: 5000,
-					custom: {
-						families: [ font.name ],
-					},
-					active: () => monaco.editor.remeasureFonts(),
-				};
-
-				if ( 'stylesheet' in font && font.stylesheet ) {
-					webfontConfig.custom!.urls = [ font.stylesheet ];
-				}
-
-				webfontloader.load( webfontConfig );
-			}
+			loadFont( monaco, editorOptions.fontFamily );
 
 			syncTriggers.forEach( ( button ) => {
 				button.addEventListener( 'mouseup', syncTextareaToEditor );

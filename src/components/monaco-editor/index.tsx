@@ -7,7 +7,6 @@
 /**
  * External dependencies
  */
-import webfontloader from 'webfontloader';
 import { emmetHTML } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 import type { CSSProperties } from 'react';
@@ -25,8 +24,14 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
-import themes from '../../lib/themes';
 import initLoader from '../../lib/loader';
+import {
+	getConstructionOptions,
+	applyTheme,
+	loadFont,
+	applyBracketPairColorization,
+	addClipboardCommand,
+} from '../../lib/editor';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -159,26 +164,28 @@ export default function MonacoEditor( {
 			}
 			const { defaultView } = container.ownerDocument;
 
-			const editor = monaco.editor.create( container, {
-				ariaLabel: isAppleOS()
-					? __(
-							'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
-							'custom-html-block-extension'
-						)
-					: __(
-							'Editor content. To change the Tab key behavior, press Ctrl+M.',
-							'custom-html-block-extension'
-						),
-				...options,
-				tabSize,
-				insertSpaces,
-				detectIndentation,
-				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
-				stickyScroll: {
-					...options.stickyScroll,
-					defaultModel: 'foldingProviderModel',
-				},
-			} as Monaco.editor.IStandaloneEditorConstructionOptions );
+			const editor = monaco.editor.create(
+				container,
+				getConstructionOptions( {
+					defaults: {
+						ariaLabel: isAppleOS()
+							? __(
+									'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
+									'custom-html-block-extension'
+								)
+							: __(
+									'Editor content. To change the Tab key behavior, press Ctrl+M.',
+									'custom-html-block-extension'
+								),
+					},
+					options,
+					overrides: {
+						tabSize,
+						insertSpaces,
+						detectIndentation,
+					},
+				} )
+			);
 			editorRef.current = editor;
 
 			const model = editor.getModel();
@@ -204,61 +211,8 @@ export default function MonacoEditor( {
 				emmetHTML( monaco );
 			}
 
-			// Ctrl+X shortcut without a range selection will cut the block,
-			// so catch the command and execute custom action instead.
-			editor.addCommand(
-				// eslint-disable-next-line no-bitwise
-				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX,
-				() => {
-					const selection = editor.getSelection();
-					const position = editor.getPosition();
-					if ( ! selection || ! position ) {
-						return;
-					}
-					const lineNumber = position.lineNumber;
-					const isEmptySelection =
-						selection.startLineNumber === selection.endLineNumber &&
-						selection.startColumn === selection.endColumn;
-
-					if ( window.chbeObj.editorOptions.emptySelectionClipboard ) {
-						if ( isEmptySelection ) {
-							// Select and cut the current line if there is no range selection and "Copy the current line without selection" is enabled.
-							editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-						}
-						editor.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
-					} else if ( ! isEmptySelection ) {
-						editor.trigger( 'keyboard', 'editor.action.clipboardCutAction', null );
-					}
-				}
-			);
-
-			// Ctrl+C shortcut without a range selection will copy the block,
-			// so catch the command and execute custom action instead.
-			editor.addCommand(
-				// eslint-disable-next-line no-bitwise
-				monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC,
-				() => {
-					const selection = editor.getSelection();
-					const position = editor.getPosition();
-					if ( ! selection || ! position ) {
-						return;
-					}
-					const lineNumber = position.lineNumber;
-					const isEmptySelection =
-						selection.startLineNumber === selection.endLineNumber &&
-						selection.startColumn === selection.endColumn;
-
-					if ( window.chbeObj.editorOptions.emptySelectionClipboard ) {
-						if ( isEmptySelection ) {
-							// Select and copy the current line if there is no range selection and "Copy the current line without selection" is enabled.
-							editor.setSelection( new monaco.Selection( lineNumber, 1, lineNumber + 1, 1 ) );
-						}
-						editor.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
-					} else if ( ! isEmptySelection ) {
-						editor.trigger( 'keyboard', 'editor.action.clipboardCopyAction', null );
-					}
-				}
-			);
+			addClipboardCommand( editor, monaco, 'cut' );
+			addClipboardCommand( editor, monaco, 'copy' );
 
 			// Subscribe to editor events once; the callbacks are read from refs
 			// so prop changes don't require re-subscribing.
@@ -334,22 +288,19 @@ export default function MonacoEditor( {
 	useEffect( () => {
 		const monaco = monacoRef.current;
 		if ( isEditorReady && monaco ) {
-			if ( 'vs-dark' === theme || 'light' === theme ) {
-				monaco.editor.setTheme( theme );
-			} else {
-				const targetTheme = themes.find( ( data ) => theme === data.value );
-				if ( targetTheme ) {
-					monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-					monaco.editor.setTheme( targetTheme.value );
-				}
-			}
+			applyTheme( monaco, theme );
 		}
 	}, [ theme, isEditorReady ] );
 
 	// Change web font.
 	useEffect( () => {
-		if ( isEditorReady ) {
-			loadFont( options.fontFamily );
+		const monaco = monacoRef.current;
+		const container = containerRef.current;
+		if ( isEditorReady && monaco && container ) {
+			loadFont( monaco, options.fontFamily, {
+				document: container.ownerDocument,
+				onFontLoad,
+			} );
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ options.fontFamily, isEditorReady ] );
@@ -365,17 +316,14 @@ export default function MonacoEditor( {
 		}
 	}, [ tabSize, insertSpaces, detectIndentation, isEditorReady ] );
 
-	// Change bracket pair colorization. The standalone editor doesn't pass the
-	// `bracketPairColorization` editor option on to the model, so set it on the
-	// model directly. Changing the indentation options resets the model's
-	// colorization options to the defaults, so apply it again after them.
-	// See https://github.com/microsoft/monaco-editor/issues/3829
+	// Change bracket pair colorization. Changing the indentation options resets
+	// the model's colorization options to the defaults, so apply it again after them.
 	useEffect( () => {
-		const model = editorRef.current?.getModel();
-		if ( isEditorReady && model && options.bracketPairColorization ) {
-			model.updateOptions( {
-				bracketColorizationOptions: options.bracketPairColorization,
-			} );
+		if ( isEditorReady ) {
+			applyBracketPairColorization(
+				editorRef.current?.getModel(),
+				options.bracketPairColorization
+			);
 		}
 	}, [ options.bracketPairColorization, tabSize, insertSpaces, detectIndentation, isEditorReady ] );
 
@@ -429,45 +377,6 @@ export default function MonacoEditor( {
 		const height = Math.min( Math.max( contentHeight, bounds.min ), bounds.max );
 		wrapper.style.height = `${ height }px`;
 		editorRef.current?.layout();
-	}
-
-	// Load web font.
-	function loadFont( fontFamily?: string ) {
-		const container = containerRef.current;
-		if ( ! container ) {
-			return;
-		}
-		const { ownerDocument } = container;
-		const { defaultView } = ownerDocument;
-		const font = window.chbeObj.fontFamily.find( ( data ) => fontFamily === data.name );
-
-		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig: WebFont.Config = {
-				timeout: 5000,
-				custom: {
-					families: [ font.name ],
-				},
-				active: () => {
-					monacoRef.current?.editor.remeasureFonts();
-					onFontLoad( { isSuccess: true, font } );
-				},
-				inactive: () => {
-					monacoRef.current?.editor.remeasureFonts();
-					onFontLoad( { isSuccess: false, font } );
-				},
-				context: defaultView ?? undefined,
-			};
-
-			// Add stylesheet if it is not in current document.
-			if ( 'stylesheet' in font && font.stylesheet ) {
-				const link = ownerDocument.querySelector( `link[href="${ font.stylesheet }"]` );
-				if ( ! link ) {
-					webfontConfig.custom!.urls = [ font.stylesheet ];
-				}
-			}
-
-			webfontloader.load( webfontConfig );
-		}
 	}
 
 	return (

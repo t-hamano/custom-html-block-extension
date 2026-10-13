@@ -1,13 +1,14 @@
 /**
  * WordPress dependencies
  */
-import { createPortal, useEffect, useMemo, useState } from '@wordpress/element';
+import { createPortal, useEffect, useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
 import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
+import useEditorConfigProps from './use-editor-config-props';
 
 // Selectors of the `core/editor` store used here. `@wordpress/editor` isn't
 // imported, so that the script doesn't depend on it.
@@ -29,7 +30,6 @@ const MIN_HEIGHT = 200;
 
 // Monaco version of `PostTextEditor` in `@wordpress/editor`.
 function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void } ) {
-	const { editorSettings, editorOptions } = window.chbeObj;
 	const { postContent, currentPostType, currentPostId } = useSelect( ( select ) => {
 		const { getCurrentPostType, getCurrentPostId, getEditedPostContent } = select(
 			'core/editor'
@@ -42,20 +42,17 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 	}, [] );
 	const { editEntityRecord } = useDispatch( 'core' );
 
-	const options = useMemo(
-		() => ( {
-			...editorOptions,
-			// Like the core textarea, the editor resizes to fit its content and the page
-			// scrolls instead of the editor.
-			scrollBeyondLastLine: false,
-			scrollbar: {
-				...editorOptions.scrollbar,
-				vertical: 'hidden' as const,
-				alwaysConsumeMouseWheel: false,
-			},
-		} ),
-		[ editorOptions ]
-	);
+	const editorConfigProps = useEditorConfigProps( ( editorOptions ) => ( {
+		...editorOptions,
+		// Like the core textarea, the editor resizes to fit its content and the page
+		// scrolls instead of the editor.
+		scrollBeyondLastLine: false,
+		scrollbar: {
+			...editorOptions.scrollbar,
+			vertical: 'hidden',
+			alwaysConsumeMouseWheel: false,
+		},
+	} ) );
 
 	// Write the content the same way as the core `PostTextEditor`. When switching
 	// back to the visual editor, the content is parsed into blocks.
@@ -70,13 +67,8 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 	return (
 		<MonacoEditor
 			language="html"
-			theme={ editorSettings.theme }
-			options={ options }
+			{ ...editorConfigProps }
 			value={ postContent }
-			useEmmet={ editorSettings.emmet }
-			tabSize={ editorSettings.tabSize }
-			insertSpaces={ editorSettings.insertSpaces }
-			detectIndentation={ editorSettings.detectIndentation }
 			onChange={ onChange }
 			autoHeight={ { min: MIN_HEIGHT, max: Infinity } }
 			onError={ onError }
