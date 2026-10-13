@@ -86,7 +86,7 @@ class Theme_Plugin_Editor {
 		$language = null;
 
 		if ( isset( $_GET['file'] ) ) {
-			$file = sanitize_text_field( wp_unslash( $_GET['file'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$file = sanitize_text_field( wp_unslash( $_GET['file'] ) );
 			$ext  = pathinfo( $file, PATHINFO_EXTENSION );
 			if ( isset( $map_to_lang[ $ext ] ) ) {
 				$language = $map_to_lang[ $ext ];
