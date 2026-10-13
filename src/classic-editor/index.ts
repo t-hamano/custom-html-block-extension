@@ -31,9 +31,16 @@ initLoader()
 		const tabHtml = document.getElementById( 'content-html' );
 		const draftButton = document.getElementById( 'save-post' );
 		const publishButton = document.getElementById( 'publish' );
-		const syncTriggers = document.querySelectorAll(
-			'.ed_button, .ui-button, #wp-link-url, #wp-link-text, #wp-link-submit, #wp-link-search'
-		);
+
+		// Buttons that change the textarea outside the editor: the quicktags toolbar,
+		// the link dialog, and the "Add Media" modal, which is added dynamically.
+		const syncButtonSelector = '.ed_button, .ui-button, #wp-link-submit, .media-button-insert';
+		// Inputs where pressing Enter changes the textarea.
+		const syncInputSelector = '#wp-link-url, #wp-link-text, #wp-link-search';
+		// The "Add Media" modal inserts attachments after an Ajax request.
+		const mediaSyncRetries = 100;
+		const mediaSyncInterval = 100;
+		let pendingSync: number | undefined;
 
 		// Enable Emmet once, since the editor is recreated on every switch to the text mode.
 		if ( window.chbeObj.editorSettings.emmet ) {
@@ -193,11 +200,6 @@ initLoader()
 				} );
 			}
 
-			syncTriggers.forEach( ( button ) => {
-				button.addEventListener( 'mouseup', syncTextareaToEditor );
-				button.addEventListener( 'keydown', syncTextareaToEditor );
-			} );
-
 			window.addEventListener( 'resize', onWindowResize );
 
 			updateToolbarMargin();
@@ -229,16 +231,7 @@ initLoader()
 		};
 
 		// Apply changes in the original textarea to the editor.
-		const syncTextareaToEditor = ( e: Event ) => {
-			if ( ! isMonacoEditorEnabled ) {
-				return;
-			}
-
-			// Do nothing if keycode is not "enter" ( Tab key to move focus, etc ).
-			if ( 'keydown' === e.type && 'Enter' !== ( e as KeyboardEvent ).key ) {
-				return;
-			}
-
+		const syncTextareaToEditor = ( isMediaInsert: boolean ) => {
 			const editor = window.editor;
 			if ( ! editor ) {
 				return;
@@ -255,23 +248,48 @@ initLoader()
 			textarea.setSelectionRange( textareaSelection.start, textareaSelection.end );
 
 			// Apply changes in the original textarea to the editor.
-			let checkCount = 0;
-			const checkForChanges = window.setInterval( () => {
-				if ( 100 === checkCount ) {
-					window.clearInterval( checkForChanges );
+			let retries = isMediaInsert ? mediaSyncRetries : 0;
+			const checkForChanges = () => {
+				pendingSync = undefined;
+				if ( model.isDisposed() ) {
+					return;
 				}
 				if ( model.getValue() !== textarea.value ) {
 					model.setValue( textarea.value );
-					window.clearInterval( checkForChanges );
 					const editorPosition = getEditorPosition( textarea );
 					editor.setPosition( {
 						lineNumber: editorPosition.lineNumber,
 						column: editorPosition.column,
 					} );
 					editor.focus();
+				} else if ( retries-- > 0 ) {
+					pendingSync = window.setTimeout( checkForChanges, mediaSyncInterval );
 				}
-				checkCount++;
-			}, 100 );
+			};
+
+			// Check after the handlers of the event have changed the textarea.
+			window.clearTimeout( pendingSync );
+			pendingSync = window.setTimeout( checkForChanges );
+		};
+
+		// Listen in the capture phase so that the selection is applied to the textarea
+		// before the handlers of the target change it.
+		const onSyncTrigger = ( e: Event ) => {
+			if ( ! isMonacoEditorEnabled || ! ( e.target instanceof Element ) ) {
+				return;
+			}
+
+			if ( 'click' === e.type ) {
+				const button = e.target.closest( syncButtonSelector );
+				if ( button ) {
+					syncTextareaToEditor( button.matches( '.media-button-insert' ) );
+				}
+			} else if (
+				'Enter' === ( e as KeyboardEvent ).key &&
+				e.target.matches( syncInputSelector )
+			) {
+				syncTextareaToEditor( false );
+			}
 		};
 
 		// Get cursor selection info for the original textarea.
@@ -331,27 +349,6 @@ initLoader()
 			return { lineNumber, column };
 		};
 
-		// Use observer to add event because "add media" modal window is added dynamically.
-		const runObserve = () => {
-			new MutationObserver( () => {
-				const mediaInsertButtons = Array.from(
-					document.getElementsByClassName( 'media-button-insert' )
-				);
-
-				if ( mediaInsertButtons.length && isMonacoEditorEnabled ) {
-					mediaInsertButtons.forEach( ( button ) => {
-						button.removeEventListener( 'mouseup', syncTextareaToEditor );
-						button.addEventListener( 'mouseup', syncTextareaToEditor );
-						button.removeEventListener( 'keydown', syncTextareaToEditor );
-						button.addEventListener( 'keydown', syncTextareaToEditor );
-					} );
-				}
-			} ).observe( document.documentElement, {
-				childList: true,
-				subtree: true,
-			} );
-		};
-
 		// Switch to visual edit mode.
 		const toVisual = () => {
 			if ( isMonacoEditorEnabled ) {
@@ -360,10 +357,7 @@ initLoader()
 				if ( tabHtml ) {
 					tabHtml.onclick = toHtml;
 				}
-				syncTriggers.forEach( ( button ) => {
-					button.removeEventListener( 'mouseup', syncTextareaToEditor );
-					button.removeEventListener( 'keydown', syncTextareaToEditor );
-				} );
+				window.clearTimeout( pendingSync );
 				window.removeEventListener( 'resize', onWindowResize );
 				isMonacoEditorEnabled = false;
 			}
@@ -386,7 +380,8 @@ initLoader()
 		};
 
 		// Initialize
-		runObserve();
+		document.addEventListener( 'click', onSyncTrigger, true );
+		document.addEventListener( 'keydown', onSyncTrigger, true );
 
 		const wpContentWrap = document.getElementById( 'wp-content-wrap' );
 		const isVisualEditorEnabled = wpContentWrap?.classList.contains( 'tmce-active' );
