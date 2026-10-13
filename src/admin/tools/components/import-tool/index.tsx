@@ -84,26 +84,25 @@ export default function ImportTool() {
 					editorOptions: data.editorOptions,
 				} )
 					.then( ( response ) => {
-						setTimeout( () => {
-							createSuccessNotice(
-								__( 'Imported the editor config.', 'custom-html-block-extension' ),
-								{
-									type: 'snackbar',
-								}
-							);
-							setEditorSettings( response.editorSettings );
-							setEditorOptions( response.editorOptions );
-							setSavedEditorConfig( {
-								editorSettings: response.editorSettings,
-								editorOptions: response.editorOptions,
-							} );
-							setImportFile( null );
-							setIsWaiting( false );
-						}, 600 );
+						createSuccessNotice(
+							__( 'Imported the editor config.', 'custom-html-block-extension' ),
+							{
+								type: 'snackbar',
+							}
+						);
+						setEditorSettings( response.editorSettings );
+						setEditorOptions( response.editorOptions );
+						setSavedEditorConfig( {
+							editorSettings: response.editorSettings,
+							editorOptions: response.editorOptions,
+						} );
+						setImportFile( null );
 					} )
 					.catch( () => {
 						// The editor config is missing or has invalid values.
 						createInvalidFormatNotice();
+					} )
+					.finally( () => {
 						setIsWaiting( false );
 					} );
 			} catch {
