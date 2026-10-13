@@ -332,14 +332,6 @@ export default function MonacoEditor( {
 		}
 	}, [ options, isEditorReady ] );
 
-	// Change theme.
-	useEffect( () => {
-		const monaco = monacoRef.current;
-		if ( isEditorReady && monaco ) {
-			applyTheme( monaco, theme );
-		}
-	}, [ theme, isEditorReady ] );
-
 	// Change web font.
 	useEffect( () => {
 		if ( isEditorReady ) {
@@ -358,6 +350,14 @@ export default function MonacoEditor( {
 			} );
 		}
 	}, [ tabSize, insertSpaces, detectIndentation, isEditorReady ] );
+
+	// Change theme.
+	useEffect( () => {
+		const monaco = monacoRef.current;
+		if ( isEditorReady && monaco ) {
+			applyTheme( monaco, theme );
+		}
+	}, [ theme, isEditorReady ] );
 
 	// Change bracket pair colorization. Changing the indentation options resets
 	// the model's colorization options to the defaults, so apply it again after them.

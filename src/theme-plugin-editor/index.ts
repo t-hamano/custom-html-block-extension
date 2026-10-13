@@ -89,6 +89,7 @@ initLoader()
 		window.editor = editor;
 
 		applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
+		applyTheme( monaco, theme );
 
 		// Event emitted when the contents of the editor have changed.
 		editor.getModel()?.onDidChangeContent( () => {
@@ -124,8 +125,6 @@ initLoader()
 				emmetCSS( monaco, [ 'sass', 'scss', 'css', 'less' ] );
 			}
 		}
-
-		applyTheme( monaco, theme );
 
 		// Catch the Ctrl+S command to update the file.
 		editor.addCommand(

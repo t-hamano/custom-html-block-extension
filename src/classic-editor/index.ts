@@ -104,6 +104,7 @@ initLoader()
 			window.editor = editor;
 
 			applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
+			applyTheme( monaco, theme );
 
 			// Force "preventScroll" on focus so clicking the editor doesn't scroll
 			// the page back to the cursor (e.g. after browser find-in-page). Only
@@ -153,8 +154,6 @@ initLoader()
 				const newContentHeight = Math.max( 300, editor.getContentHeight() );
 				monacoEditorContainer.style.height = `${ newContentHeight }px`;
 			} );
-
-			applyTheme( monaco, theme );
 
 			// Catch the Ctrl+S command to save draft or publish post.
 			editor.addCommand(
