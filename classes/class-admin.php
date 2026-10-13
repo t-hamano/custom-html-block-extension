@@ -159,12 +159,13 @@ class Admin {
 		}
 
 		$args_editor_options = array(
-			'type'         => 'object',
-			'description'  => __( 'Editor settings.', 'custom-html-block-extension' ),
-			'show_in_rest' => array(
+			'type'              => 'object',
+			'description'       => __( 'Editor settings.', 'custom-html-block-extension' ),
+			'show_in_rest'      => array(
 				'schema' => Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS ),
 			),
-			'default'      => $default_editor_options,
+			'default'           => $default_editor_options,
+			'sanitize_callback' => array( Settings::class, 'sanitize_editor_options' ),
 		);
 
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );

@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
 import { Button, Stack } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
@@ -12,29 +11,31 @@ import { store as noticesStore } from '@wordpress/notices';
  * Internal dependencies
  */
 import { AdminContext } from '../index';
+import { updateSettings } from '../api';
 import PermissionEditor from './components/permission-editor';
 import PermissionUserRole from './components/permission-user-role';
 
 export default function Options() {
 	const { isWaiting, options, setIsWaiting } = useContext( AdminContext );
-	const { createNotice } = useDispatch( noticesStore );
+	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
-	// Update editor config.
+	// Update options.
 	const onUpdateOptions = () => {
 		setIsWaiting( true );
 
-		apiFetch< { success: boolean; message: string } >( {
-			path: '/custom-html-block-extension/v1/update_options',
-			method: 'POST',
-			data: { options },
-		} ).then( ( response ) => {
-			setTimeout( () => {
-				createNotice( response.success ? 'success' : 'error', response.message, {
-					type: 'snackbar',
-				} );
+		updateSettings( { options } )
+			.then( () => {
+				setTimeout( () => {
+					createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
+						type: 'snackbar',
+					} );
+					setIsWaiting( false );
+				}, 600 );
+			} )
+			.catch( ( error: Error ) => {
+				createErrorNotice( error.message, { type: 'snackbar' } );
 				setIsWaiting( false );
-			}, 600 );
-		} );
+			} );
 	};
 
 	return (

@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import { useContext } from '@wordpress/element';
 import { Button, Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
@@ -12,6 +11,7 @@ import { store as noticesStore } from '@wordpress/notices';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
+import { getSettings } from '../../../api';
 
 export default function ExportTool() {
 	const { setIsWaiting } = useContext( AdminContext );
@@ -20,10 +20,7 @@ export default function ExportTool() {
 	// Export editor config.
 	const onExportOptions = async () => {
 		setIsWaiting( true );
-		apiFetch( {
-			path: '/custom-html-block-extension/v1/get_editor_config',
-			method: 'POST',
-		} ).then( async ( response ) => {
+		getSettings().then( async ( { editorSettings, editorOptions } ) => {
 			const date = new Date();
 			const fileDate =
 				date.getFullYear() +
@@ -31,7 +28,7 @@ export default function ExportTool() {
 				( '0' + ( date.getMonth() + 1 ) ).slice( -2 ) +
 				'-' +
 				( '0' + date.getDate() ).slice( -2 );
-			const json = JSON.stringify( response );
+			const json = JSON.stringify( { editorSettings, editorOptions } );
 			const blob = new window.Blob( [ json ], { type: 'application/json' } );
 			const href = await URL.createObjectURL( blob );
 			const link = document.createElement( 'a' );

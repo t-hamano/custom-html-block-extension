@@ -8,7 +8,6 @@ import clsx from 'clsx';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import {
 	createContext,
 	useCallback,
@@ -25,17 +24,14 @@ import { store as noticesStore } from '@wordpress/notices';
  * Internal dependencies
  */
 import { AdminContext } from '../index';
+import { updateSettings } from '../api';
 import EditorPreview from './components/editor-preview';
 import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
 import { isDeepEqual } from '../../lib/helper';
-import type {
-	EditorConfigContextType,
-	EditorSettings as EditorSettingsType,
-	EditorOptions as EditorOptionsType,
-} from '../../types';
+import type { EditorConfigContextType } from '../../types';
 
 /**
  * Context
@@ -151,7 +147,7 @@ export default function EditorConfig() {
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const settingsRef = useSearchHighlight( searchQuery );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
-	const { createNotice, createSuccessNotice } = useDispatch( noticesStore );
+	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	const isDirty =
 		! isDeepEqual( editorSettings, savedEditorConfig.editorSettings ) ||
@@ -161,38 +157,34 @@ export default function EditorConfig() {
 	const onUpdateOptions = () => {
 		setIsWaiting( true );
 
-		apiFetch< { success: boolean; message: string } >( {
-			path: '/custom-html-block-extension/v1/update_editor_config',
-			method: 'POST',
-			data: {
-				editorSettings,
-				editorOptions,
-			},
-		} ).then( ( response ) => {
-			if ( response.success ) {
+		updateSettings( { editorSettings, editorOptions } )
+			.then( () => {
 				setSavedEditorConfig( { editorSettings, editorOptions } );
-			}
-			setTimeout( () => {
-				createNotice( response.success ? 'success' : 'error', response.message, {
-					type: 'snackbar',
-				} );
+				setTimeout( () => {
+					createSuccessNotice( __( 'Settings saved.', 'custom-html-block-extension' ), {
+						type: 'snackbar',
+					} );
+					setIsWaiting( false );
+				}, 600 );
+			} )
+			.catch( ( error: Error ) => {
+				createErrorNotice( error.message, { type: 'snackbar' } );
 				setIsWaiting( false );
-			}, 600 );
-		} );
+			} );
 	};
 
 	// Reset editor config.
 	const onResetOptions = () => {
 		setIsWaiting( true );
 
-		return apiFetch< { editorSettings: EditorSettingsType; editorOptions: EditorOptionsType } >( {
-			path: '/custom-html-block-extension/v1/delete_editor_config',
-			method: 'POST',
-		} ).then( ( response ) => {
+		return updateSettings( { editorSettings: null, editorOptions: null } ).then( ( response ) => {
 			// Sets default editor config.
 			setEditorSettings( response.editorSettings );
 			setEditorOptions( response.editorOptions );
-			setSavedEditorConfig( response );
+			setSavedEditorConfig( {
+				editorSettings: response.editorSettings,
+				editorOptions: response.editorOptions,
+			} );
 
 			return new Promise< void >( ( resolve ) => {
 				setTimeout( () => {
