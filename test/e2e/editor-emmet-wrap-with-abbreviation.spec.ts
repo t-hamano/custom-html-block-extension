@@ -50,7 +50,7 @@ const EDITORS: {
 		name: 'theme editor',
 		open: async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'theme-editor.php', 'file=templates/index.html' );
-			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+			const monacoEditor = page.locator( '.chbe-monaco-editor .monaco-editor' );
 			await clearEditor( page, monacoEditor );
 			return monacoEditor;
 		},
@@ -64,7 +64,7 @@ const EDITORS: {
 			await admin.visitAdminPage( 'post-new.php' );
 			await page.locator( '#content-tmce' ).click();
 			await page.locator( '#content-html' ).click();
-			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+			const monacoEditor = page.locator( '.chbe-monaco-editor .monaco-editor' );
 			await monacoEditor.click();
 			return monacoEditor;
 		},
