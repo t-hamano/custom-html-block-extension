@@ -592,7 +592,10 @@ class Settings {
 
 		$current_editor_settings = (array) get_option( Option::OPTION_NAMES['editor_settings'] );
 
-		return array_merge( $default_editor_settings, $current_editor_settings );
+		return self::remove_unknown_properties(
+			array_merge( $default_editor_settings, $current_editor_settings ),
+			self::DEFAULT_EDITOR_SETTINGS
+		);
 	}
 
 	/**
@@ -626,7 +629,41 @@ class Settings {
 			}
 		}
 
-		return self::migrate_legacy_editor_options( $editor_options );
+		return self::sanitize_editor_options( $editor_options );
+	}
+
+	/**
+	 * Sanitize editor options so they match the current schema.
+	 */
+	public static function sanitize_editor_options( $editor_options ) {
+		if ( ! is_array( $editor_options ) ) {
+			return $editor_options;
+		}
+
+		return self::remove_unknown_properties(
+			self::migrate_legacy_editor_options( $editor_options ),
+			self::DEFAULT_EDITOR_OPTIONS
+		);
+	}
+
+	/**
+	 * Remove properties that are not in the defaults, such as options removed
+	 * in older versions, since the settings schema doesn't allow them.
+	 */
+	public static function remove_unknown_properties( $values, $defaults ) {
+		if ( ! is_array( $values ) ) {
+			return $values;
+		}
+
+		$values = array_intersect_key( $values, $defaults );
+
+		foreach ( $defaults as $key => $value ) {
+			if ( 'object' === $value['type'] && isset( $values[ $key ] ) ) {
+				$values[ $key ] = self::remove_unknown_properties( $values[ $key ], $value['items'] );
+			}
+		}
+
+		return $values;
 	}
 
 	/**

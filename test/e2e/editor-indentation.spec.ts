@@ -94,7 +94,11 @@ test.describe( 'Indentation', () => {
 	test.afterAll( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/delete_editor_config',
+			path: '/wp/v2/settings',
+			data: {
+				custom_html_block_extension_editor_settings: null,
+				custom_html_block_extension_editor_options: null,
+			},
 		} );
 		await requestUtils.deleteAllPosts();
 	} );
@@ -123,8 +127,8 @@ test.describe( 'Indentation', () => {
 				} the indentation from the content`, async ( { admin, editor, page, requestUtils } ) => {
 					await requestUtils.rest( {
 						method: 'POST',
-						path: '/custom-html-block-extension/v1/update_editor_config',
-						data: { editorSettings: { detectIndentation }, editorOptions: {} },
+						path: '/wp/v2/settings',
+						data: { custom_html_block_extension_editor_settings: { detectIndentation } },
 					} );
 
 					const monacoEditor = await target.open( { admin, editor, page, requestUtils } );

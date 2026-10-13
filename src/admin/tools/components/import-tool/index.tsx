@@ -7,7 +7,6 @@ import type { ChangeEvent } from 'react';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import { useContext, useState } from '@wordpress/element';
 import { FormFileUpload } from '@wordpress/components';
 import { Button, Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
@@ -18,7 +17,11 @@ import { store as noticesStore } from '@wordpress/notices';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import type { EditorSettings, EditorOptions } from '../../../../types';
+import { updateSettings } from '../../../api';
+
+function isObject( value: unknown ): boolean {
+	return typeof value === 'object' && value !== null && ! Array.isArray( value );
+}
 
 export default function ImportTool() {
 	const { setEditorSettings, setEditorOptions, setSavedEditorConfig, setIsWaiting } =
@@ -67,13 +70,18 @@ export default function ImportTool() {
 			try {
 				const result = event.target?.result;
 				const data = JSON.parse( typeof result === 'string' ? result : '' );
+
+				if ( ! isObject( data?.editorSettings ) || ! isObject( data?.editorOptions ) ) {
+					createInvalidFormatNotice();
+					return false;
+				}
+
 				setIsWaiting( true );
 
 				// Update editor config.
-				apiFetch< { editorSettings: EditorSettings; editorOptions: EditorOptions } >( {
-					path: '/custom-html-block-extension/v1/import_editor_config',
-					method: 'POST',
-					data,
+				updateSettings( {
+					editorSettings: data.editorSettings,
+					editorOptions: data.editorOptions,
 				} )
 					.then( ( response ) => {
 						setTimeout( () => {
@@ -85,7 +93,10 @@ export default function ImportTool() {
 							);
 							setEditorSettings( response.editorSettings );
 							setEditorOptions( response.editorOptions );
-							setSavedEditorConfig( response );
+							setSavedEditorConfig( {
+								editorSettings: response.editorSettings,
+								editorOptions: response.editorOptions,
+							} );
 							setImportFile( null );
 							setIsWaiting( false );
 						}, 600 );
