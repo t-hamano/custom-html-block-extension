@@ -57,7 +57,6 @@ type BlockWithInnerContent = Block & {
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
-// Matches block comment delimiters, e.g. `<!-- wp:paragraph -->` or `<!-- /wp:paragraph -->`.
 const BLOCK_DELIMITER_REGEX = /<!--\s+\/?wp:/;
 
 export default function HTMLEdit( {
