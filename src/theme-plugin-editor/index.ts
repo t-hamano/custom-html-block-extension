@@ -92,6 +92,7 @@ initLoader()
 		);
 		window.editor = editor;
 
+		// Apply the bracket pair colorization and theme from the editor settings.
 		applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
 		applyTheme( monaco, theme );
 
