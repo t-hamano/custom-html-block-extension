@@ -31,7 +31,8 @@ class Theme_Plugin_Editor {
 	 */
 	public function wp_code_editor_settings( $settings, $args ) {
 		// Return the default settings if theme/plugin editor is not displayed.
-		if ( ! str_contains( $_SERVER['REQUEST_URI'], 'theme-editor.php' ) && ! str_contains( $_SERVER['REQUEST_URI'], 'plugin-editor.php' ) ) {
+		global $pagenow;
+		if ( 'theme-editor.php' !== $pagenow && 'plugin-editor.php' !== $pagenow ) {
 			return $settings;
 		}
 
@@ -85,7 +86,8 @@ class Theme_Plugin_Editor {
 		$language = null;
 
 		if ( isset( $_GET['file'] ) ) {
-			$ext = pathinfo( $_GET['file'], PATHINFO_EXTENSION );
+			$file = sanitize_text_field( wp_unslash( $_GET['file'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$ext  = pathinfo( $file, PATHINFO_EXTENSION );
 			if ( isset( $map_to_lang[ $ext ] ) ) {
 				$language = $map_to_lang[ $ext ];
 			}
