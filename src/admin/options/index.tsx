@@ -25,6 +25,7 @@ export default function Options() {
 
 		try {
 			await updateSettings( { options } );
+			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 			createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
