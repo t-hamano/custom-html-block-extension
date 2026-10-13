@@ -57,6 +57,8 @@ type BlockWithInnerContent = Block & {
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
+// Matches block comment delimiters, e.g. `<!-- wp:paragraph -->` or `<!-- /wp:paragraph -->`.
+const BLOCK_DELIMITER_REGEX = /<!--\s+\/?wp:/;
 
 export default function HTMLEdit( {
 	clientId,
@@ -125,6 +127,15 @@ export default function HTMLEdit( {
 	// inner blocks mounted at their positions within the static markup.
 	const onChange = ( nextContent: string ) => {
 		if ( nextContent === content ) {
+			return;
+		}
+
+		// Plain HTML without block delimiters has no inner blocks, so skip
+		// parsing and update the inner content only.
+		if ( ! BLOCK_DELIMITER_REGEX.test( content ) && ! BLOCK_DELIMITER_REGEX.test( nextContent ) ) {
+			updateBlock( clientId, {
+				innerContent: nextContent ? [ nextContent ] : [],
+			} as Partial< Block > );
 			return;
 		}
 
