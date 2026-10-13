@@ -16,7 +16,7 @@ import { debounce } from '@wordpress/compose';
  */
 import './style.scss';
 import initLoader from '../lib/loader';
-import { getConstructionOptions, applyTheme, applyBracketPairColorization } from '../lib/editor';
+import { applyTheme, applyBracketPairColorization } from '../lib/editor';
 
 /**
  * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
@@ -68,23 +68,27 @@ initLoader()
 		monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
 		textarea.parentNode?.insertBefore( monacoEditorContainer, textarea.nextElementSibling );
 
+		// Monaco editor properties.
+		const properties = {
+			theme,
+			value: textarea.value,
+			language,
+			automaticLayout: true,
+			...editorOptions,
+			tabSize,
+			insertSpaces,
+			detectIndentation,
+			// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+			stickyScroll: {
+				...editorOptions.stickyScroll,
+				defaultModel: 'foldingProviderModel',
+			},
+		};
+
 		// Create monaco editor.
 		const editor = monaco.editor.create(
 			monacoEditorContainer,
-			getConstructionOptions( {
-				defaults: {
-					theme,
-					value: textarea.value,
-					language,
-					automaticLayout: true,
-				},
-				options: editorOptions,
-				overrides: {
-					tabSize,
-					insertSpaces,
-					detectIndentation,
-				},
-			} )
+			properties as Monaco.editor.IStandaloneEditorConstructionOptions
 		);
 		window.editor = editor;
 

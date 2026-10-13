@@ -26,7 +26,7 @@ import { store as noticesStore } from '@wordpress/notices';
  * Internal dependencies
  */
 import initLoader from '../../lib/loader';
-import { getConstructionOptions, applyTheme, applyBracketPairColorization } from '../../lib/editor';
+import { applyTheme, applyBracketPairColorization } from '../../lib/editor';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -159,28 +159,26 @@ export default function MonacoEditor( {
 			}
 			const { defaultView } = container.ownerDocument;
 
-			const editor = monaco.editor.create(
-				container,
-				getConstructionOptions( {
-					defaults: {
-						ariaLabel: isAppleOS()
-							? __(
-									'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
-									'custom-html-block-extension'
-								)
-							: __(
-									'Editor content. To change the Tab key behavior, press Ctrl+M.',
-									'custom-html-block-extension'
-								),
-					},
-					options,
-					overrides: {
-						tabSize,
-						insertSpaces,
-						detectIndentation,
-					},
-				} )
-			);
+			const editor = monaco.editor.create( container, {
+				ariaLabel: isAppleOS()
+					? __(
+							'Editor content. To change the Tab key behavior, press Ctrl+Shift+M.',
+							'custom-html-block-extension'
+						)
+					: __(
+							'Editor content. To change the Tab key behavior, press Ctrl+M.',
+							'custom-html-block-extension'
+						),
+				...options,
+				tabSize,
+				insertSpaces,
+				detectIndentation,
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...options.stickyScroll,
+					defaultModel: 'foldingProviderModel',
+				},
+			} as Monaco.editor.IStandaloneEditorConstructionOptions );
 			editorRef.current = editor;
 
 			const model = editor.getModel();

@@ -10,7 +10,7 @@ import type * as Monaco from 'monaco-editor';
  */
 import './style.scss';
 import initLoader from '../lib/loader';
-import { getConstructionOptions, applyTheme, applyBracketPairColorization } from '../lib/editor';
+import { applyTheme, applyBracketPairColorization } from '../lib/editor';
 
 initLoader()
 	.then( ( monaco ) => {
@@ -76,30 +76,34 @@ initLoader()
 			monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
 			editorContainer.appendChild( monacoEditorContainer );
 
+			// Monaco editor properties.
+			const properties = {
+				theme,
+				value: textarea.value,
+				language: 'html',
+				automaticLayout: true,
+				...editorOptions,
+				tabSize,
+				insertSpaces,
+				detectIndentation,
+				// Override some properties to match the classic editor.
+				scrollBeyondLastLine: false,
+				scrollbar: {
+					...editorOptions.scrollbar,
+					vertical: 'hidden',
+					alwaysConsumeMouseWheel: false,
+				},
+				// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+				stickyScroll: {
+					...editorOptions.stickyScroll,
+					defaultModel: 'foldingProviderModel',
+				},
+			};
+
 			// Create monaco editor.
 			const editor = monaco.editor.create(
 				monacoEditorContainer,
-				getConstructionOptions( {
-					defaults: {
-						theme,
-						value: textarea.value,
-						language: 'html',
-						automaticLayout: true,
-					},
-					options: editorOptions,
-					overrides: {
-						tabSize,
-						insertSpaces,
-						detectIndentation,
-						// Override some properties to match the classic editor.
-						scrollBeyondLastLine: false,
-						scrollbar: {
-							...editorOptions.scrollbar,
-							vertical: 'hidden',
-							alwaysConsumeMouseWheel: false,
-						},
-					},
-				} )
+				properties as Monaco.editor.IStandaloneEditorConstructionOptions
 			);
 			window.editor = editor;
 

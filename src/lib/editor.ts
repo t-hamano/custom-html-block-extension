@@ -14,36 +14,6 @@ import themes from './themes';
 import type { EditorOptions } from '../types';
 
 /**
- * Build the options passed to `monaco.editor.create`.
- *
- * @param args           Arguments.
- * @param args.defaults  Options that the editor options can override.
- * @param args.options   Editor options saved in the settings.
- * @param args.overrides Options that override the editor options.
- * @return Construction options.
- */
-export function getConstructionOptions( {
-	defaults = {},
-	options,
-	overrides = {},
-}: {
-	defaults?: Record< string, unknown >;
-	options: Partial< EditorOptions >;
-	overrides?: Record< string, unknown >;
-} ): Monaco.editor.IStandaloneEditorConstructionOptions {
-	return {
-		...defaults,
-		...options,
-		...overrides,
-		// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
-		stickyScroll: {
-			...options.stickyScroll,
-			defaultModel: 'foldingProviderModel',
-		},
-	} as Monaco.editor.IStandaloneEditorConstructionOptions;
-}
-
-/**
  * Apply a built-in theme or one of the bundled custom themes.
  *
  * @param monaco The monaco instance.
