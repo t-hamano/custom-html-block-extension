@@ -49,37 +49,19 @@ export default function Emmet() {
 					<>
 						<Text render={ <p /> }>
 							{ __(
-								'Emmet is a function for the editor that allow for high-speed coding via content assist.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ __(
-								'Only valid for HTML tags and does not support inline CSS in the block and classic editor.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ __(
-								'You can use Emmet if the file extension is html, php, sass, scss, css, or less in the theme/plugin editor.',
+								'Emmet is a function for the editor that allows for high-speed coding via content assist. In the block and classic editor, it is only valid for HTML tags and does not support inline CSS. In the theme/plugin editor, it is available if the file extension is html, php, sass, scss, css, or less.',
 								'custom-html-block-extension'
 							) }
 						</Text>
 						<Text render={ <p /> }>
 							{ createInterpolateElement(
 								__(
-									'Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation.',
+									'Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation. In the theme/plugin editor, this is available if the file extension is html or php.',
 									'custom-html-block-extension'
 								),
 								{
 									code: <code />,
 								}
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ __(
-								'In the theme/plugin editor, this is available if the file extension is html or php.',
-								'custom-html-block-extension'
 							) }
 						</Text>
 						<Text render={ <p /> }>
