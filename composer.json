@@ -8,6 +8,7 @@
 		}
 	],
 	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.2",
 		"squizlabs/php_codesniffer": "*",
 		"wp-coding-standards/wpcs": "^3.4",
 		"phpcompatibility/phpcompatibility-wp": "^3.0@alpha",
@@ -15,7 +16,6 @@
 		"phpcompatibility/phpcompatibility-paragonie": "^2.0@alpha"
 	},
 	"scripts": {
-		"phpcs": "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcsstandards/phpcsextra,vendor/phpcsstandards/phpcsutils,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/phpcompatibility/phpcompatibility-wp",
 		"lint": "phpcs ./ --standard=./phpcs.ruleset.xml"
 	},
 	"config": {
