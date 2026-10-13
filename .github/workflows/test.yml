@@ -20,25 +20,21 @@ jobs:
     strategy:
       matrix:
         include:
+          # Oldest and newest supported combinations run on all browsers.
           - php: '8.0'
-            wp: WordPress
-          - php: '8.0'
             wp: WordPress#7.1
-
-          - php: '8.2'
-            wp: WordPress
-          - php: '8.2'
-            wp: WordPress#7.1
-
-          - php: '8.4'
-            wp: WordPress
-          - php: '8.4'
-            wp: WordPress#7.1
-
+            browsers: chromium firefox webkit
           - php: '8.5'
             wp: WordPress
-          - php: '8.5'
+            browsers: chromium firefox webkit
+
+          # Other PHP versions mainly affect the server side, so Chromium is enough.
+          - php: '8.2'
+            wp: WordPress
+            browsers: chromium
+          - php: '8.4'
             wp: WordPress#7.1
+            browsers: chromium
 
     name: PHP ${{ matrix.php }} / ${{ matrix.wp }} Test
 
@@ -65,7 +61,7 @@ jobs:
         run: npm run lint
 
       - name: Install Playwright dependencies
-        run: npx playwright install chromium firefox webkit --with-deps
+        run: npx playwright install ${{ matrix.browsers }} --with-deps
 
       - name: Install WordPress
         run: |
@@ -74,7 +70,7 @@ jobs:
           npm run wp-env-test run cli wp cli info
 
       - name: Running e2e tests
-        run: npm run test:e2e
+        run: npm run test:e2e -- $(printf -- '--project=%s ' ${{ matrix.browsers }})
 
       - name: Archive debug artifacts
         uses: actions/upload-artifact@v7
