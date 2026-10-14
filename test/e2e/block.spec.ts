@@ -336,8 +336,11 @@ test.describe( 'Block', () => {
 				innerBlocks: [ { name: 'core/paragraph', attributes: { content: 'Inner' } } ],
 			},
 		] );
-		const getInnerClientId = async () =>
-			( await editor.getBlocks( { full: true } ) )[ 0 ]?.innerBlocks[ 0 ]?.clientId;
+		// The full block data includes the client IDs, which the block types don't declare.
+		const getInnerClientId = async () => {
+			const [ block ] = await editor.getBlocks( { full: true } );
+			return ( block?.innerBlocks[ 0 ] as unknown as { clientId: string } | undefined )?.clientId;
+		};
 		const innerClientId = await getInnerClientId();
 
 		// Editing only the surrounding HTML keeps the inner blocks.
