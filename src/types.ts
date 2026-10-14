@@ -174,6 +174,11 @@ export type EditorConfig = {
 };
 
 /**
+ * Tabs of the admin page.
+ */
+export type AdminTab = 'editor-config' | 'tools' | 'options';
+
+/**
  * Value provided by `AdminContext`.
  */
 export type AdminContextType = {
@@ -183,12 +188,14 @@ export type AdminContextType = {
 	editorOptions: EditorOptions;
 	savedEditorConfig: EditorConfig;
 	options: Options;
+	selectedTab: AdminTab;
 	setCode: Dispatch< SetStateAction< string > >;
 	setIsWaiting: Dispatch< SetStateAction< boolean > >;
 	setEditorOptions: Dispatch< SetStateAction< EditorOptions > >;
 	setEditorSettings: Dispatch< SetStateAction< EditorSettings > >;
 	setSavedEditorConfig: Dispatch< SetStateAction< EditorConfig > >;
 	setOptions: Dispatch< SetStateAction< Options > >;
+	setSelectedTab: Dispatch< SetStateAction< AdminTab > >;
 };
 
 /**

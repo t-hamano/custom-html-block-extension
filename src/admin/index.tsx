@@ -20,7 +20,7 @@ import Header from './components/header';
 import EditorConfig from './editor-config';
 import Tools from './tools';
 import Options from './options';
-import type { AdminContextType } from '../types';
+import type { AdminContextType, AdminTab } from '../types';
 
 /**
  * Context
@@ -86,6 +86,7 @@ function Admin() {
 	} );
 	const [ options, setOptions ] = useState( window.chbeObj.options );
 	const [ code, setCode ] = useState( htmlCode );
+	const [ selectedTab, setSelectedTab ] = useState< AdminTab >( 'editor-config' );
 
 	return (
 		<div className={ clsx( 'chbe-admin', { 'is-waiting': isWaiting } ) }>
@@ -96,7 +97,11 @@ function Admin() {
 				</div>
 			) }
 			<Header />
-			<Tabs.Root className="chbe-admin__tab-panel" defaultValue="editor-config">
+			<Tabs.Root
+				className="chbe-admin__tab-panel"
+				value={ selectedTab }
+				onValueChange={ ( value: AdminTab ) => setSelectedTab( value ) }
+			>
 				<Stack direction="column" gap="3xl">
 					<Tabs.List className="chbe-admin__tab-list">
 						<Tabs.Tab value="editor-config">
@@ -113,12 +118,14 @@ function Admin() {
 							editorOptions,
 							savedEditorConfig,
 							options,
+							selectedTab,
 							setCode,
 							setIsWaiting,
 							setEditorOptions,
 							setEditorSettings,
 							setSavedEditorConfig,
 							setOptions,
+							setSelectedTab,
 						} }
 					>
 						<div className="chbe-admin-container">
