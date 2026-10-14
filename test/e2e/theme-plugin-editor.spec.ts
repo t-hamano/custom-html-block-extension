@@ -81,8 +81,10 @@ test.describe( 'Theme/plugin editor', () => {
 				!! request.postData()?.includes( 'action=edit-theme-plugin-file' )
 		);
 
+		// Monaco determines the modifier key from the user agent, not from the OS running the test.
+		const isMac = await page.evaluate( () => window.navigator.userAgent.includes( 'Macintosh' ) );
 		await monacoEditor.click();
-		await page.keyboard.press( 'ControlOrMeta+s' );
+		await page.keyboard.press( isMac ? 'Meta+s' : 'Control+s' );
 
 		const request = await requestPromise;
 		expect( request.postData() ).toContain( 'file=templates%2Findex.html' );
