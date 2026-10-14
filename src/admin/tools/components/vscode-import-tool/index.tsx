@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { Button, Card, CollapsibleCard, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
@@ -45,15 +45,29 @@ export default function VSCodeImportTool() {
 		setSettingsText( '' );
 		setSelectedTab( 'editor-config' );
 		createSuccessNotice(
-			sprintf(
-				/* translators: 1: Number of imported settings, 2: Number of skipped settings. */
-				__(
-					'Imported %1$d settings and skipped %2$d. Check the preview and save the changes.',
-					'custom-html-block-extension'
+			[
+				sprintf(
+					/* translators: %d: Number of imported settings. */
+					_n(
+						'Imported %d setting.',
+						'Imported %d settings.',
+						result.importedCount,
+						'custom-html-block-extension'
+					),
+					result.importedCount
 				),
-				result.importedCount,
-				result.skippedCount
-			),
+				sprintf(
+					/* translators: %d: Number of skipped settings. */
+					_n(
+						'Skipped %d setting.',
+						'Skipped %d settings.',
+						result.skippedCount,
+						'custom-html-block-extension'
+					),
+					result.skippedCount
+				),
+				__( 'Check the preview and save the changes.', 'custom-html-block-extension' ),
+			].join( ' ' ),
 			{ type: 'snackbar' }
 		);
 	};
