@@ -80,6 +80,9 @@ class Test_Settings extends WP_UnitTestCase {
 				),
 				array(
 					'guides' => array(
+						'bracketPairs'               => false,
+						'bracketPairsHorizontal'     => 'active',
+						'highlightActiveBracketPair' => true,
 						'highlightActiveIndentation' => false,
 						'indentation'                => false,
 					),
