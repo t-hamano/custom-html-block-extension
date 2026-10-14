@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import type { Locator, Page } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 
 /**
  * WordPress dependencies
@@ -46,12 +46,6 @@ async function setPosition( monacoEditor: Locator, lineNumber: number, column: n
 				?.setPosition( position );
 		},
 		{ lineNumber, column }
-	);
-}
-
-async function getPostContent( page: Page ) {
-	return page.evaluate( () =>
-		( window.wp as any ).data.select( 'core/editor' ).getEditedPostContent()
 	);
 }
 
@@ -225,7 +219,7 @@ test.describe( 'Block', () => {
 		await dialog.getByRole( 'button', { name: 'Close' } ).click();
 		await expect( dialog ).toBeHidden();
 
-		await expect.poll( () => getPostContent( page ) ).toContain( '<p>Hello World</p>' );
+		await expect.poll( () => editor.getEditedPostContent() ).toContain( '<p>Hello World</p>' );
 		await expect.poll( () => getValue( getBlockEditor( editor ) ) ).toBe( '<p>Hello World</p>' );
 	} );
 
@@ -263,11 +257,7 @@ test.describe( 'Block', () => {
 		await expect.poll( getHeight ).toBe( 100 );
 	} );
 
-	test( 'block delimiters in the HTML should create inner blocks', async ( {
-		admin,
-		page,
-		editor,
-	} ) => {
+	test( 'block delimiters in the HTML should create inner blocks', async ( { admin, editor } ) => {
 		await admin.createNewPost();
 		await editor.insertBlock( { name: 'core/html' } );
 		const monacoEditor = getBlockEditor( editor );
@@ -283,12 +273,8 @@ test.describe( 'Block', () => {
 				innerBlocks: [ { name: 'core/paragraph', attributes: { content: 'Inner' } } ],
 			},
 		] );
-		const getInnerClientId = () =>
-			page.evaluate(
-				() =>
-					( window.wp as any ).data.select( 'core/block-editor' ).getBlocks()[ 0 ].innerBlocks[ 0 ]
-						?.clientId
-			);
+		const getInnerClientId = async () =>
+			( await editor.getBlocks( { full: true } ) )[ 0 ]?.innerBlocks[ 0 ]?.clientId;
 		const innerClientId = await getInnerClientId();
 
 		// Editing only the surrounding HTML keeps the inner blocks.
@@ -296,28 +282,23 @@ test.describe( 'Block', () => {
 			monacoEditor,
 			'<section>\n<!-- wp:paragraph -->\n<p>Inner</p>\n<!-- /wp:paragraph -->\n</section>'
 		);
-		await expect.poll( () => getPostContent( page ) ).toContain( '<section>' );
+		await expect.poll( () => editor.getEditedPostContent() ).toContain( '<section>' );
 		expect( await getInnerClientId() ).toBe( innerClientId );
 	} );
 
 	test( 'a block created with the content attribute should be migrated to inner content', async ( {
 		admin,
-		page,
 		editor,
 	} ) => {
 		await admin.createNewPost();
-		await page.evaluate( () => {
-			const { blocks, data } = window.wp as any;
-			data
-				.dispatch( 'core/block-editor' )
-				.insertBlocks( blocks.createBlock( 'core/html', { content: '<p>Migrated</p>' } ) );
-		} );
+		// `insertBlock` creates the block with `createBlock( 'core/html', { content } )`.
+		await editor.insertBlock( { name: 'core/html', attributes: { content: '<p>Migrated</p>' } } );
 		await expect( getBlockEditor( editor ) ).toBeVisible();
 
 		await expect
 			.poll( async () => ( await editor.getBlocks() )[ 0 ]?.attributes.content )
 			.toBeUndefined();
-		await expect.poll( () => getPostContent( page ) ).toContain( '<p>Migrated</p>' );
+		await expect.poll( () => editor.getEditedPostContent() ).toContain( '<p>Migrated</p>' );
 		expect( await getValue( getBlockEditor( editor ) ) ).toBe( '<p>Migrated</p>' );
 	} );
 
