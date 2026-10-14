@@ -167,6 +167,28 @@ test.describe( 'Settings REST API', () => {
 		expect( response[ EDITOR_OPTIONS ].suggest ).not.toHaveProperty( 'insertMode' );
 	} );
 
+	test( 'should save guides options that mix booleans and strings', async ( { requestUtils } ) => {
+		const guides = {
+			bracketPairs: 'active',
+			bracketPairsHorizontal: false,
+			highlightActiveBracketPair: false,
+			highlightActiveIndentation: 'always',
+			indentation: true,
+		};
+
+		await requestUtils.rest( {
+			method: 'POST',
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_OPTIONS ]: { guides } },
+		} );
+
+		const response = await requestUtils.rest( {
+			method: 'GET',
+			path: '/wp/v2/settings',
+		} );
+		expect( response[ EDITOR_OPTIONS ].guides ).toEqual( guides );
+	} );
+
 	test( 'should reject invalid options', async ( { requestUtils } ) => {
 		await expect(
 			requestUtils.rest( {
