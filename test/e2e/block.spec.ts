@@ -78,6 +78,32 @@ async function pressPrimary( page: Page, key: string ) {
 	await page.keyboard.press( `${ isMac ? 'Meta' : 'Control' }+${ key }` );
 }
 
+/**
+ * Record the plain text that copy and cut events in the editor's window leave on the
+ * clipboard, after every handler, including the block editor's, has run.
+ *
+ * @param monacoEditor The Monaco editor element.
+ */
+async function recordClipboard( monacoEditor: Locator ) {
+	await monacoEditor.evaluate( ( element ) => {
+		const win = element.ownerDocument.defaultView as Window & { chbeClipboard?: string[] };
+		win.chbeClipboard = [];
+		const record = ( event: ClipboardEvent ) =>
+			win.chbeClipboard?.push( event.clipboardData?.getData( 'text/plain' ) ?? '' );
+		win.addEventListener( 'copy', record );
+		win.addEventListener( 'cut', record );
+	} );
+}
+
+async function getClipboard( monacoEditor: Locator ) {
+	const clipboard = await monacoEditor.evaluate(
+		( element ) =>
+			( element.ownerDocument.defaultView as Window & { chbeClipboard?: string[] } ).chbeClipboard
+	);
+	// Monaco may copy with CRLF line endings.
+	return clipboard?.map( ( text ) => text.replace( /\r\n/g, '\n' ) );
+}
+
 function getBlockEditor( editor: Editor ) {
 	return editor.canvas.locator( '[data-type="core/html"] .monaco-editor' ).first();
 }
@@ -369,8 +395,8 @@ test.describe( 'Block', () => {
 	} );
 
 	// The paste shortcut depends on the OS running the test while Monaco's shortcuts depend on
-	// the user agent, so the clipboard content isn't pasted. Instead, check the selection,
-	// which the copy command extends to the current line before copying it.
+	// the user agent, so the clipboard content isn't pasted. Instead, check the text that the
+	// copy and cut events leave on the clipboard.
 	test( 'copy and cut without a selection should apply to the current line', async ( {
 		admin,
 		page,
@@ -386,8 +412,10 @@ test.describe( 'Block', () => {
 
 		// Copy the first line without a selection.
 		await monacoEditor.locator( '.view-line' ).first().click();
+		await recordClipboard( monacoEditor );
 		await setPosition( monacoEditor, 1, 1 );
 		await pressPrimary( page, 'c' );
+		await expect.poll( () => getClipboard( monacoEditor ) ).toEqual( [ '<p>First</p>\n' ] );
 		await expect
 			.poll( () => getSelection( monacoEditor ) )
 			.toEqual( {
@@ -404,6 +432,7 @@ test.describe( 'Block', () => {
 		await expect.poll( () => getValue( monacoEditor ) ).toBe( '<p>Second</p>' );
 
 		// The block itself is neither copied nor cut.
+		expect( await getClipboard( monacoEditor ) ).toEqual( [ '<p>First</p>\n', '<p>First</p>\n' ] );
 		expect( await editor.getBlocks() ).toMatchObject( [ { name: 'core/html' } ] );
 		expect( await editor.getBlocks() ).toHaveLength( 1 );
 	} );
@@ -430,6 +459,7 @@ test.describe( 'Block', () => {
 		await expect( monacoEditor ).toBeVisible();
 
 		await monacoEditor.locator( '.view-line' ).first().click();
+		await recordClipboard( monacoEditor );
 		await setPosition( monacoEditor, 1, 1 );
 		await pressPrimary( page, 'c' );
 		await pressPrimary( page, 'x' );
@@ -442,6 +472,7 @@ test.describe( 'Block', () => {
 			endColumn: 1,
 		} );
 		expect( await getValue( monacoEditor ) ).toBe( '<p>First</p>\n<p>Second</p>' );
+		expect( await getClipboard( monacoEditor ) ).toEqual( [] );
 		expect( await editor.getBlocks() ).toHaveLength( 1 );
 	} );
 } );
