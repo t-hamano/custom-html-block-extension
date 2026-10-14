@@ -355,17 +355,15 @@ test.describe( 'Editor config', () => {
 	"editor.cursorStyle": 3,
 	// An option that needs a conversion is skipped.
 	"editor.fontFamily": "Consolas",
-	// A theme is imported when its name matches a theme.
-	"workbench.colorTheme": "Monokai",
-	// Language-specific settings and other settings are ignored.
+	// Language-specific settings and non-editor settings are ignored.
 	"[html]": { "editor.fontSize": 30 },
-	"workbench.startupEditor": "none",
+	"workbench.colorTheme": "Monokai",
 }` );
 		await page.getByRole( 'button', { name: 'Import VS Code settings' } ).click();
 		await expect(
 			page
 				.getByRole( 'button', { name: 'Dismiss this notice' } )
-				.filter( { hasText: 'Imported 5 settings and skipped 2 settings.' } )
+				.filter( { hasText: 'Imported 4 settings and skipped 2 settings.' } )
 		).toBeVisible();
 
 		// The import stays on the tools tab and doesn't save the settings.
@@ -386,7 +384,7 @@ test.describe( 'Editor config', () => {
 		).toBeVisible();
 
 		response = await requestUtils.rest( { path: '/wp/v2/settings' } );
-		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4, theme: 'monokai' } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4 } );
 		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( {
 			fontSize: 20,
 			minimap: { enabled: false },
@@ -414,7 +412,7 @@ test.describe( 'Editor config', () => {
 				.filter( { hasText: 'The format of the settings is not correct.' } )
 		).toBeVisible();
 
-		await textbox.fill( '{ "workbench.colorTheme": "One Dark Pro" }' );
+		await textbox.fill( '{ "workbench.colorTheme": "Monokai" }' );
 		await importButton.click();
 		await expect(
 			page
