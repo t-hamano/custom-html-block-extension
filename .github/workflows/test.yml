@@ -15,6 +15,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  js-unit-test:
+    runs-on: ubuntu-latest
+
+    name: JavaScript Unit Test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use desired version of Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Npm install
+        run: npm ci
+
+      - name: Running JavaScript unit tests
+        run: npm run test:unit
+
   php-unit-test:
     runs-on: ubuntu-latest
     strategy:

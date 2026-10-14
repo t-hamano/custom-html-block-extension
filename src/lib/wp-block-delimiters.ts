@@ -12,10 +12,15 @@ import { __, sprintf } from '@wordpress/i18n';
 type BlockDelimiter = {
 	// Block name, e.g. `wp:paragraph`.
 	name: string;
-	nameRange: Monaco.IRange;
+	// Offset of the block name.
+	nameStart: number;
 	// Offsets of the whole delimiter.
 	start: number;
 	end: number;
+};
+
+type BlockDelimiterWithRange = BlockDelimiter & {
+	nameRange: Monaco.IRange;
 };
 
 // Same as the tokenizer of `@wordpress/block-serialization-default-parser`.
@@ -25,15 +30,15 @@ const delimiterPattern =
 const languageIds = [ 'html', 'php' ];
 
 /**
- * Find block delimiters and pair opening and closing ones with the same block name, as HTML tags
- * are paired. Void delimiters, e.g. `<!-- wp:separator /-->`, are skipped. In PHP, delimiters in
- * PHP code are skipped since they may be built dynamically.
+ * Find block delimiters in the text and pair opening and closing ones with the same block name, as
+ * HTML tags are paired. Void delimiters, e.g. `<!-- wp:separator /-->`, are skipped. In PHP,
+ * delimiters in PHP code are skipped since they may be built dynamically.
  *
- * @param model The model.
+ * @param text       The text.
+ * @param languageId The language ID.
  */
-function parseBlockDelimiters( model: Monaco.editor.ITextModel ) {
-	let text = model.getValue();
-	if ( 'php' === model.getLanguageId() ) {
+export function findBlockDelimiters( text: string, languageId: string ) {
+	if ( 'php' === languageId ) {
 		// Replace PHP code with whitespace to keep the offsets.
 		text = text.replace( /<\?(?:php|=)?[\s\S]*?(?:\?>|$)/g, ( code ) =>
 			code.replace( /[^\r\n]/g, ' ' )
@@ -51,18 +56,9 @@ function parseBlockDelimiters( model: Monaco.editor.ITextModel ) {
 			continue;
 		}
 
-		const name = `wp:${ namespace }${ blockName }`;
-		const { lineNumber, column } = model.getPositionAt(
-			match.index + delimiterText.indexOf( 'wp:' )
-		);
 		const delimiter = {
-			name,
-			nameRange: {
-				startLineNumber: lineNumber,
-				startColumn: column,
-				endLineNumber: lineNumber,
-				endColumn: column + name.length,
-			},
+			name: `wp:${ namespace }${ blockName }`,
+			nameStart: match.index + delimiterText.indexOf( 'wp:' ),
 			start: match.index,
 			end: match.index + delimiterText.length,
 		};
@@ -86,6 +82,36 @@ function parseBlockDelimiters( model: Monaco.editor.ITextModel ) {
 	unclosed.push( ...openers.map( ( item ) => item.delimiter ) );
 
 	return { pairs, unclosed, unopened };
+}
+
+/**
+ * Find block delimiters in the model with the ranges of their block names.
+ *
+ * @param model The model.
+ */
+function parseBlockDelimiters( model: Monaco.editor.ITextModel ) {
+	const withRange = ( delimiter: BlockDelimiter ): BlockDelimiterWithRange => {
+		const { lineNumber, column } = model.getPositionAt( delimiter.nameStart );
+		return {
+			...delimiter,
+			nameRange: {
+				startLineNumber: lineNumber,
+				startColumn: column,
+				endLineNumber: lineNumber,
+				endColumn: column + delimiter.name.length,
+			},
+		};
+	};
+
+	const { pairs, unclosed, unopened } = findBlockDelimiters(
+		model.getValue(),
+		model.getLanguageId()
+	);
+	return {
+		pairs: pairs.map( ( pair ) => pair.map( withRange ) ),
+		unclosed: unclosed.map( withRange ),
+		unopened: unopened.map( withRange ),
+	};
 }
 
 /**
