@@ -66,16 +66,7 @@ class Classic_Editor {
 			true
 		);
 
-		wp_localize_script(
-			CHBE_NAMESPACE,
-			'chbeObj',
-			array(
-				'pluginUrl'      => CHBE_URL,
-				'editorSettings' => Settings::get_editor_settings(),
-				'editorOptions'  => Settings::get_editor_options(),
-				'fontFamily'     => Settings::get_font_families(),
-			)
-		);
+		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
 	}
 }
 
