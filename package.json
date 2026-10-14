@@ -63,7 +63,9 @@
 		"lint-staged": "17.6.0",
 		"prettier": "npm:wp-prettier@3.9.6",
 		"rimraf": "^6.1.3",
-		"typescript": "6.0.3"
+		"typescript": "6.0.3",
+		"vite": "8.3.4",
+		"vitest": "5.0.4"
 	},
 	"scripts": {
 		"wp-env": "wp-env",
@@ -83,7 +85,8 @@
 		"lint:md-docs": "wp-scripts lint-md-docs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"format": "wp-scripts format",
-		"test": "npm run lint:js && npm run test:e2e",
+		"test": "npm run lint:js && npm run test:unit && npm run test:e2e",
+		"test:unit": "wp-scripts test-unit-js",
 		"test:e2e": "wp-scripts test-playwright",
 		"test:e2e:debug": "wp-scripts test-playwright --debug",
 		"test:php": "wp-env --config .wp-env.test.json run cli --env-cwd=wp-content/plugins/custom-html-block-extension vendor/bin/phpunit",

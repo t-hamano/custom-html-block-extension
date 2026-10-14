@@ -11,6 +11,7 @@ import './style.scss';
 import initLoader from '../lib/loader';
 import { applyTheme, applyBracketPairColorization } from '../lib/editor';
 import { loadWebFont } from '../lib/helper';
+import { getTextareaSelection, getEditorPosition } from '../lib/textarea-position';
 import addWrapWithAbbreviationAction, {
 	isApplyingWrapPreview,
 } from '../components/wrap-with-abbreviation';
@@ -244,7 +245,7 @@ initLoader( window, {
 			if ( ! model || ! selection ) {
 				return;
 			}
-			const textareaSelection = getTextareaSelection( model, selection );
+			const textareaSelection = getTextareaSelection( model.getLinesContent(), selection );
 
 			textarea.setSelectionRange( textareaSelection.start, textareaSelection.end );
 
@@ -258,11 +259,9 @@ initLoader( window, {
 				// The preview of "Wrap with Abbreviation" differs from the textarea until it's confirmed.
 				if ( ! isApplyingWrapPreview( editor ) && model.getValue() !== textarea.value ) {
 					model.setValue( textarea.value );
-					const editorPosition = getEditorPosition( textarea );
-					editor.setPosition( {
-						lineNumber: editorPosition.lineNumber,
-						column: editorPosition.column,
-					} );
+					editor.setPosition(
+						getEditorPosition( textarea.value.split( '\n' ), textarea.selectionStart )
+					);
 					editor.focus();
 				} else if ( retries-- > 0 ) {
 					pendingSync = window.setTimeout( checkForChanges, mediaSyncInterval );
@@ -292,63 +291,6 @@ initLoader( window, {
 			) {
 				syncTextareaToEditor( false );
 			}
-		};
-
-		// Get cursor selection info for the original textarea.
-		const getTextareaSelection = (
-			model: Monaco.editor.ITextModel,
-			selection: Monaco.Selection
-		) => {
-			const linesContent = model.getLinesContent();
-
-			let start = 0;
-			let end = 0;
-
-			for ( let i = 1; i <= linesContent.length; i++ ) {
-				const lineLength = model.getLineLength( i );
-
-				if ( i === selection.startLineNumber ) {
-					start += selection.startColumn + i - 2;
-				} else if ( i < selection.startLineNumber ) {
-					start += lineLength;
-				}
-
-				if ( i > selection.endLineNumber ) {
-					break;
-				}
-
-				if ( i === selection.endLineNumber ) {
-					end += selection.endColumn + i - 2;
-				} else {
-					end += lineLength;
-				}
-			}
-
-			return { start, end };
-		};
-
-		// Get cursor position info for the editor.
-		const getEditorPosition = ( element: HTMLTextAreaElement ) => {
-			const linesContent = element.value.split( '\n' );
-			let selectionStart = element.selectionStart;
-			let lineNumber = 1;
-			let column = 0;
-
-			for ( let i = 0; i < linesContent.length; i++ ) {
-				lineNumber = i + 1;
-
-				if ( 0 >= selectionStart - linesContent[ i ].length ) {
-					column = selectionStart - i + 1;
-					break;
-				} else if ( 0 === selectionStart - linesContent[ i ].length - i ) {
-					column = selectionStart - i + 1;
-					break;
-				} else {
-					selectionStart -= linesContent[ i ].length;
-				}
-			}
-
-			return { lineNumber, column };
 		};
 
 		// Switch to visual edit mode.
