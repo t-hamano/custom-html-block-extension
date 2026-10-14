@@ -179,17 +179,24 @@ export type EditorConfig = {
 export type AdminTab = 'editor-config' | 'tools' | 'options';
 
 /**
+ * Languages of the editor preview on the admin page.
+ */
+export type PreviewLanguage = 'html' | 'php' | 'javascript' | 'css';
+
+/**
  * Value provided by `AdminContext`.
  */
 export type AdminContextType = {
-	code: string;
+	code: Record< PreviewLanguage, string >;
+	previewLanguage: PreviewLanguage;
 	isWaiting: boolean;
 	editorSettings: EditorSettings;
 	editorOptions: EditorOptions;
 	savedEditorConfig: EditorConfig;
 	options: Options;
 	selectedTab: AdminTab;
-	setCode: Dispatch< SetStateAction< string > >;
+	setCode: Dispatch< SetStateAction< Record< PreviewLanguage, string > > >;
+	setPreviewLanguage: Dispatch< SetStateAction< PreviewLanguage > >;
 	setIsWaiting: Dispatch< SetStateAction< boolean > >;
 	setEditorOptions: Dispatch< SetStateAction< EditorOptions > >;
 	setEditorSettings: Dispatch< SetStateAction< EditorSettings > >;
