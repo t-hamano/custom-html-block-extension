@@ -53,14 +53,14 @@ class Classic_Editor {
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/style-classic-editor.css',
 			array( 'wp-theme' ),
-			filemtime( CHBE_PATH . '/build/style-classic-editor.css' )
+			$asset_file['version']
 		);
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/classic-editor.js',
 			array_merge( $asset_file['dependencies'], array( 'wp-backbone' ) ),
-			filemtime( CHBE_PATH . '/build/classic-editor.js' ),
+			$asset_file['version'],
 			true
 		);
 
