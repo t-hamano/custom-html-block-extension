@@ -366,11 +366,12 @@ test.describe( 'Editor config', () => {
 				.filter( { hasText: 'Imported 4 settings and skipped 2 settings.' } )
 		).toBeVisible();
 
-		// The import switches to the editor config tab without saving.
-		await expect( page.getByRole( 'tab', { name: 'Editor config' } ) ).toHaveAttribute(
+		// The import stays on the tools tab and doesn't save the settings.
+		await expect( page.getByRole( 'tab', { name: 'Tools' } ) ).toHaveAttribute(
 			'aria-selected',
 			'true'
 		);
+		await page.getByRole( 'tab', { name: 'Editor config' } ).click();
 		await expect( page.getByRole( 'spinbutton', { name: 'Indent width' } ) ).toHaveValue( '4' );
 		let response = await requestUtils.rest( { path: '/wp/v2/settings' } );
 		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 2 } );

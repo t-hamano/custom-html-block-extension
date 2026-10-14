@@ -14,15 +14,21 @@ import { AdminContext } from '../../../index';
 import { importVSCodeSettings } from './utils';
 
 export default function VSCodeImportTool() {
-	const { editorSettings, editorOptions, setEditorSettings, setEditorOptions, setSelectedTab } =
-		useContext( AdminContext );
+	const {
+		editorSettings,
+		editorOptions,
+		isWaiting,
+		setEditorSettings,
+		setEditorOptions,
+		setIsWaiting,
+	} = useContext( AdminContext );
 
 	const [ settingsText, setSettingsText ] = useState( '' );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	// Import the VS Code settings as unsaved changes, so that they can be
 	// checked in the preview before saving.
-	const onImport = () => {
+	const onImport = async () => {
 		const result = importVSCodeSettings( settingsText, editorSettings, editorOptions );
 
 		if ( ! result ) {
@@ -40,10 +46,13 @@ export default function VSCodeImportTool() {
 			return;
 		}
 
+		setIsWaiting( true );
+		// Show the spinner briefly, as when saving the settings.
+		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 		setEditorSettings( result.editorSettings );
 		setEditorOptions( result.editorOptions );
 		setSettingsText( '' );
-		setSelectedTab( 'editor-config' );
+		setIsWaiting( false );
 		const { importedCount, skippedCount } = result;
 		const message =
 			skippedCount === 1
@@ -98,7 +107,7 @@ export default function VSCodeImportTool() {
 						onValueChange={ ( value: string ) => setSettingsText( value ) }
 						rows={ 10 }
 					/>
-					<Button disabled={ ! settingsText.trim() } onClick={ onImport }>
+					<Button disabled={ isWaiting || ! settingsText.trim() } onClick={ onImport }>
 						{ __( 'Import VS Code settings', 'custom-html-block-extension' ) }
 					</Button>
 				</Stack>
