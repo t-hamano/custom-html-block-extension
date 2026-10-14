@@ -16,6 +16,9 @@ const UNSUPPORTED_OPTION_KEYS = [ 'fontFamily', 'fontWeight', 'lineHeight' ];
 
 const MAX_RULER_COLUMN = 100;
 
+// Same as `sanitize_hex_color()`, which validates the `hex-color` format.
+const HEX_COLOR_REGEX = /^#([A-Fa-f0-9]{3}){1,2}$/;
+
 type ImportResult = {
 	editorSettings: EditorSettings;
 	editorOptions: EditorOptions;
@@ -58,6 +61,29 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
 }
 
 /**
+ * Whether a ruler matches the settings schema: a column from 1 to 100, or an
+ * object with a column and a 3- or 6-digit hex color (the `hex-color` format).
+ *
+ * @param ruler The imported ruler.
+ * @return Whether the ruler is valid.
+ */
+function isValidRuler( ruler: unknown ): boolean {
+	const isValidColumn = ( column: unknown ) =>
+		typeof column === 'number' && column >= 1 && column <= MAX_RULER_COLUMN;
+
+	if ( ! isPlainObject( ruler ) ) {
+		return isValidColumn( ruler );
+	}
+
+	return (
+		Object.keys( ruler ).every( ( key ) => key === 'column' || key === 'color' ) &&
+		isValidColumn( ruler.column ) &&
+		typeof ruler.color === 'string' &&
+		HEX_COLOR_REGEX.test( ruler.color )
+	);
+}
+
+/**
  * Whether the imported value can replace the current value. The value must
  * have the same type as the current one so that the settings REST API accepts it.
  *
@@ -71,18 +97,10 @@ function isAcceptableValue( path: string, value: unknown, currentValue: unknown 
 		if ( ! Array.isArray( value ) ) {
 			return false;
 		}
-		// The settings schema limits ruler columns, and the REST API rejects
-		// the whole request if a single column is out of range.
+		// The REST API rejects the whole request if a single ruler doesn't
+		// match the settings schema.
 		if ( path === 'rulers' ) {
-			return value.every( ( ruler ) => {
-				const column = isPlainObject( ruler ) ? ruler.column : ruler;
-				return (
-					typeof column === 'number' &&
-					column >= 1 &&
-					column <= MAX_RULER_COLUMN &&
-					( ! isPlainObject( ruler ) || typeof ruler.color === 'string' )
-				);
-			} );
+			return value.every( isValidRuler );
 		}
 		return true;
 	}
