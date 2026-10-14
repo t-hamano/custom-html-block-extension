@@ -27,6 +27,7 @@ import { store as noticesStore } from '@wordpress/notices';
 import initLoader from '../../lib/loader';
 import { applyTheme, applyBracketPairColorization } from '../../lib/editor';
 import { loadWebFont } from '../../lib/helper';
+import addWrapWithAbbreviationAction, { isApplyingWrapPreview } from '../wrap-with-abbreviation';
 import type { EditorOptions, FontLoadResult } from '../../types';
 
 export type MonacoError = {
@@ -201,6 +202,9 @@ export default function MonacoEditor( {
 				defaultView.enabledEmmet = true;
 				emmetHTML( monaco );
 			}
+			if ( useEmmet && 'html' === language ) {
+				addWrapWithAbbreviationAction( monaco, editor );
+			}
 
 			// Ctrl+X shortcut without a range selection will cut the block,
 			// so catch the command and execute custom action instead.
@@ -262,6 +266,10 @@ export default function MonacoEditor( {
 			// so prop changes don't require re-subscribing.
 			subscriptionsRef.current = [
 				editor.onDidChangeModelContent( ( event ) => {
+					// Don't notify the preview of "Wrap with Abbreviation" until it's confirmed.
+					if ( isApplyingWrapPreview( editor ) ) {
+						return;
+					}
 					onChangeRef.current?.( editor.getValue(), event );
 				} ),
 				editor.onDidBlurEditorWidget( () => {
