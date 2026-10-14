@@ -154,4 +154,24 @@ test.describe( 'Classic editor', () => {
 			.poll( () => getEditorValue( page ) )
 			.toMatch( /<p>Line 3<\/p><img [^>]*rulers[^>]*>\n<p>Line 4<\/p>/ );
 	} );
+
+	test( 'should keep the content when switching between the visual and text modes', async ( {
+		admin,
+		page,
+	} ) => {
+		await admin.visitAdminPage( 'post.php', `post=${ postId }&action=edit` );
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
+
+		await page.evaluate( () => window.editor?.setValue( 'Hello <strong>World</strong>' ) );
+
+		await page.locator( '#content-tmce' ).click();
+		await expect( page.locator( '.chbe-monaco-editor' ) ).toHaveCount( 0 );
+		await expect( page.frameLocator( '#content_ifr' ).locator( '#tinymce strong' ) ).toHaveText(
+			'World'
+		);
+
+		await page.locator( '#content-html' ).click();
+		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
+		await expect.poll( () => getEditorValue( page ) ).toBe( 'Hello <strong>World</strong>' );
+	} );
 } );
