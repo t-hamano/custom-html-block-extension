@@ -12,7 +12,6 @@ import { __, sprintf } from '@wordpress/i18n';
 type BlockDelimiter = {
 	// Block name, e.g. `wp:paragraph`.
 	name: string;
-	// Offset of the block name.
 	nameStart: number;
 	// Offsets of the whole delimiter.
 	start: number;
