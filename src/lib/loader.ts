@@ -27,12 +27,17 @@ const config = {
 	},
 };
 
-// The time until loading the editor is considered failed. The editor script is
+// The time until loading the editor is reported as timed out. The editor script is
 // several megabytes, so allow enough time for slow connections.
 const LOADING_TIMEOUT = 30 * 1000;
 
 // The loading promise for each window, which all editors in the window share.
-const loadingPromises = new WeakMap< Window, Promise< typeof Monaco > >();
+// The document is kept to detect that the window has navigated to a new document,
+// which resets `window.monaco`.
+const loadingPromises = new WeakMap<
+	Window,
+	{ document: Document; promise: Promise< typeof Monaco > }
+>();
 
 // Wrap promise to make it cancelable.
 function makeCancelable< T >( promise: Promise< T > ): CancelablePromise< T > {
@@ -61,14 +66,6 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 			return resolve( targetWindow.monaco );
 		}
 
-		// It will be considered a read failure when a certain amount of time has passed.
-		const timeout = setTimeout( () => {
-			reject( {
-				type: 'timeout',
-				msg: __( 'Editor loading timed out.', 'custom-html-block-extension' ),
-			} satisfies LoaderError );
-		}, LOADING_TIMEOUT );
-
 		const scriptError: LoaderError = {
 			type: 'scripterror',
 			msg: __( 'Failed to load the editor script.', 'custom-html-block-extension' ),
@@ -82,7 +79,6 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 			const require = targetWindow.require;
 			require.config( config );
 			require( [ 'vs/editor/editor.main' ], () => {
-				clearTimeout( timeout );
 				const { monaco } = targetWindow;
 				if ( ! monaco ) {
 					return reject( scriptError );
@@ -94,7 +90,6 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 		};
 
 		script.onerror = () => {
-			clearTimeout( timeout );
 			return reject( scriptError );
 		};
 
@@ -105,18 +100,38 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 /**
  * Custom monaco editor loader which is a customized version of `@monaco-editor/loader`.
  *
+ * The returned promise rejects when loading takes too long, but loading continues,
+ * so calling this function again waits for the same loading.
+ *
  * @param targetWindow The window object to load the editor.
  * @see https://github.com/suren-atoyan/monaco-loader
  */
 export default function initLoader(
 	targetWindow: Window = window
 ): CancelablePromise< typeof Monaco > {
-	let promise = loadingPromises.get( targetWindow );
-	if ( ! promise ) {
-		promise = loadMonaco( targetWindow );
-		loadingPromises.set( targetWindow, promise );
+	let entry = loadingPromises.get( targetWindow );
+	if ( ! entry || entry.document !== targetWindow.document ) {
+		const promise = loadMonaco( targetWindow );
+		entry = { document: targetWindow.document, promise };
+		loadingPromises.set( targetWindow, entry );
 		// Allow retrying in a new editor when loading fails.
-		promise.catch( () => loadingPromises.delete( targetWindow ) );
+		promise.catch( () => {
+			if ( loadingPromises.get( targetWindow )?.promise === promise ) {
+				loadingPromises.delete( targetWindow );
+			}
+		} );
 	}
-	return makeCancelable( promise );
+
+	const { promise } = entry;
+	const timedPromise = new Promise< typeof Monaco >( ( resolve, reject ) => {
+		const timeout = setTimeout( () => {
+			reject( {
+				type: 'timeout',
+				msg: __( 'Editor loading timed out.', 'custom-html-block-extension' ),
+			} satisfies LoaderError );
+		}, LOADING_TIMEOUT );
+		promise.then( resolve, reject ).finally( () => clearTimeout( timeout ) );
+	} );
+
+	return makeCancelable( timedPromise );
 }
