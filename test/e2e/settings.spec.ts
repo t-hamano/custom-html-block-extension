@@ -336,6 +336,93 @@ test.describe( 'Editor config', () => {
 		).toBeVisible();
 		await expect( page.getByRole( 'button', { name: 'Import', exact: true } ) ).toBeDisabled();
 	} );
+
+	test( 'VS Code settings should be imported as unsaved changes', async ( {
+		admin,
+		page,
+		requestUtils,
+	} ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		await page.getByRole( 'tab', { name: 'Tools' } ).click();
+
+		await page.getByRole( 'textbox', { name: 'settings.json' } ).fill( `{
+	// Comments and trailing commas are allowed.
+	"editor.fontSize": 20,
+	"editor.minimap": { "enabled": false },
+	"editor.tabSize": 4,
+	"editor.rulers": [ 80 ],
+	// A value of a different type is skipped.
+	"editor.cursorStyle": 3,
+	// An option that needs a conversion is skipped.
+	"editor.fontFamily": "Consolas",
+	// Language-specific settings and non-editor settings are ignored.
+	"[html]": { "editor.fontSize": 30 },
+	"workbench.colorTheme": "Monokai",
+}` );
+		await page.getByRole( 'button', { name: 'Import VS Code settings' } ).click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'Imported 4 settings and skipped 2.' } )
+		).toBeVisible();
+
+		// The import switches to the editor config tab without saving.
+		await expect( page.getByRole( 'tab', { name: 'Editor config' } ) ).toHaveAttribute(
+			'aria-selected',
+			'true'
+		);
+		await expect( page.getByRole( 'spinbutton', { name: 'Indent width' } ) ).toHaveValue( '4' );
+		let response = await requestUtils.rest( { path: '/wp/v2/settings' } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 2 } );
+
+		await page.getByRole( 'button', { name: 'Save settings' } ).click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'Settings saved.' } )
+		).toBeVisible();
+
+		response = await requestUtils.rest( { path: '/wp/v2/settings' } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4 } );
+		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( {
+			fontSize: 20,
+			minimap: { enabled: false },
+			rulers: [ 80 ],
+			cursorStyle: 'line',
+			fontFamily: 'Fira Code',
+		} );
+	} );
+
+	test( 'importing invalid VS Code settings should show an error notice', async ( {
+		admin,
+		page,
+	} ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		await page.getByRole( 'tab', { name: 'Tools' } ).click();
+
+		const textbox = page.getByRole( 'textbox', { name: 'settings.json' } );
+		const importButton = page.getByRole( 'button', { name: 'Import VS Code settings' } );
+
+		await textbox.fill( '{ "editor.fontSize": ' );
+		await importButton.click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'The format of the settings is not correct.' } )
+		).toBeVisible();
+
+		await textbox.fill( '{ "workbench.colorTheme": "Monokai" }' );
+		await importButton.click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'No supported settings were found.' } )
+		).toBeVisible();
+		await expect( page.getByRole( 'tab', { name: 'Tools' } ) ).toHaveAttribute(
+			'aria-selected',
+			'true'
+		);
+	} );
 } );
 
 test.describe( 'Editor preview', () => {

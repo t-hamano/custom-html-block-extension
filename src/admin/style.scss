@@ -12,6 +12,7 @@
 @use "../components/monaco-editor/style" as monacoEditor;
 
 @use "./editor-config/style" as editorConfig;
+@use "./tools/components/vscode-import-tool/style" as vscodeImportTool;
 
 @include mixins.wordpress-admin-schemes();
 
