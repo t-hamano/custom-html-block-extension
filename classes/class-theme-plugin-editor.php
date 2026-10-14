@@ -103,14 +103,14 @@ class Theme_Plugin_Editor {
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/style-theme-plugin-editor.css',
 			array( 'wp-theme' ),
-			filemtime( CHBE_PATH . '/build/style-theme-plugin-editor.css' )
+			$asset_file['version']
 		);
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/theme-plugin-editor.js',
 			$asset_file['dependencies'],
-			filemtime( CHBE_PATH . '/build/theme-plugin-editor.js' ),
+			$asset_file['version'],
 			true
 		);
 

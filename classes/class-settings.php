@@ -185,8 +185,20 @@ class Settings {
 		'guides'                           => array(
 			'type'  => 'object',
 			'items' => array(
-				'highlightActiveIndentation' => array(
+				'bracketPairs'               => array(
+					'type'    => array( 'boolean', 'string' ),
+					'default' => false,
+				),
+				'bracketPairsHorizontal'     => array(
+					'type'    => array( 'boolean', 'string' ),
+					'default' => 'active',
+				),
+				'highlightActiveBracketPair' => array(
 					'type'    => 'boolean',
+					'default' => true,
+				),
+				'highlightActiveIndentation' => array(
+					'type'    => array( 'boolean', 'string' ),
 					'default' => true,
 				),
 				'indentation'                => array(
