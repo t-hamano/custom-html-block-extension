@@ -7,7 +7,7 @@
 /**
  * External dependencies
  */
-import { emmetHTML } from 'emmet-monaco-es';
+import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 import type { CSSProperties } from 'react';
 
@@ -200,9 +200,10 @@ export default function MonacoEditor( {
 			// Apply emmet.
 			if ( useEmmet && defaultView && ! defaultView.enabledEmmet ) {
 				defaultView.enabledEmmet = true;
-				emmetHTML( monaco );
+				emmetHTML( monaco, [ 'html', 'php' ] );
+				emmetCSS( monaco );
 			}
-			if ( useEmmet && 'html' === language ) {
+			if ( useEmmet && [ 'html', 'php' ].includes( language ) ) {
 				addWrapWithAbbreviationAction( monaco, editor );
 			}
 
