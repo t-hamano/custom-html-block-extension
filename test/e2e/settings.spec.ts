@@ -351,8 +351,20 @@ test.describe( 'Editor preview', () => {
 		await page.getByRole( 'combobox', { name: 'Font family' } ).click();
 		await page.getByRole( 'option', { name: 'Source Code Pro', exact: true } ).click();
 
-		// The font stylesheet is loaded and applied to the preview.
+		// The font is loaded and kept in the preview, without falling back to the default font.
 		await expect( page.locator( 'link[href*="source-code-pro.css"]' ) ).toHaveCount( 1 );
+		await expect
+			.poll( () =>
+				page.evaluate( () =>
+					[ ...document.fonts ].some(
+						( fontFace ) =>
+							fontFace.family.replace( /"/g, '' ) === 'Source Code Pro' &&
+							fontFace.status === 'loaded'
+					)
+				)
+			)
+			.toBe( true );
 		await expect.poll( getFontFamily ).toContain( 'Source Code Pro' );
+		await expect( page.getByText( /Failed to load the font/ ) ).toHaveCount( 0 );
 	} );
 } );
