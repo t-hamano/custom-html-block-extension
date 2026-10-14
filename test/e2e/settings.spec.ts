@@ -315,3 +315,44 @@ test.describe( 'Editor config', () => {
 		await expect( page.getByRole( 'button', { name: 'Import', exact: true } ) ).toBeDisabled();
 	} );
 } );
+
+test.describe( 'Editor preview', () => {
+	const PREVIEW_EDITOR = '.chbe-admin-editor-config-editor-preview .monaco-editor';
+
+	test( 'changing the theme should update the preview', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		const previewEditor = page.locator( PREVIEW_EDITOR );
+
+		// The default theme is based on the dark (`vs-dark`) theme.
+		await expect( previewEditor ).toHaveClass( /(^|\s)vs-dark(\s|$)/ );
+		const getBackgroundColor = () =>
+			previewEditor.evaluate( ( element ) => window.getComputedStyle( element ).backgroundColor );
+		const initialBackgroundColor = await getBackgroundColor();
+
+		await page.getByRole( 'combobox', { name: 'Theme' } ).click();
+		await page.getByRole( 'option', { name: 'GitHub', exact: true } ).click();
+
+		// The GitHub theme is based on the light (`vs`) theme.
+		await expect( previewEditor ).toHaveClass( /(^|\s)vs(\s|$)/ );
+		await expect.poll( getBackgroundColor ).not.toBe( initialBackgroundColor );
+	} );
+
+	test( 'changing the font family should update the preview', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		const previewEditor = page.locator( PREVIEW_EDITOR );
+		await expect( previewEditor ).toBeVisible();
+
+		const getFontFamily = () =>
+			previewEditor
+				.locator( '.view-lines' )
+				.evaluate( ( element ) => window.getComputedStyle( element ).fontFamily );
+		await expect.poll( getFontFamily ).toContain( 'Fira Code' );
+
+		await page.getByRole( 'combobox', { name: 'Font family' } ).click();
+		await page.getByRole( 'option', { name: 'Source Code Pro', exact: true } ).click();
+
+		// The font stylesheet is loaded and applied to the preview.
+		await expect( page.locator( 'link[href*="source-code-pro.css"]' ) ).toHaveCount( 1 );
+		await expect.poll( getFontFamily ).toContain( 'Source Code Pro' );
+	} );
+} );
