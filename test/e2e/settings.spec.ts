@@ -178,15 +178,15 @@ test.describe( 'Settings REST API', () => {
 
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_editor_config',
-			data: { editorSettings: {}, editorOptions: { guides } },
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_OPTIONS ]: { guides } },
 		} );
 
 		const response = await requestUtils.rest( {
-			method: 'POST',
-			path: '/custom-html-block-extension/v1/get_editor_config',
+			method: 'GET',
+			path: '/wp/v2/settings',
 		} );
-		expect( response.editorOptions.guides ).toEqual( guides );
+		expect( response[ EDITOR_OPTIONS ].guides ).toEqual( guides );
 	} );
 
 	test( 'should reject invalid options', async ( { requestUtils } ) => {
