@@ -253,9 +253,14 @@ export default function EditorConfig() {
 								<EditorOptions.FontSize />
 								<EditorOptions.LineHeight />
 								<EditorOptions.WordWrap />
+								<EditorOptions.LineNumbers />
+								<EditorOptions.RenderWhitespace />
 								<EditorOptions.MinimapEnabled />
+								<EditorOptions.Folding />
 								<EditorOptions.CursorStyle />
 								<EditorOptions.AutoIndent />
+								<EditorOptions.AutoClosingBrackets />
+								<EditorOptions.AutoClosingQuotes />
 								<EditorOptions.QuickSuggestions />
 							</>
 						) }
