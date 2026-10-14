@@ -54,10 +54,6 @@ function createJsonSchemaLoader( monaco: typeof Monaco ) {
 
 initLoader()
 	.then( ( monaco ) => {
-		if ( ! monaco ) {
-			return;
-		}
-
 		const { editorSettings, editorOptions, language, fontFamily } = window.chbeObj;
 		const { theme, tabSize, insertSpaces, detectIndentation, emmet } = editorSettings;
 

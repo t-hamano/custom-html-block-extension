@@ -120,22 +120,15 @@ export default function MonacoEditor( {
 
 		cancelable
 			.then( ( monaco ) => {
-				if ( monaco ) {
-					monacoRef.current = monaco;
-					setIsMonacoMounting( false );
-				}
-			} )
-			.catch( ( error ) => onError( error ) );
-
-		// Wait for monaco instance is mounted.
-		const interval = setInterval( () => {
-			const { monaco } = defaultView;
-			if ( monaco?.editor && isMonacoMounting && ! isEditorReady ) {
 				monacoRef.current = monaco;
-				clearInterval( interval );
 				setIsMonacoMounting( false );
-			}
-		}, 500 );
+			} )
+			.catch( ( error: MonacoError ) => {
+				// Ignore the cancelation when the component is unmounted.
+				if ( 'cancelation' !== error?.type ) {
+					onError( error );
+				}
+			} );
 
 		return () => {
 			if ( editorRef.current ) {
@@ -143,7 +136,6 @@ export default function MonacoEditor( {
 			} else {
 				cancelable.cancel();
 			}
-			clearInterval( interval );
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [] );

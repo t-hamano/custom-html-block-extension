@@ -27,6 +27,13 @@ const config = {
 	},
 };
 
+// The time until loading the editor is considered failed. The editor script is
+// several megabytes, so allow enough time for slow connections.
+const LOADING_TIMEOUT = 30 * 1000;
+
+// The loading promise for each window, which all editors in the window share.
+const loadingPromises = new WeakMap< Window, Promise< typeof Monaco > >();
+
 // Wrap promise to make it cancelable.
 function makeCancelable< T >( promise: Promise< T > ): CancelablePromise< T > {
 	let hasCanceled = false;
@@ -35,8 +42,10 @@ function makeCancelable< T >( promise: Promise< T > ): CancelablePromise< T > {
 		msg: __( 'Operation is cancelled.', 'custom-html-block-extension' ),
 	};
 	const wrappedPromise = new Promise< T >( ( resolve, reject ) => {
-		promise.then( ( val ) => ( hasCanceled ? reject( canceledMessage ) : resolve( val ) ) );
-		promise.catch( reject );
+		promise.then(
+			( val ) => ( hasCanceled ? reject( canceledMessage ) : resolve( val ) ),
+			( error ) => ( hasCanceled ? reject( canceledMessage ) : reject( error ) )
+		);
 	} ) as CancelablePromise< T >;
 	wrappedPromise.cancel = () => {
 		hasCanceled = true;
@@ -44,35 +53,26 @@ function makeCancelable< T >( promise: Promise< T > ): CancelablePromise< T > {
 	return wrappedPromise;
 }
 
-/**
- * Custom monaco editor loader which is a customized version of `@monaco-editor/loader`.
- *
- * @param targetWindow The window object to load the editor.
- * @see https://github.com/suren-atoyan/monaco-loader
- */
-export default function initLoader(
-	targetWindow: Window = window
-): CancelablePromise< typeof Monaco | undefined > {
-	const promise = new Promise< typeof Monaco | undefined >( ( resolve, reject ) => {
+// Load the monaco editor script into the window.
+function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
+	return new Promise< typeof Monaco >( ( resolve, reject ) => {
+		// Return monaco instance if it is mounted in the current window.
+		if ( targetWindow.monaco?.editor ) {
+			return resolve( targetWindow.monaco );
+		}
+
 		// It will be considered a read failure when a certain amount of time has passed.
 		const timeout = setTimeout( () => {
-			return reject( {
+			reject( {
 				type: 'timeout',
 				msg: __( 'Editor loading timed out.', 'custom-html-block-extension' ),
 			} satisfies LoaderError );
-		}, 5 * 10000 );
+		}, LOADING_TIMEOUT );
 
-		// Return nothing and resolve promise when the initialization process has started.
-		if ( targetWindow.isInitialized ) {
-			clearTimeout( timeout );
-			return resolve( undefined );
-		}
-
-		// Return monaco instance if it is mounted in the current window.
-		if ( targetWindow?.monaco?.editor ) {
-			clearTimeout( timeout );
-			return resolve( targetWindow.monaco );
-		}
+		const scriptError: LoaderError = {
+			type: 'scripterror',
+			msg: __( 'Failed to load the editor script.', 'custom-html-block-extension' ),
+		};
 
 		// Load monaco editor script.
 		const script = targetWindow.document.createElement( 'script' );
@@ -84,25 +84,39 @@ export default function initLoader(
 			require( [ 'vs/editor/editor.main' ], () => {
 				clearTimeout( timeout );
 				const { monaco } = targetWindow;
-				if ( monaco ) {
-					registerWpHtmlTokenizer( monaco );
-					registerWpBlockDelimiters( monaco );
+				if ( ! monaco ) {
+					return reject( scriptError );
 				}
+				registerWpHtmlTokenizer( monaco );
+				registerWpBlockDelimiters( monaco );
 				return resolve( monaco );
 			} );
 		};
 
 		script.onerror = () => {
 			clearTimeout( timeout );
-			return reject( {
-				type: 'scripterror',
-				msg: __( 'Failed to load the editor script.', 'custom-html-block-extension' ),
-			} satisfies LoaderError );
+			return reject( scriptError );
 		};
 
 		targetWindow.document.body.appendChild( script );
-		targetWindow.isInitialized = true;
 	} );
+}
 
+/**
+ * Custom monaco editor loader which is a customized version of `@monaco-editor/loader`.
+ *
+ * @param targetWindow The window object to load the editor.
+ * @see https://github.com/suren-atoyan/monaco-loader
+ */
+export default function initLoader(
+	targetWindow: Window = window
+): CancelablePromise< typeof Monaco > {
+	let promise = loadingPromises.get( targetWindow );
+	if ( ! promise ) {
+		promise = loadMonaco( targetWindow );
+		loadingPromises.set( targetWindow, promise );
+		// Allow retrying in a new editor when loading fails.
+		promise.catch( () => loadingPromises.delete( targetWindow ) );
+	}
 	return makeCancelable( promise );
 }

@@ -17,10 +17,6 @@ import addWrapWithAbbreviationAction, {
 
 initLoader()
 	.then( ( monaco ) => {
-		if ( ! monaco ) {
-			return;
-		}
-
 		let isMonacoEditorEnabled = false;
 
 		const textarea = document.getElementById( 'content' ) as HTMLTextAreaElement | null;
