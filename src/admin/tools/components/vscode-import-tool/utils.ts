@@ -77,7 +77,8 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
 
 /**
  * Find the theme matching a VS Code theme name. Bundled themes match when the
- * name equals the theme slug ignoring case and spaces, e.g. `Solarized Dark`.
+ * name equals the theme slug ignoring case, spaces and punctuation, e.g.
+ * `Solarized Dark` or `MagicWB (Amiga)`.
  *
  * @param name The `workbench.colorTheme` value.
  * @return The theme slug, or `undefined` if no theme matches.
@@ -87,7 +88,7 @@ function findTheme( name: string ): string | undefined {
 	if ( BUILT_IN_THEMES[ normalizedName ] ) {
 		return BUILT_IN_THEMES[ normalizedName ];
 	}
-	const slug = normalizedName.replace( /\s+/g, '-' );
+	const slug = normalizedName.replace( /[^a-z0-9]+/g, '-' ).replace( /^-|-$/g, '' );
 	return themes.find( ( theme ) => theme.value === slug )?.value;
 }
 
