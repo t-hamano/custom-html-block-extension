@@ -164,14 +164,21 @@ test.describe( 'Classic editor', () => {
 
 		await page.evaluate( () => window.editor?.setValue( 'Hello <strong>World</strong>' ) );
 
+		// The content edited in the text mode is shown in the visual mode.
 		await page.locator( '#content-tmce' ).click();
 		await expect( page.locator( '.chbe-monaco-editor' ) ).toHaveCount( 0 );
-		await expect( page.frameLocator( '#content_ifr' ).locator( '#tinymce strong' ) ).toHaveText(
-			'World'
-		);
+		const visualEditor = page.frameLocator( '#content_ifr' ).locator( '#tinymce' );
+		await expect( visualEditor.locator( 'strong' ) ).toHaveText( 'World' );
 
+		// Edit the content in the visual mode.
+		await visualEditor.locator( 'strong' ).click();
+		await page.keyboard.press( 'End' );
+		await page.keyboard.type( '!' );
+		await expect( visualEditor.locator( 'strong' ) ).toHaveText( 'World!' );
+
+		// The content edited in the visual mode is shown in the text mode.
 		await page.locator( '#content-html' ).click();
 		await expect( page.locator( '.chbe-monaco-editor .monaco-editor' ) ).toBeVisible();
-		await expect.poll( () => getEditorValue( page ) ).toBe( 'Hello <strong>World</strong>' );
+		await expect.poll( () => getEditorValue( page ) ).toBe( 'Hello <strong>World!</strong>' );
 	} );
 } );
