@@ -363,7 +363,7 @@ test.describe( 'Editor config', () => {
 		await expect(
 			page
 				.getByRole( 'button', { name: 'Dismiss this notice' } )
-				.filter( { hasText: 'Imported 4 settings. Skipped 2 settings.' } )
+				.filter( { hasText: 'Imported 4 settings and skipped 2 settings.' } )
 		).toBeVisible();
 
 		// The import switches to the editor config tab without saving.

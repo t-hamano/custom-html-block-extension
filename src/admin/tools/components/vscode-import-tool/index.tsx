@@ -44,32 +44,32 @@ export default function VSCodeImportTool() {
 		setEditorOptions( result.editorOptions );
 		setSettingsText( '' );
 		setSelectedTab( 'editor-config' );
-		createSuccessNotice(
-			[
-				sprintf(
-					/* translators: %d: Number of imported settings. */
-					_n(
-						'Imported %d setting.',
-						'Imported %d settings.',
-						result.importedCount,
-						'custom-html-block-extension'
-					),
-					result.importedCount
-				),
-				sprintf(
-					/* translators: %d: Number of skipped settings. */
-					_n(
-						'Skipped %d setting.',
-						'Skipped %d settings.',
-						result.skippedCount,
-						'custom-html-block-extension'
-					),
-					result.skippedCount
-				),
-				__( 'Check the preview and save the changes.', 'custom-html-block-extension' ),
-			].join( ' ' ),
-			{ type: 'snackbar' }
-		);
+		const { importedCount, skippedCount } = result;
+		const message =
+			skippedCount === 1
+				? sprintf(
+						/* translators: 1: Number of imported settings, 2: Number of skipped settings (1). */
+						_n(
+							'Imported %1$d setting and skipped %2$d setting. Check the preview and save the changes.',
+							'Imported %1$d settings and skipped %2$d setting. Check the preview and save the changes.',
+							importedCount,
+							'custom-html-block-extension'
+						),
+						importedCount,
+						skippedCount
+					)
+				: sprintf(
+						/* translators: 1: Number of imported settings, 2: Number of skipped settings. */
+						_n(
+							'Imported %1$d setting and skipped %2$d settings. Check the preview and save the changes.',
+							'Imported %1$d settings and skipped %2$d settings. Check the preview and save the changes.',
+							importedCount,
+							'custom-html-block-extension'
+						),
+						importedCount,
+						skippedCount
+					);
+		createSuccessNotice( message, { type: 'snackbar' } );
 	};
 
 	return (
