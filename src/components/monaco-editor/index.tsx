@@ -7,7 +7,7 @@
 /**
  * External dependencies
  */
-import { emmetHTML } from 'emmet-monaco-es';
+import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 import type { CSSProperties } from 'react';
 
@@ -116,26 +116,19 @@ export default function MonacoEditor( {
 		if ( ! defaultView ) {
 			return;
 		}
-		const cancelable = initLoader( defaultView );
+		const cancelable = initLoader( defaultView, { onTimeout: onError } );
 
 		cancelable
 			.then( ( monaco ) => {
-				if ( monaco ) {
-					monacoRef.current = monaco;
-					setIsMonacoMounting( false );
-				}
-			} )
-			.catch( ( error ) => onError( error ) );
-
-		// Wait for monaco instance is mounted.
-		const interval = setInterval( () => {
-			const { monaco } = defaultView;
-			if ( monaco?.editor && isMonacoMounting && ! isEditorReady ) {
 				monacoRef.current = monaco;
-				clearInterval( interval );
 				setIsMonacoMounting( false );
-			}
-		}, 500 );
+			} )
+			.catch( ( error: MonacoError ) => {
+				// Ignore the cancelation when the component is unmounted.
+				if ( 'cancelation' !== error?.type ) {
+					onError( error );
+				}
+			} );
 
 		return () => {
 			if ( editorRef.current ) {
@@ -143,7 +136,6 @@ export default function MonacoEditor( {
 			} else {
 				cancelable.cancel();
 			}
-			clearInterval( interval );
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [] );
@@ -200,9 +192,10 @@ export default function MonacoEditor( {
 			// Apply emmet.
 			if ( useEmmet && defaultView && ! defaultView.enabledEmmet ) {
 				defaultView.enabledEmmet = true;
-				emmetHTML( monaco );
+				emmetHTML( monaco, [ 'html', 'php' ] );
+				emmetCSS( monaco );
 			}
-			if ( useEmmet && 'html' === language ) {
+			if ( useEmmet && [ 'html', 'php' ].includes( language ) ) {
 				addWrapWithAbbreviationAction( monaco, editor );
 			}
 

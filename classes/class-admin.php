@@ -88,12 +88,7 @@ class Admin {
 			filemtime( CHBE_PATH . '/build/style-admin.css' )
 		);
 
-		wp_enqueue_style(
-			CHBE_NAMESPACE . '-admin-font',
-			CHBE_URL . '/assets/css/fira-code.css',
-			array(),
-			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
-		);
+		Assets::enqueue_font_stylesheet();
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE . '-admin',
@@ -126,11 +121,7 @@ class Admin {
 	 */
 	public function register_settings() {
 		// Register editor settings.
-		$default_editor_settings = array();
-
-		foreach ( Settings::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
-			$default_editor_settings[ $key ] = $value['default'];
-		}
+		$default_editor_settings = Settings::get_defaults( Settings::DEFAULT_EDITOR_SETTINGS );
 
 		$args_editor_settings = array(
 			'type'         => 'object',
@@ -144,19 +135,7 @@ class Admin {
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_settings'], $args_editor_settings );
 
 		// Register editor options.
-		$default_editor_options = array();
-
-		foreach ( Settings::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
-			if ( 'object' === $value['type'] ) {
-				$default_editor_options[ $key ] = array();
-
-				foreach ( $value['items'] as $sub_key => $sub_value ) {
-					$default_editor_options[ $key ][ $sub_key ] = $sub_value['default'];
-				}
-			} else {
-				$default_editor_options[ $key ] = $value['default'];
-			}
-		}
+		$default_editor_options = Settings::get_defaults( Settings::DEFAULT_EDITOR_OPTIONS );
 
 		$args_editor_options = array(
 			'type'              => 'object',
@@ -171,11 +150,7 @@ class Admin {
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );
 
 		// Register options.
-		$default_options = array();
-
-		foreach ( Settings::DEFAULT_OPTIONS as $key => $value ) {
-			$default_options[ $key ] = $value['default'];
-		}
+		$default_options = Settings::get_defaults( Settings::DEFAULT_OPTIONS );
 
 		$args_options = array(
 			'type'         => 'object',

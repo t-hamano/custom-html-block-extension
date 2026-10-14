@@ -210,8 +210,8 @@ export default function EditorConfig() {
 
 	return (
 		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="xl">
-			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="xl">
-				<Text variant="heading-xl" render={ <h2 /> }>
+			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="lg">
+				<Text variant="heading-lg" render={ <h2 /> }>
 					{ __( 'Preview', 'custom-html-block-extension' ) }
 				</Text>
 				<EditorPreview isEditorDisabled={ isEditorDisabled } setFontWeights={ setFontWeights } />
