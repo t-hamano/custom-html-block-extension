@@ -3,8 +3,7 @@
  */
 import type { PreviewLanguage } from '../../../../types';
 
-const SAMPLE_CODE: Record< PreviewLanguage, string > = {
-	html: `<!-- wp:group {"layout":{"type":"constrained"}} -->
+const HTML_CODE = `<!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
 	<!-- wp:heading -->
 	<h2 class="wp-block-heading">Hello World</h2>
@@ -36,8 +35,9 @@ const SAMPLE_CODE: Record< PreviewLanguage, string > = {
 	<!-- wp:latest-posts {"postsToShow":3} /-->
 </div>
 <!-- /wp:group -->
-`,
-	php: `<?php
+`;
+
+const PHP_CODE = `<?php
 /**
  * Display the latest posts of the given category.
  *
@@ -79,8 +79,9 @@ add_action(
 		my_theme_latest_posts( 'news', 5 );
 	}
 );
-`,
-	javascript: `/**
+`;
+
+const JAVASCRIPT_CODE = `/**
  * Fetch the latest posts and render them as a list.
  */
 const API_URL = '/wp-json/wp/v2/posts';
@@ -108,8 +109,9 @@ document.addEventListener( 'DOMContentLoaded', async () => {
 		console.error( error );
 	}
 } );
-`,
-	css: `:root {
+`;
+
+const CSS_CODE = `:root {
 	--primary-color: #3858e9;
 	--spacing: clamp(1rem, calc(0.5rem + 2vw), 2rem);
 }
@@ -146,7 +148,13 @@ document.addEventListener( 'DOMContentLoaded', async () => {
 		transform: translateY(0);
 	}
 }
-`,
+`;
+
+const SAMPLE_CODE: Record< PreviewLanguage, string > = {
+	html: HTML_CODE,
+	php: PHP_CODE,
+	javascript: JAVASCRIPT_CODE,
+	css: CSS_CODE,
 };
 
 // Sample code based on indent type and tab size settings.
