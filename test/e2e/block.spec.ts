@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import type { Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 /**
  * WordPress dependencies
@@ -37,6 +37,23 @@ async function getValue( monacoEditor: Locator ) {
 	);
 }
 
+async function getSelection( monacoEditor: Locator ) {
+	return monacoEditor.evaluate( ( element ) => {
+		const selection = element.ownerDocument.defaultView?.monaco?.editor
+			.getEditors()
+			.find( ( instance ) => instance.getDomNode() === element )
+			?.getSelection();
+		return (
+			selection && {
+				startLineNumber: selection.startLineNumber,
+				startColumn: selection.startColumn,
+				endLineNumber: selection.endLineNumber,
+				endColumn: selection.endColumn,
+			}
+		);
+	} );
+}
+
 async function setPosition( monacoEditor: Locator, lineNumber: number, column: number ) {
 	await monacoEditor.evaluate(
 		( element, position ) => {
@@ -47,6 +64,18 @@ async function setPosition( monacoEditor: Locator, lineNumber: number, column: n
 		},
 		{ lineNumber, column }
 	);
+}
+
+/**
+ * Press a shortcut with the primary modifier. Monaco determines the modifier key
+ * from the user agent, not from the OS running the test.
+ *
+ * @param page The page.
+ * @param key  The key to press with the modifier.
+ */
+async function pressPrimary( page: Page, key: string ) {
+	const isMac = await page.evaluate( () => window.navigator.userAgent.includes( 'Macintosh' ) );
+	await page.keyboard.press( `${ isMac ? 'Meta' : 'Control' }+${ key }` );
 }
 
 function getBlockEditor( editor: Editor ) {
@@ -302,6 +331,9 @@ test.describe( 'Block', () => {
 		expect( await getValue( getBlockEditor( editor ) ) ).toBe( '<p>Migrated</p>' );
 	} );
 
+	// The paste shortcut depends on the OS running the test while Monaco's shortcuts depend on
+	// the user agent, so the clipboard content isn't pasted. Instead, check the selection,
+	// which the copy command extends to the current line before copying it.
 	test( 'copy and cut without a selection should apply to the current line', async ( {
 		admin,
 		page,
@@ -315,24 +347,24 @@ test.describe( 'Block', () => {
 		const monacoEditor = getBlockEditor( editor );
 		await expect( monacoEditor ).toBeVisible();
 
-		// Place the cursor on the first line without a selection.
+		// Copy the first line without a selection.
 		await monacoEditor.locator( '.view-line' ).first().click();
-
-		// Copy the current line and paste it at the end of the second line.
-		// The trailing line break of the copied line is not always pasted.
-		await page.keyboard.press( 'ControlOrMeta+c' );
-		await setPosition( monacoEditor, 2, 14 );
-		await page.keyboard.press( 'ControlOrMeta+v' );
-		await expect
-			.poll( () => getValue( monacoEditor ) )
-			.toMatch( /^<p>First<\/p>\n<p>Second<\/p><p>First<\/p>\n?$/ );
-
-		// Cut the first line.
 		await setPosition( monacoEditor, 1, 1 );
-		await page.keyboard.press( 'ControlOrMeta+x' );
+		await pressPrimary( page, 'c' );
 		await expect
-			.poll( () => getValue( monacoEditor ) )
-			.toMatch( /^<p>Second<\/p><p>First<\/p>\n?$/ );
+			.poll( () => getSelection( monacoEditor ) )
+			.toEqual( {
+				startLineNumber: 1,
+				startColumn: 1,
+				endLineNumber: 2,
+				endColumn: 1,
+			} );
+		expect( await getValue( monacoEditor ) ).toBe( '<p>First</p>\n<p>Second</p>' );
+
+		// Cut the first line without a selection.
+		await setPosition( monacoEditor, 1, 1 );
+		await pressPrimary( page, 'x' );
+		await expect.poll( () => getValue( monacoEditor ) ).toBe( '<p>Second</p>' );
 
 		// The block itself is neither copied nor cut.
 		expect( await editor.getBlocks() ).toMatchObject( [ { name: 'core/html' } ] );
@@ -360,25 +392,19 @@ test.describe( 'Block', () => {
 		const monacoEditor = getBlockEditor( editor );
 		await expect( monacoEditor ).toBeVisible();
 
-		// Copy the second line with a selection so that the clipboard has known content.
-		await monacoEditor.locator( '.view-line' ).nth( 1 ).click();
-		await page.keyboard.press( 'Home' );
-		await page.keyboard.press( 'Shift+End' );
-		await page.keyboard.press( 'ControlOrMeta+c' );
-
-		// Copy and cut on the first line without a selection.
 		await monacoEditor.locator( '.view-line' ).first().click();
-		await page.keyboard.press( 'ControlOrMeta+c' );
-		await page.keyboard.press( 'ControlOrMeta+x' );
+		await setPosition( monacoEditor, 1, 1 );
+		await pressPrimary( page, 'c' );
+		await pressPrimary( page, 'x' );
 
-		// Neither changes the clipboard, so pasting inserts the second line.
-		await page.keyboard.press( 'End' );
-		await page.keyboard.press( 'ControlOrMeta+v' );
-		await expect
-			.poll( () => getValue( monacoEditor ) )
-			.toBe( '<p>First</p><p>Second</p>\n<p>Second</p>' );
-
-		// The block itself is neither copied nor cut.
+		// Neither the line nor the block is selected, copied, or cut.
+		expect( await getSelection( monacoEditor ) ).toEqual( {
+			startLineNumber: 1,
+			startColumn: 1,
+			endLineNumber: 1,
+			endColumn: 1,
+		} );
+		expect( await getValue( monacoEditor ) ).toBe( '<p>First</p>\n<p>Second</p>' );
 		expect( await editor.getBlocks() ).toHaveLength( 1 );
 	} );
 } );
