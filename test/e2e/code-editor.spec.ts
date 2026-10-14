@@ -57,8 +57,8 @@ test.describe( 'Code editor', () => {
 	test.afterEach( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_options',
-			data: { options: { permissionBlockEditor: true } },
+			path: '/wp/v2/settings',
+			data: { custom_html_block_extension_options: { permissionBlockEditor: true } },
 		} );
 	} );
 
@@ -99,8 +99,8 @@ test.describe( 'Code editor', () => {
 	} ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_options',
-			data: { options: { permissionBlockEditor: false } },
+			path: '/wp/v2/settings',
+			data: { custom_html_block_extension_options: { permissionBlockEditor: false } },
 		} );
 		await admin.createNewPost();
 		await pageUtils.pressKeys( 'secondary+M' );

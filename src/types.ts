@@ -130,6 +130,10 @@ export type EditorOptions = {
 	selectionHighlight: boolean;
 	showFoldingControls: 'always' | 'never' | 'mouseover';
 	smoothScrolling: boolean;
+	stickyScroll: {
+		enabled: boolean;
+		maxLineCount: number;
+	};
 	stickyTabStops: boolean;
 	suggest: {
 		showIcons: boolean;
@@ -173,21 +177,35 @@ export type EditorConfig = {
 };
 
 /**
+ * Tabs of the admin page.
+ */
+export type AdminTab = 'editor-config' | 'tools' | 'options';
+
+/**
+ * Languages of the editor preview on the admin page.
+ */
+export type PreviewLanguage = 'html' | 'php' | 'javascript' | 'css';
+
+/**
  * Value provided by `AdminContext`.
  */
 export type AdminContextType = {
-	code: string;
+	code: Record< PreviewLanguage, string >;
+	previewLanguage: PreviewLanguage;
 	isWaiting: boolean;
 	editorSettings: EditorSettings;
 	editorOptions: EditorOptions;
 	savedEditorConfig: EditorConfig;
 	options: Options;
-	setCode: Dispatch< SetStateAction< string > >;
+	selectedTab: AdminTab;
+	setCode: Dispatch< SetStateAction< Record< PreviewLanguage, string > > >;
+	setPreviewLanguage: Dispatch< SetStateAction< PreviewLanguage > >;
 	setIsWaiting: Dispatch< SetStateAction< boolean > >;
 	setEditorOptions: Dispatch< SetStateAction< EditorOptions > >;
 	setEditorSettings: Dispatch< SetStateAction< EditorSettings > >;
 	setSavedEditorConfig: Dispatch< SetStateAction< EditorConfig > >;
 	setOptions: Dispatch< SetStateAction< Options > >;
+	setSelectedTab: Dispatch< SetStateAction< AdminTab > >;
 };
 
 /**

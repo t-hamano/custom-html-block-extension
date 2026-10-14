@@ -77,7 +77,7 @@ const EDITORS: {
 		name: 'theme editor (HTML)',
 		open: async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'theme-editor.php', 'file=templates/index.html' );
-			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+			const monacoEditor = page.locator( '.chbe-monaco-editor .monaco-editor' );
 			await monacoEditor.click();
 			const shortcut = await page.evaluate( () =>
 				window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
@@ -95,7 +95,7 @@ const EDITORS: {
 			await admin.visitAdminPage( 'post-new.php' );
 			await page.locator( '#content-tmce' ).click();
 			await page.locator( '#content-html' ).click();
-			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+			const monacoEditor = page.locator( '.chbe-monaco-editor .monaco-editor' );
 			await monacoEditor.click();
 			return monacoEditor;
 		},
@@ -170,7 +170,7 @@ test.describe( 'Emmet', () => {
 		} ) => {
 			const [ { abbreviation, expected } ] = HTML_CASES;
 			await admin.visitAdminPage( 'post-new.php' );
-			const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+			const monacoEditor = page.locator( '.chbe-monaco-editor .monaco-editor' );
 			for ( let i = 0; i < 2; i++ ) {
 				await page.locator( '#content-tmce' ).click();
 				await page.locator( '#content-html' ).click();
@@ -186,7 +186,7 @@ test.describe( 'Emmet', () => {
 		for ( const { abbreviation, expected } of CSS_CASES ) {
 			test( `should expand "${ abbreviation }"`, async ( { admin, page } ) => {
 				await admin.visitAdminPage( 'theme-editor.php', 'file=style.css' );
-				const monacoEditor = page.locator( '#monaco-editor .monaco-editor' );
+				const monacoEditor = page.locator( '.chbe-monaco-editor .monaco-editor' );
 				await monacoEditor.click();
 				const shortcut = await page.evaluate( () =>
 					window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'

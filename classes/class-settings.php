@@ -459,6 +459,19 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => false,
 		),
+		'stickyScroll'                     => array(
+			'type'  => 'object',
+			'items' => array(
+				'enabled'      => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'maxLineCount' => array(
+					'type'    => 'number',
+					'default' => 5,
+				),
+			),
+		),
 		'stickyTabStops'                   => array(
 			'type'    => 'boolean',
 			'default' => false,
@@ -578,28 +591,41 @@ class Settings {
 		),
 	);
 
-	// SVG Icon.
-	const ICON = <<<EOM
-	<svg class="wp-media-buttons-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path d="M3.8,19.6H1.1v-2.4H0v6h1.1v-2.6h2.7v2.6h1.1v-6H3.8V19.6z M5.7,18.3h1.7v4.9h1.1v-4.9h1.7v-1.1H5.7 C5.7,17.2,5.7,18.3,5.7,18.3z M15.2,17.2l-1.5,2.7l-1.4-2.7h-0.9l-0.8,6h1.1l0.5-4l1.5,2.8l1.5-2.8l0.5,4h1.1l-0.8-6H15.2z M19,22.2 v-5h-1.1v6h3.6v-1H19z"/>
-		<Polygon points="16.7,0 7,7.8 10,8.5 5.7,15.2 15.7,7.6 12.6,6.8"/>
-	</svg>
-	EOM;
+	/**
+	 * Get default values from a schema.
+	 *
+	 * Object properties get the defaults of their items.
+	 *
+	 * @param array $schema Schema such as DEFAULT_EDITOR_SETTINGS.
+	 * @return array Default values keyed by property name.
+	 */
+	public static function get_defaults( array $schema ) {
+		$defaults = array();
+
+		foreach ( $schema as $key => $value ) {
+			if ( 'object' === $value['type'] ) {
+				$defaults[ $key ] = self::get_defaults( $value['items'] );
+			} else {
+				$defaults[ $key ] = $value['default'];
+			}
+		}
+
+		return $defaults;
+	}
 
 	/**
 	 * Get editor config settings.
 	 */
 	public static function get_editor_settings() {
 		// Override default editor settings with option values.
-		$default_editor_settings = array();
-
-		foreach ( self::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
-			$default_editor_settings[ $key ] = $value['default'];
-		}
+		$default_editor_settings = self::get_defaults( self::DEFAULT_EDITOR_SETTINGS );
 
 		$current_editor_settings = (array) get_option( Option::OPTION_NAMES['editor_settings'] );
 
-		return array_merge( $default_editor_settings, $current_editor_settings );
+		return self::remove_unknown_properties(
+			array_merge( $default_editor_settings, $current_editor_settings ),
+			self::DEFAULT_EDITOR_SETTINGS
+		);
 	}
 
 	/**
@@ -609,19 +635,7 @@ class Settings {
 	 * are merged one level deeper so that properties added later get their defaults.
 	 */
 	public static function get_editor_options() {
-		$default_editor_options = array();
-
-		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
-			if ( 'object' === $value['type'] ) {
-				$default_editor_options[ $key ] = array();
-
-				foreach ( $value['items'] as $sub_key => $sub_value ) {
-					$default_editor_options[ $key ][ $sub_key ] = $sub_value['default'];
-				}
-			} else {
-				$default_editor_options[ $key ] = $value['default'];
-			}
-		}
+		$default_editor_options = self::get_defaults( self::DEFAULT_EDITOR_OPTIONS );
 
 		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
@@ -633,7 +647,41 @@ class Settings {
 			}
 		}
 
-		return self::migrate_legacy_editor_options( $editor_options );
+		return self::sanitize_editor_options( $editor_options );
+	}
+
+	/**
+	 * Sanitize editor options so they match the current schema.
+	 */
+	public static function sanitize_editor_options( $editor_options ) {
+		if ( ! is_array( $editor_options ) ) {
+			return $editor_options;
+		}
+
+		return self::remove_unknown_properties(
+			self::migrate_legacy_editor_options( $editor_options ),
+			self::DEFAULT_EDITOR_OPTIONS
+		);
+	}
+
+	/**
+	 * Remove properties that are not in the defaults, such as options removed
+	 * in older versions, since the settings schema doesn't allow them.
+	 */
+	public static function remove_unknown_properties( $values, $defaults ) {
+		if ( ! is_array( $values ) ) {
+			return $values;
+		}
+
+		$values = array_intersect_key( $values, $defaults );
+
+		foreach ( $defaults as $key => $value ) {
+			if ( 'object' === $value['type'] && isset( $values[ $key ] ) ) {
+				$values[ $key ] = self::remove_unknown_properties( $values[ $key ], $value['items'] );
+			}
+		}
+
+		return $values;
 	}
 
 	/**
@@ -747,11 +795,7 @@ class Settings {
 	 */
 	public static function get_options() {
 		// Override default options with option values.
-		$default_options = array();
-
-		foreach ( self::DEFAULT_OPTIONS as $key => $value ) {
-			$default_options[ $key ] = $value['default'];
-		}
+		$default_options = self::get_defaults( self::DEFAULT_OPTIONS );
 
 		$current_options = (array) get_option( Option::OPTION_NAMES['options'] );
 
@@ -797,12 +841,7 @@ class Settings {
 	 * Get all user roles.
 	 */
 	public static function get_user_roles() {
-		global $wp_roles;
-		if ( empty( $wp_roles ) ) {
-			$wp_roles = new \WP_Roles();
-		}
-
-		$roles            = $wp_roles->get_names();
+		$roles            = wp_roles()->get_names();
 		$translated_roles = array();
 
 		foreach ( $roles as $name => $display_name ) {
@@ -835,5 +874,3 @@ class Settings {
 		return false;
 	}
 }
-
-new Settings();

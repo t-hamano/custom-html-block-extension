@@ -40,7 +40,7 @@ class Admin {
 	public function admin_enqueue_scripts( $hook_suffix ) {
 		// Enqueue pointer.
 		$dismissed = explode( ',', get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-		if ( ! in_array( CHBE_NAMESPACE . '-pointer', $dismissed, true ) ) {
+		if ( current_user_can( 'manage_options' ) && ! in_array( CHBE_NAMESPACE . '-pointer', $dismissed, true ) ) {
 			$content  = '<h3>' . __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) . '</h3>';
 			$content .= '<p>';
 			$content .= sprintf(
@@ -126,11 +126,7 @@ class Admin {
 	 */
 	public function register_settings() {
 		// Register editor settings.
-		$default_editor_settings = array();
-
-		foreach ( Settings::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
-			$default_editor_settings[ $key ] = $value['default'];
-		}
+		$default_editor_settings = Settings::get_defaults( Settings::DEFAULT_EDITOR_SETTINGS );
 
 		$args_editor_settings = array(
 			'type'         => 'object',
@@ -144,37 +140,22 @@ class Admin {
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_settings'], $args_editor_settings );
 
 		// Register editor options.
-		$default_editor_options = array();
-
-		foreach ( Settings::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
-			if ( 'object' === $value['type'] ) {
-				$default_editor_options[ $key ] = array();
-
-				foreach ( $value['items'] as $sub_key => $sub_value ) {
-					$default_editor_options[ $key ][ $sub_key ] = $sub_value['default'];
-				}
-			} else {
-				$default_editor_options[ $key ] = $value['default'];
-			}
-		}
+		$default_editor_options = Settings::get_defaults( Settings::DEFAULT_EDITOR_OPTIONS );
 
 		$args_editor_options = array(
-			'type'         => 'object',
-			'description'  => __( 'Editor settings.', 'custom-html-block-extension' ),
-			'show_in_rest' => array(
+			'type'              => 'object',
+			'description'       => __( 'Editor settings.', 'custom-html-block-extension' ),
+			'show_in_rest'      => array(
 				'schema' => Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS ),
 			),
-			'default'      => $default_editor_options,
+			'default'           => $default_editor_options,
+			'sanitize_callback' => array( Settings::class, 'sanitize_editor_options' ),
 		);
 
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );
 
 		// Register options.
-		$default_options = array();
-
-		foreach ( Settings::DEFAULT_OPTIONS as $key => $value ) {
-			$default_options[ $key ] = $value['default'];
-		}
+		$default_options = Settings::get_defaults( Settings::DEFAULT_OPTIONS );
 
 		$args_options = array(
 			'type'         => 'object',

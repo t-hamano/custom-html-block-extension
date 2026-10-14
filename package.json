@@ -33,12 +33,10 @@
 		"@wordpress/icons": "^18.0.0",
 		"@wordpress/ui": "0.24.0",
 		"emmet-monaco-es": "^5.7.0",
-		"monaco-editor": "0.57.0",
-		"webfontloader": "^1.6.28"
+		"monaco-editor": "0.57.0"
 	},
 	"devDependencies": {
 		"@deboxsoft/cpx": "^1.5.0",
-		"@types/webfontloader": "^1.6.38",
 		"@types/wordpress__block-editor": "^15.0.7",
 		"@wordpress/api-fetch": "^7.57.0",
 		"@wordpress/base-styles": "13.3.0",
@@ -48,7 +46,7 @@
 		"@wordpress/compose": "^8.10.0",
 		"@wordpress/data": "^10.57.0",
 		"@wordpress/dom-ready": "^4.57.0",
-		"@wordpress/e2e-test-utils": "^11.34.0",
+		"@wordpress/e2e-test-utils-playwright": "^3.0.0",
 		"@wordpress/element": "^9.0.0",
 		"@wordpress/env": "^11.17.0",
 		"@wordpress/hooks": "^4.57.0",

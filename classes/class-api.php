@@ -15,56 +15,16 @@ class Api {
 	public function __construct() {
 		// Register REST API route
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+		// Adjust the plugin settings in `/wp/v2/settings`
+		add_filter( 'rest_pre_dispatch', array( $this, 'prepare_settings_request' ), 10, 3 );
+		add_filter( 'rest_pre_get_setting', array( $this, 'get_setting' ), 10, 3 );
+		add_filter( 'rest_pre_update_setting', array( $this, 'delete_setting' ), 10, 4 );
 	}
 
 	/**
 	 * Register REST API route
 	 */
 	public function register_routes() {
-		$editor_config_args = array(
-			'editorSettings' => array_merge(
-				Settings::get_schema( Settings::DEFAULT_EDITOR_SETTINGS ),
-				array( 'required' => true )
-			),
-			'editorOptions'  => array_merge(
-				Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS ),
-				array(
-					'required'          => true,
-					'sanitize_callback' => array( $this, 'sanitize_editor_options' ),
-				)
-			),
-		);
-
-		$routes = array(
-			'get_editor_config'    => array(),
-			'update_editor_config' => $editor_config_args,
-			'delete_editor_config' => array(),
-			'update_options'       => array(
-				'options' => array_merge(
-					Settings::get_schema( Settings::DEFAULT_OPTIONS ),
-					array( 'required' => true )
-				),
-			),
-			'import_editor_config' => $editor_config_args,
-		);
-
-		foreach ( $routes as $route => $args ) {
-			register_rest_route(
-				CHBE_NAMESPACE . '/v1',
-				'/' . $route,
-				array(
-					array(
-						'methods'             => 'POST',
-						'callback'            => array( $this, $route ),
-						'permission_callback' => static function () {
-							return current_user_can( 'manage_options' );
-						},
-						'args'                => $args,
-					),
-				)
-			);
-		}
-
 		register_rest_route(
 			CHBE_NAMESPACE . '/v1',
 			'/get_json_schema',
@@ -88,92 +48,77 @@ class Api {
 	}
 
 	/**
-	 * Function to get editor config.
+	 * Normalize the editor config sent to `/wp/v2/settings` before core validates it.
+	 *
+	 * Files exported by older versions can contain legacy values and properties
+	 * that the settings schema rejects, so migrate them first.
 	 */
-	public function get_editor_config() {
-		return rest_ensure_response(
-			array(
-				'editorSettings' => Settings::get_editor_settings(),
-				'editorOptions'  => Settings::get_editor_options(),
-			)
-		);
+	public function prepare_settings_request( $result, $server, $request ) {
+		if ( '/wp/v2/settings' !== untrailingslashit( $request->get_route() ) || 'GET' === $request->get_method() ) {
+			return $result;
+		}
+
+		$editor_settings = $request->get_param( Option::OPTION_NAMES['editor_settings'] );
+		if ( is_array( $editor_settings ) ) {
+			$request->set_param(
+				Option::OPTION_NAMES['editor_settings'],
+				Settings::remove_unknown_properties( $editor_settings, Settings::DEFAULT_EDITOR_SETTINGS )
+			);
+		}
+
+		$editor_options = $request->get_param( Option::OPTION_NAMES['editor_options'] );
+		if ( is_array( $editor_options ) ) {
+			$request->set_param(
+				Option::OPTION_NAMES['editor_options'],
+				Settings::sanitize_editor_options( $editor_options )
+			);
+		}
+
+		return $result;
 	}
 
 	/**
-	 * Function to update editor config.
+	 * Return the settings merged with the defaults from `/wp/v2/settings`, so that
+	 * properties added later and legacy values are resolved as in the editors.
 	 */
-	public function update_editor_config( $request ) {
-		$json_params = $request->get_json_params();
+	public function get_setting( $result, $name, $args ) {
+		if ( null !== $result ) {
+			return $result;
+		}
 
-		update_option( Option::OPTION_NAMES['editor_settings'], $json_params['editorSettings'] );
-		update_option( Option::OPTION_NAMES['editor_options'], $json_params['editorOptions'] );
+		switch ( $args['option_name'] ) {
+			case Option::OPTION_NAMES['editor_settings']:
+				return Settings::get_editor_settings();
+			case Option::OPTION_NAMES['editor_options']:
+				return Settings::get_editor_options();
+			case Option::OPTION_NAMES['options']:
+				return Settings::get_options();
+		}
 
-		return rest_ensure_response(
-			array(
-				'success' => true,
-				'message' => __( 'Settings saved.', 'custom-html-block-extension' ),
-			)
-		);
+		return $result;
 	}
 
 	/**
-	 * Function to delete editor config.
+	 * Delete the setting when `/wp/v2/settings` receives `null`.
+	 *
+	 * Core refuses to delete an option whose stored value doesn't match the
+	 * schema, which is the case for values saved by older versions, so the
+	 * settings couldn't be reset.
 	 */
-	public function delete_editor_config() {
-
-		delete_option( Option::OPTION_NAMES['editor_settings'] );
-		delete_option( Option::OPTION_NAMES['editor_options'] );
-
-		// Return default editor config.
-		return rest_ensure_response(
-			array(
-				'editorSettings' => Settings::get_editor_settings(),
-				'editorOptions'  => Settings::get_editor_options(),
-			)
+	public function delete_setting( $updated, $name, $value, $args ) {
+		$option_names = array(
+			Option::OPTION_NAMES['editor_settings'],
+			Option::OPTION_NAMES['editor_options'],
+			Option::OPTION_NAMES['options'],
 		);
-	}
 
-	/**
-	 * Function to update options.
-	 */
-	public function update_options( $request ) {
-		$json_params = $request->get_json_params();
+		if ( $updated || null !== $value || ! in_array( $args['option_name'], $option_names, true ) ) {
+			return $updated;
+		}
 
-		update_option( Option::OPTION_NAMES['options'], $json_params['options'] );
+		delete_option( $args['option_name'] );
 
-		return rest_ensure_response(
-			array(
-				'success' => true,
-				'message' => __( 'Options saved.', 'custom-html-block-extension' ),
-			)
-		);
-	}
-
-	/**
-	 * Function to import editor config.
-	 */
-	public function import_editor_config( $request ) {
-		$json_params = $request->get_json_params();
-
-		// Update editor config.
-		update_option( Option::OPTION_NAMES['editor_settings'], $json_params['editorSettings'] );
-		update_option( Option::OPTION_NAMES['editor_options'], $json_params['editorOptions'] );
-
-		// Return new editor config.
-		return rest_ensure_response(
-			array(
-				'editorSettings' => Settings::get_editor_settings(),
-				'editorOptions'  => Settings::get_editor_options(),
-			)
-		);
-	}
-
-	/**
-	 * Migrate legacy values before validating editor options, since files
-	 * exported by older versions can contain them.
-	 */
-	public function sanitize_editor_options( $value, $request, $param ) {
-		return rest_parse_request_arg( Settings::migrate_legacy_editor_options( $value ), $request, $param );
+		return true;
 	}
 
 	/**

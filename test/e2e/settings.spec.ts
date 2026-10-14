@@ -3,6 +3,10 @@
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
+const EDITOR_SETTINGS = 'custom_html_block_extension_editor_settings';
+const EDITOR_OPTIONS = 'custom_html_block_extension_editor_options';
+const OPTIONS = 'custom_html_block_extension_options';
+
 test.describe( 'Settings page', () => {
 	test( 'should be rendered', async ( { admin, page } ) => {
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
@@ -43,7 +47,8 @@ test.describe( 'Settings page', () => {
 
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/delete_editor_config',
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_SETTINGS ]: null, [ EDITOR_OPTIONS ]: null },
 		} );
 	} );
 
@@ -92,45 +97,41 @@ test.describe( 'Settings REST API', () => {
 	test.afterEach( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/delete_editor_config',
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_SETTINGS ]: null, [ EDITOR_OPTIONS ]: null },
 		} );
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_options',
-			data: { options: {} },
+			path: '/wp/v2/settings',
+			data: { [ OPTIONS ]: null },
 		} );
 	} );
 
 	test( 'should reject an invalid editor config', async ( { requestUtils } ) => {
-		for ( const path of [
-			'/custom-html-block-extension/v1/update_editor_config',
-			'/custom-html-block-extension/v1/import_editor_config',
-		] ) {
-			await expect(
-				requestUtils.rest( {
-					method: 'POST',
-					path,
-					data: { editorSettings: { tabSize: 'abc' }, editorOptions: {} },
-				} )
-			).rejects.toMatchObject( { code: 'rest_invalid_param' } );
+		await expect(
+			requestUtils.rest( {
+				method: 'POST',
+				path: '/wp/v2/settings',
+				data: { [ EDITOR_SETTINGS ]: { tabSize: 'abc' } },
+			} )
+		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
 
-			await expect(
-				requestUtils.rest( {
-					method: 'POST',
-					path,
-					data: { editorSettings: {} },
-				} )
-			).rejects.toMatchObject( { code: 'rest_missing_callback_param' } );
-		}
+		await expect(
+			requestUtils.rest( {
+				method: 'POST',
+				path: '/wp/v2/settings',
+				data: { [ EDITOR_OPTIONS ]: { fontSize: 'abc' } },
+			} )
+		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
 	} );
 
-	test( 'should migrate legacy editor options on import', async ( { requestUtils } ) => {
+	test( 'should migrate legacy editor options', async ( { requestUtils } ) => {
 		const response = await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/import_editor_config',
+			path: '/wp/v2/settings',
 			data: {
-				editorSettings: { tabSize: 4 },
-				editorOptions: {
+				[ EDITOR_SETTINGS ]: { tabSize: 4, unknownSetting: true },
+				[ EDITOR_OPTIONS ]: {
 					acceptSuggestionOnEnter: false,
 					cursorSmoothCaretAnimation: true,
 					occurrencesHighlight: false,
@@ -141,12 +142,15 @@ test.describe( 'Settings REST API', () => {
 					highlightActiveIndentGuide: false,
 					quickSuggestions: false,
 					rulers: 0,
+					// Removed in older versions.
+					suggest: { insertMode: 'replace' },
 				},
 			},
 		} );
 
-		expect( response.editorSettings ).toMatchObject( { tabSize: 4 } );
-		expect( response.editorOptions ).toMatchObject( {
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4, theme: 'vs-dark' } );
+		expect( response[ EDITOR_SETTINGS ] ).not.toHaveProperty( 'unknownSetting' );
+		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( {
 			acceptSuggestionOnEnter: 'off',
 			cursorSmoothCaretAnimation: 'on',
 			occurrencesHighlight: 'off',
@@ -156,7 +160,11 @@ test.describe( 'Settings REST API', () => {
 			guides: { indentation: false, highlightActiveIndentation: false },
 			quickSuggestions: { other: 'off', comments: 'off', strings: 'off' },
 			rulers: [],
+			suggest: { showIcons: true },
+			fontSize: 14,
 		} );
+		expect( response[ EDITOR_OPTIONS ] ).not.toHaveProperty( 'renderIndentGuides' );
+		expect( response[ EDITOR_OPTIONS ].suggest ).not.toHaveProperty( 'insertMode' );
 	} );
 
 	test( 'should save guides options that mix booleans and strings', async ( { requestUtils } ) => {
@@ -185,18 +193,10 @@ test.describe( 'Settings REST API', () => {
 		await expect(
 			requestUtils.rest( {
 				method: 'POST',
-				path: '/custom-html-block-extension/v1/update_options',
-				data: { options: { permissionBlockEditor: 'abc' } },
+				path: '/wp/v2/settings',
+				data: { [ OPTIONS ]: { permissionBlockEditor: 'abc' } },
 			} )
 		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
-
-		await expect(
-			requestUtils.rest( {
-				method: 'POST',
-				path: '/custom-html-block-extension/v1/update_options',
-				data: {},
-			} )
-		).rejects.toMatchObject( { code: 'rest_missing_callback_param' } );
 	} );
 } );
 
@@ -208,7 +208,8 @@ test.describe( 'Editor config', () => {
 	test.afterEach( async ( { requestUtils } ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/delete_editor_config',
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_SETTINGS ]: null, [ EDITOR_OPTIONS ]: null },
 		} );
 	} );
 
@@ -255,8 +256,8 @@ test.describe( 'Editor config', () => {
 	} ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_editor_config',
-			data: { editorSettings: { tabSize: 4 }, editorOptions: { fontSize: 20 } },
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_SETTINGS ]: { tabSize: 4 }, [ EDITOR_OPTIONS ]: { fontSize: 20 } },
 		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
@@ -276,12 +277,9 @@ test.describe( 'Editor config', () => {
 		).toBeVisible();
 		await expect( tabSize ).toHaveValue( '2' );
 
-		const response = await requestUtils.rest( {
-			method: 'POST',
-			path: '/custom-html-block-extension/v1/get_editor_config',
-		} );
-		expect( response.editorSettings ).toMatchObject( { tabSize: 2 } );
-		expect( response.editorOptions ).toMatchObject( { fontSize: 14 } );
+		const response = await requestUtils.rest( { path: '/wp/v2/settings' } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 2 } );
+		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( { fontSize: 14 } );
 	} );
 
 	test( 'exported editor config should be restored by importing it', async ( {
@@ -291,8 +289,8 @@ test.describe( 'Editor config', () => {
 	}, testInfo ) => {
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/update_editor_config',
-			data: { editorSettings: { tabSize: 4 }, editorOptions: { fontSize: 20 } },
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_SETTINGS ]: { tabSize: 4 }, [ EDITOR_OPTIONS ]: { fontSize: 20 } },
 		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
@@ -308,7 +306,8 @@ test.describe( 'Editor config', () => {
 		// Reset the editor config, then import the exported file.
 		await requestUtils.rest( {
 			method: 'POST',
-			path: '/custom-html-block-extension/v1/delete_editor_config',
+			path: '/wp/v2/settings',
+			data: { [ EDITOR_SETTINGS ]: null, [ EDITOR_OPTIONS ]: null },
 		} );
 		await page.reload();
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
@@ -320,12 +319,9 @@ test.describe( 'Editor config', () => {
 				.filter( { hasText: 'Imported the editor config.' } )
 		).toBeVisible();
 
-		const response = await requestUtils.rest( {
-			method: 'POST',
-			path: '/custom-html-block-extension/v1/get_editor_config',
-		} );
-		expect( response.editorSettings ).toMatchObject( { tabSize: 4 } );
-		expect( response.editorOptions ).toMatchObject( { fontSize: 20 } );
+		const response = await requestUtils.rest( { path: '/wp/v2/settings' } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4 } );
+		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( { fontSize: 20 } );
 	} );
 
 	test( 'importing a non-JSON file should show an error notice', async ( { admin, page } ) => {

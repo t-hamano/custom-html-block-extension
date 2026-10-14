@@ -38,9 +38,6 @@ class Classic_Editor {
 		}
 
 		// Abort the process if the block editor is enabled.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
 		if ( get_current_screen()->is_block_editor ) {
 			return;
 		}

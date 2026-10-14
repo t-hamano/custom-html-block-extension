@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import webfontloader from 'webfontloader';
 import { emmetHTML, emmetCSS } from 'emmet-monaco-es';
 import type * as Monaco from 'monaco-editor';
 
@@ -15,8 +14,12 @@ import { debounce } from '@wordpress/compose';
  * Internal dependencies
  */
 import './style.scss';
-import themes from '../lib/themes';
 import initLoader from '../lib/loader';
+import { applyTheme, applyBracketPairColorization } from '../lib/editor';
+import { loadWebFont } from '../lib/helper';
+import addWrapWithAbbreviationAction, {
+	isApplyingWrapPreview,
+} from '../components/wrap-with-abbreviation';
 
 /**
  * Create a function that loads a JSON schema on schemas.wp.org through the REST API,
@@ -49,12 +52,13 @@ function createJsonSchemaLoader( monaco: typeof Monaco ) {
 	};
 }
 
-initLoader()
+initLoader( window, {
+	onTimeout: ( error ) => {
+		// eslint-disable-next-line no-console
+		console.error( error.msg );
+	},
+} )
 	.then( ( monaco ) => {
-		if ( ! monaco ) {
-			return;
-		}
-
 		const { editorSettings, editorOptions, language, fontFamily } = window.chbeObj;
 		const { theme, tabSize, insertSpaces, detectIndentation, emmet } = editorSettings;
 
@@ -65,7 +69,7 @@ initLoader()
 
 		// Generate an element to apply the monaco editor.
 		const monacoEditorContainer = document.createElement( 'div' );
-		monacoEditorContainer.setAttribute( 'id', 'monaco-editor' );
+		monacoEditorContainer.classList.add( 'chbe-monaco-editor' );
 		textarea.parentNode?.insertBefore( monacoEditorContainer, textarea.nextElementSibling );
 
 		// Monaco editor properties.
@@ -78,6 +82,11 @@ initLoader()
 			tabSize,
 			insertSpaces,
 			detectIndentation,
+			// Monaco's HTML outline is flat, so the default `outlineModel` pins no lines in sticky scroll.
+			stickyScroll: {
+				...editorOptions.stickyScroll,
+				defaultModel: 'foldingProviderModel',
+			},
 		};
 
 		// Create monaco editor.
@@ -87,18 +96,20 @@ initLoader()
 		);
 		window.editor = editor;
 
-		// The standalone editor doesn't pass the `bracketPairColorization` editor
-		// option on to the model, so set it on the model directly.
-		// See https://github.com/microsoft/monaco-editor/issues/3829
-		editor.getModel()?.updateOptions( {
-			bracketColorizationOptions: editorOptions.bracketPairColorization,
-		} );
+		// Apply the bracket pair colorization and theme from the editor settings.
+		applyBracketPairColorization( editor.getModel(), editorOptions.bracketPairColorization );
+		applyTheme( monaco, theme );
 
 		// Event emitted when the contents of the editor have changed.
 		editor.getModel()?.onDidChangeContent( () => {
-			// Apply changes in the editor to the original textarea.
+			// Apply changes in the editor to the original textarea, except for the preview
+			// of "Wrap with Abbreviation" until it's confirmed.
 			const editorValue = editor.getModel()?.getValue();
-			if ( editorValue === undefined || textarea.value === editorValue ) {
+			if (
+				isApplyingWrapPreview( editor ) ||
+				editorValue === undefined ||
+				textarea.value === editorValue
+			) {
 				return;
 			}
 			textarea.value = editorValue;
@@ -124,17 +135,9 @@ initLoader()
 		if ( emmet && language ) {
 			if ( language.match( /htm|php/ ) ) {
 				emmetHTML( monaco, [ 'html', 'php' ] );
+				addWrapWithAbbreviationAction( monaco, editor );
 			} else if ( language.match( /sass|scss|css|less/ ) ) {
 				emmetCSS( monaco, [ 'sass', 'scss', 'css', 'less' ] );
-			}
-		}
-
-		// Update editor settings.
-		if ( 'vs-dark' !== theme && 'light' !== theme ) {
-			const targetTheme = themes.find( ( data ) => theme === data.value );
-			if ( undefined !== targetTheme ) {
-				monaco.editor.defineTheme( targetTheme.value, targetTheme.data );
-				monaco.editor.setTheme( targetTheme.value );
 			}
 		}
 
@@ -151,19 +154,11 @@ initLoader()
 		const font = fontFamily.find( ( data ) => editorOptions.fontFamily === data.name );
 
 		if ( undefined !== font && 'label' in font ) {
-			const webfontConfig: WebFont.Config = {
-				timeout: 5000,
-				custom: {
-					families: [ font.name ],
-				},
-				active: () => monaco.editor.remeasureFonts(),
-			};
-
-			if ( 'stylesheet' in font && font.stylesheet ) {
-				webfontConfig.custom!.urls = [ font.stylesheet ];
-			}
-
-			webfontloader.load( webfontConfig );
+			loadWebFont( font, document, editorOptions.fontWeight ).then( ( isSuccess ) => {
+				if ( isSuccess ) {
+					monaco.editor.remeasureFonts();
+				}
+			} );
 		}
 	} )
 	.catch( ( error ) => {

@@ -2,7 +2,7 @@
 /**
  * Internal dependencies
  */
-import { py, TOOL, IMG } from './cap.mjs';
+import { py, TOOL, origPath } from './cap.mjs';
 
 // The default code of the settings screen preview, indented with 2 spaces.
 export const PREVIEW_CODE = `<div class="container">
@@ -431,14 +431,12 @@ export async function inScrollablePage(
 // The red arrows of the current image, for `annotations`. Each arrow moves with
 // `ctx.map`; with `fixedX` / `fixedY`, that coordinate stays as in the image.
 export function arrows( ctx, { fixedX = false, fixedY = false } = {} ) {
-	return JSON.parse( py( `${ TOOL }/py/arrow_geom.py`, `${ IMG }/${ ctx.spec.rel }` ) ).map(
-		( a ) => {
-			const p = ctx.map( a.tip[ 0 ], a.tip[ 1 ] );
-			return {
-				type: 'arrow',
-				...a,
-				tip: [ fixedX ? a.tip[ 0 ] : p.x - ctx.clip.x, fixedY ? a.tip[ 1 ] : p.y - ctx.clip.y ],
-			};
-		}
-	);
+	return JSON.parse( py( `${ TOOL }/py/arrow_geom.py`, origPath( ctx.spec.rel ) ) ).map( ( a ) => {
+		const p = ctx.map( a.tip[ 0 ], a.tip[ 1 ] );
+		return {
+			type: 'arrow',
+			...a,
+			tip: [ fixedX ? a.tip[ 0 ] : p.x - ctx.clip.x, fixedY ? a.tip[ 1 ] : p.y - ctx.clip.y ],
+		};
+	} );
 }

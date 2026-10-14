@@ -34,6 +34,7 @@ import type { Block, BlockEditProps } from '@wordpress/blocks';
  */
 import './style.scss';
 import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
+import useEditorConfigProps from './use-editor-config-props';
 
 const { InnerContent } = __dangerousOptInToUnstableAPIsOnlyForCoreModules(
 	'I acknowledge private features are not for use in themes or plugins and doing so will break in the next version of WordPress.',
@@ -57,6 +58,7 @@ type BlockWithInnerContent = Block & {
 
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 1000;
+const BLOCK_DELIMITER_REGEX = /<!--\s+\/?wp:/;
 
 export default function HTMLEdit( {
 	clientId,
@@ -66,7 +68,7 @@ export default function HTMLEdit( {
 	toggleSelection,
 }: HTMLEditProps ) {
 	const { height, showPreviewByDefault } = attributes;
-	const { editorSettings, editorOptions } = window.chbeObj;
+	const editorConfigProps = useEditorConfigProps();
 
 	const [ isPreview, setIsPreview ] = useState< boolean >( showPreviewByDefault );
 	const [ isModalEditorOpen, setIsModalEditorOpen ] = useState< boolean >( false );
@@ -125,6 +127,15 @@ export default function HTMLEdit( {
 	// inner blocks mounted at their positions within the static markup.
 	const onChange = ( nextContent: string ) => {
 		if ( nextContent === content ) {
+			return;
+		}
+
+		// Plain HTML without block delimiters has no inner blocks, so skip
+		// parsing and update the inner content only.
+		if ( ! BLOCK_DELIMITER_REGEX.test( content ) && ! BLOCK_DELIMITER_REGEX.test( nextContent ) ) {
+			updateBlock( clientId, {
+				innerContent: nextContent ? [ nextContent ] : [],
+			} as Partial< Block > );
 			return;
 		}
 
@@ -280,13 +291,8 @@ export default function HTMLEdit( {
 					>
 						<MonacoEditor
 							language="html"
-							theme={ editorSettings.theme }
-							options={ editorOptions }
+							{ ...editorConfigProps }
 							value={ content }
-							useEmmet={ editorSettings.emmet }
-							tabSize={ editorSettings.tabSize }
-							insertSpaces={ editorSettings.insertSpaces }
-							detectIndentation={ editorSettings.detectIndentation }
 							onChange={ onChange }
 							onError={ onError }
 						/>
@@ -308,13 +314,8 @@ export default function HTMLEdit( {
 					>
 						<MonacoEditor
 							language="html"
-							theme={ editorSettings.theme }
-							options={ editorOptions }
+							{ ...editorConfigProps }
 							value={ content }
-							useEmmet={ editorSettings.emmet }
-							tabSize={ editorSettings.tabSize }
-							insertSpaces={ editorSettings.insertSpaces }
-							detectIndentation={ editorSettings.detectIndentation }
 							onChange={ onChange }
 							onError={ onError }
 						/>

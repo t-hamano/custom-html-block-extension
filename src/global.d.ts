@@ -31,12 +31,9 @@ declare global {
 		chbeObj: ChbeObj;
 		monaco?: typeof Monaco;
 		require: MonacoAmdRequire;
-		isInitialized?: boolean;
 		enabledEmmet?: boolean;
 		editor?: Monaco.editor.IStandaloneCodeEditor;
-		WebKitMutationObserver?: typeof MutationObserver;
 		wp?: unknown;
-		jQuery?: unknown;
 	}
 }
 

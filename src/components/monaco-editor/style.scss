@@ -1,4 +1,4 @@
-#monaco-editor {
+.chbe-monaco-editor {
 	height: 100%;
 
 	.find-widget {
@@ -77,4 +77,12 @@
 		margin: 0;
 		background: transparent;
 	}
+}
+
+.chbe-wrap-with-abbreviation {
+	box-sizing: content-box;
+	width: 260px;
+	padding: var(--wpds-dimension-padding-sm);
+	background: var(--wpds-color-background-surface-neutral-strong);
+	border-radius: var(--wpds-border-radius-md);
 }
