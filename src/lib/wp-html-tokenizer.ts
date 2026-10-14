@@ -138,7 +138,7 @@ function serializeRegExps( value: unknown ): unknown {
  * @param language   The built-in language definition.
  * @param languageId The language ID.
  */
-function extendLanguage(
+export function extendLanguage(
 	language: Monaco.languages.IMonarchLanguage,
 	languageId: 'html' | 'php'
 ): Monaco.languages.IMonarchLanguage {

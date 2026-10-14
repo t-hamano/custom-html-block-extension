@@ -22,6 +22,7 @@ composer.json
 composer.lock
 eslint.config.js
 playwright.config.js
+vitest.config.mjs
 tsconfig.json
 package.json
 package-lock.json
