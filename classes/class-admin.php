@@ -85,14 +85,14 @@ class Admin {
 			CHBE_NAMESPACE . '-admin',
 			CHBE_URL . '/build/style-admin.css',
 			array( 'wp-components' ),
-			filemtime( CHBE_PATH . '/build/style-admin.css' )
+			$asset_file['version']
 		);
 
 		wp_enqueue_script(
 			CHBE_NAMESPACE . '-admin',
 			CHBE_URL . '/build/admin.js',
 			$asset_file['dependencies'],
-			filemtime( CHBE_PATH . '/build/admin.js' ),
+			$asset_file['version'],
 			true
 		);
 

@@ -43,7 +43,7 @@ class Block_Editor {
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/block-editor.js',
 			$asset_file['dependencies'],
-			filemtime( CHBE_PATH . '/build/block-editor.js' )
+			$asset_file['version']
 		);
 
 		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
@@ -55,6 +55,8 @@ class Block_Editor {
 	 * Enqueue block editor styles
 	 */
 	public function enqueue_editor_styles() {
+		$asset_file = include CHBE_PATH . '/build/block-editor.asset.php';
+
 		// Abort the process if the user role permission is disabled.
 		if ( ! Settings::is_allowed_user() ) {
 			return;
@@ -64,7 +66,7 @@ class Block_Editor {
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/style-block-editor.css',
 			array(),
-			filemtime( CHBE_PATH . '/build/style-block-editor.css' )
+			$asset_file['version']
 		);
 
 		Assets::enqueue_font_stylesheet();
