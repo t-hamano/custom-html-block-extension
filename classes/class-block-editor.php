@@ -46,16 +46,7 @@ class Block_Editor {
 			filemtime( CHBE_PATH . '/build/block-editor.js' )
 		);
 
-		wp_localize_script(
-			CHBE_NAMESPACE,
-			'chbeObj',
-			array(
-				'pluginUrl'      => CHBE_URL,
-				'editorSettings' => Settings::get_editor_settings(),
-				'editorOptions'  => Settings::get_editor_options(),
-				'fontFamily'     => Settings::get_font_families(),
-			)
-		);
+		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
 
 		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
 	}

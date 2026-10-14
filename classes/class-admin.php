@@ -88,8 +88,6 @@ class Admin {
 			filemtime( CHBE_PATH . '/build/style-admin.css' )
 		);
 
-		Assets::enqueue_font_stylesheet();
-
 		wp_enqueue_script(
 			CHBE_NAMESPACE . '-admin',
 			CHBE_URL . '/build/admin.js',
@@ -99,17 +97,16 @@ class Admin {
 		);
 
 		// Enqueue option page scripts (related to constants)
-		wp_localize_script(
+		Assets::enqueue_font_stylesheet();
+		Assets::add_script_data(
 			CHBE_NAMESPACE . '-admin',
-			'chbeObj',
-			array(
-				'pluginUrl'      => CHBE_URL,
-				'version'        => CHBE_VERSION,
-				'editorSettings' => Settings::get_editor_settings(),
-				'editorOptions'  => Settings::get_editor_options(),
-				'options'        => Settings::get_options(),
-				'userRoles'      => Settings::get_user_roles(),
-				'fontFamily'     => Settings::get_font_families(),
+			array_merge(
+				Assets::get_script_data(),
+				array(
+					'version'   => CHBE_VERSION,
+					'options'   => Settings::get_options(),
+					'userRoles' => Settings::get_user_roles(),
+				)
 			)
 		);
 
