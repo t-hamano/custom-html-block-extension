@@ -20,55 +20,13 @@ import Header from './components/header';
 import EditorConfig from './editor-config';
 import Tools from './tools';
 import Options from './options';
-import type { AdminContextType, AdminTab } from '../types';
+import { getSampleCode } from './editor-config/components/editor-preview/sample-code';
+import type { AdminContextType, AdminTab, PreviewLanguage } from '../types';
 
 /**
  * Context
  */
 export const AdminContext = createContext< AdminContextType >( {} as AdminContextType );
-
-// Sample code based on indent type and tab size settings.
-const htmlCode = () => {
-	let str = `<!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group">
-	<!-- wp:heading -->
-	<h2 class="wp-block-heading">Hello World</h2>
-	<!-- /wp:heading -->
-	<!-- wp:columns -->
-	<div class="wp-block-columns">
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:image {"width":"470px","height":"317px"} -->
-			<figure class="wp-block-image is-resized"><img src="image.png" alt="WordPress" width="470" height="317"></figure>
-			<!-- /wp:image -->
-			<!-- wp:paragraph -->
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<!-- /wp:paragraph -->
-		</div>
-		<!-- /wp:column -->
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:shortcode -->
-			[gallery ids="1,2,3" columns="3" size="medium"]
-			<!-- /wp:shortcode -->
-			<!-- wp:html -->
-			[caption id="attachment_1" align="aligncenter"]<a href="https://wordpress.org/" target="_blank">WordPress.org</a>[/caption]
-			<!-- /wp:html -->
-		</div>
-		<!-- /wp:column -->
-	</div>
-	<!-- /wp:columns -->
-	<!-- wp:latest-posts {"postsToShow":3} /-->
-</div>
-<!-- /wp:group -->
-`;
-
-	const { editorSettings } = window.chbeObj;
-	if ( editorSettings.insertSpaces && editorSettings.tabSize ) {
-		str = str.replace( /\t/gm, ' '.repeat( window.chbeObj.editorSettings.tabSize ) );
-	}
-	return str;
-};
 
 function Admin() {
 	const [ isWaiting, setIsWaiting ] = useState( false );
@@ -85,7 +43,8 @@ function Admin() {
 		editorOptions,
 	} );
 	const [ options, setOptions ] = useState( window.chbeObj.options );
-	const [ code, setCode ] = useState( htmlCode );
+	const [ code, setCode ] = useState( getSampleCode );
+	const [ previewLanguage, setPreviewLanguage ] = useState< PreviewLanguage >( 'html' );
 	const [ selectedTab, setSelectedTab ] = useState< AdminTab >( 'editor-config' );
 
 	return (
@@ -113,6 +72,7 @@ function Admin() {
 					<AdminContext.Provider
 						value={ {
 							code,
+							previewLanguage,
 							isWaiting,
 							editorSettings,
 							editorOptions,
@@ -120,6 +80,7 @@ function Admin() {
 							options,
 							selectedTab,
 							setCode,
+							setPreviewLanguage,
 							setIsWaiting,
 							setEditorOptions,
 							setEditorSettings,
