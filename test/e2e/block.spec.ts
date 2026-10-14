@@ -98,6 +98,10 @@ test.describe( 'Block', () => {
 		} );
 	} );
 
+	test.afterAll( async ( { requestUtils } ) => {
+		await requestUtils.deleteAllPosts();
+	} );
+
 	test( 'block should render in the default mode selected in the settings', async ( {
 		admin,
 		page,
@@ -132,6 +136,36 @@ test.describe( 'Block', () => {
 		await editor.canvas.getByRole( 'document', { name: 'Block: Custom HTML' } ).click();
 
 		// The block now starts in the Preview mode.
+		await expect(
+			page.getByRole( 'button', { name: 'Preview', exact: true, pressed: true } )
+		).toBeVisible();
+	} );
+
+	test( 'block saved with the Preview default mode should render its HTML on load', async ( {
+		admin,
+		page,
+		editor,
+		requestUtils,
+	} ) => {
+		const { id } = await requestUtils.rest( {
+			method: 'POST',
+			path: '/wp/v2/posts',
+			data: {
+				content:
+					'<!-- wp:html {"showPreviewByDefault":true} -->\n<div class="chbe-test"><p>Static</p>\n<!-- wp:paragraph -->\n<p>Inner</p>\n<!-- /wp:paragraph -->\n</div>\n<!-- /wp:html -->',
+			},
+		} );
+		await admin.visitAdminPage( 'post.php', `post=${ id }&action=edit` );
+
+		// The static HTML and the inner block are rendered instead of the code editor.
+		const block = editor.canvas.getByRole( 'document', { name: 'Block: Custom HTML' } );
+		await expect( block.locator( '.chbe-test > p' ).first() ).toHaveText( 'Static' );
+		await expect( block.getByRole( 'document', { name: 'Block: Paragraph' } ) ).toHaveText(
+			'Inner'
+		);
+		await expect( getBlockEditor( editor ) ).toHaveCount( 0 );
+
+		await block.locator( '.chbe-test > p' ).first().click();
 		await expect(
 			page.getByRole( 'button', { name: 'Preview', exact: true, pressed: true } )
 		).toBeVisible();
