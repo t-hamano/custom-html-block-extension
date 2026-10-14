@@ -86,6 +86,7 @@
 		"test": "npm run lint:js && npm run test:e2e",
 		"test:e2e": "wp-scripts test-playwright",
 		"test:e2e:debug": "wp-scripts test-playwright --debug",
+		"test:php": "wp-env --config .wp-env.test.json run cli --env-cwd=wp-content/plugins/custom-html-block-extension vendor/bin/phpunit",
 		"prepare": "husky"
 	},
 	"lint-staged": {

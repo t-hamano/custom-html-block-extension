@@ -580,15 +580,33 @@ class Settings {
 	);
 
 	/**
+	 * Get default values from a schema.
+	 *
+	 * Object properties get the defaults of their items.
+	 *
+	 * @param array $schema Schema such as DEFAULT_EDITOR_SETTINGS.
+	 * @return array Default values keyed by property name.
+	 */
+	public static function get_defaults( array $schema ) {
+		$defaults = array();
+
+		foreach ( $schema as $key => $value ) {
+			if ( 'object' === $value['type'] ) {
+				$defaults[ $key ] = self::get_defaults( $value['items'] );
+			} else {
+				$defaults[ $key ] = $value['default'];
+			}
+		}
+
+		return $defaults;
+	}
+
+	/**
 	 * Get editor config settings.
 	 */
 	public static function get_editor_settings() {
 		// Override default editor settings with option values.
-		$default_editor_settings = array();
-
-		foreach ( self::DEFAULT_EDITOR_SETTINGS as $key => $value ) {
-			$default_editor_settings[ $key ] = $value['default'];
-		}
+		$default_editor_settings = self::get_defaults( self::DEFAULT_EDITOR_SETTINGS );
 
 		$current_editor_settings = (array) get_option( Option::OPTION_NAMES['editor_settings'] );
 
@@ -605,19 +623,7 @@ class Settings {
 	 * are merged one level deeper so that properties added later get their defaults.
 	 */
 	public static function get_editor_options() {
-		$default_editor_options = array();
-
-		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
-			if ( 'object' === $value['type'] ) {
-				$default_editor_options[ $key ] = array();
-
-				foreach ( $value['items'] as $sub_key => $sub_value ) {
-					$default_editor_options[ $key ][ $sub_key ] = $sub_value['default'];
-				}
-			} else {
-				$default_editor_options[ $key ] = $value['default'];
-			}
-		}
+		$default_editor_options = self::get_defaults( self::DEFAULT_EDITOR_OPTIONS );
 
 		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
@@ -777,11 +783,7 @@ class Settings {
 	 */
 	public static function get_options() {
 		// Override default options with option values.
-		$default_options = array();
-
-		foreach ( self::DEFAULT_OPTIONS as $key => $value ) {
-			$default_options[ $key ] = $value['default'];
-		}
+		$default_options = self::get_defaults( self::DEFAULT_OPTIONS );
 
 		$current_options = (array) get_option( Option::OPTION_NAMES['options'] );
 

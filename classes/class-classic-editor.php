@@ -56,13 +56,6 @@ class Classic_Editor {
 			filemtime( CHBE_PATH . '/build/style-classic-editor.css' )
 		);
 
-		wp_enqueue_style(
-			CHBE_NAMESPACE . '-font',
-			CHBE_URL . '/assets/css/fira-code.css',
-			array(),
-			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
-		);
-
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/classic-editor.js',
@@ -71,16 +64,8 @@ class Classic_Editor {
 			true
 		);
 
-		wp_localize_script(
-			CHBE_NAMESPACE,
-			'chbeObj',
-			array(
-				'pluginUrl'      => CHBE_URL,
-				'editorSettings' => Settings::get_editor_settings(),
-				'editorOptions'  => Settings::get_editor_options(),
-				'fontFamily'     => Settings::get_font_families(),
-			)
-		);
+		Assets::enqueue_font_stylesheet();
+		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
 	}
 }
 
