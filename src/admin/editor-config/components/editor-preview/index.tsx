@@ -24,10 +24,10 @@ import MonacoEditor from '../../../../components/monaco-editor';
 import type { FontLoadResult, PreviewLanguage } from '../../../../types';
 
 const LANGUAGES: { label: string; value: PreviewLanguage }[] = [
-	{ label: 'HTML', value: 'html' },
-	{ label: 'PHP', value: 'php' },
-	{ label: 'JavaScript', value: 'javascript' },
-	{ label: 'CSS', value: 'css' },
+	{ label: __( 'HTML', 'custom-html-block-extension' ), value: 'html' },
+	{ label: __( 'PHP', 'custom-html-block-extension' ), value: 'php' },
+	{ label: __( 'JavaScript', 'custom-html-block-extension' ), value: 'javascript' },
+	{ label: __( 'CSS', 'custom-html-block-extension' ), value: 'css' },
 ];
 
 type EditorPreviewProps = {
