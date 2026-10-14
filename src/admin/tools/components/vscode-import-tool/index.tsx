@@ -46,12 +46,14 @@ export default function VSCodeImportTool() {
 			return;
 		}
 
-		setIsWaiting( true );
-		// Show the spinner briefly, as when saving the settings.
-		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+		// Apply the settings before the delay, so that edits made while the
+		// spinner is visible are not overwritten.
 		setEditorSettings( result.editorSettings );
 		setEditorOptions( result.editorOptions );
 		setSettingsText( '' );
+		setIsWaiting( true );
+		// Show the spinner briefly, as when saving the settings.
+		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 		setIsWaiting( false );
 		const { importedCount, skippedCount } = result;
 		const message =
