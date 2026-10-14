@@ -90,7 +90,6 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights }: Edi
 			<div className="chbe-admin-editor-config-editor-preview">
 				{ ! isEditorDisabled && (
 					<MonacoEditor
-						// The language is applied only when the editor is created, so remount it on change.
 						key={ previewLanguage }
 						language={ previewLanguage }
 						theme={ editorSettings.theme }
