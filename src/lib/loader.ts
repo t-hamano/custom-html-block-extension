@@ -100,14 +100,15 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 /**
  * Custom monaco editor loader which is a customized version of `@monaco-editor/loader`.
  *
- * The returned promise rejects when loading takes too long, but loading continues,
- * so calling this function again waits for the same loading.
- *
- * @param targetWindow The window object to load the editor.
+ * @param targetWindow      The window object to load the editor.
+ * @param options           Options.
+ * @param options.onTimeout Called when loading takes too long. Loading continues after it,
+ *                          since the editor may finish loading late on slow connections.
  * @see https://github.com/suren-atoyan/monaco-loader
  */
 export default function initLoader(
-	targetWindow: Window = window
+	targetWindow: Window = window,
+	{ onTimeout }: { onTimeout?: ( error: LoaderError ) => void } = {}
 ): CancelablePromise< typeof Monaco > {
 	let entry = loadingPromises.get( targetWindow );
 	if ( ! entry || entry.document !== targetWindow.document ) {
@@ -122,16 +123,21 @@ export default function initLoader(
 		} );
 	}
 
-	const { promise } = entry;
-	const timedPromise = new Promise< typeof Monaco >( ( resolve, reject ) => {
-		const timeout = setTimeout( () => {
-			reject( {
-				type: 'timeout',
-				msg: __( 'Editor loading timed out.', 'custom-html-block-extension' ),
-			} satisfies LoaderError );
-		}, LOADING_TIMEOUT );
-		promise.then( resolve, reject ).finally( () => clearTimeout( timeout ) );
-	} );
+	const cancelable = makeCancelable( entry.promise );
 
-	return makeCancelable( timedPromise );
+	const timeout = setTimeout( () => {
+		onTimeout?.( {
+			type: 'timeout',
+			msg: __( 'Editor loading timed out.', 'custom-html-block-extension' ),
+		} );
+	}, LOADING_TIMEOUT );
+	const clearLoadingTimeout = () => clearTimeout( timeout );
+	entry.promise.then( clearLoadingTimeout, clearLoadingTimeout );
+
+	const cancel = cancelable.cancel;
+	cancelable.cancel = () => {
+		clearLoadingTimeout();
+		cancel();
+	};
+	return cancelable;
 }

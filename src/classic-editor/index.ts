@@ -15,7 +15,12 @@ import addWrapWithAbbreviationAction, {
 	isApplyingWrapPreview,
 } from '../components/wrap-with-abbreviation';
 
-initLoader()
+initLoader( window, {
+	onTimeout: ( error ) => {
+		// eslint-disable-next-line no-console
+		console.error( error.msg );
+	},
+} )
 	.then( ( monaco ) => {
 		let isMonacoEditorEnabled = false;
 

@@ -116,27 +116,19 @@ export default function MonacoEditor( {
 		if ( ! defaultView ) {
 			return;
 		}
-		let cancelable = initLoader( defaultView );
-		const waitForMonaco = () => {
-			cancelable
-				.then( ( monaco ) => {
-					monacoRef.current = monaco;
-					setIsMonacoMounting( false );
-				} )
-				.catch( ( error: MonacoError ) => {
-					// Ignore the cancelation when the component is unmounted.
-					if ( 'cancelation' === error?.type ) {
-						return;
-					}
+		const cancelable = initLoader( defaultView, { onTimeout: onError } );
+
+		cancelable
+			.then( ( monaco ) => {
+				monacoRef.current = monaco;
+				setIsMonacoMounting( false );
+			} )
+			.catch( ( error: MonacoError ) => {
+				// Ignore the cancelation when the component is unmounted.
+				if ( 'cancelation' !== error?.type ) {
 					onError( error );
-					// Keep waiting, since the editor may finish loading after the timeout.
-					if ( 'timeout' === error?.type ) {
-						cancelable = initLoader( defaultView );
-						waitForMonaco();
-					}
-				} );
-		};
-		waitForMonaco();
+				}
+			} );
 
 		return () => {
 			if ( editorRef.current ) {
