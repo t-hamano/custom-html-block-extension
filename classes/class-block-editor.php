@@ -76,12 +76,7 @@ class Block_Editor {
 			filemtime( CHBE_PATH . '/build/style-block-editor.css' )
 		);
 
-		wp_enqueue_style(
-			CHBE_NAMESPACE . '-font',
-			CHBE_URL . '/assets/css/fira-code.css',
-			array(),
-			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
-		);
+		Assets::enqueue_font_stylesheet();
 	}
 }
 
