@@ -26,5 +26,6 @@ tsconfig.json
 package.json
 package-lock.json
 phpcs.ruleset.xml
+phpunit.xml.dist
 README.md
 webpack.config.js

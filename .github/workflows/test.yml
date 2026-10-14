@@ -84,6 +84,10 @@ jobs:
       - name: Running e2e tests
         run: npm run test:e2e -- $(printf -- '--project=%s ' ${{ matrix.browsers }})
 
+      # The PHP tests reinstall WordPress in the database, so they run after the e2e tests.
+      - name: Running PHP unit tests
+        run: npm run test:php
+
       - name: Archive debug artifacts
         uses: actions/upload-artifact@v7
         if: always()
