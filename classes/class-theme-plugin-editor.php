@@ -106,8 +106,6 @@ class Theme_Plugin_Editor {
 			filemtime( CHBE_PATH . '/build/style-theme-plugin-editor.css' )
 		);
 
-		Assets::enqueue_font_stylesheet();
-
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/theme-plugin-editor.js',
@@ -116,6 +114,7 @@ class Theme_Plugin_Editor {
 			true
 		);
 
+		Assets::enqueue_font_stylesheet();
 		Assets::add_script_data(
 			CHBE_NAMESPACE,
 			array_merge(

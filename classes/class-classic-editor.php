@@ -56,8 +56,6 @@ class Classic_Editor {
 			filemtime( CHBE_PATH . '/build/style-classic-editor.css' )
 		);
 
-		Assets::enqueue_font_stylesheet();
-
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/classic-editor.js',
@@ -66,6 +64,7 @@ class Classic_Editor {
 			true
 		);
 
+		Assets::enqueue_font_stylesheet();
 		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
 	}
 }

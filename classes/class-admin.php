@@ -88,8 +88,6 @@ class Admin {
 			filemtime( CHBE_PATH . '/build/style-admin.css' )
 		);
 
-		Assets::enqueue_font_stylesheet();
-
 		wp_enqueue_script(
 			CHBE_NAMESPACE . '-admin',
 			CHBE_URL . '/build/admin.js',
@@ -99,6 +97,7 @@ class Admin {
 		);
 
 		// Enqueue option page scripts (related to constants)
+		Assets::enqueue_font_stylesheet();
 		Assets::add_script_data(
 			CHBE_NAMESPACE . '-admin',
 			array_merge(
