@@ -40,6 +40,105 @@ const BUILT_IN_THEMES = new Map( [
 	[ 'visual studio light', 'light' ],
 ] );
 
+// Settings renamed in VS Code, with the old option path first. See
+// https://github.com/microsoft/vscode/blob/main/src/vs/editor/browser/config/migrateOptions.ts
+const RENAMED_SETTINGS = [
+	[ 'hover', 'hover.enabled' ],
+	[ 'renderIndentGuides', 'guides.indentation' ],
+	[ 'highlightActiveIndentGuide', 'guides.highlightActiveIndentation' ],
+	[ 'experimental.stickyScroll.enabled', 'stickyScroll.enabled' ],
+	[ 'experimental.stickyScroll.maxLineCount', 'stickyScroll.maxLineCount' ],
+] as const;
+
+// Values that VS Code replaced, as `[ old value, new value ]` pairs.
+const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
+	[
+		'acceptSuggestionOnEnter',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'autoIndent',
+		[
+			[ false, 'advanced' ],
+			[ true, 'full' ],
+		],
+	],
+	[ 'cursorBlinking', [ [ 'visible', 'solid' ] ] ],
+	[
+		'cursorSmoothCaretAnimation',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'hover.enabled',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'lineNumbers',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'matchBrackets',
+		[
+			[ true, 'always' ],
+			[ false, 'never' ],
+		],
+	],
+	[
+		'minimap.autohide',
+		[
+			[ true, 'mouseover' ],
+			[ false, 'none' ],
+		],
+	],
+	[
+		'occurrencesHighlight',
+		[
+			[ true, 'singleFile' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'renderFinalNewline',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'renderLineHighlight',
+		[
+			[ true, 'line' ],
+			[ false, 'none' ],
+		],
+	],
+	[
+		'renderWhitespace',
+		[
+			[ true, 'boundary' ],
+			[ false, 'none' ],
+		],
+	],
+	[
+		'wordWrap',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+];
+
 const MAX_RULER_COLUMN = 100;
 
 // Same as `sanitize_hex_color()`, which validates the `hex-color` format.
@@ -105,20 +204,21 @@ function findTheme( name: string ): string | undefined {
 }
 
 /**
- * Convert the VS Code settings whose key or value differs from this plugin
- * into `editor.*` settings in this plugin's format. A value that can't be
- * converted becomes `undefined`, so it is counted as skipped.
+ * Flatten the `editor.*` settings and convert the VS Code settings whose key
+ * or value differs from this plugin into option paths in this plugin's
+ * format. A value that can't be converted becomes `undefined`, so it is
+ * counted as skipped.
  *
  * @param settings The parsed settings.json.
- * @return The settings with the converted values.
+ * @return The flattened `editor.*` settings with the converted values.
  */
 function migrateVSCodeSettings( settings: Record< string, unknown > ) {
-	const migrated = { ...settings };
+	const vscodeSettings = flattenEditorSettings( settings );
 
 	// `editor.theme` and `editor.emmet` are not VS Code settings, so only the
 	// converted values below are imported.
-	delete migrated[ 'editor.theme' ];
-	delete migrated[ 'editor.emmet' ];
+	vscodeSettings.delete( 'theme' );
+	vscodeSettings.delete( 'emmet' );
 
 	// With `window.autoDetectColorScheme`, VS Code uses the preferred theme
 	// instead of `workbench.colorTheme`. Use the dark one, like the default
@@ -128,33 +228,68 @@ function migrateVSCodeSettings( settings: Record< string, unknown > ) {
 			? settings[ 'workbench.preferredDarkColorTheme' ]
 			: settings[ 'workbench.colorTheme' ];
 	if ( colorTheme !== undefined ) {
-		migrated[ 'editor.theme' ] =
-			typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined;
+		vscodeSettings.set(
+			'theme',
+			typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined
+		);
 	}
 
 	// VS Code has no key to turn Emmet off, but `"never"` hides its suggestions.
 	const showExpandedAbbreviation = settings[ 'emmet.showExpandedAbbreviation' ];
 	if ( showExpandedAbbreviation !== undefined ) {
-		migrated[ 'editor.emmet' ] =
+		vscodeSettings.set(
+			'emmet',
 			typeof showExpandedAbbreviation === 'string'
 				? showExpandedAbbreviation !== 'never'
-				: undefined;
+				: undefined
+		);
 	}
 
 	// VS Code accepts a `font-feature-settings` string, but this plugin only
 	// turns ligatures on or off.
-	if ( typeof settings[ 'editor.fontLigatures' ] === 'string' ) {
-		migrated[ 'editor.fontLigatures' ] = true;
+	if ( typeof vscodeSettings.get( 'fontLigatures' ) === 'string' ) {
+		vscodeSettings.set( 'fontLigatures', true );
 	}
 
 	// VS Code accepts a boolean that applies to all token types.
-	const quickSuggestions = settings[ 'editor.quickSuggestions' ];
+	const quickSuggestions = vscodeSettings.get( 'quickSuggestions' );
 	if ( typeof quickSuggestions === 'boolean' ) {
 		const value = quickSuggestions ? 'on' : 'off';
-		migrated[ 'editor.quickSuggestions' ] = { other: value, comments: value, strings: value };
+		vscodeSettings.delete( 'quickSuggestions' );
+		vscodeSettings.set( 'quickSuggestions.other', value );
+		vscodeSettings.set( 'quickSuggestions.comments', value );
+		vscodeSettings.set( 'quickSuggestions.strings', value );
 	}
 
-	return migrated;
+	// Values from older VS Code versions, which VS Code still migrates.
+	RENAMED_SETTINGS.forEach( ( [ oldPath, newPath ] ) => {
+		if ( ! vscodeSettings.has( oldPath ) ) {
+			return;
+		}
+		if ( ! vscodeSettings.has( newPath ) ) {
+			vscodeSettings.set( newPath, vscodeSettings.get( oldPath ) );
+		}
+		vscodeSettings.delete( oldPath );
+	} );
+
+	if ( vscodeSettings.get( 'autoClosingBrackets' ) === false ) {
+		vscodeSettings.set( 'autoClosingBrackets', 'never' );
+		[ 'autoClosingQuotes', 'autoSurround' ].forEach( ( path ) => {
+			if ( ! vscodeSettings.has( path ) ) {
+				vscodeSettings.set( path, 'never' );
+			}
+		} );
+	}
+
+	LEGACY_VALUES.forEach( ( [ path, values ] ) => {
+		const value = vscodeSettings.get( path );
+		const legacyValue = values.find( ( [ oldValue ] ) => oldValue === value );
+		if ( legacyValue ) {
+			vscodeSettings.set( path, legacyValue[ 1 ] );
+		}
+	} );
+
+	return vscodeSettings;
 }
 
 /**
@@ -226,7 +361,7 @@ export function importVSCodeSettings(
 		return null;
 	}
 
-	const vscodeSettings = flattenEditorSettings( migrateVSCodeSettings( settings ) );
+	const vscodeSettings = migrateVSCodeSettings( settings );
 	const editorSettings = { ...currentEditorSettings };
 	const editorOptions = structuredClone( currentEditorOptions );
 	let importedCount = 0;
