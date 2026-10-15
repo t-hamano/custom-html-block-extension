@@ -96,20 +96,17 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 		loading.push( loadElement( script ) );
 	}
 
-	return Promise.all( loading ).then(
-		() => {
-			const { monaco } = targetWindow;
-			if ( ! monaco ) {
-				throw scriptError;
-			}
-			registerWpHtmlTokenizer( monaco );
-			registerWpBlockDelimiters( monaco );
-			return monaco;
-		},
-		() => {
+	// Wait for all of them to settle even if one fails, so that a retry sees which
+	// of them loaded.
+	return Promise.allSettled( loading ).then( ( results ) => {
+		const { monaco } = targetWindow;
+		if ( ! monaco || results.some( ( { status } ) => 'rejected' === status ) ) {
 			throw scriptError;
 		}
-	);
+		registerWpHtmlTokenizer( monaco );
+		registerWpBlockDelimiters( monaco );
+		return monaco;
+	} );
 }
 
 /**
