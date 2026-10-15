@@ -10,7 +10,6 @@ export { default as CommentsInsertSpace } from './comments/insert-space';
 export { default as Contextmenu } from './contextmenu';
 export { default as CopyWithSyntaxHighlighting } from './copy-with-syntax-highlighting';
 export { default as CursorBlinking } from './cursor-blinking';
-export { default as CursorHeight } from './cursor-height';
 export { default as CursorSmoothCaretAnimation } from './cursor-smooth-caret-animation';
 export { default as CursorStyle } from './cursor-style';
 export { default as CursorSurroundingLines } from './cursor-surrounding-lines';
