@@ -7,6 +7,10 @@ on:
       - main
   workflow_call:
 
+# Disable permissions for all available scopes by default.
+# Any needed permissions should be configured at the job level.
+permissions: {}
+
 # Cancels all previous workflow runs for pull requests that have not completed.
 concurrency:
   # The concurrency group contains the workflow name and the branch name for pull requests
@@ -17,6 +21,8 @@ concurrency:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     timeout-minutes: 15
 
     name: Lint
@@ -42,6 +48,8 @@ jobs:
 
   js-unit-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     timeout-minutes: 15
 
     name: JavaScript Unit Test
@@ -64,6 +72,8 @@ jobs:
 
   php-unit-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     timeout-minutes: 15
     strategy:
       matrix:
@@ -103,6 +113,8 @@ jobs:
 
   e2e-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     timeout-minutes: 30
     strategy:
       matrix:
