@@ -259,9 +259,9 @@ describe( 'importVSCodeSettings', () => {
 	it( 'applies grouped overrides that include HTML before the HTML override', () => {
 		const result = importSettings( {
 			'editor.fontSize': 20,
-			'[html][css]': { 'editor.fontSize': 18, 'editor.tabSize': 3 },
+			'[ html ][css]': { 'editor.fontSize': 18, 'editor.tabSize': 3 },
 			'[css][js]': { 'editor.tabSize': 8 },
-			'[html]': { 'editor.fontSize': 16 },
+			'[ html ]': { 'editor.fontSize': 16 },
 		} );
 		expect( result?.editorOptions.fontSize ).toBe( 16 );
 		expect( result?.editorSettings.tabSize ).toBe( 3 );

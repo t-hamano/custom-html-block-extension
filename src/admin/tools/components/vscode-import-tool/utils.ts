@@ -268,13 +268,22 @@ function normalizeEditorSettings( vscodeSettings: Map< string, unknown > ) {
  * @return The values keyed by option path.
  */
 function getHTMLEditorSettings( settings: Record< string, unknown > ) {
-	const groupedOverrides = Object.entries( settings )
-		.filter( ( [ key ] ) => {
-			const languages = LANGUAGE_OVERRIDE_REGEX.test( key ) ? key.slice( 1, -1 ).split( '][' ) : [];
-			return languages.length > 1 && languages.includes( 'html' );
-		} )
-		.map( ( [ , value ] ) => value );
-	const scopes = [ settings, ...groupedOverrides, settings[ '[html]' ] ];
+	const groupedOverrides: unknown[] = [];
+	const htmlOverrides: unknown[] = [];
+	Object.entries( settings ).forEach( ( [ key, value ] ) => {
+		if ( ! LANGUAGE_OVERRIDE_REGEX.test( key ) ) {
+			return;
+		}
+		// VS Code ignores spaces around each language, e.g. `[ html ]`.
+		const languages = key
+			.slice( 1, -1 )
+			.split( '][' )
+			.map( ( language ) => language.trim() );
+		if ( languages.includes( 'html' ) ) {
+			( languages.length > 1 ? groupedOverrides : htmlOverrides ).push( value );
+		}
+	} );
+	const scopes = [ settings, ...groupedOverrides, ...htmlOverrides ];
 
 	const vscodeSettings = new Map< string, unknown >();
 	scopes.filter( isPlainObject ).forEach( ( scope ) => {
