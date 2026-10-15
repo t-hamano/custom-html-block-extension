@@ -77,7 +77,7 @@ jobs:
     timeout-minutes: 15
     strategy:
       matrix:
-        php: ['8.0', '8.2', '8.4', '8.5']
+        php: ['8.2', '8.4', '8.5']
         wp: ['WordPress', 'WordPress#7.1']
         include:
           - wp: WordPress
@@ -121,15 +121,6 @@ jobs:
         include:
           # Browser differences only depend on the WordPress version,
           # so all browsers run on the latest PHP only.
-          - php: '8.0'
-            wp: WordPress
-            label: WP trunk
-            browsers: chromium
-          - php: '8.0'
-            wp: WordPress#7.1
-            label: WP 7.1
-            browsers: chromium
-
           - php: '8.2'
             wp: WordPress
             label: WP trunk
