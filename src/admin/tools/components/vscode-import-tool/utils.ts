@@ -106,19 +106,20 @@ function findTheme( name: string ): string | undefined {
 
 /**
  * Convert the VS Code settings whose key or value differs from this plugin
- * into `editor.*` settings in this plugin's format. A value that can't be
- * converted becomes `undefined`, so it is counted as skipped.
+ * into option paths in this plugin's format. A value that can't be converted
+ * becomes `undefined`, so it is counted as skipped.
  *
- * @param settings The parsed settings.json.
- * @return The settings with the converted values.
+ * @param settings       The parsed settings.json.
+ * @param vscodeSettings The flattened `editor.*` settings, which are updated.
  */
-function migrateVSCodeSettings( settings: Record< string, unknown > ) {
-	const migrated = { ...settings };
-
+function migrateVSCodeSettings(
+	settings: Record< string, unknown >,
+	vscodeSettings: Map< string, unknown >
+) {
 	// `editor.theme` and `editor.emmet` are not VS Code settings, so only the
 	// converted values below are imported.
-	delete migrated[ 'editor.theme' ];
-	delete migrated[ 'editor.emmet' ];
+	vscodeSettings.delete( 'theme' );
+	vscodeSettings.delete( 'emmet' );
 
 	// With `window.autoDetectColorScheme`, VS Code uses the preferred theme
 	// instead of `workbench.colorTheme`. Use the dark one, like the default
@@ -128,33 +129,44 @@ function migrateVSCodeSettings( settings: Record< string, unknown > ) {
 			? settings[ 'workbench.preferredDarkColorTheme' ]
 			: settings[ 'workbench.colorTheme' ];
 	if ( colorTheme !== undefined ) {
-		migrated[ 'editor.theme' ] =
-			typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined;
+		vscodeSettings.set(
+			'theme',
+			typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined
+		);
 	}
 
 	// VS Code has no key to turn Emmet off, but `"never"` hides its suggestions.
 	const showExpandedAbbreviation = settings[ 'emmet.showExpandedAbbreviation' ];
 	if ( showExpandedAbbreviation !== undefined ) {
-		migrated[ 'editor.emmet' ] =
+		vscodeSettings.set(
+			'emmet',
 			typeof showExpandedAbbreviation === 'string'
 				? showExpandedAbbreviation !== 'never'
-				: undefined;
+				: undefined
+		);
 	}
 
 	// VS Code accepts a `font-feature-settings` string, but this plugin only
 	// turns ligatures on or off.
-	if ( typeof settings[ 'editor.fontLigatures' ] === 'string' ) {
-		migrated[ 'editor.fontLigatures' ] = true;
+	if ( typeof vscodeSettings.get( 'fontLigatures' ) === 'string' ) {
+		vscodeSettings.set( 'fontLigatures', true );
 	}
 
 	// VS Code accepts a boolean that applies to all token types.
-	const quickSuggestions = settings[ 'editor.quickSuggestions' ];
+	const quickSuggestions = vscodeSettings.get( 'quickSuggestions' );
 	if ( typeof quickSuggestions === 'boolean' ) {
 		const value = quickSuggestions ? 'on' : 'off';
-		migrated[ 'editor.quickSuggestions' ] = { other: value, comments: value, strings: value };
+		vscodeSettings.delete( 'quickSuggestions' );
+		vscodeSettings.set( 'quickSuggestions.other', value );
+		vscodeSettings.set( 'quickSuggestions.comments', value );
+		vscodeSettings.set( 'quickSuggestions.strings', value );
 	}
 
-	return migrated;
+	// Older VS Code versions used a boolean, which VS Code still migrates.
+	const hoverEnabled = vscodeSettings.get( 'hover.enabled' );
+	if ( typeof hoverEnabled === 'boolean' ) {
+		vscodeSettings.set( 'hover.enabled', hoverEnabled ? 'on' : 'off' );
+	}
 }
 
 /**
@@ -226,7 +238,8 @@ export function importVSCodeSettings(
 		return null;
 	}
 
-	const vscodeSettings = flattenEditorSettings( migrateVSCodeSettings( settings ) );
+	const vscodeSettings = flattenEditorSettings( settings );
+	migrateVSCodeSettings( settings, vscodeSettings );
 	const editorSettings = { ...currentEditorSettings };
 	const editorOptions = structuredClone( currentEditorOptions );
 	let importedCount = 0;

@@ -21,6 +21,7 @@ const editorOptions = {
 	fontSize: 14,
 	fontLigatures: false,
 	quickSuggestions: { other: 'on', comments: 'off', strings: 'off' },
+	hover: { enabled: 'on' },
 } as EditorOptions;
 
 const importSettings = ( settings: Record< string, unknown > ) =>
@@ -117,5 +118,15 @@ describe( 'importVSCodeSettings', () => {
 			strings: 'on',
 		} );
 		expect( result?.importedCount ).toBe( 3 );
+	} );
+
+	it( 'converts a boolean hover setting from older VS Code versions', () => {
+		expect( importSettings( { 'editor.hover.enabled': false } )?.editorOptions.hover.enabled ).toBe(
+			'off'
+		);
+		expect(
+			importSettings( { 'editor.hover': { enabled: 'onKeyboardModifier' } } )?.editorOptions.hover
+				.enabled
+		).toBe( 'onKeyboardModifier' );
 	} );
 } );
