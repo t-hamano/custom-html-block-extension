@@ -9,8 +9,15 @@ import { parse, type ParseError } from 'jsonc-parser';
 import type { EditorOptions, EditorSettings } from '../../../../types';
 import themes from '../../../../lib/themes';
 
-// Editor settings that map to VS Code's `editor.*` settings.
-const EDITOR_SETTING_KEYS = [ 'tabSize', 'insertSpaces', 'detectIndentation' ] as const;
+// Editor settings that map to VS Code's `editor.*` settings, including the
+// ones added by `migrateVSCodeSettings()`.
+const EDITOR_SETTING_KEYS = [
+	'theme',
+	'tabSize',
+	'insertSpaces',
+	'detectIndentation',
+	'emmet',
+] as const;
 
 // Options whose VS Code values need a conversion, which is not supported yet.
 const UNSUPPORTED_OPTION_KEYS = [ 'fontFamily', 'fontWeight', 'lineHeight' ];
@@ -98,6 +105,54 @@ function findTheme( name: string ): string | undefined {
 }
 
 /**
+ * Convert the VS Code settings whose key or value differs from this plugin
+ * into `editor.*` settings in this plugin's format. A value that can't be
+ * converted becomes `undefined`, so it is counted as skipped.
+ *
+ * @param settings The parsed settings.json.
+ * @return The settings with the converted values.
+ */
+function migrateVSCodeSettings( settings: Record< string, unknown > ) {
+	const migrated = { ...settings };
+
+	// With `window.autoDetectColorScheme`, VS Code uses the preferred theme
+	// instead of `workbench.colorTheme`. Use the dark one, like the default
+	// theme of this plugin.
+	const colorTheme =
+		settings[ 'window.autoDetectColorScheme' ] === true
+			? settings[ 'workbench.preferredDarkColorTheme' ]
+			: settings[ 'workbench.colorTheme' ];
+	if ( colorTheme !== undefined ) {
+		migrated[ 'editor.theme' ] =
+			typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined;
+	}
+
+	// VS Code has no key to turn Emmet off, but `"never"` hides its suggestions.
+	const showExpandedAbbreviation = settings[ 'emmet.showExpandedAbbreviation' ];
+	if ( showExpandedAbbreviation !== undefined ) {
+		migrated[ 'editor.emmet' ] =
+			typeof showExpandedAbbreviation === 'string'
+				? showExpandedAbbreviation !== 'never'
+				: undefined;
+	}
+
+	// VS Code accepts a `font-feature-settings` string, but this plugin only
+	// turns ligatures on or off.
+	if ( typeof settings[ 'editor.fontLigatures' ] === 'string' ) {
+		migrated[ 'editor.fontLigatures' ] = true;
+	}
+
+	// VS Code accepts a boolean that applies to all token types.
+	const quickSuggestions = settings[ 'editor.quickSuggestions' ];
+	if ( typeof quickSuggestions === 'boolean' ) {
+		const value = quickSuggestions ? 'on' : 'off';
+		migrated[ 'editor.quickSuggestions' ] = { other: value, comments: value, strings: value };
+	}
+
+	return migrated;
+}
+
+/**
  * Whether a ruler matches the settings schema: a column from 1 to 100, or an
  * object with a column and a 3- or 6-digit hex color (the `hex-color` format).
  *
@@ -166,11 +221,10 @@ export function importVSCodeSettings(
 		return null;
 	}
 
-	const vscodeSettings = flattenEditorSettings( settings );
+	const vscodeSettings = flattenEditorSettings( migrateVSCodeSettings( settings ) );
 	const editorSettings = { ...currentEditorSettings };
 	const editorOptions = structuredClone( currentEditorOptions );
 	let importedCount = 0;
-	let vscodeSettingsCount = vscodeSettings.size;
 
 	const importValue = (
 		path: string,
@@ -180,44 +234,12 @@ export function importVSCodeSettings(
 		if ( ! vscodeSettings.has( path ) ) {
 			return;
 		}
-		let value = vscodeSettings.get( path );
-		// VS Code accepts a `font-feature-settings` string, but this plugin
-		// only turns ligatures on or off.
-		if ( path === 'fontLigatures' && typeof value === 'string' ) {
-			value = true;
-		}
+		const value = vscodeSettings.get( path );
 		if ( isAcceptableValue( path, value, currentValue ) ) {
 			apply( value );
 			importedCount++;
 		}
 	};
-
-	// With `window.autoDetectColorScheme`, VS Code uses the preferred theme
-	// instead of `workbench.colorTheme`. Use the dark one, like the default
-	// theme of this plugin.
-	const themeKey =
-		settings[ 'window.autoDetectColorScheme' ] === true
-			? 'workbench.preferredDarkColorTheme'
-			: 'workbench.colorTheme';
-	const colorTheme = settings[ themeKey ];
-	if ( colorTheme !== undefined ) {
-		vscodeSettingsCount++;
-		const theme = typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined;
-		if ( theme ) {
-			editorSettings.theme = theme;
-			importedCount++;
-		}
-	}
-
-	// VS Code has no key to turn Emmet off, but `"never"` hides its suggestions.
-	const showExpandedAbbreviation = settings[ 'emmet.showExpandedAbbreviation' ];
-	if ( showExpandedAbbreviation !== undefined ) {
-		vscodeSettingsCount++;
-		if ( typeof showExpandedAbbreviation === 'string' ) {
-			editorSettings.emmet = showExpandedAbbreviation !== 'never';
-			importedCount++;
-		}
-	}
 
 	EDITOR_SETTING_KEYS.forEach( ( key ) => {
 		importValue( key, currentEditorSettings[ key ], ( value ) => {
@@ -226,14 +248,6 @@ export function importVSCodeSettings(
 	} );
 
 	const options = editorOptions as Record< string, unknown >;
-
-	// VS Code accepts a boolean that applies to all token types.
-	const quickSuggestions = vscodeSettings.get( 'quickSuggestions' );
-	if ( typeof quickSuggestions === 'boolean' ) {
-		const value = quickSuggestions ? 'on' : 'off';
-		editorOptions.quickSuggestions = { other: value, comments: value, strings: value };
-		importedCount++;
-	}
 	Object.entries( currentEditorOptions ).forEach( ( [ key, currentValue ] ) => {
 		if ( UNSUPPORTED_OPTION_KEYS.includes( key ) ) {
 			return;
@@ -257,6 +271,6 @@ export function importVSCodeSettings(
 		editorSettings,
 		editorOptions,
 		importedCount,
-		skippedCount: vscodeSettingsCount - importedCount,
+		skippedCount: vscodeSettings.size - importedCount,
 	};
 }

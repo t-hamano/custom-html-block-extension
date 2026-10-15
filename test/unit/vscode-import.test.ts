@@ -96,7 +96,7 @@ describe( 'importVSCodeSettings', () => {
 			comments: 'off',
 			strings: 'off',
 		} );
-		expect( result?.importedCount ).toBe( 1 );
+		expect( result?.importedCount ).toBe( 3 );
 		expect( result?.skippedCount ).toBe( 0 );
 	} );
 
