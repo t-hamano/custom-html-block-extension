@@ -40,6 +40,105 @@ const BUILT_IN_THEMES = new Map( [
 	[ 'visual studio light', 'light' ],
 ] );
 
+// Settings renamed in VS Code, with the old option path first. See
+// https://github.com/microsoft/vscode/blob/main/src/vs/editor/browser/config/migrateOptions.ts
+const RENAMED_SETTINGS = [
+	[ 'hover', 'hover.enabled' ],
+	[ 'renderIndentGuides', 'guides.indentation' ],
+	[ 'highlightActiveIndentGuide', 'guides.highlightActiveIndentation' ],
+	[ 'experimental.stickyScroll.enabled', 'stickyScroll.enabled' ],
+	[ 'experimental.stickyScroll.maxLineCount', 'stickyScroll.maxLineCount' ],
+] as const;
+
+// Values that VS Code replaced, as `[ old value, new value ]` pairs.
+const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
+	[
+		'acceptSuggestionOnEnter',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'autoIndent',
+		[
+			[ false, 'advanced' ],
+			[ true, 'full' ],
+		],
+	],
+	[ 'cursorBlinking', [ [ 'visible', 'solid' ] ] ],
+	[
+		'cursorSmoothCaretAnimation',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'hover.enabled',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'lineNumbers',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'matchBrackets',
+		[
+			[ true, 'always' ],
+			[ false, 'never' ],
+		],
+	],
+	[
+		'minimap.autohide',
+		[
+			[ true, 'mouseover' ],
+			[ false, 'none' ],
+		],
+	],
+	[
+		'occurrencesHighlight',
+		[
+			[ true, 'singleFile' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'renderFinalNewline',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+	[
+		'renderLineHighlight',
+		[
+			[ true, 'line' ],
+			[ false, 'none' ],
+		],
+	],
+	[
+		'renderWhitespace',
+		[
+			[ true, 'boundary' ],
+			[ false, 'none' ],
+		],
+	],
+	[
+		'wordWrap',
+		[
+			[ true, 'on' ],
+			[ false, 'off' ],
+		],
+	],
+];
+
 const MAX_RULER_COLUMN = 100;
 
 // Same as `sanitize_hex_color()`, which validates the `hex-color` format.
@@ -162,11 +261,33 @@ function migrateVSCodeSettings(
 		vscodeSettings.set( 'quickSuggestions.strings', value );
 	}
 
-	// Older VS Code versions used a boolean, which VS Code still migrates.
-	const hoverEnabled = vscodeSettings.get( 'hover.enabled' );
-	if ( typeof hoverEnabled === 'boolean' ) {
-		vscodeSettings.set( 'hover.enabled', hoverEnabled ? 'on' : 'off' );
+	// Values from older VS Code versions, which VS Code still migrates.
+	RENAMED_SETTINGS.forEach( ( [ oldPath, newPath ] ) => {
+		if ( ! vscodeSettings.has( oldPath ) ) {
+			return;
+		}
+		if ( ! vscodeSettings.has( newPath ) ) {
+			vscodeSettings.set( newPath, vscodeSettings.get( oldPath ) );
+		}
+		vscodeSettings.delete( oldPath );
+	} );
+
+	if ( vscodeSettings.get( 'autoClosingBrackets' ) === false ) {
+		vscodeSettings.set( 'autoClosingBrackets', 'never' );
+		[ 'autoClosingQuotes', 'autoSurround' ].forEach( ( path ) => {
+			if ( ! vscodeSettings.has( path ) ) {
+				vscodeSettings.set( path, 'never' );
+			}
+		} );
 	}
+
+	LEGACY_VALUES.forEach( ( [ path, values ] ) => {
+		const value = vscodeSettings.get( path );
+		const legacyValue = values.find( ( [ oldValue ] ) => oldValue === value );
+		if ( legacyValue ) {
+			vscodeSettings.set( path, legacyValue[ 1 ] );
+		}
+	} );
 }
 
 /**

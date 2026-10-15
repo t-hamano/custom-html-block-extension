@@ -22,6 +22,14 @@ const editorOptions = {
 	fontLigatures: false,
 	quickSuggestions: { other: 'on', comments: 'off', strings: 'off' },
 	hover: { enabled: 'on' },
+	guides: { indentation: true },
+	stickyScroll: { enabled: false },
+	autoClosingBrackets: 'always',
+	autoClosingQuotes: 'always',
+	autoSurround: 'languageDefined',
+	lineNumbers: 'on',
+	cursorBlinking: 'blink',
+	minimap: { autohide: 'none' },
 } as EditorOptions;
 
 const importSettings = ( settings: Record< string, unknown > ) =>
@@ -120,13 +128,43 @@ describe( 'importVSCodeSettings', () => {
 		expect( result?.importedCount ).toBe( 3 );
 	} );
 
-	it( 'converts a boolean hover setting from older VS Code versions', () => {
-		expect( importSettings( { 'editor.hover.enabled': false } )?.editorOptions.hover.enabled ).toBe(
-			'off'
-		);
+	it( 'converts settings from older VS Code versions', () => {
+		const result = importSettings( {
+			'editor.hover': false,
+			'editor.renderIndentGuides': false,
+			'editor.experimental.stickyScroll.enabled': true,
+			'editor.autoClosingBrackets': false,
+			'editor.autoSurround': 'quotes',
+			'editor.lineNumbers': false,
+			'editor.cursorBlinking': 'visible',
+			'editor.minimap.autohide': true,
+		} );
+		expect( result?.editorOptions ).toMatchObject( {
+			hover: { enabled: 'off' },
+			guides: { indentation: false },
+			stickyScroll: { enabled: true },
+			autoClosingBrackets: 'never',
+			autoClosingQuotes: 'never',
+			autoSurround: 'quotes',
+			lineNumbers: 'off',
+			cursorBlinking: 'solid',
+			minimap: { autohide: 'mouseover' },
+		} );
+		expect( result?.skippedCount ).toBe( 0 );
+	} );
+
+	it( 'keeps a renamed setting over its old name', () => {
+		const result = importSettings( {
+			'editor.renderIndentGuides': false,
+			'editor.guides.indentation': true,
+		} );
+		expect( result?.editorOptions.guides.indentation ).toBe( true );
+		expect( result?.importedCount ).toBe( 1 );
+	} );
+
+	it( 'imports a nested hover setting', () => {
 		expect(
-			importSettings( { 'editor.hover': { enabled: 'onKeyboardModifier' } } )?.editorOptions.hover
-				.enabled
-		).toBe( 'onKeyboardModifier' );
+			importSettings( { 'editor.hover': { enabled: false } } )?.editorOptions.hover.enabled
+		).toBe( 'off' );
 	} );
 } );
