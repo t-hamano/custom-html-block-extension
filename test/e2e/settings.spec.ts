@@ -142,8 +142,8 @@ test.describe( 'Settings REST API', () => {
 					highlightActiveIndentGuide: false,
 					quickSuggestions: false,
 					rulers: 0,
-					// Removed in older versions.
-					suggest: { insertMode: 'replace' },
+					// `localityBonus` is not in the schema.
+					suggest: { insertMode: 'replace', localityBonus: true },
 				},
 			},
 		} );
@@ -160,11 +160,11 @@ test.describe( 'Settings REST API', () => {
 			guides: { indentation: false, highlightActiveIndentation: false },
 			quickSuggestions: { other: 'off', comments: 'off', strings: 'off' },
 			rulers: [],
-			suggest: { showIcons: true },
+			suggest: { insertMode: 'replace', showIcons: true },
 			fontSize: 14,
 		} );
 		expect( response[ EDITOR_OPTIONS ] ).not.toHaveProperty( 'renderIndentGuides' );
-		expect( response[ EDITOR_OPTIONS ].suggest ).not.toHaveProperty( 'insertMode' );
+		expect( response[ EDITOR_OPTIONS ].suggest ).not.toHaveProperty( 'localityBonus' );
 	} );
 
 	test( 'should save guides options that mix booleans and strings', async ( { requestUtils } ) => {
