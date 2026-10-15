@@ -1,8 +1,14 @@
 /**
+ * External dependencies
+ */
+import type { ChangeEvent } from 'react';
+
+/**
  * WordPress dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
+import { FormFileUpload } from '@wordpress/components';
 import { Button, Card, CollapsibleCard, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
@@ -25,6 +31,23 @@ export default function VSCodeImportTool() {
 
 	const [ settingsText, setSettingsText ] = useState( '' );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
+
+	// Load the file into the text area. The MIME type of a `.json` file can be
+	// empty in some environments, so check the extension instead.
+	const onUploadFile = async ( event: ChangeEvent< HTMLInputElement > ) => {
+		const file = event.target.files?.[ 0 ];
+		event.target.value = '';
+		if ( ! file ) {
+			return;
+		}
+		if ( ! file.name.toLowerCase().endsWith( '.json' ) ) {
+			createErrorNotice( __( 'It is not a JSON file.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
+			} );
+			return;
+		}
+		setSettingsText( await file.text() );
+	};
 
 	// Import the VS Code settings as unsaved changes, so that they can be
 	// checked in the preview before saving.
@@ -92,7 +115,7 @@ export default function VSCodeImportTool() {
 				<Stack direction="column" align="start" gap="lg">
 					<Text render={ <p /> }>
 						{ __(
-							'Paste the contents of the VS Code settings.json file and click the button below. You can open it in VS Code from the Command Palette with "Preferences: Open User Settings (JSON)".',
+							'Paste the contents of the VS Code settings.json file or upload the file, and click the button below. You can open it in VS Code from the Command Palette with "Preferences: Open User Settings (JSON)".',
 							'custom-html-block-extension'
 						) }
 					</Text>
@@ -102,6 +125,15 @@ export default function VSCodeImportTool() {
 							'custom-html-block-extension'
 						) }
 					</Text>
+					<FormFileUpload
+						accept=".json"
+						onChange={ onUploadFile }
+						render={ ( { openFileDialog } ) => (
+							<Button variant="outline" onClick={ openFileDialog }>
+								{ __( 'Upload file', 'custom-html-block-extension' ) }
+							</Button>
+						) }
+					/>
 					<TextareaControl
 						className="chbe-admin-tools__vscode-settings"
 						label={ __( 'settings.json', 'custom-html-block-extension' ) }
