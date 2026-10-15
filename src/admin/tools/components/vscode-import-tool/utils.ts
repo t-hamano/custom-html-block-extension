@@ -17,12 +17,14 @@ const UNSUPPORTED_OPTION_KEYS = [ 'fontFamily', 'fontWeight', 'lineHeight' ];
 
 // VS Code's built-in themes that map to Monaco's built-in themes.
 const BUILT_IN_THEMES = new Map( [
+	[ 'dark 2026', 'vs-dark' ],
 	[ 'default dark modern', 'vs-dark' ],
 	[ 'default dark+', 'vs-dark' ],
 	[ 'dark modern', 'vs-dark' ],
 	[ 'dark+', 'vs-dark' ],
 	[ 'dark (visual studio)', 'vs-dark' ],
 	[ 'visual studio dark', 'vs-dark' ],
+	[ 'light 2026', 'light' ],
 	[ 'default light modern', 'light' ],
 	[ 'default light+', 'light' ],
 	[ 'light modern', 'light' ],

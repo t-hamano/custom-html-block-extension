@@ -42,6 +42,9 @@ describe( 'importVSCodeSettings', () => {
 		expect(
 			importSettings( { 'workbench.colorTheme': 'Dark (Visual Studio)' } )?.editorSettings.theme
 		).toBe( 'vs-dark' );
+		expect( importSettings( { 'workbench.colorTheme': 'Light 2026' } )?.editorSettings.theme ).toBe(
+			'light'
+		);
 	} );
 
 	it( 'uses the preferred dark theme when the color scheme is detected automatically', () => {
