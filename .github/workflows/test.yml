@@ -64,8 +64,14 @@ jobs:
       matrix:
         php: ['8.0', '8.2', '8.4', '8.5']
         wp: ['WordPress', 'WordPress#7.1']
+        # Short labels for job names.
+        include:
+          - wp: WordPress
+            wp-label: WP trunk
+          - wp: WordPress#7.1
+            wp-label: WP 7.1
 
-    name: PHP Unit Test / PHP ${{ matrix.php }} / ${{ matrix.wp }}
+    name: PHP Unit / PHP ${{ matrix.php }} / ${{ matrix.wp-label }}
 
     steps:
       - name: Checkout
@@ -99,33 +105,41 @@ jobs:
           # so all browsers run on the latest PHP only.
           - php: '8.0'
             wp: WordPress
+            wp-label: WP trunk
             browsers: chromium
           - php: '8.0'
             wp: WordPress#7.1
+            wp-label: WP 7.1
             browsers: chromium
 
           - php: '8.2'
             wp: WordPress
+            wp-label: WP trunk
             browsers: chromium
           - php: '8.2'
             wp: WordPress#7.1
+            wp-label: WP 7.1
             browsers: chromium
 
           - php: '8.4'
             wp: WordPress
+            wp-label: WP trunk
             browsers: chromium
           - php: '8.4'
             wp: WordPress#7.1
+            wp-label: WP 7.1
             browsers: chromium
 
           - php: '8.5'
             wp: WordPress
+            wp-label: WP trunk
             browsers: chromium firefox webkit
           - php: '8.5'
             wp: WordPress#7.1
+            wp-label: WP 7.1
             browsers: chromium firefox webkit
 
-    name: E2E Test / PHP ${{ matrix.php }} / ${{ matrix.wp }}
+    name: E2E / PHP ${{ matrix.php }} / ${{ matrix.wp-label }}
 
     steps:
       - name: Checkout
