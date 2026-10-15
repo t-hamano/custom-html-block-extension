@@ -239,15 +239,6 @@ function normalizeEditorSettings( vscodeSettings: Map< string, unknown > ) {
 		vscodeSettings.delete( oldPath );
 	} );
 
-	if ( vscodeSettings.get( 'autoClosingBrackets' ) === false ) {
-		vscodeSettings.set( 'autoClosingBrackets', 'never' );
-		[ 'autoClosingQuotes', 'autoSurround' ].forEach( ( path ) => {
-			if ( ! vscodeSettings.has( path ) ) {
-				vscodeSettings.set( path, 'never' );
-			}
-		} );
-	}
-
 	LEGACY_VALUES.forEach( ( [ path, values ] ) => {
 		const value = vscodeSettings.get( path );
 		const legacyValue = values.find( ( [ oldValue ] ) => oldValue === value );
@@ -384,6 +375,18 @@ function migrateVSCodeSettings(
 				? showExpandedAbbreviation !== 'never'
 				: undefined
 		);
+	}
+
+	// An older VS Code version turned off auto closing quotes and surrounding
+	// together with brackets. Convert it after merging the scopes, because a
+	// language-specific override may turn brackets on again.
+	if ( vscodeSettings.get( 'autoClosingBrackets' ) === false ) {
+		vscodeSettings.set( 'autoClosingBrackets', 'never' );
+		[ 'autoClosingQuotes', 'autoSurround' ].forEach( ( path ) => {
+			if ( ! vscodeSettings.has( path ) ) {
+				vscodeSettings.set( path, 'never' );
+			}
+		} );
 	}
 
 	// VS Code uses a CSS font stack. Use the first font that this plugin has.

@@ -282,6 +282,13 @@ describe( 'importVSCodeSettings', () => {
 			strings: 'off',
 		} );
 		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
+
+		const autoClosing = importSettings( {
+			'editor.autoClosingBrackets': false,
+			'[html]': { 'editor.autoClosingBrackets': 'always' },
+		} );
+		expect( autoClosing?.editorOptions.autoClosingBrackets ).toBe( 'always' );
+		expect( autoClosing?.importedCount ).toBe( 1 );
 	} );
 
 	it( 'prefers HTML-specific settings and ignores other languages', () => {
