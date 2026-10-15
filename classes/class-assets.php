@@ -13,8 +13,11 @@ class Assets {
 	 * Get the data shared by the editor scripts as `chbeObj`.
 	 */
 	public static function get_script_data() {
+		$monaco_asset_file = include CHBE_PATH . '/build/monaco/monaco.asset.php';
+
 		return array(
 			'pluginUrl'      => CHBE_URL,
+			'monacoVersion'  => $monaco_asset_file['version'],
 			'editorSettings' => Settings::get_editor_settings(),
 			'editorOptions'  => Settings::get_editor_options(),
 			'fontFamily'     => Settings::get_font_families(),
