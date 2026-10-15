@@ -3,7 +3,8 @@
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
-const LOADER_SCRIPT = '**/monaco-editor/min/vs/loader.js';
+const LOADER_SCRIPT = '**/build/monaco/monaco.js?ver=*';
+const LOADER_STYLE = '**/build/monaco/monaco.css?ver=*';
 const SCRIPT_ERROR = 'Failed to load the editor script.';
 
 test.describe( 'Editor loader', () => {
@@ -84,5 +85,28 @@ test.describe( 'Editor loader', () => {
 		await expect(
 			editor.canvas.locator( '[data-type="core/html"]' ).nth( 1 ).locator( '.monaco-editor' )
 		).toBeVisible();
+	} );
+
+	test( 'editor should retry loading the stylesheet after only the stylesheet failed to load', async ( {
+		admin,
+		page,
+		editor,
+	} ) => {
+		// Fail only the first request of the stylesheet.
+		await page.route( LOADER_STYLE, ( route ) => route.abort(), { times: 1 } );
+
+		await admin.createNewPost();
+		await editor.insertBlock( { name: 'core/html' } );
+		await expect( editor.canvas.getByText( SCRIPT_ERROR ) ).toBeVisible();
+
+		// A newly mounted editor loads the stylesheet again.
+		await editor.insertBlock( { name: 'core/html' } );
+		const monacoEditor = editor.canvas
+			.locator( '[data-type="core/html"]' )
+			.nth( 1 )
+			.locator( '.monaco-editor' );
+		await expect( monacoEditor ).toBeVisible();
+		// Monaco's stylesheet positions the editor relatively.
+		await expect( monacoEditor ).toHaveCSS( 'position', 'relative' );
 	} );
 } );

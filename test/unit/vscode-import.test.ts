@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 /**
  * Internal dependencies
@@ -19,14 +19,37 @@ const editorSettings = {
 
 const editorOptions = {
 	fontSize: 14,
+	fontFamily: 'Fira Code',
+	fontWeight: '300',
 	fontLigatures: false,
 	quickSuggestions: { other: 'on', comments: 'off', strings: 'off' },
+	hover: { enabled: 'on' },
+	guides: { indentation: true },
+	stickyScroll: { enabled: false },
+	autoClosingBrackets: 'always',
+	autoClosingQuotes: 'always',
+	autoSurround: 'languageDefined',
+	lineNumbers: 'on',
+	cursorBlinking: 'blink',
+	minimap: { autohide: 'none' },
 } as EditorOptions;
 
 const importSettings = ( settings: Record< string, unknown > ) =>
 	importVSCodeSettings( JSON.stringify( settings ), editorSettings, editorOptions );
 
 describe( 'importVSCodeSettings', () => {
+	beforeAll( () => {
+		vi.stubGlobal( 'window', {
+			chbeObj: {
+				fontFamily: [
+					{ name: 'Fira Code', weight: [ 300, 400, 500, 600, 700 ] },
+					{ name: 'Ubuntu Mono', weight: [ 300, 700 ] },
+					{ name: 'ACME, Mono', weight: [ 400 ] },
+				],
+			},
+		} );
+	} );
+
 	it( 'imports a bundled theme by name', () => {
 		expect( importSettings( { 'workbench.colorTheme': 'Monokai' } )?.editorSettings.theme ).toBe(
 			'monokai'
@@ -117,5 +140,105 @@ describe( 'importVSCodeSettings', () => {
 			strings: 'on',
 		} );
 		expect( result?.importedCount ).toBe( 3 );
+	} );
+
+	it( 'converts settings from older VS Code versions', () => {
+		const result = importSettings( {
+			'editor.hover': false,
+			'editor.renderIndentGuides': false,
+			'editor.experimental.stickyScroll.enabled': true,
+			'editor.autoClosingBrackets': false,
+			'editor.autoSurround': 'quotes',
+			'editor.lineNumbers': false,
+			'editor.cursorBlinking': 'visible',
+			'editor.minimap.autohide': true,
+		} );
+		expect( result?.editorOptions ).toMatchObject( {
+			hover: { enabled: 'off' },
+			guides: { indentation: false },
+			stickyScroll: { enabled: true },
+			autoClosingBrackets: 'never',
+			autoClosingQuotes: 'never',
+			autoSurround: 'quotes',
+			lineNumbers: 'off',
+			cursorBlinking: 'solid',
+			minimap: { autohide: 'mouseover' },
+		} );
+		expect( result?.skippedCount ).toBe( 0 );
+	} );
+
+	it( 'keeps a renamed setting over its old name', () => {
+		const result = importSettings( {
+			'editor.renderIndentGuides': false,
+			'editor.guides.indentation': true,
+		} );
+		expect( result?.editorOptions.guides.indentation ).toBe( true );
+		expect( result?.importedCount ).toBe( 1 );
+	} );
+
+	it( 'imports a nested hover setting', () => {
+		expect(
+			importSettings( { 'editor.hover': { enabled: false } } )?.editorOptions.hover.enabled
+		).toBe( 'off' );
+	} );
+
+	it( 'imports the first font of a font stack that is available', () => {
+		const result = importSettings( {
+			'editor.fontFamily': "Consolas, 'ubuntu mono', monospace",
+		} );
+		expect( result?.editorOptions.fontFamily ).toBe( 'Ubuntu Mono' );
+		expect( importSettings( { 'editor.fontFamily': 'Consolas' } )?.skippedCount ).toBe( 1 );
+	} );
+
+	it( 'imports a font weight of the font', () => {
+		expect( importSettings( { 'editor.fontWeight': 'normal' } )?.editorOptions.fontWeight ).toBe(
+			'400'
+		);
+		const result = importSettings( {
+			'editor.fontFamily': 'Ubuntu Mono',
+			'editor.fontWeight': 'normal',
+		} );
+		expect( result?.editorOptions.fontWeight ).toBe( '300' );
+		expect( result?.skippedCount ).toBe( 1 );
+		expect(
+			importSettings( { 'editor.fontFamily': 'Ubuntu Mono', 'editor.fontWeight': 'bold' } )
+				?.editorOptions.fontWeight
+		).toBe( '700' );
+	} );
+
+	it( 'matches quoted font names with commas and the generic monospace', () => {
+		expect(
+			importSettings( { 'editor.fontFamily': "'ACME, Mono', 'Fira Code'" } )?.editorOptions
+				.fontFamily
+		).toBe( 'ACME, Mono' );
+		expect(
+			importSettings( { 'editor.fontFamily': 'Consolas, monospace' } )?.editorOptions.fontFamily
+		).toBe( 'monospace' );
+	} );
+
+	it( 'changes the current weight when the imported font does not have it', () => {
+		const result = importVSCodeSettings(
+			JSON.stringify( { 'editor.fontFamily': 'Ubuntu Mono' } ),
+			editorSettings,
+			{ ...editorOptions, fontWeight: '500' }
+		);
+		expect( result?.editorOptions.fontWeight ).toBe( '300' );
+		expect(
+			importSettings( { 'editor.fontFamily': "'ACME, Mono'" } )?.editorOptions.fontWeight
+		).toBe( '400' );
+		expect(
+			importSettings( { 'editor.fontFamily': 'Ubuntu Mono' } )?.editorOptions.fontWeight
+		).toBe( '300' );
+	} );
+
+	it( 'imports normal and bold weights for the generic monospace', () => {
+		const result = importSettings( {
+			'editor.fontFamily': 'monospace',
+			'editor.fontWeight': 'bold',
+		} );
+		expect( result?.editorOptions.fontWeight ).toBe( '700' );
+		expect( importSettings( { 'editor.fontFamily': 'monospace' } )?.editorOptions.fontWeight ).toBe(
+			'400'
+		);
 	} );
 } );

@@ -37,7 +37,6 @@
 		"monaco-editor": "0.57.0"
 	},
 	"devDependencies": {
-		"@deboxsoft/cpx": "^1.5.0",
 		"@types/wordpress__block-editor": "^15.0.7",
 		"@wordpress/api-fetch": "^7.57.0",
 		"@wordpress/base-styles": "13.3.0",
@@ -72,9 +71,9 @@
 		"wp-env": "wp-env",
 		"wp-env-test": "wp-env --config .wp-env.test.json",
 		"stop": "wp-env stop && wp-env --config .wp-env.test.json stop",
-		"start": "npm run clean && npm run copy-lib && wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
-		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run copy-lib",
-		"copy-lib": "cpx -C \"node_modules/monaco-editor/min/**\" \"build/vendor/monaco-editor/min\" && node bin/delete-sourcemaps.js",
+		"start": "npm run clean && npm run build:monaco && wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
+		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run build:monaco",
+		"build:monaco": "wp-scripts build --config webpack.monaco.config.js",
 		"plugin-zip": "npm run build && wp-scripts plugin-zip",
 		"clean": "rimraf build",
 		"check-licenses": "wp-scripts check-licenses",
