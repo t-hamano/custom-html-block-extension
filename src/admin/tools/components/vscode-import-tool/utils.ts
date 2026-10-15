@@ -20,7 +20,13 @@ const EDITOR_SETTING_KEYS = [
 ] as const;
 
 // Options whose VS Code values need a conversion, which is not supported yet.
-const UNSUPPORTED_OPTION_KEYS = [ 'fontFamily', 'fontWeight', 'lineHeight' ];
+const UNSUPPORTED_OPTION_KEYS = [ 'lineHeight' ];
+
+// Keyword values of VS Code's `editor.fontWeight`.
+const FONT_WEIGHT_KEYWORDS = new Map< unknown, string >( [
+	[ 'normal', '400' ],
+	[ 'bold', '700' ],
+] );
 
 // VS Code's built-in themes that map to Monaco's built-in themes.
 const BUILT_IN_THEMES = new Map( [
@@ -204,15 +210,39 @@ function findTheme( name: string ): string | undefined {
 }
 
 /**
+ * Find the first font in a CSS font stack, e.g. `"'Fira Code', Consolas,
+ * monospace"`, that this plugin has. Font names match ignoring case.
+ *
+ * @param fontStack The VS Code font stack.
+ * @return The font, or `undefined` if no font matches.
+ */
+function findFontFamily( fontStack: string ) {
+	const fontNames = fontStack.split( ',' ).map( ( fontName ) =>
+		fontName
+			.trim()
+			.replace( /^['"]|['"]$/g, '' )
+			.toLowerCase()
+	);
+	for ( const fontName of fontNames ) {
+		const font = window.chbeObj.fontFamily.find( ( { name } ) => name.toLowerCase() === fontName );
+		if ( font ) {
+			return font;
+		}
+	}
+	return undefined;
+}
+
+/**
  * Flatten the `editor.*` settings and convert the VS Code settings whose key
  * or value differs from this plugin into option paths in this plugin's
  * format. A value that can't be converted becomes `undefined`, so it is
  * counted as skipped.
  *
- * @param settings The parsed settings.json.
+ * @param settings          The parsed settings.json.
+ * @param currentFontFamily The current font family.
  * @return The flattened `editor.*` settings with the converted values.
  */
-function migrateVSCodeSettings( settings: Record< string, unknown > ) {
+function migrateVSCodeSettings( settings: Record< string, unknown >, currentFontFamily: string ) {
 	const vscodeSettings = flattenEditorSettings( settings );
 
 	// `editor.theme` and `editor.emmet` are not VS Code settings, so only the
@@ -242,6 +272,30 @@ function migrateVSCodeSettings( settings: Record< string, unknown > ) {
 			typeof showExpandedAbbreviation === 'string'
 				? showExpandedAbbreviation !== 'never'
 				: undefined
+		);
+	}
+
+	// VS Code uses a CSS font stack. Use the first font that this plugin has.
+	const fontFamily = vscodeSettings.get( 'fontFamily' );
+	if ( fontFamily !== undefined ) {
+		vscodeSettings.set(
+			'fontFamily',
+			typeof fontFamily === 'string' ? findFontFamily( fontFamily )?.name : undefined
+		);
+	}
+
+	// The weight must be one of the weights of the font.
+	const fontWeight = vscodeSettings.get( 'fontWeight' );
+	if ( fontWeight !== undefined ) {
+		const weight =
+			typeof fontWeight === 'string' || typeof fontWeight === 'number'
+				? ( FONT_WEIGHT_KEYWORDS.get( fontWeight ) ?? String( fontWeight ) )
+				: undefined;
+		const fontName = vscodeSettings.get( 'fontFamily' ) ?? currentFontFamily;
+		const font = window.chbeObj.fontFamily.find( ( { name } ) => name === fontName );
+		vscodeSettings.set(
+			'fontWeight',
+			weight && font?.weight?.includes( Number( weight ) ) ? weight : undefined
 		);
 	}
 
@@ -361,7 +415,7 @@ export function importVSCodeSettings(
 		return null;
 	}
 
-	const vscodeSettings = migrateVSCodeSettings( settings );
+	const vscodeSettings = migrateVSCodeSettings( settings, currentEditorOptions.fontFamily );
 	const editorSettings = { ...currentEditorSettings };
 	const editorOptions = structuredClone( currentEditorOptions );
 	let importedCount = 0;

@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 /**
  * Internal dependencies
@@ -19,6 +19,8 @@ const editorSettings = {
 
 const editorOptions = {
 	fontSize: 14,
+	fontFamily: 'Fira Code',
+	fontWeight: '300',
 	fontLigatures: false,
 	quickSuggestions: { other: 'on', comments: 'off', strings: 'off' },
 	hover: { enabled: 'on' },
@@ -36,6 +38,17 @@ const importSettings = ( settings: Record< string, unknown > ) =>
 	importVSCodeSettings( JSON.stringify( settings ), editorSettings, editorOptions );
 
 describe( 'importVSCodeSettings', () => {
+	beforeAll( () => {
+		vi.stubGlobal( 'window', {
+			chbeObj: {
+				fontFamily: [
+					{ name: 'Fira Code', weight: [ 300, 400, 500, 600, 700 ] },
+					{ name: 'Ubuntu Mono', weight: [ 300, 700 ] },
+				],
+			},
+		} );
+	} );
+
 	it( 'imports a bundled theme by name', () => {
 		expect( importSettings( { 'workbench.colorTheme': 'Monokai' } )?.editorSettings.theme ).toBe(
 			'monokai'
@@ -166,5 +179,29 @@ describe( 'importVSCodeSettings', () => {
 		expect(
 			importSettings( { 'editor.hover': { enabled: false } } )?.editorOptions.hover.enabled
 		).toBe( 'off' );
+	} );
+
+	it( 'imports the first font of a font stack that is available', () => {
+		const result = importSettings( {
+			'editor.fontFamily': "Consolas, 'ubuntu mono', monospace",
+		} );
+		expect( result?.editorOptions.fontFamily ).toBe( 'Ubuntu Mono' );
+		expect( importSettings( { 'editor.fontFamily': 'Consolas' } )?.skippedCount ).toBe( 1 );
+	} );
+
+	it( 'imports a font weight of the font', () => {
+		expect( importSettings( { 'editor.fontWeight': 'normal' } )?.editorOptions.fontWeight ).toBe(
+			'400'
+		);
+		const result = importSettings( {
+			'editor.fontFamily': 'Ubuntu Mono',
+			'editor.fontWeight': 'normal',
+		} );
+		expect( result?.editorOptions.fontWeight ).toBe( '300' );
+		expect( result?.skippedCount ).toBe( 1 );
+		expect(
+			importSettings( { 'editor.fontFamily': 'Ubuntu Mono', 'editor.fontWeight': 'bold' } )
+				?.editorOptions.fontWeight
+		).toBe( '700' );
 	} );
 } );
