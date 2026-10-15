@@ -29,6 +29,7 @@ declare global {
 		enabledEmmet?: boolean;
 		editor?: Monaco.editor.IStandaloneCodeEditor;
 		wp?: unknown;
+		jQuery?: ( callback: () => void ) => unknown;
 	}
 }
 
