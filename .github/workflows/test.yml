@@ -158,9 +158,6 @@ jobs:
           npm ci
           npm run build
 
-      - name: Composer install
-        run: composer install
-
       - name: Install Playwright dependencies
         run: npx playwright install ${{ matrix.browsers }} --with-deps
 
