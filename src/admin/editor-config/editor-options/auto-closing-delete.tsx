@@ -28,29 +28,17 @@ export default function AutoClosingDelete() {
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
 			image: 'editor-options/auto-closing-delete_1.gif',
-			description: __(
-				'Backspace right after an opening bracket or quote also deletes the closing one next to it.',
-				'custom-html-block-extension'
-			),
 		},
 		{
 			label: __( 'Only automatically inserted characters', 'custom-html-block-extension' ),
 			value: 'auto',
 			isDefault: true,
 			image: 'editor-options/auto-closing-delete_2.gif',
-			description: __(
-				'Backspace also deletes the closing bracket or quote next to the cursor only if the editor inserted it automatically.',
-				'custom-html-block-extension'
-			),
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
 			image: 'editor-options/auto-closing-delete_3.gif',
-			description: __(
-				'Backspace deletes only the opening bracket or quote.',
-				'custom-html-block-extension'
-			),
 		},
 	];
 
