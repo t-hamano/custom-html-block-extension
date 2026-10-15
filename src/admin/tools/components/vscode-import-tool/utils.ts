@@ -80,7 +80,7 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
  * name equals the theme slug ignoring case, spaces and punctuation, e.g.
  * `Solarized Dark` or `MagicWB (Amiga)`.
  *
- * @param name The `workbench.colorTheme` value.
+ * @param name The VS Code theme name.
  * @return The theme slug, or `undefined` if no theme matches.
  */
 function findTheme( name: string ): string | undefined {
@@ -141,8 +141,8 @@ function isAcceptableValue( path: string, value: unknown, currentValue: unknown 
 }
 
 /**
- * Parse a VS Code `settings.json` and merge the supported `editor.*` settings
- * and `workbench.colorTheme` into the current editor config.
+ * Parse a VS Code `settings.json` and merge the supported `editor.*` settings,
+ * the theme and Emmet into the current editor config.
  *
  * @param text                  The settings.json text.
  * @param currentEditorSettings The current editor settings.
@@ -182,12 +182,29 @@ export function importVSCodeSettings(
 		}
 	};
 
-	const colorTheme = settings[ 'workbench.colorTheme' ];
+	// With `window.autoDetectColorScheme`, VS Code uses the preferred theme
+	// instead of `workbench.colorTheme`. Use the dark one, like the default
+	// theme of this plugin.
+	const themeKey =
+		settings[ 'window.autoDetectColorScheme' ] === true
+			? 'workbench.preferredDarkColorTheme'
+			: 'workbench.colorTheme';
+	const colorTheme = settings[ themeKey ];
 	if ( colorTheme !== undefined ) {
 		vscodeSettingsCount++;
 		const theme = typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined;
 		if ( theme ) {
 			editorSettings.theme = theme;
+			importedCount++;
+		}
+	}
+
+	// VS Code has no key to turn Emmet off, but `"never"` hides its suggestions.
+	const showExpandedAbbreviation = settings[ 'emmet.showExpandedAbbreviation' ];
+	if ( showExpandedAbbreviation !== undefined ) {
+		vscodeSettingsCount++;
+		if ( typeof showExpandedAbbreviation === 'string' ) {
+			editorSettings.emmet = showExpandedAbbreviation !== 'never';
 			importedCount++;
 		}
 	}
