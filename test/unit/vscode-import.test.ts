@@ -230,4 +230,15 @@ describe( 'importVSCodeSettings', () => {
 			importSettings( { 'editor.fontFamily': 'Ubuntu Mono' } )?.editorOptions.fontWeight
 		).toBe( '300' );
 	} );
+
+	it( 'imports normal and bold weights for the generic monospace', () => {
+		const result = importSettings( {
+			'editor.fontFamily': 'monospace',
+			'editor.fontWeight': 'bold',
+		} );
+		expect( result?.editorOptions.fontWeight ).toBe( '700' );
+		expect( importSettings( { 'editor.fontFamily': 'monospace' } )?.editorOptions.fontWeight ).toBe(
+			'400'
+		);
+	} );
 } );

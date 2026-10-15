@@ -28,6 +28,10 @@ const FONT_WEIGHT_KEYWORDS = new Map< unknown, string >( [
 	[ 'bold', '700' ],
 ] );
 
+// Weights of the generic `monospace` font, which usually has only normal and
+// bold faces.
+const MONOSPACE_FONT_WEIGHTS = [ 400, 700 ];
+
 // VS Code's built-in themes that map to Monaco's built-in themes.
 const BUILT_IN_THEMES = new Map( [
 	[ 'dark 2026', 'vs-dark' ],
@@ -294,7 +298,10 @@ function migrateVSCodeSettings(
 
 	// The weight must be one of the weights of the font.
 	const fontName = vscodeSettings.get( 'fontFamily' ) ?? currentEditorOptions.fontFamily;
-	const fontWeights = window.chbeObj.fontFamily.find( ( { name } ) => name === fontName )?.weight;
+	const fontWeights =
+		fontName === 'monospace'
+			? MONOSPACE_FONT_WEIGHTS
+			: window.chbeObj.fontFamily.find( ( { name } ) => name === fontName )?.weight;
 	const fontWeight = vscodeSettings.get( 'fontWeight' );
 	if ( fontWeight !== undefined ) {
 		const weight =
