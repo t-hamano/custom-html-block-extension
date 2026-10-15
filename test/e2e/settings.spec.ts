@@ -357,8 +357,10 @@ test.describe( 'Editor config', () => {
 	"editor.fontFamily": "Consolas",
 	// A theme is imported when its name matches a theme.
 	"workbench.colorTheme": "Monokai",
-	// Language-specific settings and other settings are ignored.
+	// HTML-specific settings take priority over the global ones.
 	"[html]": { "editor.fontSize": 30 },
+	// Other language-specific settings and other settings are ignored.
+	"[css]": { "editor.tabSize": 8 },
 	"workbench.startupEditor": "none",
 }` );
 		await page.getByRole( 'button', { name: 'Import VS Code settings' } ).click();
@@ -388,7 +390,7 @@ test.describe( 'Editor config', () => {
 		response = await requestUtils.rest( { path: '/wp/v2/settings' } );
 		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4, theme: 'monokai' } );
 		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( {
-			fontSize: 20,
+			fontSize: 30,
 			minimap: { enabled: false },
 			rulers: [ 80 ],
 			cursorStyle: 'line',

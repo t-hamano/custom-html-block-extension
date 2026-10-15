@@ -255,4 +255,18 @@ describe( 'importVSCodeSettings', () => {
 		expect( lineHeightOf( { 'editor.lineHeight': 0.5 } ) ).toBe( 8 );
 		expect( lineHeightOf( { 'editor.lineHeight': 1.5, 'editor.fontSize': 0 } ) ).toBe( 21 );
 	} );
+
+	it( 'prefers HTML-specific settings and ignores other languages', () => {
+		const result = importSettings( {
+			'editor.fontSize': 20,
+			'editor.tabSize': 4,
+			'[html]': { 'editor.fontSize': 16, 'editor.hover': { enabled: false } },
+			'[css]': { 'editor.tabSize': 8 },
+			'[html][css]': { 'editor.tabSize': 8 },
+		} );
+		expect( result?.editorOptions.fontSize ).toBe( 16 );
+		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
+		expect( result?.editorSettings.tabSize ).toBe( 4 );
+		expect( result?.importedCount ).toBe( 3 );
+	} );
 } );

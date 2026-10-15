@@ -173,7 +173,8 @@ function isPlainObject( value: unknown ): value is Record< string, unknown > {
 /**
  * Flatten the `editor.*` settings into a map of option paths, so that both
  * `"editor.minimap.enabled": true` and `"editor.minimap": { "enabled": true }`
- * become `minimap.enabled`.
+ * become `minimap.enabled`. The HTML-specific settings in `"[html]": { ... }`
+ * take priority over the global ones, like VS Code does for HTML files.
  *
  * @param settings The parsed settings.json.
  * @return The values keyed by option path.
@@ -191,11 +192,20 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
 		flattened.set( path, value );
 	};
 
-	Object.entries( settings ).forEach( ( [ key, value ] ) => {
-		if ( key.startsWith( 'editor.' ) ) {
-			flatten( key.slice( 'editor.'.length ), value );
-		}
-	} );
+	const flattenAll = ( values: Record< string, unknown > ) => {
+		Object.entries( values ).forEach( ( [ key, value ] ) => {
+			if ( key.startsWith( 'editor.' ) ) {
+				flatten( key.slice( 'editor.'.length ), value );
+			}
+		} );
+	};
+
+	flattenAll( settings );
+
+	const htmlSettings = settings[ '[html]' ];
+	if ( isPlainObject( htmlSettings ) ) {
+		flattenAll( htmlSettings );
+	}
 
 	return flattened;
 }
