@@ -49,7 +49,7 @@ export default function UnicodeHighlightInvisibleCharacters() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Characters that take up space but are not visible, such as the zero-width space, are surrounded by a border. They often get mixed in when pasting text and break the layout or the markup.',
+					'Characters that are not visible, such as the zero-width space, are surrounded by a border.',
 					'custom-html-block-extension'
 				) }
 				isToggle

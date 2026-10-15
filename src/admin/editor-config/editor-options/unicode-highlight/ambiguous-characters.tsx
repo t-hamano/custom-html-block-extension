@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -48,15 +48,19 @@ export default function UnicodeHighlightAmbiguousCharacters() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				description={ createInterpolateElement(
-					__(
-						"Characters that look like common ASCII characters, such as the curly quote <code>‘</code> that looks like the straight quote <code>'</code>, are surrounded by a border.",
-						'custom-html-block-extension'
-					),
-					{
-						code: <code />,
-					}
-				) }
+				description={
+					<Text render={ <p /> }>
+						{ createInterpolateElement(
+							__(
+								"Characters that look like common ASCII characters, such as the curly quote <code>‘</code> that looks like the straight quote <code>'</code>, are surrounded by a border.",
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
+						) }
+					</Text>
+				}
 				isToggle
 				defaultToggle
 				image="editor-options/unicode-highlight/ambiguous-characters.jpg"
