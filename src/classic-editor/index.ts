@@ -149,16 +149,26 @@ initLoader( window, {
 				editor.focus();
 
 				// The page scrolls instead of the editor, so scroll the page to the cursor.
-				const position = editor.getPosition();
-				const visiblePosition = position && editor.getScrolledVisiblePosition( position );
-				if ( visiblePosition ) {
-					window.scrollTo( {
-						top:
-							window.scrollY +
-							monacoEditorContainer.getBoundingClientRect().top +
-							visiblePosition.top -
-							window.innerHeight / 2,
-					} );
+				// Wait until the document is ready, since editor-expand.js scrolls the
+				// scrolled page back to the top on ready, which can run after this when
+				// monaco loads before the document is ready.
+				const scrollToCursor = () => {
+					const position = editor.getPosition();
+					const visiblePosition = position && editor.getScrolledVisiblePosition( position );
+					if ( visiblePosition ) {
+						window.scrollTo( {
+							top:
+								window.scrollY +
+								monacoEditorContainer.getBoundingClientRect().top +
+								visiblePosition.top -
+								window.innerHeight / 2,
+						} );
+					}
+				};
+				if ( window.jQuery ) {
+					window.jQuery( scrollToCursor );
+				} else {
+					scrollToCursor();
 				}
 			}
 
