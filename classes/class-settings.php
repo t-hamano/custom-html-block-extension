@@ -43,6 +43,14 @@ class Settings {
 			'type'    => 'string',
 			'default' => 'always',
 		),
+		'autoClosingDelete'                => array(
+			'type'    => 'string',
+			'default' => 'auto',
+		),
+		'autoClosingOvertype'              => array(
+			'type'    => 'string',
+			'default' => 'auto',
+		),
 		'autoClosingQuotes'                => array(
 			'type'    => 'string',
 			'default' => 'always',
@@ -210,9 +218,21 @@ class Settings {
 		'hover'                            => array(
 			'type'  => 'object',
 			'items' => array(
+				'above'   => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'delay'   => array(
+					'type'    => 'number',
+					'default' => 300,
+				),
 				'enabled' => array(
 					'type'    => 'string',
 					'default' => 'on',
+				),
+				'sticky'  => array(
+					'type'    => 'boolean',
+					'default' => true,
 				),
 			),
 		),
@@ -475,7 +495,15 @@ class Settings {
 		'suggest'                          => array(
 			'type'  => 'object',
 			'items' => array(
-				'showIcons' => array(
+				'insertMode' => array(
+					'type'    => 'string',
+					'default' => 'insert',
+				),
+				'preview'    => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'showIcons'  => array(
 					'type'    => 'boolean',
 					'default' => true,
 				),

@@ -357,6 +357,8 @@ export default function EditorConfig() {
 											<EditorOptions.SuggestFontSize />
 											<EditorOptions.SuggestLineHeight />
 											<EditorOptions.SuggestShowIcons />
+											<EditorOptions.SuggestInsertMode />
+											<EditorOptions.SuggestPreview />
 										</Stack>
 									</div>
 								</SettingsPanel>
@@ -364,6 +366,8 @@ export default function EditorConfig() {
 									<EditorOptions.AutoIndent />
 									<EditorOptions.AutoClosingBrackets />
 									<EditorOptions.AutoClosingQuotes />
+									<EditorOptions.AutoClosingDelete />
+									<EditorOptions.AutoClosingOvertype />
 									<EditorOptions.AutoSurround />
 									<EditorOptions.FormatOnPaste />
 								</SettingsPanel>
@@ -371,6 +375,13 @@ export default function EditorConfig() {
 									<EditorOptions.MouseWheelScrollSensitivity />
 									<EditorOptions.FastScrollSensitivity />
 									<EditorOptions.Hover />
+									<div inert={ inertValue( 'off' === editorOptions.hover.enabled ) }>
+										<Stack direction="column" gap="lg">
+											<EditorOptions.HoverDelay />
+											<EditorOptions.HoverSticky />
+											<EditorOptions.HoverAbove />
+										</Stack>
+									</div>
 									<EditorOptions.SmoothScrolling />
 									<EditorOptions.StickyScrollEnabled />
 									<div inert={ inertValue( ! editorOptions.stickyScroll.enabled ) }>
