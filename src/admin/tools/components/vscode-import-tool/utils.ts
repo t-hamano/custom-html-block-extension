@@ -4,6 +4,11 @@
 import { parse, type ParseError } from 'jsonc-parser';
 
 /**
+ * WordPress dependencies
+ */
+import { isAppleOS } from '@wordpress/keycodes';
+
+/**
  * Internal dependencies
  */
 import type { EditorOptions, EditorSettings } from '../../../../types';
@@ -333,7 +338,7 @@ function migrateVSCodeSettings(
 	// VS Code uses its own default font size, which depends on the OS.
 	const lineHeight = vscodeSettings.get( 'lineHeight' );
 	if ( typeof lineHeight === 'number' && lineHeight < MIN_LINE_HEIGHT ) {
-		const isMac = /Mac/.test( navigator.userAgent );
+		const isMac = isAppleOS();
 		const defaultFontSize = isMac ? 12 : 14;
 		const defaultLineHeightRatio = isMac ? 1.5 : 1.35;
 		const fontSize = vscodeSettings.get( 'fontSize' );

@@ -40,8 +40,8 @@ const importSettings = ( settings: Record< string, unknown > ) =>
 
 describe( 'importVSCodeSettings', () => {
 	beforeAll( () => {
-		vi.stubGlobal( 'navigator', { userAgent: 'Windows' } );
 		vi.stubGlobal( 'window', {
+			navigator: { platform: 'Win32' },
 			chbeObj: {
 				fontFamily: [
 					{ name: 'Fira Code', weight: [ 300, 400, 500, 600, 700 ] },
