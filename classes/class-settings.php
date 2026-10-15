@@ -668,9 +668,10 @@ class Settings {
 	}
 
 	/**
-	 * Sanitize editor options so they match the current schema.
+	 * Normalize editor options to the current schema: migrate legacy values and
+	 * remove unknown properties. Value types are validated by the REST schema.
 	 */
-	public static function sanitize_editor_options( $editor_options ) {
+	public static function normalize_editor_options( $editor_options ) {
 		if ( ! is_array( $editor_options ) ) {
 			return $editor_options;
 		}
