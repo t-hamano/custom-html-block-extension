@@ -267,6 +267,23 @@ describe( 'importVSCodeSettings', () => {
 		expect( result?.editorSettings.tabSize ).toBe( 3 );
 	} );
 
+	it( 'converts each scope before applying the HTML override', () => {
+		const result = importSettings( {
+			'editor.quickSuggestions': false,
+			'editor.hover.enabled': 'on',
+			'[html]': {
+				'editor.quickSuggestions': { comments: 'on' },
+				'editor.hover': false,
+			},
+		} );
+		expect( result?.editorOptions.quickSuggestions ).toEqual( {
+			other: 'off',
+			comments: 'on',
+			strings: 'off',
+		} );
+		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
+	} );
+
 	it( 'prefers HTML-specific settings and ignores other languages', () => {
 		const result = importSettings( {
 			'editor.fontSize': 20,
