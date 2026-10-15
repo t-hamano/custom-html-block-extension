@@ -141,7 +141,7 @@ class Admin {
 				'schema' => Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS ),
 			),
 			'default'           => $default_editor_options,
-			'sanitize_callback' => array( Settings::class, 'sanitize_editor_options' ),
+			'sanitize_callback' => array( Settings::class, 'normalize_editor_options' ),
 		);
 
 		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );

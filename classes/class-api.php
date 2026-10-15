@@ -70,7 +70,7 @@ class Api {
 		if ( is_array( $editor_options ) ) {
 			$request->set_param(
 				Option::OPTION_NAMES['editor_options'],
-				Settings::sanitize_editor_options( $editor_options )
+				Settings::normalize_editor_options( $editor_options )
 			);
 		}
 
