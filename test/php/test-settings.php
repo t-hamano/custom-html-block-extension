@@ -190,6 +190,31 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertSame( $expected, $editor_options['minimap'] );
 	}
 
+	public function test_get_editor_options_merges_nested_defaults_into_legacy_values() {
+		// `hover` was persisted as a boolean by older versions.
+		update_option( Option::OPTION_NAMES['editor_options'], array( 'hover' => false ) );
+
+		$editor_options = Settings::get_editor_options();
+		$expected       = array_merge(
+			wp_list_pluck( Settings::DEFAULT_EDITOR_OPTIONS['hover']['items'], 'default' ),
+			array( 'enabled' => 'off' )
+		);
+
+		$this->assertSame( $expected, $editor_options['hover'] );
+	}
+
+	public function test_get_editor_options_migrates_legacy_guides() {
+		update_option(
+			Option::OPTION_NAMES['editor_options'],
+			array( 'renderIndentGuides' => false )
+		);
+
+		$editor_options = Settings::get_editor_options();
+
+		$this->assertFalse( $editor_options['guides']['indentation'] );
+		$this->assertArrayNotHasKey( 'renderIndentGuides', $editor_options );
+	}
+
 	public function test_get_schema() {
 		$schema = Settings::get_schema(
 			array(

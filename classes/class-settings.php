@@ -678,7 +678,11 @@ class Settings {
 	public static function get_editor_options() {
 		$default_editor_options = self::get_defaults( self::DEFAULT_EDITOR_OPTIONS );
 
-		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
+		// Migrate before merging so legacy scalar values of object options,
+		// such as a boolean `hover`, still receive their nested defaults.
+		$current_editor_options = self::migrate_legacy_editor_options(
+			(array) get_option( Option::OPTION_NAMES['editor_options'] )
+		);
 
 		$editor_options = array_merge( $default_editor_options, $current_editor_options );
 
@@ -688,13 +692,14 @@ class Settings {
 			}
 		}
 
-		return self::sanitize_editor_options( $editor_options );
+		return self::remove_unknown_properties( $editor_options, self::DEFAULT_EDITOR_OPTIONS );
 	}
 
 	/**
-	 * Sanitize editor options so they match the current schema.
+	 * Normalize editor options to the current schema: migrate legacy values and
+	 * remove unknown properties. Value types are validated by the REST schema.
 	 */
-	public static function sanitize_editor_options( $editor_options ) {
+	public static function normalize_editor_options( $editor_options ) {
 		if ( ! is_array( $editor_options ) ) {
 			return $editor_options;
 		}
@@ -791,8 +796,8 @@ class Settings {
 
 		// `renderIndentGuides` and `highlightActiveIndentGuide` were replaced by
 		// `guides.indentation` and `guides.highlightActiveIndentation`, so move
-		// legacy values into `guides`. The legacy value wins because the defaults
-		// already fill `guides` before this runs.
+		// legacy values into `guides`. The legacy value wins over a saved `guides`
+		// value.
 		// Changed to `IGuidesOptions` in monaco-editor 0.29.0.
 		// Upstream change: https://github.com/microsoft/vscode/pull/133509
 		// Type definitions: https://unpkg.com/monaco-editor@0.29.0/esm/vs/editor/editor.api.d.ts
