@@ -115,6 +115,11 @@ function findTheme( name: string ): string | undefined {
 function migrateVSCodeSettings( settings: Record< string, unknown > ) {
 	const migrated = { ...settings };
 
+	// `editor.theme` and `editor.emmet` are not VS Code settings, so only the
+	// converted values below are imported.
+	delete migrated[ 'editor.theme' ];
+	delete migrated[ 'editor.emmet' ];
+
 	// With `window.autoDetectColorScheme`, VS Code uses the preferred theme
 	// instead of `workbench.colorTheme`. Use the dark one, like the default
 	// theme of this plugin.

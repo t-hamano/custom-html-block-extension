@@ -74,6 +74,13 @@ describe( 'importVSCodeSettings', () => {
 		expect( result?.skippedCount ).toBe( 1 );
 	} );
 
+	it( 'ignores theme and Emmet keys that are not VS Code settings', () => {
+		const result = importSettings( { 'editor.theme': 'foo', 'editor.emmet': false } );
+		expect( result?.editorSettings.theme ).toBe( 'vs-dark' );
+		expect( result?.editorSettings.emmet ).toBe( true );
+		expect( result?.importedCount ).toBe( 0 );
+	} );
+
 	it( 'turns Emmet off only when abbreviations are never shown', () => {
 		expect(
 			importSettings( { 'emmet.showExpandedAbbreviation': 'never' } )?.editorSettings.emmet
