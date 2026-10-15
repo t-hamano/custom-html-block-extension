@@ -17,7 +17,11 @@ const editorSettings = {
 	emmet: true,
 } as EditorSettings;
 
-const editorOptions = { fontSize: 14 } as EditorOptions;
+const editorOptions = {
+	fontSize: 14,
+	fontLigatures: false,
+	quickSuggestions: { other: 'on', comments: 'off', strings: 'off' },
+} as EditorOptions;
 
 const importSettings = ( settings: Record< string, unknown > ) =>
 	importVSCodeSettings( JSON.stringify( settings ), editorSettings, editorOptions );
@@ -77,5 +81,34 @@ describe( 'importVSCodeSettings', () => {
 		expect(
 			importSettings( { 'emmet.showExpandedAbbreviation': 'always' } )?.editorSettings.emmet
 		).toBe( true );
+	} );
+
+	it( 'turns ligatures on for a font feature settings string', () => {
+		const result = importSettings( { 'editor.fontLigatures': "'ss01', 'cv02'" } );
+		expect( result?.editorOptions.fontLigatures ).toBe( true );
+		expect( result?.importedCount ).toBe( 1 );
+	} );
+
+	it( 'applies a boolean quick suggestions value to all token types', () => {
+		const result = importSettings( { 'editor.quickSuggestions': false } );
+		expect( result?.editorOptions.quickSuggestions ).toEqual( {
+			other: 'off',
+			comments: 'off',
+			strings: 'off',
+		} );
+		expect( result?.importedCount ).toBe( 1 );
+		expect( result?.skippedCount ).toBe( 0 );
+	} );
+
+	it( 'imports quick suggestions per token type', () => {
+		const result = importSettings( {
+			'editor.quickSuggestions': { other: 'inline', comments: 'on', strings: 'on' },
+		} );
+		expect( result?.editorOptions.quickSuggestions ).toEqual( {
+			other: 'inline',
+			comments: 'on',
+			strings: 'on',
+		} );
+		expect( result?.importedCount ).toBe( 3 );
 	} );
 } );

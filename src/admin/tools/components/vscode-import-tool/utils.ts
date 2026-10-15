@@ -180,7 +180,12 @@ export function importVSCodeSettings(
 		if ( ! vscodeSettings.has( path ) ) {
 			return;
 		}
-		const value = vscodeSettings.get( path );
+		let value = vscodeSettings.get( path );
+		// VS Code accepts a `font-feature-settings` string, but this plugin
+		// only turns ligatures on or off.
+		if ( path === 'fontLigatures' && typeof value === 'string' ) {
+			value = true;
+		}
 		if ( isAcceptableValue( path, value, currentValue ) ) {
 			apply( value );
 			importedCount++;
@@ -221,6 +226,14 @@ export function importVSCodeSettings(
 	} );
 
 	const options = editorOptions as Record< string, unknown >;
+
+	// VS Code accepts a boolean that applies to all token types.
+	const quickSuggestions = vscodeSettings.get( 'quickSuggestions' );
+	if ( typeof quickSuggestions === 'boolean' ) {
+		const value = quickSuggestions ? 'on' : 'off';
+		editorOptions.quickSuggestions = { other: value, comments: value, strings: value };
+		importedCount++;
+	}
 	Object.entries( currentEditorOptions ).forEach( ( [ key, currentValue ] ) => {
 		if ( UNSUPPORTED_OPTION_KEYS.includes( key ) ) {
 			return;
