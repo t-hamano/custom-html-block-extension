@@ -52,9 +52,19 @@ export default function HoverAbove() {
 					'Hover hints are shown above the line if there is space. When disabled, they are shown below the line.',
 					'custom-html-block-extension'
 				) }
-				isToggle
-				defaultToggle
-				image="editor-options/hover/above.jpg"
+				items={ [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/hover/above_1.jpg',
+						isDefault: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/hover/above_2.jpg',
+					},
+				] }
 				value={ editorOptions.hover.above }
 			/>
 		</Stack>
