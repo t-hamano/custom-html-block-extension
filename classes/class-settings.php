@@ -680,10 +680,6 @@ class Settings {
 
 		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
-		// Migrate before merging so legacy scalar values of object options,
-		// such as a boolean `hover`, still receive their nested defaults.
-		$current_editor_options = self::migrate_legacy_editor_options( $current_editor_options );
-
 		$editor_options = array_merge( $default_editor_options, $current_editor_options );
 
 		foreach ( self::DEFAULT_EDITOR_OPTIONS as $key => $value ) {
