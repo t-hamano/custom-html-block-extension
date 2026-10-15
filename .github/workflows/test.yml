@@ -172,7 +172,7 @@ jobs:
 
       - name: Archive debug artifacts
         uses: actions/upload-artifact@v7
-        if: always()
+        if: failure()
         with:
           name: failures-artifacts-${{ matrix.php }}-${{ matrix.wp }}
           path: artifacts
