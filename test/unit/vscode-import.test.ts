@@ -252,5 +252,6 @@ describe( 'importVSCodeSettings', () => {
 		expect( lineHeightOf( { 'editor.lineHeight': 0, 'editor.fontSize': 20 } ) ).toBe( 27 );
 		// VS Code's default font size on Windows and Linux is 14.
 		expect( lineHeightOf( { 'editor.lineHeight': 2 } ) ).toBe( 28 );
+		expect( lineHeightOf( { 'editor.lineHeight': 0.5 } ) ).toBe( 8 );
 	} );
 } );

@@ -339,7 +339,10 @@ function migrateVSCodeSettings(
 		const fontSize = vscodeSettings.get( 'fontSize' );
 		const baseFontSize = typeof fontSize === 'number' ? fontSize : defaultFontSize;
 		const ratio = lineHeight > 0 ? lineHeight : defaultLineHeightRatio;
-		vscodeSettings.set( 'lineHeight', Math.round( baseFontSize * ratio ) );
+		vscodeSettings.set(
+			'lineHeight',
+			Math.max( MIN_LINE_HEIGHT, Math.round( baseFontSize * ratio ) )
+		);
 	}
 
 	// VS Code accepts a `font-feature-settings` string, but this plugin only
