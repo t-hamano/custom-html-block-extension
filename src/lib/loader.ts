@@ -21,11 +21,8 @@ type LoaderError = {
 
 type CancelablePromise< T > = Promise< T > & { cancel: () => void };
 
-const config = {
-	paths: {
-		vs: `${ window.chbeObj.pluginUrl }/build/vendor/monaco-editor/min/vs`,
-	},
-};
+// The monaco editor bundle built from `src/monaco`.
+const MONACO_URL = `${ window.chbeObj.pluginUrl }/build/monaco`;
 
 // The time until loading the editor is reported as timed out. The editor script is
 // several megabytes, so allow enough time for slow connections.
@@ -58,43 +55,52 @@ function makeCancelable< T >( promise: Promise< T > ): CancelablePromise< T > {
 	return wrappedPromise;
 }
 
-// Load the monaco editor script into the window.
-function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
-	return new Promise< typeof Monaco >( ( resolve, reject ) => {
-		// Return monaco instance if it is mounted in the current window.
-		if ( targetWindow.monaco?.editor ) {
-			return resolve( targetWindow.monaco );
-		}
-
-		const scriptError: LoaderError = {
-			type: 'scripterror',
-			msg: __( 'Failed to load the editor script.', 'custom-html-block-extension' ),
-		};
-
-		// Load monaco editor script.
-		const script = targetWindow.document.createElement( 'script' );
-		script.src = `${ config.paths.vs }/loader.js`;
-
-		script.onload = () => {
-			const require = targetWindow.require;
-			require.config( config );
-			require( [ 'vs/editor/editor.main' ], () => {
-				const { monaco } = targetWindow;
-				if ( ! monaco ) {
-					return reject( scriptError );
-				}
-				registerWpHtmlTokenizer( monaco );
-				registerWpBlockDelimiters( monaco );
-				return resolve( monaco );
-			} );
-		};
-
-		script.onerror = () => {
-			return reject( scriptError );
-		};
-
-		targetWindow.document.body.appendChild( script );
+// Load an element into the head of the document.
+function loadElement( element: HTMLScriptElement | HTMLLinkElement ) {
+	return new Promise< void >( ( resolve, reject ) => {
+		element.onload = () => resolve();
+		element.onerror = () => reject();
+		element.ownerDocument.head.appendChild( element );
 	} );
+}
+
+// Load the monaco editor bundle into the window. The bundle is loaded into each window
+// instead of being shared, so that monaco renders into and listens to the window it runs in.
+function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
+	// Return monaco instance if it is mounted in the current window.
+	if ( targetWindow.monaco?.editor ) {
+		return Promise.resolve( targetWindow.monaco );
+	}
+
+	const scriptError: LoaderError = {
+		type: 'scripterror',
+		msg: __( 'Failed to load the editor script.', 'custom-html-block-extension' ),
+	};
+
+	const { document } = targetWindow;
+	const version = encodeURIComponent( window.chbeObj.monacoVersion );
+
+	const style = document.createElement( 'link' );
+	style.rel = 'stylesheet';
+	style.href = `${ MONACO_URL }/monaco.css?ver=${ version }`;
+
+	const script = document.createElement( 'script' );
+	script.src = `${ MONACO_URL }/monaco.js?ver=${ version }`;
+
+	return Promise.all( [ loadElement( style ), loadElement( script ) ] ).then(
+		() => {
+			const { monaco } = targetWindow;
+			if ( ! monaco ) {
+				throw scriptError;
+			}
+			registerWpHtmlTokenizer( monaco );
+			registerWpBlockDelimiters( monaco );
+			return monaco;
+		},
+		() => {
+			throw scriptError;
+		}
+	);
 }
 
 /**

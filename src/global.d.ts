@@ -12,6 +12,7 @@ declare global {
 	// Data localized from PHP via `wp_localize_script`.
 	interface ChbeObj {
 		pluginUrl: string;
+		monacoVersion: string;
 		version: string;
 		editorSettings: EditorSettings;
 		editorOptions: EditorOptions;
@@ -21,16 +22,10 @@ declare global {
 		language?: string;
 	}
 
-	// The AMD loader exposed by the monaco `loader.js` script.
-	interface MonacoAmdRequire {
-		( modules: string[], onLoad: () => void ): void;
-		config: ( config: { paths: Record< string, string > } ) => void;
-	}
-
 	interface Window {
 		chbeObj: ChbeObj;
 		monaco?: typeof Monaco;
-		require: MonacoAmdRequire;
+		MonacoEnvironment?: Monaco.Environment;
 		enabledEmmet?: boolean;
 		editor?: Monaco.editor.IStandaloneCodeEditor;
 		wp?: unknown;
