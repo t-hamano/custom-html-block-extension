@@ -49,7 +49,7 @@ export default function UnicodeHighlightAmbiguousCharacters() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Characters that look like common ASCII characters, such as the Cyrillic "а" that looks like the Latin "a", are surrounded by a border. A class name or an attribute containing one does not match.',
+					'Characters that look like common ASCII characters, such as the curly quote "‘" that looks like the straight quote "\'", are surrounded by a border. They often get mixed in when copying code from a web page, and an attribute quoted with them does not get the intended value.',
 					'custom-html-block-extension'
 				) }
 				isToggle
