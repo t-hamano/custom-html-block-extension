@@ -156,6 +156,9 @@ const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
 
 const MAX_RULER_COLUMN = 100;
 
+// A language-specific override key, e.g. `[html]` or `[html][css]`.
+const LANGUAGE_OVERRIDE_REGEX = /^(\[[^\[\]]+\])+$/;
+
 // Same as `sanitize_hex_color()`, which validates the `hex-color` format.
 const HEX_COLOR_REGEX = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
@@ -174,7 +177,8 @@ function isPlainObject( value: unknown ): value is Record< string, unknown > {
  * Flatten the `editor.*` settings into a map of option paths, so that both
  * `"editor.minimap.enabled": true` and `"editor.minimap": { "enabled": true }`
  * become `minimap.enabled`. The HTML-specific settings in `"[html]": { ... }`
- * take priority over the global ones, like VS Code does for HTML files.
+ * and grouped overrides such as `"[html][css]": { ... }` take priority over
+ * the global ones, like VS Code does for HTML files.
  *
  * @param settings The parsed settings.json.
  * @return The values keyed by option path.
@@ -201,6 +205,15 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
 	};
 
 	flattenAll( settings );
+
+	// A grouped override such as `[html][css]` applies to HTML files too, but
+	// the `[html]` override takes priority over it.
+	Object.entries( settings ).forEach( ( [ key, value ] ) => {
+		const languages = LANGUAGE_OVERRIDE_REGEX.test( key ) ? key.slice( 1, -1 ).split( '][' ) : [];
+		if ( languages.length > 1 && languages.includes( 'html' ) && isPlainObject( value ) ) {
+			flattenAll( value );
+		}
+	} );
 
 	const htmlSettings = settings[ '[html]' ];
 	if ( isPlainObject( htmlSettings ) ) {
