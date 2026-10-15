@@ -7,12 +7,31 @@ import { parse, type ParseError } from 'jsonc-parser';
  * Internal dependencies
  */
 import type { EditorOptions, EditorSettings } from '../../../../types';
+import themes from '../../../../lib/themes';
 
 // Editor settings that map to VS Code's `editor.*` settings.
 const EDITOR_SETTING_KEYS = [ 'tabSize', 'insertSpaces', 'detectIndentation' ] as const;
 
 // Options whose VS Code values need a conversion, which is not supported yet.
 const UNSUPPORTED_OPTION_KEYS = [ 'fontFamily', 'fontWeight', 'lineHeight' ];
+
+// VS Code's built-in themes that map to Monaco's built-in themes.
+const BUILT_IN_THEMES = new Map( [
+	[ 'dark 2026', 'vs-dark' ],
+	[ 'default dark modern', 'vs-dark' ],
+	[ 'default dark+', 'vs-dark' ],
+	[ 'dark modern', 'vs-dark' ],
+	[ 'dark+', 'vs-dark' ],
+	[ 'dark (visual studio)', 'vs-dark' ],
+	[ 'visual studio dark', 'vs-dark' ],
+	[ 'light 2026', 'light' ],
+	[ 'default light modern', 'light' ],
+	[ 'default light+', 'light' ],
+	[ 'light modern', 'light' ],
+	[ 'light+', 'light' ],
+	[ 'light (visual studio)', 'light' ],
+	[ 'visual studio light', 'light' ],
+] );
 
 const MAX_RULER_COLUMN = 100;
 
@@ -58,6 +77,24 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
 	} );
 
 	return flattened;
+}
+
+/**
+ * Find the theme matching a VS Code theme name. Bundled themes match when the
+ * name equals the theme slug ignoring case, spaces and punctuation, e.g.
+ * `Solarized Dark` or `MagicWB (Amiga)`.
+ *
+ * @param name The VS Code theme name.
+ * @return The theme slug, or `undefined` if no theme matches.
+ */
+function findTheme( name: string ): string | undefined {
+	const normalizedName = name.trim().toLowerCase();
+	const builtInTheme = BUILT_IN_THEMES.get( normalizedName );
+	if ( builtInTheme ) {
+		return builtInTheme;
+	}
+	const slug = normalizedName.replace( /[^a-z0-9]+/g, '-' ).replace( /^-|-$/g, '' );
+	return themes.find( ( theme ) => theme.value === slug )?.value;
 }
 
 /**
@@ -109,8 +146,8 @@ function isAcceptableValue( path: string, value: unknown, currentValue: unknown 
 }
 
 /**
- * Parse a VS Code `settings.json` and merge the supported `editor.*` settings
- * into the current editor config.
+ * Parse a VS Code `settings.json` and merge the supported `editor.*` settings,
+ * the theme and Emmet into the current editor config.
  *
  * @param text                  The settings.json text.
  * @param currentEditorSettings The current editor settings.
@@ -133,6 +170,7 @@ export function importVSCodeSettings(
 	const editorSettings = { ...currentEditorSettings };
 	const editorOptions = structuredClone( currentEditorOptions );
 	let importedCount = 0;
+	let vscodeSettingsCount = vscodeSettings.size;
 
 	const importValue = (
 		path: string,
@@ -148,6 +186,33 @@ export function importVSCodeSettings(
 			importedCount++;
 		}
 	};
+
+	// With `window.autoDetectColorScheme`, VS Code uses the preferred theme
+	// instead of `workbench.colorTheme`. Use the dark one, like the default
+	// theme of this plugin.
+	const themeKey =
+		settings[ 'window.autoDetectColorScheme' ] === true
+			? 'workbench.preferredDarkColorTheme'
+			: 'workbench.colorTheme';
+	const colorTheme = settings[ themeKey ];
+	if ( colorTheme !== undefined ) {
+		vscodeSettingsCount++;
+		const theme = typeof colorTheme === 'string' ? findTheme( colorTheme ) : undefined;
+		if ( theme ) {
+			editorSettings.theme = theme;
+			importedCount++;
+		}
+	}
+
+	// VS Code has no key to turn Emmet off, but `"never"` hides its suggestions.
+	const showExpandedAbbreviation = settings[ 'emmet.showExpandedAbbreviation' ];
+	if ( showExpandedAbbreviation !== undefined ) {
+		vscodeSettingsCount++;
+		if ( typeof showExpandedAbbreviation === 'string' ) {
+			editorSettings.emmet = showExpandedAbbreviation !== 'never';
+			importedCount++;
+		}
+	}
 
 	EDITOR_SETTING_KEYS.forEach( ( key ) => {
 		importValue( key, currentEditorSettings[ key ], ( value ) => {
@@ -179,6 +244,6 @@ export function importVSCodeSettings(
 		editorSettings,
 		editorOptions,
 		importedCount,
-		skippedCount: vscodeSettings.size - importedCount,
+		skippedCount: vscodeSettingsCount - importedCount,
 	};
 }
