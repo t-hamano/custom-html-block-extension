@@ -342,7 +342,9 @@ test.describe( 'Block', () => {
 		await resizeBy( 100 );
 		await expect.poll( getHeight ).toBe( 400 );
 
-		await resizeBy( -1000 );
+		// Drag above the minimum height. Stay inside the viewport since Firefox doesn't
+		// dispatch mouse events at negative coordinates.
+		await resizeBy( -350 );
 		await expect.poll( getHeight ).toBe( 100 );
 	} );
 
