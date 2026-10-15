@@ -32,11 +32,19 @@ export default function SuggestInsertMode() {
 			value: 'insert',
 			isDefault: true,
 			image: 'editor-options/suggest/insert-mode_1.gif',
+			description: __(
+				'The suggestion is inserted, and the rest of the word after the cursor is kept.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Replace', 'custom-html-block-extension' ),
 			value: 'replace',
 			image: 'editor-options/suggest/insert-mode_2.gif',
+			description: __(
+				'The suggestion replaces the rest of the word after the cursor.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
