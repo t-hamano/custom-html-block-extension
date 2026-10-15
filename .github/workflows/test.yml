@@ -172,6 +172,8 @@ jobs:
 
       - name: Running e2e tests
         run: npm run test:e2e -- $(printf -- '--project=%s ' ${{ matrix.browsers }})
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
       - name: Archive debug artifacts
         uses: actions/upload-artifact@v7
