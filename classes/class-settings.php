@@ -497,6 +497,23 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => false,
 		),
+		'unicodeHighlight'                 => array(
+			'type'  => 'object',
+			'items' => array(
+				'ambiguousCharacters' => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'invisibleCharacters' => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'nonBasicASCII'       => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+			),
+		),
 		'useTabStops'                      => array(
 			'type'    => 'boolean',
 			'default' => true,

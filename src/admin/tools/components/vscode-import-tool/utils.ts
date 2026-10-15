@@ -20,7 +20,17 @@ const EDITOR_SETTING_KEYS = [
 ] as const;
 
 // Options whose VS Code values need a conversion, which is not supported yet.
-const UNSUPPORTED_OPTION_KEYS = [ 'fontFamily', 'fontWeight', 'lineHeight' ];
+const UNSUPPORTED_OPTION_KEYS = [ 'lineHeight' ];
+
+// Keyword values of VS Code's `editor.fontWeight`.
+const FONT_WEIGHT_KEYWORDS = new Map< unknown, string >( [
+	[ 'normal', '400' ],
+	[ 'bold', '700' ],
+] );
+
+// Weights of the generic `monospace` font, which usually has only normal and
+// bold faces.
+const MONOSPACE_FONT_WEIGHTS = [ 400, 700 ];
 
 // VS Code's built-in themes that map to Monaco's built-in themes.
 const BUILT_IN_THEMES = new Map( [
@@ -204,15 +214,47 @@ function findTheme( name: string ): string | undefined {
 }
 
 /**
+ * Find the first font in a CSS font stack, e.g. `"'Fira Code', Consolas,
+ * monospace"`, that this plugin has: a registered font or the generic
+ * `monospace`. Font names match ignoring case.
+ *
+ * @param fontStack The VS Code font stack.
+ * @return The font name, or `undefined` if no font matches.
+ */
+function findFontFamily( fontStack: string ): string | undefined {
+	// Split on the commas outside quotes, as a quoted name can contain one.
+	const fontNames = ( fontStack.match( /'[^']*'|"[^"]*"|[^,]+/g ) ?? [] ).map( ( fontName ) =>
+		fontName
+			.trim()
+			.replace( /^['"]|['"]$/g, '' )
+			.toLowerCase()
+	);
+	for ( const fontName of fontNames ) {
+		if ( fontName === 'monospace' ) {
+			return fontName;
+		}
+		const font = window.chbeObj.fontFamily.find( ( { name } ) => name.toLowerCase() === fontName );
+		if ( font ) {
+			return font.name;
+		}
+	}
+	return undefined;
+}
+
+/**
  * Flatten the `editor.*` settings and convert the VS Code settings whose key
  * or value differs from this plugin into option paths in this plugin's
  * format. A value that can't be converted becomes `undefined`, so it is
  * counted as skipped.
  *
- * @param settings The parsed settings.json.
+ * @param settings             The parsed settings.json.
+ * @param currentEditorOptions The current editor options.
  * @return The flattened `editor.*` settings with the converted values.
  */
-function migrateVSCodeSettings( settings: Record< string, unknown > ) {
+function migrateVSCodeSettings(
+	settings: Record< string, unknown >,
+	currentEditorOptions: EditorOptions
+) {
 	const vscodeSettings = flattenEditorSettings( settings );
 
 	// `editor.theme` and `editor.emmet` are not VS Code settings, so only the
@@ -242,6 +284,47 @@ function migrateVSCodeSettings( settings: Record< string, unknown > ) {
 			typeof showExpandedAbbreviation === 'string'
 				? showExpandedAbbreviation !== 'never'
 				: undefined
+		);
+	}
+
+	// VS Code uses a CSS font stack. Use the first font that this plugin has.
+	const fontFamily = vscodeSettings.get( 'fontFamily' );
+	if ( fontFamily !== undefined ) {
+		vscodeSettings.set(
+			'fontFamily',
+			typeof fontFamily === 'string' ? findFontFamily( fontFamily ) : undefined
+		);
+	}
+
+	// The weight must be one of the weights of the font.
+	const fontName = vscodeSettings.get( 'fontFamily' ) ?? currentEditorOptions.fontFamily;
+	const fontWeights =
+		fontName === 'monospace'
+			? MONOSPACE_FONT_WEIGHTS
+			: window.chbeObj.fontFamily.find( ( { name } ) => name === fontName )?.weight;
+	const fontWeight = vscodeSettings.get( 'fontWeight' );
+	if ( fontWeight !== undefined ) {
+		const weight =
+			typeof fontWeight === 'string' || typeof fontWeight === 'number'
+				? ( FONT_WEIGHT_KEYWORDS.get( fontWeight ) ?? String( fontWeight ) )
+				: undefined;
+		vscodeSettings.set(
+			'fontWeight',
+			weight && fontWeights?.includes( Number( weight ) ) ? weight : undefined
+		);
+	}
+
+	// When the imported font doesn't have the current weight, use its normal
+	// weight, or its first one.
+	if (
+		vscodeSettings.get( 'fontFamily' ) !== undefined &&
+		vscodeSettings.get( 'fontWeight' ) === undefined &&
+		fontWeights?.length &&
+		! fontWeights.includes( Number( currentEditorOptions.fontWeight ) )
+	) {
+		vscodeSettings.set(
+			'fontWeight',
+			String( fontWeights.includes( 400 ) ? 400 : fontWeights[ 0 ] )
 		);
 	}
 
@@ -361,7 +444,7 @@ export function importVSCodeSettings(
 		return null;
 	}
 
-	const vscodeSettings = migrateVSCodeSettings( settings );
+	const vscodeSettings = migrateVSCodeSettings( settings, currentEditorOptions );
 	const editorSettings = { ...currentEditorSettings };
 	const editorOptions = structuredClone( currentEditorOptions );
 	let importedCount = 0;

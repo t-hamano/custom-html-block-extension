@@ -140,6 +140,11 @@ export type EditorOptions = {
 	suggestFontSize: number;
 	suggestLineHeight: number;
 	unfoldOnClickAfterEndOfLine: boolean;
+	unicodeHighlight: {
+		ambiguousCharacters: boolean;
+		invisibleCharacters: boolean;
+		nonBasicASCII: boolean;
+	};
 	useTabStops: boolean;
 	wordWrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded';
 	wordWrapColumn: number;
