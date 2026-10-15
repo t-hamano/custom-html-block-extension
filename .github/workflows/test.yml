@@ -65,7 +65,7 @@ jobs:
         php: ['8.0', '8.2', '8.4', '8.5']
         wp: ['WordPress', 'WordPress#7.1']
 
-    name: PHP ${{ matrix.php }} / ${{ matrix.wp }} Unit Test
+    name: PHP Unit Test / PHP ${{ matrix.php }} / ${{ matrix.wp }}
 
     steps:
       - name: Checkout
@@ -125,7 +125,7 @@ jobs:
             wp: WordPress#7.1
             browsers: chromium firefox webkit
 
-    name: PHP ${{ matrix.php }} / ${{ matrix.wp }} E2E Test
+    name: E2E Test / PHP ${{ matrix.php }} / ${{ matrix.wp }}
 
     steps:
       - name: Checkout
