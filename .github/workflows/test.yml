@@ -7,6 +7,10 @@ on:
       - main
   workflow_call:
 
+# Disable permissions for all available scopes by default.
+# Any needed permissions should be configured at the job level.
+permissions: {}
+
 # Cancels all previous workflow runs for pull requests that have not completed.
 concurrency:
   # The concurrency group contains the workflow name and the branch name for pull requests
@@ -15,8 +19,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 15
+
+    name: Lint
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use desired version of Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Npm install
+        run: npm ci
+
+      - name: Composer install
+        run: composer install
+
+      - name: Running lint check
+        run: npm run lint
+
   js-unit-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 15
 
     name: JavaScript Unit Test
 
@@ -28,6 +62,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Npm install
         run: npm ci
@@ -37,12 +72,20 @@ jobs:
 
   php-unit-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 15
     strategy:
       matrix:
         php: ['8.0', '8.2', '8.4', '8.5']
         wp: ['WordPress', 'WordPress#7.1']
+        include:
+          - wp: WordPress
+            label: WP trunk
+          - wp: WordPress#7.1
+            label: WP 7.1
 
-    name: PHP ${{ matrix.php }} / ${{ matrix.wp }} Unit Test
+    name: PHP Unit / PHP ${{ matrix.php }} / ${{ matrix.label }}
 
     steps:
       - name: Checkout
@@ -52,6 +95,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Npm install
         run: npm ci
@@ -69,6 +113,9 @@ jobs:
 
   e2e-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 60
     strategy:
       matrix:
         include:
@@ -76,33 +123,41 @@ jobs:
           # so all browsers run on the latest PHP only.
           - php: '8.0'
             wp: WordPress
+            label: WP trunk
             browsers: chromium
           - php: '8.0'
             wp: WordPress#7.1
+            label: WP 7.1
             browsers: chromium
 
           - php: '8.2'
             wp: WordPress
+            label: WP trunk
             browsers: chromium
           - php: '8.2'
             wp: WordPress#7.1
+            label: WP 7.1
             browsers: chromium
 
           - php: '8.4'
             wp: WordPress
+            label: WP trunk
             browsers: chromium
           - php: '8.4'
             wp: WordPress#7.1
+            label: WP 7.1
             browsers: chromium
 
           - php: '8.5'
             wp: WordPress
+            label: WP trunk
             browsers: chromium firefox webkit
           - php: '8.5'
             wp: WordPress#7.1
+            label: WP 7.1
             browsers: chromium firefox webkit
 
-    name: PHP ${{ matrix.php }} / ${{ matrix.wp }} E2E Test
+    name: E2E / PHP ${{ matrix.php }} / ${{ matrix.label }}
 
     steps:
       - name: Checkout
@@ -112,17 +167,12 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Npm install and build
         run: |
           npm ci
           npm run build
-
-      - name: Composer install
-        run: composer install
-
-      - name: Running lint check
-        run: npm run lint
 
       - name: Install Playwright dependencies
         run: npx playwright install ${{ matrix.browsers }} --with-deps
@@ -135,10 +185,12 @@ jobs:
 
       - name: Running e2e tests
         run: npm run test:e2e -- $(printf -- '--project=%s ' ${{ matrix.browsers }})
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
       - name: Archive debug artifacts
         uses: actions/upload-artifact@v7
-        if: always()
+        if: failure()
         with:
           name: failures-artifacts-${{ matrix.php }}-${{ matrix.wp }}
           path: artifacts
