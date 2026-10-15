@@ -204,17 +204,17 @@ function findTheme( name: string ): string | undefined {
 }
 
 /**
- * Convert the VS Code settings whose key or value differs from this plugin
- * into option paths in this plugin's format. A value that can't be converted
- * becomes `undefined`, so it is counted as skipped.
+ * Flatten the `editor.*` settings and convert the VS Code settings whose key
+ * or value differs from this plugin into option paths in this plugin's
+ * format. A value that can't be converted becomes `undefined`, so it is
+ * counted as skipped.
  *
- * @param settings       The parsed settings.json.
- * @param vscodeSettings The flattened `editor.*` settings, which are updated.
+ * @param settings The parsed settings.json.
+ * @return The flattened `editor.*` settings with the converted values.
  */
-function migrateVSCodeSettings(
-	settings: Record< string, unknown >,
-	vscodeSettings: Map< string, unknown >
-) {
+function migrateVSCodeSettings( settings: Record< string, unknown > ) {
+	const vscodeSettings = flattenEditorSettings( settings );
+
 	// `editor.theme` and `editor.emmet` are not VS Code settings, so only the
 	// converted values below are imported.
 	vscodeSettings.delete( 'theme' );
@@ -288,6 +288,8 @@ function migrateVSCodeSettings(
 			vscodeSettings.set( path, legacyValue[ 1 ] );
 		}
 	} );
+
+	return vscodeSettings;
 }
 
 /**
@@ -359,8 +361,7 @@ export function importVSCodeSettings(
 		return null;
 	}
 
-	const vscodeSettings = flattenEditorSettings( settings );
-	migrateVSCodeSettings( settings, vscodeSettings );
+	const vscodeSettings = migrateVSCodeSettings( settings );
 	const editorSettings = { ...currentEditorSettings };
 	const editorOptions = structuredClone( currentEditorOptions );
 	let importedCount = 0;
