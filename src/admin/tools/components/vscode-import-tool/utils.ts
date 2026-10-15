@@ -16,18 +16,20 @@ const EDITOR_SETTING_KEYS = [ 'tabSize', 'insertSpaces', 'detectIndentation' ] a
 const UNSUPPORTED_OPTION_KEYS = [ 'fontFamily', 'fontWeight', 'lineHeight' ];
 
 // VS Code's built-in themes that map to Monaco's built-in themes.
-const BUILT_IN_THEMES: Record< string, string > = {
-	'default dark modern': 'vs-dark',
-	'default dark+': 'vs-dark',
-	'dark modern': 'vs-dark',
-	'dark+': 'vs-dark',
-	'visual studio dark': 'vs-dark',
-	'default light modern': 'light',
-	'default light+': 'light',
-	'light modern': 'light',
-	'light+': 'light',
-	'visual studio light': 'light',
-};
+const BUILT_IN_THEMES = new Map( [
+	[ 'default dark modern', 'vs-dark' ],
+	[ 'default dark+', 'vs-dark' ],
+	[ 'dark modern', 'vs-dark' ],
+	[ 'dark+', 'vs-dark' ],
+	[ 'dark (visual studio)', 'vs-dark' ],
+	[ 'visual studio dark', 'vs-dark' ],
+	[ 'default light modern', 'light' ],
+	[ 'default light+', 'light' ],
+	[ 'light modern', 'light' ],
+	[ 'light+', 'light' ],
+	[ 'light (visual studio)', 'light' ],
+	[ 'visual studio light', 'light' ],
+] );
 
 const MAX_RULER_COLUMN = 100;
 
@@ -85,8 +87,9 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
  */
 function findTheme( name: string ): string | undefined {
 	const normalizedName = name.trim().toLowerCase();
-	if ( BUILT_IN_THEMES[ normalizedName ] ) {
-		return BUILT_IN_THEMES[ normalizedName ];
+	const builtInTheme = BUILT_IN_THEMES.get( normalizedName );
+	if ( builtInTheme ) {
+		return builtInTheme;
 	}
 	const slug = normalizedName.replace( /[^a-z0-9]+/g, '-' ).replace( /^-|-$/g, '' );
 	return themes.find( ( theme ) => theme.value === slug )?.value;

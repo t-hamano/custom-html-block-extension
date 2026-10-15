@@ -39,6 +39,9 @@ describe( 'importVSCodeSettings', () => {
 		expect( importSettings( { 'workbench.colorTheme': 'Dark+' } )?.editorSettings.theme ).toBe(
 			'vs-dark'
 		);
+		expect(
+			importSettings( { 'workbench.colorTheme': 'Dark (Visual Studio)' } )?.editorSettings.theme
+		).toBe( 'vs-dark' );
 	} );
 
 	it( 'uses the preferred dark theme when the color scheme is detected automatically', () => {
@@ -49,6 +52,12 @@ describe( 'importVSCodeSettings', () => {
 		} );
 		expect( result?.editorSettings.theme ).toBe( 'solarized-dark' );
 		expect( result?.importedCount ).toBe( 1 );
+	} );
+
+	it( 'skips a theme name inherited from Object.prototype', () => {
+		const result = importSettings( { 'workbench.colorTheme': 'constructor' } );
+		expect( result?.editorSettings.theme ).toBe( 'vs-dark' );
+		expect( result?.importedCount ).toBe( 0 );
 	} );
 
 	it( 'skips an unknown theme', () => {
