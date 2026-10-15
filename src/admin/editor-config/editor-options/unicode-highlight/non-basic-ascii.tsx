@@ -49,7 +49,7 @@ export default function UnicodeHighlightNonBasicAscii() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'All characters other than basic ASCII characters are surrounded by a border. This also includes letters of languages such as Japanese and accented letters.',
+					'All characters other than basic ASCII characters, including Japanese and accented letters, are surrounded by a border.',
 					'custom-html-block-extension'
 				) }
 				isToggle
