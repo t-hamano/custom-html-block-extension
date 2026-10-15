@@ -342,7 +342,7 @@ function migrateVSCodeSettings(
 		const defaultFontSize = isMac ? 12 : 14;
 		const defaultLineHeightRatio = isMac ? 1.5 : 1.35;
 		const fontSize = vscodeSettings.get( 'fontSize' );
-		const baseFontSize = typeof fontSize === 'number' ? fontSize : defaultFontSize;
+		const baseFontSize = typeof fontSize === 'number' && fontSize > 0 ? fontSize : defaultFontSize;
 		const ratio = lineHeight > 0 ? lineHeight : defaultLineHeightRatio;
 		vscodeSettings.set(
 			'lineHeight',
