@@ -19,9 +19,6 @@ const EDITOR_SETTING_KEYS = [
 	'emmet',
 ] as const;
 
-// Options whose VS Code values need a conversion, which is not supported yet.
-const UNSUPPORTED_OPTION_KEYS = [ 'lineHeight' ];
-
 // Keyword values of VS Code's `editor.fontWeight`.
 const FONT_WEIGHT_KEYWORDS = new Map< unknown, string >( [
 	[ 'normal', '400' ],
@@ -31,6 +28,9 @@ const FONT_WEIGHT_KEYWORDS = new Map< unknown, string >( [
 // Weights of the generic `monospace` font, which usually has only normal and
 // bold faces.
 const MONOSPACE_FONT_WEIGHTS = [ 400, 700 ];
+
+// VS Code treats a line height below this as a multiplier of the font size.
+const MIN_LINE_HEIGHT = 8;
 
 // VS Code's built-in themes that map to Monaco's built-in themes.
 const BUILT_IN_THEMES = new Map( [
@@ -328,6 +328,20 @@ function migrateVSCodeSettings(
 		);
 	}
 
+	// VS Code accepts `0` (computed from the font size) or a multiplier of the
+	// font size, but this plugin only accepts pixels. Without `editor.fontSize`,
+	// VS Code uses its own default font size, which depends on the OS.
+	const lineHeight = vscodeSettings.get( 'lineHeight' );
+	if ( typeof lineHeight === 'number' && lineHeight < MIN_LINE_HEIGHT ) {
+		const isMac = /Mac/.test( navigator.userAgent );
+		const defaultFontSize = isMac ? 12 : 14;
+		const defaultLineHeightRatio = isMac ? 1.5 : 1.35;
+		const fontSize = vscodeSettings.get( 'fontSize' );
+		const baseFontSize = typeof fontSize === 'number' ? fontSize : defaultFontSize;
+		const ratio = lineHeight > 0 ? lineHeight : defaultLineHeightRatio;
+		vscodeSettings.set( 'lineHeight', Math.round( baseFontSize * ratio ) );
+	}
+
 	// VS Code accepts a `font-feature-settings` string, but this plugin only
 	// turns ligatures on or off.
 	if ( typeof vscodeSettings.get( 'fontLigatures' ) === 'string' ) {
@@ -472,10 +486,6 @@ export function importVSCodeSettings(
 
 	const options = editorOptions as Record< string, unknown >;
 	Object.entries( currentEditorOptions ).forEach( ( [ key, currentValue ] ) => {
-		if ( UNSUPPORTED_OPTION_KEYS.includes( key ) ) {
-			return;
-		}
-
 		if ( isPlainObject( currentValue ) ) {
 			Object.entries( currentValue ).forEach( ( [ subKey, currentSubValue ] ) => {
 				importValue( `${ key }.${ subKey }`, currentSubValue, ( value ) => {

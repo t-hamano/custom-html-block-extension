@@ -19,6 +19,7 @@ const editorSettings = {
 
 const editorOptions = {
 	fontSize: 14,
+	lineHeight: 21,
 	fontFamily: 'Fira Code',
 	fontWeight: '300',
 	fontLigatures: false,
@@ -39,6 +40,7 @@ const importSettings = ( settings: Record< string, unknown > ) =>
 
 describe( 'importVSCodeSettings', () => {
 	beforeAll( () => {
+		vi.stubGlobal( 'navigator', { userAgent: 'Windows' } );
 		vi.stubGlobal( 'window', {
 			chbeObj: {
 				fontFamily: [
@@ -240,5 +242,15 @@ describe( 'importVSCodeSettings', () => {
 		expect( importSettings( { 'editor.fontFamily': 'monospace' } )?.editorOptions.fontWeight ).toBe(
 			'400'
 		);
+	} );
+
+	it( 'converts an automatic or relative line height to pixels', () => {
+		const lineHeightOf = ( settings: Record< string, unknown > ) =>
+			importSettings( settings )?.editorOptions.lineHeight;
+		expect( lineHeightOf( { 'editor.lineHeight': 24 } ) ).toBe( 24 );
+		expect( lineHeightOf( { 'editor.lineHeight': 1.5, 'editor.fontSize': 16 } ) ).toBe( 24 );
+		expect( lineHeightOf( { 'editor.lineHeight': 0, 'editor.fontSize': 20 } ) ).toBe( 27 );
+		// VS Code's default font size on Windows and Linux is 14.
+		expect( lineHeightOf( { 'editor.lineHeight': 2 } ) ).toBe( 28 );
 	} );
 } );
