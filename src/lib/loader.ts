@@ -23,6 +23,7 @@ type CancelablePromise< T > = Promise< T > & { cancel: () => void };
 
 // The monaco editor bundle built from `src/monaco`.
 const MONACO_URL = `${ window.chbeObj.pluginUrl }/build/monaco`;
+const STYLE_ID = 'chbe-monaco-css';
 
 // The time until loading the editor is reported as timed out. The editor script is
 // several megabytes, so allow enough time for slow connections.
@@ -55,11 +56,15 @@ function makeCancelable< T >( promise: Promise< T > ): CancelablePromise< T > {
 	return wrappedPromise;
 }
 
-// Load an element into the head of the document.
+// Load an element into the head of the document. The element is removed when it fails
+// to load, so that loading it again retries it.
 function loadElement( element: HTMLScriptElement | HTMLLinkElement ) {
 	return new Promise< void >( ( resolve, reject ) => {
 		element.onload = () => resolve();
-		element.onerror = () => reject();
+		element.onerror = () => {
+			element.remove();
+			reject();
+		};
 		element.ownerDocument.head.appendChild( element );
 	} );
 }
@@ -67,11 +72,6 @@ function loadElement( element: HTMLScriptElement | HTMLLinkElement ) {
 // Load the monaco editor bundle into the window. The bundle is loaded into each window
 // instead of being shared, so that monaco renders into and listens to the window it runs in.
 function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
-	// Return monaco instance if it is mounted in the current window.
-	if ( targetWindow.monaco?.editor ) {
-		return Promise.resolve( targetWindow.monaco );
-	}
-
 	const scriptError: LoaderError = {
 		type: 'scripterror',
 		msg: __( 'Failed to load the editor script.', 'custom-html-block-extension' ),
@@ -79,15 +79,24 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 
 	const { document } = targetWindow;
 	const version = encodeURIComponent( window.chbeObj.monacoVersion );
+	const loading: Promise< void >[] = [];
 
-	const style = document.createElement( 'link' );
-	style.rel = 'stylesheet';
-	style.href = `${ MONACO_URL }/monaco.css?ver=${ version }`;
+	// Only load what hasn't been loaded yet, since one of them may have loaded
+	// in a previous attempt that failed.
+	if ( ! document.getElementById( STYLE_ID ) ) {
+		const style = document.createElement( 'link' );
+		style.id = STYLE_ID;
+		style.rel = 'stylesheet';
+		style.href = `${ MONACO_URL }/monaco.css?ver=${ version }`;
+		loading.push( loadElement( style ) );
+	}
+	if ( ! targetWindow.monaco ) {
+		const script = document.createElement( 'script' );
+		script.src = `${ MONACO_URL }/monaco.js?ver=${ version }`;
+		loading.push( loadElement( script ) );
+	}
 
-	const script = document.createElement( 'script' );
-	script.src = `${ MONACO_URL }/monaco.js?ver=${ version }`;
-
-	return Promise.all( [ loadElement( style ), loadElement( script ) ] ).then(
+	return Promise.all( loading ).then(
 		() => {
 			const { monaco } = targetWindow;
 			if ( ! monaco ) {
