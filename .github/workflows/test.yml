@@ -15,6 +15,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    name: Lint
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use desired version of Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Npm install
+        run: npm ci
+
+      - name: Composer install
+        run: composer install
+
+      - name: Running lint check
+        run: npm run lint
+
   js-unit-test:
     runs-on: ubuntu-latest
 
@@ -120,9 +143,6 @@ jobs:
 
       - name: Composer install
         run: composer install
-
-      - name: Running lint check
-        run: npm run lint
 
       - name: Install Playwright dependencies
         run: npx playwright install ${{ matrix.browsers }} --with-deps
