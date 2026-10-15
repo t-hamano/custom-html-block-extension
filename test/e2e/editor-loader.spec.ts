@@ -3,7 +3,7 @@
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
-const LOADER_SCRIPT = '**/monaco-editor/min/vs/loader.js';
+const LOADER_SCRIPT = '**/build/monaco/monaco.js?ver=*';
 const SCRIPT_ERROR = 'Failed to load the editor script.';
 
 test.describe( 'Editor loader', () => {
