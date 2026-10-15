@@ -420,6 +420,9 @@ export default function EditorConfig() {
 										</Stack>
 									</div>
 									<EditorOptions.RenderControlCharacters />
+									<EditorOptions.UnicodeHighlightInvisibleCharacters />
+									<EditorOptions.UnicodeHighlightAmbiguousCharacters />
+									<EditorOptions.UnicodeHighlightNonBasicAscii />
 									<EditorOptions.Rulers />
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Find', 'custom-html-block-extension' ) }>
