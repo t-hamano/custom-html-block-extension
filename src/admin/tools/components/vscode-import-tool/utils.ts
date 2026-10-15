@@ -156,6 +156,9 @@ const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
 
 const MAX_RULER_COLUMN = 100;
 
+// A language-specific override key, e.g. `[html]` or `[html][css]`.
+const LANGUAGE_OVERRIDE_REGEX = /^(\[[^\[\]]+\])+$/;
+
 // Same as `sanitize_hex_color()`, which validates the `hex-color` format.
 const HEX_COLOR_REGEX = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
@@ -175,7 +178,7 @@ function isPlainObject( value: unknown ): value is Record< string, unknown > {
  * `"editor.minimap.enabled": true` and `"editor.minimap": { "enabled": true }`
  * become `minimap.enabled`.
  *
- * @param settings The parsed settings.json.
+ * @param settings The parsed settings.json, or a language-specific override.
  * @return The values keyed by option path.
  */
 function flattenEditorSettings( settings: Record< string, unknown > ) {
@@ -198,6 +201,88 @@ function flattenEditorSettings( settings: Record< string, unknown > ) {
 	} );
 
 	return flattened;
+}
+
+/**
+ * Convert the VS Code settings whose key or value has another form in VS Code
+ * into the form this plugin uses, so that settings in different scopes can be
+ * merged by option path.
+ *
+ * @param vscodeSettings The flattened `editor.*` settings of one scope.
+ * @return The settings with the converted values.
+ */
+function normalizeEditorSettings( vscodeSettings: Map< string, unknown > ) {
+	// VS Code accepts a `font-feature-settings` string, but this plugin only
+	// turns ligatures on or off.
+	if ( typeof vscodeSettings.get( 'fontLigatures' ) === 'string' ) {
+		vscodeSettings.set( 'fontLigatures', true );
+	}
+
+	// VS Code accepts a boolean that applies to all token types.
+	const quickSuggestions = vscodeSettings.get( 'quickSuggestions' );
+	if ( typeof quickSuggestions === 'boolean' ) {
+		const value = quickSuggestions ? 'on' : 'off';
+		vscodeSettings.delete( 'quickSuggestions' );
+		vscodeSettings.set( 'quickSuggestions.other', value );
+		vscodeSettings.set( 'quickSuggestions.comments', value );
+		vscodeSettings.set( 'quickSuggestions.strings', value );
+	}
+
+	// Values from older VS Code versions, which VS Code still migrates.
+	RENAMED_SETTINGS.forEach( ( [ oldPath, newPath ] ) => {
+		if ( ! vscodeSettings.has( oldPath ) ) {
+			return;
+		}
+		if ( ! vscodeSettings.has( newPath ) ) {
+			vscodeSettings.set( newPath, vscodeSettings.get( oldPath ) );
+		}
+		vscodeSettings.delete( oldPath );
+	} );
+
+	LEGACY_VALUES.forEach( ( [ path, values ] ) => {
+		const value = vscodeSettings.get( path );
+		const legacyValue = values.find( ( [ oldValue ] ) => oldValue === value );
+		if ( legacyValue ) {
+			vscodeSettings.set( path, legacyValue[ 1 ] );
+		}
+	} );
+
+	return vscodeSettings;
+}
+
+/**
+ * Get the `editor.*` settings that VS Code applies to HTML files: the global
+ * settings, overridden by grouped overrides such as `"[html][css]": { ... }`,
+ * overridden by `"[html]": { ... }`.
+ *
+ * @param settings The parsed settings.json.
+ * @return The values keyed by option path.
+ */
+function getHTMLEditorSettings( settings: Record< string, unknown > ) {
+	const groupedOverrides: unknown[] = [];
+	const htmlOverrides: unknown[] = [];
+	Object.entries( settings ).forEach( ( [ key, value ] ) => {
+		if ( ! LANGUAGE_OVERRIDE_REGEX.test( key ) ) {
+			return;
+		}
+		// VS Code ignores spaces around each language, e.g. `[ html ]`.
+		const languages = key
+			.slice( 1, -1 )
+			.split( '][' )
+			.map( ( language ) => language.trim() );
+		if ( languages.includes( 'html' ) ) {
+			( languages.length > 1 ? groupedOverrides : htmlOverrides ).push( value );
+		}
+	} );
+	const scopes = [ settings, ...groupedOverrides, ...htmlOverrides ];
+
+	const vscodeSettings = new Map< string, unknown >();
+	scopes.filter( isPlainObject ).forEach( ( scope ) => {
+		normalizeEditorSettings( flattenEditorSettings( scope ) ).forEach( ( value, path ) =>
+			vscodeSettings.set( path, value )
+		);
+	} );
+	return vscodeSettings;
 }
 
 /**
@@ -260,7 +345,7 @@ function migrateVSCodeSettings(
 	settings: Record< string, unknown >,
 	currentEditorOptions: EditorOptions
 ) {
-	const vscodeSettings = flattenEditorSettings( settings );
+	const vscodeSettings = getHTMLEditorSettings( settings );
 
 	// `editor.theme` and `editor.emmet` are not VS Code settings, so only the
 	// converted values below are imported.
@@ -290,6 +375,18 @@ function migrateVSCodeSettings(
 				? showExpandedAbbreviation !== 'never'
 				: undefined
 		);
+	}
+
+	// An older VS Code version turned off auto closing quotes and surrounding
+	// together with brackets. Convert it after merging the scopes, because a
+	// language-specific override may turn brackets on again.
+	if ( vscodeSettings.get( 'autoClosingBrackets' ) === false ) {
+		vscodeSettings.set( 'autoClosingBrackets', 'never' );
+		[ 'autoClosingQuotes', 'autoSurround' ].forEach( ( path ) => {
+			if ( ! vscodeSettings.has( path ) ) {
+				vscodeSettings.set( path, 'never' );
+			}
+		} );
 	}
 
 	// VS Code uses a CSS font stack. Use the first font that this plugin has.
@@ -349,50 +446,6 @@ function migrateVSCodeSettings(
 			Math.max( MIN_LINE_HEIGHT, Math.round( baseFontSize * ratio ) )
 		);
 	}
-
-	// VS Code accepts a `font-feature-settings` string, but this plugin only
-	// turns ligatures on or off.
-	if ( typeof vscodeSettings.get( 'fontLigatures' ) === 'string' ) {
-		vscodeSettings.set( 'fontLigatures', true );
-	}
-
-	// VS Code accepts a boolean that applies to all token types.
-	const quickSuggestions = vscodeSettings.get( 'quickSuggestions' );
-	if ( typeof quickSuggestions === 'boolean' ) {
-		const value = quickSuggestions ? 'on' : 'off';
-		vscodeSettings.delete( 'quickSuggestions' );
-		vscodeSettings.set( 'quickSuggestions.other', value );
-		vscodeSettings.set( 'quickSuggestions.comments', value );
-		vscodeSettings.set( 'quickSuggestions.strings', value );
-	}
-
-	// Values from older VS Code versions, which VS Code still migrates.
-	RENAMED_SETTINGS.forEach( ( [ oldPath, newPath ] ) => {
-		if ( ! vscodeSettings.has( oldPath ) ) {
-			return;
-		}
-		if ( ! vscodeSettings.has( newPath ) ) {
-			vscodeSettings.set( newPath, vscodeSettings.get( oldPath ) );
-		}
-		vscodeSettings.delete( oldPath );
-	} );
-
-	if ( vscodeSettings.get( 'autoClosingBrackets' ) === false ) {
-		vscodeSettings.set( 'autoClosingBrackets', 'never' );
-		[ 'autoClosingQuotes', 'autoSurround' ].forEach( ( path ) => {
-			if ( ! vscodeSettings.has( path ) ) {
-				vscodeSettings.set( path, 'never' );
-			}
-		} );
-	}
-
-	LEGACY_VALUES.forEach( ( [ path, values ] ) => {
-		const value = vscodeSettings.get( path );
-		const legacyValue = values.find( ( [ oldValue ] ) => oldValue === value );
-		if ( legacyValue ) {
-			vscodeSettings.set( path, legacyValue[ 1 ] );
-		}
-	} );
 
 	return vscodeSettings;
 }
