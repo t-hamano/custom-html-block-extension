@@ -44,6 +44,7 @@ describe( 'importVSCodeSettings', () => {
 				fontFamily: [
 					{ name: 'Fira Code', weight: [ 300, 400, 500, 600, 700 ] },
 					{ name: 'Ubuntu Mono', weight: [ 300, 700 ] },
+					{ name: 'ACME, Mono', weight: [ 400 ] },
 				],
 			},
 		} );
@@ -203,5 +204,30 @@ describe( 'importVSCodeSettings', () => {
 			importSettings( { 'editor.fontFamily': 'Ubuntu Mono', 'editor.fontWeight': 'bold' } )
 				?.editorOptions.fontWeight
 		).toBe( '700' );
+	} );
+
+	it( 'matches quoted font names with commas and the generic monospace', () => {
+		expect(
+			importSettings( { 'editor.fontFamily': "'ACME, Mono', 'Fira Code'" } )?.editorOptions
+				.fontFamily
+		).toBe( 'ACME, Mono' );
+		expect(
+			importSettings( { 'editor.fontFamily': 'Consolas, monospace' } )?.editorOptions.fontFamily
+		).toBe( 'monospace' );
+	} );
+
+	it( 'changes the current weight when the imported font does not have it', () => {
+		const result = importVSCodeSettings(
+			JSON.stringify( { 'editor.fontFamily': 'Ubuntu Mono' } ),
+			editorSettings,
+			{ ...editorOptions, fontWeight: '500' }
+		);
+		expect( result?.editorOptions.fontWeight ).toBe( '300' );
+		expect(
+			importSettings( { 'editor.fontFamily': "'ACME, Mono'" } )?.editorOptions.fontWeight
+		).toBe( '400' );
+		expect(
+			importSettings( { 'editor.fontFamily': 'Ubuntu Mono' } )?.editorOptions.fontWeight
+		).toBe( '300' );
 	} );
 } );
