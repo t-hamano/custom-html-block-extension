@@ -12,6 +12,7 @@ import { FormFileUpload } from '@wordpress/components';
 import { Button, Card, CollapsibleCard, Notice, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
+import { isAppleOS } from '@wordpress/keycodes';
 
 /**
  * Internal dependencies
@@ -122,14 +123,9 @@ export default function VSCodeImportTool() {
 					<Text render={ <p /> }>
 						{ createInterpolateElement(
 							sprintf(
-								/* translators: 1: Path on Windows, 2: Path on macOS, 3: Path on Linux. */
-								__(
-									'The file is located in <code>%1$s</code> on Windows, <code>%2$s</code> on macOS and <code>%3$s</code> on Linux.',
-									'custom-html-block-extension'
-								),
-								'%APPDATA%\\Code\\User\\',
-								'~/Library/Application Support/Code/User/',
-								'~/.config/Code/User/'
+								/* translators: %s: Path to the folder containing settings.json. */
+								__( 'The file is located in <code>%s</code>.', 'custom-html-block-extension' ),
+								isAppleOS() ? '~/Library/Application Support/Code/User/' : '%APPDATA%\\Code\\User\\'
 							),
 							{ code: <code /> }
 						) }
