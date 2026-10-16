@@ -12,7 +12,7 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import { AdminContext } from '../../../index';
 import { getSettings } from '../../../api';
-import { exportEditorConfig } from '../import-tool/utils';
+import { exportEditorConfig } from '../../utils';
 
 export default function ExportTool() {
 	const { setIsWaiting } = useContext( AdminContext );

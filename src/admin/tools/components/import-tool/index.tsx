@@ -18,7 +18,7 @@ import { isAppleOS } from '@wordpress/keycodes';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { importEditorConfig } from './utils';
+import { importEditorConfig } from '../../utils';
 
 function getSettingsFolder() {
 	if ( isAppleOS() ) {

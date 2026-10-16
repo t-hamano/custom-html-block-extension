@@ -6,10 +6,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 /**
  * Internal dependencies
  */
-import {
-	exportEditorConfig,
-	importEditorConfig,
-} from '../../src/admin/tools/components/import-tool/utils';
+import { exportEditorConfig, importEditorConfig } from '../../src/admin/tools/utils';
 import type { EditorOptions, EditorSettings } from '../../src/types';
 
 const editorSettings = {

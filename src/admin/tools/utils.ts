@@ -6,8 +6,8 @@ import { parse, type ParseError } from 'jsonc-parser';
 /**
  * Internal dependencies
  */
-import type { EditorOptions, EditorSettings } from '../../../../types';
-import themes from '../../../../lib/themes';
+import type { EditorOptions, EditorSettings } from '../../types';
+import themes from '../../lib/themes';
 
 // Prefix of the settings that VS Code doesn't have, like an extension's
 // settings, e.g. `customHtmlBlockExtension.theme`.
