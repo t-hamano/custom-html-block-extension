@@ -125,35 +125,20 @@ test.describe( 'Settings REST API', () => {
 		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
 	} );
 
-	test( 'should reject legacy editor options', async ( { requestUtils } ) => {
+	test( 'should reject legacy values and unknown properties', async ( { requestUtils } ) => {
 		// The settings UI only sends values of the current schema. Files exported
 		// by older versions are migrated by the import instead.
-		await expect(
-			requestUtils.rest( {
-				method: 'POST',
-				path: '/wp/v2/settings',
-				data: { [ EDITOR_OPTIONS ]: { hover: false } },
-			} )
-		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
-	} );
-
-	test( 'should remove unknown properties', async ( { requestUtils } ) => {
-		const response = await requestUtils.rest( {
-			method: 'POST',
-			path: '/wp/v2/settings',
-			data: {
-				[ EDITOR_SETTINGS ]: { tabSize: 4, unknownSetting: true },
-				[ EDITOR_OPTIONS ]: {
-					// `localityBonus` is not in the schema.
-					suggest: { insertMode: 'replace', localityBonus: true },
-				},
-			},
-		} );
-
-		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4, theme: 'vs-dark' } );
-		expect( response[ EDITOR_SETTINGS ] ).not.toHaveProperty( 'unknownSetting' );
-		expect( response[ EDITOR_OPTIONS ].suggest ).toMatchObject( { insertMode: 'replace' } );
-		expect( response[ EDITOR_OPTIONS ].suggest ).not.toHaveProperty( 'localityBonus' );
+		const invalidData = [
+			{ [ EDITOR_OPTIONS ]: { hover: false } },
+			{ [ EDITOR_OPTIONS ]: { renderIndentGuides: false } },
+			{ [ EDITOR_OPTIONS ]: { suggest: { localityBonus: true } } },
+			{ [ EDITOR_SETTINGS ]: { unknownSetting: true } },
+		];
+		for ( const data of invalidData ) {
+			await expect(
+				requestUtils.rest( { method: 'POST', path: '/wp/v2/settings', data } )
+			).rejects.toMatchObject( { code: 'rest_invalid_param' } );
+		}
 	} );
 
 	test( 'should save guides options that mix booleans and strings', async ( { requestUtils } ) => {
