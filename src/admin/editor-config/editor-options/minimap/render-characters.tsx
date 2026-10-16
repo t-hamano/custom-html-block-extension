@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapRenderCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Minimap: Render Characters', 'custom-html-block-extension' );
+	const title = __( 'Render Characters', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

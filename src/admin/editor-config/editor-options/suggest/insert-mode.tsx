@@ -16,7 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function SuggestInsertMode() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Suggest: Insert Mode', 'custom-html-block-extension' );
+	const title = __( 'Insert Mode', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

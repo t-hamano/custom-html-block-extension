@@ -16,7 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapShowSlider() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Minimap: Show Slider', 'custom-html-block-extension' );
+	const title = __( 'Show Slider', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

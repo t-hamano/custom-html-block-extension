@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function FindLoop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Find: Loop', 'custom-html-block-extension' );
+	const title = __( 'Loop', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

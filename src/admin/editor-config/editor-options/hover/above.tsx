@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function HoverAbove() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Hover: Above', 'custom-html-block-extension' );
+	const title = __( 'Above', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

@@ -17,7 +17,7 @@ import { toNumber } from '../../../../lib/helper';
 export default function PaddingBottom() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Padding: Bottom (px)', 'custom-html-block-extension' );
+	const title = __( 'Bottom (px)', 'custom-html-block-extension' );
 
 	const isVisible = useSearchVisibility( title );
 

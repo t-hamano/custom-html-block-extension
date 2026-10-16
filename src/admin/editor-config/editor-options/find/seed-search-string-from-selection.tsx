@@ -16,7 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function FindSeedSearchStringFromSelection() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Find: Seed Search String From Selection', 'custom-html-block-extension' );
+	const title = __( 'Seed Search String From Selection', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

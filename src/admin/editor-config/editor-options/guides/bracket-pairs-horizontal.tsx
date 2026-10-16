@@ -18,7 +18,7 @@ type Value = EditorOptions[ 'guides' ][ 'bracketPairsHorizontal' ];
 export default function GuidesBracketPairsHorizontal() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Guides: Bracket Pairs Horizontal', 'custom-html-block-extension' );
+	const title = __( 'Bracket Pairs Horizontal', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

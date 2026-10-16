@@ -16,7 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapAutohide() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Minimap: Autohide', 'custom-html-block-extension' );
+	const title = __( 'Autohide', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

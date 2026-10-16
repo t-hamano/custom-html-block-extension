@@ -17,7 +17,7 @@ export default function ScrollbarHorizontal() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Scrollbar: Horizontal', 'custom-html-block-extension' );
+	const title = __( 'Horizontal', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

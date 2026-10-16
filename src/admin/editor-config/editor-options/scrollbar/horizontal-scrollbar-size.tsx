@@ -36,7 +36,7 @@ export default function ScrollbarHorizontalScrollbarSize() {
 	);
 	const debouncedOnChange = useDebounce( onChangeOption, 200 );
 
-	const title = __( 'Scrollbar: Horizontal Scrollbar Size (px)', 'custom-html-block-extension' );
+	const title = __( 'Horizontal Scrollbar Size (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

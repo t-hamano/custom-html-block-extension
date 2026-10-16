@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function FindAddExtraSpaceOnTop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Find: Add Extra Space On Top', 'custom-html-block-extension' );
+	const title = __( 'Add Extra Space On Top', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

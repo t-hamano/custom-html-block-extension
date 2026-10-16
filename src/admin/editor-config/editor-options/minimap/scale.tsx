@@ -17,7 +17,7 @@ import { toNumber } from '../../../../lib/helper';
 export default function MinimapScale() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Minimap: Scale', 'custom-html-block-extension' );
+	const title = __( 'Scale', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function CommentsInsertSpace() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Comments: Insert Space', 'custom-html-block-extension' );
+	const title = __( 'Insert Space', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

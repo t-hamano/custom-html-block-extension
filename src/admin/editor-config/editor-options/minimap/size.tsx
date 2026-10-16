@@ -16,7 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Minimap: Size', 'custom-html-block-extension' );
+	const title = __( 'Size', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
