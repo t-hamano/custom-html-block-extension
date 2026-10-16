@@ -461,11 +461,14 @@ export default function EditorConfig() {
 										</Stack>
 									</div>
 									<div
+										// Disabled unless a visible scrollbar has arrows.
 										inert={ inertValue(
-											( ! editorOptions.scrollbar.horizontalHasArrows &&
-												! editorOptions.scrollbar.verticalHasArrows ) ||
-												( 'hidden' === editorOptions.scrollbar.horizontal &&
-													'hidden' === editorOptions.scrollbar.vertical )
+											! (
+												( 'hidden' !== editorOptions.scrollbar.horizontal &&
+													editorOptions.scrollbar.horizontalHasArrows ) ||
+												( 'hidden' !== editorOptions.scrollbar.vertical &&
+													editorOptions.scrollbar.verticalHasArrows )
+											)
 										) }
 									>
 										<EditorOptions.ScrollbarArrowSize />
