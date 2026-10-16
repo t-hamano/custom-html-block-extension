@@ -251,16 +251,12 @@ describe( 'importVSCodeSettings', () => {
 		);
 	} );
 
-	it( 'converts an automatic or relative line height to pixels', () => {
+	it( 'imports an automatic, relative or pixel line height as is', () => {
 		const lineHeightOf = ( settings: Record< string, unknown > ) =>
 			importSettings( settings )?.editorOptions.lineHeight;
 		expect( lineHeightOf( { 'editor.lineHeight': 24 } ) ).toBe( 24 );
-		expect( lineHeightOf( { 'editor.lineHeight': 1.5, 'editor.fontSize': 16 } ) ).toBe( 24 );
-		expect( lineHeightOf( { 'editor.lineHeight': 0, 'editor.fontSize': 20 } ) ).toBe( 27 );
-		// VS Code's default font size on Windows and Linux is 14.
-		expect( lineHeightOf( { 'editor.lineHeight': 2 } ) ).toBe( 28 );
-		expect( lineHeightOf( { 'editor.lineHeight': 0.5 } ) ).toBe( 8 );
-		expect( lineHeightOf( { 'editor.lineHeight': 1.5, 'editor.fontSize': 0 } ) ).toBe( 21 );
+		expect( lineHeightOf( { 'editor.lineHeight': 1.5 } ) ).toBe( 1.5 );
+		expect( lineHeightOf( { 'editor.lineHeight': 0 } ) ).toBe( 0 );
 	} );
 
 	it( 'applies grouped overrides that include HTML before the HTML override', () => {
