@@ -4,11 +4,6 @@
 import { parse, type ParseError } from 'jsonc-parser';
 
 /**
- * WordPress dependencies
- */
-import { isAppleOS } from '@wordpress/keycodes';
-
-/**
  * Internal dependencies
  */
 import type { EditorOptions, EditorSettings } from '../../../../types';
@@ -33,9 +28,6 @@ const FONT_WEIGHT_KEYWORDS = new Map< unknown, string >( [
 // Weights of the generic `monospace` font, which usually has only normal and
 // bold faces.
 const MONOSPACE_FONT_WEIGHTS = [ 400, 700 ];
-
-// VS Code treats a line height below this as a multiplier of the font size.
-const MIN_LINE_HEIGHT = 8;
 
 // VS Code's built-in themes that map to Monaco's built-in themes.
 const BUILT_IN_THEMES = new Map( [
@@ -433,23 +425,6 @@ function migrateVSCodeSettings(
 		vscodeSettings.set(
 			'fontWeight',
 			String( fontWeights.includes( 400 ) ? 400 : fontWeights[ 0 ] )
-		);
-	}
-
-	// VS Code accepts `0` (computed from the font size) or a multiplier of the
-	// font size, but this plugin only accepts pixels. Without `editor.fontSize`,
-	// VS Code uses its own default font size, which depends on the OS.
-	const lineHeight = vscodeSettings.get( 'lineHeight' );
-	if ( typeof lineHeight === 'number' && lineHeight < MIN_LINE_HEIGHT ) {
-		const isMac = isAppleOS();
-		const defaultFontSize = isMac ? 12 : 14;
-		const defaultLineHeightRatio = isMac ? 1.5 : 1.35;
-		const fontSize = vscodeSettings.get( 'fontSize' );
-		const baseFontSize = typeof fontSize === 'number' && fontSize > 0 ? fontSize : defaultFontSize;
-		const ratio = lineHeight > 0 ? lineHeight : defaultLineHeightRatio;
-		vscodeSettings.set(
-			'lineHeight',
-			Math.max( MIN_LINE_HEIGHT, Math.round( baseFontSize * ratio ) )
 		);
 	}
 
