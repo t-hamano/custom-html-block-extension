@@ -279,7 +279,7 @@ class Settings {
 		),
 		'lineHeight'                       => array(
 			'type'    => 'number',
-			'minimum' => 10,
+			'minimum' => 0,
 			'maximum' => 60,
 			'default' => 21,
 		),
