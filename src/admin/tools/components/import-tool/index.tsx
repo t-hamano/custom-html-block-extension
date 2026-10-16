@@ -69,35 +69,34 @@ export default function ImportTool() {
 		}
 
 		setIsWaiting( true );
-		const result = await validateEditorConfig( editorConfig )
-			.then( async ( response ) => {
-				// Keep the spinner visible briefly so it does not flash on fast responses.
-				await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
-				return response;
-			} )
-			.catch( ( error: Error ) => {
-				createErrorNotice( error.message, { type: 'snackbar' } );
-				return null;
-			} );
-		setIsWaiting( false );
+		const result = await validateEditorConfig( editorConfig ).catch( ( error: Error ) => {
+			createErrorNotice( error.message, { type: 'snackbar' } );
+			return null;
+		} );
 		if ( ! result ) {
+			setIsWaiting( false );
 			return;
 		}
 
 		const importedCount = countEditorConfig( result );
 		const skippedCount = result.skipped.length;
 		if ( importedCount === 0 ) {
+			setIsWaiting( false );
 			createErrorNotice( __( 'No supported settings were found.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
 			return;
 		}
 
-		// Merge into the latest state, so that edits made while waiting are kept.
+		// Apply the settings before the delay, so that edits made while the
+		// spinner is visible are not overwritten.
 		setEditorSettings( ( current ) => ( { ...current, ...result.editorSettings } ) );
 		setEditorOptions( ( current ) => mergeEditorOptions( current, result.editorOptions ) );
 		// Keep the text if it was changed while waiting.
 		setSettingsText( ( currentText ) => ( currentText === settingsText ? '' : currentText ) );
+		// Keep the spinner visible briefly so it does not flash on fast responses.
+		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+		setIsWaiting( false );
 		const message =
 			skippedCount === 1
 				? sprintf(
