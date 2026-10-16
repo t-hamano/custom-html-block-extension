@@ -84,7 +84,8 @@ class Test_Api extends WP_UnitTestCase {
 			)
 		);
 
-		$response = rest_get_server()->dispatch( $request );
+		$editor_options = get_option( Option::OPTION_NAMES['editor_options'] );
+		$response       = rest_get_server()->dispatch( $request );
 
 		$this->assertSame( 200, $response->get_status() );
 		$this->assertEquals(
@@ -100,7 +101,7 @@ class Test_Api extends WP_UnitTestCase {
 			$response->get_data()
 		);
 		// The editor config should not be saved.
-		$this->assertFalse( get_option( Option::OPTION_NAMES['editor_options'] ) );
+		$this->assertSame( $editor_options, get_option( Option::OPTION_NAMES['editor_options'] ) );
 	}
 
 	public function test_validate_editor_config_route_requires_manage_options() {
