@@ -6,7 +6,12 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 /**
  * Internal dependencies
  */
-import { exportEditorConfig, importEditorConfig } from '../../src/admin/tools/utils';
+import {
+	countEditorConfig,
+	exportEditorConfig,
+	mergeEditorOptions,
+	parseEditorConfig,
+} from '../../src/admin/tools/utils';
 import type { EditorOptions, EditorSettings } from '../../src/types';
 
 const editorSettings = {
@@ -36,10 +41,20 @@ const editorOptions = {
 	occurrencesHighlight: 'off',
 } as EditorOptions;
 
-const importSettings = ( settings: Record< string, unknown > ) =>
-	importEditorConfig( JSON.stringify( settings ), editorSettings, editorOptions );
+// The editor config sent to the server, as JSON encodes it.
+const parseSettings = (
+	settings: Record< string, unknown >,
+	currentEditorOptions: EditorOptions = editorOptions
+) => {
+	const payload = parseEditorConfig( JSON.stringify( settings ), currentEditorOptions );
+	return payload && JSON.parse( JSON.stringify( payload ) );
+};
+const settingsOf = ( settings: Record< string, unknown > ) =>
+	parseSettings( settings )?.editorSettings;
+const optionsOf = ( settings: Record< string, unknown > ) =>
+	parseSettings( settings )?.editorOptions;
 
-describe( 'importEditorConfig', () => {
+describe( 'parseEditorConfig', () => {
 	beforeAll( () => {
 		vi.stubGlobal( 'window', {
 			navigator: { platform: 'Win32' },
@@ -55,117 +70,115 @@ describe( 'importEditorConfig', () => {
 		} );
 	} );
 
-	it( 'imports a bundled theme by name', () => {
-		expect( importSettings( { 'workbench.colorTheme': 'Monokai' } )?.editorSettings.theme ).toBe(
-			'monokai'
-		);
+	it( 'returns null for text that is not a JSON object', () => {
+		expect( parseEditorConfig( '{ "editor.fontSize": ', editorOptions ) ).toBeNull();
+		expect( parseEditorConfig( '[]', editorOptions ) ).toBeNull();
+	} );
+
+	it( 'nests the editor settings and options by option path', () => {
 		expect(
-			importSettings( { 'workbench.colorTheme': 'MagicWB (Amiga)' } )?.editorSettings.theme
-		).toBe( 'magicwb-amiga' );
+			parseSettings( {
+				'editor.tabSize': 4,
+				'editor.fontSize': 20,
+				'editor.minimap.enabled': false,
+				'editor.minimap': { side: 'left' },
+				'editor.rulers': [ 80 ],
+				'workbench.startupEditor': 'none',
+			} )
+		).toEqual( {
+			editorSettings: { tabSize: 4 },
+			editorOptions: { fontSize: 20, minimap: { enabled: false, side: 'left' }, rulers: [ 80 ] },
+		} );
+	} );
+
+	it( 'sends unsupported settings for the server to skip', () => {
+		expect( optionsOf( { 'editor.formatOnSave': true, 'editor.cursorStyle': 3 } ) ).toEqual( {
+			formatOnSave: true,
+			cursorStyle: 3,
+		} );
+	} );
+
+	it( 'sets a __proto__ key as a property', () => {
+		const result = optionsOf( { 'editor.__proto__.polluted': true } );
+		expect( Object.keys( result ) ).toEqual( [ '__proto__' ] );
+		expect( ( {} as Record< string, unknown > ).polluted ).toBeUndefined();
+	} );
+
+	it( 'imports a bundled theme by name', () => {
+		expect( settingsOf( { 'workbench.colorTheme': 'Monokai' } ) ).toEqual( { theme: 'monokai' } );
+		expect( settingsOf( { 'workbench.colorTheme': 'MagicWB (Amiga)' } ) ).toEqual( {
+			theme: 'magicwb-amiga',
+		} );
 	} );
 
 	it( 'maps the default VS Code themes to the built-in themes', () => {
-		expect(
-			importSettings( { 'workbench.colorTheme': 'Default Light Modern' } )?.editorSettings.theme
-		).toBe( 'light' );
-		expect( importSettings( { 'workbench.colorTheme': 'Dark+' } )?.editorSettings.theme ).toBe(
-			'vs-dark'
-		);
-		expect(
-			importSettings( { 'workbench.colorTheme': 'Dark (Visual Studio)' } )?.editorSettings.theme
-		).toBe( 'vs-dark' );
-		expect( importSettings( { 'workbench.colorTheme': 'Light 2026' } )?.editorSettings.theme ).toBe(
+		expect( settingsOf( { 'workbench.colorTheme': 'Default Light Modern' } )?.theme ).toBe(
 			'light'
 		);
+		expect( settingsOf( { 'workbench.colorTheme': 'Dark+' } )?.theme ).toBe( 'vs-dark' );
+		expect( settingsOf( { 'workbench.colorTheme': 'Dark (Visual Studio)' } )?.theme ).toBe(
+			'vs-dark'
+		);
+		expect( settingsOf( { 'workbench.colorTheme': 'Light 2026' } )?.theme ).toBe( 'light' );
 	} );
 
 	it( 'uses the preferred dark theme when the color scheme is detected automatically', () => {
-		const result = importSettings( {
-			'window.autoDetectColorScheme': true,
-			'workbench.colorTheme': 'Monokai',
-			'workbench.preferredDarkColorTheme': 'Solarized Dark',
-		} );
-		expect( result?.editorSettings.theme ).toBe( 'solarized-dark' );
-		expect( result?.importedCount ).toBe( 1 );
+		expect(
+			settingsOf( {
+				'window.autoDetectColorScheme': true,
+				'workbench.colorTheme': 'Monokai',
+				'workbench.preferredDarkColorTheme': 'Solarized Dark',
+			} )
+		).toEqual( { theme: 'solarized-dark' } );
 	} );
 
-	it( 'skips a theme name inherited from Object.prototype', () => {
-		const result = importSettings( { 'workbench.colorTheme': 'constructor' } );
-		expect( result?.editorSettings.theme ).toBe( 'vs-dark' );
-		expect( result?.importedCount ).toBe( 0 );
-	} );
-
-	it( 'skips an unknown theme', () => {
-		const result = importSettings( { 'workbench.colorTheme': 'One Dark Pro' } );
-		expect( result?.editorSettings.theme ).toBe( 'vs-dark' );
-		expect( result?.importedCount ).toBe( 0 );
-		expect( result?.skippedCount ).toBe( 1 );
+	it( 'sends null for an unknown theme, so that it is skipped', () => {
+		expect( settingsOf( { 'workbench.colorTheme': 'constructor' } ) ).toEqual( { theme: null } );
+		expect( settingsOf( { 'workbench.colorTheme': 'One Dark Pro' } ) ).toEqual( { theme: null } );
 	} );
 
 	it( 'ignores theme and Emmet keys that are not VS Code settings', () => {
-		const result = importSettings( { 'editor.theme': 'foo', 'editor.emmet': false } );
-		expect( result?.editorSettings.theme ).toBe( 'vs-dark' );
-		expect( result?.editorSettings.emmet ).toBe( true );
-		expect( result?.importedCount ).toBe( 0 );
+		expect( parseSettings( { 'editor.theme': 'foo', 'editor.emmet': false } ) ).toEqual( {
+			editorSettings: {},
+			editorOptions: {},
+		} );
 	} );
 
 	it( 'turns Emmet off only when abbreviations are never shown', () => {
-		expect(
-			importSettings( { 'emmet.showExpandedAbbreviation': 'never' } )?.editorSettings.emmet
-		).toBe( false );
-		expect(
-			importSettings( { 'emmet.showExpandedAbbreviation': 'always' } )?.editorSettings.emmet
-		).toBe( true );
+		expect( settingsOf( { 'emmet.showExpandedAbbreviation': 'never' } ) ).toEqual( {
+			emmet: false,
+		} );
+		expect( settingsOf( { 'emmet.showExpandedAbbreviation': 'always' } ) ).toEqual( {
+			emmet: true,
+		} );
 	} );
 
 	it( 'turns ligatures on for a font feature settings string', () => {
-		const result = importSettings( { 'editor.fontLigatures': "'ss01', 'cv02'" } );
-		expect( result?.editorOptions.fontLigatures ).toBe( true );
-		expect( result?.importedCount ).toBe( 1 );
-	} );
-
-	it( 'imports a multi-file occurrences highlight as single file', () => {
-		const result = importSettings( { 'editor.occurrencesHighlight': 'multiFile' } );
-		expect( result?.editorOptions.occurrencesHighlight ).toBe( 'singleFile' );
-		expect( result?.importedCount ).toBe( 1 );
+		expect( optionsOf( { 'editor.fontLigatures': "'ss01', 'cv02'" } ) ).toEqual( {
+			fontLigatures: true,
+		} );
 	} );
 
 	it( 'applies a boolean quick suggestions value to all token types', () => {
-		const result = importSettings( { 'editor.quickSuggestions': false } );
-		expect( result?.editorOptions.quickSuggestions ).toEqual( {
-			other: 'off',
-			comments: 'off',
-			strings: 'off',
+		expect( optionsOf( { 'editor.quickSuggestions': false } ) ).toEqual( {
+			quickSuggestions: { other: 'off', comments: 'off', strings: 'off' },
 		} );
-		expect( result?.importedCount ).toBe( 3 );
-		expect( result?.skippedCount ).toBe( 0 );
-	} );
-
-	it( 'imports quick suggestions per token type', () => {
-		const result = importSettings( {
-			'editor.quickSuggestions': { other: 'inline', comments: 'on', strings: 'on' },
-		} );
-		expect( result?.editorOptions.quickSuggestions ).toEqual( {
-			other: 'inline',
-			comments: 'on',
-			strings: 'on',
-		} );
-		expect( result?.importedCount ).toBe( 3 );
 	} );
 
 	it( 'converts settings from older VS Code versions', () => {
-		const result = importSettings( {
-			'editor.hover': false,
-			'editor.renderIndentGuides': false,
-			'editor.experimental.stickyScroll.enabled': true,
-			'editor.autoClosingBrackets': false,
-			'editor.autoSurround': 'quotes',
-			'editor.lineNumbers': false,
-			'editor.cursorBlinking': 'visible',
-			'editor.minimap.autohide': true,
-		} );
-		expect( result?.editorOptions ).toMatchObject( {
-			hover: { enabled: 'off' },
+		expect(
+			optionsOf( {
+				'editor.hover': false,
+				'editor.renderIndentGuides': false,
+				'editor.experimental.stickyScroll.enabled': true,
+				'editor.autoClosingBrackets': false,
+				'editor.autoSurround': 'quotes',
+				'editor.lineNumbers': false,
+				'editor.cursorBlinking': 'visible',
+				'editor.minimap.autohide': true,
+			} )
+		).toEqual( {
+			hover: { enabled: false },
 			guides: { indentation: false },
 			stickyScroll: { enabled: true },
 			autoClosingBrackets: 'never',
@@ -175,138 +188,113 @@ describe( 'importEditorConfig', () => {
 			cursorBlinking: 'solid',
 			minimap: { autohide: 'mouseover' },
 		} );
-		expect( result?.skippedCount ).toBe( 0 );
 	} );
 
 	it( 'keeps a renamed setting over its old name', () => {
-		const result = importSettings( {
-			'editor.renderIndentGuides': false,
-			'editor.guides.indentation': true,
-		} );
-		expect( result?.editorOptions.guides.indentation ).toBe( true );
-		expect( result?.importedCount ).toBe( 1 );
-	} );
-
-	it( 'imports a nested hover setting', () => {
 		expect(
-			importSettings( { 'editor.hover': { enabled: false } } )?.editorOptions.hover.enabled
-		).toBe( 'off' );
+			optionsOf( {
+				'editor.renderIndentGuides': false,
+				'editor.guides.indentation': true,
+			} )
+		).toEqual( { guides: { indentation: true } } );
 	} );
 
 	it( 'imports the first font of a font stack that is available', () => {
-		const result = importSettings( {
-			'editor.fontFamily': "Consolas, 'ubuntu mono', monospace",
+		expect( optionsOf( { 'editor.fontFamily': "Consolas, 'ubuntu mono', monospace" } ) ).toEqual( {
+			fontFamily: 'Ubuntu Mono',
 		} );
-		expect( result?.editorOptions.fontFamily ).toBe( 'Ubuntu Mono' );
-		expect( importSettings( { 'editor.fontFamily': 'Consolas' } )?.skippedCount ).toBe( 1 );
+		expect( optionsOf( { 'editor.fontFamily': 'Consolas' } ) ).toEqual( { fontFamily: null } );
 	} );
 
 	it( 'imports a font weight of the font', () => {
-		expect( importSettings( { 'editor.fontWeight': 'normal' } )?.editorOptions.fontWeight ).toBe(
-			'400'
-		);
-		const result = importSettings( {
-			'editor.fontFamily': 'Ubuntu Mono',
-			'editor.fontWeight': 'normal',
-		} );
-		expect( result?.editorOptions.fontWeight ).toBe( '300' );
-		expect( result?.skippedCount ).toBe( 1 );
+		expect( optionsOf( { 'editor.fontWeight': 'normal' } ) ).toEqual( { fontWeight: '400' } );
 		expect(
-			importSettings( { 'editor.fontFamily': 'Ubuntu Mono', 'editor.fontWeight': 'bold' } )
-				?.editorOptions.fontWeight
-		).toBe( '700' );
+			optionsOf( { 'editor.fontFamily': 'Ubuntu Mono', 'editor.fontWeight': 'normal' } )
+		).toEqual( { fontFamily: 'Ubuntu Mono', fontWeight: null } );
+		expect(
+			optionsOf( { 'editor.fontFamily': 'Ubuntu Mono', 'editor.fontWeight': 'bold' } )
+		).toEqual( { fontFamily: 'Ubuntu Mono', fontWeight: '700' } );
 	} );
 
 	it( 'matches quoted font names with commas and the generic monospace', () => {
-		expect(
-			importSettings( { 'editor.fontFamily': "'ACME, Mono', 'Fira Code'" } )?.editorOptions
-				.fontFamily
-		).toBe( 'ACME, Mono' );
-		expect(
-			importSettings( { 'editor.fontFamily': 'Consolas, monospace' } )?.editorOptions.fontFamily
-		).toBe( 'monospace' );
+		expect( optionsOf( { 'editor.fontFamily': "'ACME, Mono', 'Fira Code'" } )?.fontFamily ).toBe(
+			'ACME, Mono'
+		);
+		expect( optionsOf( { 'editor.fontFamily': 'Consolas, monospace' } )?.fontFamily ).toBe(
+			'monospace'
+		);
 	} );
 
 	it( 'changes the current weight when the imported font does not have it', () => {
-		const result = importEditorConfig(
-			JSON.stringify( { 'editor.fontFamily': 'Ubuntu Mono' } ),
-			editorSettings,
-			{ ...editorOptions, fontWeight: '500' }
-		);
-		expect( result?.editorOptions.fontWeight ).toBe( '300' );
 		expect(
-			importSettings( { 'editor.fontFamily': "'ACME, Mono'" } )?.editorOptions.fontWeight
-		).toBe( '400' );
-		expect(
-			importSettings( { 'editor.fontFamily': 'Ubuntu Mono' } )?.editorOptions.fontWeight
+			parseSettings(
+				{ 'editor.fontFamily': 'Ubuntu Mono' },
+				{ ...editorOptions, fontWeight: '500' }
+			)?.editorOptions.fontWeight
 		).toBe( '300' );
+		expect( optionsOf( { 'editor.fontFamily': "'ACME, Mono'" } )?.fontWeight ).toBe( '400' );
+		expect( optionsOf( { 'editor.fontFamily': 'Fira Code' } )?.fontWeight ).toBeUndefined();
 	} );
 
 	it( 'imports normal and bold weights for the generic monospace', () => {
-		const result = importSettings( {
-			'editor.fontFamily': 'monospace',
-			'editor.fontWeight': 'bold',
-		} );
-		expect( result?.editorOptions.fontWeight ).toBe( '700' );
-		expect( importSettings( { 'editor.fontFamily': 'monospace' } )?.editorOptions.fontWeight ).toBe(
-			'400'
-		);
+		expect(
+			optionsOf( { 'editor.fontFamily': 'monospace', 'editor.fontWeight': 'bold' } )?.fontWeight
+		).toBe( '700' );
+		expect( optionsOf( { 'editor.fontFamily': 'monospace' } )?.fontWeight ).toBe( '400' );
 	} );
 
-	it( 'imports an automatic, relative or pixel line height as is', () => {
-		const lineHeightOf = ( settings: Record< string, unknown > ) =>
-			importSettings( settings )?.editorOptions.lineHeight;
-		expect( lineHeightOf( { 'editor.lineHeight': 24 } ) ).toBe( 24 );
-		expect( lineHeightOf( { 'editor.lineHeight': 1.5 } ) ).toBe( 1.5 );
-		expect( lineHeightOf( { 'editor.lineHeight': 0 } ) ).toBe( 0 );
+	it( 'imports any weight of a font registered without weights', () => {
+		expect(
+			optionsOf( { 'editor.fontFamily': 'No Weights', 'editor.fontWeight': '600' } )
+		).toEqual( { fontFamily: 'No Weights', fontWeight: '600' } );
 	} );
 
 	it( 'applies grouped overrides that include HTML before the HTML override', () => {
-		const result = importSettings( {
-			'editor.fontSize': 20,
-			'[ html ][css]': { 'editor.fontSize': 18, 'editor.tabSize': 3 },
-			'[css][js]': { 'editor.tabSize': 8 },
-			'[ html ]': { 'editor.fontSize': 16 },
-		} );
-		expect( result?.editorOptions.fontSize ).toBe( 16 );
-		expect( result?.editorSettings.tabSize ).toBe( 3 );
+		expect(
+			parseSettings( {
+				'editor.fontSize': 20,
+				'[ html ][css]': { 'editor.fontSize': 18, 'editor.tabSize': 3 },
+				'[css][js]': { 'editor.tabSize': 8 },
+				'[ html ]': { 'editor.fontSize': 16 },
+			} )
+		).toEqual( { editorSettings: { tabSize: 3 }, editorOptions: { fontSize: 16 } } );
 	} );
 
 	it( 'converts each scope before applying the HTML override', () => {
-		const result = importSettings( {
-			'editor.quickSuggestions': false,
-			'editor.hover.enabled': 'on',
-			'[html]': {
-				'editor.quickSuggestions': { comments: 'on' },
-				'editor.hover': false,
-			},
+		expect(
+			optionsOf( {
+				'editor.quickSuggestions': false,
+				'editor.hover.enabled': 'on',
+				'[html]': {
+					'editor.quickSuggestions': { comments: 'on' },
+					'editor.hover': false,
+				},
+			} )
+		).toEqual( {
+			quickSuggestions: { other: 'off', comments: 'on', strings: 'off' },
+			hover: { enabled: false },
 		} );
-		expect( result?.editorOptions.quickSuggestions ).toEqual( {
-			other: 'off',
-			comments: 'on',
-			strings: 'off',
-		} );
-		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
 
-		const autoClosing = importSettings( {
-			'editor.autoClosingBrackets': false,
-			'[html]': { 'editor.autoClosingBrackets': 'always' },
-		} );
-		expect( autoClosing?.editorOptions.autoClosingBrackets ).toBe( 'always' );
-		expect( autoClosing?.importedCount ).toBe( 1 );
+		expect(
+			optionsOf( {
+				'editor.autoClosingBrackets': false,
+				'[html]': { 'editor.autoClosingBrackets': 'always' },
+			} )
+		).toEqual( { autoClosingBrackets: 'always' } );
 	} );
 
 	it( 'prefers HTML-specific settings and ignores other languages', () => {
-		const result = importSettings( {
-			'editor.fontSize': 20,
-			'editor.tabSize': 4,
-			'[html]': { 'editor.fontSize': 16, 'editor.hover': { enabled: false } },
-			'[css]': { 'editor.tabSize': 8 },
+		expect(
+			parseSettings( {
+				'editor.fontSize': 20,
+				'editor.tabSize': 4,
+				'[html]': { 'editor.fontSize': 16, 'editor.hover': { enabled: false } },
+				'[css]': { 'editor.tabSize': 8 },
+			} )
+		).toEqual( {
+			editorSettings: { tabSize: 4 },
+			editorOptions: { fontSize: 16, hover: { enabled: false } },
 		} );
-		expect( result?.editorOptions.fontSize ).toBe( 16 );
-		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
-		expect( result?.editorSettings.tabSize ).toBe( 4 );
-		expect( result?.importedCount ).toBe( 3 );
 	} );
 
 	it( 'restores an exported editor config', () => {
@@ -323,19 +311,10 @@ describe( 'importEditorConfig', () => {
 			'editor.quickSuggestions': { other: 'on', comments: 'off', strings: 'off' },
 		} );
 
-		const result = importSettings( exported );
-		expect( result?.editorSettings ).toEqual( {
-			...editorSettings,
-			theme: 'monokai',
-			tabSize: 4,
-			emmet: false,
+		expect( parseSettings( exported ) ).toEqual( {
+			editorSettings: { ...editorSettings, theme: 'monokai', tabSize: 4, emmet: false },
+			editorOptions: { ...editorOptions, fontSize: 20, hover: { enabled: 'off' } },
 		} );
-		expect( result?.editorOptions ).toEqual( {
-			...editorOptions,
-			fontSize: 20,
-			hover: { enabled: 'off' },
-		} );
-		expect( result?.skippedCount ).toBe( 0 );
 	} );
 
 	it( 'exports and imports a font name with a comma', () => {
@@ -345,7 +324,7 @@ describe( 'importEditorConfig', () => {
 			fontWeight: '400',
 		} );
 		expect( exported[ 'editor.fontFamily' ] ).toBe( "'ACME, Mono'" );
-		expect( importSettings( exported )?.editorOptions.fontFamily ).toBe( 'ACME, Mono' );
+		expect( optionsOf( exported )?.fontFamily ).toBe( 'ACME, Mono' );
 	} );
 
 	it( 'exports a font name with a comma and an apostrophe', () => {
@@ -355,61 +334,63 @@ describe( 'importEditorConfig', () => {
 			fontWeight: '400',
 		} );
 		expect( exported[ 'editor.fontFamily' ] ).toBe( `"Writer's, Mono"` );
-		expect( importSettings( exported )?.editorOptions.fontFamily ).toBe( "Writer's, Mono" );
-	} );
-
-	it( 'imports any weight of a font registered without weights', () => {
-		const result = importSettings( {
-			'editor.fontFamily': 'No Weights',
-			'editor.fontWeight': '600',
-		} );
-		expect( result?.editorOptions.fontFamily ).toBe( 'No Weights' );
-		expect( result?.editorOptions.fontWeight ).toBe( '600' );
-	} );
-
-	it( 'prefers the legacy guide option in a file exported by older versions', () => {
-		const result = importSettings( {
-			editorSettings: {},
-			editorOptions: { renderIndentGuides: false, guides: { indentation: true } },
-		} );
-		expect( result?.editorOptions.guides.indentation ).toBe( false );
+		expect( optionsOf( exported )?.fontFamily ).toBe( "Writer's, Mono" );
 	} );
 
 	it( 'prefers the theme of this plugin over the VS Code theme', () => {
 		expect(
-			importSettings( {
+			settingsOf( {
 				'workbench.colorTheme': 'Monokai',
 				'customHtmlBlockExtension.theme': 'light',
-			} )?.editorSettings.theme
-		).toBe( 'light' );
-		const result = importSettings( { 'customHtmlBlockExtension.theme': 'unknown' } );
-		expect( result?.editorSettings.theme ).toBe( 'vs-dark' );
-		expect( result?.skippedCount ).toBe( 1 );
+			} )
+		).toEqual( { theme: 'light' } );
+		expect( settingsOf( { 'customHtmlBlockExtension.theme': 'unknown' } ) ).toEqual( {
+			theme: null,
+		} );
 	} );
 
-	it( 'imports a file exported by older versions', () => {
-		const result = importEditorConfig(
-			JSON.stringify( {
-				editorSettings: { theme: 'monokai', tabSize: 4, emmet: false },
+	it( 'sends a file exported by older versions as is', () => {
+		const exported = {
+			editorSettings: { theme: 'monokai', tabSize: 4, emmet: false },
+			editorOptions: {
+				fontSize: 20,
+				hover: false,
+				renderIndentGuides: false,
+				rulers: 0,
+			},
+		};
+		expect( parseSettings( exported ) ).toEqual( exported );
+	} );
+} );
+
+describe( 'countEditorConfig', () => {
+	it( 'counts each property of an object option as one value', () => {
+		expect(
+			countEditorConfig( {
+				editorSettings: { tabSize: 4 },
 				editorOptions: {
 					fontSize: 20,
-					hover: false,
-					renderIndentGuides: false,
-					find: { seedSearchStringFromSelection: true },
-					rulers: 0,
+					rulers: [ 80, 120 ],
+					quickSuggestions: { other: 'off', comments: 'off', strings: 'off' },
 				},
-			} ),
-			editorSettings,
-			{ ...editorOptions, rulers: [ 80 ] }
-		);
-		expect( result?.editorSettings ).toMatchObject( {
-			theme: 'monokai',
-			tabSize: 4,
-			emmet: false,
+			} )
+		).toBe( 6 );
+	} );
+} );
+
+describe( 'mergeEditorOptions', () => {
+	it( 'merges object options and replaces other options', () => {
+		expect(
+			mergeEditorOptions( { ...editorOptions, rulers: [ 80 ] } as EditorOptions, {
+				fontSize: 20,
+				rulers: [],
+				quickSuggestions: { comments: 'on' },
+			} )
+		).toEqual( {
+			...editorOptions,
+			fontSize: 20,
+			rulers: [],
+			quickSuggestions: { other: 'on', comments: 'on', strings: 'off' },
 		} );
-		expect( result?.editorOptions.fontSize ).toBe( 20 );
-		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
-		expect( result?.editorOptions.guides.indentation ).toBe( false );
-		expect( result?.editorOptions.rulers ).toEqual( [] );
 	} );
 } );
