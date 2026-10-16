@@ -20,6 +20,16 @@ import { isAppleOS } from '@wordpress/keycodes';
 import { AdminContext } from '../../../index';
 import { importVSCodeSettings } from './utils';
 
+function getSettingsFolder() {
+	if ( isAppleOS() ) {
+		return '~/Library/Application Support/Code/User/';
+	}
+	if ( window.navigator.platform.includes( 'Linux' ) ) {
+		return '~/.config/Code/User/';
+	}
+	return '%APPDATA%\\Code\\User\\';
+}
+
 export default function VSCodeImportTool() {
 	const {
 		editorSettings,
@@ -125,7 +135,7 @@ export default function VSCodeImportTool() {
 							sprintf(
 								/* translators: %s: Path to the folder containing settings.json. */
 								__( 'The file is located in <code>%s</code>.', 'custom-html-block-extension' ),
-								isAppleOS() ? '~/Library/Application Support/Code/User/' : '%APPDATA%\\Code\\User\\'
+								getSettingsFolder()
 							),
 							{ code: <code /> }
 						) }
