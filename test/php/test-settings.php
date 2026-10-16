@@ -190,10 +190,18 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertSame( $expected, $editor_options['minimap'] );
 	}
 
+	/**
+	 * Store editor options as older versions did, without the sanitize callback
+	 * that migrates them on save.
+	 */
+	private function update_legacy_editor_options( $editor_options ) {
+		remove_all_filters( 'sanitize_option_' . Option::OPTION_NAMES['editor_options'] );
+		update_option( Option::OPTION_NAMES['editor_options'], $editor_options );
+	}
+
 	public function test_maybe_upgrade_migrates_legacy_editor_options() {
 		// `hover` was persisted as a boolean by older versions.
-		update_option(
-			Option::OPTION_NAMES['editor_options'],
+		$this->update_legacy_editor_options(
 			array(
 				'hover'              => false,
 				'renderIndentGuides' => false,
@@ -220,7 +228,7 @@ class Test_Settings extends WP_UnitTestCase {
 	}
 
 	public function test_maybe_upgrade_skips_current_version() {
-		update_option( Option::OPTION_NAMES['editor_options'], array( 'hover' => false ) );
+		$this->update_legacy_editor_options( array( 'hover' => false ) );
 		update_option( Option::OPTION_NAMES['version'], CHBE_VERSION );
 
 		Settings::maybe_upgrade();
