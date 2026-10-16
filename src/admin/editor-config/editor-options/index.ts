@@ -1,5 +1,7 @@
 export { default as AcceptSuggestionOnEnter } from './accept-suggestion-on-enter';
 export { default as AutoClosingBrackets } from './auto-closing-brackets';
+export { default as AutoClosingDelete } from './auto-closing-delete';
+export { default as AutoClosingOvertype } from './auto-closing-overtype';
 export { default as AutoClosingQuotes } from './auto-closing-quotes';
 export { default as AutoIndent } from './auto-indent';
 export { default as AutoSurround } from './auto-surround';
@@ -37,6 +39,9 @@ export { default as GuidesHighlightActiveIndentation } from './guides/highlight-
 export { default as GuidesIndentation } from './guides/indentation';
 export { default as HideCursorInOverviewRuler } from './hide-cursor-in-overview-ruler';
 export { default as Hover } from './hover';
+export { default as HoverAbove } from './hover/above';
+export { default as HoverDelay } from './hover/delay';
+export { default as HoverSticky } from './hover/sticky';
 export { default as LetterSpacing } from './letter-spacing';
 export { default as LineDecorationsWidth } from './line-decorations-width';
 export { default as LineHeight } from './line-height';
@@ -91,6 +96,8 @@ export { default as StickyScrollMaxLineCount } from './sticky-scroll/max-line-co
 export { default as StickyTabStops } from './sticky-tab-stops';
 export { default as SuggestFontSize } from './suggest-font-size';
 export { default as SuggestLineHeight } from './suggest-line-height';
+export { default as SuggestInsertMode } from './suggest/insert-mode';
+export { default as SuggestPreview } from './suggest/preview';
 export { default as SuggestShowIcons } from './suggest/show-icons';
 export { default as UnfoldOnClickAfterEndOfLine } from './unfold-on-click-after-end-of-line';
 export { default as UnicodeHighlightAmbiguousCharacters } from './unicode-highlight/ambiguous-characters';

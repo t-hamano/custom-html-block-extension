@@ -21,6 +21,8 @@ export type EditorSettings = {
 export type EditorOptions = {
 	acceptSuggestionOnEnter: 'on' | 'smart' | 'off';
 	autoClosingBrackets: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
+	autoClosingDelete: 'always' | 'auto' | 'never';
+	autoClosingOvertype: 'always' | 'auto' | 'never';
 	autoClosingQuotes: 'always' | 'languageDefined' | 'beforeWhitespace' | 'never';
 	autoIndent: 'none' | 'keep' | 'brackets' | 'advanced' | 'full';
 	autoSurround: 'languageDefined' | 'quotes' | 'brackets' | 'never';
@@ -66,7 +68,10 @@ export type EditorOptions = {
 	};
 	hideCursorInOverviewRuler: boolean;
 	hover: {
+		above: boolean;
+		delay: number;
 		enabled: 'on' | 'off' | 'onKeyboardModifier';
+		sticky: boolean;
 	};
 	letterSpacing: number;
 	lineDecorationsWidth: number;
@@ -135,6 +140,8 @@ export type EditorOptions = {
 	};
 	stickyTabStops: boolean;
 	suggest: {
+		insertMode: 'insert' | 'replace';
+		preview: boolean;
 		showIcons: boolean;
 	};
 	suggestFontSize: number;
