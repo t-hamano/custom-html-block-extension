@@ -540,7 +540,9 @@ export function exportEditorConfig(
 	};
 
 	Object.entries( editorOptions ).forEach( ( [ key, value ] ) => {
-		if ( isPlainObject( value ) ) {
+		// VS Code has a setting for each sub-option, except for
+		// `editor.quickSuggestions`, which is an object.
+		if ( isPlainObject( value ) && key !== 'quickSuggestions' ) {
 			Object.entries( value ).forEach( ( [ subKey, subValue ] ) => {
 				settings[ `editor.${ key }.${ subKey }` ] = subValue;
 			} );

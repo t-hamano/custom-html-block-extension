@@ -320,6 +320,7 @@ describe( 'importEditorConfig', () => {
 			'editor.tabSize': 4,
 			'editor.fontSize': 20,
 			'editor.hover.enabled': 'off',
+			'editor.quickSuggestions': { other: 'on', comments: 'off', strings: 'off' },
 		} );
 
 		const result = importSettings( exported );
