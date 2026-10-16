@@ -21,6 +21,8 @@ class Settings {
 		),
 		'tabSize'           => array(
 			'type'    => 'number',
+			'minimum' => 1,
+			'maximum' => 8,
 			'default' => 2,
 		),
 		'detectIndentation' => array(
@@ -37,30 +39,37 @@ class Settings {
 	const DEFAULT_EDITOR_OPTIONS = array(
 		'acceptSuggestionOnEnter'          => array(
 			'type'    => 'string',
+			'enum'    => array( 'on', 'smart', 'off' ),
 			'default' => 'on',
 		),
 		'autoClosingBrackets'              => array(
 			'type'    => 'string',
+			'enum'    => array( 'always', 'languageDefined', 'beforeWhitespace', 'never' ),
 			'default' => 'always',
 		),
 		'autoClosingDelete'                => array(
 			'type'    => 'string',
+			'enum'    => array( 'always', 'auto', 'never' ),
 			'default' => 'auto',
 		),
 		'autoClosingOvertype'              => array(
 			'type'    => 'string',
+			'enum'    => array( 'always', 'auto', 'never' ),
 			'default' => 'auto',
 		),
 		'autoClosingQuotes'                => array(
 			'type'    => 'string',
+			'enum'    => array( 'always', 'languageDefined', 'beforeWhitespace', 'never' ),
 			'default' => 'always',
 		),
 		'autoIndent'                       => array(
 			'type'    => 'string',
+			'enum'    => array( 'none', 'keep', 'brackets', 'advanced' ),
 			'default' => 'advanced',
 		),
 		'autoSurround'                     => array(
 			'type'    => 'string',
+			'enum'    => array( 'languageDefined', 'quotes', 'brackets', 'never' ),
 			'default' => 'languageDefined',
 		),
 		'bracketPairColorization'          => array(
@@ -99,26 +108,34 @@ class Settings {
 		),
 		'cursorBlinking'                   => array(
 			'type'    => 'string',
+			'enum'    => array( 'blink', 'smooth', 'phase', 'expand', 'solid' ),
 			'default' => 'blink',
 		),
 		'cursorSmoothCaretAnimation'       => array(
 			'type'    => 'string',
+			'enum'    => array( 'on', 'explicit', 'off' ),
 			'default' => 'off',
 		),
 		'cursorStyle'                      => array(
 			'type'    => 'string',
+			'enum'    => array( 'line', 'line-thin', 'block', 'block-outline', 'underline', 'underline-thin' ),
 			'default' => 'line',
 		),
 		'cursorSurroundingLines'           => array(
 			'type'    => 'number',
+			'minimum' => 0,
+			'maximum' => 20,
 			'default' => 0,
 		),
 		'cursorSurroundingLinesStyle'      => array(
 			'type'    => 'string',
+			'enum'    => array( 'default', 'all' ),
 			'default' => 'default',
 		),
 		'cursorWidth'                      => array(
 			'type'    => 'number',
+			'minimum' => 2,
+			'maximum' => 10,
 			'default' => 2,
 		),
 		'dragAndDrop'                      => array(
@@ -131,6 +148,8 @@ class Settings {
 		),
 		'fastScrollSensitivity'            => array(
 			'type'    => 'number',
+			'minimum' => 1,
+			'maximum' => 10,
 			'default' => 5,
 		),
 		'find'                             => array(
@@ -146,6 +165,7 @@ class Settings {
 				),
 				'seedSearchStringFromSelection' => array(
 					'type'    => 'string',
+					'enum'    => array( 'always', 'selection', 'never' ),
 					'default' => 'always',
 				),
 			),
@@ -160,6 +180,7 @@ class Settings {
 		),
 		'foldingStrategy'                  => array(
 			'type'    => 'string',
+			'enum'    => array( 'auto', 'indentation' ),
 			'default' => 'auto',
 		),
 		'fontFamily'                       => array(
@@ -172,6 +193,8 @@ class Settings {
 		),
 		'fontSize'                         => array(
 			'type'    => 'number',
+			'minimum' => 10,
+			'maximum' => 30,
 			'default' => 14,
 		),
 		'fontWeight'                       => array(
@@ -191,10 +214,12 @@ class Settings {
 			'items' => array(
 				'bracketPairs'               => array(
 					'type'    => array( 'boolean', 'string' ),
+					'enum'    => array( true, 'active', false ),
 					'default' => false,
 				),
 				'bracketPairsHorizontal'     => array(
 					'type'    => array( 'boolean', 'string' ),
+					'enum'    => array( true, 'active', false ),
 					'default' => 'active',
 				),
 				'highlightActiveBracketPair' => array(
@@ -203,6 +228,7 @@ class Settings {
 				),
 				'highlightActiveIndentation' => array(
 					'type'    => array( 'boolean', 'string' ),
+					'enum'    => array( true, 'always', false ),
 					'default' => true,
 				),
 				'indentation'                => array(
@@ -224,10 +250,13 @@ class Settings {
 				),
 				'delay'   => array(
 					'type'    => 'number',
+					'minimum' => 0,
+					'maximum' => 3000,
 					'default' => 300,
 				),
 				'enabled' => array(
 					'type'    => 'string',
+					'enum'    => array( 'on', 'onKeyboardModifier', 'off' ),
 					'default' => 'on',
 				),
 				'sticky'  => array(
@@ -238,22 +267,31 @@ class Settings {
 		),
 		'letterSpacing'                    => array(
 			'type'    => 'number',
+			'minimum' => -2,
+			'maximum' => 2,
 			'default' => 0,
 		),
 		'lineDecorationsWidth'             => array(
 			'type'    => 'number',
+			'minimum' => 0,
+			'maximum' => 30,
 			'default' => 0,
 		),
 		'lineHeight'                       => array(
 			'type'    => 'number',
+			'minimum' => 10,
+			'maximum' => 60,
 			'default' => 21,
 		),
 		'lineNumbers'                      => array(
 			'type'    => 'string',
+			'enum'    => array( 'off', 'on', 'relative', 'interval' ),
 			'default' => 'on',
 		),
 		'lineNumbersMinChars'              => array(
 			'type'    => 'number',
+			'minimum' => 1,
+			'maximum' => 10,
 			'default' => 5,
 		),
 		'links'                            => array(
@@ -262,6 +300,7 @@ class Settings {
 		),
 		'matchBrackets'                    => array(
 			'type'    => 'string',
+			'enum'    => array( 'always', 'never', 'near' ),
 			'default' => 'always',
 		),
 		'minimap'                          => array(
@@ -269,6 +308,7 @@ class Settings {
 			'items' => array(
 				'autohide'         => array(
 					'type'    => 'string',
+					'enum'    => array( 'none', 'mouseover', 'scroll' ),
 					'default' => 'none',
 				),
 				'enabled'          => array(
@@ -277,6 +317,8 @@ class Settings {
 				),
 				'maxColumn'        => array(
 					'type'    => 'number',
+					'minimum' => 10,
+					'maximum' => 60,
 					'default' => 60,
 				),
 				'renderCharacters' => array(
@@ -285,32 +327,41 @@ class Settings {
 				),
 				'scale'            => array(
 					'type'    => 'number',
+					'minimum' => 1,
+					'maximum' => 3,
 					'default' => 1,
 				),
 				'showSlider'       => array(
 					'type'    => 'string',
+					'enum'    => array( 'always', 'mouseover' ),
 					'default' => 'mouseover',
 				),
 				'side'             => array(
 					'type'    => 'string',
+					'enum'    => array( 'left', 'right' ),
 					'default' => 'right',
 				),
 				'size'             => array(
 					'type'    => 'string',
+					'enum'    => array( 'proportional', 'fill', 'fit' ),
 					'default' => 'proportional',
 				),
 			),
 		),
 		'multiCursorModifier'              => array(
 			'type'    => 'string',
+			'enum'    => array( 'alt', 'ctrlCmd' ),
 			'default' => 'alt',
 		),
 		'multiCursorPaste'                 => array(
 			'type'    => 'string',
+			'enum'    => array( 'spread', 'full' ),
 			'default' => 'spread',
 		),
 		'mouseWheelScrollSensitivity'      => array(
 			'type'    => 'number',
+			'minimum' => 1,
+			'maximum' => 10,
 			'default' => 1,
 		),
 		'mouseWheelZoom'                   => array(
@@ -319,6 +370,7 @@ class Settings {
 		),
 		'occurrencesHighlight'             => array(
 			'type'    => 'string',
+			'enum'    => array( 'off', 'singleFile' ),
 			'default' => 'singleFile',
 		),
 		'overviewRulerBorder'              => array(
@@ -330,10 +382,14 @@ class Settings {
 			'items' => array(
 				'top'    => array(
 					'type'    => 'number',
+					'minimum' => 0,
+					'maximum' => 50,
 					'default' => 0,
 				),
 				'bottom' => array(
 					'type'    => 'number',
+					'minimum' => 0,
+					'maximum' => 50,
 					'default' => 0,
 				),
 			),
@@ -343,20 +399,25 @@ class Settings {
 			'items' => array(
 				'other'    => array(
 					'type'    => 'string',
+					'enum'    => array( 'on', 'inline', 'off' ),
 					'default' => 'on',
 				),
 				'comments' => array(
 					'type'    => 'string',
+					'enum'    => array( 'on', 'inline', 'off' ),
 					'default' => 'on',
 				),
 				'strings'  => array(
 					'type'    => 'string',
+					'enum'    => array( 'on', 'inline', 'off' ),
 					'default' => 'on',
 				),
 			),
 		),
 		'quickSuggestionsDelay'            => array(
 			'type'    => 'number',
+			'minimum' => 0,
+			'maximum' => 1000,
 			'default' => 10,
 		),
 		'renderControlCharacters'          => array(
@@ -365,10 +426,12 @@ class Settings {
 		),
 		'renderFinalNewline'               => array(
 			'type'    => 'string',
+			'enum'    => array( 'on', 'dimmed', 'off' ),
 			'default' => 'on',
 		),
 		'renderLineHighlight'              => array(
 			'type'    => 'string',
+			'enum'    => array( 'all', 'line', 'gutter', 'none' ),
 			'default' => 'all',
 		),
 		'renderLineHighlightOnlyWhenFocus' => array(
@@ -377,6 +440,7 @@ class Settings {
 		),
 		'renderWhitespace'                 => array(
 			'type'    => 'string',
+			'enum'    => array( 'all', 'boundary', 'selection', 'trailing', 'none' ),
 			'default' => 'none',
 		),
 		'rulers'                           => array(
@@ -415,10 +479,13 @@ class Settings {
 				),
 				'arrowSize'               => array(
 					'type'    => 'number',
+					'minimum' => 5,
+					'maximum' => 50,
 					'default' => 11,
 				),
 				'horizontal'              => array(
 					'type'    => 'string',
+					'enum'    => array( 'auto', 'visible', 'hidden' ),
 					'default' => 'auto',
 				),
 				'horizontalHasArrows'     => array(
@@ -427,6 +494,8 @@ class Settings {
 				),
 				'horizontalScrollbarSize' => array(
 					'type'    => 'number',
+					'minimum' => 5,
+					'maximum' => 30,
 					'default' => 10,
 				),
 				'scrollByPage'            => array(
@@ -439,6 +508,7 @@ class Settings {
 				),
 				'vertical'                => array(
 					'type'    => 'string',
+					'enum'    => array( 'auto', 'visible', 'hidden' ),
 					'default' => 'auto',
 				),
 				'verticalHasArrows'       => array(
@@ -447,12 +517,16 @@ class Settings {
 				),
 				'verticalScrollbarSize'   => array(
 					'type'    => 'number',
+					'minimum' => 5,
+					'maximum' => 30,
 					'default' => 10,
 				),
 			),
 		),
 		'scrollBeyondLastColumn'           => array(
 			'type'    => 'number',
+			'minimum' => 0,
+			'maximum' => 20,
 			'default' => 5,
 		),
 		'scrollBeyondLastLine'             => array(
@@ -469,6 +543,7 @@ class Settings {
 		),
 		'showFoldingControls'              => array(
 			'type'    => 'string',
+			'enum'    => array( 'always', 'mouseover', 'never' ),
 			'default' => 'mouseover',
 		),
 		'smoothScrolling'                  => array(
@@ -484,6 +559,8 @@ class Settings {
 				),
 				'maxLineCount' => array(
 					'type'    => 'number',
+					'minimum' => 1,
+					'maximum' => 20,
 					'default' => 5,
 				),
 			),
@@ -497,6 +574,7 @@ class Settings {
 			'items' => array(
 				'insertMode' => array(
 					'type'    => 'string',
+					'enum'    => array( 'insert', 'replace' ),
 					'default' => 'insert',
 				),
 				'preview'    => array(
@@ -511,10 +589,14 @@ class Settings {
 		),
 		'suggestFontSize'                  => array(
 			'type'    => 'number',
+			'minimum' => 10,
+			'maximum' => 30,
 			'default' => 14,
 		),
 		'suggestLineHeight'                => array(
 			'type'    => 'number',
+			'minimum' => 10,
+			'maximum' => 60,
 			'default' => 21,
 		),
 		'suggestOnTriggerCharacters'       => array(
@@ -548,14 +630,18 @@ class Settings {
 		),
 		'wrappingIndent'                   => array(
 			'type'    => 'string',
+			'enum'    => array( 'none', 'same', 'indent', 'deepIndent' ),
 			'default' => 'none',
 		),
 		'wordWrap'                         => array(
 			'type'    => 'string',
+			'enum'    => array( 'off', 'on', 'wordWrapColumn', 'bounded' ),
 			'default' => 'off',
 		),
 		'wordWrapColumn'                   => array(
 			'type'    => 'number',
+			'minimum' => 20,
+			'maximum' => 200,
 			'default' => 80,
 		),
 		'wordWrapIndicator'                => array(
@@ -850,6 +936,10 @@ class Settings {
 
 	/**
 	 * Build an object schema from the default values.
+	 *
+	 * Besides the type, the allowed values (`enum`) and ranges (`minimum` and
+	 * `maximum`) are kept so that the REST API rejects values the settings UI
+	 * can't produce.
 	 */
 	public static function get_schema( $defaults ) {
 		$properties = array();
@@ -864,8 +954,10 @@ class Settings {
 				'type' => $value['type'],
 			);
 
-			if ( isset( $value['items'] ) ) {
-				$properties[ $key ]['items'] = $value['items'];
+			foreach ( array( 'items', 'enum', 'minimum', 'maximum' ) as $keyword ) {
+				if ( isset( $value[ $keyword ] ) ) {
+					$properties[ $key ][ $keyword ] = $value[ $keyword ];
+				}
 			}
 		}
 
