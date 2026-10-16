@@ -50,12 +50,12 @@ export default function HideCursorInOverviewRuler() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/hide-cursor-in-overview-ruler_1.jpg',
+						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/hide-cursor-in-overview-ruler_2.jpg',
-						isDefault: true,
 					},
 				] }
 				value={ editorOptions.hideCursorInOverviewRuler }

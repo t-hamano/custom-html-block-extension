@@ -311,9 +311,14 @@ test.describe( 'Editor config', () => {
 		} );
 		await page.reload();
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
-		await page
-			.locator( 'input[type="file"][accept="application/json"]' )
-			.setInputFiles( exportedFile );
+		const fileInput = page.locator( 'input[type="file"][accept="application/json"]' );
+		await fileInput.setInputFiles( exportedFile );
+
+		// The exported file should be pretty-printed with tab indentation.
+		const exportedJson = await fileInput.evaluate( ( input: HTMLInputElement ) =>
+			input.files![ 0 ].text()
+		);
+		expect( exportedJson ).toMatch( /^{\n\t"editorSettings": {\n\t\t"/ );
 		await page.getByRole( 'button', { name: 'Import', exact: true } ).click();
 		await expect(
 			page

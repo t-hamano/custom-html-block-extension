@@ -34,12 +34,12 @@ export default function MultiCursorPaste() {
 			label: __( 'Spread', 'custom-html-block-extension' ),
 			image: 'editor-options/multi-cursor-paste_1.gif',
 			value: 'spread',
+			isDefault: true,
 		},
 		{
 			label: __( 'Full', 'custom-html-block-extension' ),
 			image: 'editor-options/multi-cursor-paste_2.gif',
 			value: 'full',
-			isDefault: true,
 		},
 	];
 

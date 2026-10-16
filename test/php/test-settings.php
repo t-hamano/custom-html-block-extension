@@ -41,6 +41,10 @@ class Test_Settings extends WP_UnitTestCase {
 				array( 'occurrencesHighlight' => false ),
 				array( 'occurrencesHighlight' => 'off' ),
 			),
+			'occurrencesHighlight multiFile'           => array(
+				array( 'occurrencesHighlight' => 'multiFile' ),
+				array( 'occurrencesHighlight' => 'singleFile' ),
+			),
 			'renderFinalNewline true'                  => array(
 				array( 'renderFinalNewline' => true ),
 				array( 'renderFinalNewline' => 'on' ),
@@ -134,7 +138,7 @@ class Test_Settings extends WP_UnitTestCase {
 		$current = array(
 			'acceptSuggestionOnEnter'    => 'smart',
 			'cursorSmoothCaretAnimation' => 'explicit',
-			'occurrencesHighlight'       => 'multiFile',
+			'occurrencesHighlight'       => 'singleFile',
 			'renderFinalNewline'         => 'dimmed',
 			'find'                       => array( 'seedSearchStringFromSelection' => 'selection' ),
 			'hover'                      => array( 'enabled' => 'onKeyboardModifier' ),
