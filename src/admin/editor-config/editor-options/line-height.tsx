@@ -25,7 +25,7 @@ export default function LineHeight() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			lineHeight: value ? toNumber( value, 10, 60 ) : 24,
+			lineHeight: value ? toNumber( value, 10, 60 ) : 21,
 		} );
 	};
 
