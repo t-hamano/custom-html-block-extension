@@ -16,7 +16,6 @@ class Api {
 		// Register REST API route
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		// Adjust the plugin settings in `/wp/v2/settings`
-		add_filter( 'rest_pre_dispatch', array( $this, 'prepare_settings_request' ), 10, 3 );
 		add_filter( 'rest_pre_get_setting', array( $this, 'get_setting' ), 10, 3 );
 		add_filter( 'rest_pre_update_setting', array( $this, 'delete_setting' ), 10, 4 );
 	}
@@ -96,36 +95,6 @@ class Api {
 				'skipped'        => array_merge( $editor_settings['skipped'], $editor_options['skipped'] ),
 			)
 		);
-	}
-
-	/**
-	 * Normalize the editor config sent to `/wp/v2/settings` before core validates it.
-	 *
-	 * Files exported by older versions can contain legacy values and properties
-	 * that the settings schema rejects, so migrate them first.
-	 */
-	public function prepare_settings_request( $result, $server, $request ) {
-		if ( '/wp/v2/settings' !== untrailingslashit( $request->get_route() ) || 'GET' === $request->get_method() ) {
-			return $result;
-		}
-
-		$editor_settings = $request->get_param( Option::OPTION_NAMES['editor_settings'] );
-		if ( is_array( $editor_settings ) ) {
-			$request->set_param(
-				Option::OPTION_NAMES['editor_settings'],
-				Settings::remove_unknown_properties( $editor_settings, Settings::DEFAULT_EDITOR_SETTINGS )
-			);
-		}
-
-		$editor_options = $request->get_param( Option::OPTION_NAMES['editor_options'] );
-		if ( is_array( $editor_options ) ) {
-			$request->set_param(
-				Option::OPTION_NAMES['editor_options'],
-				Settings::normalize_editor_options( $editor_options )
-			);
-		}
-
-		return $result;
 	}
 
 	/**

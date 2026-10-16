@@ -788,21 +788,6 @@ class Settings {
 	}
 
 	/**
-	 * Normalize editor options to the current schema: migrate legacy values and
-	 * remove unknown properties. Value types are validated by the REST schema.
-	 */
-	public static function normalize_editor_options( $editor_options ) {
-		if ( ! is_array( $editor_options ) ) {
-			return $editor_options;
-		}
-
-		return self::remove_unknown_properties(
-			self::migrate_legacy_editor_options( $editor_options ),
-			self::DEFAULT_EDITOR_OPTIONS
-		);
-	}
-
-	/**
 	 * Remove properties that are not in the defaults, such as options removed
 	 * in older versions, since the settings schema doesn't allow them.
 	 */
