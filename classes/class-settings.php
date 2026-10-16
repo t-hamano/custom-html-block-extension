@@ -678,7 +678,6 @@ class Settings {
 	public static function get_editor_options() {
 		$default_editor_options = self::get_defaults( self::DEFAULT_EDITOR_OPTIONS );
 
-		// Legacy values are migrated in the database by `maybe_upgrade()`.
 		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
 		$editor_options = array_merge( $default_editor_options, $current_editor_options );
