@@ -224,15 +224,15 @@ class Test_Settings extends WP_UnitTestCase {
 		update_option(
 			Option::OPTION_NAMES['editor_options'],
 			array(
-				'fontSize'             => 40,
-				'cursorStyle'          => 'foo',
-				'occurrencesHighlight' => 'multiFile',
-				'lineNumbers'          => 'relative',
-				'hover'                => array(
+				'fontSize'         => 40,
+				'cursorStyle'      => 'foo',
+				'renderWhitespace' => 'foo',
+				'lineNumbers'      => 'relative',
+				'hover'            => array(
 					'enabled' => 'on',
 					'delay'   => 5000,
 				),
-				'minimap'              => 'foo',
+				'minimap'          => 'foo',
 			)
 		);
 
@@ -241,7 +241,7 @@ class Test_Settings extends WP_UnitTestCase {
 
 		$this->assertSame( $defaults['fontSize'], $editor_options['fontSize'] );
 		$this->assertSame( $defaults['cursorStyle'], $editor_options['cursorStyle'] );
-		$this->assertSame( $defaults['occurrencesHighlight'], $editor_options['occurrencesHighlight'] );
+		$this->assertSame( $defaults['renderWhitespace'], $editor_options['renderWhitespace'] );
 		$this->assertSame( 'relative', $editor_options['lineNumbers'] );
 		$this->assertSame( 'on', $editor_options['hover']['enabled'] );
 		$this->assertSame( $defaults['hover']['delay'], $editor_options['hover']['delay'] );
