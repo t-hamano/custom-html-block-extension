@@ -30,7 +30,7 @@ export default function ExportTool() {
 				( '0' + ( date.getMonth() + 1 ) ).slice( -2 ) +
 				'-' +
 				( '0' + date.getDate() ).slice( -2 );
-			const json = JSON.stringify( { editorSettings, editorOptions } );
+			const json = JSON.stringify( { editorSettings, editorOptions }, null, '\t' );
 			const blob = new window.Blob( [ json ], { type: 'application/json' } );
 			const href = URL.createObjectURL( blob );
 			const link = document.createElement( 'a' );
