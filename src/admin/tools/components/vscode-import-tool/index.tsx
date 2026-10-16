@@ -7,17 +7,28 @@ import type { ChangeEvent } from 'react';
  * WordPress dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { useContext, useState } from '@wordpress/element';
+import { createInterpolateElement, useContext, useState } from '@wordpress/element';
 import { FormFileUpload } from '@wordpress/components';
-import { Button, Card, CollapsibleCard, Stack, Text, TextareaControl } from '@wordpress/ui';
+import { Button, Card, CollapsibleCard, Notice, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
+import { isAppleOS } from '@wordpress/keycodes';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
 import { importVSCodeSettings } from './utils';
+
+function getSettingsFolder() {
+	if ( isAppleOS() ) {
+		return '~/Library/Application Support/Code/User/';
+	}
+	if ( window.navigator.platform.includes( 'Linux' ) ) {
+		return '~/.config/Code/User/';
+	}
+	return '%APPDATA%\\Code\\User\\';
+}
 
 export default function VSCodeImportTool() {
 	const {
@@ -120,11 +131,23 @@ export default function VSCodeImportTool() {
 						) }
 					</Text>
 					<Text render={ <p /> }>
-						{ __(
-							'Not all VS Code settings are supported. Unsupported settings will not be imported.',
-							'custom-html-block-extension'
+						{ createInterpolateElement(
+							sprintf(
+								/* translators: %s: Path to the folder containing settings.json. */
+								__( 'The file is located in <code>%s</code>.', 'custom-html-block-extension' ),
+								getSettingsFolder()
+							),
+							{ code: <code /> }
 						) }
 					</Text>
+					<Notice.Root intent="info" style={ { width: '100%' } }>
+						<Notice.Description>
+							{ __(
+								'Not all VS Code settings are supported. Unsupported settings will not be imported.',
+								'custom-html-block-extension'
+							) }
+						</Notice.Description>
+					</Notice.Root>
 					<FormFileUpload
 						accept=".json"
 						onChange={ onUploadFile }
