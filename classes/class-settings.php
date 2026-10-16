@@ -758,6 +758,13 @@ class Settings {
 			$editor_options['occurrencesHighlight'] = $editor_options['occurrencesHighlight'] ? 'singleFile' : 'off';
 		}
 
+		// 'multiFile' highlights across every editor on the page, which is of little
+		// use for separate Custom HTML blocks, so treat it as 'singleFile'. It can
+		// come in through the VS Code settings import.
+		if ( isset( $editor_options['occurrencesHighlight'] ) && 'multiFile' === $editor_options['occurrencesHighlight'] ) {
+			$editor_options['occurrencesHighlight'] = 'singleFile';
+		}
+
 		// Changed to `'on' | 'off' | 'dimmed'` in monaco-editor 0.35.0.
 		// Upstream change: https://github.com/microsoft/vscode/pull/168220
 		// Type definitions: https://unpkg.com/monaco-editor@0.35.0/esm/vs/editor/editor.api.d.ts
