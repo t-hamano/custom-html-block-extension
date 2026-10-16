@@ -433,10 +433,11 @@ function migrateVSCodeSettings(
 
 	// The weight must be one of the weights of the font.
 	const fontName = vscodeSettings.get( 'fontFamily' ) ?? currentEditorOptions.fontFamily;
-	const fontWeights =
+	const font =
 		fontName === 'monospace'
-			? MONOSPACE_FONT_WEIGHTS
-			: window.chbeObj.fontFamily.find( ( { name } ) => name === fontName )?.weight;
+			? undefined
+			: window.chbeObj.fontFamily.find( ( { name } ) => name === fontName );
+	const fontWeights = fontName === 'monospace' ? MONOSPACE_FONT_WEIGHTS : font?.weight;
 	const fontWeight = vscodeSettings.get( 'fontWeight' );
 	if ( fontWeight !== undefined ) {
 		const weight =
@@ -445,7 +446,10 @@ function migrateVSCodeSettings(
 				: undefined;
 		vscodeSettings.set(
 			'fontWeight',
-			weight && fontWeights?.includes( Number( weight ) ) ? weight : undefined
+			// A font registered without weights accepts any weight.
+			weight && ( fontWeights?.includes( Number( weight ) ) ?? font !== undefined )
+				? weight
+				: undefined
 		);
 	}
 
@@ -548,7 +552,8 @@ export function exportEditorConfig(
 	// VS Code uses a CSS font stack, so quote a font name with a comma.
 	const fontFamily = settings[ 'editor.fontFamily' ];
 	if ( typeof fontFamily === 'string' && fontFamily.includes( ',' ) ) {
-		settings[ 'editor.fontFamily' ] = `'${ fontFamily }'`;
+		const quote = fontFamily.includes( "'" ) ? '"' : "'";
+		settings[ 'editor.fontFamily' ] = `${ quote }${ fontFamily }${ quote }`;
 	}
 
 	return settings;
@@ -567,12 +572,30 @@ function fromLegacyExport( data: Record< string, unknown > ): Record< string, un
 		return null;
 	}
 
+	// Move the legacy guide options into `guides`. Like the server-side
+	// migration, the legacy value wins.
+	const options: Record< string, unknown > = { ...editorOptions };
+	(
+		[
+			[ 'renderIndentGuides', 'indentation' ],
+			[ 'highlightActiveIndentGuide', 'highlightActiveIndentation' ],
+		] as const
+	 ).forEach( ( [ legacyKey, key ] ) => {
+		if ( legacyKey in options ) {
+			options.guides = {
+				...( isPlainObject( options.guides ) ? options.guides : {} ),
+				[ key ]: options[ legacyKey ],
+			};
+			delete options[ legacyKey ];
+		}
+	} );
+
 	const settings: Record< string, unknown > = {};
 	Object.entries( editorSettings ).forEach( ( [ key, value ] ) => {
 		const name = key === 'theme' || key === 'emmet' ? SETTINGS_PREFIX + key : `editor.${ key }`;
 		settings[ name ] = value;
 	} );
-	Object.entries( editorOptions ).forEach( ( [ key, value ] ) => {
+	Object.entries( options ).forEach( ( [ key, value ] ) => {
 		settings[ `editor.${ key }` ] = value;
 	} );
 	// `rulers` previously defaulted to `0` instead of an array.

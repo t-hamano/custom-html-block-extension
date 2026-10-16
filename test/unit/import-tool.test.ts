@@ -48,6 +48,8 @@ describe( 'importEditorConfig', () => {
 					{ name: 'Fira Code', weight: [ 300, 400, 500, 600, 700 ] },
 					{ name: 'Ubuntu Mono', weight: [ 300, 700 ] },
 					{ name: 'ACME, Mono', weight: [ 400 ] },
+					{ name: "Writer's, Mono", weight: [ 400 ] },
+					{ name: 'No Weights' },
 				],
 			},
 		} );
@@ -343,6 +345,33 @@ describe( 'importEditorConfig', () => {
 		} );
 		expect( exported[ 'editor.fontFamily' ] ).toBe( "'ACME, Mono'" );
 		expect( importSettings( exported )?.editorOptions.fontFamily ).toBe( 'ACME, Mono' );
+	} );
+
+	it( 'exports a font name with a comma and an apostrophe', () => {
+		const exported = exportEditorConfig( editorSettings, {
+			...editorOptions,
+			fontFamily: "Writer's, Mono",
+			fontWeight: '400',
+		} );
+		expect( exported[ 'editor.fontFamily' ] ).toBe( `"Writer's, Mono"` );
+		expect( importSettings( exported )?.editorOptions.fontFamily ).toBe( "Writer's, Mono" );
+	} );
+
+	it( 'imports any weight of a font registered without weights', () => {
+		const result = importSettings( {
+			'editor.fontFamily': 'No Weights',
+			'editor.fontWeight': '600',
+		} );
+		expect( result?.editorOptions.fontFamily ).toBe( 'No Weights' );
+		expect( result?.editorOptions.fontWeight ).toBe( '600' );
+	} );
+
+	it( 'prefers the legacy guide option in a file exported by older versions', () => {
+		const result = importSettings( {
+			editorSettings: {},
+			editorOptions: { renderIndentGuides: false, guides: { indentation: true } },
+		} );
+		expect( result?.editorOptions.guides.indentation ).toBe( false );
 	} );
 
 	it( 'prefers the theme of this plugin over the VS Code theme', () => {
