@@ -311,14 +311,13 @@ test.describe( 'Editor config', () => {
 		} );
 		await page.reload();
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
-		const fileInput = page.locator( 'input[type="file"][accept=".json"]' );
-		await fileInput.setInputFiles( exportedFile );
+		await page.locator( 'input[type="file"][accept=".json"]' ).setInputFiles( exportedFile );
 
-		// The exported file should be in the settings.json format, pretty-printed
-		// with tab indentation.
-		const exportedJson = await fileInput.evaluate( ( input: HTMLInputElement ) =>
-			input.files![ 0 ].text()
-		);
+		// The uploaded file should be loaded into the text area. It should be in
+		// the settings.json format, pretty-printed with tab indentation.
+		const textarea = page.getByRole( 'textbox', { name: 'Settings (JSON)' } );
+		await expect( textarea ).not.toHaveValue( '' );
+		const exportedJson = await textarea.inputValue();
 		expect( exportedJson ).toMatch( /^{\n\t"customHtmlBlockExtension\.theme": / );
 		expect( JSON.parse( exportedJson ) ).toMatchObject( {
 			'editor.tabSize': 4,
