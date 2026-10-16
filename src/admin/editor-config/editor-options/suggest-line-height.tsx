@@ -27,7 +27,7 @@ export default function SuggestLineHeight() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			suggestLineHeight: value ? toNumber( value, 10, 60 ) : 24,
+			suggestLineHeight: value ? toNumber( value, 10, 60 ) : 21,
 		} );
 	};
 
