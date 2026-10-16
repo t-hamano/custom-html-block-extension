@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { useCallback, useContext, useState } from '@wordpress/element';
+import { useContext } from '@wordpress/element';
 import { RangeControl } from '@wordpress/components';
 import { Stack } from '@wordpress/ui';
 import { useDebounce } from '@wordpress/compose';
@@ -18,23 +18,9 @@ import { toNumber } from '../../../../lib/helper';
 export default function ScrollbarVerticalScrollbarSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
-	const [ value, setValue ] = useState( editorOptions.scrollbar.verticalScrollbarSize );
 
-	// Debounce the function to avoid refreshing the editor every time the range is changed.
-	const onChangeOption = useCallback(
-		( newValue: number ) => {
-			onRefreshEditor();
-			setEditorOptions( ( prev ) => ( {
-				...prev,
-				scrollbar: {
-					...prev.scrollbar,
-					verticalScrollbarSize: newValue,
-				},
-			} ) );
-		},
-		[ onRefreshEditor, setEditorOptions ]
-	);
-	const debouncedOnChange = useDebounce( onChangeOption, 200 );
+	// Debounce the refresh to avoid refreshing the editor every time the range is changed.
+	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 200 );
 
 	const title = __( 'Vertical scrollbar size', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
@@ -45,8 +31,14 @@ export default function ScrollbarVerticalScrollbarSize() {
 
 	const onChange = ( newValue: number | undefined ) => {
 		const nextValue = newValue ? toNumber( newValue, 5, 30 ) : 10;
-		setValue( nextValue );
-		debouncedOnChange( nextValue );
+		setEditorOptions( ( prev ) => ( {
+			...prev,
+			scrollbar: {
+				...prev.scrollbar,
+				verticalScrollbarSize: nextValue,
+			},
+		} ) );
+		debouncedRefreshEditor();
 	};
 
 	return (
@@ -59,7 +51,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 		>
 			<RangeControl
 				label={ title }
-				value={ value }
+				value={ editorOptions.scrollbar.verticalScrollbarSize }
 				min={ 5 }
 				max={ 30 }
 				allowReset
@@ -88,7 +80,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 						value: 30,
 					},
 				] }
-				value={ value }
+				value={ editorOptions.scrollbar.verticalScrollbarSize }
 			/>
 		</Stack>
 	);
