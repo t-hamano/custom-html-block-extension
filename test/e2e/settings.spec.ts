@@ -311,7 +311,9 @@ test.describe( 'Editor config', () => {
 		} );
 		await page.reload();
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
-		await page.locator( 'input[type="file"]' ).setInputFiles( exportedFile );
+		await page
+			.locator( 'input[type="file"][accept="application/json"]' )
+			.setInputFiles( exportedFile );
 		await page.getByRole( 'button', { name: 'Import', exact: true } ).click();
 		await expect(
 			page
@@ -328,7 +330,9 @@ test.describe( 'Editor config', () => {
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
 
-		await page.locator( 'input[type="file"]' ).setInputFiles( 'readme.txt' );
+		await page
+			.locator( 'input[type="file"][accept="application/json"]' )
+			.setInputFiles( 'readme.txt' );
 		await expect(
 			page
 				.getByRole( 'button', { name: 'Dismiss this notice' } )
@@ -427,6 +431,28 @@ test.describe( 'Editor config', () => {
 			'aria-selected',
 			'true'
 		);
+	} );
+
+	test( 'uploading a VS Code settings file should fill in the settings', async ( {
+		admin,
+		page,
+	} ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		await page.getByRole( 'tab', { name: 'Tools' } ).click();
+
+		const fileInput = page.locator( 'input[type="file"][accept=".json"]' );
+		const textbox = page.getByRole( 'textbox', { name: 'settings.json' } );
+
+		await fileInput.setInputFiles( 'readme.txt' );
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'It is not a JSON file.' } )
+		).toBeVisible();
+		await expect( textbox ).toHaveValue( '' );
+
+		await fileInput.setInputFiles( 'package.json' );
+		await expect( textbox ).toHaveValue( /"name": "custom-html-block-extension"/ );
 	} );
 } );
 
