@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapEnabled() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Minimap: Enabled', 'custom-html-block-extension' );
+	const title = __( 'Minimap', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

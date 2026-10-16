@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function StickyScrollEnabled() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Sticky Scroll: Enabled', 'custom-html-block-extension' );
+	const title = __( 'Sticky Scroll', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
