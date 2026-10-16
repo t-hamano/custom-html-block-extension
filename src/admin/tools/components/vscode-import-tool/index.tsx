@@ -140,7 +140,7 @@ export default function VSCodeImportTool() {
 							{ code: <code /> }
 						) }
 					</Text>
-					<Notice.Root intent="info">
+					<Notice.Root intent="info" style={ { width: '100%' } }>
 						<Notice.Description>
 							{ __(
 								'Not all VS Code settings are supported. Unsupported settings will not be imported.',
