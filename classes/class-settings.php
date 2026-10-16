@@ -749,8 +749,11 @@ class Settings {
 
 		$current_editor_settings = (array) get_option( Option::OPTION_NAMES['editor_settings'] );
 
-		return self::remove_unknown_properties(
-			array_merge( $default_editor_settings, $current_editor_settings ),
+		return self::reset_invalid_values(
+			self::remove_unknown_properties(
+				array_merge( $default_editor_settings, $current_editor_settings ),
+				self::DEFAULT_EDITOR_SETTINGS
+			),
 			self::DEFAULT_EDITOR_SETTINGS
 		);
 	}
@@ -778,7 +781,10 @@ class Settings {
 			}
 		}
 
-		return self::remove_unknown_properties( $editor_options, self::DEFAULT_EDITOR_OPTIONS );
+		return self::reset_invalid_values(
+			self::remove_unknown_properties( $editor_options, self::DEFAULT_EDITOR_OPTIONS ),
+			self::DEFAULT_EDITOR_OPTIONS
+		);
 	}
 
 	/**
@@ -810,6 +816,34 @@ class Settings {
 		foreach ( $defaults as $key => $value ) {
 			if ( 'object' === $value['type'] && isset( $values[ $key ] ) ) {
 				$values[ $key ] = self::remove_unknown_properties( $values[ $key ], $value['items'] );
+			}
+		}
+
+		return $values;
+	}
+
+	/**
+	 * Reset values that don't match the schema to their defaults, such as values
+	 * saved before an allowed value or range was narrowed. Otherwise the REST API
+	 * would return `null` for the whole setting and reject saving it.
+	 */
+	public static function reset_invalid_values( $values, $defaults ) {
+		$schema = self::get_schema( $defaults );
+
+		foreach ( $defaults as $key => $value ) {
+			if ( ! array_key_exists( $key, $values ) ) {
+				continue;
+			}
+
+			if ( 'object' === $value['type'] ) {
+				$values[ $key ] = is_array( $values[ $key ] )
+					? self::reset_invalid_values( $values[ $key ], $value['items'] )
+					: self::get_defaults( $value['items'] );
+				continue;
+			}
+
+			if ( is_wp_error( rest_validate_value_from_schema( $values[ $key ], $schema['properties'][ $key ], $key ) ) ) {
+				$values[ $key ] = $value['default'];
 			}
 		}
 

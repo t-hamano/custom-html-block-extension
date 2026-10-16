@@ -215,6 +215,49 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertArrayNotHasKey( 'renderIndentGuides', $editor_options );
 	}
 
+	public function test_get_editor_options_resets_invalid_values() {
+		// Simulate values saved before the allowed values or ranges were narrowed.
+		update_option(
+			Option::OPTION_NAMES['editor_options'],
+			array(
+				'fontSize'             => 40,
+				'cursorStyle'          => 'foo',
+				'occurrencesHighlight' => 'multiFile',
+				'lineNumbers'          => 'relative',
+				'hover'                => array(
+					'enabled' => 'on',
+					'delay'   => 5000,
+				),
+				'minimap'              => 'foo',
+			)
+		);
+
+		$editor_options = Settings::get_editor_options();
+		$defaults       = Settings::get_defaults( Settings::DEFAULT_EDITOR_OPTIONS );
+
+		$this->assertSame( $defaults['fontSize'], $editor_options['fontSize'] );
+		$this->assertSame( $defaults['cursorStyle'], $editor_options['cursorStyle'] );
+		$this->assertSame( $defaults['occurrencesHighlight'], $editor_options['occurrencesHighlight'] );
+		$this->assertSame( 'relative', $editor_options['lineNumbers'] );
+		$this->assertSame( 'on', $editor_options['hover']['enabled'] );
+		$this->assertSame( $defaults['hover']['delay'], $editor_options['hover']['delay'] );
+		$this->assertSame( $defaults['minimap'], $editor_options['minimap'] );
+		$this->assertTrue(
+			rest_validate_value_from_schema( $editor_options, Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS ) )
+		);
+	}
+
+	public function test_get_editor_settings_resets_invalid_values() {
+		update_option(
+			Option::OPTION_NAMES['editor_settings'],
+			array( 'tabSize' => 20 )
+		);
+
+		$editor_settings = Settings::get_editor_settings();
+
+		$this->assertSame( Settings::DEFAULT_EDITOR_SETTINGS['tabSize']['default'], $editor_settings['tabSize'] );
+	}
+
 	public function test_get_schema() {
 		$schema = Settings::get_schema(
 			array(
