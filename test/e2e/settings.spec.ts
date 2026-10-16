@@ -311,39 +311,37 @@ test.describe( 'Editor config', () => {
 		} );
 		await page.reload();
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
-		const fileInput = page.locator( 'input[type="file"][accept="application/json"]' );
-		await fileInput.setInputFiles( exportedFile );
+		await page.locator( 'input[type="file"][accept=".json"]' ).setInputFiles( exportedFile );
 
-		// The exported file should be pretty-printed with tab indentation.
-		const exportedJson = await fileInput.evaluate( ( input: HTMLInputElement ) =>
-			input.files![ 0 ].text()
-		);
-		expect( exportedJson ).toMatch( /^{\n\t"editorSettings": {\n\t\t"/ );
+		// The uploaded file should be loaded into the text area. It should be in
+		// the settings.json format, pretty-printed with tab indentation.
+		const textarea = page.getByRole( 'textbox', { name: 'Settings (JSON)' } );
+		await expect( textarea ).not.toHaveValue( '' );
+		const exportedJson = await textarea.inputValue();
+		expect( exportedJson ).toMatch( /^{\n\t"customHtmlBlockExtension\.theme": / );
+		expect( JSON.parse( exportedJson ) ).toMatchObject( {
+			'editor.tabSize': 4,
+			'editor.fontSize': 20,
+		} );
 		await page.getByRole( 'button', { name: 'Import', exact: true } ).click();
 		await expect(
 			page
 				.getByRole( 'button', { name: 'Dismiss this notice' } )
-				.filter( { hasText: 'Imported the editor config.' } )
+				.filter( { hasText: 'Check the preview and save the changes.' } )
+		).toBeVisible();
+
+		// The import applies unsaved changes.
+		await page.getByRole( 'tab', { name: 'Editor config' } ).click();
+		await page.getByRole( 'button', { name: 'Save settings' } ).click();
+		await expect(
+			page
+				.getByRole( 'button', { name: 'Dismiss this notice' } )
+				.filter( { hasText: 'Settings saved.' } )
 		).toBeVisible();
 
 		const response = await requestUtils.rest( { path: '/wp/v2/settings' } );
 		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4 } );
 		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( { fontSize: 20 } );
-	} );
-
-	test( 'importing a non-JSON file should show an error notice', async ( { admin, page } ) => {
-		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
-		await page.getByRole( 'tab', { name: 'Tools' } ).click();
-
-		await page
-			.locator( 'input[type="file"][accept="application/json"]' )
-			.setInputFiles( 'readme.txt' );
-		await expect(
-			page
-				.getByRole( 'button', { name: 'Dismiss this notice' } )
-				.filter( { hasText: 'It is not a JSON file.' } )
-		).toBeVisible();
-		await expect( page.getByRole( 'button', { name: 'Import', exact: true } ) ).toBeDisabled();
 	} );
 
 	test( 'VS Code settings should be imported as unsaved changes', async ( {
@@ -354,7 +352,7 @@ test.describe( 'Editor config', () => {
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
 
-		await page.getByRole( 'textbox', { name: 'settings.json' } ).fill( `{
+		await page.getByRole( 'textbox', { name: 'Settings (JSON)' } ).fill( `{
 	// Comments and trailing commas are allowed.
 	"editor.fontSize": 20,
 	"editor.minimap": { "enabled": false },
@@ -372,7 +370,7 @@ test.describe( 'Editor config', () => {
 	"[css]": { "editor.tabSize": 8 },
 	"workbench.startupEditor": "none",
 }` );
-		await page.getByRole( 'button', { name: 'Import VS Code settings' } ).click();
+		await page.getByRole( 'button', { name: 'Import', exact: true } ).click();
 		await expect(
 			page
 				.getByRole( 'button', { name: 'Dismiss this notice' } )
@@ -414,8 +412,8 @@ test.describe( 'Editor config', () => {
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
 
-		const textbox = page.getByRole( 'textbox', { name: 'settings.json' } );
-		const importButton = page.getByRole( 'button', { name: 'Import VS Code settings' } );
+		const textbox = page.getByRole( 'textbox', { name: 'Settings (JSON)' } );
+		const importButton = page.getByRole( 'button', { name: 'Import', exact: true } );
 
 		await textbox.fill( '{ "editor.fontSize": ' );
 		await importButton.click();
@@ -446,7 +444,7 @@ test.describe( 'Editor config', () => {
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
 
 		const fileInput = page.locator( 'input[type="file"][accept=".json"]' );
-		const textbox = page.getByRole( 'textbox', { name: 'settings.json' } );
+		const textbox = page.getByRole( 'textbox', { name: 'Settings (JSON)' } );
 
 		await fileInput.setInputFiles( 'readme.txt' );
 		await expect(

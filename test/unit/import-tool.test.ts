@@ -6,7 +6,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 /**
  * Internal dependencies
  */
-import { importVSCodeSettings } from '../../src/admin/tools/components/vscode-import-tool/utils';
+import { exportEditorConfig, importEditorConfig } from '../../src/admin/tools/utils';
 import type { EditorOptions, EditorSettings } from '../../src/types';
 
 const editorSettings = {
@@ -37,9 +37,9 @@ const editorOptions = {
 } as EditorOptions;
 
 const importSettings = ( settings: Record< string, unknown > ) =>
-	importVSCodeSettings( JSON.stringify( settings ), editorSettings, editorOptions );
+	importEditorConfig( JSON.stringify( settings ), editorSettings, editorOptions );
 
-describe( 'importVSCodeSettings', () => {
+describe( 'importEditorConfig', () => {
 	beforeAll( () => {
 		vi.stubGlobal( 'window', {
 			navigator: { platform: 'Win32' },
@@ -48,6 +48,8 @@ describe( 'importVSCodeSettings', () => {
 					{ name: 'Fira Code', weight: [ 300, 400, 500, 600, 700 ] },
 					{ name: 'Ubuntu Mono', weight: [ 300, 700 ] },
 					{ name: 'ACME, Mono', weight: [ 400 ] },
+					{ name: "Writer's, Mono", weight: [ 400 ] },
+					{ name: 'No Weights' },
 				],
 			},
 		} );
@@ -226,7 +228,7 @@ describe( 'importVSCodeSettings', () => {
 	} );
 
 	it( 'changes the current weight when the imported font does not have it', () => {
-		const result = importVSCodeSettings(
+		const result = importEditorConfig(
 			JSON.stringify( { 'editor.fontFamily': 'Ubuntu Mono' } ),
 			editorSettings,
 			{ ...editorOptions, fontWeight: '500' }
@@ -305,5 +307,109 @@ describe( 'importVSCodeSettings', () => {
 		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
 		expect( result?.editorSettings.tabSize ).toBe( 4 );
 		expect( result?.importedCount ).toBe( 3 );
+	} );
+
+	it( 'restores an exported editor config', () => {
+		const exported = exportEditorConfig(
+			{ ...editorSettings, theme: 'monokai', tabSize: 4, emmet: false },
+			{ ...editorOptions, fontSize: 20, hover: { enabled: 'off' } } as EditorOptions
+		);
+		expect( exported ).toMatchObject( {
+			'customHtmlBlockExtension.theme': 'monokai',
+			'customHtmlBlockExtension.emmet': false,
+			'editor.tabSize': 4,
+			'editor.fontSize': 20,
+			'editor.hover.enabled': 'off',
+			'editor.quickSuggestions': { other: 'on', comments: 'off', strings: 'off' },
+		} );
+
+		const result = importSettings( exported );
+		expect( result?.editorSettings ).toEqual( {
+			...editorSettings,
+			theme: 'monokai',
+			tabSize: 4,
+			emmet: false,
+		} );
+		expect( result?.editorOptions ).toEqual( {
+			...editorOptions,
+			fontSize: 20,
+			hover: { enabled: 'off' },
+		} );
+		expect( result?.skippedCount ).toBe( 0 );
+	} );
+
+	it( 'exports and imports a font name with a comma', () => {
+		const exported = exportEditorConfig( editorSettings, {
+			...editorOptions,
+			fontFamily: 'ACME, Mono',
+			fontWeight: '400',
+		} );
+		expect( exported[ 'editor.fontFamily' ] ).toBe( "'ACME, Mono'" );
+		expect( importSettings( exported )?.editorOptions.fontFamily ).toBe( 'ACME, Mono' );
+	} );
+
+	it( 'exports a font name with a comma and an apostrophe', () => {
+		const exported = exportEditorConfig( editorSettings, {
+			...editorOptions,
+			fontFamily: "Writer's, Mono",
+			fontWeight: '400',
+		} );
+		expect( exported[ 'editor.fontFamily' ] ).toBe( `"Writer's, Mono"` );
+		expect( importSettings( exported )?.editorOptions.fontFamily ).toBe( "Writer's, Mono" );
+	} );
+
+	it( 'imports any weight of a font registered without weights', () => {
+		const result = importSettings( {
+			'editor.fontFamily': 'No Weights',
+			'editor.fontWeight': '600',
+		} );
+		expect( result?.editorOptions.fontFamily ).toBe( 'No Weights' );
+		expect( result?.editorOptions.fontWeight ).toBe( '600' );
+	} );
+
+	it( 'prefers the legacy guide option in a file exported by older versions', () => {
+		const result = importSettings( {
+			editorSettings: {},
+			editorOptions: { renderIndentGuides: false, guides: { indentation: true } },
+		} );
+		expect( result?.editorOptions.guides.indentation ).toBe( false );
+	} );
+
+	it( 'prefers the theme of this plugin over the VS Code theme', () => {
+		expect(
+			importSettings( {
+				'workbench.colorTheme': 'Monokai',
+				'customHtmlBlockExtension.theme': 'light',
+			} )?.editorSettings.theme
+		).toBe( 'light' );
+		const result = importSettings( { 'customHtmlBlockExtension.theme': 'unknown' } );
+		expect( result?.editorSettings.theme ).toBe( 'vs-dark' );
+		expect( result?.skippedCount ).toBe( 1 );
+	} );
+
+	it( 'imports a file exported by older versions', () => {
+		const result = importEditorConfig(
+			JSON.stringify( {
+				editorSettings: { theme: 'monokai', tabSize: 4, emmet: false },
+				editorOptions: {
+					fontSize: 20,
+					hover: false,
+					renderIndentGuides: false,
+					find: { seedSearchStringFromSelection: true },
+					rulers: 0,
+				},
+			} ),
+			editorSettings,
+			{ ...editorOptions, rulers: [ 80 ] }
+		);
+		expect( result?.editorSettings ).toMatchObject( {
+			theme: 'monokai',
+			tabSize: 4,
+			emmet: false,
+		} );
+		expect( result?.editorOptions.fontSize ).toBe( 20 );
+		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
+		expect( result?.editorOptions.guides.indentation ).toBe( false );
+		expect( result?.editorOptions.rulers ).toEqual( [] );
 	} );
 } );
