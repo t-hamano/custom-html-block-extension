@@ -218,6 +218,12 @@ function normalizeEditorSettings( vscodeSettings: Map< string, unknown > ) {
 		vscodeSettings.set( 'fontLigatures', true );
 	}
 
+	// This plugin treats `'multiFile'` as `'singleFile'`, since separate Custom
+	// HTML blocks gain little from highlighting across every editor on the page.
+	if ( vscodeSettings.get( 'occurrencesHighlight' ) === 'multiFile' ) {
+		vscodeSettings.set( 'occurrencesHighlight', 'singleFile' );
+	}
+
 	// VS Code accepts a boolean that applies to all token types.
 	const quickSuggestions = vscodeSettings.get( 'quickSuggestions' );
 	if ( typeof quickSuggestions === 'boolean' ) {

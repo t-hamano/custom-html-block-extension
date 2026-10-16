@@ -33,6 +33,7 @@ const editorOptions = {
 	lineNumbers: 'on',
 	cursorBlinking: 'blink',
 	minimap: { autohide: 'none' },
+	occurrencesHighlight: 'off',
 } as EditorOptions;
 
 const importSettings = ( settings: Record< string, unknown > ) =>
@@ -118,6 +119,12 @@ describe( 'importVSCodeSettings', () => {
 	it( 'turns ligatures on for a font feature settings string', () => {
 		const result = importSettings( { 'editor.fontLigatures': "'ss01', 'cv02'" } );
 		expect( result?.editorOptions.fontLigatures ).toBe( true );
+		expect( result?.importedCount ).toBe( 1 );
+	} );
+
+	it( 'imports a multi-file occurrences highlight as single file', () => {
+		const result = importSettings( { 'editor.occurrencesHighlight': 'multiFile' } );
+		expect( result?.editorOptions.occurrencesHighlight ).toBe( 'singleFile' );
 		expect( result?.importedCount ).toBe( 1 );
 	} );
 
