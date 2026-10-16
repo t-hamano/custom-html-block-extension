@@ -15,7 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function LineHeight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Line height (px)', 'custom-html-block-extension' );
+	const title = __( 'Line height', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -25,7 +25,7 @@ export default function LineHeight() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			lineHeight: value ? toNumber( value, 10, 60 ) : 21,
+			lineHeight: value === undefined ? 21 : toNumber( value, 0, 60 ),
 		} );
 	};
 
@@ -34,10 +34,15 @@ export default function LineHeight() {
 			<RangeControl
 				label={ title }
 				value={ editorOptions.lineHeight }
-				min={ 10 }
+				min={ 0 }
 				max={ 60 }
+				step={ 0.1 }
 				allowReset
 				onChange={ onChange }
+				help={ __(
+					'0 computes the line height from the font size. Values less than 8 are a multiplier of the font size. Values of 8 or more are pixels.',
+					'custom-html-block-extension'
+				) }
 			/>
 		</div>
 	);
