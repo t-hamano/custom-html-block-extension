@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function MatchBrackets() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight matching brackets', 'custom-html-block-extension' );
+	const title = __( 'Match Brackets', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

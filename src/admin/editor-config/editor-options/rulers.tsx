@@ -32,7 +32,7 @@ const toRuler = ( column: number, color?: string ): EditorOptions[ 'rulers' ][ n
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Vertical line position', 'custom-html-block-extension' );
+	const title = __( 'Rulers', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

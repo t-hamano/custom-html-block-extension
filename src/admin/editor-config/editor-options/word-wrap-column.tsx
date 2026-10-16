@@ -17,7 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function WordWrapColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Word wrap column', 'custom-html-block-extension' );
+	const title = __( 'Word Wrap Column', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

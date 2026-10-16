@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function Folding() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable code folding', 'custom-html-block-extension' );
+	const title = __( 'Folding', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -46,7 +46,7 @@ export default function Folding() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'You can fold regions of source code using the folding icons between line numbers and line start. Move the mouse over the folding icon and click to fold and unfold regions. Use Shift + Click on the folding icon to fold or unfold the region and all regions inside.',
+					'Controls whether the editor has code folding enabled.',
 					'custom-html-block-extension'
 				) }
 				isToggle

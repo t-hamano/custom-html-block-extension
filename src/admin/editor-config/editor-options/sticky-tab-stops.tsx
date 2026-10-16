@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function StickyTabStops() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Select according to spaces for indentation', 'custom-html-block-extension' );
+	const title = __( 'Sticky Tab Stops', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

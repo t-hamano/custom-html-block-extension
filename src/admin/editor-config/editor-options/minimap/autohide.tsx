@@ -16,7 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapAutohide() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Autohide minimap', 'custom-html-block-extension' );
+	const title = __( 'Minimap: Autohide', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -71,10 +71,7 @@ export default function MinimapAutohide() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				description={ __(
-					'Hide the minimap until the mouse is over it or the editor is scrolled.',
-					'custom-html-block-extension'
-				) }
+				description={ __( 'Control the rendering of minimap.', 'custom-html-block-extension' ) }
 				colCount="3"
 				items={ items }
 				value={ editorOptions.minimap.autohide }

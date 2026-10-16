@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function UnicodeHighlightAmbiguousCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight ambiguous characters', 'custom-html-block-extension' );
+	const title = __( 'Unicode Highlight: Ambiguous Characters', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

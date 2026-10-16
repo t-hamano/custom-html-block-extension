@@ -15,10 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function UseTabStops() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Insert or delete whitespace according to tab position',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Use Tab Stops', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

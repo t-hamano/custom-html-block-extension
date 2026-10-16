@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function SuggestShowIcons() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show icons', 'custom-html-block-extension' );
+	const title = __( 'Suggest: Show Icons', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

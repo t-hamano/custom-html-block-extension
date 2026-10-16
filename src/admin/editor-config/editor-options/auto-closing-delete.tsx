@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingDelete() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Delete closing brackets and quotes together', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Delete', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

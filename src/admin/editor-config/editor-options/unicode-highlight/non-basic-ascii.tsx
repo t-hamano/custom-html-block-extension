@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function UnicodeHighlightNonBasicAscii() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight non-ASCII characters', 'custom-html-block-extension' );
+	const title = __( 'Unicode Highlight: Non Basic ASCII', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -49,7 +49,7 @@ export default function UnicodeHighlightNonBasicAscii() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'All characters other than basic ASCII characters, including Japanese and accented letters, are surrounded by a border.',
+					'Controls whether all non-basic ASCII characters are highlighted. Only characters between U+0020 and U+007E, tab, line-feed and carriage-return are considered basic ASCII.',
 					'custom-html-block-extension'
 				) }
 				isToggle

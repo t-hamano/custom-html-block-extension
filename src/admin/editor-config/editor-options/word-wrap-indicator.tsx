@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function WordWrapIndicator() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show word wrap indicator', 'custom-html-block-extension' );
+	const title = __( 'Word Wrap Indicator', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

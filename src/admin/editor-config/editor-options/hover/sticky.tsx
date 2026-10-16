@@ -15,10 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function HoverSticky() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Keep hover hints open while hovering over them',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Hover: Sticky', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -52,7 +49,7 @@ export default function HoverSticky() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Hover hints stay open when the mouse moves onto them, so you can select their text or click their links.',
+					'Controls whether the hover should remain visible when mouse is moved over it.',
 					'custom-html-block-extension'
 				) }
 				isToggle

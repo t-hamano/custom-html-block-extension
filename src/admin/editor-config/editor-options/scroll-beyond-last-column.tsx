@@ -17,10 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function ScrollBeyondLastColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Number of columns to scroll past the last column',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Scroll Beyond Last Column', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

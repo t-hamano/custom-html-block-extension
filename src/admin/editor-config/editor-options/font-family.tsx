@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function FontFamily() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Font family', 'custom-html-block-extension' );
+	const title = __( 'Font Family', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

@@ -19,10 +19,7 @@ import ItemHelp from '../components/item-help';
 export default function MultiCursorPaste() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Behavior when pasting text with matching line and cursor counts',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Multi Cursor Paste', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

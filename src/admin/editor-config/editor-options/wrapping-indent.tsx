@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function WrappingIndent() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Word wrap indent', 'custom-html-block-extension' );
+	const title = __( 'Wrapping Indent', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

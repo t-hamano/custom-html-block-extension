@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function CursorBlinking() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Cursor animation style', 'custom-html-block-extension' );
+	const title = __( 'Cursor Blinking', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

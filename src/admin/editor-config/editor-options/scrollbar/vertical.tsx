@@ -17,7 +17,7 @@ export default function ScrollbarVertical() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Vertical scrollbar', 'custom-html-block-extension' );
+	const title = __( 'Scrollbar: Vertical', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

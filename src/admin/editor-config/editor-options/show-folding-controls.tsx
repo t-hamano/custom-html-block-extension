@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function ShowFoldingControls() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show code folding icon', 'custom-html-block-extension' );
+	const title = __( 'Show Folding Controls', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

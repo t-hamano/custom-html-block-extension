@@ -15,7 +15,10 @@ import ItemHelp from '../../components/item-help';
 export default function BracketPairColorizationIndependentColorPoolPerBracketType() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Use separate colors for each bracket type', 'custom-html-block-extension' );
+	const title = __(
+		'Bracket Pair Colorization: Independent Color Pool Per Bracket Type',
+		'custom-html-block-extension'
+	);
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

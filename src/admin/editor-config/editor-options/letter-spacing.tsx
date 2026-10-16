@@ -15,7 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function LetterSpacing() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Letter spacing (px)', 'custom-html-block-extension' );
+	const title = __( 'Letter Spacing (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

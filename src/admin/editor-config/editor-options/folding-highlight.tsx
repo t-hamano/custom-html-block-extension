@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function FoldingHighlight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable highlight for folded codes', 'custom-html-block-extension' );
+	const title = __( 'Folding Highlight', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

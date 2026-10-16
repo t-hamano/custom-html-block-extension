@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function WordWrap() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Word wrap', 'custom-html-block-extension' );
+	const title = __( 'Word Wrap', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -28,30 +28,27 @@ export default function WordWrap() {
 			label: __( 'Off', 'custom-html-block-extension' ),
 			value: 'off',
 			image: 'editor-options/word-wrap_1.gif',
-			description: __( 'The lines will never wrap.', 'custom-html-block-extension' ),
+			description: __( 'Lines will never wrap.', 'custom-html-block-extension' ),
 			isDefault: true,
 		},
 		{
 			label: __( 'On', 'custom-html-block-extension' ),
 			value: 'on',
 			image: 'editor-options/word-wrap_2.gif',
-			description: __( 'The lines will always wrap.', 'custom-html-block-extension' ),
+			description: __( 'Lines will wrap at the viewport width.', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Depends on word wrap column', 'custom-html-block-extension' ),
 			value: 'wordWrapColumn',
 			image: 'editor-options/word-wrap_3.gif',
-			description: __(
-				'The lines will be wrapped according to "Word wrap column" setting.',
-				'custom-html-block-extension'
-			),
+			description: __( 'Lines will wrap at "Word Wrap Column".', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Flexible', 'custom-html-block-extension' ),
 			value: 'bounded',
 			image: 'editor-options/word-wrap_4.gif',
 			description: __(
-				"The lines will be wrapped at the lesser of editor's width or word wrap column setting.",
+				'Lines will wrap at the minimum of viewport and "Word Wrap Column".',
 				'custom-html-block-extension'
 			),
 		},

@@ -15,10 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function Links() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Enable detecting links and making them clickable',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Links', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

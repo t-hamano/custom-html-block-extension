@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapRenderCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Display actual characters', 'custom-html-block-extension' );
+	const title = __( 'Minimap: Render Characters', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -49,7 +49,7 @@ export default function MinimapRenderCharacters() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'By default, the minimap shows blocks. You can change this to show actual characters.',
+					'Render the actual characters on a line as opposed to color blocks.',
 					'custom-html-block-extension'
 				) }
 				items={ [

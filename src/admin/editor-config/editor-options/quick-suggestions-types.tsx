@@ -20,11 +20,11 @@ type Value = EditorOptions[ 'quickSuggestions' ][ TokenType ];
 export default function QuickSuggestionsTypes() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Suggestions while typing', 'custom-html-block-extension' );
+	const title = __( 'Quick Suggestions', 'custom-html-block-extension' );
 	const tokenTypes: { label: string; value: TokenType }[] = [
-		{ label: __( 'Suggestions in code', 'custom-html-block-extension' ), value: 'other' },
-		{ label: __( 'Suggestions in comments', 'custom-html-block-extension' ), value: 'comments' },
-		{ label: __( 'Suggestions in strings', 'custom-html-block-extension' ), value: 'strings' },
+		{ label: __( 'Other', 'custom-html-block-extension' ), value: 'other' },
+		{ label: __( 'Comments', 'custom-html-block-extension' ), value: 'comments' },
+		{ label: __( 'Strings', 'custom-html-block-extension' ), value: 'strings' },
 	];
 	// The title only appears in the help dialog, so also match the labels shown.
 	const isVisible = useSearchVisibility(
@@ -44,7 +44,7 @@ export default function QuickSuggestionsTypes() {
 			image: 'editor-options/quick-suggestions-types_1.gif',
 			isDefault: true,
 			description: __(
-				'Suggestions are shown in a list below the cursor while typing.',
+				'Quick suggestions show inside the suggest widget',
 				'custom-html-block-extension'
 			),
 		},
@@ -52,10 +52,7 @@ export default function QuickSuggestionsTypes() {
 			label: __( 'Show as ghost text', 'custom-html-block-extension' ),
 			value: 'inline',
 			image: 'editor-options/quick-suggestions-types_2.gif',
-			description: __(
-				'The first suggestion is shown in gray after the cursor. Press Tab to accept it.',
-				'custom-html-block-extension'
-			),
+			description: __( 'Quick suggestions show as ghost text', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Disable', 'custom-html-block-extension' ),
@@ -126,7 +123,7 @@ export default function QuickSuggestionsTypes() {
 			<ItemHelp
 				title={ title }
 				description={ __(
-					'Choose how suggestions are shown while typing, separately for code, comments, and strings such as attribute values.',
+					'Controls whether suggestions should automatically show up while typing. This can be controlled for typing in comments, strings, and other code. Quick suggestion can be configured to show as ghost text or with the suggest widget.',
 					'custom-html-block-extension'
 				) }
 				items={ items }

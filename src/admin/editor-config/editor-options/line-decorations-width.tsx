@@ -17,7 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function LineDecorationsWidth() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Folding area width (px)', 'custom-html-block-extension' );
+	const title = __( 'Line Decorations Width (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

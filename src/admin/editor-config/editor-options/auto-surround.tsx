@@ -16,10 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoSurround() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Automatically surround selection with quotes or brackets',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Auto Surround', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

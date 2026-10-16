@@ -20,7 +20,7 @@ import ItemHelp from '../components/item-help';
 export default function MultiCursorModifier() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Multi cursor modifier key', 'custom-html-block-extension' );
+	const title = __( 'Multi Cursor Modifier', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -72,7 +72,7 @@ export default function MultiCursorModifier() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'You can use multiple cursors for faster editing. Sets the key for applying multiple cursors with modifier key + Click.',
+					'The modifier to be used to add multiple cursors with the mouse. The Go to Definition and Open Link mouse gestures will adapt such that they do not conflict with the multicursor modifier.',
 					'custom-html-block-extension'
 				) }
 				image="editor-options/multi-cursor-modifier.gif"

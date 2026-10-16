@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function StickyScrollEnabled() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Sticky scroll', 'custom-html-block-extension' );
+	const title = __( 'Sticky Scroll: Enabled', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -49,7 +49,7 @@ export default function StickyScrollEnabled() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'While scrolling, the start lines of the scopes containing the top of the editor, such as parent tags, stay at the top of the editor. Click a pinned line to jump to it.',
+					'Shows the nested current scopes during the scroll at the top of the editor.',
 					'custom-html-block-extension'
 				) }
 				isToggle

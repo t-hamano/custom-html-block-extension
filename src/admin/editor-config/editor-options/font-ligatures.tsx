@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function FontLigatures() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable font ligatures', 'custom-html-block-extension' );
+	const title = __( 'Font Ligatures', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -64,7 +64,7 @@ export default function FontLigatures() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Ligatures are special characters in a font that combine two or more characters into one. Only Fira Code font supports ligatures.',
+					"Enables/Disables font ligatures ('calt' and 'liga' font features). Only Fira Code font supports ligatures.",
 					'custom-html-block-extension'
 				) }
 				items={ items }

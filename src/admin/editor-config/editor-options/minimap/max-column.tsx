@@ -17,7 +17,7 @@ import { toNumber } from '../../../../lib/helper';
 export default function MinimapMaxColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Width', 'custom-html-block-extension' );
+	const title = __( 'Minimap: Max Column', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

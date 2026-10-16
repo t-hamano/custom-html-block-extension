@@ -16,7 +16,7 @@ export default function ScrollbarScrollByPage() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Scroll by page', 'custom-html-block-extension' );
+	const title = __( 'Scrollbar: Scroll By Page', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -51,7 +51,7 @@ export default function ScrollbarScrollByPage() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Scroll by page when the scroll bar is clicked.',
+					'Controls whether clicks scroll by page or jump to click position.',
 					'custom-html-block-extension'
 				) }
 				isToggle

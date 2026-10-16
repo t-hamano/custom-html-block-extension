@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function FormatOnPaste() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable format on paste', 'custom-html-block-extension' );
+	const title = __( 'Format On Paste', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

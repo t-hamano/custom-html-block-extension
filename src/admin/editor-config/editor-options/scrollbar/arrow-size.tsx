@@ -36,7 +36,7 @@ export default function ScrollbarArrowSize() {
 	);
 	const debouncedOnChange = useDebounce( onChangeOption, 200 );
 
-	const title = __( 'Arrow area size', 'custom-html-block-extension' );
+	const title = __( 'Scrollbar: Arrow Size (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

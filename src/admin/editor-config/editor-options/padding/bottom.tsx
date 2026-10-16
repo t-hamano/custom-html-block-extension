@@ -17,7 +17,7 @@ import { toNumber } from '../../../../lib/helper';
 export default function PaddingBottom() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Padding bottom (px)', 'custom-html-block-extension' );
+	const title = __( 'Padding: Bottom (px)', 'custom-html-block-extension' );
 
 	const isVisible = useSearchVisibility( title );
 
@@ -55,7 +55,7 @@ export default function PaddingBottom() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Spacing between bottom edge of editor and last line. This setting will not work if "Scroll past the last line" is enabled in "Mouse and Scroll" category.',
+					'Controls the amount of space between the bottom edge of the editor and the last line.',
 					'custom-html-block-extension'
 				) }
 				image="editor-options/padding/bottom.gif"

@@ -17,7 +17,7 @@ export default function AutoIndent() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Auto indent', 'custom-html-block-extension' );
+	const title = __( 'Auto Indent', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

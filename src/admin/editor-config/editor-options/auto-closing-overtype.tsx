@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingOvertype() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Type over closing brackets and quotes', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Overtype', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

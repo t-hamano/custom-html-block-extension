@@ -36,7 +36,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 	);
 	const debouncedOnChange = useDebounce( onChangeOption, 200 );
 
-	const title = __( 'Vertical scrollbar size', 'custom-html-block-extension' );
+	const title = __( 'Scrollbar: Vertical Scrollbar Size (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

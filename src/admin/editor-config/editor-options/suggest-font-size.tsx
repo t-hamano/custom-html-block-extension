@@ -17,7 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function SuggestFontSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Suggest font size (px)', 'custom-html-block-extension' );
+	const title = __( 'Suggest Font Size (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

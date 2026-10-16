@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function OverviewRulerBorder() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show border on scrollbar', 'custom-html-block-extension' );
+	const title = __( 'Overview Ruler Border', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

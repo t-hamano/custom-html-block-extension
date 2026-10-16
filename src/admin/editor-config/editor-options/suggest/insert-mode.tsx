@@ -16,10 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function SuggestInsertMode() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Accepting a suggestion in the middle of a word',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Suggest: Insert Mode', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -33,7 +30,7 @@ export default function SuggestInsertMode() {
 			isDefault: true,
 			image: 'editor-options/suggest/insert-mode_1.gif',
 			description: __(
-				'The suggestion is inserted, and the rest of the word after the cursor is kept.',
+				'Insert suggestion without overwriting text right of the cursor.',
 				'custom-html-block-extension'
 			),
 		},
@@ -42,7 +39,7 @@ export default function SuggestInsertMode() {
 			value: 'replace',
 			image: 'editor-options/suggest/insert-mode_2.gif',
 			description: __(
-				'The suggestion replaces the rest of the word after the cursor.',
+				'Insert suggestion and overwrite text right of the cursor.',
 				'custom-html-block-extension'
 			),
 		},

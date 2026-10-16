@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingQuotes() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Auto closing quotes', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Quotes', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function RoundedSelection() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Rounding corners of selection', 'custom-html-block-extension' );
+	const title = __( 'Rounded Selection', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

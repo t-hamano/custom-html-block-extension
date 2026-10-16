@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function HoverAbove() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show hover hints above the line', 'custom-html-block-extension' );
+	const title = __( 'Hover: Above', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -49,7 +49,7 @@ export default function HoverAbove() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Hover hints are shown above the line if there is space. When disabled, they are shown below the line.',
+					"Prefer showing hovers above the line, if there's space.",
 					'custom-html-block-extension'
 				) }
 				items={ [

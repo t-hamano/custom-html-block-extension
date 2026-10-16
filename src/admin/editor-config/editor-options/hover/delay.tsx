@@ -19,7 +19,7 @@ const DEFAULT_DELAY = 300;
 export default function HoverDelay() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Time until hover hints are displayed (ms)', 'custom-html-block-extension' );
+	const title = __( 'Hover: Delay (ms)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

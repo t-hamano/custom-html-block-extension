@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function CopyWithSyntaxHighlighting() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Copy with syntax highlighting', 'custom-html-block-extension' );
+	const title = __( 'Copy With Syntax Highlighting', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

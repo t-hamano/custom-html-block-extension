@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function RenderControlCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show rendering of control characters', 'custom-html-block-extension' );
+	const title = __( 'Render Control Characters', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

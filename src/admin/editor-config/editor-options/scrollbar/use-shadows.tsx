@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function ScrollbarUseShadows() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show subtle shadows to the left & top', 'custom-html-block-extension' );
+	const title = __( 'Scrollbar: Use Shadows', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

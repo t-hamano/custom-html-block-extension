@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function UnicodeHighlightInvisibleCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight invisible characters', 'custom-html-block-extension' );
+	const title = __( 'Unicode Highlight: Invisible Characters', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -49,7 +49,7 @@ export default function UnicodeHighlightInvisibleCharacters() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Characters that are not visible, such as the zero-width space, are surrounded by a border.',
+					'Controls whether characters that just reserve space or have no width at all are highlighted.',
 					'custom-html-block-extension'
 				) }
 				isToggle

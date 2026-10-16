@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function RenderLineHighlight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight current line', 'custom-html-block-extension' );
+	const title = __( 'Render Line Highlight', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

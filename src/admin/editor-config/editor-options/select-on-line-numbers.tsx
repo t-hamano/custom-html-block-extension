@@ -15,10 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function SelectOnLineNumbers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Select the corresponding line when clicking on the line number',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Select On Line Numbers', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function CommentsInsertSpace() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Insert whitespace in comment', 'custom-html-block-extension' );
+	const title = __( 'Comments: Insert Space', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -49,7 +49,7 @@ export default function CommentsInsertSpace() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Insert whitespace inside the comment tokens when comment out using the keyboard shortcut.',
+					'Controls whether a space character is inserted when commenting.',
 					'custom-html-block-extension'
 				) }
 				items={ [

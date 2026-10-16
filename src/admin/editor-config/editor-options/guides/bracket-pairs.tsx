@@ -18,7 +18,7 @@ type Value = EditorOptions[ 'guides' ][ 'bracketPairs' ];
 export default function GuidesBracketPairs() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show bracket pair guides', 'custom-html-block-extension' );
+	const title = __( 'Guides: Bracket Pairs', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

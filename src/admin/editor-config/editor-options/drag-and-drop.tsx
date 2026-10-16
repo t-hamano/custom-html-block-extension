@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function DragAndDrop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Moving selections via drag and drop', 'custom-html-block-extension' );
+	const title = __( 'Drag And Drop', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

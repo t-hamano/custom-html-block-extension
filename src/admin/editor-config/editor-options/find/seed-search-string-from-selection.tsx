@@ -16,7 +16,7 @@ import ItemHelp from '../../components/item-help';
 export default function FindSeedSearchStringFromSelection() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Seed search string from selection', 'custom-html-block-extension' );
+	const title = __( 'Find: Seed Search String From Selection', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -29,7 +29,7 @@ export default function FindSeedSearchStringFromSelection() {
 			value: 'always',
 			image: 'editor-options/find/seed-search-string-from-selection_1.gif',
 			description: __(
-				'Uses the selected text, or the word at the cursor if no text is selected.',
+				'Always seed search string from the editor selection, including word at cursor position.',
 				'custom-html-block-extension'
 			),
 			isDefault: true,
@@ -39,7 +39,7 @@ export default function FindSeedSearchStringFromSelection() {
 			value: 'selection',
 			image: 'editor-options/find/seed-search-string-from-selection_2.gif',
 			description: __(
-				'Uses only the selected text. If no text is selected, the previous search string is kept.',
+				'Only seed search string from the editor selection.',
 				'custom-html-block-extension'
 			),
 		},
@@ -48,7 +48,7 @@ export default function FindSeedSearchStringFromSelection() {
 			value: 'never',
 			image: 'editor-options/find/seed-search-string-from-selection_3.gif',
 			description: __(
-				'Does not use the selected text. The previous search string is kept.',
+				'Never seed search string from the editor selection.',
 				'custom-html-block-extension'
 			),
 		},
@@ -94,7 +94,7 @@ export default function FindSeedSearchStringFromSelection() {
 				colCount="3"
 				value={ editorOptions.find.seedSearchStringFromSelection }
 				description={ __(
-					'When the find widget is opened, the selected text or the word at the cursor is used as the search string.',
+					'Controls whether the search string in the Find Widget is seeded from the editor selection.',
 					'custom-html-block-extension'
 				) }
 			/>

@@ -15,10 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function UnfoldOnClickAfterEndOfLine() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Expand folding line when clicking on empty content after a folded line',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Unfold On Click After End Of Line', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

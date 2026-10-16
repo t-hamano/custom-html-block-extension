@@ -17,7 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function LineNumbersMinChars() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Line number width', 'custom-html-block-extension' );
+	const title = __( 'Line Numbers Min Chars', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

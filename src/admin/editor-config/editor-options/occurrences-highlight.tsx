@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function OccurrencesHighlight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight matching tag', 'custom-html-block-extension' );
+	const title = __( 'Occurrences Highlight', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

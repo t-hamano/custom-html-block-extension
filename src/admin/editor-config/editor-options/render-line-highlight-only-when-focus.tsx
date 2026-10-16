@@ -15,10 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function RenderLineHighlightOnlyWhenFocus() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Highlight current line only the editor is focused',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Render Line Highlight Only When Focus', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

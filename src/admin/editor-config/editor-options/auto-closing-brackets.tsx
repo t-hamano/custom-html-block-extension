@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingBrackets() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Auto closing brackets', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Brackets', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

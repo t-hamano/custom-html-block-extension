@@ -16,7 +16,7 @@ export default function ScrollbarVerticalHasArrows() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Show arrows on vertical scrollbar', 'custom-html-block-extension' );
+	const title = __( 'Scrollbar: Vertical Has Arrows', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

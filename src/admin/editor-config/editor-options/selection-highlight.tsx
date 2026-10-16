@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function SelectionHighlight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight all occurrences of a selected word', 'custom-html-block-extension' );
+	const title = __( 'Selection Highlight', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

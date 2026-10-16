@@ -15,10 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function FastScrollSensitivity() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Mouse wheel scroll speed (when pressing Alt key)',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Fast Scroll Sensitivity', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
