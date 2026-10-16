@@ -678,11 +678,8 @@ class Settings {
 	public static function get_editor_options() {
 		$default_editor_options = self::get_defaults( self::DEFAULT_EDITOR_OPTIONS );
 
-		// Migrate before merging so legacy scalar values of object options,
-		// such as a boolean `hover`, still receive their nested defaults.
-		$current_editor_options = self::migrate_legacy_editor_options(
-			(array) get_option( Option::OPTION_NAMES['editor_options'] )
-		);
+		// Legacy values are migrated in the database by `maybe_upgrade()`.
+		$current_editor_options = (array) get_option( Option::OPTION_NAMES['editor_options'] );
 
 		$editor_options = array_merge( $default_editor_options, $current_editor_options );
 
@@ -693,6 +690,28 @@ class Settings {
 		}
 
 		return self::remove_unknown_properties( $editor_options, self::DEFAULT_EDITOR_OPTIONS );
+	}
+
+	/**
+	 * Upgrade the stored options when the plugin version changes.
+	 *
+	 * Legacy values are migrated in the database once, so that reading the
+	 * options doesn't need to migrate them every time. The migration is
+	 * idempotent, so it runs whenever the stored version differs, including
+	 * after a downgrade.
+	 */
+	public static function maybe_upgrade() {
+		if ( CHBE_VERSION === get_option( Option::OPTION_NAMES['version'] ) ) {
+			return;
+		}
+
+		// Pass a default so that the registered default isn't saved on new sites.
+		$editor_options = get_option( Option::OPTION_NAMES['editor_options'], false );
+		if ( is_array( $editor_options ) ) {
+			update_option( Option::OPTION_NAMES['editor_options'], self::normalize_editor_options( $editor_options ) );
+		}
+
+		update_option( Option::OPTION_NAMES['version'], CHBE_VERSION );
 	}
 
 	/**

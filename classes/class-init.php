@@ -18,6 +18,9 @@ class Init {
 
 		// Load classes
 		$this->load_classes();
+
+		// Upgrade the stored options after the settings are registered
+		add_action( 'init', array( Settings::class, 'maybe_upgrade' ), 11 );
 	}
 
 	/**

@@ -190,29 +190,52 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertSame( $expected, $editor_options['minimap'] );
 	}
 
-	public function test_get_editor_options_merges_nested_defaults_into_legacy_values() {
+	public function test_maybe_upgrade_migrates_legacy_editor_options() {
 		// `hover` was persisted as a boolean by older versions.
-		update_option( Option::OPTION_NAMES['editor_options'], array( 'hover' => false ) );
+		update_option(
+			Option::OPTION_NAMES['editor_options'],
+			array(
+				'hover'              => false,
+				'renderIndentGuides' => false,
+				'unknownOption'      => true,
+			)
+		);
+		delete_option( Option::OPTION_NAMES['version'] );
 
-		$editor_options = Settings::get_editor_options();
-		$expected       = array_merge(
+		Settings::maybe_upgrade();
+
+		$stored = get_option( Option::OPTION_NAMES['editor_options'] );
+		$this->assertSame( array( 'enabled' => 'off' ), $stored['hover'] );
+		$this->assertFalse( $stored['guides']['indentation'] );
+		$this->assertArrayNotHasKey( 'renderIndentGuides', $stored );
+		$this->assertArrayNotHasKey( 'unknownOption', $stored );
+		$this->assertSame( CHBE_VERSION, get_option( Option::OPTION_NAMES['version'] ) );
+
+		// Legacy scalar values of object options receive their nested defaults.
+		$expected = array_merge(
 			wp_list_pluck( Settings::DEFAULT_EDITOR_OPTIONS['hover']['items'], 'default' ),
 			array( 'enabled' => 'off' )
 		);
-
-		$this->assertSame( $expected, $editor_options['hover'] );
+		$this->assertSame( $expected, Settings::get_editor_options()['hover'] );
 	}
 
-	public function test_get_editor_options_migrates_legacy_guides() {
-		update_option(
-			Option::OPTION_NAMES['editor_options'],
-			array( 'renderIndentGuides' => false )
-		);
+	public function test_maybe_upgrade_skips_current_version() {
+		update_option( Option::OPTION_NAMES['editor_options'], array( 'hover' => false ) );
+		update_option( Option::OPTION_NAMES['version'], CHBE_VERSION );
 
-		$editor_options = Settings::get_editor_options();
+		Settings::maybe_upgrade();
 
-		$this->assertFalse( $editor_options['guides']['indentation'] );
-		$this->assertArrayNotHasKey( 'renderIndentGuides', $editor_options );
+		$this->assertSame( array( 'hover' => false ), get_option( Option::OPTION_NAMES['editor_options'] ) );
+	}
+
+	public function test_maybe_upgrade_does_not_save_defaults() {
+		delete_option( Option::OPTION_NAMES['editor_options'] );
+		delete_option( Option::OPTION_NAMES['version'] );
+
+		Settings::maybe_upgrade();
+
+		$this->assertFalse( get_option( Option::OPTION_NAMES['editor_options'], false ) );
+		$this->assertSame( CHBE_VERSION, get_option( Option::OPTION_NAMES['version'] ) );
 	}
 
 	public function test_get_schema() {
