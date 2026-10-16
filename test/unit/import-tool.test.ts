@@ -335,6 +335,16 @@ describe( 'importEditorConfig', () => {
 		expect( result?.skippedCount ).toBe( 0 );
 	} );
 
+	it( 'exports and imports a font name with a comma', () => {
+		const exported = exportEditorConfig( editorSettings, {
+			...editorOptions,
+			fontFamily: 'ACME, Mono',
+			fontWeight: '400',
+		} );
+		expect( exported[ 'editor.fontFamily' ] ).toBe( "'ACME, Mono'" );
+		expect( importSettings( exported )?.editorOptions.fontFamily ).toBe( 'ACME, Mono' );
+	} );
+
 	it( 'prefers the theme of this plugin over the VS Code theme', () => {
 		expect(
 			importSettings( {

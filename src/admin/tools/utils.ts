@@ -545,6 +545,12 @@ export function exportEditorConfig(
 		settings[ `editor.${ key }` ] = value;
 	} );
 
+	// VS Code uses a CSS font stack, so quote a font name with a comma.
+	const fontFamily = settings[ 'editor.fontFamily' ];
+	if ( typeof fontFamily === 'string' && fontFamily.includes( ',' ) ) {
+		settings[ 'editor.fontFamily' ] = `'${ fontFamily }'`;
+	}
+
 	return settings;
 }
 
