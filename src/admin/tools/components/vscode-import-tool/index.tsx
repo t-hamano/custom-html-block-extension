@@ -7,9 +7,9 @@ import type { ChangeEvent } from 'react';
  * WordPress dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { useContext, useState } from '@wordpress/element';
+import { createInterpolateElement, useContext, useState } from '@wordpress/element';
 import { FormFileUpload } from '@wordpress/components';
-import { Button, Card, CollapsibleCard, Stack, Text, TextareaControl } from '@wordpress/ui';
+import { Button, Card, CollapsibleCard, Notice, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -120,11 +120,28 @@ export default function VSCodeImportTool() {
 						) }
 					</Text>
 					<Text render={ <p /> }>
-						{ __(
-							'Not all VS Code settings are supported. Unsupported settings will not be imported.',
-							'custom-html-block-extension'
+						{ createInterpolateElement(
+							sprintf(
+								/* translators: 1: Path on Windows, 2: Path on macOS, 3: Path on Linux. */
+								__(
+									'The file is located in <code>%1$s</code> on Windows, <code>%2$s</code> on macOS and <code>%3$s</code> on Linux.',
+									'custom-html-block-extension'
+								),
+								'%APPDATA%\\Code\\User\\',
+								'~/Library/Application Support/Code/User/',
+								'~/.config/Code/User/'
+							),
+							{ code: <code /> }
 						) }
 					</Text>
+					<Notice.Root intent="info">
+						<Notice.Description>
+							{ __(
+								'Not all VS Code settings are supported. Unsupported settings will not be imported.',
+								'custom-html-block-extension'
+							) }
+						</Notice.Description>
+					</Notice.Root>
 					<FormFileUpload
 						accept=".json"
 						onChange={ onUploadFile }
