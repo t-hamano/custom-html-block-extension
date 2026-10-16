@@ -27,7 +27,6 @@ export default function RenderWhitespace() {
 		{
 			label: __( 'All', 'custom-html-block-extension' ),
 			value: 'all',
-			isDefault: true,
 			image: 'editor-options/render-whitespace_1.jpg',
 		},
 		{
@@ -51,6 +50,7 @@ export default function RenderWhitespace() {
 		{
 			label: __( 'None', 'custom-html-block-extension' ),
 			value: 'none',
+			isDefault: true,
 			image: 'editor-options/render-whitespace_5.jpg',
 		},
 	];

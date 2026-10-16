@@ -33,13 +33,13 @@ export default function MultiCursorModifier() {
 				? __( 'Option', 'custom-html-block-extension' )
 				: __( 'Alt', 'custom-html-block-extension' ),
 			value: 'alt',
+			isDefault: true,
 		},
 		{
 			label: isAppleOS()
 				? __( 'Command', 'custom-html-block-extension' )
 				: __( 'Ctrl', 'custom-html-block-extension' ),
 			value: 'ctrlCmd',
-			isDefault: true,
 		},
 	];
 
