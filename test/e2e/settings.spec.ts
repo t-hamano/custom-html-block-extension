@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { readFileSync } from 'fs';
+
+/**
  * WordPress dependencies
  */
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
@@ -302,6 +307,7 @@ test.describe( 'Editor config', () => {
 
 		const exportedFile = testInfo.outputPath( download.suggestedFilename() );
 		await download.saveAs( exportedFile );
+		expect( readFileSync( exportedFile, 'utf8' ) ).toMatch( /^{\n\t"editorSettings": {\n\t\t"/ );
 
 		// Reset the editor config, then import the exported file.
 		await requestUtils.rest( {
