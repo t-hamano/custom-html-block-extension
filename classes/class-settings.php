@@ -851,6 +851,58 @@ class Settings {
 	}
 
 	/**
+	 * Keep only the values that match the schema, such as imported values, and
+	 * collect the paths of the others. Unlike `reset_invalid_values()`, values
+	 * that are not given stay missing, so the current values can be kept for them.
+	 *
+	 * @param array  $values   The values to validate.
+	 * @param array  $defaults The option definitions.
+	 * @param string $path     The path of the parent option.
+	 * @return array The valid values (`values`) and the paths of the others (`skipped`).
+	 */
+	public static function remove_invalid_values( $values, $defaults, $path = '' ) {
+		$schema  = self::get_schema( $defaults );
+		$valid   = array();
+		$skipped = array();
+
+		foreach ( $values as $key => $value ) {
+			$key_path = '' === $path ? (string) $key : $path . '.' . $key;
+
+			if ( ! isset( $defaults[ $key ] ) ) {
+				$skipped[] = $key_path;
+				continue;
+			}
+
+			if ( 'object' === $defaults[ $key ]['type'] ) {
+				if ( ! is_array( $value ) ) {
+					$skipped[] = $key_path;
+					continue;
+				}
+				$result = self::remove_invalid_values( $value, $defaults[ $key ]['items'], $key_path );
+				if ( $result['values'] ) {
+					$valid[ $key ] = $result['values'];
+				}
+				$skipped = array_merge( $skipped, $result['skipped'] );
+				continue;
+			}
+
+			$property = $schema['properties'][ $key ];
+			if ( is_wp_error( rest_validate_value_from_schema( $value, $property, $key_path ) ) ) {
+				$skipped[] = $key_path;
+				continue;
+			}
+
+			// Convert values such as a numeric string to the type of the option.
+			$valid[ $key ] = rest_sanitize_value_from_schema( $value, $property, $key_path );
+		}
+
+		return array(
+			'values'  => $valid,
+			'skipped' => $skipped,
+		);
+	}
+
+	/**
 	 * Normalize editor options persisted by older plugin versions so they match
 	 * the current schema.
 	 */
@@ -934,8 +986,10 @@ class Settings {
 		);
 		foreach ( $legacy_guides as $legacy_key => $key ) {
 			if ( array_key_exists( $legacy_key, $editor_options ) ) {
+				// The other `guides` properties get their defaults when the options
+				// are loaded, and keep the current values when they are imported.
 				if ( ! isset( $editor_options['guides'] ) || ! is_array( $editor_options['guides'] ) ) {
-					$editor_options['guides'] = wp_list_pluck( self::DEFAULT_EDITOR_OPTIONS['guides']['items'], 'default' );
+					$editor_options['guides'] = array();
 				}
 				$editor_options['guides'][ $key ] = $editor_options[ $legacy_key ];
 				unset( $editor_options[ $legacy_key ] );

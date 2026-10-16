@@ -45,6 +45,57 @@ class Api {
 				),
 			)
 		);
+
+		register_rest_route(
+			CHBE_NAMESPACE . '/v1',
+			'/validate_editor_config',
+			array(
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'validate_editor_config' ),
+					'permission_callback' => static function () {
+						return current_user_can( 'manage_options' );
+					},
+					'args'                => array(
+						'editorSettings' => array(
+							'type'    => 'object',
+							'default' => array(),
+						),
+						'editorOptions'  => array(
+							'type'    => 'object',
+							'default' => array(),
+						),
+					),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Validate an imported editor config without saving it.
+	 *
+	 * Legacy values are migrated, and unknown properties and values that don't
+	 * match the settings schema are removed, so the result can be saved. Values
+	 * that are not given stay missing, so the client keeps the current values.
+	 */
+	public function validate_editor_config( $request ) {
+		$editor_settings = Settings::remove_invalid_values(
+			$request['editorSettings'],
+			Settings::DEFAULT_EDITOR_SETTINGS
+		);
+		$editor_options  = Settings::remove_invalid_values(
+			Settings::migrate_legacy_editor_options( $request['editorOptions'] ),
+			Settings::DEFAULT_EDITOR_OPTIONS
+		);
+
+		return rest_ensure_response(
+			array(
+				// Cast to objects so that empty values are encoded as `{}`.
+				'editorSettings' => (object) $editor_settings['values'],
+				'editorOptions'  => (object) $editor_options['values'],
+				'skipped'        => array_merge( $editor_settings['skipped'], $editor_options['skipped'] ),
+			)
+		);
 	}
 
 	/**

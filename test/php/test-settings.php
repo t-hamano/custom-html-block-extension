@@ -84,11 +84,8 @@ class Test_Settings extends WP_UnitTestCase {
 				),
 				array(
 					'guides' => array(
-						'bracketPairs'               => false,
-						'bracketPairsHorizontal'     => 'active',
-						'highlightActiveBracketPair' => true,
-						'highlightActiveIndentation' => false,
 						'indentation'                => false,
+						'highlightActiveIndentation' => false,
 					),
 				),
 			),
@@ -260,6 +257,33 @@ class Test_Settings extends WP_UnitTestCase {
 		$editor_settings = Settings::get_editor_settings();
 
 		$this->assertSame( Settings::DEFAULT_EDITOR_SETTINGS['tabSize']['default'], $editor_settings['tabSize'] );
+	}
+
+	public function test_remove_invalid_values() {
+		$result = Settings::remove_invalid_values(
+			array(
+				'fontSize'    => '20',
+				'cursorStyle' => 'foo',
+				'tabSize'     => 4,
+				'hover'       => array(
+					'enabled' => 'off',
+					'delay'   => 5000,
+				),
+				'minimap'     => 'foo',
+				'rulers'      => array( 80 ),
+			),
+			Settings::DEFAULT_EDITOR_OPTIONS
+		);
+
+		$this->assertSame(
+			array(
+				'fontSize' => 20.0,
+				'hover'    => array( 'enabled' => 'off' ),
+				'rulers'   => array( 80.0 ),
+			),
+			$result['values']
+		);
+		$this->assertSame( array( 'cursorStyle', 'tabSize', 'hover.delay', 'minimap' ), $result['skipped'] );
 	}
 
 	public function test_get_schema() {
