@@ -361,6 +361,27 @@ describe( 'parseEditorConfig', () => {
 		};
 		expect( parseSettings( exported ) ).toEqual( exported );
 	} );
+
+	it( 'checks the theme and font in a file exported by older versions', () => {
+		expect(
+			parseSettings( {
+				editorSettings: { theme: 'unknown', tabSize: 4 },
+				editorOptions: { fontFamily: 'Unknown Font', fontWeight: '400', fontSize: 20 },
+			} )
+		).toEqual( {
+			editorSettings: { theme: null, tabSize: 4 },
+			editorOptions: { fontFamily: null, fontWeight: '400', fontSize: 20 },
+		} );
+		expect(
+			optionsOf( {
+				editorSettings: {},
+				editorOptions: { fontFamily: 'ACME, Mono', fontWeight: '700' },
+			} )
+		).toEqual( { fontFamily: 'ACME, Mono', fontWeight: '400' } );
+		expect(
+			optionsOf( { editorSettings: {}, editorOptions: { fontFamily: 'Ubuntu Mono' } } )
+		).toEqual( { fontFamily: 'Ubuntu Mono' } );
+	} );
 } );
 
 describe( 'countEditorConfig', () => {

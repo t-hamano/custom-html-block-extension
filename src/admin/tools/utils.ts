@@ -418,6 +418,21 @@ function migrateVSCodeSettings(
 }
 
 /**
+ * Convert a font name to a CSS font stack, as VS Code uses, by quoting a font
+ * name with a comma.
+ *
+ * @param fontFamily The font name.
+ * @return The font stack.
+ */
+function toFontStack( fontFamily: unknown ) {
+	if ( typeof fontFamily === 'string' && fontFamily.includes( ',' ) ) {
+		const quote = fontFamily.includes( "'" ) ? '"' : "'";
+		return `${ quote }${ fontFamily }${ quote }`;
+	}
+	return fontFamily;
+}
+
+/**
  * Convert the editor config to the format of VS Code's `settings.json`. The
  * theme and Emmet, which VS Code doesn't have, get the `customHtmlBlockExtension.`
  * prefix.
@@ -450,12 +465,7 @@ export function exportEditorConfig(
 		settings[ `editor.${ key }` ] = value;
 	} );
 
-	// VS Code uses a CSS font stack, so quote a font name with a comma.
-	const fontFamily = settings[ 'editor.fontFamily' ];
-	if ( typeof fontFamily === 'string' && fontFamily.includes( ',' ) ) {
-		const quote = fontFamily.includes( "'" ) ? '"' : "'";
-		settings[ 'editor.fontFamily' ] = `${ quote }${ fontFamily }${ quote }`;
-	}
+	settings[ 'editor.fontFamily' ] = toFontStack( settings[ 'editor.fontFamily' ] );
 
 	return settings;
 }
@@ -486,7 +496,8 @@ function setPath( object: Record< string, unknown >, path: string, value: unknow
  * Parse a VS Code `settings.json`, or a file exported by this plugin, into the
  * editor config to send to the server, which validates it. A file exported by
  * older versions, which has the `editorSettings` and `editorOptions` objects,
- * is sent as is, since the server migrates its legacy values.
+ * is sent as is, since the server migrates its legacy values, except for the
+ * theme and font, which only the client can check.
  *
  * @param text                 The JSON text.
  * @param currentEditorOptions The current editor options.
@@ -504,7 +515,22 @@ export function parseEditorConfig(
 	}
 
 	if ( isPlainObject( data.editorSettings ) && isPlainObject( data.editorOptions ) ) {
-		return { editorSettings: data.editorSettings, editorOptions: data.editorOptions };
+		const payload = {
+			editorSettings: { ...data.editorSettings },
+			editorOptions: { ...data.editorOptions },
+		};
+		const settings = Object.fromEntries(
+			[
+				[ `${ SETTINGS_PREFIX }theme`, payload.editorSettings.theme ],
+				[ 'editor.fontFamily', toFontStack( payload.editorOptions.fontFamily ) ],
+				[ 'editor.fontWeight', payload.editorOptions.fontWeight ],
+			].filter( ( [ , value ] ) => value !== undefined )
+		);
+		migrateVSCodeSettings( settings, currentEditorOptions ).forEach( ( value, path ) => {
+			const target = path === 'theme' ? payload.editorSettings : payload.editorOptions;
+			target[ path ] = value ?? null;
+		} );
+		return payload;
 	}
 
 	const payload: EditorConfigPayload = {

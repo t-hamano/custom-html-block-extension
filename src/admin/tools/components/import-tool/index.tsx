@@ -96,7 +96,8 @@ export default function ImportTool() {
 		// Merge into the latest state, so that edits made while waiting are kept.
 		setEditorSettings( ( current ) => ( { ...current, ...result.editorSettings } ) );
 		setEditorOptions( ( current ) => mergeEditorOptions( current, result.editorOptions ) );
-		setSettingsText( '' );
+		// Keep the text if it was changed while waiting.
+		setSettingsText( ( currentText ) => ( currentText === settingsText ? '' : currentText ) );
 		const message =
 			skippedCount === 1
 				? sprintf(
