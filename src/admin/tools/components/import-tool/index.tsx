@@ -18,7 +18,8 @@ import { isAppleOS } from '@wordpress/keycodes';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { importEditorConfig } from '../../utils';
+import { countEditorConfig, mergeEditorOptions, parseEditorConfig } from '../../utils';
+import { validateEditorConfig } from '../../../api';
 
 function getSettingsFolder() {
 	if ( isAppleOS() ) {
@@ -31,14 +32,8 @@ function getSettingsFolder() {
 }
 
 export default function ImportTool() {
-	const {
-		editorSettings,
-		editorOptions,
-		isWaiting,
-		setEditorSettings,
-		setEditorOptions,
-		setIsWaiting,
-	} = useContext( AdminContext );
+	const { editorOptions, isWaiting, setEditorSettings, setEditorOptions, setIsWaiting } =
+		useContext( AdminContext );
 
 	const [ settingsText, setSettingsText ] = useState( '' );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
@@ -61,11 +56,11 @@ export default function ImportTool() {
 	};
 
 	// Import the settings as unsaved changes, so that they can be checked in the
-	// preview before saving.
+	// preview before saving. The server validates the values.
 	const onImport = async () => {
-		const result = importEditorConfig( settingsText, editorSettings, editorOptions );
+		const editorConfig = parseEditorConfig( settingsText, editorOptions );
 
-		if ( ! result ) {
+		if ( ! editorConfig ) {
 			createErrorNotice(
 				__( 'The format of the settings is not correct.', 'custom-html-block-extension' ),
 				{ type: 'snackbar' }
@@ -73,7 +68,20 @@ export default function ImportTool() {
 			return;
 		}
 
-		if ( result.importedCount === 0 ) {
+		setIsWaiting( true );
+		const result = await validateEditorConfig( editorConfig ).catch( ( error: Error ) => {
+			createErrorNotice( error.message, { type: 'snackbar' } );
+			return null;
+		} );
+		if ( ! result ) {
+			setIsWaiting( false );
+			return;
+		}
+
+		const importedCount = countEditorConfig( result );
+		const skippedCount = result.skipped.length;
+		if ( importedCount === 0 ) {
+			setIsWaiting( false );
 			createErrorNotice( __( 'No supported settings were found.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
@@ -82,14 +90,13 @@ export default function ImportTool() {
 
 		// Apply the settings before the delay, so that edits made while the
 		// spinner is visible are not overwritten.
-		setEditorSettings( result.editorSettings );
-		setEditorOptions( result.editorOptions );
-		setSettingsText( '' );
-		setIsWaiting( true );
-		// Show the spinner briefly, as when saving the settings.
+		setEditorSettings( ( current ) => ( { ...current, ...result.editorSettings } ) );
+		setEditorOptions( ( current ) => mergeEditorOptions( current, result.editorOptions ) );
+		// Keep the text if it was changed while waiting.
+		setSettingsText( ( currentText ) => ( currentText === settingsText ? '' : currentText ) );
+		// Keep the spinner visible briefly so it does not flash on fast responses.
 		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 		setIsWaiting( false );
-		const { importedCount, skippedCount } = result;
 		const message =
 			skippedCount === 1
 				? sprintf(

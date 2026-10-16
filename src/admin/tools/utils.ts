@@ -61,15 +61,9 @@ const RENAMED_SETTINGS = [
 	[ 'experimental.stickyScroll.maxLineCount', 'stickyScroll.maxLineCount' ],
 ] as const;
 
-// Values that VS Code replaced, as `[ old value, new value ]` pairs.
+// Values that VS Code replaced, as `[ old value, new value ]` pairs. The
+// server migrates the legacy values of this plugin's own options.
 const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
-	[
-		'acceptSuggestionOnEnter',
-		[
-			[ true, 'on' ],
-			[ false, 'off' ],
-		],
-	],
 	[
 		'autoIndent',
 		[
@@ -78,27 +72,6 @@ const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
 		],
 	],
 	[ 'cursorBlinking', [ [ 'visible', 'solid' ] ] ],
-	[
-		'find.seedSearchStringFromSelection',
-		[
-			[ true, 'always' ],
-			[ false, 'never' ],
-		],
-	],
-	[
-		'cursorSmoothCaretAnimation',
-		[
-			[ true, 'on' ],
-			[ false, 'off' ],
-		],
-	],
-	[
-		'hover.enabled',
-		[
-			[ true, 'on' ],
-			[ false, 'off' ],
-		],
-	],
 	[
 		'lineNumbers',
 		[
@@ -118,20 +91,6 @@ const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
 		[
 			[ true, 'mouseover' ],
 			[ false, 'none' ],
-		],
-	],
-	[
-		'occurrencesHighlight',
-		[
-			[ true, 'singleFile' ],
-			[ false, 'off' ],
-		],
-	],
-	[
-		'renderFinalNewline',
-		[
-			[ true, 'on' ],
-			[ false, 'off' ],
 		],
 	],
 	[
@@ -157,19 +116,13 @@ const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
 	],
 ];
 
-const MAX_RULER_COLUMN = 100;
-
 // A language-specific override key, e.g. `[html]` or `[html][css]`.
 const LANGUAGE_OVERRIDE_REGEX = /^(\[[^\[\]]+\])+$/;
 
-// Same as `sanitize_hex_color()`, which validates the `hex-color` format.
-const HEX_COLOR_REGEX = /^#([A-Fa-f0-9]{3}){1,2}$/;
-
-type ImportResult = {
-	editorSettings: EditorSettings;
-	editorOptions: EditorOptions;
-	importedCount: number;
-	skippedCount: number;
+// The editor config to validate, keyed like the saved editor config.
+export type EditorConfigPayload = {
+	editorSettings: Record< string, unknown >;
+	editorOptions: Record< string, unknown >;
 };
 
 function isPlainObject( value: unknown ): value is Record< string, unknown > {
@@ -219,12 +172,6 @@ function normalizeEditorSettings( vscodeSettings: Map< string, unknown > ) {
 	// turns ligatures on or off.
 	if ( typeof vscodeSettings.get( 'fontLigatures' ) === 'string' ) {
 		vscodeSettings.set( 'fontLigatures', true );
-	}
-
-	// This plugin treats `'multiFile'` as `'singleFile'`, since separate Custom
-	// HTML blocks gain little from highlighting across every editor on the page.
-	if ( vscodeSettings.get( 'occurrencesHighlight' ) === 'multiFile' ) {
-		vscodeSettings.set( 'occurrencesHighlight', 'singleFile' );
 	}
 
 	// VS Code accepts a boolean that applies to all token types.
@@ -356,8 +303,8 @@ function findFontFamily( fontStack: string ): string | undefined {
 /**
  * Flatten the `editor.*` settings and convert the VS Code settings whose key
  * or value differs from this plugin into option paths in this plugin's
- * format. A value that can't be converted becomes `undefined`, so it is
- * counted as skipped.
+ * format. A value that can't be converted becomes `undefined`, so that the
+ * server skips it.
  *
  * @param settings             The parsed settings.json.
  * @param currentEditorOptions The current editor options.
@@ -471,51 +418,18 @@ function migrateVSCodeSettings(
 }
 
 /**
- * Whether a ruler matches the settings schema: a column from 1 to 100, or an
- * object with a column and a 3- or 6-digit hex color (the `hex-color` format).
+ * Convert a font name to a CSS font stack, as VS Code uses, by quoting a font
+ * name with a comma.
  *
- * @param ruler The imported ruler.
- * @return Whether the ruler is valid.
+ * @param fontFamily The font name.
+ * @return The font stack.
  */
-function isValidRuler( ruler: unknown ): boolean {
-	const isValidColumn = ( column: unknown ) =>
-		typeof column === 'number' && column >= 1 && column <= MAX_RULER_COLUMN;
-
-	if ( ! isPlainObject( ruler ) ) {
-		return isValidColumn( ruler );
+function toFontStack( fontFamily: unknown ) {
+	if ( typeof fontFamily === 'string' && fontFamily.includes( ',' ) ) {
+		const quote = fontFamily.includes( "'" ) ? '"' : "'";
+		return `${ quote }${ fontFamily }${ quote }`;
 	}
-
-	return (
-		Object.keys( ruler ).every( ( key ) => key === 'column' || key === 'color' ) &&
-		isValidColumn( ruler.column ) &&
-		typeof ruler.color === 'string' &&
-		HEX_COLOR_REGEX.test( ruler.color )
-	);
-}
-
-/**
- * Whether the imported value can replace the current value. The value must
- * have the same type as the current one so that the settings REST API accepts it.
- *
- * @param path         The option path.
- * @param value        The imported value.
- * @param currentValue The current value.
- * @return Whether the value can be imported.
- */
-function isAcceptableValue( path: string, value: unknown, currentValue: unknown ): boolean {
-	if ( Array.isArray( currentValue ) ) {
-		if ( ! Array.isArray( value ) ) {
-			return false;
-		}
-		// The REST API rejects the whole request if a single ruler doesn't
-		// match the settings schema.
-		if ( path === 'rulers' ) {
-			return value.every( isValidRuler );
-		}
-		return true;
-	}
-
-	return typeof value === typeof currentValue;
+	return fontFamily;
 }
 
 /**
@@ -551,77 +465,48 @@ export function exportEditorConfig(
 		settings[ `editor.${ key }` ] = value;
 	} );
 
-	// VS Code uses a CSS font stack, so quote a font name with a comma.
-	const fontFamily = settings[ 'editor.fontFamily' ];
-	if ( typeof fontFamily === 'string' && fontFamily.includes( ',' ) ) {
-		const quote = fontFamily.includes( "'" ) ? '"' : "'";
-		settings[ 'editor.fontFamily' ] = `${ quote }${ fontFamily }${ quote }`;
-	}
+	settings[ 'editor.fontFamily' ] = toFontStack( settings[ 'editor.fontFamily' ] );
 
 	return settings;
 }
 
 /**
- * Convert a file exported by older versions of this plugin, which has the
- * `editorSettings` and `editorOptions` objects, to the `settings.json` format.
+ * Set a value at an option path, e.g. `minimap.enabled`, creating the objects
+ * on the way. The objects have no prototype, so that a key like `__proto__` is
+ * set as a property.
  *
- * @param data The parsed file.
- * @return The settings, or `null` if the file is not in the older format.
+ * @param object The object to set the value in.
+ * @param path   The option path.
+ * @param value  The value.
  */
-function fromLegacyExport( data: Record< string, unknown > ): Record< string, unknown > | null {
-	const { editorSettings, editorOptions } = data;
-	if ( ! isPlainObject( editorSettings ) || ! isPlainObject( editorOptions ) ) {
-		return null;
-	}
-
-	// Move the legacy guide options into `guides`. Like the server-side
-	// migration, the legacy value wins.
-	const options: Record< string, unknown > = { ...editorOptions };
-	(
-		[
-			[ 'renderIndentGuides', 'indentation' ],
-			[ 'highlightActiveIndentGuide', 'highlightActiveIndentation' ],
-		] as const
-	 ).forEach( ( [ legacyKey, key ] ) => {
-		if ( legacyKey in options ) {
-			options.guides = {
-				...( isPlainObject( options.guides ) ? options.guides : {} ),
-				[ key ]: options[ legacyKey ],
-			};
-			delete options[ legacyKey ];
+function setPath( object: Record< string, unknown >, path: string, value: unknown ) {
+	const keys = path.split( '.' );
+	const lastKey = keys.pop() as string;
+	let target = object;
+	keys.forEach( ( key ) => {
+		if ( ! isPlainObject( target[ key ] ) ) {
+			target[ key ] = Object.create( null );
 		}
+		target = target[ key ] as Record< string, unknown >;
 	} );
-
-	const settings: Record< string, unknown > = {};
-	Object.entries( editorSettings ).forEach( ( [ key, value ] ) => {
-		const name = key === 'theme' || key === 'emmet' ? SETTINGS_PREFIX + key : `editor.${ key }`;
-		settings[ name ] = value;
-	} );
-	Object.entries( options ).forEach( ( [ key, value ] ) => {
-		settings[ `editor.${ key }` ] = value;
-	} );
-	// `rulers` previously defaulted to `0` instead of an array.
-	if ( settings[ 'editor.rulers' ] === 0 ) {
-		settings[ 'editor.rulers' ] = [];
-	}
-	return settings;
+	target[ lastKey ] = value;
 }
 
 /**
- * Parse a VS Code `settings.json`, or a file exported by this plugin, and merge
- * the supported `editor.*` settings, the theme and Emmet into the current
- * editor config.
+ * Parse a VS Code `settings.json`, or a file exported by this plugin, into the
+ * editor config to send to the server, which validates it. A file exported by
+ * older versions, which has the `editorSettings` and `editorOptions` objects,
+ * is sent as is, since the server migrates its legacy values, except for the
+ * theme and font, which only the client can check.
  *
- * @param text                  The JSON text.
- * @param currentEditorSettings The current editor settings.
- * @param currentEditorOptions  The current editor options.
- * @return The merged editor config, or `null` if the text is not a JSON object.
+ * @param text                 The JSON text.
+ * @param currentEditorOptions The current editor options.
+ * @return The editor config, or `null` if the text is not a JSON object.
  */
-export function importEditorConfig(
+export function parseEditorConfig(
 	text: string,
-	currentEditorSettings: EditorSettings,
 	currentEditorOptions: EditorOptions
-): ImportResult | null {
+): EditorConfigPayload | null {
 	const errors: ParseError[] = [];
 	const data = parse( text, errors, { allowTrailingComma: true } );
 
@@ -629,54 +514,83 @@ export function importEditorConfig(
 		return null;
 	}
 
-	const settings = fromLegacyExport( data ) ?? data;
-
-	const vscodeSettings = migrateVSCodeSettings( settings, currentEditorOptions );
-	const editorSettings = { ...currentEditorSettings };
-	const editorOptions = structuredClone( currentEditorOptions );
-	let importedCount = 0;
-
-	const importValue = (
-		path: string,
-		currentValue: unknown,
-		apply: ( value: unknown ) => void
-	) => {
-		if ( ! vscodeSettings.has( path ) ) {
-			return;
-		}
-		const value = vscodeSettings.get( path );
-		if ( isAcceptableValue( path, value, currentValue ) ) {
-			apply( value );
-			importedCount++;
-		}
-	};
-
-	EDITOR_SETTING_KEYS.forEach( ( key ) => {
-		importValue( key, currentEditorSettings[ key ], ( value ) => {
-			( editorSettings as Record< string, unknown > )[ key ] = value;
+	if ( isPlainObject( data.editorSettings ) && isPlainObject( data.editorOptions ) ) {
+		const payload = {
+			editorSettings: { ...data.editorSettings },
+			editorOptions: { ...data.editorOptions },
+		};
+		const settings = Object.fromEntries(
+			[
+				[ `${ SETTINGS_PREFIX }theme`, payload.editorSettings.theme ],
+				[ 'editor.fontFamily', toFontStack( payload.editorOptions.fontFamily ) ],
+				[ 'editor.fontWeight', payload.editorOptions.fontWeight ],
+			].filter( ( [ , value ] ) => value !== undefined )
+		);
+		migrateVSCodeSettings( settings, currentEditorOptions ).forEach( ( value, path ) => {
+			const target = path === 'theme' ? payload.editorSettings : payload.editorOptions;
+			target[ path ] = value ?? null;
 		} );
-	} );
+		return payload;
+	}
 
-	const options = editorOptions as Record< string, unknown >;
-	Object.entries( currentEditorOptions ).forEach( ( [ key, currentValue ] ) => {
-		if ( isPlainObject( currentValue ) ) {
-			Object.entries( currentValue ).forEach( ( [ subKey, currentSubValue ] ) => {
-				importValue( `${ key }.${ subKey }`, currentSubValue, ( value ) => {
-					( options[ key ] as Record< string, unknown > )[ subKey ] = value;
-				} );
-			} );
-			return;
-		}
-
-		importValue( key, currentValue, ( value ) => {
-			options[ key ] = value;
-		} );
-	} );
-
-	return {
-		editorSettings,
-		editorOptions,
-		importedCount,
-		skippedCount: vscodeSettings.size - importedCount,
+	const payload: EditorConfigPayload = {
+		editorSettings: Object.create( null ),
+		editorOptions: Object.create( null ),
 	};
+	migrateVSCodeSettings( data, currentEditorOptions ).forEach( ( value, path ) => {
+		const target = ( EDITOR_SETTING_KEYS as readonly string[] ).includes( path )
+			? payload.editorSettings
+			: payload.editorOptions;
+		// Send `null` instead of `undefined`, which JSON drops, so that the server
+		// counts a value that couldn't be converted as skipped.
+		setPath( target, path, value ?? null );
+	} );
+	return payload;
+}
+
+/**
+ * Count the values of the editor config, counting each property of an object
+ * option, e.g. `minimap.enabled`, as one value.
+ *
+ * @param values The editor settings or options.
+ * @return The number of values.
+ */
+function countValues( values: Record< string, unknown > ) {
+	return Object.values( values ).reduce< number >(
+		( count, value ) => count + ( isPlainObject( value ) ? Object.keys( value ).length : 1 ),
+		0
+	);
+}
+
+/**
+ * Get the number of the values that the server accepted.
+ *
+ * @param editorConfig The validated editor config.
+ * @return The number of the imported values.
+ */
+export function countEditorConfig( editorConfig: EditorConfigPayload ) {
+	return countValues( editorConfig.editorSettings ) + countValues( editorConfig.editorOptions );
+}
+
+/**
+ * Merge the validated editor options into the current ones. Each property of an
+ * object option replaces the current one, and other options replace the current
+ * value.
+ *
+ * @param currentEditorOptions The current editor options.
+ * @param editorOptions        The validated editor options.
+ * @return The merged editor options.
+ */
+export function mergeEditorOptions(
+	currentEditorOptions: EditorOptions,
+	editorOptions: Record< string, unknown >
+): EditorOptions {
+	const options: Record< string, unknown > = { ...currentEditorOptions };
+	Object.entries( editorOptions ).forEach( ( [ key, value ] ) => {
+		options[ key ] =
+			isPlainObject( value ) && isPlainObject( options[ key ] )
+				? { ...options[ key ], ...value }
+				: value;
+	} );
+	return options as EditorOptions;
 }

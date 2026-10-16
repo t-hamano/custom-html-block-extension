@@ -7,6 +7,7 @@ import apiFetch from '@wordpress/api-fetch';
  * Internal dependencies
  */
 import type { EditorSettings, EditorOptions, Options } from '../types';
+import type { EditorConfigPayload } from './tools/utils';
 
 type Settings = {
 	editorSettings: EditorSettings;
@@ -52,4 +53,20 @@ export async function updateSettings( settings: {
 	);
 
 	return fromResponse( await apiFetch( { path: SETTINGS_PATH, method: 'POST', data } ) );
+}
+
+/**
+ * Validate an imported editor config without saving it.
+ *
+ * @param editorConfig The editor config to validate.
+ * @return The valid values, and the paths of the skipped values.
+ */
+export async function validateEditorConfig(
+	editorConfig: EditorConfigPayload
+): Promise< EditorConfigPayload & { skipped: string[] } > {
+	return apiFetch( {
+		path: '/custom-html-block-extension/v1/validate_editor_config',
+		method: 'POST',
+		data: editorConfig,
+	} );
 }
