@@ -15,7 +15,6 @@ class Option {
 		'editor_settings'       => 'custom_html_block_extension_editor_settings',
 		'editor_options'        => 'custom_html_block_extension_editor_options',
 		'options'               => 'custom_html_block_extension_options',
-		// Plugin version that the stored options were last upgraded to.
 		'version'               => 'custom_html_block_extension_version',
 		// No longer used, but still deleted on uninstall for sites that stored it.
 		'dismiss_welcome_guide' => 'custom_html_block_extension_dismiss_welcome_guilde',
