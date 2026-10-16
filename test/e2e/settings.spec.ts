@@ -125,23 +125,25 @@ test.describe( 'Settings REST API', () => {
 		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
 	} );
 
-	test( 'should migrate legacy editor options', async ( { requestUtils } ) => {
+	test( 'should reject legacy editor options', async ( { requestUtils } ) => {
+		// The settings UI only sends values of the current schema. Files exported
+		// by older versions are migrated by the import instead.
+		await expect(
+			requestUtils.rest( {
+				method: 'POST',
+				path: '/wp/v2/settings',
+				data: { [ EDITOR_OPTIONS ]: { hover: false } },
+			} )
+		).rejects.toMatchObject( { code: 'rest_invalid_param' } );
+	} );
+
+	test( 'should remove unknown properties', async ( { requestUtils } ) => {
 		const response = await requestUtils.rest( {
 			method: 'POST',
 			path: '/wp/v2/settings',
 			data: {
 				[ EDITOR_SETTINGS ]: { tabSize: 4, unknownSetting: true },
 				[ EDITOR_OPTIONS ]: {
-					acceptSuggestionOnEnter: false,
-					cursorSmoothCaretAnimation: true,
-					occurrencesHighlight: false,
-					renderFinalNewline: false,
-					find: { seedSearchStringFromSelection: true },
-					hover: false,
-					renderIndentGuides: false,
-					highlightActiveIndentGuide: false,
-					quickSuggestions: false,
-					rulers: 0,
 					// `localityBonus` is not in the schema.
 					suggest: { insertMode: 'replace', localityBonus: true },
 				},
@@ -150,20 +152,7 @@ test.describe( 'Settings REST API', () => {
 
 		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4, theme: 'vs-dark' } );
 		expect( response[ EDITOR_SETTINGS ] ).not.toHaveProperty( 'unknownSetting' );
-		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( {
-			acceptSuggestionOnEnter: 'off',
-			cursorSmoothCaretAnimation: 'on',
-			occurrencesHighlight: 'off',
-			renderFinalNewline: 'off',
-			find: { seedSearchStringFromSelection: 'always' },
-			hover: { enabled: 'off' },
-			guides: { indentation: false, highlightActiveIndentation: false },
-			quickSuggestions: { other: 'off', comments: 'off', strings: 'off' },
-			rulers: [],
-			suggest: { insertMode: 'replace', showIcons: true },
-			fontSize: 14,
-		} );
-		expect( response[ EDITOR_OPTIONS ] ).not.toHaveProperty( 'renderIndentGuides' );
+		expect( response[ EDITOR_OPTIONS ].suggest ).toMatchObject( { insertMode: 'replace' } );
 		expect( response[ EDITOR_OPTIONS ].suggest ).not.toHaveProperty( 'localityBonus' );
 	} );
 
