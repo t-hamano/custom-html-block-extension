@@ -9,6 +9,10 @@ import { parse, type ParseError } from 'jsonc-parser';
 import type { EditorOptions, EditorSettings } from '../../../../types';
 import themes from '../../../../lib/themes';
 
+// Prefix of the settings that VS Code doesn't have, like an extension's
+// settings, e.g. `customHtmlBlockExtension.theme`.
+const SETTINGS_PREFIX = 'customHtmlBlockExtension.';
+
 // Editor settings that map to VS Code's `editor.*` settings, including the
 // ones added by `migrateVSCodeSettings()`.
 const EDITOR_SETTING_KEYS = [
@@ -74,6 +78,13 @@ const LEGACY_VALUES: [ string, [ unknown, string ][] ][] = [
 		],
 	],
 	[ 'cursorBlinking', [ [ 'visible', 'solid' ] ] ],
+	[
+		'find.seedSearchStringFromSelection',
+		[
+			[ true, 'always' ],
+			[ false, 'never' ],
+		],
+	],
 	[
 		'cursorSmoothCaretAnimation',
 		[
@@ -302,6 +313,19 @@ function findTheme( name: string ): string | undefined {
 }
 
 /**
+ * Whether a value is a theme of this plugin: a bundled theme or one of
+ * Monaco's built-in themes.
+ *
+ * @param value The theme slug.
+ * @return Whether the theme exists.
+ */
+function isTheme( value: unknown ): value is string {
+	return (
+		value === 'vs-dark' || value === 'light' || themes.some( ( theme ) => theme.value === value )
+	);
+}
+
+/**
  * Find the first font in a CSS font stack, e.g. `"'Fira Code', Consolas,
  * monospace"`, that this plugin has: a registered font or the generic
  * `monospace`. Font names match ignoring case.
@@ -373,6 +397,17 @@ function migrateVSCodeSettings(
 				? showExpandedAbbreviation !== 'never'
 				: undefined
 		);
+	}
+
+	// The theme and Emmet exported by this plugin take priority over VS Code's
+	// settings.
+	const theme = settings[ `${ SETTINGS_PREFIX }theme` ];
+	if ( theme !== undefined ) {
+		vscodeSettings.set( 'theme', isTheme( theme ) ? theme : undefined );
+	}
+	const emmet = settings[ `${ SETTINGS_PREFIX }emmet` ];
+	if ( emmet !== undefined ) {
+		vscodeSettings.set( 'emmet', emmet );
 	}
 
 	// An older VS Code version turned off auto closing quotes and surrounding
@@ -480,25 +515,86 @@ function isAcceptableValue( path: string, value: unknown, currentValue: unknown 
 }
 
 /**
- * Parse a VS Code `settings.json` and merge the supported `editor.*` settings,
- * the theme and Emmet into the current editor config.
+ * Convert the editor config to the format of VS Code's `settings.json`. The
+ * theme and Emmet, which VS Code doesn't have, get the `customHtmlBlockExtension.`
+ * prefix.
  *
- * @param text                  The settings.json text.
+ * @param editorSettings The editor settings.
+ * @param editorOptions  The editor options.
+ * @return The settings keyed by setting name, e.g. `editor.minimap.enabled`.
+ */
+export function exportEditorConfig(
+	editorSettings: EditorSettings,
+	editorOptions: EditorOptions
+): Record< string, unknown > {
+	const settings: Record< string, unknown > = {
+		[ `${ SETTINGS_PREFIX }theme` ]: editorSettings.theme,
+		[ `${ SETTINGS_PREFIX }emmet` ]: editorSettings.emmet,
+		'editor.tabSize': editorSettings.tabSize,
+		'editor.insertSpaces': editorSettings.insertSpaces,
+		'editor.detectIndentation': editorSettings.detectIndentation,
+	};
+
+	Object.entries( editorOptions ).forEach( ( [ key, value ] ) => {
+		if ( isPlainObject( value ) ) {
+			Object.entries( value ).forEach( ( [ subKey, subValue ] ) => {
+				settings[ `editor.${ key }.${ subKey }` ] = subValue;
+			} );
+			return;
+		}
+		settings[ `editor.${ key }` ] = value;
+	} );
+
+	return settings;
+}
+
+/**
+ * Convert a file exported by older versions of this plugin, which has the
+ * `editorSettings` and `editorOptions` objects, to the `settings.json` format.
+ *
+ * @param data The parsed file.
+ * @return The settings, or `null` if the file is not in the older format.
+ */
+function fromLegacyExport( data: Record< string, unknown > ): Record< string, unknown > | null {
+	const { editorSettings, editorOptions } = data;
+	if ( ! isPlainObject( editorSettings ) || ! isPlainObject( editorOptions ) ) {
+		return null;
+	}
+
+	const settings: Record< string, unknown > = {};
+	Object.entries( editorSettings ).forEach( ( [ key, value ] ) => {
+		const name = key === 'theme' || key === 'emmet' ? SETTINGS_PREFIX + key : `editor.${ key }`;
+		settings[ name ] = value;
+	} );
+	Object.entries( editorOptions ).forEach( ( [ key, value ] ) => {
+		settings[ `editor.${ key }` ] = value;
+	} );
+	return settings;
+}
+
+/**
+ * Parse a VS Code `settings.json`, or a file exported by this plugin, and merge
+ * the supported `editor.*` settings, the theme and Emmet into the current
+ * editor config.
+ *
+ * @param text                  The JSON text.
  * @param currentEditorSettings The current editor settings.
  * @param currentEditorOptions  The current editor options.
  * @return The merged editor config, or `null` if the text is not a JSON object.
  */
-export function importVSCodeSettings(
+export function importEditorConfig(
 	text: string,
 	currentEditorSettings: EditorSettings,
 	currentEditorOptions: EditorOptions
 ): ImportResult | null {
 	const errors: ParseError[] = [];
-	const settings = parse( text, errors, { allowTrailingComma: true } );
+	const data = parse( text, errors, { allowTrailingComma: true } );
 
-	if ( errors.length > 0 || ! isPlainObject( settings ) ) {
+	if ( errors.length > 0 || ! isPlainObject( data ) ) {
 		return null;
 	}
+
+	const settings = fromLegacyExport( data ) ?? data;
 
 	const vscodeSettings = migrateVSCodeSettings( settings, currentEditorOptions );
 	const editorSettings = { ...currentEditorSettings };

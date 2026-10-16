@@ -12,6 +12,7 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import { AdminContext } from '../../../index';
 import { getSettings } from '../../../api';
+import { exportEditorConfig } from '../import-tool/utils';
 
 export default function ExportTool() {
 	const { setIsWaiting } = useContext( AdminContext );
@@ -30,7 +31,11 @@ export default function ExportTool() {
 				( '0' + ( date.getMonth() + 1 ) ).slice( -2 ) +
 				'-' +
 				( '0' + date.getDate() ).slice( -2 );
-			const json = JSON.stringify( { editorSettings, editorOptions }, null, '\t' );
+			const json = JSON.stringify(
+				exportEditorConfig( editorSettings, editorOptions ),
+				null,
+				'\t'
+			);
 			const blob = new window.Blob( [ json ], { type: 'application/json' } );
 			const href = URL.createObjectURL( blob );
 			const link = document.createElement( 'a' );
@@ -61,7 +66,7 @@ export default function ExportTool() {
 				<Stack direction="column" align="start" gap="sm">
 					<Text render={ <p /> }>
 						{ __(
-							'Use the download button to export the editor settings. You can restore the editor config by importing the exported file on another WordPress site.',
+							'Use the download button to export the editor config. The file uses the same format as the VS Code settings.json, so you can import it on another WordPress site or copy the settings into VS Code.',
 							'custom-html-block-extension'
 						) }
 					</Text>
