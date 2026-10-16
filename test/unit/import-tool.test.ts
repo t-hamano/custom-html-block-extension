@@ -348,15 +348,20 @@ describe( 'importEditorConfig', () => {
 	} );
 
 	it( 'imports a file exported by older versions', () => {
-		const result = importSettings( {
-			editorSettings: { theme: 'monokai', tabSize: 4, emmet: false },
-			editorOptions: {
-				fontSize: 20,
-				hover: false,
-				renderIndentGuides: false,
-				find: { seedSearchStringFromSelection: true },
-			},
-		} );
+		const result = importEditorConfig(
+			JSON.stringify( {
+				editorSettings: { theme: 'monokai', tabSize: 4, emmet: false },
+				editorOptions: {
+					fontSize: 20,
+					hover: false,
+					renderIndentGuides: false,
+					find: { seedSearchStringFromSelection: true },
+					rulers: 0,
+				},
+			} ),
+			editorSettings,
+			{ ...editorOptions, rulers: [ 80 ] }
+		);
 		expect( result?.editorSettings ).toMatchObject( {
 			theme: 'monokai',
 			tabSize: 4,
@@ -365,5 +370,6 @@ describe( 'importEditorConfig', () => {
 		expect( result?.editorOptions.fontSize ).toBe( 20 );
 		expect( result?.editorOptions.hover.enabled ).toBe( 'off' );
 		expect( result?.editorOptions.guides.indentation ).toBe( false );
+		expect( result?.editorOptions.rulers ).toEqual( [] );
 	} );
 } );

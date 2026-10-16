@@ -569,6 +569,10 @@ function fromLegacyExport( data: Record< string, unknown > ): Record< string, un
 	Object.entries( editorOptions ).forEach( ( [ key, value ] ) => {
 		settings[ `editor.${ key }` ] = value;
 	} );
+	// `rulers` previously defaulted to `0` instead of an array.
+	if ( settings[ 'editor.rulers' ] === 0 ) {
+		settings[ 'editor.rulers' ] = [];
+	}
 	return settings;
 }
 
