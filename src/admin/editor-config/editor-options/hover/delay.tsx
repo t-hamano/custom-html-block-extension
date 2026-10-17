@@ -57,6 +57,10 @@ export default function HoverDelay() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the delay in milliseconds after which the hover is shown.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: sprintf(
@@ -65,10 +69,6 @@ export default function HoverDelay() {
 							'300'
 						),
 						image: 'editor-options/hover/delay_1.gif',
-						description: __(
-							'The hover is shown shortly after the mouse stops over the code.',
-							'custom-html-block-extension'
-						),
 						value: 300,
 						isDefault: true,
 					},
@@ -79,10 +79,6 @@ export default function HoverDelay() {
 							'1500'
 						),
 						image: 'editor-options/hover/delay_2.gif',
-						description: __(
-							'The hover is shown only after the mouse rests over the code for a while, so it does not get in the way while moving the mouse.',
-							'custom-html-block-extension'
-						),
 						value: 1500,
 					},
 				] }
