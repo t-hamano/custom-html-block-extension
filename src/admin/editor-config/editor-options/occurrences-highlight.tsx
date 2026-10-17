@@ -47,6 +47,10 @@ export default function OccurrencesHighlight() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should highlight semantic symbol occurrences.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
