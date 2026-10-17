@@ -53,6 +53,10 @@ export default function MinimapScale() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Scale of content drawn in the minimap: 1, 2 or 3.',
+					'custom-html-block-extension'
+				) }
 				image="editor-options/minimap/scale.gif"
 				value={ editorOptions.minimap.scale }
 			/>
