@@ -17,7 +17,7 @@ export default function FindSeedSearchStringFromSelection() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Seed Search String From Selection', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Find', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

@@ -16,7 +16,10 @@ export default function BracketPairColorizationIndependentColorPoolPerBracketTyp
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Independent Color Pool Per Bracket Type', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility(
+		title,
+		__( 'Bracket Pair Colorization', 'custom-html-block-extension' )
+	);
 
 	if ( ! isVisible ) {
 		return null;

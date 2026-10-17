@@ -16,7 +16,7 @@ export default function CommentsInsertSpace() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Comments: Insert Space', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Comments', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

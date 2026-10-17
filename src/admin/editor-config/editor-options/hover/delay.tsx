@@ -20,7 +20,7 @@ export default function HoverDelay() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Hover Delay (ms)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Hover', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

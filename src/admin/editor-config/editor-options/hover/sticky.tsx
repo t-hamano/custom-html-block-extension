@@ -16,7 +16,7 @@ export default function HoverSticky() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Keep Hover Visible on Mouse Over', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Hover', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

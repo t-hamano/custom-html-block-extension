@@ -17,7 +17,7 @@ export default function MinimapShowSlider() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Show Slider', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

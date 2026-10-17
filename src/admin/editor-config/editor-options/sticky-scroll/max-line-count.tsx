@@ -18,7 +18,10 @@ export default function StickyScrollMaxLineCount() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Max Line Count', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility(
+		title,
+		__( 'Sticky Scroll', 'custom-html-block-extension' )
+	);
 
 	if ( ! isVisible ) {
 		return null;

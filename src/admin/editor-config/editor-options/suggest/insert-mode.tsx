@@ -17,7 +17,7 @@ export default function SuggestInsertMode() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Insert Mode', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Suggest', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

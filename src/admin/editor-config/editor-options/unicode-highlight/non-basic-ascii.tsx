@@ -16,7 +16,10 @@ export default function UnicodeHighlightNonBasicAscii() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Non Basic ASCII', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility(
+		title,
+		__( 'Unicode Highlight', 'custom-html-block-extension' )
+	);
 
 	if ( ! isVisible ) {
 		return null;

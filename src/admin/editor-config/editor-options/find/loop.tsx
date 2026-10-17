@@ -16,7 +16,7 @@ export default function FindLoop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Loop', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Find', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

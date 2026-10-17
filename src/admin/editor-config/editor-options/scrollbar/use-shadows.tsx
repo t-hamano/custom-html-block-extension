@@ -16,7 +16,7 @@ export default function ScrollbarUseShadows() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Use Shadows', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

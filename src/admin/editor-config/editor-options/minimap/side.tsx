@@ -21,7 +21,7 @@ export default function MinimapSide() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Side', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

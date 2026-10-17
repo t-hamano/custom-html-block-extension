@@ -16,7 +16,7 @@ export default function FindAddExtraSpaceOnTop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Add Extra Space On Top', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Find', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

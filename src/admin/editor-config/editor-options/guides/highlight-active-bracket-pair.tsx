@@ -16,7 +16,7 @@ export default function GuidesHighlightActiveBracketPair() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Highlight Active Bracket Pair', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

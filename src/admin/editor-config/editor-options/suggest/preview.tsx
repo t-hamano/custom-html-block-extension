@@ -16,7 +16,7 @@ export default function SuggestPreview() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Preview', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Suggest', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

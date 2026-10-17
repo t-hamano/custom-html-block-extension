@@ -16,7 +16,7 @@ export default function GuidesIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Indentation', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

@@ -19,7 +19,7 @@ export default function GuidesBracketPairs() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Bracket Pairs', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

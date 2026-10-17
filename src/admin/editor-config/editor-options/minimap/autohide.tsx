@@ -17,7 +17,7 @@ export default function MinimapAutohide() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Autohide', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

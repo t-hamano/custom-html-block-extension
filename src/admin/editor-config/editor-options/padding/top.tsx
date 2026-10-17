@@ -19,7 +19,7 @@ export default function PaddingTop() {
 
 	const title = __( 'Top (px)', 'custom-html-block-extension' );
 
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Padding', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

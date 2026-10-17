@@ -17,7 +17,7 @@ export default function MinimapSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Size', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

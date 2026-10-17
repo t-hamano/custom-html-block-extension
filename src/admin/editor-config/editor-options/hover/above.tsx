@@ -16,7 +16,7 @@ export default function HoverAbove() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Prefer Hover Above', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Hover', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

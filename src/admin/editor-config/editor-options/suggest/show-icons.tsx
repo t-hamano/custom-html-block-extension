@@ -16,7 +16,7 @@ export default function SuggestShowIcons() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Show Icons', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Suggest', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

@@ -16,7 +16,7 @@ export default function MinimapRenderCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Render Characters', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

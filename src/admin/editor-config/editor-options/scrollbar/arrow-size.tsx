@@ -23,7 +23,7 @@ export default function ScrollbarArrowSize() {
 	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 200 );
 
 	const title = __( 'Arrow Size (px)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

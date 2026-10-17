@@ -17,7 +17,7 @@ export default function ScrollbarAlwaysConsumeMouseWheel() {
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
 	const title = __( 'Always Consume Mouse Wheel', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

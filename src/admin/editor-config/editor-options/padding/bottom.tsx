@@ -19,7 +19,7 @@ export default function PaddingBottom() {
 
 	const title = __( 'Bottom (px)', 'custom-html-block-extension' );
 
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Padding', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

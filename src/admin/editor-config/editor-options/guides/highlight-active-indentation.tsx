@@ -19,7 +19,7 @@ export default function GuidesHighlightActiveIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Highlight Active Indentation', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

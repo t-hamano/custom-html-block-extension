@@ -23,7 +23,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 200 );
 
 	const title = __( 'Vertical Scrollbar Size (px)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
