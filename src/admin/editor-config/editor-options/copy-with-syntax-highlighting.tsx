@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -45,10 +45,22 @@ export default function CopyWithSyntaxHighlighting() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				description={ __(
-					'Example: How it looks when pasted into Microsoft Word',
-					'custom-html-block-extension'
-				) }
+				description={
+					<>
+						<Text render={ <p /> }>
+							{ __(
+								'Controls whether syntax highlighting should be copied into the clipboard.',
+								'custom-html-block-extension'
+							) }
+						</Text>
+						<Text render={ <p /> }>
+							{ __(
+								'Example: How it looks when pasted into Microsoft Word',
+								'custom-html-block-extension'
+							) }
+						</Text>
+					</>
+				}
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
