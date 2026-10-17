@@ -50,7 +50,14 @@ export default function MinimapMaxColumn() {
 				allowReset
 				onChange={ onChange }
 			/>
-			<ItemHelp title={ title } image="editor-options/minimap/max-column.gif" />
+			<ItemHelp
+				title={ title }
+				description={ __(
+					'Limit the width of the minimap to render at most a certain number of columns.',
+					'custom-html-block-extension'
+				) }
+				image="editor-options/minimap/max-column.gif"
+			/>
 		</Stack>
 	);
 }
