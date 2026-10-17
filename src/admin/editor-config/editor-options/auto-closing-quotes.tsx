@@ -27,13 +27,13 @@ export default function AutoClosingQuotes() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
-			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_1.gif',
 			description: __( 'Always autoclose quotes.', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Determined by the language', 'custom-html-block-extension' ),
 			value: 'languageDefined',
+			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_2.gif',
 			description: __(
 				'Use language configurations to determine when to autoclose quotes.',

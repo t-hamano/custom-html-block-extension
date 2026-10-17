@@ -50,7 +50,7 @@ export default function DragAndDrop() {
 					'custom-html-block-extension'
 				) }
 				isToggle
-				defaultToggle={ false }
+				defaultToggle
 				image="editor-options/drag-and-drop.gif"
 				value={ editorOptions.dragAndDrop }
 			/>

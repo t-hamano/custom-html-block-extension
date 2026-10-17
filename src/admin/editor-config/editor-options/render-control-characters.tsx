@@ -53,6 +53,7 @@ export default function RenderControlCharacters() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
+						isDefault: true,
 						image: 'editor-options/render-control-characters_1.jpg',
 						description: __(
 							'Control characters are shown as labeled symbols such as SOH or ETX.',
@@ -67,7 +68,6 @@ export default function RenderControlCharacters() {
 							'Control characters are shown as a generic placeholder symbol.',
 							'custom-html-block-extension'
 						),
-						isDefault: true,
 					},
 				] }
 				value={ editorOptions.renderControlCharacters }

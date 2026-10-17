@@ -32,7 +32,6 @@ export default function WrappingIndent() {
 				'custom-html-block-extension'
 			),
 			value: 'none',
-			isDefault: true,
 		},
 		{
 			label: __( 'Same', 'custom-html-block-extension' ),
@@ -42,6 +41,7 @@ export default function WrappingIndent() {
 				'custom-html-block-extension'
 			),
 			value: 'same',
+			isDefault: true,
 		},
 		{
 			label: __( 'Indent', 'custom-html-block-extension' ),

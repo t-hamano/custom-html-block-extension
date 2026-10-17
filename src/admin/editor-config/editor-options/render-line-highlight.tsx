@@ -27,12 +27,12 @@ export default function RenderLineHighlight() {
 		{
 			label: __( 'Line numbers and the editor content', 'custom-html-block-extension' ),
 			value: 'all',
-			isDefault: true,
 			image: 'editor-options/render-line-highlight_1.jpg',
 		},
 		{
 			label: __( 'Only the editor content', 'custom-html-block-extension' ),
 			value: 'line',
+			isDefault: true,
 			image: 'editor-options/render-line-highlight_2.jpg',
 		},
 		{
