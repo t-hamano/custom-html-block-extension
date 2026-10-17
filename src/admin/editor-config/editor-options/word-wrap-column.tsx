@@ -50,6 +50,10 @@ export default function WordWrapColumn() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the wrapping column of the editor when "Word Wrap" is "Depends on word wrap column" or "Flexible".',
+					'custom-html-block-extension'
+				) }
 				image="editor-options/word-wrap-column.gif"
 				value={ editorOptions.wordWrapColumn }
 			/>
