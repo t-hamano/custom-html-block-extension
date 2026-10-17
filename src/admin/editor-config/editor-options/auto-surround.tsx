@@ -73,6 +73,10 @@ export default function AutoSurround() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should automatically surround selections when typing quotes or brackets.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.autoSurround }
 			/>
