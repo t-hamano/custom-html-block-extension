@@ -159,7 +159,7 @@ test.describe( 'Wrap with Abbreviation', () => {
 			await page.keyboard.press( 'Enter' );
 			await expect
 				.poll( () => target.getValue( fixtures ) )
-				.toBe( '<ul>\n    <li>foo</li>\n    <li>bar</li>\n</ul>' );
+				.toBe( '<ul>\n\t<li>foo</li>\n\t<li>bar</li>\n</ul>' );
 		} );
 
 		test( 'should wrap the current line without selection', async ( { admin, editor, page } ) => {
@@ -198,7 +198,7 @@ test.describe( 'Wrap with Abbreviation', () => {
 			await page.keyboard.press( 'Enter' );
 			await expect
 				.poll( () => target.getValue( fixtures ) )
-				.toBe( '<section>\n    <div>text</div>\n</section>' );
+				.toBe( '<section>\n\t<div>text</div>\n</section>' );
 			await page.keyboard.press( await getShortcut( page, 'z' ) );
 			await expect.poll( () => target.getValue( fixtures ) ).toBe( 'text' );
 		} );
