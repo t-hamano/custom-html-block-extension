@@ -68,6 +68,7 @@ export default function MatchBrackets() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Highlight matching brackets.', 'custom-html-block-extension' ) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.matchBrackets }
