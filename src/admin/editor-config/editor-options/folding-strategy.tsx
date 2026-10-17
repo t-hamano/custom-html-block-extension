@@ -38,6 +38,10 @@ export default function FoldingStrategy() {
 			label: __( 'Depends on indentation', 'custom-html-block-extension' ),
 			value: 'indentation',
 			image: 'editor-options/folding-strategy_2.gif',
+			description: __(
+				'Use the indentation-based folding strategy.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
@@ -71,6 +75,10 @@ export default function FoldingStrategy() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the strategy for computing folding ranges.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.foldingStrategy }
 			/>
