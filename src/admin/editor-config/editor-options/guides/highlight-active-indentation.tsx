@@ -18,7 +18,7 @@ type Value = EditorOptions[ 'guides' ][ 'highlightActiveIndentation' ];
 export default function GuidesHighlightActiveIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Guides: Highlight Active Indentation', 'custom-html-block-extension' );
+	const title = __( 'Highlight Active Indentation', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
@@ -104,7 +104,7 @@ export default function GuidesHighlightActiveIndentation() {
 				description={
 					<Text render={ <p /> }>
 						{ __(
-							'Highlight the indent guide of the block at the cursor. This applies to the indent guides shown by "Guides: Indentation", not to the bracket pair guides.',
+							'Highlight the indent guide of the block at the cursor. This applies to the indent guides shown by Indentation, not to the bracket pair guides.',
 							'custom-html-block-extension'
 						) }
 					</Text>

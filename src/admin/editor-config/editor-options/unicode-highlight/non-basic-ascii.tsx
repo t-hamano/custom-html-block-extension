@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function UnicodeHighlightNonBasicAscii() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Unicode Highlight: Non Basic ASCII', 'custom-html-block-extension' );
+	const title = __( 'Non Basic ASCII', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility(
 		title,
 		__( 'Unicode Highlight', 'custom-html-block-extension' )

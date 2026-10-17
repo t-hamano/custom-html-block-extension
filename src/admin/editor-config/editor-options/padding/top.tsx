@@ -17,7 +17,7 @@ import { toNumber } from '../../../../lib/helper';
 export default function PaddingTop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Padding: Top (px)', 'custom-html-block-extension' );
+	const title = __( 'Top (px)', 'custom-html-block-extension' );
 
 	const isVisible = useSearchVisibility( title, __( 'Padding', 'custom-html-block-extension' ) );
 
