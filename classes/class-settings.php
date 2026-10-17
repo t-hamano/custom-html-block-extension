@@ -788,21 +788,6 @@ class Settings {
 	}
 
 	/**
-	 * Normalize editor options to the current schema: migrate legacy values and
-	 * remove unknown properties. Value types are validated by the REST schema.
-	 */
-	public static function normalize_editor_options( $editor_options ) {
-		if ( ! is_array( $editor_options ) ) {
-			return $editor_options;
-		}
-
-		return self::remove_unknown_properties(
-			self::migrate_legacy_editor_options( $editor_options ),
-			self::DEFAULT_EDITOR_OPTIONS
-		);
-	}
-
-	/**
 	 * Remove properties that are not in the defaults, such as options removed
 	 * in older versions, since the settings schema doesn't allow them.
 	 */
@@ -848,6 +833,80 @@ class Settings {
 		}
 
 		return $values;
+	}
+
+	/**
+	 * Keep only the values that match the schema, such as imported values, and
+	 * collect the paths of the others. Numbers out of range are clamped first.
+	 * Unlike `reset_invalid_values()`, invalid values are removed instead of reset
+	 * to their defaults, so the current values can be kept for them.
+	 *
+	 * @param array  $values   The values to validate.
+	 * @param array  $defaults The option definitions.
+	 * @param string $path     The path of the parent option.
+	 * @return array The valid values (`values`) and the paths of the others (`skipped`).
+	 */
+	public static function remove_invalid_values( $values, $defaults, $path = '' ) {
+		$schema  = self::get_schema( $defaults );
+		$valid   = array();
+		$skipped = array();
+
+		foreach ( $values as $key => $value ) {
+			$key_path = '' === $path ? (string) $key : $path . '.' . $key;
+
+			if ( ! isset( $defaults[ $key ] ) ) {
+				$skipped[] = $key_path;
+				continue;
+			}
+
+			if ( 'object' === $defaults[ $key ]['type'] ) {
+				if ( ! is_array( $value ) ) {
+					$skipped[] = $key_path;
+					continue;
+				}
+				$result = self::remove_invalid_values( $value, $defaults[ $key ]['items'], $key_path );
+				if ( $result['values'] ) {
+					$valid[ $key ] = $result['values'];
+				}
+				$skipped = array_merge( $skipped, $result['skipped'] );
+				continue;
+			}
+
+			$property = $schema['properties'][ $key ];
+
+			// Clamp numbers out of range, including the ruler columns, instead of
+			// skipping them.
+			$clamp = function ( $number, $range ) {
+				if ( ! is_numeric( $number ) || ( ! isset( $range['minimum'] ) && ! isset( $range['maximum'] ) ) ) {
+					return $number;
+				}
+				$number = (float) $number;
+				return min( max( $number, $range['minimum'] ?? $number ), $range['maximum'] ?? $number );
+			};
+			$value = $clamp( $value, $property );
+			if ( is_array( $value ) && isset( $property['items'] ) ) {
+				foreach ( $value as $index => $item ) {
+					if ( isset( $item['column'], $property['items']['properties']['column'] ) ) {
+						$value[ $index ]['column'] = $clamp( $item['column'], $property['items']['properties']['column'] );
+					} else {
+						$value[ $index ] = $clamp( $item, $property['items'] );
+					}
+				}
+			}
+
+			if ( is_wp_error( rest_validate_value_from_schema( $value, $property, $key_path ) ) ) {
+				$skipped[] = $key_path;
+				continue;
+			}
+
+			// Convert values such as a numeric string to the type of the option.
+			$valid[ $key ] = rest_sanitize_value_from_schema( $value, $property, $key_path );
+		}
+
+		return array(
+			'values'  => $valid,
+			'skipped' => $skipped,
+		);
 	}
 
 	/**
@@ -934,8 +993,10 @@ class Settings {
 		);
 		foreach ( $legacy_guides as $legacy_key => $key ) {
 			if ( array_key_exists( $legacy_key, $editor_options ) ) {
+				// The other `guides` properties get their defaults when the options
+				// are loaded, and keep the current values when they are imported.
 				if ( ! isset( $editor_options['guides'] ) || ! is_array( $editor_options['guides'] ) ) {
-					$editor_options['guides'] = wp_list_pluck( self::DEFAULT_EDITOR_OPTIONS['guides']['items'], 'default' );
+					$editor_options['guides'] = array();
 				}
 				$editor_options['guides'][ $key ] = $editor_options[ $legacy_key ];
 				unset( $editor_options[ $legacy_key ] );

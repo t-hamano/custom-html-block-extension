@@ -65,6 +65,60 @@ class Test_Api extends WP_UnitTestCase {
 		$this->assertArrayHasKey( Option::OPTION_NAMES['options'], $data );
 	}
 
+	public function test_validate_editor_config_route() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		$request = new WP_REST_Request( 'POST', '/custom-html-block-extension/v1/validate_editor_config' );
+		$request->set_body_params(
+			array(
+				'editorSettings' => array(
+					'tabSize' => 20,
+					'emmet'   => false,
+				),
+				'editorOptions'  => array(
+					'fontSize'           => 40,
+					'lineNumbers'        => 'off',
+					'renderIndentGuides' => false,
+					'hover'              => true,
+					'rulers'             => array( 80, 120 ),
+					'cursorStyle'        => 'foo',
+				),
+			)
+		);
+
+		$editor_options = get_option( Option::OPTION_NAMES['editor_options'] );
+		$response       = rest_get_server()->dispatch( $request );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertEquals(
+			array(
+				'editorSettings' => (object) array(
+					'tabSize' => 8.0,
+					'emmet'   => false,
+				),
+				'editorOptions'  => (object) array(
+					'fontSize'    => 30.0,
+					'lineNumbers' => 'off',
+					'hover'       => array( 'enabled' => 'on' ),
+					'guides'      => array( 'indentation' => false ),
+					'rulers'      => array( 80.0, 100.0 ),
+				),
+				'skipped'        => array( 'cursorStyle' ),
+			),
+			$response->get_data()
+		);
+		// The editor config should not be saved.
+		$this->assertSame( $editor_options, get_option( Option::OPTION_NAMES['editor_options'] ) );
+	}
+
+	public function test_validate_editor_config_route_requires_manage_options() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
+
+		$request = new WP_REST_Request( 'POST', '/custom-html-block-extension/v1/validate_editor_config' );
+
+		$this->assertSame( 403, rest_get_server()->dispatch( $request )->get_status() );
+	}
+
 	public function test_json_schema_route_requires_edit_themes_or_edit_plugins() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
 

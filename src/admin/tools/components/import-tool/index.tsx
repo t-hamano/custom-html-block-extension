@@ -6,113 +6,122 @@ import type { ChangeEvent } from 'react';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { useContext, useState } from '@wordpress/element';
+import { __, _n, sprintf } from '@wordpress/i18n';
+import { createInterpolateElement, useContext, useState } from '@wordpress/element';
 import { FormFileUpload } from '@wordpress/components';
-import { Button, Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
+import { Button, Card, CollapsibleCard, Notice, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
+import { isAppleOS } from '@wordpress/keycodes';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { updateSettings } from '../../../api';
+import { countEditorConfig, mergeEditorOptions, parseEditorConfig } from '../../utils';
+import { validateEditorConfig } from '../../../api';
 
-function isObject( value: unknown ): boolean {
-	return typeof value === 'object' && value !== null && ! Array.isArray( value );
+function getSettingsFolder() {
+	if ( isAppleOS() ) {
+		return '~/Library/Application Support/Code/User/';
+	}
+	if ( window.navigator.platform.includes( 'Linux' ) ) {
+		return '~/.config/Code/User/';
+	}
+	return '%APPDATA%\\Code\\User\\';
 }
 
 export default function ImportTool() {
-	const { setEditorSettings, setEditorOptions, setSavedEditorConfig, setIsWaiting } =
+	const { editorOptions, isWaiting, setEditorSettings, setEditorOptions, setIsWaiting } =
 		useContext( AdminContext );
 
-	const [ importFile, setImportFile ] = useState< File | null >( null );
+	const [ settingsText, setSettingsText ] = useState( '' );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
-	// Upload file (check file extension).
-	const onUploadFile = ( event: ChangeEvent< HTMLInputElement > ) => {
+	// Load the file into the text area. The MIME type of a `.json` file can be
+	// empty in some environments, so check the extension instead.
+	const onUploadFile = async ( event: ChangeEvent< HTMLInputElement > ) => {
 		const file = event.target.files?.[ 0 ];
-		if ( undefined === file ) {
-			setImportFile( null );
-			return false;
+		event.target.value = '';
+		if ( ! file ) {
+			return;
 		}
-
-		if ( 'application/json' !== file.type ) {
+		if ( ! file.name.toLowerCase().endsWith( '.json' ) ) {
 			createErrorNotice( __( 'It is not a JSON file.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
-			setImportFile( null );
-			return false;
-		}
-
-		setImportFile( file );
-	};
-
-	const createInvalidFormatNotice = () => {
-		createErrorNotice(
-			__( 'The format of JSON file is not correct.', 'custom-html-block-extension' ),
-			{
-				type: 'snackbar',
-			}
-		);
-	};
-
-	// Import editor config.
-	const onImportOptions = () => {
-		if ( ! importFile ) {
 			return;
 		}
-		const fileReader = new window.FileReader();
-		fileReader.readAsText( importFile, 'UTF-8' );
+		setSettingsText( await file.text() );
+	};
 
-		fileReader.onload = ( event ) => {
-			try {
-				const result = event.target?.result;
-				const data = JSON.parse( typeof result === 'string' ? result : '' );
+	// Import the settings as unsaved changes, so that they can be checked in the
+	// preview before saving. The server validates the values.
+	const onImport = async () => {
+		const editorConfig = parseEditorConfig( settingsText, editorOptions );
 
-				if ( ! isObject( data?.editorSettings ) || ! isObject( data?.editorOptions ) ) {
-					createInvalidFormatNotice();
-					return false;
-				}
+		if ( ! editorConfig ) {
+			createErrorNotice(
+				__( 'The format of the settings is not correct.', 'custom-html-block-extension' ),
+				{ type: 'snackbar' }
+			);
+			return;
+		}
 
-				setIsWaiting( true );
+		setIsWaiting( true );
+		const result = await validateEditorConfig( editorConfig ).catch( ( error: Error ) => {
+			createErrorNotice( error.message, { type: 'snackbar' } );
+			return null;
+		} );
+		if ( ! result ) {
+			setIsWaiting( false );
+			return;
+		}
 
-				// Update editor config.
-				updateSettings( {
-					editorSettings: data.editorSettings,
-					editorOptions: data.editorOptions,
-				} )
-					.then( async ( response ) => {
-						// Keep the spinner visible briefly so it does not flash on fast responses.
-						await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
-						createSuccessNotice(
-							__( 'Imported the editor config.', 'custom-html-block-extension' ),
-							{
-								type: 'snackbar',
-							}
-						);
-						setEditorSettings( response.editorSettings );
-						setEditorOptions( response.editorOptions );
-						setSavedEditorConfig( {
-							editorSettings: response.editorSettings,
-							editorOptions: response.editorOptions,
-						} );
-						setImportFile( null );
-					} )
-					.catch( () => {
-						// The editor config is missing or has invalid values.
-						createInvalidFormatNotice();
-					} )
-					.finally( () => {
-						setIsWaiting( false );
-					} );
-			} catch {
-				// Invalid JSON format.
-				createInvalidFormatNotice();
-				return false;
-			}
-		};
+		const importedCount = countEditorConfig( result );
+		const skippedCount = result.skipped.length;
+		if ( importedCount === 0 ) {
+			setIsWaiting( false );
+			createErrorNotice( __( 'No supported settings were found.', 'custom-html-block-extension' ), {
+				type: 'snackbar',
+			} );
+			return;
+		}
+
+		// Apply the settings before the delay, so that edits made while the
+		// spinner is visible are not overwritten.
+		setEditorSettings( ( current ) => ( { ...current, ...result.editorSettings } ) );
+		setEditorOptions( ( current ) => mergeEditorOptions( current, result.editorOptions ) );
+		// Keep the text if it was changed while waiting.
+		setSettingsText( ( currentText ) => ( currentText === settingsText ? '' : currentText ) );
+		// Keep the spinner visible briefly so it does not flash on fast responses.
+		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+		setIsWaiting( false );
+		const message =
+			skippedCount === 1
+				? sprintf(
+						/* translators: 1: Number of imported settings, 2: Number of skipped settings (1). */
+						_n(
+							'Imported %1$d setting and skipped %2$d setting. Check the preview and save the changes.',
+							'Imported %1$d settings and skipped %2$d setting. Check the preview and save the changes.',
+							importedCount,
+							'custom-html-block-extension'
+						),
+						importedCount,
+						skippedCount
+					)
+				: sprintf(
+						/* translators: 1: Number of imported settings, 2: Number of skipped settings. */
+						_n(
+							'Imported %1$d setting and skipped %2$d settings. Check the preview and save the changes.',
+							'Imported %1$d settings and skipped %2$d settings. Check the preview and save the changes.',
+							importedCount,
+							'custom-html-block-extension'
+						),
+						importedCount,
+						skippedCount
+					);
+		createSuccessNotice( message, { type: 'snackbar' } );
 	};
 
 	return (
@@ -124,23 +133,48 @@ export default function ImportTool() {
 				<Stack direction="column" align="start" gap="lg">
 					<Text render={ <p /> }>
 						{ __(
-							'Select the Custom HTML Block Extension JSON file you would like to import and click the import button below.',
+							'Paste the contents of an exported file or the VS Code settings.json file, or upload the file, and click the button below. You can open settings.json in VS Code from the Command Palette with "Preferences: Open User Settings (JSON)".',
 							'custom-html-block-extension'
 						) }
 					</Text>
-					<Stack justify="start" align="center" wrap="wrap" gap="lg">
-						<FormFileUpload
-							accept="application/json"
-							onChange={ onUploadFile }
-							render={ ( { openFileDialog } ) => (
-								<Button variant="outline" onClick={ openFileDialog }>
-									{ __( 'Upload file', 'custom-html-block-extension' ) }
-								</Button>
+					<Text render={ <p /> }>
+						{ createInterpolateElement(
+							sprintf(
+								/* translators: %s: Path to the folder containing settings.json. */
+								__(
+									'The settings.json file is located in <code>%s</code>.',
+									'custom-html-block-extension'
+								),
+								getSettingsFolder()
+							),
+							{ code: <code /> }
+						) }
+					</Text>
+					<Notice.Root intent="info" style={ { width: '100%' } }>
+						<Notice.Description>
+							{ __(
+								'Not all VS Code settings are supported. Unsupported settings will not be imported.',
+								'custom-html-block-extension'
 							) }
-						/>
-						{ importFile && <span>{ importFile.name }</span> }
-					</Stack>
-					<Button disabled={ ! importFile } onClick={ onImportOptions }>
+						</Notice.Description>
+					</Notice.Root>
+					<FormFileUpload
+						accept=".json"
+						onChange={ onUploadFile }
+						render={ ( { openFileDialog } ) => (
+							<Button variant="outline" onClick={ openFileDialog }>
+								{ __( 'Upload file', 'custom-html-block-extension' ) }
+							</Button>
+						) }
+					/>
+					<TextareaControl
+						className="chbe-admin-tools__import-settings"
+						label={ __( 'Settings (JSON)', 'custom-html-block-extension' ) }
+						value={ settingsText }
+						onValueChange={ ( value: string ) => setSettingsText( value ) }
+						rows={ 10 }
+					/>
+					<Button disabled={ isWaiting || ! settingsText.trim() } onClick={ onImport }>
 						{ __( 'Import', 'custom-html-block-extension' ) }
 					</Button>
 				</Stack>
