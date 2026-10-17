@@ -31,22 +31,38 @@ export default function AutoIndent() {
 			label: __( 'None', 'custom-html-block-extension' ),
 			value: 'none',
 			image: 'editor-options/auto-indent_1.gif',
+			description: __(
+				'The editor will not insert indentation automatically.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Keep', 'custom-html-block-extension' ),
 			value: 'keep',
 			image: 'editor-options/auto-indent_2.gif',
+			description: __(
+				"The editor will keep the current line's indentation.",
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Brackets', 'custom-html-block-extension' ),
 			value: 'brackets',
 			image: 'editor-options/auto-indent_3.gif',
+			description: __(
+				"The editor will keep the current line's indentation and honor language defined brackets.",
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Advanced', 'custom-html-block-extension' ),
 			value: 'advanced',
 			isDefault: true,
 			image: 'editor-options/auto-indent_4.gif',
+			description: __(
+				"The editor will keep the current line's indentation, honor language defined brackets and apply language-specific rules when pressing Enter.",
+				'custom-html-block-extension'
+			),
 		},
 	];
 

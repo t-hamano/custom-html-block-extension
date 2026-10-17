@@ -50,6 +50,7 @@ export default function SuggestFontSize() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Font size for the suggest widget.', 'custom-html-block-extension' ) }
 				items={ [
 					{
 						label: sprintf(

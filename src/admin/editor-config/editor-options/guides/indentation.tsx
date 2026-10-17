@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function GuidesIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Indentation', 'custom-html-block-extension' );
+	const title = __( 'Guides: Indentation', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {

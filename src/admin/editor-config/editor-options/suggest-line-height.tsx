@@ -50,6 +50,7 @@ export default function SuggestLineHeight() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Line height for the suggest widget.', 'custom-html-block-extension' ) }
 				items={ [
 					{
 						label: sprintf(

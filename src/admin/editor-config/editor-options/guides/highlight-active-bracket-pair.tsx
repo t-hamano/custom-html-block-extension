@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function GuidesHighlightActiveBracketPair() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight Active Bracket Pair', 'custom-html-block-extension' );
+	const title = __( 'Guides: Highlight Active Bracket Pair', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {

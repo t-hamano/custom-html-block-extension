@@ -25,7 +25,7 @@ export default function FoldingStrategy() {
 
 	const items = [
 		{
-			label: __( 'Depends on documentation', 'custom-html-block-extension' ),
+			label: __( 'Depends on the language', 'custom-html-block-extension' ),
 			value: 'auto',
 			image: 'editor-options/folding-strategy_1.gif',
 			description: __(

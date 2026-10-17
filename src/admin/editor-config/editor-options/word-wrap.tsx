@@ -80,6 +80,7 @@ export default function WordWrap() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Controls how lines should wrap.', 'custom-html-block-extension' ) }
 				items={ items }
 				value={ editorOptions.wordWrap }
 			/>

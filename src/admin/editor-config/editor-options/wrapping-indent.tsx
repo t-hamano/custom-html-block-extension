@@ -93,6 +93,10 @@ export default function WrappingIndent() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the indentation of wrapped lines.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.wrappingIndent }
 			/>
