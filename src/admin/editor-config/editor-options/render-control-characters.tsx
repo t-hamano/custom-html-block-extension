@@ -49,13 +49,13 @@ export default function RenderControlCharacters() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
+						isDefault: true,
 						image: 'editor-options/render-control-characters_1.jpg',
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/render-control-characters_2.jpg',
-						isDefault: true,
 					},
 				] }
 				value={ editorOptions.renderControlCharacters }

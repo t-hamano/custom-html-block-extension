@@ -27,12 +27,12 @@ export default function AutoClosingQuotes() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
-			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_1.gif',
 		},
 		{
 			label: __( 'Determined by the language', 'custom-html-block-extension' ),
 			value: 'languageDefined',
+			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_2.gif',
 		},
 		{

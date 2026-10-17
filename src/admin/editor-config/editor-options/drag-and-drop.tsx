@@ -46,7 +46,7 @@ export default function DragAndDrop() {
 				onChange={ onChange }
 				title={ title }
 				isToggle
-				defaultToggle={ false }
+				defaultToggle
 				image="editor-options/drag-and-drop.gif"
 				value={ editorOptions.dragAndDrop }
 			/>

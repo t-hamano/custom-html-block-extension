@@ -427,7 +427,7 @@ class Settings {
 		'renderFinalNewline'               => array(
 			'type'    => 'string',
 			'enum'    => array( 'on', 'dimmed', 'off' ),
-			'default' => 'dimmed',
+			'default' => 'on',
 		),
 		'renderLineHighlight'              => array(
 			'type'    => 'string',

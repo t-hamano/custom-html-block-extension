@@ -25,7 +25,7 @@ export default function TabSize() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorSettings( {
 			...editorSettings,
-			tabSize: value ? toNumber( value, 1, 8 ) : 2,
+			tabSize: value ? toNumber( value, 1, 8 ) : 4,
 		} );
 	};
 

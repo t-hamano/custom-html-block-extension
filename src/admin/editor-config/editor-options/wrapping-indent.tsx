@@ -28,12 +28,12 @@ export default function WrappingIndent() {
 			label: __( 'None', 'custom-html-block-extension' ),
 			image: 'editor-options/wrapping-indent_1.jpg',
 			value: 'none',
-			isDefault: true,
 		},
 		{
 			label: __( 'Same', 'custom-html-block-extension' ),
 			image: 'editor-options/wrapping-indent_2.jpg',
 			value: 'same',
+			isDefault: true,
 		},
 		{
 			label: __( 'Indent', 'custom-html-block-extension' ),
