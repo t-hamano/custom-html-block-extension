@@ -129,7 +129,7 @@ export default function QuickSuggestionsTypes() {
 			<ItemHelp
 				title={ title }
 				description={ __(
-					'Controls whether suggestions should automatically show up while typing. This can be controlled for typing in comments, strings, and other code..',
+					'Controls whether suggestions should automatically show up while typing. This can be controlled for typing in comments, strings, and other code.',
 					'custom-html-block-extension'
 				) }
 				items={ items }
