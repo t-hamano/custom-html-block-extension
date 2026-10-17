@@ -50,6 +50,10 @@ export default function ScrollBeyondLastColumn() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the number of extra characters beyond which the editor will scroll horizontally.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: sprintf(
