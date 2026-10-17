@@ -53,12 +53,20 @@ export default function FindAddExtraSpaceOnTop() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/find/addextra-space-on-top_1.jpg',
+						description: __(
+							'While the find widget is open, extra space is added above the first line so the widget does not cover it.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/find/addextra-space-on-top_2.jpg',
+						description: __(
+							'No extra space is added, so the find widget may cover the first lines.',
+							'custom-html-block-extension'
+						),
 					},
 				] }
 				value={ editorOptions.find.addExtraSpaceOnTop }
