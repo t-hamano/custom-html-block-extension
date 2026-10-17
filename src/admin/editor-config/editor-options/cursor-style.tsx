@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function CursorStyle() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Cursor style', 'custom-html-block-extension' );
+	const title = __( 'Cursor Style', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

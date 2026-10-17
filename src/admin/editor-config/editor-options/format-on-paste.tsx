@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function FormatOnPaste() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable format on paste', 'custom-html-block-extension' );
+	const title = __( 'Format On Paste', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -50,12 +50,20 @@ export default function FormatOnPaste() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/format-on-paste_1.gif',
+						description: __(
+							'Pasted content is automatically formatted to match the surrounding code.',
+							'custom-html-block-extension'
+						),
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						isDefault: true,
 						image: 'editor-options/format-on-paste_2.gif',
+						description: __(
+							'Pasted content is inserted as is, without formatting.',
+							'custom-html-block-extension'
+						),
 					},
 				] }
 				value={ editorOptions.formatOnPaste }

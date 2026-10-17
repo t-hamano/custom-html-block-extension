@@ -17,8 +17,11 @@ import { toNumber } from '../../../../lib/helper';
 export default function StickyScrollMaxLineCount() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Maximum number of sticky lines', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Max Line Count', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility(
+		title,
+		__( 'Sticky Scroll', 'custom-html-block-extension' )
+	);
 
 	if ( ! isVisible ) {
 		return null;
@@ -54,7 +57,7 @@ export default function StickyScrollMaxLineCount() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'The maximum number of lines that stay at the top of the editor while scrolling.',
+					'Defines the maximum number of sticky lines to show.',
 					'custom-html-block-extension'
 				) }
 				items={ [

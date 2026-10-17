@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function ColumnSelection() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable column selection', 'custom-html-block-extension' );
+	const title = __( 'Column Selection', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -39,7 +39,7 @@ export default function ColumnSelection() {
 			gap="sm"
 		>
 			<SwitchControl
-				label={ __( 'Enable column selection', 'custom-html-block-extension' ) }
+				label={ title }
 				checked={ editorOptions.columnSelection }
 				onCheckedChange={ onChange }
 			/>

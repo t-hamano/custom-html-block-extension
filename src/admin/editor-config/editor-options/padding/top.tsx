@@ -17,9 +17,9 @@ import { toNumber } from '../../../../lib/helper';
 export default function PaddingTop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Padding top (px)', 'custom-html-block-extension' );
+	const title = __( 'Top (px)', 'custom-html-block-extension' );
 
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Padding', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -55,7 +55,7 @@ export default function PaddingTop() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Spacing between top edge of editor and first line.',
+					'Controls the amount of space between the top edge of the editor and the first line.',
 					'custom-html-block-extension'
 				) }
 				image="editor-options/padding/top.gif"

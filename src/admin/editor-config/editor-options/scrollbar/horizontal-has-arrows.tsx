@@ -16,8 +16,8 @@ export default function ScrollbarHorizontalHasArrows() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Show arrows on horizontal scrollbar', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Horizontal Has Arrows', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -50,6 +50,10 @@ export default function ScrollbarHorizontalHasArrows() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether arrows are rendered at the left and right of the horizontal scrollbar.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

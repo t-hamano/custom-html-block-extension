@@ -16,8 +16,8 @@ export default function ScrollbarVerticalHasArrows() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Show arrows on vertical scrollbar', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Vertical Has Arrows', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -50,6 +50,10 @@ export default function ScrollbarVerticalHasArrows() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether arrows are rendered at the top and bottom of the vertical scrollbar.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

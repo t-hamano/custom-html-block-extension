@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function RenderWhitespace() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Rendering of whitespace', 'custom-html-block-extension' );
+	const title = __( 'Render Whitespace', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -81,6 +81,10 @@ export default function RenderWhitespace() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls how the editor should render whitespace characters.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.renderWhitespace }
 			/>

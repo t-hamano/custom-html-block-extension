@@ -19,7 +19,7 @@ import ItemHelp from '../components/item-help';
 export default function InsertSpaces() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
 
-	const title = __( 'Indent type', 'custom-html-block-extension' );
+	const title = __( 'Insert Spaces', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -56,7 +56,7 @@ export default function InsertSpaces() {
 			gap="sm"
 		>
 			<ToggleGroupControl
-				label={ __( 'Indent type', 'custom-html-block-extension' ) }
+				label={ __( 'Insert Spaces', 'custom-html-block-extension' ) }
 				value={ editorSettings.insertSpaces ? 'space' : 'tab' }
 				onChange={ onChange }
 				isBlock

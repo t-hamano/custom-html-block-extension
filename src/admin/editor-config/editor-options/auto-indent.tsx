@@ -17,7 +17,7 @@ export default function AutoIndent() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Auto indent', 'custom-html-block-extension' );
+	const title = __( 'Auto Indent', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -77,6 +77,10 @@ export default function AutoIndent() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should automatically adjust the indentation when users type, paste, move or indent lines.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="4"
 				value={ editorOptions.autoIndent }

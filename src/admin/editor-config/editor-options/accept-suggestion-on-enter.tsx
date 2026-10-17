@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AcceptSuggestionOnEnter() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Accept suggestions on enter key', 'custom-html-block-extension' );
+	const title = __( 'Accept Suggestion On Enter', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -39,7 +39,7 @@ export default function AcceptSuggestionOnEnter() {
 			value: 'smart',
 			image: 'editor-options/accept-suggestion-on-enter_2.gif',
 			description: __(
-				'Pressing Enter accepts the suggestion only when it changes the text. If the suggestion is the same as the word already typed, pressing Enter inserts a new line instead.',
+				'Only accept a suggestion with Enter when it makes a textual change.',
 				'custom-html-block-extension'
 			),
 		},

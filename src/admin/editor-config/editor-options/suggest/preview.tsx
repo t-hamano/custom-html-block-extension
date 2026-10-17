@@ -15,8 +15,8 @@ import ItemHelp from '../../components/item-help';
 export default function SuggestPreview() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Preview the selected suggestion', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Preview', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Suggest', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -48,6 +48,10 @@ export default function SuggestPreview() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether to preview the suggestion outcome in the editor.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

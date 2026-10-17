@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function ScrollBeyondLastLine() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Scroll past the last line', 'custom-html-block-extension' );
+	const title = __( 'Scroll Beyond Last Line', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -45,6 +45,10 @@ export default function ScrollBeyondLastLine() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor will scroll beyond the last line.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

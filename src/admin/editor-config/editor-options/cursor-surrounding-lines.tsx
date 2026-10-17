@@ -17,10 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function CursorSurroundingLines() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Number of lines to keep before and after the cursor',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Cursor Surrounding Lines', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -54,7 +51,7 @@ export default function CursorSurroundingLines() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Sets the number of lines to keep before and after the cursor when the cursor is moved up and down.',
+					'Controls the minimal number of visible leading lines (minimum 0) and trailing lines (minimum 1) surrounding the cursor.',
 					'custom-html-block-extension'
 				) }
 				items={ [

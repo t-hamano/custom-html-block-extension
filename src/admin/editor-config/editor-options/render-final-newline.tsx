@@ -16,10 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function RenderFinalNewline() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Render last line number when the file ends with a newline',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Render Final Newline', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -71,6 +68,10 @@ export default function RenderFinalNewline() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Render last line number when the file ends with a newline.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.renderFinalNewline }

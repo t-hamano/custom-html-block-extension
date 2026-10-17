@@ -16,9 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function MouseWheelZoom() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = isAppleOS()
-		? __( 'Command + mouse wheel to zoom in / out', 'custom-html-block-extension' )
-		: __( 'Ctrl + mouse wheel to zoom in / out', 'custom-html-block-extension' );
+	const title = __( 'Mouse Wheel Zoom', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -48,6 +46,17 @@ export default function MouseWheelZoom() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={
+					isAppleOS()
+						? __(
+								'Zoom the font of the editor when using mouse wheel and holding Cmd.',
+								'custom-html-block-extension'
+							)
+						: __(
+								'Zoom the font of the editor when using mouse wheel and holding Ctrl.',
+								'custom-html-block-extension'
+							)
+				}
 				isToggle
 				defaultToggle={ false }
 				image="editor-options/mouse-wheel-zoom.gif"

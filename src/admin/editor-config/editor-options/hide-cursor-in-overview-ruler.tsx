@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function HideCursorInOverviewRuler() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Hide cursor position on scroll bar', 'custom-html-block-extension' );
+	const title = __( 'Hide Cursor In Overview Ruler', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -45,6 +45,10 @@ export default function HideCursorInOverviewRuler() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the cursor should be hidden in the overview ruler.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

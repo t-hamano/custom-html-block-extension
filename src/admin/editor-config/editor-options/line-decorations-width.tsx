@@ -17,7 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function LineDecorationsWidth() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Folding area width (px)', 'custom-html-block-extension' );
+	const title = __( 'Line Decorations Width (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -50,6 +50,10 @@ export default function LineDecorationsWidth() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'The width reserved for line decorations. Line decorations are placed between line numbers and the editor content.',
+					'custom-html-block-extension'
+				) }
 				image="editor-options/line-decorations-width.gif"
 				value={ editorOptions.lineDecorationsWidth }
 			/>

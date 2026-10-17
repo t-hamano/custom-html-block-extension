@@ -18,7 +18,7 @@ type FontWeightProps = {
 export default function FontWeight( { fontWeights }: FontWeightProps ) {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Font weight', 'custom-html-block-extension' );
+	const title = __( 'Font Weight', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

@@ -194,7 +194,7 @@ test.describe( 'Editor config', () => {
 	} ) => {
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
-		await page.getByRole( 'spinbutton', { name: 'Indent width' } ).fill( '4' );
+		await page.getByRole( 'spinbutton', { name: 'Tab Size' } ).fill( '4' );
 		await page.getByRole( 'combobox', { name: 'Theme' } ).click();
 		await page.getByRole( 'option', { name: 'GitHub', exact: true } ).click();
 		await page.getByRole( 'button', { name: 'Save settings' } ).click();
@@ -235,7 +235,7 @@ test.describe( 'Editor config', () => {
 		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
-		const tabSize = page.getByRole( 'spinbutton', { name: 'Indent width' } );
+		const tabSize = page.getByRole( 'spinbutton', { name: 'Tab Size' } );
 		await expect( tabSize ).toHaveValue( '4' );
 
 		// The range controls also have "Reset" buttons, so pick the one opening the dialog.
@@ -357,7 +357,7 @@ test.describe( 'Editor config', () => {
 			'true'
 		);
 		await page.getByRole( 'tab', { name: 'Editor config' } ).click();
-		await expect( page.getByRole( 'spinbutton', { name: 'Indent width' } ) ).toHaveValue( '4' );
+		await expect( page.getByRole( 'spinbutton', { name: 'Tab Size' } ) ).toHaveValue( '4' );
 		let response = await requestUtils.rest( { path: '/wp/v2/settings' } );
 		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 2 } );
 
@@ -465,7 +465,7 @@ test.describe( 'Editor preview', () => {
 				.evaluate( ( element ) => window.getComputedStyle( element ).fontFamily );
 		await expect.poll( getFontFamily ).toContain( 'Fira Code' );
 
-		await page.getByRole( 'combobox', { name: 'Font family' } ).click();
+		await page.getByRole( 'combobox', { name: 'Font Family' } ).click();
 		await page.getByRole( 'option', { name: 'Source Code Pro', exact: true } ).click();
 
 		// The font is loaded and kept in the preview, without falling back to the default font.

@@ -15,7 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function MouseWheelScrollSensitivity() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Mouse wheel scroll speed', 'custom-html-block-extension' );
+	const title = __( 'Mouse Wheel Scroll Sensitivity', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

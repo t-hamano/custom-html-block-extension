@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function SmoothScrolling() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable smooth scroll', 'custom-html-block-extension' );
+	const title = __( 'Smooth Scrolling', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -45,6 +45,10 @@ export default function SmoothScrolling() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor will scroll using an animation.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

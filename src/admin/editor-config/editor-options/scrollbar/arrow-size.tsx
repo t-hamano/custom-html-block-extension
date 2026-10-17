@@ -22,8 +22,8 @@ export default function ScrollbarArrowSize() {
 	// Debounce the refresh to avoid refreshing the editor every time the range is changed.
 	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 200 );
 
-	const title = __( 'Arrow area size', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Arrow Size (px)', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -60,6 +60,10 @@ export default function ScrollbarArrowSize() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the size of the scrollbar arrows.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: sprintf(

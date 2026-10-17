@@ -17,7 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function WordWrapColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Word wrap column', 'custom-html-block-extension' );
+	const title = __( 'Word Wrap Column', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -50,6 +50,10 @@ export default function WordWrapColumn() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the wrapping column of the editor.',
+					'custom-html-block-extension'
+				) }
 				image="editor-options/word-wrap-column.gif"
 				value={ editorOptions.wordWrapColumn }
 			/>
