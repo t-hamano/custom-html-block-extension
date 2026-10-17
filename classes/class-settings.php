@@ -788,12 +788,13 @@ class Settings {
 
 	/**
 	 * Keep only the values that match the schema, such as imported values, and
-	 * collect the paths of the others. Numbers out of range are clamped first.
+	 * collect the others with the reasons. Numbers out of range are clamped first.
 	 *
 	 * @param array  $values   The values to validate.
 	 * @param array  $defaults The option definitions.
 	 * @param string $path     The path of the parent option.
-	 * @return array The valid values (`values`) and the paths of the others (`skipped`).
+	 * @return array The valid values (`values`), and the path, error code and
+	 *               message of each of the others (`skipped`).
 	 */
 	public static function remove_invalid_values( $values, $defaults, $path = '' ) {
 		$schema  = self::get_schema( $defaults );
@@ -804,13 +805,22 @@ class Settings {
 			$key_path = '' === $path ? (string) $key : $path . '.' . $key;
 
 			if ( ! isset( $defaults[ $key ] ) ) {
-				$skipped[] = $key_path;
+				$skipped[] = array(
+					'path'    => $key_path,
+					'code'    => 'unsupported',
+					'message' => __( 'This setting is not supported.', 'custom-html-block-extension' ),
+				);
 				continue;
 			}
 
 			if ( 'object' === $defaults[ $key ]['type'] ) {
 				if ( ! is_array( $value ) ) {
-					$skipped[] = $key_path;
+					$skipped[] = array(
+						'path'    => $key_path,
+						'code'    => 'rest_invalid_type',
+						/* translators: %s: Setting path. */
+						'message' => sprintf( __( '%s is not of type object.', 'custom-html-block-extension' ), $key_path ),
+					);
 					continue;
 				}
 				$result = self::remove_invalid_values( $value, $defaults[ $key ]['items'], $key_path );
@@ -843,8 +853,13 @@ class Settings {
 				}
 			}
 
-			if ( is_wp_error( rest_validate_value_from_schema( $value, $property, $key_path ) ) ) {
-				$skipped[] = $key_path;
+			$error = rest_validate_value_from_schema( $value, $property, $key_path );
+			if ( is_wp_error( $error ) ) {
+				$skipped[] = array(
+					'path'    => $key_path,
+					'code'    => $error->get_error_code(),
+					'message' => $error->get_error_message(),
+				);
 				continue;
 			}
 

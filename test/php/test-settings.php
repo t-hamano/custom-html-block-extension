@@ -304,7 +304,14 @@ class Test_Settings extends WP_UnitTestCase {
 			),
 			$result['values']
 		);
-		$this->assertSame( array( 'cursorStyle', 'tabSize', 'minimap' ), $result['skipped'] );
+		$this->assertSame(
+			array(
+				'cursorStyle' => 'rest_not_in_enum',
+				'tabSize'     => 'unsupported',
+				'minimap'     => 'rest_invalid_type',
+			),
+			wp_list_pluck( $result['skipped'], 'code', 'path' )
+		);
 	}
 
 	public function test_get_schema() {
