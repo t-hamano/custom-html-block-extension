@@ -278,42 +278,46 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertSame(
 			array(
 				'fontSize' => 20.0,
-				'hover'    => array( 'enabled' => 'off' ),
+				'hover'    => array(
+					'enabled' => 'off',
+					'delay'   => 3000.0,
+				),
 				'rulers'   => array( 80.0 ),
 			),
 			$result['values']
 		);
-		$this->assertSame( array( 'cursorStyle', 'tabSize', 'hover.delay', 'minimap' ), $result['skipped'] );
+		$this->assertSame( array( 'cursorStyle', 'tabSize', 'minimap' ), $result['skipped'] );
 	}
 
-	public function test_clamp_rulers() {
+	public function test_clamp_to_schema() {
+		$schema = Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS );
+
+		$this->assertSame( 30, Settings::clamp_to_schema( 40, $schema['properties']['fontSize'] ) );
+		$this->assertSame( 10, Settings::clamp_to_schema( 5, $schema['properties']['fontSize'] ) );
+		$this->assertSame( '40', Settings::clamp_to_schema( '40', $schema['properties']['fontSize'] ) );
 		$this->assertSame(
 			array(
-				'rulers' => array(
+				80,
+				100,
+				array(
+					'column' => 100,
+					'color'  => '#ff0000',
+				),
+				1,
+			),
+			Settings::clamp_to_schema(
+				array(
 					80,
-					100,
+					120,
 					array(
-						'column' => 100,
+						'column' => 10000,
 						'color'  => '#ff0000',
 					),
 					0,
 				),
-			),
-			Settings::clamp_rulers(
-				array(
-					'rulers' => array(
-						80,
-						120,
-						array(
-							'column' => 10000,
-							'color'  => '#ff0000',
-						),
-						0,
-					),
-				)
+				$schema['properties']['rulers']
 			)
 		);
-		$this->assertSame( array( 'rulers' => 'foo' ), Settings::clamp_rulers( array( 'rulers' => 'foo' ) ) );
 	}
 
 	public function test_get_schema() {

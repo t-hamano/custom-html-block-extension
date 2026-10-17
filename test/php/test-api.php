@@ -81,6 +81,7 @@ class Test_Api extends WP_UnitTestCase {
 					'renderIndentGuides' => false,
 					'hover'              => true,
 					'rulers'             => array( 80, 120 ),
+					'cursorStyle'        => 'foo',
 				),
 			)
 		);
@@ -91,14 +92,18 @@ class Test_Api extends WP_UnitTestCase {
 		$this->assertSame( 200, $response->get_status() );
 		$this->assertEquals(
 			array(
-				'editorSettings' => (object) array( 'emmet' => false ),
+				'editorSettings' => (object) array(
+					'tabSize' => 8.0,
+					'emmet'   => false,
+				),
 				'editorOptions'  => (object) array(
+					'fontSize'    => 30.0,
 					'lineNumbers' => 'off',
 					'hover'       => array( 'enabled' => 'on' ),
 					'guides'      => array( 'indentation' => false ),
 					'rulers'      => array( 80.0, 100.0 ),
 				),
-				'skipped'        => array( 'tabSize', 'fontSize' ),
+				'skipped'        => array( 'cursorStyle' ),
 			),
 			$response->get_data()
 		);

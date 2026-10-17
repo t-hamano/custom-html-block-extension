@@ -836,33 +836,49 @@ class Settings {
 	}
 
 	/**
-	 * Clamp the ruler columns over the maximum, since VS Code accepts columns up
-	 * to 10000, which this plugin doesn't support.
+	 * Clamp the numbers in a value to the `minimum` and `maximum` of its schema,
+	 * including the items of an array and the properties of an object, e.g. the
+	 * columns of `rulers`. Values of other types are returned as is.
 	 *
-	 * @param array $editor_options The editor options to import.
-	 * @return array The editor options with the clamped ruler columns.
+	 * @param mixed $value  The value to clamp.
+	 * @param array $schema The schema of the value.
+	 * @return mixed The clamped value.
 	 */
-	public static function clamp_rulers( $editor_options ) {
-		if ( ! isset( $editor_options['rulers'] ) || ! is_array( $editor_options['rulers'] ) ) {
-			return $editor_options;
+	public static function clamp_to_schema( $value, $schema ) {
+		if ( is_int( $value ) || is_float( $value ) ) {
+			if ( isset( $schema['minimum'] ) ) {
+				$value = max( $value, $schema['minimum'] );
+			}
+			if ( isset( $schema['maximum'] ) ) {
+				$value = min( $value, $schema['maximum'] );
+			}
+			return $value;
 		}
 
-		$maximum = self::DEFAULT_EDITOR_OPTIONS['rulers']['items']['maximum'];
-		foreach ( $editor_options['rulers'] as $index => $ruler ) {
-			if ( is_numeric( $ruler ) ) {
-				$editor_options['rulers'][ $index ] = min( $ruler, $maximum );
-			} elseif ( isset( $ruler['column'] ) && is_numeric( $ruler['column'] ) ) {
-				$editor_options['rulers'][ $index ]['column'] = min( $ruler['column'], $maximum );
+		if ( ! is_array( $value ) ) {
+			return $value;
+		}
+
+		if ( wp_is_numeric_array( $value ) && isset( $schema['items'] ) ) {
+			foreach ( $value as $index => $item ) {
+				$value[ $index ] = self::clamp_to_schema( $item, $schema['items'] );
+			}
+			return $value;
+		}
+
+		foreach ( $value as $key => $property_value ) {
+			if ( isset( $schema['properties'][ $key ] ) ) {
+				$value[ $key ] = self::clamp_to_schema( $property_value, $schema['properties'][ $key ] );
 			}
 		}
-
-		return $editor_options;
+		return $value;
 	}
 
 	/**
 	 * Keep only the values that match the schema, such as imported values, and
-	 * collect the paths of the others. Unlike `reset_invalid_values()`, values
-	 * that are not given stay missing, so the current values can be kept for them.
+	 * collect the paths of the others. Numbers out of range are clamped first.
+	 * Unlike `reset_invalid_values()`, values that are not given stay missing, so
+	 * the current values can be kept for them.
 	 *
 	 * @param array  $values   The values to validate.
 	 * @param array  $defaults The option definitions.
@@ -896,6 +912,7 @@ class Settings {
 			}
 
 			$property = $schema['properties'][ $key ];
+			$value    = self::clamp_to_schema( $value, $property );
 			if ( is_wp_error( rest_validate_value_from_schema( $value, $property, $key_path ) ) ) {
 				$skipped[] = $key_path;
 				continue;
