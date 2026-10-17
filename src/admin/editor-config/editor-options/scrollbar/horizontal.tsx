@@ -75,6 +75,10 @@ export default function ScrollbarHorizontal() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the visibility of the horizontal scrollbar.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.scrollbar.horizontal }

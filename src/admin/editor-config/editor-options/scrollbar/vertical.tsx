@@ -73,6 +73,10 @@ export default function ScrollbarVertical() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the visibility of the vertical scrollbar.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.scrollbar.vertical }
