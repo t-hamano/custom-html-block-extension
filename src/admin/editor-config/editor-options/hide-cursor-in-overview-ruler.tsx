@@ -45,6 +45,10 @@ export default function HideCursorInOverviewRuler() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the cursor should be hidden in the overview ruler.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
