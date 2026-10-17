@@ -78,6 +78,10 @@ export default function CursorSmoothCaretAnimation() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the smooth caret animation should be enabled.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.cursorSmoothCaretAnimation }
