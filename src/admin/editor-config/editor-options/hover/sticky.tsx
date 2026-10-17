@@ -15,7 +15,7 @@ import ItemHelp from '../../components/item-help';
 export default function HoverSticky() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Hover: Sticky', 'custom-html-block-extension' );
+	const title = __( 'Keep Hover Visible on Mouse Over', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
