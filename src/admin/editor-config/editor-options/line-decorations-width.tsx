@@ -50,6 +50,10 @@ export default function LineDecorationsWidth() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'The width reserved for line decorations. Line decorations are placed between line numbers and the editor content.',
+					'custom-html-block-extension'
+				) }
 				image="editor-options/line-decorations-width.gif"
 				value={ editorOptions.lineDecorationsWidth }
 			/>
