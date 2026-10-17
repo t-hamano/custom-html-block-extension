@@ -46,7 +46,7 @@ export default function GlyphMargin() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Controls whether the editor should render the vertical glyph margin. Glyph margin is mostly used for debugging.',
+					'Controls whether the editor should render the vertical glyph margin.',
 					'custom-html-block-extension'
 				) }
 				items={ [
