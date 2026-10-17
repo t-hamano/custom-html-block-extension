@@ -54,7 +54,7 @@ export default function MinimapScale() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Scale of content drawn in the minimap: 1, 2 or 3.',
+					'Scale of content drawn in the minimap.',
 					'custom-html-block-extension'
 				) }
 				image="editor-options/minimap/scale.gif"
