@@ -74,6 +74,10 @@ export default function SuggestInsertMode() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether words are overwritten when accepting completions.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="2"
 				value={ editorOptions.suggest.insertMode }
