@@ -45,6 +45,10 @@ export default function WordWrapIndicator() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether an indicator is rendered at the wrapping column of lines that wrap. Only has an effect when "Word Wrap" is enabled.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
