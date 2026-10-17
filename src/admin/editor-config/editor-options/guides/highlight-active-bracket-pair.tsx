@@ -51,7 +51,7 @@ export default function GuidesHighlightActiveBracketPair() {
 				description={
 					<Text render={ <p /> }>
 						{ __(
-							'Draw the guide of the bracket pair at the cursor in the highlight color. When disabled, the guide is still shown in the normal color. Has no effect when Bracket Pairs is set to None.',
+							'Draw the guide of the bracket pair at the cursor in the highlight color. When disabled, the guide is still shown in the normal color.',
 							'custom-html-block-extension'
 						) }
 					</Text>
