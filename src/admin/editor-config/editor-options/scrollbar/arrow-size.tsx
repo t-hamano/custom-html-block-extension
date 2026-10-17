@@ -60,6 +60,10 @@ export default function ScrollbarArrowSize() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the size of the scrollbar arrows. Takes effect only when "Vertical Has Arrows" or "Horizontal Has Arrows" is enabled.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: sprintf(
