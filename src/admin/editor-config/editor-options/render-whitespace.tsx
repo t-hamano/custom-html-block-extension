@@ -81,6 +81,10 @@ export default function RenderWhitespace() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls how the editor should render whitespace characters.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.renderWhitespace }
 			/>
