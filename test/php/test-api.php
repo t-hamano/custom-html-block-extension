@@ -5,6 +5,7 @@
 
 use Custom_Html_Block_Extension\Api;
 use Custom_Html_Block_Extension\Option;
+use Custom_Html_Block_Extension\Settings;
 
 class Test_Api extends WP_UnitTestCase {
 
@@ -103,7 +104,17 @@ class Test_Api extends WP_UnitTestCase {
 					'guides'      => array( 'indentation' => false ),
 					'rulers'      => array( 80.0, 100.0 ),
 				),
-				'skipped'        => array( 'cursorStyle' ),
+				'skipped'        => array(
+					array(
+						'path'    => 'cursorStyle',
+						'code'    => 'rest_not_in_enum',
+						'message' => rest_validate_value_from_schema(
+							'foo',
+							Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS )['properties']['cursorStyle'],
+							'cursorStyle'
+						)->get_error_message(),
+					),
+				),
 			),
 			$response->get_data()
 		);

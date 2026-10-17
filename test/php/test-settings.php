@@ -187,7 +187,7 @@ class Test_Settings extends WP_UnitTestCase {
 			array( 'enabled' => false )
 		);
 
-		$this->assertSame( 20, $editor_options['fontSize'] );
+		$this->assertSame( 20.0, $editor_options['fontSize'] );
 		$this->assertSame( $expected, $editor_options['minimap'] );
 	}
 
@@ -216,7 +216,7 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertArrayNotHasKey( 'renderIndentGuides', $editor_options );
 	}
 
-	public function test_get_editor_options_resets_invalid_values() {
+	public function test_get_editor_options_removes_invalid_values() {
 		// Simulate values saved before the allowed values or ranges were narrowed.
 		update_option(
 			Option::OPTION_NAMES['editor_options'],
@@ -236,27 +236,31 @@ class Test_Settings extends WP_UnitTestCase {
 		$editor_options = Settings::get_editor_options();
 		$defaults       = Settings::get_defaults( Settings::DEFAULT_EDITOR_OPTIONS );
 
-		$this->assertSame( $defaults['fontSize'], $editor_options['fontSize'] );
+		$this->assertSame( 30.0, $editor_options['fontSize'] );
 		$this->assertSame( $defaults['cursorStyle'], $editor_options['cursorStyle'] );
 		$this->assertSame( $defaults['renderWhitespace'], $editor_options['renderWhitespace'] );
 		$this->assertSame( 'relative', $editor_options['lineNumbers'] );
 		$this->assertSame( 'on', $editor_options['hover']['enabled'] );
-		$this->assertSame( $defaults['hover']['delay'], $editor_options['hover']['delay'] );
+		$this->assertSame( 3000.0, $editor_options['hover']['delay'] );
 		$this->assertSame( $defaults['minimap'], $editor_options['minimap'] );
 		$this->assertTrue(
 			rest_validate_value_from_schema( $editor_options, Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS ) )
 		);
 	}
 
-	public function test_get_editor_settings_resets_invalid_values() {
+	public function test_get_editor_settings_removes_invalid_values() {
 		update_option(
 			Option::OPTION_NAMES['editor_settings'],
-			array( 'tabSize' => 20 )
+			array(
+				'tabSize' => 20,
+				'emmet'   => 'foo',
+			)
 		);
 
 		$editor_settings = Settings::get_editor_settings();
 
-		$this->assertSame( Settings::DEFAULT_EDITOR_SETTINGS['tabSize']['default'], $editor_settings['tabSize'] );
+		$this->assertSame( 8.0, $editor_settings['tabSize'] );
+		$this->assertSame( Settings::DEFAULT_EDITOR_SETTINGS['emmet']['default'], $editor_settings['emmet'] );
 	}
 
 	public function test_remove_invalid_values() {
@@ -300,7 +304,14 @@ class Test_Settings extends WP_UnitTestCase {
 			),
 			$result['values']
 		);
-		$this->assertSame( array( 'cursorStyle', 'tabSize', 'minimap' ), $result['skipped'] );
+		$this->assertSame(
+			array(
+				'cursorStyle' => 'rest_not_in_enum',
+				'tabSize'     => 'unsupported',
+				'minimap'     => 'rest_invalid_type',
+			),
+			wp_list_pluck( $result['skipped'], 'code', 'path' )
+		);
 	}
 
 	public function test_get_schema() {
