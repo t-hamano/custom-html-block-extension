@@ -72,7 +72,7 @@ export default function MultiCursorModifier() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'The modifier to be used to add multiple cursors with the mouse. The Go to Definition and Open Link mouse gestures will adapt such that they do not conflict with the multicursor modifier.',
+					'The modifier to be used to add multiple cursors with the mouse.',
 					'custom-html-block-extension'
 				) }
 				image="editor-options/multi-cursor-modifier.gif"
