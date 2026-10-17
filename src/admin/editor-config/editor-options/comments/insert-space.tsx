@@ -57,12 +57,20 @@ export default function CommentsInsertSpace() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/comments_insert-space_1.jpg',
+						description: __(
+							'A space is inserted between the comment characters and the text, such as <!-- text -->.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/comments_insert-space_2.jpg',
+						description: __(
+							'No space is inserted between the comment characters and the text, such as <!--text-->.',
+							'custom-html-block-extension'
+						),
 					},
 				] }
 				value={ editorOptions.comments.insertSpace }
