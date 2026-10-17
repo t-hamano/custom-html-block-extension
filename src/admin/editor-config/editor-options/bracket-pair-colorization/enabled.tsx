@@ -15,8 +15,11 @@ import ItemHelp from '../../components/item-help';
 export default function BracketPairColorizationEnabled() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Colorize bracket pairs', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Bracket Pair Colorization', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility(
+		title,
+		__( 'Bracket Pair Colorization', 'custom-html-block-extension' )
+	);
 
 	if ( ! isVisible ) {
 		return null;

@@ -15,7 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function TabSize() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
 
-	const title = __( 'Indent width', 'custom-html-block-extension' );
+	const title = __( 'Tab Size', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

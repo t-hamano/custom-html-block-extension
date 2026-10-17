@@ -17,7 +17,7 @@ import ItemHelp from '../components/item-help';
 export default function Hover() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Hover hints', 'custom-html-block-extension' );
+	const title = __( 'Show Hover Information', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

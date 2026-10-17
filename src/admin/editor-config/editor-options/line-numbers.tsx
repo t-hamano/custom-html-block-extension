@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function LineNumbers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show line numbers', 'custom-html-block-extension' );
+	const title = __( 'Line Numbers', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -73,6 +73,7 @@ export default function LineNumbers() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Controls the display of line numbers.', 'custom-html-block-extension' ) }
 				items={ items }
 				colCount="4"
 				value={ editorOptions.lineNumbers }

@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -15,8 +15,8 @@ import ItemHelp from '../../components/item-help';
 export default function GuidesHighlightActiveBracketPair() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight the active bracket pair guide', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Highlight Active Bracket Pair', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -48,6 +48,14 @@ export default function GuidesHighlightActiveBracketPair() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={
+					<Text render={ <p /> }>
+						{ __(
+							'Draw the guide of the bracket pair at the cursor in the highlight color. When disabled, the guide is still shown in the normal color.',
+							'custom-html-block-extension'
+						) }
+					</Text>
+				}
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

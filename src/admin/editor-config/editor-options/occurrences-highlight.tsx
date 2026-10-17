@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function OccurrencesHighlight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight matching tag', 'custom-html-block-extension' );
+	const title = __( 'Occurrences Highlight', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -47,6 +47,10 @@ export default function OccurrencesHighlight() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should highlight semantic symbol occurrences.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

@@ -15,8 +15,8 @@ import ItemHelp from '../../components/item-help';
 export default function CommentsInsertSpace() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Insert whitespace in comment', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Comments: Insert Space', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Comments', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -49,7 +49,7 @@ export default function CommentsInsertSpace() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Insert whitespace inside the comment tokens when comment out using the keyboard shortcut.',
+					'Controls whether a space character is inserted when commenting.',
 					'custom-html-block-extension'
 				) }
 				items={ [
@@ -57,12 +57,20 @@ export default function CommentsInsertSpace() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/comments_insert-space_1.jpg',
+						description: __(
+							'A space is inserted between the comment characters and the text, such as <!-- text -->.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/comments_insert-space_2.jpg',
+						description: __(
+							'No space is inserted between the comment characters and the text, such as <!--text-->.',
+							'custom-html-block-extension'
+						),
 					},
 				] }
 				value={ editorOptions.comments.insertSpace }

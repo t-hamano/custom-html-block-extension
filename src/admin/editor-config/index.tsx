@@ -58,9 +58,14 @@ function getSearchPatterns( searchQuery: string ): RegExp[] {
 }
 
 // Whether a setting with the given title matches the current search query.
-export function useSearchVisibility( title: string ): boolean {
+// `parent` is the name of the group a nested setting belongs to (e.g.
+// "Minimap"), so searching for the group still finds its settings.
+export function useSearchVisibility( title: string, parent?: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
-	return getSearchPatterns( searchQuery ).every( ( pattern ) => title.search( pattern ) !== -1 );
+	const searchText = parent ? `${ parent } ${ title }` : title;
+	return getSearchPatterns( searchQuery ).every(
+		( pattern ) => searchText.search( pattern ) !== -1
+	);
 }
 
 // Highlights the words matching the search query in the setting labels.

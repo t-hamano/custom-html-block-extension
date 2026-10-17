@@ -17,7 +17,7 @@ export default function MinimapSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Size', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -29,7 +29,7 @@ export default function MinimapSize() {
 			value: 'proportional',
 			isDefault: true,
 			description: __(
-				'Minimap size is the same as the contents (which may scroll) .',
+				'The minimap has the same size as the editor contents (and might scroll).',
 				'custom-html-block-extension'
 			),
 			image: 'editor-options/minimap/size_1.jpg',
@@ -38,7 +38,7 @@ export default function MinimapSize() {
 			label: __( 'Automatically zoom in or out', 'custom-html-block-extension' ),
 			value: 'fill',
 			description: __(
-				'Minimap will zoom in or out as needed (not scroll) .',
+				'The minimap will stretch or shrink as necessary to fill the height of the editor (no scrolling).',
 				'custom-html-block-extension'
 			),
 			image: 'editor-options/minimap/size_2.jpg',
@@ -47,7 +47,7 @@ export default function MinimapSize() {
 			label: __( 'Automatically shrink', 'custom-html-block-extension' ),
 			value: 'fit',
 			description: __(
-				'Minimap will shrink as needed (not scroll) .',
+				'The minimap will shrink as necessary to never be larger than the editor (no scrolling).',
 				'custom-html-block-extension'
 			),
 			image: 'editor-options/minimap/size_3.jpg',
@@ -85,6 +85,7 @@ export default function MinimapSize() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Controls the size of the minimap.', 'custom-html-block-extension' ) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.minimap.size }

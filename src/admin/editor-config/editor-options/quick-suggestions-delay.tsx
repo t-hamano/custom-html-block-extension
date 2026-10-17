@@ -17,7 +17,7 @@ import { toNumber } from '../../../lib/helper';
 export default function QuickSuggestionsDelay() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Time until suggestions are displayed (ms)', 'custom-html-block-extension' );
+	const title = __( 'Quick Suggestions Delay (ms)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -50,6 +50,10 @@ export default function QuickSuggestionsDelay() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the delay in milliseconds after which quick suggestions will show up.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: sprintf(

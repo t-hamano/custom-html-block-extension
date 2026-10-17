@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function CursorSmoothCaretAnimation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Smooth cursor animation', 'custom-html-block-extension' );
+	const title = __( 'Cursor Smooth Caret Animation', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -28,17 +28,14 @@ export default function CursorSmoothCaretAnimation() {
 			label: __( 'Enable', 'custom-html-block-extension' ),
 			value: 'on',
 			image: 'editor-options/cursor-smooth-caret-animation_1.gif',
-			description: __(
-				'Animates the cursor whenever it moves, including while typing.',
-				'custom-html-block-extension'
-			),
+			description: __( 'Smooth caret animation is always enabled.', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Enable only when the cursor is moved explicitly', 'custom-html-block-extension' ),
 			value: 'explicit',
 			image: 'editor-options/cursor-smooth-caret-animation_2.gif',
 			description: __(
-				'Animates the cursor when it is moved with the keyboard or mouse, but not while typing.',
+				'Smooth caret animation is enabled only when the user moves the cursor with an explicit gesture.',
 				'custom-html-block-extension'
 			),
 		},
@@ -81,6 +78,10 @@ export default function CursorSmoothCaretAnimation() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the smooth caret animation should be enabled.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.cursorSmoothCaretAnimation }

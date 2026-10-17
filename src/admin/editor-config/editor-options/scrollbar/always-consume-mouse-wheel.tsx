@@ -16,8 +16,8 @@ export default function ScrollbarAlwaysConsumeMouseWheel() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
 
-	const title = __( 'Stop browser scroll', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Always Consume Mouse Wheel', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -50,13 +50,17 @@ export default function ScrollbarAlwaysConsumeMouseWheel() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor keeps mouse wheel scrolling to itself, instead of passing it on to the page.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						isDefault: true,
 						description: __(
-							'Browser does not scroll when mouse wheel reaches the beginning or end.',
+							'The page does not scroll, even when the editor is scrolled to the top or bottom.',
 							'custom-html-block-extension'
 						),
 						image: 'editor-options/scrollbar/always-consume-mouse-wheel_1.gif',
@@ -65,7 +69,7 @@ export default function ScrollbarAlwaysConsumeMouseWheel() {
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						description: __(
-							'Browser will scroll when mouse wheel reaches the beginning or end.',
+							'The page scrolls when the editor is scrolled to the top or bottom.',
 							'custom-html-block-extension'
 						),
 						image: 'editor-options/scrollbar/always-consume-mouse-wheel_2.gif',

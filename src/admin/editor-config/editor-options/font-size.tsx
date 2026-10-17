@@ -15,7 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function FontSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Font size (px)', 'custom-html-block-extension' );
+	const title = __( 'Font Size (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

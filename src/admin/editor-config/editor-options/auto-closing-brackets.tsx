@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingBrackets() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Auto closing brackets', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Brackets', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -28,12 +28,17 @@ export default function AutoClosingBrackets() {
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
 			image: 'editor-options/auto-closing-brackets_1.gif',
+			description: __( 'Always autoclose brackets.', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Determined by the language', 'custom-html-block-extension' ),
 			value: 'languageDefined',
 			isDefault: true,
 			image: 'editor-options/auto-closing-brackets_2.gif',
+			description: __(
+				'Use language configurations to determine when to autoclose brackets.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __(
@@ -42,11 +47,16 @@ export default function AutoClosingBrackets() {
 			),
 			value: 'beforeWhitespace',
 			image: 'editor-options/auto-closing-brackets_3.gif',
+			description: __(
+				'Autoclose brackets only when the cursor is to the left of whitespace.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
 			image: 'editor-options/auto-closing-brackets_4.gif',
+			description: __( 'Never autoclose brackets.', 'custom-html-block-extension' ),
 		},
 	];
 
@@ -76,6 +86,10 @@ export default function AutoClosingBrackets() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should automatically close brackets after the user adds an opening bracket.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="2"
 				value={ editorOptions.autoClosingBrackets }

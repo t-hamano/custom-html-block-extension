@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingOvertype() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Type over closing brackets and quotes', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Overtype', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -28,17 +28,29 @@ export default function AutoClosingOvertype() {
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
 			image: 'editor-options/auto-closing-overtype_1.gif',
+			description: __(
+				'Always type over closing quotes or brackets.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Only automatically inserted characters', 'custom-html-block-extension' ),
 			value: 'auto',
 			isDefault: true,
 			image: 'editor-options/auto-closing-overtype_2.gif',
+			description: __(
+				'Type over closing quotes or brackets only if they were automatically inserted.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
 			image: 'editor-options/auto-closing-overtype_3.gif',
+			description: __(
+				'Never type over closing quotes or brackets.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
@@ -68,6 +80,10 @@ export default function AutoClosingOvertype() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should type over closing quotes or brackets.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.autoClosingOvertype }

@@ -15,8 +15,8 @@ import ItemHelp from '../../components/item-help';
 export default function MinimapEnabled() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Enable minimap', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Minimap', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -49,7 +49,7 @@ export default function MinimapEnabled() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Minimap gives you a high-level overview of your source code, which is useful for quick navigation and code understanding. You can click or drag the shaded area to quickly jump to different sections.',
+					'Controls whether the minimap is shown.',
 					'custom-html-block-extension'
 				) }
 				isToggle

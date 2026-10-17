@@ -17,8 +17,8 @@ import { toNumber } from '../../../../lib/helper';
 export default function MinimapMaxColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Width', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Max Column', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -50,7 +50,14 @@ export default function MinimapMaxColumn() {
 				allowReset
 				onChange={ onChange }
 			/>
-			<ItemHelp title={ title } image="editor-options/minimap/max-column.gif" />
+			<ItemHelp
+				title={ title }
+				description={ __(
+					'Limit the width of the minimap to render at most a certain number of columns.',
+					'custom-html-block-extension'
+				) }
+				image="editor-options/minimap/max-column.gif"
+			/>
 		</Stack>
 	);
 }

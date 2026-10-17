@@ -22,8 +22,8 @@ export default function ScrollbarVerticalScrollbarSize() {
 	// Debounce the refresh to avoid refreshing the editor every time the range is changed.
 	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 200 );
 
-	const title = __( 'Vertical scrollbar size', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Vertical Scrollbar Size (px)', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;

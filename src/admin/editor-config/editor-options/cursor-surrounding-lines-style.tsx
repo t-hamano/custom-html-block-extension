@@ -15,10 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function CursorSurroundingLinesStyle() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Keep lines before and after the cursor even when the cursor is moved by mouse click',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Cursor Surrounding Lines Style', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -49,7 +46,7 @@ export default function CursorSurroundingLinesStyle() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Sets the context menu when right-click in the editor.',
+					'Controls when "Cursor Surrounding Lines" should be enforced.',
 					'custom-html-block-extension'
 				) }
 				items={ [
@@ -57,11 +54,19 @@ export default function CursorSurroundingLinesStyle() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/cursor-surrounding-lines-style_1.gif',
+						description: __(
+							'"Cursor Surrounding Lines" is always enforced, including when the cursor is moved by a mouse click.',
+							'custom-html-block-extension'
+						),
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/cursor-surrounding-lines-style_2.gif',
+						description: __(
+							'"Cursor Surrounding Lines" is enforced only when the cursor is moved with the keyboard.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 				] }

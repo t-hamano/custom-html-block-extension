@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingQuotes() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Auto closing quotes', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Quotes', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -28,12 +28,17 @@ export default function AutoClosingQuotes() {
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
 			image: 'editor-options/auto-closing-quotes_1.gif',
+			description: __( 'Always autoclose quotes.', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Determined by the language', 'custom-html-block-extension' ),
 			value: 'languageDefined',
 			isDefault: true,
 			image: 'editor-options/auto-closing-quotes_2.gif',
+			description: __(
+				'Use language configurations to determine when to autoclose quotes.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __(
@@ -42,11 +47,16 @@ export default function AutoClosingQuotes() {
 			),
 			value: 'beforeWhitespace',
 			image: 'editor-options/auto-closing-quotes_3.gif',
+			description: __(
+				'Autoclose quotes only when the cursor is to the left of whitespace.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
 			image: 'editor-options/auto-closing-quotes_4.gif',
+			description: __( 'Never autoclose quotes.', 'custom-html-block-extension' ),
 		},
 	];
 
@@ -76,6 +86,10 @@ export default function AutoClosingQuotes() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should automatically close quotes after the user adds an opening quote.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="2"
 				value={ editorOptions.autoClosingQuotes }

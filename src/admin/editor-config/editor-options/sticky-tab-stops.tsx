@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function StickyTabStops() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Select according to spaces for indentation', 'custom-html-block-extension' );
+	const title = __( 'Sticky Tab Stops', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -50,11 +50,19 @@ export default function StickyTabStops() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/sticky-tab-stops_1.gif',
+						description: __(
+							'Within indentation made of spaces, the Left and Right arrow keys move the cursor by a full tab stop, as if the indentation were tab characters.',
+							'custom-html-block-extension'
+						),
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/sticky-tab-stops_2.gif',
+						description: __(
+							'Within indentation made of spaces, the Left and Right arrow keys move the cursor one space at a time.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 				] }

@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function DragAndDrop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Moving selections via drag and drop', 'custom-html-block-extension' );
+	const title = __( 'Drag And Drop', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -45,6 +45,10 @@ export default function DragAndDrop() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should allow moving selections via drag and drop.',
+					'custom-html-block-extension'
+				) }
 				isToggle
 				defaultToggle
 				image="editor-options/drag-and-drop.gif"

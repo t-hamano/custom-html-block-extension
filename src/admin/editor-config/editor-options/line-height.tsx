@@ -15,7 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function LineHeight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Line height', 'custom-html-block-extension' );
+	const title = __( 'Line Height', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

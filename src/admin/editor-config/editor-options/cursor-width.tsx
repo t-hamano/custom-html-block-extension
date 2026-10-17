@@ -15,7 +15,7 @@ import { toNumber } from '../../../lib/helper';
 export default function CursorWidth() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Cursor width', 'custom-html-block-extension' );
+	const title = __( 'Cursor Width (px)', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

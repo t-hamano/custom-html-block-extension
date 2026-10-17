@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function DetectIndentation() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
 
-	const title = __( 'Detect indentation from content', 'custom-html-block-extension' );
+	const title = __( 'Detect Indentation', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -46,7 +46,7 @@ export default function DetectIndentation() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Detect the indent width and indent type from the content when the editor is opened. If the indentation cannot be detected, the "Indent width" and "Indent type" settings are used.',
+					'Controls whether "Tab Size" and "Insert Spaces" will be automatically detected when a file is opened based on the file contents.',
 					'custom-html-block-extension'
 				) }
 				isToggle

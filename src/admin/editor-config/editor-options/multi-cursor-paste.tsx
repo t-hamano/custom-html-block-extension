@@ -19,10 +19,7 @@ import ItemHelp from '../components/item-help';
 export default function MultiCursorPaste() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __(
-		'Behavior when pasting text with matching line and cursor counts',
-		'custom-html-block-extension'
-	);
+	const title = __( 'Multi Cursor Paste', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -34,12 +31,17 @@ export default function MultiCursorPaste() {
 			label: __( 'Spread', 'custom-html-block-extension' ),
 			image: 'editor-options/multi-cursor-paste_1.gif',
 			value: 'spread',
+			description: __(
+				'Each cursor pastes a single line of the text.',
+				'custom-html-block-extension'
+			),
 			isDefault: true,
 		},
 		{
 			label: __( 'Full', 'custom-html-block-extension' ),
 			image: 'editor-options/multi-cursor-paste_2.gif',
 			value: 'full',
+			description: __( 'Each cursor pastes the full text.', 'custom-html-block-extension' ),
 		},
 	];
 
@@ -71,6 +73,10 @@ export default function MultiCursorPaste() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls pasting when the line count of the pasted text matches the cursor count.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.multiCursorPaste }
 			/>

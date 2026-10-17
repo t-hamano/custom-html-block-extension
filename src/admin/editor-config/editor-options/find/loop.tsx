@@ -16,7 +16,7 @@ export default function FindLoop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Loop', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Find', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -49,7 +49,7 @@ export default function FindLoop() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Automatically restart the search from the beginning (or end) when no more matches are found.',
+					'Controls whether the search automatically restarts from the beginning (or the end) when no further matches can be found.',
 					'custom-html-block-extension'
 				) }
 				isToggle

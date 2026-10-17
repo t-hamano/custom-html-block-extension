@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function GlyphMargin() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show left margin', 'custom-html-block-extension' );
+	const title = __( 'Glyph Margin', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -46,7 +46,7 @@ export default function GlyphMargin() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					'Margin at the left edge of the editor.',
+					'Controls whether the editor should render the vertical glyph margin.',
 					'custom-html-block-extension'
 				) }
 				items={ [

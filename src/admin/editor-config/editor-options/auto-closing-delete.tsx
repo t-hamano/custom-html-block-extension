@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function AutoClosingDelete() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Delete closing brackets and quotes together', 'custom-html-block-extension' );
+	const title = __( 'Auto Closing Delete', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -28,17 +28,29 @@ export default function AutoClosingDelete() {
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
 			image: 'editor-options/auto-closing-delete_1.gif',
+			description: __(
+				'Always remove adjacent closing quotes or brackets when deleting.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Only automatically inserted characters', 'custom-html-block-extension' ),
 			value: 'auto',
 			isDefault: true,
 			image: 'editor-options/auto-closing-delete_2.gif',
+			description: __(
+				'Remove adjacent closing quotes or brackets only if they were automatically inserted.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Never', 'custom-html-block-extension' ),
 			value: 'never',
 			image: 'editor-options/auto-closing-delete_3.gif',
+			description: __(
+				'Never remove adjacent closing quotes or brackets when deleting.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
@@ -68,6 +80,10 @@ export default function AutoClosingDelete() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should remove adjacent closing quotes or brackets when deleting.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.autoClosingDelete }

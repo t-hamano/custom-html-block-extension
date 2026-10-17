@@ -18,7 +18,7 @@ export default function MinimapScale() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Scale', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -53,6 +53,10 @@ export default function MinimapScale() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Scale of content drawn in the minimap.',
+					'custom-html-block-extension'
+				) }
 				image="editor-options/minimap/scale.gif"
 				value={ editorOptions.minimap.scale }
 			/>

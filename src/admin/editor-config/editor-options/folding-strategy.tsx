@@ -16,7 +16,7 @@ import ItemHelp from '../components/item-help';
 export default function FoldingStrategy() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Folding range strategy', 'custom-html-block-extension' );
+	const title = __( 'Folding Strategy', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -29,7 +29,7 @@ export default function FoldingStrategy() {
 			value: 'auto',
 			image: 'editor-options/folding-strategy_1.gif',
 			description: __(
-				'This is effective for folding code that is not indented correctly.',
+				'Use a language-specific folding strategy if available, else the indentation-based one.',
 				'custom-html-block-extension'
 			),
 			isDefault: true,
@@ -38,6 +38,10 @@ export default function FoldingStrategy() {
 			label: __( 'Depends on indentation', 'custom-html-block-extension' ),
 			value: 'indentation',
 			image: 'editor-options/folding-strategy_2.gif',
+			description: __(
+				'Use the indentation-based folding strategy.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
@@ -71,6 +75,10 @@ export default function FoldingStrategy() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the strategy for computing folding ranges.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.foldingStrategy }
 			/>

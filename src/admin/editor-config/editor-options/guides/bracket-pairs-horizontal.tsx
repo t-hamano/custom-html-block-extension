@@ -18,8 +18,8 @@ type Value = EditorOptions[ 'guides' ][ 'bracketPairsHorizontal' ];
 export default function GuidesBracketPairsHorizontal() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Show horizontal bracket pair guides', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Bracket Pairs Horizontal', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -89,7 +89,7 @@ export default function GuidesBracketPairsHorizontal() {
 				description={
 					<Text render={ <p /> }>
 						{ __(
-							'Draw horizontal lines from the bracket pair guides to the brackets that are not at the start of a line.',
+							'Add horizontal lines to the guides shown by Bracket Pairs, pointing to the brackets that are not at the start of a line.',
 							'custom-html-block-extension'
 						) }
 					</Text>

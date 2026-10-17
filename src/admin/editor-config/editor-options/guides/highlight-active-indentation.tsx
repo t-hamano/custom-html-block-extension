@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
+import { SelectControl, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -18,8 +18,8 @@ type Value = EditorOptions[ 'guides' ][ 'highlightActiveIndentation' ];
 export default function GuidesHighlightActiveIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight the active indent guide', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Highlight Active Indentation', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, __( 'Guides', 'custom-html-block-extension' ) );
 
 	if ( ! isVisible ) {
 		return null;
@@ -38,7 +38,7 @@ export default function GuidesHighlightActiveIndentation() {
 			image: 'editor-options/guides/highlight-active-indentation_1.gif',
 			isDefault: true,
 			description: __(
-				'Not highlighted on lines where a bracket pair guide is shown.',
+				'Highlights the active indent guide. Not highlighted on lines where a bracket pair guide is shown.',
 				'custom-html-block-extension'
 			),
 		},
@@ -47,7 +47,7 @@ export default function GuidesHighlightActiveIndentation() {
 			value: 'always',
 			image: 'editor-options/guides/highlight-active-indentation_2.gif',
 			description: __(
-				'Highlighted even on lines where a bracket pair guide is shown.',
+				'Highlights the active indent guide even if bracket guides are highlighted.',
 				'custom-html-block-extension'
 			),
 		},
@@ -100,6 +100,14 @@ export default function GuidesHighlightActiveIndentation() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={
+					<Text render={ <p /> }>
+						{ __(
+							'Highlight the indent guide of the block at the cursor. This applies to the indent guides shown by Indentation, not to the bracket pair guides.',
+							'custom-html-block-extension'
+						) }
+					</Text>
+				}
 				items={ items }
 				colCount="3"
 				value={ editorOptions.guides.highlightActiveIndentation }

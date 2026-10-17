@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function EmptySelectionClipboard() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Copy the current line without selection', 'custom-html-block-extension' );
+	const title = __( 'Empty Selection Clipboard', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {

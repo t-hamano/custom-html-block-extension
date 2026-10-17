@@ -20,11 +20,14 @@ type Value = EditorOptions[ 'quickSuggestions' ][ TokenType ];
 export default function QuickSuggestionsTypes() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Suggestions while typing', 'custom-html-block-extension' );
+	const title = __( 'Quick Suggestions', 'custom-html-block-extension' );
 	const tokenTypes: { label: string; value: TokenType }[] = [
-		{ label: __( 'Suggestions in code', 'custom-html-block-extension' ), value: 'other' },
-		{ label: __( 'Suggestions in comments', 'custom-html-block-extension' ), value: 'comments' },
-		{ label: __( 'Suggestions in strings', 'custom-html-block-extension' ), value: 'strings' },
+		{ label: __( 'Quick Suggestions (Other)', 'custom-html-block-extension' ), value: 'other' },
+		{
+			label: __( 'Quick Suggestions (Comments)', 'custom-html-block-extension' ),
+			value: 'comments',
+		},
+		{ label: __( 'Quick Suggestions (Strings)', 'custom-html-block-extension' ), value: 'strings' },
 	];
 	// The title only appears in the help dialog, so also match the labels shown.
 	const isVisible = useSearchVisibility(
@@ -43,7 +46,7 @@ export default function QuickSuggestionsTypes() {
 			value: 'on',
 			image: 'editor-options/quick-suggestions-types_1.gif',
 			description: __(
-				'Suggestions are shown in a list below the cursor while typing.',
+				'Suggestions automatically appear in the suggestion list while typing.',
 				'custom-html-block-extension'
 			),
 		},
@@ -52,7 +55,7 @@ export default function QuickSuggestionsTypes() {
 			value: 'inline',
 			image: 'editor-options/quick-suggestions-types_2.gif',
 			description: __(
-				'The first suggestion is shown in gray after the cursor. Press Tab to accept it.',
+				'Suggestions automatically appear as inline ghost text while typing.',
 				'custom-html-block-extension'
 			),
 		},
@@ -63,7 +66,7 @@ export default function QuickSuggestionsTypes() {
 			description: sprintf(
 				/* translators: %s: The keyboard shortcut to show suggestions. */
 				__(
-					'Suggestions are shown only after typing a trigger character such as "<", or pressing %s.',
+					'Suggestions appear only after typing a trigger character such as "<", or pressing %s.',
 					'custom-html-block-extension'
 				),
 				isAppleOS()
@@ -125,7 +128,7 @@ export default function QuickSuggestionsTypes() {
 			<ItemHelp
 				title={ title }
 				description={ __(
-					'Choose how suggestions are shown while typing, separately for code, comments, and strings such as attribute values.',
+					'Controls whether suggestions should automatically show up while typing. This can be controlled for typing in comments, strings, and other code.',
 					'custom-html-block-extension'
 				) }
 				items={ items }
