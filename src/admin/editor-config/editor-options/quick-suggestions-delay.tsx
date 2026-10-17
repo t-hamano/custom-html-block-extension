@@ -50,6 +50,10 @@ export default function QuickSuggestionsDelay() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the delay in milliseconds after which quick suggestions will show up.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: sprintf(
