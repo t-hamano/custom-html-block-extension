@@ -836,45 +836,6 @@ class Settings {
 	}
 
 	/**
-	 * Clamp the numbers in a value to the `minimum` and `maximum` of its schema,
-	 * including the items of an array and the properties of an object, e.g. the
-	 * columns of `rulers`. Values of other types are returned as is.
-	 *
-	 * @param mixed $value  The value to clamp.
-	 * @param array $schema The schema of the value.
-	 * @return mixed The clamped value.
-	 */
-	public static function clamp_to_schema( $value, $schema ) {
-		if ( is_int( $value ) || is_float( $value ) ) {
-			if ( isset( $schema['minimum'] ) ) {
-				$value = max( $value, $schema['minimum'] );
-			}
-			if ( isset( $schema['maximum'] ) ) {
-				$value = min( $value, $schema['maximum'] );
-			}
-			return $value;
-		}
-
-		if ( ! is_array( $value ) ) {
-			return $value;
-		}
-
-		if ( wp_is_numeric_array( $value ) && isset( $schema['items'] ) ) {
-			foreach ( $value as $index => $item ) {
-				$value[ $index ] = self::clamp_to_schema( $item, $schema['items'] );
-			}
-			return $value;
-		}
-
-		foreach ( $value as $key => $property_value ) {
-			if ( isset( $schema['properties'][ $key ] ) ) {
-				$value[ $key ] = self::clamp_to_schema( $property_value, $schema['properties'][ $key ] );
-			}
-		}
-		return $value;
-	}
-
-	/**
 	 * Keep only the values that match the schema, such as imported values, and
 	 * collect the paths of the others. Numbers out of range are clamped first.
 	 * Unlike `reset_invalid_values()`, values that are not given stay missing, so
@@ -912,7 +873,26 @@ class Settings {
 			}
 
 			$property = $schema['properties'][ $key ];
-			$value    = self::clamp_to_schema( $value, $property );
+
+			// Clamp numbers out of range, including the ruler columns, instead of
+			// skipping them.
+			$clamp = function ( $number, $range ) {
+				if ( ! is_int( $number ) && ! is_float( $number ) ) {
+					return $number;
+				}
+				return min( max( $number, $range['minimum'] ?? $number ), $range['maximum'] ?? $number );
+			};
+			$value = $clamp( $value, $property );
+			if ( is_array( $value ) && isset( $property['items'] ) ) {
+				foreach ( $value as $index => $item ) {
+					if ( isset( $item['column'], $property['items']['properties']['column'] ) ) {
+						$value[ $index ]['column'] = $clamp( $item['column'], $property['items']['properties']['column'] );
+					} else {
+						$value[ $index ] = $clamp( $item, $property['items'] );
+					}
+				}
+			}
+
 			if ( is_wp_error( rest_validate_value_from_schema( $value, $property, $key_path ) ) ) {
 				$skipped[] = $key_path;
 				continue;

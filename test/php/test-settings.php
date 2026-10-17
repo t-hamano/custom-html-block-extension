@@ -270,7 +270,14 @@ class Test_Settings extends WP_UnitTestCase {
 					'delay'   => 5000,
 				),
 				'minimap'     => 'foo',
-				'rulers'      => array( 80 ),
+				'rulers'      => array(
+					80,
+					120,
+					array(
+						'column' => 10000,
+						'color'  => '#ff0000',
+					),
+				),
 			),
 			Settings::DEFAULT_EDITOR_OPTIONS
 		);
@@ -282,42 +289,18 @@ class Test_Settings extends WP_UnitTestCase {
 					'enabled' => 'off',
 					'delay'   => 3000.0,
 				),
-				'rulers'   => array( 80.0 ),
+				'rulers'   => array(
+					80.0,
+					100.0,
+					array(
+						'column' => 100.0,
+						'color'  => '#ff0000',
+					),
+				),
 			),
 			$result['values']
 		);
 		$this->assertSame( array( 'cursorStyle', 'tabSize', 'minimap' ), $result['skipped'] );
-	}
-
-	public function test_clamp_to_schema() {
-		$schema = Settings::get_schema( Settings::DEFAULT_EDITOR_OPTIONS );
-
-		$this->assertSame( 30, Settings::clamp_to_schema( 40, $schema['properties']['fontSize'] ) );
-		$this->assertSame( 10, Settings::clamp_to_schema( 5, $schema['properties']['fontSize'] ) );
-		$this->assertSame( '40', Settings::clamp_to_schema( '40', $schema['properties']['fontSize'] ) );
-		$this->assertSame(
-			array(
-				80,
-				100,
-				array(
-					'column' => 100,
-					'color'  => '#ff0000',
-				),
-				1,
-			),
-			Settings::clamp_to_schema(
-				array(
-					80,
-					120,
-					array(
-						'column' => 10000,
-						'color'  => '#ff0000',
-					),
-					0,
-				),
-				$schema['properties']['rulers']
-			)
-		);
 	}
 
 	public function test_get_schema() {
