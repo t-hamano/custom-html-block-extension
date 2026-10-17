@@ -27,25 +27,43 @@ export default function WrappingIndent() {
 		{
 			label: __( 'None', 'custom-html-block-extension' ),
 			image: 'editor-options/wrapping-indent_1.jpg',
+			description: __(
+				'No indentation. Wrapped lines begin at column 1.',
+				'custom-html-block-extension'
+			),
 			value: 'none',
 			isDefault: true,
 		},
 		{
 			label: __( 'Same', 'custom-html-block-extension' ),
 			image: 'editor-options/wrapping-indent_2.jpg',
+			description: __(
+				'Wrapped lines get the same indentation as the parent.',
+				'custom-html-block-extension'
+			),
 			value: 'same',
 		},
 		{
 			label: __( 'Indent', 'custom-html-block-extension' ),
 			image: 'editor-options/wrapping-indent_3.jpg',
+			description: __(
+				'Wrapped lines get +1 indentation toward the parent.',
+				'custom-html-block-extension'
+			),
 			value: 'indent',
 		},
 		{
 			label: __( 'Deep indent', 'custom-html-block-extension' ),
 			image: 'editor-options/wrapping-indent_4.jpg',
+			description: __(
+				'Wrapped lines get +2 indentation toward the parent.',
+				'custom-html-block-extension'
+			),
 			value: 'deepIndent',
 		},
 	];
+
+	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
 
 	const onChange = ( value: EditorOptions[ 'wrappingIndent' ] ) => {
 		setEditorOptions( {
@@ -64,8 +82,10 @@ export default function WrappingIndent() {
 		>
 			<SelectControl
 				label={ title }
-				items={ items }
-				value={ items.find( ( item ) => item.value === editorOptions.wrappingIndent ) ?? null }
+				items={ selectItems }
+				value={
+					selectItems.find( ( item ) => item.value === editorOptions.wrappingIndent ) ?? null
+				}
 				onValueChange={ ( item ) =>
 					item && onChange( item.value as EditorOptions[ 'wrappingIndent' ] )
 				}
