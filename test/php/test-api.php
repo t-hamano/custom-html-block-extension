@@ -80,6 +80,7 @@ class Test_Api extends WP_UnitTestCase {
 					'lineNumbers'        => 'off',
 					'renderIndentGuides' => false,
 					'hover'              => true,
+					'rulers'             => array( 80, 120 ),
 				),
 			)
 		);
@@ -95,6 +96,7 @@ class Test_Api extends WP_UnitTestCase {
 					'lineNumbers' => 'off',
 					'hover'       => array( 'enabled' => 'on' ),
 					'guides'      => array( 'indentation' => false ),
+					'rulers'      => array( 80.0, 100.0 ),
 				),
 				'skipped'        => array( 'tabSize', 'fontSize' ),
 			),

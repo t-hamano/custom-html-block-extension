@@ -286,6 +286,36 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertSame( array( 'cursorStyle', 'tabSize', 'hover.delay', 'minimap' ), $result['skipped'] );
 	}
 
+	public function test_clamp_rulers() {
+		$this->assertSame(
+			array(
+				'rulers' => array(
+					80,
+					100,
+					array(
+						'column' => 100,
+						'color'  => '#ff0000',
+					),
+					0,
+				),
+			),
+			Settings::clamp_rulers(
+				array(
+					'rulers' => array(
+						80,
+						120,
+						array(
+							'column' => 10000,
+							'color'  => '#ff0000',
+						),
+						0,
+					),
+				)
+			)
+		);
+		$this->assertSame( array( 'rulers' => 'foo' ), Settings::clamp_rulers( array( 'rulers' => 'foo' ) ) );
+	}
+
 	public function test_get_schema() {
 		$schema = Settings::get_schema(
 			array(

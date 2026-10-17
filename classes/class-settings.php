@@ -836,6 +836,30 @@ class Settings {
 	}
 
 	/**
+	 * Clamp the ruler columns over the maximum, since VS Code accepts columns up
+	 * to 10000, which this plugin doesn't support.
+	 *
+	 * @param array $editor_options The editor options to import.
+	 * @return array The editor options with the clamped ruler columns.
+	 */
+	public static function clamp_rulers( $editor_options ) {
+		if ( ! isset( $editor_options['rulers'] ) || ! is_array( $editor_options['rulers'] ) ) {
+			return $editor_options;
+		}
+
+		$maximum = self::DEFAULT_EDITOR_OPTIONS['rulers']['items']['maximum'];
+		foreach ( $editor_options['rulers'] as $index => $ruler ) {
+			if ( is_numeric( $ruler ) ) {
+				$editor_options['rulers'][ $index ] = min( $ruler, $maximum );
+			} elseif ( isset( $ruler['column'] ) && is_numeric( $ruler['column'] ) ) {
+				$editor_options['rulers'][ $index ]['column'] = min( $ruler['column'], $maximum );
+			}
+		}
+
+		return $editor_options;
+	}
+
+	/**
 	 * Keep only the values that match the schema, such as imported values, and
 	 * collect the paths of the others. Unlike `reset_invalid_values()`, values
 	 * that are not given stay missing, so the current values can be kept for them.

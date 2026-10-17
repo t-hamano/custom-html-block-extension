@@ -83,7 +83,7 @@ class Api {
 			Settings::DEFAULT_EDITOR_SETTINGS
 		);
 		$editor_options  = Settings::remove_invalid_values(
-			Settings::migrate_legacy_editor_options( $request['editorOptions'] ),
+			Settings::clamp_rulers( Settings::migrate_legacy_editor_options( $request['editorOptions'] ) ),
 			Settings::DEFAULT_EDITOR_OPTIONS
 		);
 
