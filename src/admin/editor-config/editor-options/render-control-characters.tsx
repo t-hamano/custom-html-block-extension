@@ -55,7 +55,7 @@ export default function RenderControlCharacters() {
 						value: true,
 						image: 'editor-options/render-control-characters_1.jpg',
 						description: __(
-							'Invisible control characters such as null or escape are shown as visible symbols.',
+							'Control characters are shown as labeled symbols such as SOH or ETX.',
 							'custom-html-block-extension'
 						),
 					},
@@ -64,7 +64,7 @@ export default function RenderControlCharacters() {
 						value: false,
 						image: 'editor-options/render-control-characters_2.jpg',
 						description: __(
-							'Control characters are not displayed.',
+							'Control characters are shown as a generic placeholder symbol.',
 							'custom-html-block-extension'
 						),
 						isDefault: true,
