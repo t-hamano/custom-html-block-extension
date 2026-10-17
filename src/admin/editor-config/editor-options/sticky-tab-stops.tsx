@@ -50,11 +50,19 @@ export default function StickyTabStops() {
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/sticky-tab-stops_1.gif',
+						description: __(
+							'When using spaces for indentation, the cursor and selection stick to tab stops, emulating tab characters.',
+							'custom-html-block-extension'
+						),
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/sticky-tab-stops_2.gif',
+						description: __(
+							'The cursor moves one space at a time within indentation made of spaces.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 				] }

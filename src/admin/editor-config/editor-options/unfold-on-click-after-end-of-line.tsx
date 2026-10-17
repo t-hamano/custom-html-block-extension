@@ -45,6 +45,10 @@ export default function UnfoldOnClickAfterEndOfLine() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether clicking on the empty content after a folded line will unfold the line.',
+					'custom-html-block-extension'
+				) }
 				isToggle
 				image="editor-options/unfold-on-click-after-end-of-line.gif"
 				defaultToggle={ false }
