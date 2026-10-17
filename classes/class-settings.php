@@ -750,7 +750,7 @@ class Settings {
 		// Remove invalid values, such as values saved before an allowed value or
 		// range was narrowed, so that their defaults are used.
 		$current_editor_settings = self::remove_invalid_values(
-			(array) get_option( Option::OPTION_NAMES['editor_settings'] ),
+			(array) get_option( Option::OPTION_NAMES['editor_settings'], array() ),
 			self::DEFAULT_EDITOR_SETTINGS
 		)['values'];
 
@@ -771,7 +771,7 @@ class Settings {
 		// remove invalid values, such as values saved before an allowed value or
 		// range was narrowed, so that their defaults are used.
 		$current_editor_options = self::remove_invalid_values(
-			self::migrate_legacy_editor_options( (array) get_option( Option::OPTION_NAMES['editor_options'] ) ),
+			self::migrate_legacy_editor_options( (array) get_option( Option::OPTION_NAMES['editor_options'], array() ) ),
 			self::DEFAULT_EDITOR_OPTIONS
 		)['values'];
 
