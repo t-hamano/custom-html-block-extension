@@ -45,16 +45,28 @@ export default function RenderControlCharacters() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should render control characters.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/render-control-characters_1.jpg',
+						description: __(
+							'Invisible control characters such as null or escape are shown as visible symbols.',
+							'custom-html-block-extension'
+						),
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/render-control-characters_2.jpg',
+						description: __(
+							'Control characters are not displayed.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 				] }
