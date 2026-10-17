@@ -51,6 +51,10 @@ export default function BracketPairColorizationIndependentColorPoolPerBracketTyp
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether each bracket type has its own independent color pool.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

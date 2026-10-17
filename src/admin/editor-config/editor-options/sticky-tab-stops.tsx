@@ -45,6 +45,10 @@ export default function StickyTabStops() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Emulate selection behavior of tab characters when using spaces for indentation. Selection will stick to tab stops.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

@@ -15,7 +15,7 @@ import ItemHelp from '../components/item-help';
 export default function Contextmenu() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Contextmenu', 'custom-html-block-extension' );
+	const title = __( 'Context Menu', 'custom-html-block-extension' );
 	const isVisible = useSearchVisibility( title );
 
 	if ( ! isVisible ) {
@@ -45,7 +45,7 @@ export default function Contextmenu() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				description={ __( 'Enable custom contextmenu.', 'custom-html-block-extension' ) }
+				description={ __( 'Enable custom context menu.', 'custom-html-block-extension' ) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

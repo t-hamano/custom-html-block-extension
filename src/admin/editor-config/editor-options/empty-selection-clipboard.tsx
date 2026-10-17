@@ -45,6 +45,10 @@ export default function EmptySelectionClipboard() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether copying without a selection copies the current line.',
+					'custom-html-block-extension'
+				) }
 				isToggle
 				defaultToggle
 				image="editor-options/empty-selection-clipboard.gif"

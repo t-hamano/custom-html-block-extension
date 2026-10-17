@@ -43,6 +43,7 @@ export default function CursorSmoothCaretAnimation() {
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: 'off',
 			image: 'editor-options/cursor-smooth-caret-animation_3.gif',
+			description: __( 'Smooth caret animation is disabled.', 'custom-html-block-extension' ),
 			isDefault: true,
 		},
 	];

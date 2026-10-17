@@ -48,6 +48,10 @@ export default function FindAddExtraSpaceOnTop() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the Find Widget should add extra lines on top of the editor.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

@@ -55,7 +55,7 @@ export default function CopyWithSyntaxHighlighting() {
 						</Text>
 						<Text render={ <p /> }>
 							{ __(
-								'Example: How it looks when pasted into Microsoft Word',
+								'Example: How it looks when pasted into Microsoft Word.',
 								'custom-html-block-extension'
 							) }
 						</Text>

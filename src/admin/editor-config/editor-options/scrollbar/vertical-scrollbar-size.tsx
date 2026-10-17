@@ -60,6 +60,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'The width of the vertical scrollbar.', 'custom-html-block-extension' ) }
 				items={ [
 					{
 						label: sprintf(
