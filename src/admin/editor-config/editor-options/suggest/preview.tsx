@@ -48,6 +48,10 @@ export default function SuggestPreview() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether to preview the suggestion outcome in the editor.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
