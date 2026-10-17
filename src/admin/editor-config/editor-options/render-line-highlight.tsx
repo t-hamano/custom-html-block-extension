@@ -73,6 +73,10 @@ export default function RenderLineHighlight() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls how the editor should render the current line highlight.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.renderLineHighlight }
 			/>

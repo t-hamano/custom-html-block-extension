@@ -45,6 +45,10 @@ export default function RenderLineHighlightOnlyWhenFocus() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls if the editor should render the current line highlight only when the editor is focused.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
