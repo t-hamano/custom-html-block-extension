@@ -22,9 +22,12 @@ export default function QuickSuggestionsTypes() {
 
 	const title = __( 'Quick Suggestions', 'custom-html-block-extension' );
 	const tokenTypes: { label: string; value: TokenType }[] = [
-		{ label: __( 'Other', 'custom-html-block-extension' ), value: 'other' },
-		{ label: __( 'Comments', 'custom-html-block-extension' ), value: 'comments' },
-		{ label: __( 'Strings', 'custom-html-block-extension' ), value: 'strings' },
+		{ label: __( 'Quick Suggestions (Other)', 'custom-html-block-extension' ), value: 'other' },
+		{
+			label: __( 'Quick Suggestions (Comments)', 'custom-html-block-extension' ),
+			value: 'comments',
+		},
+		{ label: __( 'Quick Suggestions (Strings)', 'custom-html-block-extension' ), value: 'strings' },
 	];
 	// The title only appears in the help dialog, so also match the labels shown.
 	const isVisible = useSearchVisibility(
