@@ -26,16 +26,16 @@ const HTML_CASES = [
 	{
 		abbreviation: '(header>nav)+footer',
 		expected: `<header>
-  <nav></nav>
+    <nav></nav>
 </header>
 <footer></footer>`,
 	},
 	{
 		abbreviation: 'ul.list>li.item*3',
 		expected: `<ul class="list">
-  <li class="item"></li>
-  <li class="item"></li>
-  <li class="item"></li>
+    <li class="item"></li>
+    <li class="item"></li>
+    <li class="item"></li>
 </ul>`,
 	},
 ];
