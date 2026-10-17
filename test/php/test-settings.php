@@ -262,7 +262,7 @@ class Test_Settings extends WP_UnitTestCase {
 	public function test_remove_invalid_values() {
 		$result = Settings::remove_invalid_values(
 			array(
-				'fontSize'    => '20',
+				'fontSize'    => '40',
 				'cursorStyle' => 'foo',
 				'tabSize'     => 4,
 				'hover'       => array(
@@ -284,7 +284,7 @@ class Test_Settings extends WP_UnitTestCase {
 
 		$this->assertSame(
 			array(
-				'fontSize' => 20.0,
+				'fontSize' => 30.0,
 				'hover'    => array(
 					'enabled' => 'off',
 					'delay'   => 3000.0,

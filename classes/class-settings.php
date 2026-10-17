@@ -877,9 +877,10 @@ class Settings {
 			// Clamp numbers out of range, including the ruler columns, instead of
 			// skipping them.
 			$clamp = function ( $number, $range ) {
-				if ( ! is_int( $number ) && ! is_float( $number ) ) {
+				if ( ! is_numeric( $number ) || ( ! isset( $range['minimum'] ) && ! isset( $range['maximum'] ) ) ) {
 					return $number;
 				}
+				$number = (float) $number;
 				return min( max( $number, $range['minimum'] ?? $number ), $range['maximum'] ?? $number );
 			};
 			$value = $clamp( $value, $property );
