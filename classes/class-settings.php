@@ -838,8 +838,8 @@ class Settings {
 	/**
 	 * Keep only the values that match the schema, such as imported values, and
 	 * collect the paths of the others. Numbers out of range are clamped first.
-	 * Unlike `reset_invalid_values()`, values that are not given stay missing, so
-	 * the current values can be kept for them.
+	 * Unlike `reset_invalid_values()`, invalid values are removed instead of reset
+	 * to their defaults, so the current values can be kept for them.
 	 *
 	 * @param array  $values   The values to validate.
 	 * @param array  $defaults The option definitions.
