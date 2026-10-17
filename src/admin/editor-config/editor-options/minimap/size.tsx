@@ -85,6 +85,7 @@ export default function MinimapSize() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Controls the size of the minimap.', 'custom-html-block-extension' ) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.minimap.size }
