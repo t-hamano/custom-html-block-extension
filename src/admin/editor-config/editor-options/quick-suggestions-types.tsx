@@ -47,7 +47,7 @@ export default function QuickSuggestionsTypes() {
 			image: 'editor-options/quick-suggestions-types_1.gif',
 			isDefault: true,
 			description: __(
-				'Quick suggestions show inside the suggest widget',
+				'Suggestions automatically appear in the suggestion list while typing.',
 				'custom-html-block-extension'
 			),
 		},
@@ -55,7 +55,10 @@ export default function QuickSuggestionsTypes() {
 			label: __( 'Show as ghost text', 'custom-html-block-extension' ),
 			value: 'inline',
 			image: 'editor-options/quick-suggestions-types_2.gif',
-			description: __( 'Quick suggestions show as ghost text', 'custom-html-block-extension' ),
+			description: __(
+				'Suggestions automatically appear as inline ghost text while typing.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Disable', 'custom-html-block-extension' ),
@@ -64,7 +67,7 @@ export default function QuickSuggestionsTypes() {
 			description: sprintf(
 				/* translators: %s: The keyboard shortcut to show suggestions. */
 				__(
-					'Suggestions are shown only after typing a trigger character such as "<", or pressing %s.',
+					'Suggestions appear only after typing a trigger character such as "<", or pressing %s.',
 					'custom-html-block-extension'
 				),
 				isAppleOS()
