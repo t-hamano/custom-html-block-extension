@@ -45,6 +45,10 @@ export default function DragAndDrop() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should allow moving selections via drag and drop.',
+					'custom-html-block-extension'
+				) }
 				isToggle
 				defaultToggle={ false }
 				image="editor-options/drag-and-drop.gif"

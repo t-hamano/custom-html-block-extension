@@ -51,7 +51,7 @@ export default function CursorSurroundingLines() {
 				onChange={ onChange }
 				title={ title }
 				description={ __(
-					"Controls the minimal number of visible leading lines (minimum 0) and trailing lines (minimum 1) surrounding the cursor. Known as 'scrollOff' or 'scrollOffset' in some other editors.",
+					'Controls the minimal number of visible leading lines (minimum 0) and trailing lines (minimum 1) surrounding the cursor.',
 					'custom-html-block-extension'
 				) }
 				items={ [
