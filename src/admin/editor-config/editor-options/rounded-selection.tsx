@@ -45,6 +45,10 @@ export default function RoundedSelection() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether selections should have rounded corners.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
