@@ -77,6 +77,10 @@ export default function AutoIndent() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should automatically adjust the indentation when users type, paste, move or indent lines.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="4"
 				value={ editorOptions.autoIndent }
