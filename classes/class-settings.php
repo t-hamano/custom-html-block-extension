@@ -837,8 +837,9 @@ class Settings {
 
 	/**
 	 * Keep only the values that match the schema, such as imported values, and
-	 * collect the paths of the others. Unlike `reset_invalid_values()`, values
-	 * that are not given stay missing, so the current values can be kept for them.
+	 * collect the paths of the others. Numbers out of range are clamped first.
+	 * Unlike `reset_invalid_values()`, invalid values are removed instead of reset
+	 * to their defaults, so the current values can be kept for them.
 	 *
 	 * @param array  $values   The values to validate.
 	 * @param array  $defaults The option definitions.
@@ -872,6 +873,27 @@ class Settings {
 			}
 
 			$property = $schema['properties'][ $key ];
+
+			// Clamp numbers out of range, including the ruler columns, instead of
+			// skipping them.
+			$clamp = function ( $number, $range ) {
+				if ( ! is_numeric( $number ) || ( ! isset( $range['minimum'] ) && ! isset( $range['maximum'] ) ) ) {
+					return $number;
+				}
+				$number = (float) $number;
+				return min( max( $number, $range['minimum'] ?? $number ), $range['maximum'] ?? $number );
+			};
+			$value = $clamp( $value, $property );
+			if ( is_array( $value ) && isset( $property['items'] ) ) {
+				foreach ( $value as $index => $item ) {
+					if ( isset( $item['column'], $property['items']['properties']['column'] ) ) {
+						$value[ $index ]['column'] = $clamp( $item['column'], $property['items']['properties']['column'] );
+					} else {
+						$value[ $index ] = $clamp( $item, $property['items'] );
+					}
+				}
+			}
+
 			if ( is_wp_error( rest_validate_value_from_schema( $value, $property, $key_path ) ) ) {
 				$skipped[] = $key_path;
 				continue;
