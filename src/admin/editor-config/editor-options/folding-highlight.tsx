@@ -45,17 +45,29 @@ export default function FoldingHighlight() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether the editor should highlight folded ranges.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
 						image: 'editor-options/folding-highlight_1.jpg',
+						description: __(
+							'Folded lines are shown with a background highlight.',
+							'custom-html-block-extension'
+						),
 						isDefault: true,
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
 						image: 'editor-options/folding-highlight_2.jpg',
+						description: __(
+							'Folded lines are shown without a background highlight.',
+							'custom-html-block-extension'
+						),
 					},
 				] }
 				value={ editorOptions.foldingHighlight }
