@@ -68,6 +68,10 @@ export default function RenderFinalNewline() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Render last line number when the file ends with a newline.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.renderFinalNewline }
