@@ -23,11 +23,11 @@ class Settings {
 			'type'    => 'number',
 			'minimum' => 1,
 			'maximum' => 8,
-			'default' => 2,
+			'default' => 4,
 		),
 		'detectIndentation' => array(
 			'type'    => 'boolean',
-			'default' => false,
+			'default' => true,
 		),
 		'emmet'             => array(
 			'type'    => 'boolean',
@@ -45,7 +45,7 @@ class Settings {
 		'autoClosingBrackets'              => array(
 			'type'    => 'string',
 			'enum'    => array( 'always', 'languageDefined', 'beforeWhitespace', 'never' ),
-			'default' => 'always',
+			'default' => 'languageDefined',
 		),
 		'autoClosingDelete'                => array(
 			'type'    => 'string',
@@ -60,7 +60,7 @@ class Settings {
 		'autoClosingQuotes'                => array(
 			'type'    => 'string',
 			'enum'    => array( 'always', 'languageDefined', 'beforeWhitespace', 'never' ),
-			'default' => 'always',
+			'default' => 'languageDefined',
 		),
 		'autoIndent'                       => array(
 			'type'    => 'string',
@@ -140,7 +140,7 @@ class Settings {
 		),
 		'dragAndDrop'                      => array(
 			'type'    => 'boolean',
-			'default' => false,
+			'default' => true,
 		),
 		'emptySelectionClipboard'          => array(
 			'type'    => 'boolean',
@@ -207,7 +207,7 @@ class Settings {
 		),
 		'glyphMargin'                      => array(
 			'type'    => 'boolean',
-			'default' => false,
+			'default' => true,
 		),
 		'guides'                           => array(
 			'type'  => 'object',
@@ -239,7 +239,7 @@ class Settings {
 		),
 		'hideCursorInOverviewRuler'        => array(
 			'type'    => 'boolean',
-			'default' => true,
+			'default' => false,
 		),
 		'hover'                            => array(
 			'type'  => 'object',
@@ -405,12 +405,12 @@ class Settings {
 				'comments' => array(
 					'type'    => 'string',
 					'enum'    => array( 'on', 'inline', 'off' ),
-					'default' => 'on',
+					'default' => 'off',
 				),
 				'strings'  => array(
 					'type'    => 'string',
 					'enum'    => array( 'on', 'inline', 'off' ),
-					'default' => 'on',
+					'default' => 'off',
 				),
 			),
 		),
@@ -422,17 +422,17 @@ class Settings {
 		),
 		'renderControlCharacters'          => array(
 			'type'    => 'boolean',
-			'default' => false,
+			'default' => true,
 		),
 		'renderFinalNewline'               => array(
 			'type'    => 'string',
 			'enum'    => array( 'on', 'dimmed', 'off' ),
-			'default' => 'on',
+			'default' => 'dimmed',
 		),
 		'renderLineHighlight'              => array(
 			'type'    => 'string',
 			'enum'    => array( 'all', 'line', 'gutter', 'none' ),
-			'default' => 'all',
+			'default' => 'line',
 		),
 		'renderLineHighlightOnlyWhenFocus' => array(
 			'type'    => 'boolean',
@@ -441,7 +441,7 @@ class Settings {
 		'renderWhitespace'                 => array(
 			'type'    => 'string',
 			'enum'    => array( 'all', 'boundary', 'selection', 'trailing', 'none' ),
-			'default' => 'none',
+			'default' => 'selection',
 		),
 		'rulers'                           => array(
 			'type'    => 'array',
@@ -468,7 +468,7 @@ class Settings {
 		),
 		'roundedSelection'                 => array(
 			'type'    => 'boolean',
-			'default' => false,
+			'default' => true,
 		),
 		'scrollbar'                        => array(
 			'type'  => 'object',
@@ -496,7 +496,7 @@ class Settings {
 					'type'    => 'number',
 					'minimum' => 5,
 					'maximum' => 30,
-					'default' => 10,
+					'default' => 12,
 				),
 				'scrollByPage'            => array(
 					'type'    => 'boolean',
@@ -519,7 +519,7 @@ class Settings {
 					'type'    => 'number',
 					'minimum' => 5,
 					'maximum' => 30,
-					'default' => 10,
+					'default' => 14,
 				),
 			),
 		),
@@ -527,7 +527,7 @@ class Settings {
 			'type'    => 'number',
 			'minimum' => 0,
 			'maximum' => 20,
-			'default' => 5,
+			'default' => 4,
 		),
 		'scrollBeyondLastLine'             => array(
 			'type'    => 'boolean',
@@ -631,7 +631,7 @@ class Settings {
 		'wrappingIndent'                   => array(
 			'type'    => 'string',
 			'enum'    => array( 'none', 'same', 'indent', 'deepIndent' ),
-			'default' => 'none',
+			'default' => 'same',
 		),
 		'wordWrap'                         => array(
 			'type'    => 'string',
