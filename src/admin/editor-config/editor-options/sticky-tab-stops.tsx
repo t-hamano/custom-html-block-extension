@@ -51,7 +51,7 @@ export default function StickyTabStops() {
 						value: true,
 						image: 'editor-options/sticky-tab-stops_1.gif',
 						description: __(
-							'When using spaces for indentation, the cursor and selection stick to tab stops, emulating tab characters.',
+							'Within indentation made of spaces, the Left and Right arrow keys move the cursor by a full tab stop, as if the indentation were tab characters.',
 							'custom-html-block-extension'
 						),
 					},
@@ -60,7 +60,7 @@ export default function StickyTabStops() {
 						value: false,
 						image: 'editor-options/sticky-tab-stops_2.gif',
 						description: __(
-							'The cursor moves one space at a time within indentation made of spaces.',
+							'Within indentation made of spaces, the Left and Right arrow keys move the cursor one space at a time.',
 							'custom-html-block-extension'
 						),
 						isDefault: true,
