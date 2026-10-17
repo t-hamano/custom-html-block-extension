@@ -50,6 +50,10 @@ export default function ScrollbarHorizontalHasArrows() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether arrows are rendered at the left and right of the horizontal scrollbar.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

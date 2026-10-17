@@ -50,6 +50,10 @@ export default function ScrollbarVerticalHasArrows() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether arrows are rendered at the top and bottom of the vertical scrollbar.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
