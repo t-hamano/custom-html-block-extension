@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -48,6 +48,14 @@ export default function GuidesHighlightActiveBracketPair() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={
+					<Text render={ <p /> }>
+						{ __(
+							'Draw the guide of the bracket pair at the cursor in the highlight color. When disabled, the guide is still shown in the normal color. Has no effect when Bracket Pairs is set to None.',
+							'custom-html-block-extension'
+						) }
+					</Text>
+				}
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

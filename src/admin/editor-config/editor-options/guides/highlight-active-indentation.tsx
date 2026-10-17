@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
+import { SelectControl, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -37,7 +37,10 @@ export default function GuidesHighlightActiveIndentation() {
 			value: true,
 			image: 'editor-options/guides/highlight-active-indentation_1.gif',
 			isDefault: true,
-			description: __( 'Highlights the active indent guide.', 'custom-html-block-extension' ),
+			description: __(
+				'Highlights the active indent guide. Not highlighted on lines where a bracket pair guide is shown.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
@@ -97,6 +100,14 @@ export default function GuidesHighlightActiveIndentation() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={
+					<Text render={ <p /> }>
+						{ __(
+							'Highlight the indent guide of the block at the cursor. This applies to the indent guides shown by Indentation, not to the bracket pair guides.',
+							'custom-html-block-extension'
+						) }
+					</Text>
+				}
 				items={ items }
 				colCount="3"
 				value={ editorOptions.guides.highlightActiveIndentation }

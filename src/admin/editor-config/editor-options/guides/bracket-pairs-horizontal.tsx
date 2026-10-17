@@ -89,7 +89,7 @@ export default function GuidesBracketPairsHorizontal() {
 				description={
 					<Text render={ <p /> }>
 						{ __(
-							'Draw horizontal lines from the bracket pair guides to the brackets that are not at the start of a line.',
+							'Add horizontal lines to the guides shown by Bracket Pairs, pointing to the brackets that are not at the start of a line. Has no effect when Bracket Pairs is set to None.',
 							'custom-html-block-extension'
 						) }
 					</Text>
