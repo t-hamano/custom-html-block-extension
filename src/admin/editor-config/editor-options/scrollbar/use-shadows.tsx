@@ -48,6 +48,10 @@ export default function ScrollbarUseShadows() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls whether horizontal and vertical shadows are cast when the content is scrolled.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
