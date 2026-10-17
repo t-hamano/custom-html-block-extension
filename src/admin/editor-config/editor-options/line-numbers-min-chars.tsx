@@ -47,7 +47,14 @@ export default function LineNumbersMinChars() {
 				allowReset
 				onChange={ onChange }
 			/>
-			<ItemHelp title={ title } image="editor-options/line-numbers-min-chars.gif" />
+			<ItemHelp
+				title={ title }
+				description={ __(
+					'Controls the width of line numbers, by reserving horizontal space for rendering at least an amount of digits.',
+					'custom-html-block-extension'
+				) }
+				image="editor-options/line-numbers-min-chars.gif"
+			/>
 		</Stack>
 	);
 }
