@@ -366,7 +366,14 @@ export async function placeSettingControl(
 		( { title, left, centerY, width } ) => {
 			const item = [
 				...document.querySelectorAll( '.chbe-admin-editor-config__setting-item' ),
-			].find( ( e ) => e.textContent.toLowerCase().startsWith( title.toLowerCase() ) );
+			].find( ( e ) => {
+				// While searching, a grouped setting's label starts with its group, as in "Minimap: Scale".
+				const text = e.textContent.toLowerCase().replace( /^[^:]*: /, '' );
+				return (
+					e.textContent.toLowerCase().startsWith( title.toLowerCase() ) ||
+					text.startsWith( title.toLowerCase() )
+				);
+			} );
 			const input = item.querySelector( 'input[type="number"]' );
 			const row = input.getBoundingClientRect();
 			const rowCenter = row.top + row.height / 2 - item.getBoundingClientRect().top;

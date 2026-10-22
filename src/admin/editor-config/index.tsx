@@ -13,11 +13,13 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
+	useMemo,
 	useRef,
 	useState,
 } from '@wordpress/element';
 import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
+import { useDebounce } from '@wordpress/compose';
 import { store as noticesStore } from '@wordpress/notices';
 
 /**
@@ -28,8 +30,9 @@ import { updateSettings } from '../api';
 import EditorPreview from './components/editor-preview';
 import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
-import * as EditorSettings from './editor-settings';
-import * as EditorOptions from './editor-options';
+import SettingItem from './components/setting-item';
+import { getBasicSettings, getSettingPanels } from './settings';
+import { SEARCH_HIGHLIGHT_NAME, SETTING_LABEL_SELECTOR, getSearchPatterns } from './search';
 import { isDeepEqual } from '../../lib/helper';
 import type { EditorConfigContextType } from '../../types';
 
@@ -39,34 +42,6 @@ import type { EditorConfigContextType } from '../../types';
 export const EditorConfigContext = createContext< EditorConfigContextType >(
 	{} as EditorConfigContextType
 );
-
-// Value for the `inert` attribute; the empty string enables it (React 18 form).
-function inertValue( condition: boolean ): '' | undefined {
-	return condition ? '' : undefined;
-}
-
-// Name of the CSS custom highlight for the words matching the search query.
-const SEARCH_HIGHLIGHT_NAME = 'chbe-editor-config-search';
-
-// Case-insensitive patterns for the words in the search query. Unlike
-// lowercasing, the match offsets stay valid for the original text.
-function getSearchPatterns( searchQuery: string ): RegExp[] {
-	return searchQuery
-		.split( /\s+/ )
-		.filter( Boolean )
-		.map( ( word ) => new RegExp( word.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' ), 'giu' ) );
-}
-
-// Whether a setting with the given title matches the current search query.
-// `parent` is the name of the group a nested setting belongs to (e.g.
-// "Minimap"), so searching for the group still finds its settings.
-export function useSearchVisibility( title: string, parent?: string ): boolean {
-	const { searchQuery } = useContext( EditorConfigContext );
-	const searchText = parent ? `${ parent } ${ title }` : title;
-	return getSearchPatterns( searchQuery ).every(
-		( pattern ) => searchText.search( pattern ) !== -1
-	);
-}
 
 // Highlights the words matching the search query in the setting labels.
 // The controls only accept a string label, so the CSS Custom Highlight API
@@ -81,25 +56,21 @@ function useSearchHighlight( searchQuery: string ) {
 		}
 
 		const ranges: Range[] = [];
-		ref.current
-			.querySelectorAll(
-				'.chbe-admin-editor-config__setting-item :is(label, .components-base-control__label)'
-			)
-			.forEach( ( label ) => {
-				const walker = document.createTreeWalker( label, NodeFilter.SHOW_TEXT );
-				while ( walker.nextNode() ) {
-					const node = walker.currentNode;
-					const text = node.textContent ?? '';
-					patterns.forEach( ( pattern ) => {
-						for ( const match of text.matchAll( pattern ) ) {
-							const range = new Range();
-							range.setStart( node, match.index );
-							range.setEnd( node, match.index + match[ 0 ].length );
-							ranges.push( range );
-						}
-					} );
-				}
-			} );
+		ref.current.querySelectorAll( SETTING_LABEL_SELECTOR ).forEach( ( label ) => {
+			const walker = document.createTreeWalker( label, NodeFilter.SHOW_TEXT );
+			while ( walker.nextNode() ) {
+				const node = walker.currentNode;
+				const text = node.textContent ?? '';
+				patterns.forEach( ( pattern ) => {
+					for ( const match of text.matchAll( pattern ) ) {
+						const range = new Range();
+						range.setStart( node, match.index );
+						range.setEnd( node, match.index + match[ 0 ].length );
+						ranges.push( range );
+					}
+				} );
+			}
+		} );
 
 		CSS.highlights.set( SEARCH_HIGHLIGHT_NAME, new Highlight( ...ranges ) );
 
@@ -213,6 +184,19 @@ export default function EditorConfig() {
 		}, 300 );
 	}, [] );
 
+	// Merge refreshes requested in quick succession, such as while dragging a
+	// range control, into one.
+	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 100 );
+
+	const editorConfigContext = useMemo(
+		() => ( { onRefreshEditor: debouncedRefreshEditor, searchQuery, fontWeights } ),
+		[ debouncedRefreshEditor, searchQuery, fontWeights ]
+	);
+
+	// The definitions read translations, so create them at render time.
+	const panels = useMemo( () => getSettingPanels(), [] );
+	const basicSettings = useMemo( () => getBasicSettings( panels ), [ panels ] );
+
 	return (
 		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="xl">
 			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="lg">
@@ -245,247 +229,18 @@ export default function EditorConfig() {
 					) }
 					gap={ editorMode === 'basic' && ! searchQuery ? 'xl' : 'sm' }
 				>
-					<EditorConfigContext.Provider value={ { onRefreshEditor, searchQuery } }>
-						{ 'basic' === editorMode && ! searchQuery && (
-							<>
-								<EditorSettings.Theme />
-								<EditorSettings.TabSize />
-								<EditorSettings.InsertSpaces />
-								<EditorSettings.DetectIndentation />
-								<EditorSettings.Emmet />
-								<EditorOptions.FontFamily />
-								<EditorOptions.FontWeight fontWeights={ fontWeights } />
-								<EditorOptions.FontSize />
-								<EditorOptions.LineHeight />
-								<EditorOptions.WordWrap />
-								<EditorOptions.LineNumbers />
-								<EditorOptions.RenderWhitespace />
-								<EditorOptions.MinimapEnabled />
-								<EditorOptions.Folding />
-								<EditorOptions.CursorStyle />
-								<EditorOptions.AutoIndent />
-								<EditorOptions.AutoClosingBrackets />
-								<EditorOptions.AutoClosingQuotes />
-								<EditorOptions.QuickSuggestions />
-							</>
-						) }
-						{ ( 'advanced' === editorMode || searchQuery ) && (
-							<>
-								<SettingsPanel title={ __( 'Editor', 'custom-html-block-extension' ) }>
-									<EditorSettings.Theme />
-									<EditorSettings.TabSize />
-									<EditorSettings.InsertSpaces />
-									<EditorSettings.DetectIndentation />
-									<EditorSettings.Emmet />
-									<EditorOptions.Contextmenu />
-									<EditorOptions.GlyphMargin />
-									<EditorOptions.PaddingTop />
-									<EditorOptions.PaddingBottom />
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Font', 'custom-html-block-extension' ) }>
-									<EditorOptions.FontFamily />
-									<EditorOptions.FontWeight fontWeights={ fontWeights } />
-									<EditorOptions.FontLigatures />
-									<EditorOptions.FontSize />
-									<EditorOptions.LineHeight />
-									<EditorOptions.LetterSpacing />
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Word wrap', 'custom-html-block-extension' ) }>
-									<EditorOptions.WordWrap />
-									<div
-										inert={ inertValue(
-											'on' === editorOptions.wordWrap || 'off' === editorOptions.wordWrap
-										) }
-									>
-										<EditorOptions.WordWrapColumn />
-									</div>
-									<div inert={ inertValue( 'off' === editorOptions.wordWrap ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.WrappingIndent />
-											<EditorOptions.WordWrapIndicator />
-										</Stack>
-									</div>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>
-									<EditorOptions.MinimapEnabled />
-									<div inert={ inertValue( ! editorOptions.minimap.enabled ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.MinimapSide />
-											<EditorOptions.MinimapMaxColumn />
-											<EditorOptions.MinimapScale />
-											<EditorOptions.MinimapAutohide />
-											<EditorOptions.MinimapShowSlider />
-											<EditorOptions.MinimapSize />
-											<EditorOptions.MinimapRenderCharacters />
-										</Stack>
-									</div>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Cursor', 'custom-html-block-extension' ) }>
-									<EditorOptions.CursorStyle />
-									<div inert={ inertValue( 'line' !== editorOptions.cursorStyle ) }>
-										<EditorOptions.CursorWidth />
-									</div>
-									<EditorOptions.CursorBlinking />
-									<EditorOptions.CursorSurroundingLines />
-									<EditorOptions.CursorSurroundingLinesStyle />
-									<EditorOptions.CursorSmoothCaretAnimation />
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Code folding', 'custom-html-block-extension' ) }>
-									<EditorOptions.Folding />
-									<div inert={ inertValue( ! editorOptions.folding ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.ShowFoldingControls />
-											<EditorOptions.FoldingStrategy />
-											<EditorOptions.LineDecorationsWidth />
-											<EditorOptions.FoldingHighlight />
-											<EditorOptions.UnfoldOnClickAfterEndOfLine />
-										</Stack>
-									</div>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Line number', 'custom-html-block-extension' ) }>
-									<EditorOptions.LineNumbers />
-									<div inert={ inertValue( 'off' === editorOptions.lineNumbers ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.LineNumbersMinChars />
-											<EditorOptions.SelectOnLineNumbers />
-											<EditorOptions.RenderFinalNewline />
-										</Stack>
-									</div>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Suggest', 'custom-html-block-extension' ) }>
-									<EditorOptions.QuickSuggestions />
-									<div inert={ inertValue( ! editorOptions.suggestOnTriggerCharacters ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.QuickSuggestionsTypes />
-											<EditorOptions.AcceptSuggestionOnEnter />
-											<EditorOptions.QuickSuggestionsDelay />
-											<EditorOptions.SuggestFontSize />
-											<EditorOptions.SuggestLineHeight />
-											<EditorOptions.SuggestShowIcons />
-											<EditorOptions.SuggestInsertMode />
-											<EditorOptions.SuggestPreview />
-										</Stack>
-									</div>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Auto completion', 'custom-html-block-extension' ) }>
-									<EditorOptions.AutoIndent />
-									<EditorOptions.AutoClosingBrackets />
-									<EditorOptions.AutoClosingQuotes />
-									<EditorOptions.AutoClosingDelete />
-									<EditorOptions.AutoClosingOvertype />
-									<EditorOptions.AutoSurround />
-									<EditorOptions.FormatOnPaste />
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }>
-									<EditorOptions.MouseWheelScrollSensitivity />
-									<EditorOptions.FastScrollSensitivity />
-									<EditorOptions.Hover />
-									<div inert={ inertValue( 'off' === editorOptions.hover.enabled ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.HoverDelay />
-											<EditorOptions.HoverSticky />
-											<EditorOptions.HoverAbove />
-										</Stack>
-									</div>
-									<EditorOptions.SmoothScrolling />
-									<EditorOptions.StickyScrollEnabled />
-									<div inert={ inertValue( ! editorOptions.stickyScroll.enabled ) }>
-										<EditorOptions.StickyScrollMaxLineCount />
-									</div>
-									<EditorOptions.ScrollBeyondLastLine />
-									<EditorOptions.ScrollBeyondLastColumn />
-									<EditorOptions.MouseWheelZoom />
-									<EditorOptions.DragAndDrop />
-									<EditorOptions.HideCursorInOverviewRuler />
-									<EditorOptions.MultiCursorModifier />
-								</SettingsPanel>
-								<SettingsPanel
-									title={ __( 'Select, cut, copy, and paste', 'custom-html-block-extension' ) }
-								>
-									<EditorOptions.EmptySelectionClipboard />
-									<EditorOptions.RoundedSelection />
-									<EditorOptions.SelectionHighlight />
-									<EditorOptions.MultiCursorPaste />
-									<EditorOptions.StickyTabStops />
-									<EditorOptions.CopyWithSyntaxHighlighting />
-									<EditorOptions.ColumnSelection />
-								</SettingsPanel>
-								<SettingsPanel
-									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
-								>
-									<EditorOptions.MatchBrackets />
-									<EditorOptions.BracketPairColorizationEnabled />
-									<div inert={ inertValue( ! editorOptions.bracketPairColorization.enabled ) }>
-										<EditorOptions.BracketPairColorizationIndependentColorPoolPerBracketType />
-									</div>
-									<EditorOptions.OccurrencesHighlight />
-									<EditorOptions.RenderWhitespace />
-									<EditorOptions.RenderLineHighlight />
-									<div inert={ inertValue( 'none' === editorOptions.renderLineHighlight ) }>
-										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
-									</div>
-									<EditorOptions.GuidesIndentation />
-									<div inert={ inertValue( ! editorOptions.guides.indentation ) }>
-										<EditorOptions.GuidesHighlightActiveIndentation />
-									</div>
-									<EditorOptions.GuidesBracketPairs />
-									<div inert={ inertValue( false === editorOptions.guides.bracketPairs ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.GuidesBracketPairsHorizontal />
-											<EditorOptions.GuidesHighlightActiveBracketPair />
-										</Stack>
-									</div>
-									<EditorOptions.RenderControlCharacters />
-									<EditorOptions.UnicodeHighlightInvisibleCharacters />
-									<EditorOptions.UnicodeHighlightAmbiguousCharacters />
-									<EditorOptions.UnicodeHighlightNonBasicAscii />
-									<EditorOptions.Rulers />
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Find', 'custom-html-block-extension' ) }>
-									<EditorOptions.FindAddExtraSpaceOnTop />
-									<EditorOptions.FindSeedSearchStringFromSelection />
-									<EditorOptions.FindLoop />
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Scrollbar', 'custom-html-block-extension' ) }>
-									<EditorOptions.ScrollbarUseShadows />
-									<EditorOptions.OverviewRulerBorder />
-									<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
-									<EditorOptions.ScrollbarScrollByPage />
-									<EditorOptions.ScrollbarHorizontal />
-									<div inert={ inertValue( 'hidden' === editorOptions.scrollbar.horizontal ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.ScrollbarHorizontalHasArrows />
-											<EditorOptions.ScrollbarHorizontalScrollbarSize />
-										</Stack>
-									</div>
-									<EditorOptions.ScrollbarVertical />
-									<div inert={ inertValue( 'hidden' === editorOptions.scrollbar.vertical ) }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.ScrollbarVerticalHasArrows />
-											<EditorOptions.ScrollbarVerticalScrollbarSize />
-										</Stack>
-									</div>
-									<div
-										// Disabled unless a visible scrollbar has arrows.
-										inert={ inertValue(
-											! (
-												( 'hidden' !== editorOptions.scrollbar.horizontal &&
-													editorOptions.scrollbar.horizontalHasArrows ) ||
-												( 'hidden' !== editorOptions.scrollbar.vertical &&
-													editorOptions.scrollbar.verticalHasArrows )
-											)
-										) }
-									>
-										<EditorOptions.ScrollbarArrowSize />
-									</div>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Other', 'custom-html-block-extension' ) }>
-									<EditorOptions.UseTabStops />
-									<EditorOptions.CommentsInsertSpace />
-									<EditorOptions.Links />
-								</SettingsPanel>
-							</>
-						) }
+					<EditorConfigContext.Provider value={ editorConfigContext }>
+						{ 'basic' === editorMode && ! searchQuery
+							? basicSettings.map( ( setting ) => (
+									<SettingItem key={ setting.id } setting={ setting } />
+								) )
+							: panels.map( ( panel ) => (
+									<SettingsPanel key={ panel.title } title={ panel.title }>
+										{ panel.settings.map( ( setting ) => (
+											<SettingItem key={ setting.id } setting={ setting } />
+										) ) }
+									</SettingsPanel>
+								) ) }
 					</EditorConfigContext.Provider>
 				</Stack>
 			</Stack>
