@@ -45,6 +45,10 @@ export default function UseTabStops() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Spaces and tabs are inserted and deleted in alignment with tab stops.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),

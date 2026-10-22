@@ -78,6 +78,7 @@ export default function CursorBlinking() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Controls the cursor animation style.', 'custom-html-block-extension' ) }
 				items={ items }
 				colCount="5"
 				value={ editorOptions.cursorBlinking }

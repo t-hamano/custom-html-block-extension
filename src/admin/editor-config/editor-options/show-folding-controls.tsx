@@ -27,17 +27,26 @@ export default function ShowFoldingControls() {
 		{
 			label: __( 'Always show', 'custom-html-block-extension' ),
 			image: 'editor-options/show-folding-controls_1.jpg',
+			description: __( 'Always show the folding controls.', 'custom-html-block-extension' ),
 			value: 'always',
 		},
 		{
 			label: __( 'Show on mouseover', 'custom-html-block-extension' ),
 			image: 'editor-options/show-folding-controls_2.gif',
+			description: __(
+				'Only show the folding controls when the mouse is over the gutter.',
+				'custom-html-block-extension'
+			),
 			value: 'mouseover',
 			isDefault: true,
 		},
 		{
 			label: __( 'Never show', 'custom-html-block-extension' ),
 			image: 'editor-options/show-folding-controls_3.gif',
+			description: __(
+				'Never show the folding controls and reduce the gutter size.',
+				'custom-html-block-extension'
+			),
 			value: 'never',
 		},
 	];
@@ -68,6 +77,10 @@ export default function ShowFoldingControls() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls when the folding controls on the gutter are shown.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.showFoldingControls }

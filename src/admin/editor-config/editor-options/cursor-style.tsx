@@ -83,6 +83,7 @@ export default function CursorStyle() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __( 'Controls the cursor style.', 'custom-html-block-extension' ) }
 				items={ items }
 				colCount="3"
 				value={ editorOptions.cursorStyle }

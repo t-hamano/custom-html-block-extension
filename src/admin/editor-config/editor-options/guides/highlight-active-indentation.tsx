@@ -55,6 +55,7 @@ export default function GuidesHighlightActiveIndentation() {
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: false,
 			image: 'editor-options/guides/highlight-active-indentation_3.gif',
+			description: __( 'Do not highlight the active indent guide.', 'custom-html-block-extension' ),
 		},
 	];
 

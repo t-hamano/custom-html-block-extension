@@ -60,6 +60,10 @@ export default function ScrollbarHorizontalScrollbarSize() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'The height of the horizontal scrollbar.',
+					'custom-html-block-extension'
+				) }
 				items={ [
 					{
 						label: sprintf(

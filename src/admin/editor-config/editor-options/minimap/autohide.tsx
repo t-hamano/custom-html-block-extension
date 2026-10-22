@@ -28,17 +28,26 @@ export default function MinimapAutohide() {
 			label: __( "Don't hide", 'custom-html-block-extension' ),
 			value: 'none',
 			image: 'editor-options/minimap/autohide_1.jpg',
+			description: __( 'The minimap is always shown.', 'custom-html-block-extension' ),
 			isDefault: true,
 		},
 		{
 			label: __( 'Show on mouseover', 'custom-html-block-extension' ),
 			value: 'mouseover',
 			image: 'editor-options/minimap/autohide_2.gif',
+			description: __(
+				'The minimap is hidden when mouse is not over the minimap and shown when mouse is over the minimap.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Show while scrolling', 'custom-html-block-extension' ),
 			value: 'scroll',
 			image: 'editor-options/minimap/autohide_3.gif',
+			description: __(
+				'The minimap is only shown when the editor is scrolled.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
@@ -71,7 +80,10 @@ export default function MinimapAutohide() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
-				description={ __( 'Control the rendering of minimap.', 'custom-html-block-extension' ) }
+				description={ __(
+					'Controls whether the minimap is hidden automatically.',
+					'custom-html-block-extension'
+				) }
 				colCount="3"
 				items={ items }
 				value={ editorOptions.minimap.autohide }

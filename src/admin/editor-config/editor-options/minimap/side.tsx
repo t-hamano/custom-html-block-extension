@@ -72,6 +72,10 @@ export default function MinimapSide() {
 			<ItemHelp
 				onChange={ onChange }
 				title={ title }
+				description={ __(
+					'Controls the side where to render the minimap.',
+					'custom-html-block-extension'
+				) }
 				items={ items }
 				value={ editorOptions.minimap.side }
 			/>

@@ -28,17 +28,29 @@ export default function RenderFinalNewline() {
 			label: __( 'Enable', 'custom-html-block-extension' ),
 			value: 'on',
 			image: 'editor-options/render-final-newline_1.jpg',
+			description: __(
+				'The last line number is shown when the file ends with a newline.',
+				'custom-html-block-extension'
+			),
 			isDefault: true,
 		},
 		{
 			label: __( 'Dimmed', 'custom-html-block-extension' ),
 			value: 'dimmed',
 			image: 'editor-options/render-final-newline_2.jpg',
+			description: __(
+				'The last line number is shown dimmed when the file ends with a newline.',
+				'custom-html-block-extension'
+			),
 		},
 		{
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: 'off',
 			image: 'editor-options/render-final-newline_3.jpg',
+			description: __(
+				'The last line number is not shown when the file ends with a newline.',
+				'custom-html-block-extension'
+			),
 		},
 	];
 
