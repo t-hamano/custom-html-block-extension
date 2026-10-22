@@ -40,6 +40,7 @@ export default function RenderWhitespace() {
 		{
 			label: __( 'Render only whitespace in the selected text', 'custom-html-block-extension' ),
 			value: 'selection',
+			isDefault: true,
 			image: 'editor-options/render-whitespace_3.jpg',
 		},
 		{
@@ -50,7 +51,6 @@ export default function RenderWhitespace() {
 		{
 			label: __( 'None', 'custom-html-block-extension' ),
 			value: 'none',
-			isDefault: true,
 			image: 'editor-options/render-whitespace_5.jpg',
 		},
 	];

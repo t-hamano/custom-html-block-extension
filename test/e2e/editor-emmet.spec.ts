@@ -26,16 +26,16 @@ const HTML_CASES = [
 	{
 		abbreviation: '(header>nav)+footer',
 		expected: `<header>
-  <nav></nav>
+    <nav></nav>
 </header>
 <footer></footer>`,
 	},
 	{
 		abbreviation: 'ul.list>li.item*3',
 		expected: `<ul class="list">
-  <li class="item"></li>
-  <li class="item"></li>
-  <li class="item"></li>
+    <li class="item"></li>
+    <li class="item"></li>
+    <li class="item"></li>
 </ul>`,
 	},
 ];
@@ -70,11 +70,14 @@ async function expand( page: Page, monacoEditor: Locator, abbreviation: string, 
 const EDITORS: {
 	name: string;
 	plugin?: string;
+	indent: string;
 	open: ( fixtures: Fixtures ) => Promise< Locator >;
 	getValue: ( fixtures: Fixtures ) => Promise< string >;
 }[] = [
 	{
 		name: 'theme editor (HTML)',
+		// The template is indented with tabs, and the indentation is detected from it.
+		indent: '\t',
 		open: async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'theme-editor.php', 'file=templates/index.html' );
 			const monacoEditor = page.locator( '.chbe-monaco-editor .monaco-editor' );
@@ -91,6 +94,7 @@ const EDITORS: {
 	{
 		name: 'classic editor',
 		plugin: 'classic-editor',
+		indent: '    ',
 		open: async ( { admin, page } ) => {
 			await admin.visitAdminPage( 'post-new.php' );
 			await page.locator( '#content-tmce' ).click();
@@ -103,6 +107,7 @@ const EDITORS: {
 	},
 	{
 		name: 'block editor',
+		indent: '    ',
 		open: async ( { admin, editor } ) => {
 			await admin.createNewPost();
 			await editor.insertBlock( { name: 'core/html' } );
@@ -149,7 +154,9 @@ test.describe( 'Emmet', () => {
 					const fixtures = { admin, editor, page };
 					const monacoEditor = await target.open( fixtures );
 					await expand( page, monacoEditor, abbreviation, abbreviation );
-					await expect.poll( () => target.getValue( fixtures ) ).toBe( expected );
+					await expect
+						.poll( () => target.getValue( fixtures ) )
+						.toBe( expected.replace( /^ {4}/gm, target.indent ) );
 				} );
 			}
 		} );

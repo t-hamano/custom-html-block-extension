@@ -136,8 +136,8 @@ test.describe( 'Indentation', () => {
 						.poll( () => getIndentation( monacoEditor ) )
 						.toEqual(
 							detectIndentation
-								? { insertSpaces: false, tabSize: 2 }
-								: { insertSpaces: true, tabSize: 2 }
+								? { insertSpaces: false, tabSize: 4 }
+								: { insertSpaces: true, tabSize: 4 }
 						);
 				} );
 			}

@@ -50,7 +50,7 @@ export default function DetectIndentation() {
 					'custom-html-block-extension'
 				) }
 				isToggle
-				defaultToggle={ false }
+				defaultToggle
 				value={ editorSettings.detectIndentation }
 			/>
 		</Stack>

@@ -53,12 +53,12 @@ export default function RoundedSelection() {
 					{
 						label: __( 'Enable', 'custom-html-block-extension' ),
 						value: true,
+						isDefault: true,
 						image: 'editor-options/rounded-selection_1.jpg',
 					},
 					{
 						label: __( 'Disable', 'custom-html-block-extension' ),
 						value: false,
-						isDefault: true,
 						image: 'editor-options/rounded-selection_2.jpg',
 					},
 				] }

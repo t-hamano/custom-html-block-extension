@@ -27,13 +27,13 @@ export default function AutoClosingBrackets() {
 		{
 			label: __( 'Always', 'custom-html-block-extension' ),
 			value: 'always',
-			isDefault: true,
 			image: 'editor-options/auto-closing-brackets_1.gif',
 			description: __( 'Always autoclose brackets.', 'custom-html-block-extension' ),
 		},
 		{
 			label: __( 'Determined by the language', 'custom-html-block-extension' ),
 			value: 'languageDefined',
+			isDefault: true,
 			image: 'editor-options/auto-closing-brackets_2.gif',
 			description: __(
 				'Use language configurations to determine when to autoclose brackets.',

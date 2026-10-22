@@ -30,7 +30,7 @@ export default function ScrollbarHorizontalScrollbarSize() {
 	}
 
 	const onChange = ( newValue: number | undefined ) => {
-		const nextValue = newValue ? toNumber( newValue, 5, 30 ) : 10;
+		const nextValue = newValue ? toNumber( newValue, 5, 30 ) : 12;
 		setEditorOptions( ( prev ) => ( {
 			...prev,
 			scrollbar: {

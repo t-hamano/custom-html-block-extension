@@ -27,7 +27,7 @@ export default function ScrollBeyondLastColumn() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			scrollBeyondLastColumn: undefined !== value ? toNumber( value, 0, 20 ) : 5,
+			scrollBeyondLastColumn: undefined !== value ? toNumber( value, 0, 20 ) : 4,
 		} );
 	};
 

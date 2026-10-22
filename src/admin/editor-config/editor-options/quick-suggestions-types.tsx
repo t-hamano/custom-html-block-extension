@@ -45,7 +45,6 @@ export default function QuickSuggestionsTypes() {
 			label: __( 'Show in the suggestion list', 'custom-html-block-extension' ),
 			value: 'on',
 			image: 'editor-options/quick-suggestions-types_1.gif',
-			isDefault: true,
 			description: __(
 				'Suggestions automatically appear in the suggestion list while typing.',
 				'custom-html-block-extension'

@@ -30,7 +30,7 @@ export default function ScrollbarVerticalScrollbarSize() {
 	}
 
 	const onChange = ( newValue: number | undefined ) => {
-		const nextValue = newValue ? toNumber( newValue, 5, 30 ) : 10;
+		const nextValue = newValue ? toNumber( newValue, 5, 30 ) : 14;
 		setEditorOptions( ( prev ) => ( {
 			...prev,
 			scrollbar: {
