@@ -14,26 +14,15 @@ import { SelectControl, Stack, SwitchControl } from '@wordpress/ui';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { EditorConfigContext } from '../../index';
+import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../item-help';
-import { SETTING_ITEM_CLASS_NAME, matchesSearch } from '../../search';
-import { mergeChanges, resolve } from '../../settings/helpers';
-import type {
-	SettingDefinition,
-	SettingState,
-	SettingValue,
-	SettingHelpItem,
-} from '../../settings/types';
+import { mergeChanges, resolve } from './helpers';
+import type { SettingDefinition, SettingState, SettingValue, SettingHelpItem } from './types';
 import { toNumber } from '../../../../lib/helper';
 
-// Value for the `inert` attribute; the empty string enables it (React 18 form).
-function inertValue( condition: boolean ): '' | undefined {
-	return condition ? '' : undefined;
-}
-
 /**
- * Renders a setting from its definition, with the search visibility, the
- * disabled state, and the help dialog.
+ * Renders a setting from its definition, with the search visibility and the
+ * help dialog.
  *
  * @param props         Props.
  * @param props.setting Setting definition.
@@ -47,8 +36,8 @@ export default function SettingItem( { setting }: { setting: SettingDefinition }
 	const label = resolve( setting.label, state );
 	const { group } = setting;
 
-	const searchText = [ group, label, setting.searchText ].filter( Boolean ).join( ' ' );
-	if ( ! matchesSearch( searchQuery, searchText ) ) {
+	const isVisible = useSearchVisibility( label, group );
+	if ( ! isVisible ) {
 		return null;
 	}
 
@@ -63,26 +52,6 @@ export default function SettingItem( { setting }: { setting: SettingDefinition }
 					label
 				)
 			: label;
-
-	const isDisabled = !! setting.isDisabled?.( state );
-
-	const wrapperProps = {
-		className: SETTING_ITEM_CLASS_NAME,
-		justify: 'start',
-		align: 'start',
-		wrap: 'wrap',
-		gap: 'sm',
-		inert: inertValue( isDisabled ),
-	} as const;
-
-	if ( 'custom' === setting.control ) {
-		const Component = setting.component;
-		return (
-			<Stack { ...wrapperProps }>
-				<Component label={ displayLabel } />
-			</Stack>
-		);
-	}
 
 	const value = setting.getValue( state );
 
@@ -199,7 +168,13 @@ export default function SettingItem( { setting }: { setting: SettingDefinition }
 	const isToggle = 'toggle' === setting.control && ! helpItems;
 
 	return (
-		<Stack { ...wrapperProps }>
+		<Stack
+			className="chbe-admin-editor-config__setting-item"
+			justify="start"
+			align="start"
+			wrap="wrap"
+			gap="sm"
+		>
 			{ control }
 			{ help && (
 				<ItemHelp

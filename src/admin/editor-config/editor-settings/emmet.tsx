@@ -1,0 +1,62 @@
+/**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import { createInterpolateElement } from '@wordpress/element';
+import { Link, Notice, Text } from '@wordpress/ui';
+
+/**
+ * Internal dependencies
+ */
+import SettingItem from '../components/setting-item';
+import { editorSetting } from '../components/setting-item/helpers';
+
+export default function Emmet() {
+	return (
+		<SettingItem
+			setting={ {
+				control: 'toggle',
+				label: __( 'Enable Emmet', 'custom-html-block-extension' ),
+				...editorSetting( 'emmet' ),
+				defaultValue: true,
+				help: {
+					description: (
+						<>
+							<Text render={ <p /> }>
+								{ __(
+									'Emmet is a function for the editor that allows for high-speed coding via content assist. In the block and classic editor, it is only valid for HTML tags and does not support inline CSS. In the theme/plugin editor, it is available if the file extension is html, php, sass, scss, css, or less.',
+									'custom-html-block-extension'
+								) }
+							</Text>
+							<Text render={ <p /> }>
+								{ createInterpolateElement(
+									__(
+										'Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation. In the theme/plugin editor, this is available if the file extension is html or php.',
+										'custom-html-block-extension'
+									),
+									{
+										code: <code />,
+									}
+								) }
+							</Text>
+							<Text render={ <p /> }>
+								<Link href="https://docs.emmet.io/cheat-sheet/" openInNewTab>
+									{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
+								</Link>
+							</Text>
+							<Notice.Root intent="warning">
+								<Notice.Description>
+									{ __(
+										'Save and reload the browser to reflect this settings in the preview editor area.',
+										'custom-html-block-extension'
+									) }
+								</Notice.Description>
+							</Notice.Root>
+						</>
+					),
+					image: 'editor-settings/emmet.gif',
+				},
+			} }
+		/>
+	);
+}
