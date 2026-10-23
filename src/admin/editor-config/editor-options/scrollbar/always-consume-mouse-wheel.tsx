@@ -30,7 +30,7 @@ export default function ScrollbarAlwaysConsumeMouseWheel() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Always Consume Mouse Wheel', 'custom-html-block-extension' ) }
-			group={ __( 'Scrollbar', 'custom-html-block-extension' ) }
+			group="scrollbar"
 			value={ editorOptions.scrollbar.alwaysConsumeMouseWheel }
 			onChange={ onChange }
 			defaultValue

@@ -3,6 +3,11 @@
  */
 import type { ReactNode } from 'react';
 
+/**
+ * Internal dependencies
+ */
+import type { SettingGroup } from './groups';
+
 export type SettingValue = string | number | boolean;
 
 export type SettingOption< V extends SettingValue > = {
@@ -30,10 +35,9 @@ export type SettingHelp = {
 
 type BaseSetting< V extends SettingValue > = {
 	label: string;
-	// Name of the group a setting belongs to, such as "Minimap". Searching for
-	// the group finds its settings, and it is prepended to the label while
-	// searching.
-	group?: string;
+	// Group a setting belongs to. Searching for the group name finds its
+	// settings, and the name is prepended to the label while searching.
+	group?: SettingGroup;
 	value: V;
 	onChange: ( value: V ) => void;
 	// Value of the setting by default. It marks the default choice in the help

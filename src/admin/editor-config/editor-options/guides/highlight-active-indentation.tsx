@@ -31,7 +31,7 @@ export default function GuidesHighlightActiveIndentation() {
 		<SettingItem
 			control="select"
 			label={ __( 'Highlight Active Indentation', 'custom-html-block-extension' ) }
-			group={ __( 'Guides', 'custom-html-block-extension' ) }
+			group="guides"
 			value={ editorOptions.guides.highlightActiveIndentation }
 			onChange={ onChange }
 			defaultValue

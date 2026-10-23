@@ -27,7 +27,7 @@ export default function StickyScrollEnabled() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Sticky Scroll', 'custom-html-block-extension' ) }
-			group={ __( 'Sticky Scroll', 'custom-html-block-extension' ) }
+			group="stickyScroll"
 			value={ editorOptions.stickyScroll.enabled }
 			onChange={ onChange }
 			defaultValue

@@ -31,7 +31,7 @@ export default function ScrollbarVertical() {
 		<SettingItem
 			control="select"
 			label={ __( 'Vertical', 'custom-html-block-extension' ) }
-			group={ __( 'Scrollbar', 'custom-html-block-extension' ) }
+			group="scrollbar"
 			value={ editorOptions.scrollbar.vertical }
 			onChange={ onChange }
 			defaultValue="auto"

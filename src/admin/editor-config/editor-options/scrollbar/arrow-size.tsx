@@ -36,7 +36,7 @@ export default function ScrollbarArrowSize() {
 		<SettingItem
 			control="range"
 			label={ __( 'Arrow Size (px)', 'custom-html-block-extension' ) }
-			group={ __( 'Scrollbar', 'custom-html-block-extension' ) }
+			group="scrollbar"
 			value={ editorOptions.scrollbar.arrowSize }
 			onChange={ onChange }
 			min={ 5 }

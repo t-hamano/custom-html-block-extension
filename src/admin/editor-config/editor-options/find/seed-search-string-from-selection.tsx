@@ -28,7 +28,7 @@ export default function FindSeedSearchStringFromSelection() {
 		<SettingItem
 			control="select"
 			label={ __( 'Seed Search String From Selection', 'custom-html-block-extension' ) }
-			group={ __( 'Find', 'custom-html-block-extension' ) }
+			group="find"
 			value={ editorOptions.find.seedSearchStringFromSelection }
 			onChange={ onChange }
 			defaultValue="always"

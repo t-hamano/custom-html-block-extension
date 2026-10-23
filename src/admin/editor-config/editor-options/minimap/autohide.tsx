@@ -28,7 +28,7 @@ export default function MinimapAutohide() {
 		<SettingItem
 			control="select"
 			label={ __( 'Autohide', 'custom-html-block-extension' ) }
-			group={ __( 'Minimap', 'custom-html-block-extension' ) }
+			group="minimap"
 			value={ editorOptions.minimap.autohide }
 			onChange={ onChange }
 			defaultValue="none"

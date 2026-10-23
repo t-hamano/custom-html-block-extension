@@ -30,7 +30,7 @@ export default function HoverDelay() {
 		<SettingItem
 			control="range"
 			label={ __( 'Hover Delay (ms)', 'custom-html-block-extension' ) }
-			group={ __( 'Hover', 'custom-html-block-extension' ) }
+			group="hover"
 			value={ editorOptions.hover.delay }
 			onChange={ onChange }
 			min={ 0 }

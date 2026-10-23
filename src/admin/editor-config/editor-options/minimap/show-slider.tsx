@@ -28,7 +28,7 @@ export default function MinimapShowSlider() {
 		<SettingItem
 			control="select"
 			label={ __( 'Show Slider', 'custom-html-block-extension' ) }
-			group={ __( 'Minimap', 'custom-html-block-extension' ) }
+			group="minimap"
 			value={ editorOptions.minimap.showSlider }
 			onChange={ onChange }
 			defaultValue="mouseover"

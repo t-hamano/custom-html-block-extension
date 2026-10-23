@@ -27,7 +27,7 @@ export default function HoverSticky() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Keep Hover Visible on Mouse Over', 'custom-html-block-extension' ) }
-			group={ __( 'Hover', 'custom-html-block-extension' ) }
+			group="hover"
 			value={ editorOptions.hover.sticky }
 			onChange={ onChange }
 			defaultValue

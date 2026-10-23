@@ -28,7 +28,7 @@ export default function UnicodeHighlightAmbiguousCharacters() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Ambiguous Characters', 'custom-html-block-extension' ) }
-			group={ __( 'Unicode Highlight', 'custom-html-block-extension' ) }
+			group="unicodeHighlight"
 			value={ editorOptions.unicodeHighlight.ambiguousCharacters }
 			onChange={ onChange }
 			defaultValue

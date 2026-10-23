@@ -28,7 +28,7 @@ export default function MinimapSide() {
 		<SettingItem
 			control="toggleGroup"
 			label={ __( 'Side', 'custom-html-block-extension' ) }
-			group={ __( 'Minimap', 'custom-html-block-extension' ) }
+			group="minimap"
 			value={ editorOptions.minimap.side }
 			onChange={ onChange }
 			defaultValue="right"

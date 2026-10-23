@@ -27,7 +27,7 @@ export default function SuggestShowIcons() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Show Icons', 'custom-html-block-extension' ) }
-			group={ __( 'Suggest', 'custom-html-block-extension' ) }
+			group="suggest"
 			value={ editorOptions.suggest.showIcons }
 			onChange={ onChange }
 			defaultValue

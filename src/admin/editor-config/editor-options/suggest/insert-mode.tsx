@@ -28,7 +28,7 @@ export default function SuggestInsertMode() {
 		<SettingItem
 			control="select"
 			label={ __( 'Insert Mode', 'custom-html-block-extension' ) }
-			group={ __( 'Suggest', 'custom-html-block-extension' ) }
+			group="suggest"
 			value={ editorOptions.suggest.insertMode }
 			onChange={ onChange }
 			defaultValue="insert"

@@ -15,6 +15,7 @@ import { SelectControl, Stack, SwitchControl } from '@wordpress/ui';
  */
 import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../item-help';
+import { getGroupLabel } from './groups';
 import type { SettingItemProps, SettingOption, SettingValue } from './types';
 
 /**
@@ -26,7 +27,8 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 	// Inside, the value type of a select is not needed, so widen it.
 	const setting = props as SettingItemProps;
 	const { searchQuery } = useContext( EditorConfigContext );
-	const { label, group, value } = setting;
+	const { label, value } = setting;
+	const group = setting.group && getGroupLabel( setting.group );
 
 	const isVisible = useSearchVisibility( label, group );
 	if ( ! isVisible ) {
