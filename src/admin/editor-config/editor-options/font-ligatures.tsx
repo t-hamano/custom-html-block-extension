@@ -2,20 +2,36 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function FontLigatures() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	// monaco also accepts a string, used as the CSS `font-feature-settings`
+	// value (e.g. '"ss01", "ss02"' for stylistic sets). Only Fira Code supports
+	// ligatures among the fonts here, so a free-form field is of little use and
+	// the toggle only maps between `true` and `false`.
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			fontLigatures: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Font Ligatures', 'custom-html-block-extension' ),
-				...editorOption( 'fontLigatures' ),
+				value: editorOptions.fontLigatures,
+				onChange,
 				// monaco also accepts a string, used as the CSS `font-feature-settings`
 				// value (e.g. '"ss01", "ss02"' for stylistic sets). Only Fira Code supports
 				// ligatures among the fonts here, so a free-form field is of little use and

@@ -3,20 +3,31 @@
  */
 import { __ } from '@wordpress/i18n';
 import { isAppleOS } from '@wordpress/keycodes';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function MouseWheelZoom() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			mouseWheelZoom: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Mouse Wheel Zoom', 'custom-html-block-extension' ),
-				...editorOption( 'mouseWheelZoom' ),
+				value: editorOptions.mouseWheelZoom,
+				onChange,
 				defaultValue: false,
 				help: {
 					description: isAppleOS()

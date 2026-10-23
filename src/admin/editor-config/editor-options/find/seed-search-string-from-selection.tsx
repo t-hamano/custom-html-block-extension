@@ -2,21 +2,37 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption, selectSetting } from '../../components/setting-item/helpers';
+import { selectSetting } from '../../components/setting-item/helpers';
 
 export default function FindSeedSearchStringFromSelection() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: EditorOptions[ 'find' ][ 'seedSearchStringFromSelection' ] ) => {
+		setEditorOptions( {
+			...editorOptions,
+			find: {
+				...editorOptions.find,
+				seedSearchStringFromSelection: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Seed Search String From Selection', 'custom-html-block-extension' ),
 				group: __( 'Find', 'custom-html-block-extension' ),
-				...editorOption( 'find', 'seedSearchStringFromSelection' ),
+				value: editorOptions.find.seedSearchStringFromSelection,
+				onChange,
 				defaultValue: 'always',
 				options: [
 					{

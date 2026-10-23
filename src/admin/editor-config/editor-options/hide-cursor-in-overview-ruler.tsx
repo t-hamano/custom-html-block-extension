@@ -2,20 +2,31 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function HideCursorInOverviewRuler() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			hideCursorInOverviewRuler: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Hide Cursor In Overview Ruler', 'custom-html-block-extension' ),
-				...editorOption( 'hideCursorInOverviewRuler' ),
+				value: editorOptions.hideCursorInOverviewRuler,
+				onChange,
 				defaultValue: false,
 				help: {
 					description: __(

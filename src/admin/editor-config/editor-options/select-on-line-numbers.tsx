@@ -2,20 +2,31 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function SelectOnLineNumbers() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			selectOnLineNumbers: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Select On Line Numbers', 'custom-html-block-extension' ),
-				...editorOption( 'selectOnLineNumbers' ),
+				value: editorOptions.selectOnLineNumbers,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __(

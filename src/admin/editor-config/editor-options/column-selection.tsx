@@ -2,23 +2,33 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createInterpolateElement } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
 import { Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function ColumnSelection() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			columnSelection: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Column Selection', 'custom-html-block-extension' ),
-				...editorOption( 'columnSelection' ),
+				value: editorOptions.columnSelection,
+				onChange,
 				defaultValue: false,
 				help: {
 					description: (

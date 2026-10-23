@@ -2,20 +2,32 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
+import { toNumber } from '../../../lib/helper';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function LineHeight() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			lineHeight: value === undefined ? 21 : toNumber( value, 0, 60 ),
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Line Height', 'custom-html-block-extension' ),
-				...editorOption( 'lineHeight' ),
+				value: editorOptions.lineHeight,
+				onChange,
 				min: 0,
 				max: 60,
 				step: 0.1,

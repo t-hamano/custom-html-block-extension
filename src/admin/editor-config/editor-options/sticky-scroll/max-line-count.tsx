@@ -2,21 +2,36 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
+import { toNumber } from '../../../../lib/helper';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function StickyScrollMaxLineCount() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			stickyScroll: {
+				...editorOptions.stickyScroll,
+				maxLineCount: value ? toNumber( value, 1, 20 ) : 5,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Max Line Count', 'custom-html-block-extension' ),
 				group: __( 'Sticky Scroll', 'custom-html-block-extension' ),
-				...editorOption( 'stickyScroll', 'maxLineCount' ),
+				value: editorOptions.stickyScroll.maxLineCount,
+				onChange,
 				min: 1,
 				max: 20,
 				defaultValue: 5,

@@ -3,21 +3,39 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Text } from '@wordpress/ui';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption, selectSetting } from '../../components/setting-item/helpers';
+import { selectSetting } from '../../components/setting-item/helpers';
+
+type Value = EditorOptions[ 'guides' ][ 'highlightActiveIndentation' ];
 
 export default function GuidesHighlightActiveIndentation() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: Value ) => {
+		setEditorOptions( {
+			...editorOptions,
+			guides: {
+				...editorOptions.guides,
+				highlightActiveIndentation: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Highlight Active Indentation', 'custom-html-block-extension' ),
 				group: __( 'Guides', 'custom-html-block-extension' ),
-				...editorOption( 'guides', 'highlightActiveIndentation' ),
+				value: editorOptions.guides.highlightActiveIndentation,
+				onChange,
 				defaultValue: true,
 				options: [
 					{

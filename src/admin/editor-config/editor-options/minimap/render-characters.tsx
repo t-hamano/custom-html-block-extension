@@ -2,21 +2,35 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function MinimapRenderCharacters() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			minimap: {
+				...editorOptions.minimap,
+				renderCharacters: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Render Characters', 'custom-html-block-extension' ),
 				group: __( 'Minimap', 'custom-html-block-extension' ),
-				...editorOption( 'minimap', 'renderCharacters' ),
+				value: editorOptions.minimap.renderCharacters,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __(

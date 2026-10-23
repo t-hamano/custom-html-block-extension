@@ -13,12 +13,9 @@ import { SelectControl, Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { AdminContext } from '../../../index';
 import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../item-help';
-import { mergeChanges, resolve } from './helpers';
-import type { SettingDefinition, SettingState, SettingValue, SettingHelpItem } from './types';
-import { toNumber } from '../../../../lib/helper';
+import type { SettingDefinition, SettingValue, SettingHelpItem } from './types';
 
 /**
  * Renders a setting from its definition, with the search visibility and the
@@ -28,13 +25,8 @@ import { toNumber } from '../../../../lib/helper';
  * @param props.setting Setting definition.
  */
 export default function SettingItem( { setting }: { setting: SettingDefinition } ) {
-	const { editorSettings, editorOptions, setEditorSettings, setEditorOptions } =
-		useContext( AdminContext );
-	const { searchQuery, fontWeights, onRefreshEditor } = useContext( EditorConfigContext );
-
-	const state: SettingState = { editorSettings, editorOptions, fontWeights };
-	const label = resolve( setting.label, state );
-	const { group } = setting;
+	const { searchQuery } = useContext( EditorConfigContext );
+	const { label, group, value } = setting;
 
 	const isVisible = useSearchVisibility( label, group );
 	if ( ! isVisible ) {
@@ -53,27 +45,8 @@ export default function SettingItem( { setting }: { setting: SettingDefinition }
 				)
 			: label;
 
-	const value = setting.getValue( state );
-
-	const onChange = ( newValue: SettingValue ) => {
-		const changes = ( setting.setValue as ( v: SettingValue, s: SettingState ) => object )(
-			newValue,
-			state
-		);
-		const { editorSettings: settingsChanges, editorOptions: optionsChanges } = changes as {
-			editorSettings?: object;
-			editorOptions?: object;
-		};
-		if ( settingsChanges ) {
-			setEditorSettings( ( current ) => mergeChanges( current, settingsChanges ) );
-		}
-		if ( optionsChanges ) {
-			setEditorOptions( ( current ) => mergeChanges( current, optionsChanges ) );
-		}
-		if ( setting.shouldRefreshEditor ) {
-			onRefreshEditor();
-		}
-	};
+	// The setting types narrow `onChange`, so call it through a common type.
+	const onChange = setting.onChange as ( newValue: SettingValue ) => void;
 
 	let control;
 	let options: { label: string; value: SettingValue; image?: string }[] = [];
@@ -97,20 +70,13 @@ export default function SettingItem( { setting }: { setting: SettingDefinition }
 					max={ setting.max }
 					step={ setting.step }
 					allowReset
-					resetFallbackValue={ setting.defaultValue }
-					onChange={ ( newValue ) =>
-						onChange(
-							undefined === newValue
-								? setting.defaultValue
-								: toNumber( newValue, setting.min, setting.max )
-						)
-					}
+					onChange={ setting.onChange }
 					help={ setting.controlHelp }
 				/>
 			);
 			break;
 		case 'select': {
-			options = resolve( setting.options, state );
+			options = setting.options;
 			// SelectControl only accepts string values.
 			const items = options.map( ( option ) => ( {
 				label: option.label,
@@ -132,7 +98,7 @@ export default function SettingItem( { setting }: { setting: SettingDefinition }
 			break;
 		}
 		case 'toggleGroup':
-			options = resolve( setting.options, state );
+			options = setting.options;
 			control = (
 				<ToggleGroupControl
 					label={ displayLabel }
@@ -179,7 +145,7 @@ export default function SettingItem( { setting }: { setting: SettingDefinition }
 			{ help && (
 				<ItemHelp
 					title={ label }
-					description={ resolve( help.description, state ) }
+					description={ help.description }
 					image={ help.image }
 					items={ helpItems?.map( ( item ) => ( {
 						...item,

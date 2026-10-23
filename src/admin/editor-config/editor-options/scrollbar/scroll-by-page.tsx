@@ -2,23 +2,39 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function ScrollbarScrollByPage() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
+
+	const onChange = ( value: boolean ) => {
+		onRefreshEditor();
+		setEditorOptions( {
+			...editorOptions,
+			scrollbar: {
+				...editorOptions.scrollbar,
+				scrollByPage: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Scroll By Page', 'custom-html-block-extension' ),
 				group: __( 'Scrollbar', 'custom-html-block-extension' ),
-				...editorOption( 'scrollbar', 'scrollByPage' ),
+				value: editorOptions.scrollbar.scrollByPage,
+				onChange,
 				defaultValue: false,
-				shouldRefreshEditor: true,
 				help: {
 					description: __(
 						'Controls whether clicks scroll by page or jump to click position.',

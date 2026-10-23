@@ -2,20 +2,31 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function Contextmenu() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			contextmenu: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Context Menu', 'custom-html-block-extension' ),
-				...editorOption( 'contextmenu' ),
+				value: editorOptions.contextmenu,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __( 'Enable custom context menu.', 'custom-html-block-extension' ),

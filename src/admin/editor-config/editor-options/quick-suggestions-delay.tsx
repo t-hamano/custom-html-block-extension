@@ -2,20 +2,32 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
+import { toNumber } from '../../../lib/helper';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function QuickSuggestionsDelay() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			quickSuggestionsDelay: value ? toNumber( value, 0, 1000 ) : 10,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Quick Suggestions Delay (ms)', 'custom-html-block-extension' ),
-				...editorOption( 'quickSuggestionsDelay' ),
+				value: editorOptions.quickSuggestionsDelay,
+				onChange,
 				min: 0,
 				max: 1000,
 				defaultValue: 10,

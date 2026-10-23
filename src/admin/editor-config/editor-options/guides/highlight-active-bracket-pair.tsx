@@ -3,21 +3,35 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Text } from '@wordpress/ui';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function GuidesHighlightActiveBracketPair() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			guides: {
+				...editorOptions.guides,
+				highlightActiveBracketPair: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Highlight Active Bracket Pair', 'custom-html-block-extension' ),
 				group: __( 'Guides', 'custom-html-block-extension' ),
-				...editorOption( 'guides', 'highlightActiveBracketPair' ),
+				value: editorOptions.guides.highlightActiveBracketPair,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: (

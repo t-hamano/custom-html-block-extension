@@ -2,20 +2,32 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
+import { toNumber } from '../../../lib/helper';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function CursorSurroundingLines() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			cursorSurroundingLines: value ? toNumber( value, 0, 20 ) : 0,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Cursor Surrounding Lines', 'custom-html-block-extension' ),
-				...editorOption( 'cursorSurroundingLines' ),
+				value: editorOptions.cursorSurroundingLines,
+				onChange,
 				min: 0,
 				max: 20,
 				defaultValue: 0,

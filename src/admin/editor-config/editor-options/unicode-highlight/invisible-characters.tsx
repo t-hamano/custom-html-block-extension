@@ -2,21 +2,35 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function UnicodeHighlightInvisibleCharacters() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			unicodeHighlight: {
+				...editorOptions.unicodeHighlight,
+				invisibleCharacters: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Invisible Characters', 'custom-html-block-extension' ),
 				group: __( 'Unicode Highlight', 'custom-html-block-extension' ),
-				...editorOption( 'unicodeHighlight', 'invisibleCharacters' ),
+				value: editorOptions.unicodeHighlight.invisibleCharacters,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __(

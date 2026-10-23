@@ -2,20 +2,33 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption, selectSetting } from '../components/setting-item/helpers';
+import { selectSetting } from '../components/setting-item/helpers';
 
 export default function MatchBrackets() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: EditorOptions[ 'matchBrackets' ] ) => {
+		setEditorOptions( {
+			...editorOptions,
+			matchBrackets: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Match Brackets', 'custom-html-block-extension' ),
-				...editorOption( 'matchBrackets' ),
+				value: editorOptions.matchBrackets,
+				onChange,
 				defaultValue: 'always',
 				options: [
 					{

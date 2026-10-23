@@ -3,42 +3,7 @@
  */
 import type { ReactNode } from 'react';
 
-/**
- * Internal dependencies
- */
-import type { EditorOptions, EditorSettings } from '../../../../types';
-
-/**
- * State passed to the callbacks of a setting definition.
- */
-export type SettingState = {
-	editorSettings: EditorSettings;
-	editorOptions: EditorOptions;
-	// Font weights the preview font supports.
-	fontWeights: number[];
-};
-
-/**
- * Keys changed by a setting. Nested option objects such as `minimap` are
- * merged into the current value, so only the changed keys need to be given.
- */
-export type SettingChanges = {
-	editorSettings?: Partial< EditorSettings >;
-	editorOptions?: {
-		[ K in keyof EditorOptions ]?: EditorOptions[ K ] extends unknown[]
-			? EditorOptions[ K ]
-			: EditorOptions[ K ] extends object
-				? Partial< EditorOptions[ K ] >
-				: EditorOptions[ K ];
-	};
-};
-
 export type SettingValue = string | number | boolean;
-
-/**
- * A value that may depend on the current state.
- */
-export type MaybeCallback< T > = T | ( ( state: SettingState ) => T );
 
 export type SettingOption< V extends SettingValue > = {
 	label: string;
@@ -56,7 +21,7 @@ export type SettingHelpItem< V extends SettingValue > = SettingOption< V > & {
  * Content of the help dialog (`ItemHelp`).
  */
 export type SettingHelp< V extends SettingValue > = {
-	description?: MaybeCallback< ReactNode >;
+	description?: ReactNode;
 	image?: string;
 	// Choices shown in the help dialog. Not generated from `options` unless
 	// `showOptions` is set.
@@ -68,19 +33,16 @@ export type SettingHelp< V extends SettingValue > = {
 };
 
 type BaseSetting< V extends SettingValue > = {
-	label: MaybeCallback< string >;
+	label: string;
 	// Name of the group a setting belongs to, such as "Minimap". Searching for
 	// the group finds its settings, and it is prepended to the label while
 	// searching.
 	group?: string;
-	getValue: ( state: SettingState ) => V;
-	setValue: ( value: V, state: SettingState ) => SettingChanges;
-	// Value of the control when the setting has the default value. It marks
-	// the default choice in the help dialog and is used when a range is
-	// cleared. It must match `Settings::DEFAULT_EDITOR_OPTIONS` (PHP).
+	value: V;
+	onChange: ( value: V ) => void;
+	// Value of the setting by default. It marks the default choice in the help
+	// dialog. It must match `Settings::DEFAULT_EDITOR_OPTIONS` (PHP).
 	defaultValue?: V;
-	// Whether the preview editor has to be refreshed to reflect the change.
-	shouldRefreshEditor?: boolean;
 	help?: SettingHelp< V >;
 };
 
@@ -90,15 +52,16 @@ export type ToggleSetting = BaseSetting< boolean > & {
 
 export type SelectSetting< V extends SettingValue = SettingValue > = BaseSetting< V > & {
 	control: 'select' | 'toggleGroup';
-	options: MaybeCallback< SettingOption< V >[] >;
+	options: SettingOption< V >[];
 };
 
-export type RangeSetting = BaseSetting< number > & {
+export type RangeSetting = Omit< BaseSetting< number >, 'onChange' > & {
 	control: 'range';
+	// Receives `undefined` when the control is reset.
+	onChange: ( value: number | undefined ) => void;
 	min: number;
 	max: number;
 	step?: number;
-	defaultValue: number;
 	// Help text shown below the control.
 	controlHelp?: string;
 };

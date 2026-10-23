@@ -2,22 +2,32 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createInterpolateElement } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { Link, Notice, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorSetting } from '../components/setting-item/helpers';
 
 export default function Emmet() {
+	const { editorSettings, setEditorSettings } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorSettings( {
+			...editorSettings,
+			emmet: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Enable Emmet', 'custom-html-block-extension' ),
-				...editorSetting( 'emmet' ),
+				value: editorSettings.emmet,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: (

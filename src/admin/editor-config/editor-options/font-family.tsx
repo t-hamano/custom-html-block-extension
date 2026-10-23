@@ -3,20 +3,32 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Link, Text } from '@wordpress/ui';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption, selectSetting } from '../components/setting-item/helpers';
+import { selectSetting } from '../components/setting-item/helpers';
 
 export default function FontFamily() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: string ) => {
+		setEditorOptions( {
+			...editorOptions,
+			fontFamily: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Font Family', 'custom-html-block-extension' ),
-				...editorOption( 'fontFamily' ),
+				value: editorOptions.fontFamily,
+				onChange,
 				options: [
 					...window.chbeObj.fontFamily.map( ( { label, name } ) => ( {
 						label: label ?? name,

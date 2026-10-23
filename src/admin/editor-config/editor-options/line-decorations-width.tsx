@@ -2,20 +2,32 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
+import { toNumber } from '../../../lib/helper';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function LineDecorationsWidth() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			lineDecorationsWidth: value ? toNumber( value, 0, 30 ) : 0,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Line Decorations Width (px)', 'custom-html-block-extension' ),
-				...editorOption( 'lineDecorationsWidth' ),
+				value: editorOptions.lineDecorationsWidth,
+				onChange,
 				min: 0,
 				max: 30,
 				defaultValue: 0,

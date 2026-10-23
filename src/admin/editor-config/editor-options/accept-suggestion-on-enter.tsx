@@ -2,22 +2,34 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createInterpolateElement } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption, selectSetting } from '../components/setting-item/helpers';
+import { selectSetting } from '../components/setting-item/helpers';
 
 export default function AcceptSuggestionOnEnter() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: EditorOptions[ 'acceptSuggestionOnEnter' ] ) => {
+		setEditorOptions( {
+			...editorOptions,
+			acceptSuggestionOnEnter: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Accept Suggestion On Enter', 'custom-html-block-extension' ),
-				...editorOption( 'acceptSuggestionOnEnter' ),
+				value: editorOptions.acceptSuggestionOnEnter,
+				onChange,
 				defaultValue: 'on',
 				options: [
 					{

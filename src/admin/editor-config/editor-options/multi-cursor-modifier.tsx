@@ -3,20 +3,32 @@
  */
 import { __ } from '@wordpress/i18n';
 import { isAppleOS } from '@wordpress/keycodes';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption, selectSetting } from '../components/setting-item/helpers';
+import { selectSetting } from '../components/setting-item/helpers';
 
 export default function MultiCursorModifier() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: string | number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			multiCursorModifier: value as typeof editorOptions.multiCursorModifier,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'toggleGroup',
 				label: __( 'Multi Cursor Modifier', 'custom-html-block-extension' ),
-				...editorOption( 'multiCursorModifier' ),
+				value: editorOptions.multiCursorModifier,
+				onChange,
 				defaultValue: 'alt',
 				options: [
 					{

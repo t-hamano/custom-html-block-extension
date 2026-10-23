@@ -2,21 +2,35 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function ScrollbarUseShadows() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			scrollbar: {
+				...editorOptions.scrollbar,
+				useShadows: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Use Shadows', 'custom-html-block-extension' ),
 				group: __( 'Scrollbar', 'custom-html-block-extension' ),
-				...editorOption( 'scrollbar', 'useShadows' ),
+				value: editorOptions.scrollbar.useShadows,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __(

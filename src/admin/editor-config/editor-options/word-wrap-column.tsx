@@ -2,20 +2,32 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
+import { toNumber } from '../../../lib/helper';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function WordWrapColumn() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			wordWrapColumn: value ? toNumber( value, 20, 200 ) : 80,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Word Wrap Column', 'custom-html-block-extension' ),
-				...editorOption( 'wordWrapColumn' ),
+				value: editorOptions.wordWrapColumn,
+				onChange,
 				min: 20,
 				max: 200,
 				defaultValue: 80,

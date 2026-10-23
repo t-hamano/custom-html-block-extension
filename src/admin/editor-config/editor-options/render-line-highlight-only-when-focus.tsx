@@ -2,20 +2,31 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function RenderLineHighlightOnlyWhenFocus() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			renderLineHighlightOnlyWhenFocus: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Render Line Highlight Only When Focus', 'custom-html-block-extension' ),
-				...editorOption( 'renderLineHighlightOnlyWhenFocus' ),
+				value: editorOptions.renderLineHighlightOnlyWhenFocus,
+				onChange,
 				defaultValue: false,
 				help: {
 					description: __(

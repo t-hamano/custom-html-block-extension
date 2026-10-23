@@ -2,20 +2,32 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption, selectSetting } from '../components/setting-item/helpers';
+import { selectSetting } from '../components/setting-item/helpers';
 
 export default function MultiCursorPaste() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: string | number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			multiCursorPaste: value as typeof editorOptions.multiCursorPaste,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'toggleGroup',
 				label: __( 'Multi Cursor Paste', 'custom-html-block-extension' ),
-				...editorOption( 'multiCursorPaste' ),
+				value: editorOptions.multiCursorPaste,
+				onChange,
 				defaultValue: 'spread',
 				options: [
 					{

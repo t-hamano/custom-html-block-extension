@@ -2,22 +2,40 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
+import { AdminContext } from '../../index';
+import { EditorConfigContext } from '../index';
 import SettingItem from '../components/setting-item';
-import { editorOption, selectSetting } from '../components/setting-item/helpers';
+import { selectSetting } from '../components/setting-item/helpers';
 
 export default function AutoIndent() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
+
+	// Monaco also accepts 'full', but it only differs from 'advanced' with the
+	// language's indentationRules, which none of the languages here define.
+
+	const onChange = ( value: EditorOptions[ 'autoIndent' ] ) => {
+		setEditorOptions( {
+			...editorOptions,
+			autoIndent: value,
+		} );
+		onRefreshEditor();
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Auto Indent', 'custom-html-block-extension' ),
-				...editorOption( 'autoIndent' ),
+				value: editorOptions.autoIndent,
+				onChange,
 				defaultValue: 'advanced',
-				shouldRefreshEditor: true,
 				options: [
 					{
 						label: __( 'None', 'custom-html-block-extension' ),

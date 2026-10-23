@@ -2,23 +2,36 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createInterpolateElement } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function UnicodeHighlightAmbiguousCharacters() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			unicodeHighlight: {
+				...editorOptions.unicodeHighlight,
+				ambiguousCharacters: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Ambiguous Characters', 'custom-html-block-extension' ),
 				group: __( 'Unicode Highlight', 'custom-html-block-extension' ),
-				...editorOption( 'unicodeHighlight', 'ambiguousCharacters' ),
+				value: editorOptions.unicodeHighlight.ambiguousCharacters,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: (

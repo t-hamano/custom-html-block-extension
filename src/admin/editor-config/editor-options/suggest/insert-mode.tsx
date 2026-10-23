@@ -2,21 +2,37 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption, selectSetting } from '../../components/setting-item/helpers';
+import { selectSetting } from '../../components/setting-item/helpers';
 
 export default function SuggestInsertMode() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: EditorOptions[ 'suggest' ][ 'insertMode' ] ) => {
+		setEditorOptions( {
+			...editorOptions,
+			suggest: {
+				...editorOptions.suggest,
+				insertMode: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Insert Mode', 'custom-html-block-extension' ),
 				group: __( 'Suggest', 'custom-html-block-extension' ),
-				...editorOption( 'suggest', 'insertMode' ),
+				value: editorOptions.suggest.insertMode,
+				onChange,
 				defaultValue: 'insert',
 				options: [
 					{

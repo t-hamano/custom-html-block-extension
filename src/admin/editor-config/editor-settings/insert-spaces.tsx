@@ -2,21 +2,32 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
 import { selectSetting } from '../components/setting-item/helpers';
 
 export default function InsertSpaces() {
+	const { editorSettings, setEditorSettings } = useContext( AdminContext );
+
+	const onChange = ( value: string | number | undefined ) => {
+		setEditorSettings( {
+			...editorSettings,
+			insertSpaces: value === 'space',
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'toggleGroup',
 				label: __( 'Insert Spaces', 'custom-html-block-extension' ),
-				getValue: ( { editorSettings } ) => ( editorSettings.insertSpaces ? 'space' : 'tab' ),
-				setValue: ( value ) => ( { editorSettings: { insertSpaces: value === 'space' } } ),
+				value: editorSettings.insertSpaces ? 'space' : 'tab',
+				onChange,
 				defaultValue: 'space',
 				options: [
 					{

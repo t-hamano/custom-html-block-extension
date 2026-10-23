@@ -2,20 +2,33 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../types';
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption, selectSetting } from '../components/setting-item/helpers';
+import { selectSetting } from '../components/setting-item/helpers';
 
 export default function RenderWhitespace() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: EditorOptions[ 'renderWhitespace' ] ) => {
+		setEditorOptions( {
+			...editorOptions,
+			renderWhitespace: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Render Whitespace', 'custom-html-block-extension' ),
-				...editorOption( 'renderWhitespace' ),
+				value: editorOptions.renderWhitespace,
+				onChange,
 				defaultValue: 'selection',
 				options: [
 					{

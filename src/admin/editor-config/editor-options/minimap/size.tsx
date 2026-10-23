@@ -2,21 +2,37 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption, selectSetting } from '../../components/setting-item/helpers';
+import { selectSetting } from '../../components/setting-item/helpers';
 
 export default function MinimapSize() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: EditorOptions[ 'minimap' ][ 'size' ] ) => {
+		setEditorOptions( {
+			...editorOptions,
+			minimap: {
+				...editorOptions.minimap,
+				size: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Size', 'custom-html-block-extension' ),
 				group: __( 'Minimap', 'custom-html-block-extension' ),
-				...editorOption( 'minimap', 'size' ),
+				value: editorOptions.minimap.size,
+				onChange,
 				defaultValue: 'proportional',
 				options: [
 					{

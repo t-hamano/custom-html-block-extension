@@ -2,21 +2,38 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
+import { toNumber } from '../../../../lib/helper';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
+
+const DEFAULT_DELAY = 300;
 
 export default function HoverDelay() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			hover: {
+				...editorOptions.hover,
+				delay: undefined === value ? DEFAULT_DELAY : toNumber( value, 0, 3000 ),
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Hover Delay (ms)', 'custom-html-block-extension' ),
 				group: __( 'Hover', 'custom-html-block-extension' ),
-				...editorOption( 'hover', 'delay' ),
+				value: editorOptions.hover.delay,
+				onChange,
 				min: 0,
 				max: 3000,
 				step: 50,

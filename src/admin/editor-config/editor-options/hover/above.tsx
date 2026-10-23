@@ -2,21 +2,35 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function HoverAbove() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			hover: {
+				...editorOptions.hover,
+				above: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Prefer Hover Above', 'custom-html-block-extension' ),
 				group: __( 'Hover', 'custom-html-block-extension' ),
-				...editorOption( 'hover', 'above' ),
+				value: editorOptions.hover.above,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __(

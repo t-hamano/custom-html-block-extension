@@ -2,22 +2,35 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createInterpolateElement } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function BracketPairColorizationIndependentColorPoolPerBracketType() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			bracketPairColorization: {
+				...editorOptions.bracketPairColorization,
+				independentColorPoolPerBracketType: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Independent Color Pool Per Bracket Type', 'custom-html-block-extension' ),
 				group: __( 'Bracket Pair Colorization', 'custom-html-block-extension' ),
-				...editorOption( 'bracketPairColorization', 'independentColorPoolPerBracketType' ),
+				value: editorOptions.bracketPairColorization.independentColorPoolPerBracketType,
+				onChange,
 				defaultValue: false,
 				help: {
 					description: __(

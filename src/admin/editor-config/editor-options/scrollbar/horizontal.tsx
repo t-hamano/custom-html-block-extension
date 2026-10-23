@@ -2,23 +2,41 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
+import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption, selectSetting } from '../../components/setting-item/helpers';
+import { selectSetting } from '../../components/setting-item/helpers';
 
 export default function ScrollbarHorizontal() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
+
+	const onChange = ( value: EditorOptions[ 'scrollbar' ][ 'horizontal' ] ) => {
+		onRefreshEditor();
+		setEditorOptions( {
+			...editorOptions,
+			scrollbar: {
+				...editorOptions.scrollbar,
+				horizontal: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Horizontal', 'custom-html-block-extension' ),
 				group: __( 'Scrollbar', 'custom-html-block-extension' ),
-				...editorOption( 'scrollbar', 'horizontal' ),
+				value: editorOptions.scrollbar.horizontal,
+				onChange,
 				defaultValue: 'auto',
-				shouldRefreshEditor: true,
 				options: [
 					{
 						label: __( 'Auto', 'custom-html-block-extension' ),

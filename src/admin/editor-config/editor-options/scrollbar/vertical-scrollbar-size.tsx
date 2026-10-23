@@ -2,25 +2,47 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
+import { useDebounce } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
+import { toNumber } from '../../../../lib/helper';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function ScrollbarVerticalScrollbarSize() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
+
+	// Debounce the refresh to avoid refreshing the editor every time the range is changed.
+	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 200 );
+
+	const onChange = ( newValue: number | undefined ) => {
+		const nextValue = newValue ? toNumber( newValue, 5, 30 ) : 14;
+		setEditorOptions( ( prev ) => ( {
+			...prev,
+			scrollbar: {
+				...prev.scrollbar,
+				verticalScrollbarSize: nextValue,
+			},
+		} ) );
+		debouncedRefreshEditor();
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'range',
 				label: __( 'Vertical Scrollbar Size (px)', 'custom-html-block-extension' ),
 				group: __( 'Scrollbar', 'custom-html-block-extension' ),
-				...editorOption( 'scrollbar', 'verticalScrollbarSize' ),
+				value: editorOptions.scrollbar.verticalScrollbarSize,
+				onChange,
 				min: 5,
 				max: 30,
 				defaultValue: 14,
-				shouldRefreshEditor: true,
 				help: {
 					description: __( 'The width of the vertical scrollbar.', 'custom-html-block-extension' ),
 					items: [

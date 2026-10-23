@@ -18,7 +18,6 @@ import {
 } from '@wordpress/element';
 import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
-import { useDebounce } from '@wordpress/compose';
 import { store as noticesStore } from '@wordpress/notices';
 
 /**
@@ -214,10 +213,6 @@ export default function EditorConfig() {
 		}, 300 );
 	}, [] );
 
-	// Merge refreshes requested in quick succession, such as while dragging a
-	// range control, into one.
-	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 100 );
-
 	return (
 		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="xl">
 			<Stack direction="column" className="chbe-admin-editor-config__preview" gap="lg">
@@ -250,9 +245,7 @@ export default function EditorConfig() {
 					) }
 					gap={ editorMode === 'basic' && ! searchQuery ? 'xl' : 'sm' }
 				>
-					<EditorConfigContext.Provider
-						value={ { onRefreshEditor: debouncedRefreshEditor, searchQuery, fontWeights } }
-					>
+					<EditorConfigContext.Provider value={ { onRefreshEditor, searchQuery } }>
 						{ 'basic' === editorMode && ! searchQuery && (
 							<>
 								<EditorSettings.Theme />
@@ -261,7 +254,7 @@ export default function EditorConfig() {
 								<EditorSettings.DetectIndentation />
 								<EditorSettings.Emmet />
 								<EditorOptions.FontFamily />
-								<EditorOptions.FontWeight />
+								<EditorOptions.FontWeight fontWeights={ fontWeights } />
 								<EditorOptions.FontSize />
 								<EditorOptions.LineHeight />
 								<EditorOptions.WordWrap />
@@ -291,7 +284,7 @@ export default function EditorConfig() {
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Font', 'custom-html-block-extension' ) }>
 									<EditorOptions.FontFamily />
-									<EditorOptions.FontWeight />
+									<EditorOptions.FontWeight fontWeights={ fontWeights } />
 									<EditorOptions.FontLigatures />
 									<EditorOptions.FontSize />
 									<EditorOptions.LineHeight />

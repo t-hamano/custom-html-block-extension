@@ -2,32 +2,39 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
 
 export default function QuickSuggestions() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const isEnabled = editorOptions.suggestOnTriggerCharacters;
+
+	const onChange = ( value: boolean ) => {
+		const quickSuggestionsValue = value ? 'on' : 'off';
+		setEditorOptions( {
+			...editorOptions,
+			quickSuggestions: {
+				other: quickSuggestionsValue,
+				comments: quickSuggestionsValue,
+				strings: quickSuggestionsValue,
+			},
+			suggestOnTriggerCharacters: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Enable Suggestions', 'custom-html-block-extension' ),
-				getValue: ( { editorOptions } ) => editorOptions.suggestOnTriggerCharacters,
-				setValue: ( value ) => {
-					const quickSuggestionsValue = value ? 'on' : 'off';
-					return {
-						editorOptions: {
-							quickSuggestions: {
-								other: quickSuggestionsValue,
-								comments: quickSuggestionsValue,
-								strings: quickSuggestionsValue,
-							},
-							suggestOnTriggerCharacters: value,
-						},
-					};
-				},
+				value: isEnabled,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __(

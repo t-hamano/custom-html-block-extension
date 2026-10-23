@@ -223,11 +223,8 @@ export type AdminContextType = {
  * Value provided by `EditorConfigContext`.
  */
 export type EditorConfigContextType = {
-	// Refreshes the preview editor. Calls in quick succession are merged.
 	onRefreshEditor: () => void;
 	searchQuery: string;
-	// Font weights the preview font supports.
-	fontWeights: number[];
 };
 
 /**

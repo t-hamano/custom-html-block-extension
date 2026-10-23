@@ -3,20 +3,31 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Text } from '@wordpress/ui';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function CopyWithSyntaxHighlighting() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			copyWithSyntaxHighlighting: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Copy With Syntax Highlighting', 'custom-html-block-extension' ),
-				...editorOption( 'copyWithSyntaxHighlighting' ),
+				value: editorOptions.copyWithSyntaxHighlighting,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: (

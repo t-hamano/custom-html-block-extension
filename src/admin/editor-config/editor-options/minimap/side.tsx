@@ -2,21 +2,37 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption, selectSetting } from '../../components/setting-item/helpers';
+import { selectSetting } from '../../components/setting-item/helpers';
 
 export default function MinimapSide() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: string | number | undefined ) => {
+		setEditorOptions( {
+			...editorOptions,
+			minimap: {
+				...editorOptions.minimap,
+				side: value as EditorOptions[ 'minimap' ][ 'side' ],
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'toggleGroup',
 				label: __( 'Side', 'custom-html-block-extension' ),
 				group: __( 'Minimap', 'custom-html-block-extension' ),
-				...editorOption( 'minimap', 'side' ),
+				value: editorOptions.minimap.side,
+				onChange,
 				defaultValue: 'right',
 				options: [
 					{

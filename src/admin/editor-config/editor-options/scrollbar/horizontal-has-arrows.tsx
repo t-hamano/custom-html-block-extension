@@ -2,23 +2,39 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
+import { EditorConfigContext } from '../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function ScrollbarHorizontalHasArrows() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+	const { onRefreshEditor } = useContext( EditorConfigContext );
+
+	const onChange = ( value: boolean ) => {
+		onRefreshEditor();
+		setEditorOptions( {
+			...editorOptions,
+			scrollbar: {
+				...editorOptions.scrollbar,
+				horizontalHasArrows: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Horizontal Has Arrows', 'custom-html-block-extension' ),
 				group: __( 'Scrollbar', 'custom-html-block-extension' ),
-				...editorOption( 'scrollbar', 'horizontalHasArrows' ),
+				value: editorOptions.scrollbar.horizontalHasArrows,
+				onChange,
 				defaultValue: false,
-				shouldRefreshEditor: true,
 				help: {
 					description: __(
 						'Controls whether arrows are rendered at the left and right of the horizontal scrollbar.',

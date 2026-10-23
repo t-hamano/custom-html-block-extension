@@ -2,20 +2,31 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { editorOption } from '../components/setting-item/helpers';
 
 export default function EmptySelectionClipboard() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			emptySelectionClipboard: value,
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Empty Selection Clipboard', 'custom-html-block-extension' ),
-				...editorOption( 'emptySelectionClipboard' ),
+				value: editorOptions.emptySelectionClipboard,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: __(

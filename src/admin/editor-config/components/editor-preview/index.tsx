@@ -57,15 +57,16 @@ export default function EditorPreview( { isEditorDisabled, setFontWeights }: Edi
 				)
 			);
 			setFontWeights( [ 300, 400, 500, 600, 700 ] );
-			setEditorOptions( ( current ) => ( {
-				...current,
+			setEditorOptions( {
+				...editorOptions,
 				fontFamily: 'Fira Code',
 				fontWeight: '300',
-			} ) );
+			} );
 		} else {
 			setFontWeights( font.weight ?? [] );
-			// Re-render with the latest options, without overwriting changes made meanwhile.
-			setEditorOptions( ( current ) => ( { ...current } ) );
+			setEditorOptions( {
+				...editorOptions,
+			} );
 		}
 	};
 

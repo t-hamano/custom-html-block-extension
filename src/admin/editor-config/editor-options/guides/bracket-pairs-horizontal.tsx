@@ -3,21 +3,39 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Text } from '@wordpress/ui';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import type { EditorOptions } from '../../../../types';
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption, selectSetting } from '../../components/setting-item/helpers';
+import { selectSetting } from '../../components/setting-item/helpers';
+
+type Value = EditorOptions[ 'guides' ][ 'bracketPairsHorizontal' ];
 
 export default function GuidesBracketPairsHorizontal() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: Value ) => {
+		setEditorOptions( {
+			...editorOptions,
+			guides: {
+				...editorOptions.guides,
+				bracketPairsHorizontal: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ selectSetting( {
 				control: 'select',
 				label: __( 'Bracket Pairs Horizontal', 'custom-html-block-extension' ),
 				group: __( 'Guides', 'custom-html-block-extension' ),
-				...editorOption( 'guides', 'bracketPairsHorizontal' ),
+				value: editorOptions.guides.bracketPairsHorizontal,
+				onChange,
 				defaultValue: 'active',
 				options: [
 					{

@@ -2,23 +2,36 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createInterpolateElement } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
-import { editorOption } from '../../components/setting-item/helpers';
 
 export default function BracketPairColorizationEnabled() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			bracketPairColorization: {
+				...editorOptions.bracketPairColorization,
+				enabled: value,
+			},
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Bracket Pair Colorization', 'custom-html-block-extension' ),
 				group: __( 'Bracket Pair Colorization', 'custom-html-block-extension' ),
-				...editorOption( 'bracketPairColorization', 'enabled' ),
+				value: editorOptions.bracketPairColorization.enabled,
+				onChange,
 				defaultValue: true,
 				help: {
 					description: (

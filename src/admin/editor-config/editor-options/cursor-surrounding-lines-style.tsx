@@ -2,22 +2,31 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
+import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
 
 export default function CursorSurroundingLinesStyle() {
+	const { editorOptions, setEditorOptions } = useContext( AdminContext );
+
+	const onChange = ( value: boolean ) => {
+		setEditorOptions( {
+			...editorOptions,
+			cursorSurroundingLinesStyle: !! value ? 'all' : 'default',
+		} );
+	};
+
 	return (
 		<SettingItem
 			setting={ {
 				control: 'toggle',
 				label: __( 'Cursor Surrounding Lines Style', 'custom-html-block-extension' ),
-				getValue: ( { editorOptions } ) => 'all' === editorOptions.cursorSurroundingLinesStyle,
-				setValue: ( value ) => ( {
-					editorOptions: { cursorSurroundingLinesStyle: !! value ? 'all' : 'default' },
-				} ),
+				value: 'all' === editorOptions.cursorSurroundingLinesStyle,
+				onChange,
 				defaultValue: false,
 				help: {
 					description: __(
