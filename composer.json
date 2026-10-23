@@ -18,7 +18,7 @@
 		"yoast/phpunit-polyfills": "^4.0"
 	},
 	"scripts": {
-		"lint": "phpcs ./ --standard=./phpcs.ruleset.xml"
+		"lint": "phpcs"
 	},
 	"config": {
 		"allow-plugins": {
