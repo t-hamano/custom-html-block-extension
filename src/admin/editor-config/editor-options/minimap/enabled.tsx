@@ -25,20 +25,15 @@ export default function MinimapEnabled() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Minimap', 'custom-html-block-extension' ),
-				group: __( 'Minimap', 'custom-html-block-extension' ),
-				value: editorOptions.minimap.enabled,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether the minimap is shown.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/minimap/enabled.gif',
-				},
+			control="toggle"
+			label={ __( 'Minimap', 'custom-html-block-extension' ) }
+			group={ __( 'Minimap', 'custom-html-block-extension' ) }
+			value={ editorOptions.minimap.enabled }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __( 'Controls whether the minimap is shown.', 'custom-html-block-extension' ),
+				image: 'editor-options/minimap/enabled.gif',
 			} }
 		/>
 	);

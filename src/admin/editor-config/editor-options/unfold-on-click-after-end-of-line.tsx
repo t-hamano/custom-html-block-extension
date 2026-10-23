@@ -22,19 +22,17 @@ export default function UnfoldOnClickAfterEndOfLine() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Unfold On Click After End Of Line', 'custom-html-block-extension' ),
-				value: editorOptions.unfoldOnClickAfterEndOfLine,
-				onChange,
-				defaultValue: false,
-				help: {
-					description: __(
-						'Controls whether clicking on the empty content after a folded line will unfold the line.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/unfold-on-click-after-end-of-line.gif',
-				},
+			control="toggle"
+			label={ __( 'Unfold On Click After End Of Line', 'custom-html-block-extension' ) }
+			value={ editorOptions.unfoldOnClickAfterEndOfLine }
+			onChange={ onChange }
+			defaultValue={ false }
+			help={ {
+				description: __(
+					'Controls whether clicking on the empty content after a folded line will unfold the line.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/unfold-on-click-after-end-of-line.gif',
 			} }
 		/>
 	);

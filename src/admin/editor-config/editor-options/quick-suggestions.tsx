@@ -30,19 +30,17 @@ export default function QuickSuggestions() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Enable Suggestions', 'custom-html-block-extension' ),
-				value: isEnabled,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Get suggestions as you type codes. Accepting suggestions will autocomplete code and help faster coding.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/quick-suggestions.gif',
-				},
+			control="toggle"
+			label={ __( 'Enable Suggestions', 'custom-html-block-extension' ) }
+			value={ isEnabled }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Get suggestions as you type codes. Accepting suggestions will autocomplete code and help faster coding.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/quick-suggestions.gif',
 			} }
 		/>
 	);

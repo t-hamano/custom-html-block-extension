@@ -23,16 +23,14 @@ export default function LetterSpacing() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Letter Spacing (px)', 'custom-html-block-extension' ),
-				value: editorOptions.letterSpacing,
-				onChange,
-				min: -2,
-				max: 2,
-				step: 0.1,
-				defaultValue: 0,
-			} }
+			control="range"
+			label={ __( 'Letter Spacing (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.letterSpacing }
+			onChange={ onChange }
+			min={ -2 }
+			max={ 2 }
+			step={ 0.1 }
+			defaultValue={ 0 }
 		/>
 	);
 }

@@ -9,7 +9,6 @@ import { useContext } from '@wordpress/element';
  */
 import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { selectSetting } from '../components/setting-item/helpers';
 
 type FontWeightProps = {
 	fontWeights: number[];
@@ -27,16 +26,14 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 
 	return (
 		<SettingItem
-			setting={ selectSetting( {
-				control: 'select',
-				label: __( 'Font Weight', 'custom-html-block-extension' ),
-				value: String( editorOptions.fontWeight ),
-				onChange,
-				options: fontWeights.map( ( fontWeight ) => ( {
-					label: String( fontWeight ),
-					value: String( fontWeight ),
-				} ) ),
-			} ) }
+			control="select"
+			label={ __( 'Font Weight', 'custom-html-block-extension' ) }
+			value={ String( editorOptions.fontWeight ) }
+			onChange={ onChange }
+			options={ fontWeights.map( ( fontWeight ) => ( {
+				label: String( fontWeight ),
+				value: String( fontWeight ),
+			} ) ) }
 		/>
 	);
 }

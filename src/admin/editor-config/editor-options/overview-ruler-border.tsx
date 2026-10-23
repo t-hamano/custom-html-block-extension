@@ -22,30 +22,28 @@ export default function OverviewRulerBorder() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Overview Ruler Border', 'custom-html-block-extension' ),
-				value: editorOptions.overviewRulerBorder,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether a border should be drawn around the overview ruler.',
-						'custom-html-block-extension'
-					),
-					items: [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							image: 'editor-options/overview-ruler-border_1.jpg',
-							value: true,
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							image: 'editor-options/overview-ruler-border_2.jpg',
-							value: false,
-						},
-					],
-				},
+			control="toggle"
+			label={ __( 'Overview Ruler Border', 'custom-html-block-extension' ) }
+			value={ editorOptions.overviewRulerBorder }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether a border should be drawn around the overview ruler.',
+					'custom-html-block-extension'
+				),
+				items: [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						image: 'editor-options/overview-ruler-border_1.jpg',
+						value: true,
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						image: 'editor-options/overview-ruler-border_2.jpg',
+						value: false,
+					},
+				],
 			} }
 		/>
 	);

@@ -22,30 +22,28 @@ export default function RoundedSelection() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Rounded Selection', 'custom-html-block-extension' ),
-				value: editorOptions.roundedSelection,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether selections should have rounded corners.',
-						'custom-html-block-extension'
-					),
-					items: [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/rounded-selection_1.jpg',
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/rounded-selection_2.jpg',
-						},
-					],
-				},
+			control="toggle"
+			label={ __( 'Rounded Selection', 'custom-html-block-extension' ) }
+			value={ editorOptions.roundedSelection }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether selections should have rounded corners.',
+					'custom-html-block-extension'
+				),
+				items: [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/rounded-selection_1.jpg',
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/rounded-selection_2.jpg',
+					},
+				],
 			} }
 		/>
 	);

@@ -23,15 +23,13 @@ export default function MouseWheelScrollSensitivity() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Mouse Wheel Scroll Sensitivity', 'custom-html-block-extension' ),
-				value: editorOptions.mouseWheelScrollSensitivity,
-				onChange,
-				min: 1,
-				max: 10,
-				defaultValue: 1,
-			} }
+			control="range"
+			label={ __( 'Mouse Wheel Scroll Sensitivity', 'custom-html-block-extension' ) }
+			value={ editorOptions.mouseWheelScrollSensitivity }
+			onChange={ onChange }
+			min={ 1 }
+			max={ 10 }
+			defaultValue={ 1 }
 		/>
 	);
 }

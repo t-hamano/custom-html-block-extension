@@ -25,7 +25,7 @@ export type SettingHelp< V extends SettingValue > = {
 	image?: string;
 	// Choices shown in the help dialog. Not generated from `options` unless
 	// `showOptions` is set.
-	items?: SettingHelpItem< V >[];
+	items?: SettingHelpItem< NoInfer< V > >[];
 	// Show the control's options, with their images and descriptions, as the
 	// choices in the help dialog.
 	showOptions?: boolean;
@@ -42,7 +42,9 @@ type BaseSetting< V extends SettingValue > = {
 	onChange: ( value: V ) => void;
 	// Value of the setting by default. It marks the default choice in the help
 	// dialog. It must match `Settings::DEFAULT_EDITOR_OPTIONS` (PHP).
-	defaultValue?: V;
+	// `NoInfer` keeps the value type inferred from `value` alone, so these must
+	// match it.
+	defaultValue?: NoInfer< V >;
 	help?: SettingHelp< V >;
 };
 
@@ -52,7 +54,7 @@ export type ToggleSetting = BaseSetting< boolean > & {
 
 export type SelectSetting< V extends SettingValue = SettingValue > = BaseSetting< V > & {
 	control: 'select' | 'toggleGroup';
-	options: SettingOption< V >[];
+	options: SettingOption< NoInfer< V > >[];
 };
 
 export type RangeSetting = Omit< BaseSetting< number >, 'onChange' > & {
@@ -66,4 +68,6 @@ export type RangeSetting = Omit< BaseSetting< number >, 'onChange' > & {
 	controlHelp?: string;
 };
 
-export type SettingDefinition = ToggleSetting | SelectSetting | RangeSetting;
+// Props of `SettingItem`; `control` selects the props each control accepts.
+export type SettingItemProps< V extends SettingValue = SettingValue > =
+	ToggleSetting | SelectSetting< V > | RangeSetting;

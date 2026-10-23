@@ -26,22 +26,17 @@ export default function MinimapScale() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Scale', 'custom-html-block-extension' ),
-				group: __( 'Minimap', 'custom-html-block-extension' ),
-				value: editorOptions.minimap.scale,
-				onChange,
-				min: 1,
-				max: 3,
-				defaultValue: 1,
-				help: {
-					description: __(
-						'Scale of content drawn in the minimap.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/minimap/scale.gif',
-				},
+			control="range"
+			label={ __( 'Scale', 'custom-html-block-extension' ) }
+			group={ __( 'Minimap', 'custom-html-block-extension' ) }
+			value={ editorOptions.minimap.scale }
+			onChange={ onChange }
+			min={ 1 }
+			max={ 3 }
+			defaultValue={ 1 }
+			help={ {
+				description: __( 'Scale of content drawn in the minimap.', 'custom-html-block-extension' ),
+				image: 'editor-options/minimap/scale.gif',
 			} }
 		/>
 	);

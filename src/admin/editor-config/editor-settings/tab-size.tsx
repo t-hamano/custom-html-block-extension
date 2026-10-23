@@ -23,15 +23,13 @@ export default function TabSize() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Tab Size', 'custom-html-block-extension' ),
-				value: editorSettings.tabSize,
-				onChange,
-				min: 1,
-				max: 8,
-				defaultValue: 4,
-			} }
+			control="range"
+			label={ __( 'Tab Size', 'custom-html-block-extension' ) }
+			value={ editorSettings.tabSize }
+			onChange={ onChange }
+			min={ 1 }
+			max={ 8 }
+			defaultValue={ 4 }
 		/>
 	);
 }

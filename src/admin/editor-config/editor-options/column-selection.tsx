@@ -24,40 +24,38 @@ export default function ColumnSelection() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Column Selection', 'custom-html-block-extension' ),
-				value: editorOptions.columnSelection,
-				onChange,
-				defaultValue: false,
-				help: {
-					description: (
-						<>
-							<Text render={ <p /> }>
-								{ isAppleOS()
-									? createInterpolateElement(
-											__(
-												'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Option</code> + drag mouse, or <code>Shift</code> + <code>Option</code> + <code>Command</code> + arrow key.',
-												'custom-html-block-extension'
-											),
-											{
-												code: <code />,
-											}
-										)
-									: createInterpolateElement(
-											__(
-												'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Alt</code> + drag mouse, or <code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key.',
-												'custom-html-block-extension'
-											),
-											{
-												code: <code />,
-											}
-										) }
-							</Text>
-						</>
-					),
-					image: 'editor-options/column-selection.gif',
-				},
+			control="toggle"
+			label={ __( 'Column Selection', 'custom-html-block-extension' ) }
+			value={ editorOptions.columnSelection }
+			onChange={ onChange }
+			defaultValue={ false }
+			help={ {
+				description: (
+					<>
+						<Text render={ <p /> }>
+							{ isAppleOS()
+								? createInterpolateElement(
+										__(
+											'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Option</code> + drag mouse, or <code>Shift</code> + <code>Option</code> + <code>Command</code> + arrow key.',
+											'custom-html-block-extension'
+										),
+										{
+											code: <code />,
+										}
+									)
+								: createInterpolateElement(
+										__(
+											'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Alt</code> + drag mouse, or <code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key.',
+											'custom-html-block-extension'
+										),
+										{
+											code: <code />,
+										}
+									) }
+						</Text>
+					</>
+				),
+				image: 'editor-options/column-selection.gif',
 			} }
 		/>
 	);

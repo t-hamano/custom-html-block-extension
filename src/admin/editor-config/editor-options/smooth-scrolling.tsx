@@ -22,30 +22,28 @@ export default function SmoothScrolling() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Smooth Scrolling', 'custom-html-block-extension' ),
-				value: editorOptions.smoothScrolling,
-				onChange,
-				defaultValue: false,
-				help: {
-					description: __(
-						'Controls whether the editor will scroll using an animation.',
-						'custom-html-block-extension'
-					),
-					items: [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/smooth-scrolling_1.gif',
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/smooth-scrolling_2.gif',
-						},
-					],
-				},
+			control="toggle"
+			label={ __( 'Smooth Scrolling', 'custom-html-block-extension' ) }
+			value={ editorOptions.smoothScrolling }
+			onChange={ onChange }
+			defaultValue={ false }
+			help={ {
+				description: __(
+					'Controls whether the editor will scroll using an animation.',
+					'custom-html-block-extension'
+				),
+				items: [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/smooth-scrolling_1.gif',
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/smooth-scrolling_2.gif',
+					},
+				],
 			} }
 		/>
 	);

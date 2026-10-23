@@ -23,15 +23,13 @@ export default function FontSize() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Font Size (px)', 'custom-html-block-extension' ),
-				value: editorOptions.fontSize,
-				onChange,
-				min: 10,
-				max: 30,
-				defaultValue: 14,
-			} }
+			control="range"
+			label={ __( 'Font Size (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.fontSize }
+			onChange={ onChange }
+			min={ 10 }
+			max={ 30 }
+			defaultValue={ 14 }
 		/>
 	);
 }

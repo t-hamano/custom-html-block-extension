@@ -23,21 +23,19 @@ export default function LineDecorationsWidth() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Line Decorations Width (px)', 'custom-html-block-extension' ),
-				value: editorOptions.lineDecorationsWidth,
-				onChange,
-				min: 0,
-				max: 30,
-				defaultValue: 0,
-				help: {
-					description: __(
-						'The width reserved for line decorations. Line decorations are placed between line numbers and the editor content.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/line-decorations-width.gif',
-				},
+			control="range"
+			label={ __( 'Line Decorations Width (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.lineDecorationsWidth }
+			onChange={ onChange }
+			min={ 0 }
+			max={ 30 }
+			defaultValue={ 0 }
+			help={ {
+				description: __(
+					'The width reserved for line decorations. Line decorations are placed between line numbers and the editor content.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/line-decorations-width.gif',
 			} }
 		/>
 	);

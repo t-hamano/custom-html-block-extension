@@ -22,18 +22,16 @@ export default function DetectIndentation() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Detect Indentation', 'custom-html-block-extension' ),
-				value: editorSettings.detectIndentation,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether "Tab Size" and "Insert Spaces" will be automatically detected when a file is opened based on the file contents.',
-						'custom-html-block-extension'
-					),
-				},
+			control="toggle"
+			label={ __( 'Detect Indentation', 'custom-html-block-extension' ) }
+			value={ editorSettings.detectIndentation }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether "Tab Size" and "Insert Spaces" will be automatically detected when a file is opened based on the file contents.',
+					'custom-html-block-extension'
+				),
 			} }
 		/>
 	);

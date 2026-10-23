@@ -12,7 +12,6 @@ import { Text } from '@wordpress/ui';
 import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { selectSetting } from '../components/setting-item/helpers';
 
 export default function Hover() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -41,55 +40,53 @@ export default function Hover() {
 
 	return (
 		<SettingItem
-			setting={ selectSetting( {
-				control: 'select',
-				label: __( 'Show Hover Information', 'custom-html-block-extension' ),
-				value: editorOptions.hover.enabled,
-				onChange,
-				defaultValue: 'on',
-				options: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: 'on',
-					},
-					{
-						label: __( 'Enable only while holding a modifier key', 'custom-html-block-extension' ),
-						value: 'onKeyboardModifier',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: 'off',
-					},
-				],
-				help: {
-					description: (
-						<>
-							<Text render={ <p /> }>
-								{ __(
-									'Shows hints when the mouse is over an element or attribute.',
-									'custom-html-block-extension'
-								) }
-							</Text>
-							<Text render={ <p /> }>
-								{ createInterpolateElement(
-									sprintf(
-										/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
-										__(
-											'If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
-											'custom-html-block-extension'
-										),
-										modifierKey
-									),
-									{
-										code: <code />,
-									}
-								) }
-							</Text>
-						</>
-					),
-					image: 'editor-options/hover.gif',
+			control="select"
+			label={ __( 'Show Hover Information', 'custom-html-block-extension' ) }
+			value={ editorOptions.hover.enabled }
+			onChange={ onChange }
+			defaultValue="on"
+			options={ [
+				{
+					label: __( 'Enable', 'custom-html-block-extension' ),
+					value: 'on',
 				},
-			} ) }
+				{
+					label: __( 'Enable only while holding a modifier key', 'custom-html-block-extension' ),
+					value: 'onKeyboardModifier',
+				},
+				{
+					label: __( 'Disable', 'custom-html-block-extension' ),
+					value: 'off',
+				},
+			] }
+			help={ {
+				description: (
+					<>
+						<Text render={ <p /> }>
+							{ __(
+								'Shows hints when the mouse is over an element or attribute.',
+								'custom-html-block-extension'
+							) }
+						</Text>
+						<Text render={ <p /> }>
+							{ createInterpolateElement(
+								sprintf(
+									/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
+									__(
+										'If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
+										'custom-html-block-extension'
+									),
+									modifierKey
+								),
+								{
+									code: <code />,
+								}
+							) }
+						</Text>
+					</>
+				),
+				image: 'editor-options/hover.gif',
+			} }
 		/>
 	);
 }

@@ -28,20 +28,18 @@ export default function ScrollbarScrollByPage() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Scroll By Page', 'custom-html-block-extension' ),
-				group: __( 'Scrollbar', 'custom-html-block-extension' ),
-				value: editorOptions.scrollbar.scrollByPage,
-				onChange,
-				defaultValue: false,
-				help: {
-					description: __(
-						'Controls whether clicks scroll by page or jump to click position.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/scrollbar/scroll-by-page.gif',
-				},
+			control="toggle"
+			label={ __( 'Scroll By Page', 'custom-html-block-extension' ) }
+			group={ __( 'Scrollbar', 'custom-html-block-extension' ) }
+			value={ editorOptions.scrollbar.scrollByPage }
+			onChange={ onChange }
+			defaultValue={ false }
+			help={ {
+				description: __(
+					'Controls whether clicks scroll by page or jump to click position.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/scrollbar/scroll-by-page.gif',
 			} }
 		/>
 	);

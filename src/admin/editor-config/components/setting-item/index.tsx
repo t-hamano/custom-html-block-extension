@@ -15,16 +15,16 @@ import { SelectControl, Stack, SwitchControl } from '@wordpress/ui';
  */
 import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../item-help';
-import type { SettingDefinition, SettingValue, SettingHelpItem } from './types';
+import type { SettingItemProps, SettingValue, SettingHelpItem } from './types';
 
 /**
- * Renders a setting from its definition, with the search visibility and the
- * help dialog.
+ * Renders a setting control, with the search visibility and the help dialog.
  *
- * @param props         Props.
- * @param props.setting Setting definition.
+ * @param props Props.
  */
-export default function SettingItem( { setting }: { setting: SettingDefinition } ) {
+export default function SettingItem< V extends SettingValue >( props: SettingItemProps< V > ) {
+	// Inside, the value type of a select is not needed, so widen it.
+	const setting = props as SettingItemProps;
 	const { searchQuery } = useContext( EditorConfigContext );
 	const { label, group, value } = setting;
 

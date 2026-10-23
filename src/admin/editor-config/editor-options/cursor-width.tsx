@@ -23,15 +23,13 @@ export default function CursorWidth() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Cursor Width (px)', 'custom-html-block-extension' ),
-				value: editorOptions.cursorWidth,
-				onChange,
-				min: 2,
-				max: 10,
-				defaultValue: 2,
-			} }
+			control="range"
+			label={ __( 'Cursor Width (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.cursorWidth }
+			onChange={ onChange }
+			min={ 2 }
+			max={ 10 }
+			defaultValue={ 2 }
 		/>
 	);
 }

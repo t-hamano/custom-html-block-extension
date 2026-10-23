@@ -22,19 +22,17 @@ export default function Folding() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Folding', 'custom-html-block-extension' ),
-				value: editorOptions.folding,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether the editor has code folding enabled.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/folding.gif',
-				},
+			control="toggle"
+			label={ __( 'Folding', 'custom-html-block-extension' ) }
+			value={ editorOptions.folding }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether the editor has code folding enabled.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/folding.gif',
 			} }
 		/>
 	);

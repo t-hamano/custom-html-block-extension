@@ -26,22 +26,20 @@ export default function PaddingTop() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Top (px)', 'custom-html-block-extension' ),
-				group: __( 'Padding', 'custom-html-block-extension' ),
-				value: editorOptions.padding.top,
-				onChange,
-				min: 0,
-				max: 50,
-				defaultValue: 0,
-				help: {
-					description: __(
-						'Controls the amount of space between the top edge of the editor and the first line.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/padding/top.gif',
-				},
+			control="range"
+			label={ __( 'Top (px)', 'custom-html-block-extension' ) }
+			group={ __( 'Padding', 'custom-html-block-extension' ) }
+			value={ editorOptions.padding.top }
+			onChange={ onChange }
+			min={ 0 }
+			max={ 50 }
+			defaultValue={ 0 }
+			help={ {
+				description: __(
+					'Controls the amount of space between the top edge of the editor and the first line.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/padding/top.gif',
 			} }
 		/>
 	);

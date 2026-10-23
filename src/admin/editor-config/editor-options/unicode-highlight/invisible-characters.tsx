@@ -25,20 +25,18 @@ export default function UnicodeHighlightInvisibleCharacters() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Invisible Characters', 'custom-html-block-extension' ),
-				group: __( 'Unicode Highlight', 'custom-html-block-extension' ),
-				value: editorOptions.unicodeHighlight.invisibleCharacters,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether characters that just reserve space or have no width at all are highlighted.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/unicode-highlight/invisible-characters.jpg',
-				},
+			control="toggle"
+			label={ __( 'Invisible Characters', 'custom-html-block-extension' ) }
+			group={ __( 'Unicode Highlight', 'custom-html-block-extension' ) }
+			value={ editorOptions.unicodeHighlight.invisibleCharacters }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether characters that just reserve space or have no width at all are highlighted.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/unicode-highlight/invisible-characters.jpg',
 			} }
 		/>
 	);

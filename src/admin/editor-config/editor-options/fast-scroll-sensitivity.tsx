@@ -23,15 +23,13 @@ export default function FastScrollSensitivity() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Fast Scroll Sensitivity', 'custom-html-block-extension' ),
-				value: editorOptions.fastScrollSensitivity,
-				onChange,
-				min: 1,
-				max: 10,
-				defaultValue: 5,
-			} }
+			control="range"
+			label={ __( 'Fast Scroll Sensitivity', 'custom-html-block-extension' ) }
+			value={ editorOptions.fastScrollSensitivity }
+			onChange={ onChange }
+			min={ 1 }
+			max={ 10 }
+			defaultValue={ 5 }
 		/>
 	);
 }

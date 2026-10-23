@@ -22,30 +22,28 @@ export default function SelectionHighlight() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Selection Highlight', 'custom-html-block-extension' ),
-				value: editorOptions.selectionHighlight,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether the editor should highlight matches similar to the selection.',
-						'custom-html-block-extension'
-					),
-					items: [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/selection-highlight_1.jpg',
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/selection-highlight_2.jpg',
-						},
-					],
-				},
+			control="toggle"
+			label={ __( 'Selection Highlight', 'custom-html-block-extension' ) }
+			value={ editorOptions.selectionHighlight }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether the editor should highlight matches similar to the selection.',
+					'custom-html-block-extension'
+				),
+				items: [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/selection-highlight_1.jpg',
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/selection-highlight_2.jpg',
+					},
+				],
 			} }
 		/>
 	);

@@ -22,19 +22,17 @@ export default function DragAndDrop() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Drag And Drop', 'custom-html-block-extension' ),
-				value: editorOptions.dragAndDrop,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether the editor should allow moving selections via drag and drop.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/drag-and-drop.gif',
-				},
+			control="toggle"
+			label={ __( 'Drag And Drop', 'custom-html-block-extension' ) }
+			value={ editorOptions.dragAndDrop }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether the editor should allow moving selections via drag and drop.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/drag-and-drop.gif',
 			} }
 		/>
 	);

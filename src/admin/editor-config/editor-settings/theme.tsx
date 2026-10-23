@@ -10,7 +10,6 @@ import { useContext } from '@wordpress/element';
 import themes from '../../../lib/themes';
 import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
-import { selectSetting } from '../components/setting-item/helpers';
 
 export default function Theme() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
@@ -24,17 +23,15 @@ export default function Theme() {
 
 	return (
 		<SettingItem
-			setting={ selectSetting( {
-				control: 'select',
-				label: __( 'Theme', 'custom-html-block-extension' ),
-				value: editorSettings.theme,
-				onChange,
-				options: [
-					{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
-					{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
-					...themes,
-				],
-			} ) }
+			control="select"
+			label={ __( 'Theme', 'custom-html-block-extension' ) }
+			value={ editorSettings.theme }
+			onChange={ onChange }
+			options={ [
+				{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
+				{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
+				...themes,
+			] }
 		/>
 	);
 }

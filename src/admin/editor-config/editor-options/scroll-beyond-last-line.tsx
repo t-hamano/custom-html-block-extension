@@ -22,30 +22,28 @@ export default function ScrollBeyondLastLine() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Scroll Beyond Last Line', 'custom-html-block-extension' ),
-				value: editorOptions.scrollBeyondLastLine,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether the editor will scroll beyond the last line.',
-						'custom-html-block-extension'
-					),
-					items: [
-						{
-							label: __( 'Enable', 'custom-html-block-extension' ),
-							value: true,
-							image: 'editor-options/scroll-beyond-last-line_1.gif',
-						},
-						{
-							label: __( 'Disable', 'custom-html-block-extension' ),
-							value: false,
-							image: 'editor-options/scroll-beyond-last-line_2.gif',
-						},
-					],
-				},
+			control="toggle"
+			label={ __( 'Scroll Beyond Last Line', 'custom-html-block-extension' ) }
+			value={ editorOptions.scrollBeyondLastLine }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether the editor will scroll beyond the last line.',
+					'custom-html-block-extension'
+				),
+				items: [
+					{
+						label: __( 'Enable', 'custom-html-block-extension' ),
+						value: true,
+						image: 'editor-options/scroll-beyond-last-line_1.gif',
+					},
+					{
+						label: __( 'Disable', 'custom-html-block-extension' ),
+						value: false,
+						image: 'editor-options/scroll-beyond-last-line_2.gif',
+					},
+				],
 			} }
 		/>
 	);

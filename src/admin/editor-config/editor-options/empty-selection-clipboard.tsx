@@ -22,19 +22,17 @@ export default function EmptySelectionClipboard() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'toggle',
-				label: __( 'Empty Selection Clipboard', 'custom-html-block-extension' ),
-				value: editorOptions.emptySelectionClipboard,
-				onChange,
-				defaultValue: true,
-				help: {
-					description: __(
-						'Controls whether copying without a selection copies the current line.',
-						'custom-html-block-extension'
-					),
-					image: 'editor-options/empty-selection-clipboard.gif',
-				},
+			control="toggle"
+			label={ __( 'Empty Selection Clipboard', 'custom-html-block-extension' ) }
+			value={ editorOptions.emptySelectionClipboard }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether copying without a selection copies the current line.',
+					'custom-html-block-extension'
+				),
+				image: 'editor-options/empty-selection-clipboard.gif',
 			} }
 		/>
 	);

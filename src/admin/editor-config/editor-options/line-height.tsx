@@ -23,20 +23,18 @@ export default function LineHeight() {
 
 	return (
 		<SettingItem
-			setting={ {
-				control: 'range',
-				label: __( 'Line Height', 'custom-html-block-extension' ),
-				value: editorOptions.lineHeight,
-				onChange,
-				min: 0,
-				max: 60,
-				step: 0.1,
-				defaultValue: 21,
-				controlHelp: __(
-					'0 computes the line height from the font size. Values less than 8 are a multiplier of the font size. Values of 8 or more are pixels.',
-					'custom-html-block-extension'
-				),
-			} }
+			control="range"
+			label={ __( 'Line Height', 'custom-html-block-extension' ) }
+			value={ editorOptions.lineHeight }
+			onChange={ onChange }
+			min={ 0 }
+			max={ 60 }
+			step={ 0.1 }
+			defaultValue={ 21 }
+			controlHelp={ __(
+				'0 computes the line height from the font size. Values less than 8 are a multiplier of the font size. Values of 8 or more are pixels.',
+				'custom-html-block-extension'
+			) }
 		/>
 	);
 }
