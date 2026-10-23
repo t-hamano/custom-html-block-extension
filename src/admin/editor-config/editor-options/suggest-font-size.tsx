@@ -27,7 +27,7 @@ export default function SuggestFontSize() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			suggestFontSize: value ? toNumber( value, 10, 30 ) : 14,
+			suggestFontSize: undefined !== value ? toNumber( value, 0, 30 ) : 0,
 		} );
 	};
 
@@ -42,10 +42,11 @@ export default function SuggestFontSize() {
 			<RangeControl
 				label={ title }
 				value={ editorOptions.suggestFontSize }
-				min={ 10 }
+				min={ 0 }
 				max={ 30 }
 				allowReset
 				onChange={ onChange }
+				help={ __( "0 uses the editor's font size.", 'custom-html-block-extension' ) }
 			/>
 			<ItemHelp
 				onChange={ onChange }

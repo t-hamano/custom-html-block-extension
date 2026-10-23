@@ -29,7 +29,7 @@ export default function MinimapMaxColumn() {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				maxColumn: value ? toNumber( value, 10, 60 ) : 60,
+				maxColumn: value ? toNumber( value, 10, 200 ) : 120,
 			},
 		} );
 	};
@@ -46,7 +46,7 @@ export default function MinimapMaxColumn() {
 				label={ title }
 				value={ editorOptions.minimap.maxColumn }
 				min={ 10 }
-				max={ 60 }
+				max={ 200 }
 				allowReset
 				onChange={ onChange }
 			/>

@@ -318,8 +318,8 @@ class Settings {
 				'maxColumn'        => array(
 					'type'    => 'number',
 					'minimum' => 10,
-					'maximum' => 60,
-					'default' => 60,
+					'maximum' => 200,
+					'default' => 120,
 				),
 				'renderCharacters' => array(
 					'type'    => 'boolean',
@@ -589,15 +589,15 @@ class Settings {
 		),
 		'suggestFontSize'                  => array(
 			'type'    => 'number',
-			'minimum' => 10,
+			'minimum' => 0,
 			'maximum' => 30,
-			'default' => 14,
+			'default' => 0,
 		),
 		'suggestLineHeight'                => array(
 			'type'    => 'number',
-			'minimum' => 10,
+			'minimum' => 0,
 			'maximum' => 60,
-			'default' => 21,
+			'default' => 0,
 		),
 		'suggestOnTriggerCharacters'       => array(
 			'type'    => 'boolean',

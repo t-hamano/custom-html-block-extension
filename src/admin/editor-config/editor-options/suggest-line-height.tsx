@@ -27,7 +27,7 @@ export default function SuggestLineHeight() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			suggestLineHeight: value ? toNumber( value, 10, 60 ) : 21,
+			suggestLineHeight: undefined !== value ? toNumber( value, 0, 60 ) : 0,
 		} );
 	};
 
@@ -42,10 +42,11 @@ export default function SuggestLineHeight() {
 			<RangeControl
 				label={ title }
 				value={ editorOptions.suggestLineHeight }
-				min={ 10 }
+				min={ 0 }
 				max={ 60 }
 				allowReset
 				onChange={ onChange }
+				help={ __( "0 uses the editor's line height.", 'custom-html-block-extension' ) }
 			/>
 			<ItemHelp
 				onChange={ onChange }
