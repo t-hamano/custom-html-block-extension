@@ -17,7 +17,7 @@ export default function SuggestFontSize() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			suggestFontSize: value ? toNumber( value, 10, 30 ) : 14,
+			suggestFontSize: undefined !== value ? toNumber( value, 0, 30 ) : 0,
 		} );
 	};
 
@@ -27,9 +27,10 @@ export default function SuggestFontSize() {
 			label={ __( 'Suggest Font Size (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.suggestFontSize }
 			onChange={ onChange }
-			min={ 10 }
+			min={ 0 }
 			max={ 30 }
-			defaultValue={ 14 }
+			defaultValue={ 0 }
+			controlHelp={ __( "0 uses the editor's font size.", 'custom-html-block-extension' ) }
 			help={ {
 				description: __( 'Font size for the suggest widget.', 'custom-html-block-extension' ),
 				items: [

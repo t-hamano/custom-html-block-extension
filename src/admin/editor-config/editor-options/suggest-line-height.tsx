@@ -17,7 +17,7 @@ export default function SuggestLineHeight() {
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
 			...editorOptions,
-			suggestLineHeight: value ? toNumber( value, 10, 60 ) : 21,
+			suggestLineHeight: undefined !== value ? toNumber( value, 0, 60 ) : 0,
 		} );
 	};
 
@@ -27,9 +27,10 @@ export default function SuggestLineHeight() {
 			label={ __( 'Suggest Line Height (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.suggestLineHeight }
 			onChange={ onChange }
-			min={ 10 }
+			min={ 0 }
 			max={ 60 }
-			defaultValue={ 21 }
+			defaultValue={ 0 }
+			controlHelp={ __( "0 uses the editor's line height.", 'custom-html-block-extension' ) }
 			help={ {
 				description: __( 'Line height for the suggest widget.', 'custom-html-block-extension' ),
 				items: [

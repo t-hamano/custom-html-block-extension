@@ -19,7 +19,7 @@ export default function MinimapMaxColumn() {
 			...editorOptions,
 			minimap: {
 				...editorOptions.minimap,
-				maxColumn: value ? toNumber( value, 10, 60 ) : 60,
+				maxColumn: value ? toNumber( value, 10, 200 ) : 120,
 			},
 		} );
 	};
@@ -32,8 +32,8 @@ export default function MinimapMaxColumn() {
 			value={ editorOptions.minimap.maxColumn }
 			onChange={ onChange }
 			min={ 10 }
-			max={ 60 }
-			defaultValue={ 60 }
+			max={ 200 }
+			defaultValue={ 120 }
 			help={ {
 				description: __(
 					'Limit the width of the minimap to render at most a certain number of columns.',
