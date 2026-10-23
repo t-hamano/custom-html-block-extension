@@ -55,7 +55,6 @@ export default function RenderLineHighlight() {
 					'Controls how the editor should render the current line highlight.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

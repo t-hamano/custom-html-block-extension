@@ -47,7 +47,6 @@ export default function MatchBrackets() {
 			] }
 			help={ {
 				description: __( 'Highlight matching brackets.', 'custom-html-block-extension' ),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

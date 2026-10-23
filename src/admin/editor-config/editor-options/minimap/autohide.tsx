@@ -63,7 +63,6 @@ export default function MinimapAutohide() {
 					'Controls whether the minimap is hidden automatically.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

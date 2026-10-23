@@ -125,10 +125,10 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 
 	const { help } = setting;
 	let helpItems: SettingHelpItem< SettingValue >[] | undefined;
-	if ( help?.showOptions ) {
-		helpItems = options;
-	} else if ( help?.items ) {
+	if ( help?.items ) {
 		helpItems = help.items as SettingHelpItem< SettingValue >[];
+	} else if ( options.length && ! help?.hideOptions ) {
+		helpItems = options;
 	}
 	// Toggles without choices show the default and a switch in the help dialog.
 	const isToggle = 'toggle' === setting.control && ! helpItems;

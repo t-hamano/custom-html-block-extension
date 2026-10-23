@@ -57,7 +57,6 @@ export default function CursorBlinking() {
 			] }
 			help={ {
 				description: __( 'Controls the cursor animation style.', 'custom-html-block-extension' ),
-				showOptions: true,
 				colCount: 5,
 			} }
 		/>

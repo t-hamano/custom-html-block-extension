@@ -62,7 +62,6 @@ export default function RenderFinalNewline() {
 					'Render last line number when the file ends with a newline.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

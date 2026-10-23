@@ -52,7 +52,6 @@ export default function LineNumbers() {
 			] }
 			help={ {
 				description: __( 'Controls the display of line numbers.', 'custom-html-block-extension' ),
-				showOptions: true,
 				colCount: 4,
 			} }
 		/>

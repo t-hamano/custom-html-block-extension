@@ -62,7 +62,6 @@ export default function AutoClosingOvertype() {
 					'Controls whether the editor should type over closing quotes or brackets.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

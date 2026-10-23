@@ -55,7 +55,6 @@ export default function AutoSurround() {
 					'Controls whether the editor should automatically surround selections when typing quotes or brackets.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

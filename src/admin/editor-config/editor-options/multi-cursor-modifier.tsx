@@ -43,6 +43,7 @@ export default function MultiCursorModifier() {
 				},
 			] }
 			help={ {
+				hideOptions: true,
 				description: __(
 					'The modifier to be used to add multiple cursors with the mouse.',
 					'custom-html-block-extension'

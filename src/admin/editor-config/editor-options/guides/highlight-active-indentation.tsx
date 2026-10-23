@@ -73,7 +73,6 @@ export default function GuidesHighlightActiveIndentation() {
 						) }
 					</Text>
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

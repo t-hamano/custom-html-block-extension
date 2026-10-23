@@ -49,7 +49,6 @@ export default function MinimapShowSlider() {
 					'Controls when the minimap slider is shown.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

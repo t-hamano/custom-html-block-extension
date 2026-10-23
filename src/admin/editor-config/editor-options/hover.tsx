@@ -60,6 +60,7 @@ export default function Hover() {
 				},
 			] }
 			help={ {
+				hideOptions: true,
 				description: (
 					<>
 						<Text render={ <p /> }>

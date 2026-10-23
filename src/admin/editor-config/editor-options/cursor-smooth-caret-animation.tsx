@@ -62,7 +62,6 @@ export default function CursorSmoothCaretAnimation() {
 					'Controls whether the smooth caret animation should be enabled.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

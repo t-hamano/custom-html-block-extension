@@ -71,7 +71,6 @@ export default function WrappingIndent() {
 					'Controls the indentation of wrapped lines.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

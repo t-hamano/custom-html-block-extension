@@ -8,7 +8,7 @@ export type SettingValue = string | number | boolean;
 export type SettingOption< V extends SettingValue > = {
 	label: string;
 	value: V;
-	// Shown in the help dialog when `help.showOptions` is set.
+	// Shown in the help dialog unless `help.hideOptions` is set.
 	image?: string;
 	description?: ReactNode;
 };
@@ -23,12 +23,10 @@ export type SettingHelpItem< V extends SettingValue > = SettingOption< V > & {
 export type SettingHelp< V extends SettingValue > = {
 	description?: ReactNode;
 	image?: string;
-	// Choices shown in the help dialog. Not generated from `options` unless
-	// `showOptions` is set.
+	// Choices shown in the help dialog. Defaults to the control's `options`.
 	items?: SettingHelpItem< NoInfer< V > >[];
-	// Show the control's options, with their images and descriptions, as the
-	// choices in the help dialog.
-	showOptions?: boolean;
+	// Show only the description, without the control's options as choices.
+	hideOptions?: boolean;
 	colCount?: 2 | 3 | 4 | 5;
 };
 

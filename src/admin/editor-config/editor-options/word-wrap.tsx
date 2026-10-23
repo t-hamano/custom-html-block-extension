@@ -65,7 +65,6 @@ export default function WordWrap() {
 			] }
 			help={ {
 				description: __( 'Controls how lines should wrap.', 'custom-html-block-extension' ),
-				showOptions: true,
 			} }
 		/>
 	);

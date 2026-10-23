@@ -68,7 +68,6 @@ export default function AutoClosingBrackets() {
 					'Controls whether the editor should automatically close brackets after the user adds an opening bracket.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 2,
 			} }
 		/>

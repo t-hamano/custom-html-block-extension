@@ -38,6 +38,7 @@ export default function FontFamily() {
 				},
 			] }
 			help={ {
+				hideOptions: true,
 				description: (
 					<>
 						<Text render={ <p /> }>

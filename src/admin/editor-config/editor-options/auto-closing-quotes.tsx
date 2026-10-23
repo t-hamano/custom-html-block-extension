@@ -68,7 +68,6 @@ export default function AutoClosingQuotes() {
 					'Controls whether the editor should automatically close quotes after the user adds an opening quote.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 2,
 			} }
 		/>

@@ -62,7 +62,6 @@ export default function AutoClosingDelete() {
 					'Controls whether the editor should remove adjacent closing quotes or brackets when deleting.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

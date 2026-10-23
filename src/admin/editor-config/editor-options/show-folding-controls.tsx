@@ -59,7 +59,6 @@ export default function ShowFoldingControls() {
 					'Controls when the folding controls on the gutter are shown.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

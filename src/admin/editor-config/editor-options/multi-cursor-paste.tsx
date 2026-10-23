@@ -49,7 +49,6 @@ export default function MultiCursorPaste() {
 					'Controls pasting when the line count of the pasted text matches the cursor count.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

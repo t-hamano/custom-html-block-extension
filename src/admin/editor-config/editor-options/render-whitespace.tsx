@@ -63,7 +63,6 @@ export default function RenderWhitespace() {
 					'Controls how the editor should render whitespace characters.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

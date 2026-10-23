@@ -53,7 +53,6 @@ export default function FoldingStrategy() {
 					'Controls the strategy for computing folding ranges.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

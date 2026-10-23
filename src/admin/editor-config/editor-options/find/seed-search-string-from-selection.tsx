@@ -66,7 +66,6 @@ export default function FindSeedSearchStringFromSelection() {
 					'Controls whether the search string in the Find Widget is seeded from the editor selection.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

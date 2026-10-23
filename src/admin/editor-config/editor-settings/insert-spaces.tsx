@@ -44,7 +44,6 @@ export default function InsertSpaces() {
 					'Controls whether to insert a tab character or spaces when pressing the Tab key.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

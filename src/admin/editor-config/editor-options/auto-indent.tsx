@@ -77,7 +77,6 @@ export default function AutoIndent() {
 					'Controls whether the editor should automatically adjust the indentation when users type, paste, move or indent lines.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 4,
 			} }
 		/>

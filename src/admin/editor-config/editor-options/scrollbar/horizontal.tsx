@@ -57,7 +57,6 @@ export default function ScrollbarHorizontal() {
 					'Controls the visibility of the horizontal scrollbar.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

@@ -62,7 +62,6 @@ export default function CursorStyle() {
 			] }
 			help={ {
 				description: __( 'Controls the cursor style.', 'custom-html-block-extension' ),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

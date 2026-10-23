@@ -63,7 +63,6 @@ export default function MinimapSize() {
 			] }
 			help={ {
 				description: __( 'Controls the size of the minimap.', 'custom-html-block-extension' ),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

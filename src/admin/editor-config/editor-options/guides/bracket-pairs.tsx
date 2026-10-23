@@ -61,7 +61,6 @@ export default function GuidesBracketPairs() {
 						) }
 					</Text>
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

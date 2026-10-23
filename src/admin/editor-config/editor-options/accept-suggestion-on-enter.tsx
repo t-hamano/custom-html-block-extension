@@ -72,7 +72,6 @@ export default function AcceptSuggestionOnEnter() {
 						) }
 					</Text>
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

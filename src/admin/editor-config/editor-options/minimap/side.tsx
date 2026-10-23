@@ -49,7 +49,6 @@ export default function MinimapSide() {
 					'Controls the side where to render the minimap.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 			} }
 		/>
 	);

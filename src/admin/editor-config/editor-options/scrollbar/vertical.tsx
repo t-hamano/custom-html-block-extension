@@ -57,7 +57,6 @@ export default function ScrollbarVertical() {
 					'Controls the visibility of the vertical scrollbar.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 3,
 			} }
 		/>

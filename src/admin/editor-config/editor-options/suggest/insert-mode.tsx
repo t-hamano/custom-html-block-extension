@@ -57,7 +57,6 @@ export default function SuggestInsertMode() {
 					'Controls whether words are overwritten when accepting completions.',
 					'custom-html-block-extension'
 				),
-				showOptions: true,
 				colCount: 2,
 			} }
 		/>
