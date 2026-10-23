@@ -26,7 +26,7 @@ const FILES: { page: string; query: string; language: string }[] = [
 	},
 	{
 		page: 'plugin-editor.php',
-		query: `plugin=${ PLUGIN }&file=custom-html-block-extension/phpcs.ruleset.xml`,
+		query: `plugin=${ PLUGIN }&file=custom-html-block-extension/test/e2e/fixtures/sample.xml`,
 		language: 'xml',
 	},
 	{
