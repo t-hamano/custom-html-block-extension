@@ -424,13 +424,25 @@ test.describe( 'Editor config', () => {
 				.filter( { hasText: 'The format of the settings is not correct.' } )
 		).toBeVisible();
 
-		await textbox.fill( '{ "workbench.colorTheme": "One Dark Pro" }' );
+		await textbox.fill( '{ "workbench.startupEditor": "none" }' );
 		await importButton.click();
 		await expect(
 			page
 				.getByRole( 'button', { name: 'Dismiss this notice' } )
 				.filter( { hasText: 'No supported settings were found.' } )
 		).toBeVisible();
+
+		// The dialog shows the reasons even if every value is skipped.
+		await textbox.fill( '{ "workbench.colorTheme": "One Dark Pro" }' );
+		await importButton.click();
+		const dialog = page.getByRole( 'dialog', { name: 'Import editor config' } );
+		await expect( dialog.getByRole( 'heading', { name: 'Skipped settings (1)' } ) ).toBeVisible();
+		await expect(
+			dialog.getByRole( 'list', { name: 'Skipped settings' } ).getByText( 'theme' )
+		).toBeVisible();
+		await expect( dialog.getByRole( 'button', { name: 'Apply', exact: true } ) ).toBeDisabled();
+		await dialog.getByRole( 'button', { name: 'Cancel', exact: true } ).click();
+		await expect( dialog ).toBeHidden();
 		await expect( page.getByRole( 'tab', { name: 'Tools' } ) ).toHaveAttribute(
 			'aria-selected',
 			'true'

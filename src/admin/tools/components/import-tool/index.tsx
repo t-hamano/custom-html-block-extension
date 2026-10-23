@@ -105,14 +105,15 @@ export default function ImportTool() {
 		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
 		setIsWaiting( false );
 
-		if ( countEditorConfig( result ) === 0 ) {
+		// Show the dialog also when every value is skipped, so that the reasons
+		// are visible.
+		const items = getImportItems( editorConfig, result, currentConfig.current );
+		if ( items.length === 0 && result.skipped.length === 0 && countEditorConfig( result ) === 0 ) {
 			createErrorNotice( __( 'No supported settings were found.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
 			return;
 		}
-
-		const items = getImportItems( editorConfig, result, currentConfig.current );
 		if ( items.length === 0 && result.skipped.length === 0 ) {
 			createSuccessNotice(
 				__(
