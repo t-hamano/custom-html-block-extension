@@ -7,8 +7,11 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
  * Internal dependencies
  */
 import {
+	buildEditorConfig,
 	countEditorConfig,
 	exportEditorConfig,
+	getImportItems,
+	isClampedItem,
 	mergeEditorOptions,
 	parseEditorConfig,
 } from '../../src/admin/tools/utils';
@@ -412,6 +415,88 @@ describe( 'mergeEditorOptions', () => {
 			fontSize: 20,
 			rulers: [],
 			quickSuggestions: { other: 'on', comments: 'on', strings: 'off' },
+		} );
+	} );
+} );
+
+describe( 'getImportItems', () => {
+	const currentConfig = { editorSettings, editorOptions };
+
+	it( 'lists the changed values, with each property of an object option as one item', () => {
+		const items = getImportItems(
+			{
+				editorSettings: { tabSize: 4, theme: 'vs-dark' },
+				editorOptions: { fontSize: '20', quickSuggestions: { other: 'off', comments: 'off' } },
+			},
+			{
+				editorSettings: { tabSize: 4, theme: 'vs-dark' },
+				editorOptions: { fontSize: 20, quickSuggestions: { other: 'off', comments: 'off' } },
+			},
+			currentConfig
+		);
+		expect( items ).toEqual( [
+			{
+				group: 'editorSettings',
+				path: 'tabSize',
+				currentValue: 2,
+				value: 4,
+				originalValue: 4,
+			},
+			{
+				group: 'editorOptions',
+				path: 'fontSize',
+				currentValue: 14,
+				value: 20,
+				originalValue: '20',
+			},
+			{
+				group: 'editorOptions',
+				path: 'quickSuggestions.other',
+				currentValue: 'on',
+				value: 'off',
+				originalValue: 'off',
+			},
+		] );
+		// A numeric string converted to the same number is not clamped.
+		expect( items.map( isClampedItem ) ).toEqual( [ false, false, false ] );
+	} );
+
+	it( 'detects values clamped to the range', () => {
+		const items = getImportItems(
+			{ editorSettings: {}, editorOptions: { fontSize: 40, rulers: [ 80, { column: 120 } ] } },
+			{ editorSettings: {}, editorOptions: { fontSize: 30, rulers: [ 80, { column: 100 } ] } },
+			currentConfig
+		);
+		expect( items.map( isClampedItem ) ).toEqual( [ true, true ] );
+	} );
+} );
+
+describe( 'buildEditorConfig', () => {
+	it( 'builds the editor config from the items', () => {
+		expect(
+			JSON.parse(
+				JSON.stringify(
+					buildEditorConfig( [
+						{
+							group: 'editorSettings',
+							path: 'tabSize',
+							currentValue: 2,
+							value: 4,
+							originalValue: 4,
+						},
+						{
+							group: 'editorOptions',
+							path: 'minimap.enabled',
+							currentValue: true,
+							value: false,
+							originalValue: false,
+						},
+					] )
+				)
+			)
+		).toEqual( {
+			editorSettings: { tabSize: 4 },
+			editorOptions: { minimap: { enabled: false } },
 		} );
 	} );
 } );

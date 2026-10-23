@@ -594,3 +594,112 @@ export function mergeEditorOptions(
 	} );
 	return options as EditorOptions;
 }
+
+// A value of the validated editor config that differs from the current one.
+export type ImportItem = {
+	group: keyof EditorConfigPayload;
+	path: string;
+	currentValue: unknown;
+	value: unknown;
+	// The value sent to the server, which may have been clamped to the range.
+	originalValue: unknown;
+};
+
+/**
+ * Get the value at an option path, e.g. `minimap.enabled`.
+ *
+ * @param object The object to get the value from.
+ * @param path   The option path.
+ * @return The value, or `undefined` if it doesn't exist.
+ */
+function getPath( object: unknown, path: string ) {
+	return path
+		.split( '.' )
+		.reduce< unknown >(
+			( value, key ) => ( isPlainObject( value ) ? value[ key ] : undefined ),
+			object
+		);
+}
+
+/**
+ * Check whether the server changed a number of the value, i.e. clamped it to
+ * the range. A numeric string converted to the same number is not changed.
+ *
+ * @param originalValue The value sent to the server.
+ * @param value         The validated value.
+ * @return Whether a number of the value was changed.
+ */
+function isAdjusted( originalValue: unknown, value: unknown ): boolean {
+	if ( typeof value === 'number' ) {
+		return Number( originalValue ) !== value;
+	}
+	if ( Array.isArray( value ) && Array.isArray( originalValue ) ) {
+		return value.some( ( item, index ) => isAdjusted( originalValue[ index ], item ) );
+	}
+	if ( isPlainObject( value ) && isPlainObject( originalValue ) ) {
+		return Object.entries( value ).some( ( [ key, item ] ) =>
+			isAdjusted( originalValue[ key ], item )
+		);
+	}
+	return false;
+}
+
+/**
+ * List the values of the validated editor config that differ from the current
+ * ones, with each property of an object option, e.g. `minimap.enabled`, as
+ * one item.
+ *
+ * @param editorConfig                 The editor config sent to the server.
+ * @param validated                    The editor config that the server accepted.
+ * @param currentConfig                The current editor config.
+ * @param currentConfig.editorSettings The current editor settings.
+ * @param currentConfig.editorOptions  The current editor options.
+ * @return The items to apply.
+ */
+export function getImportItems(
+	editorConfig: EditorConfigPayload,
+	validated: EditorConfigPayload,
+	currentConfig: { editorSettings: EditorSettings; editorOptions: EditorOptions }
+): ImportItem[] {
+	const groups = [ 'editorSettings', 'editorOptions' ] as const;
+	return groups.flatMap( ( group ) =>
+		Object.entries( validated[ group ] )
+			.flatMap( ( [ key, value ] ) =>
+				isPlainObject( value )
+					? Object.entries( value ).map(
+							( [ subKey, subValue ] ) => [ `${ key }.${ subKey }`, subValue ] as const
+						)
+					: [ [ key, value ] as const ]
+			)
+			.map( ( [ path, value ] ) => ( {
+				group,
+				path,
+				currentValue: getPath( currentConfig[ group ], path ),
+				value,
+				originalValue: getPath( editorConfig[ group ], path ),
+			} ) )
+			.filter( ( item ) => JSON.stringify( item.currentValue ) !== JSON.stringify( item.value ) )
+	);
+}
+
+/**
+ * Check whether the server clamped a number of the item to the range.
+ *
+ * @param item The item to apply.
+ * @return Whether the value was clamped.
+ */
+export function isClampedItem( item: ImportItem ) {
+	return isAdjusted( item.originalValue, item.value );
+}
+
+/**
+ * Build the editor config to apply from the selected items.
+ *
+ * @param items The items to apply.
+ * @return The editor config.
+ */
+export function buildEditorConfig( items: ImportItem[] ): EditorConfigPayload {
+	const editorConfig: EditorConfigPayload = { editorSettings: {}, editorOptions: {} };
+	items.forEach( ( item ) => setPath( editorConfig[ item.group ], item.path, item.value ) );
+	return editorConfig;
+}

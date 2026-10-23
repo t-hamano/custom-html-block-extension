@@ -5,3 +5,17 @@
 		font-family: monospace;
 	}
 }
+
+.chbe-admin-tools__import-skipped {
+	max-height: 200px;
+	margin: 0;
+	padding: 8px 12px;
+	overflow-y: auto;
+	list-style: none;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+
+	li {
+		margin: 0 0 4px;
+	}
+}
