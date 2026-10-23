@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -30,31 +30,21 @@ export default function ScrollBeyondLastColumn() {
 			min={ 0 }
 			max={ 20 }
 			defaultValue={ 4 }
+			options={ [
+				{
+					image: 'editor-options/scroll-beyond-last-column_1.gif',
+					value: 0,
+				},
+				{
+					image: 'editor-options/scroll-beyond-last-column_2.gif',
+					value: 20,
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls the number of extra characters beyond which the editor will scroll horizontally.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'0'
-						),
-						image: 'editor-options/scroll-beyond-last-column_1.gif',
-						value: 0,
-					},
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'20'
-						),
-						image: 'editor-options/scroll-beyond-last-column_2.gif',
-						value: 20,
-					},
-				],
 			} }
 		/>
 	);

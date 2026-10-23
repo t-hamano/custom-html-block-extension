@@ -27,23 +27,21 @@ export default function HideCursorInOverviewRuler() {
 			value={ editorOptions.hideCursorInOverviewRuler }
 			onChange={ onChange }
 			defaultValue={ false }
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/hide-cursor-in-overview-ruler_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/hide-cursor-in-overview-ruler_2.jpg',
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the cursor should be hidden in the overview ruler.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/hide-cursor-in-overview-ruler_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/hide-cursor-in-overview-ruler_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

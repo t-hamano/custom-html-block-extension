@@ -15,7 +15,7 @@ import { SelectControl, Stack, SwitchControl } from '@wordpress/ui';
  */
 import { EditorConfigContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../item-help';
-import type { SettingItemProps, SettingValue, SettingHelpItem } from './types';
+import type { SettingItemProps, SettingOption, SettingValue } from './types';
 
 /**
  * Renders a setting control, with the search visibility and the help dialog.
@@ -49,10 +49,16 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 	const onChange = setting.onChange as ( newValue: SettingValue ) => void;
 
 	let control;
-	let options: { label: string; value: SettingValue; image?: string }[] = [];
+	let options: SettingOption< SettingValue >[] = [];
 
 	switch ( setting.control ) {
 		case 'toggle':
+			options = ( setting.options ?? [] ).map( ( option ) => ( {
+				...option,
+				label: option.value
+					? __( 'Enable', 'custom-html-block-extension' )
+					: __( 'Disable', 'custom-html-block-extension' ),
+			} ) );
 			control = (
 				<SwitchControl
 					label={ displayLabel }
@@ -62,6 +68,14 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 			);
 			break;
 		case 'range':
+			options = ( setting.options ?? [] ).map( ( option ) => ( {
+				...option,
+				label: sprintf(
+					/* translators: %s is replaced with the number. */
+					__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
+					String( option.value )
+				),
+			} ) );
 			control = (
 				<RangeControl
 					label={ displayLabel }
@@ -124,14 +138,9 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 	}
 
 	const { help } = setting;
-	let helpItems: SettingHelpItem< SettingValue >[] | undefined;
-	if ( help?.items ) {
-		helpItems = help.items as SettingHelpItem< SettingValue >[];
-	} else if ( options.length && ! help?.hideOptions ) {
-		helpItems = options;
-	}
+	const helpItems = help?.hideOptions ? [] : options;
 	// Toggles without choices show the default and a switch in the help dialog.
-	const isToggle = 'toggle' === setting.control && ! helpItems;
+	const isToggle = 'toggle' === setting.control && ! helpItems.length;
 
 	return (
 		<Stack
@@ -147,7 +156,7 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 					title={ label }
 					description={ help.description }
 					image={ help.image }
-					items={ helpItems?.map( ( item ) => ( {
+					items={ helpItems.map( ( item ) => ( {
 						...item,
 						isDefault: undefined !== setting.defaultValue && item.value === setting.defaultValue,
 					} ) ) }

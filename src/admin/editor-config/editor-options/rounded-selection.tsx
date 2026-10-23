@@ -27,23 +27,21 @@ export default function RoundedSelection() {
 			value={ editorOptions.roundedSelection }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/rounded-selection_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/rounded-selection_2.jpg',
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether selections should have rounded corners.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/rounded-selection_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/rounded-selection_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

@@ -36,23 +36,21 @@ export default function FontLigatures() {
 			// ligatures among the fonts here, so a free-form field is of little use and
 			// the toggle only maps between `true` and `false`.
 			defaultValue={ false }
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/font-ligatures_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/font-ligatures_2.jpg',
+				},
+			] }
 			help={ {
 				description: __(
 					"Enables/Disables font ligatures ('calt' and 'liga' font features). Only Fira Code font supports ligatures.",
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/font-ligatures_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/font-ligatures_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

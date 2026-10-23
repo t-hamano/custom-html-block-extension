@@ -31,31 +31,29 @@ export default function SuggestPreview() {
 			value={ editorOptions.suggest.preview }
 			onChange={ onChange }
 			defaultValue={ false }
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/suggest/preview_1.gif',
+					description: __(
+						'The selected suggestion is shown in the editor before it is accepted.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/suggest/preview_2.gif',
+					description: __(
+						'The selected suggestion is shown only in the suggestion list until it is accepted.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether to preview the suggestion outcome in the editor.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/suggest/preview_1.gif',
-						description: __(
-							'The selected suggestion is shown in the editor before it is accepted.',
-							'custom-html-block-extension'
-						),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/suggest/preview_2.gif',
-						description: __(
-							'The selected suggestion is shown only in the suggestion list until it is accepted.',
-							'custom-html-block-extension'
-						),
-					},
-				],
 			} }
 		/>
 	);

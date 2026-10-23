@@ -27,23 +27,21 @@ export default function SelectOnLineNumbers() {
 			value={ editorOptions.selectOnLineNumbers }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/select-on-line-numbers_1.gif',
+				},
+				{
+					value: false,
+					image: 'editor-options/select-on-line-numbers_2.gif',
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the corresponding line is selected when clicking on the line number.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/select-on-line-numbers_1.gif',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/select-on-line-numbers_2.gif',
-					},
-				],
 			} }
 		/>
 	);

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { useDebounce } from '@wordpress/compose';
 
@@ -42,28 +42,18 @@ export default function ScrollbarHorizontalScrollbarSize() {
 			min={ 5 }
 			max={ 30 }
 			defaultValue={ 12 }
+			options={ [
+				{
+					image: 'editor-options/scrollbar/horizontal-scrollbar-size_1.jpg',
+					value: 10,
+				},
+				{
+					image: 'editor-options/scrollbar/horizontal-scrollbar-size_2.jpg',
+					value: 30,
+				},
+			] }
 			help={ {
 				description: __( 'The height of the horizontal scrollbar.', 'custom-html-block-extension' ),
-				items: [
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'10'
-						),
-						image: 'editor-options/scrollbar/horizontal-scrollbar-size_1.jpg',
-						value: 10,
-					},
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'30'
-						),
-						image: 'editor-options/scrollbar/horizontal-scrollbar-size_2.jpg',
-						value: 30,
-					},
-				],
 			} }
 		/>
 	);

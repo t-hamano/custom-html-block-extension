@@ -27,22 +27,20 @@ export default function Contextmenu() {
 			value={ editorOptions.contextmenu }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/contextmenu_1.jpg',
+					description: __( 'Show the editor context menu.', 'custom-html-block-extension' ),
+				},
+				{
+					value: false,
+					image: 'editor-options/contextmenu_2.jpg',
+					description: __( 'Show the browser context menu.', 'custom-html-block-extension' ),
+				},
+			] }
 			help={ {
 				description: __( 'Enable custom context menu.', 'custom-html-block-extension' ),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/contextmenu_1.jpg',
-						description: __( 'Show the editor context menu.', 'custom-html-block-extension' ),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/contextmenu_2.jpg',
-						description: __( 'Show the browser context menu.', 'custom-html-block-extension' ),
-					},
-				],
 			} }
 		/>
 	);

@@ -34,23 +34,21 @@ export default function ScrollbarHorizontalHasArrows() {
 			value={ editorOptions.scrollbar.horizontalHasArrows }
 			onChange={ onChange }
 			defaultValue={ false }
+			options={ [
+				{
+					image: 'editor-options/scrollbar/horizontal-has-arrows_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/scrollbar/horizontal-has-arrows_2.jpg',
+					value: false,
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether arrows are rendered at the left and right of the horizontal scrollbar.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/horizontal-has-arrows_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/horizontal-has-arrows_2.jpg',
-						value: false,
-					},
-				],
 			} }
 		/>
 	);

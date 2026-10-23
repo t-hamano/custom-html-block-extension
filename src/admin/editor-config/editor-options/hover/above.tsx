@@ -31,23 +31,21 @@ export default function HoverAbove() {
 			value={ editorOptions.hover.above }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/hover/above_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/hover/above_2.jpg',
+				},
+			] }
 			help={ {
 				description: __(
 					"Prefer showing hovers above the line, if there's space.",
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/hover/above_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/hover/above_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

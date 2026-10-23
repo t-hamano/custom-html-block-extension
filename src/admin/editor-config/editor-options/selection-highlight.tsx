@@ -27,23 +27,21 @@ export default function SelectionHighlight() {
 			value={ editorOptions.selectionHighlight }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/selection-highlight_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/selection-highlight_2.jpg',
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the editor should highlight matches similar to the selection.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/selection-highlight_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/selection-highlight_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

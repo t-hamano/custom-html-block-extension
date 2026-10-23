@@ -31,23 +31,21 @@ export default function ScrollbarUseShadows() {
 			value={ editorOptions.scrollbar.useShadows }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					image: 'editor-options/scrollbar/use-shadows_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/scrollbar/use-shadows_2.jpg',
+					value: false,
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether horizontal and vertical shadows are cast when the content is scrolled.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/use-shadows_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/use-shadows_2.jpg',
-						value: false,
-					},
-				],
 			} }
 		/>
 	);

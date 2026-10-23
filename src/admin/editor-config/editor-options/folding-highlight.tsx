@@ -27,31 +27,29 @@ export default function FoldingHighlight() {
 			value={ editorOptions.foldingHighlight }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/folding-highlight_1.jpg',
+					description: __(
+						'Folded lines are shown with a background highlight.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/folding-highlight_2.jpg',
+					description: __(
+						'Folded lines are shown without a background highlight.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the editor should highlight folded ranges.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/folding-highlight_1.jpg',
-						description: __(
-							'Folded lines are shown with a background highlight.',
-							'custom-html-block-extension'
-						),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/folding-highlight_2.jpg',
-						description: __(
-							'Folded lines are shown without a background highlight.',
-							'custom-html-block-extension'
-						),
-					},
-				],
 			} }
 		/>
 	);

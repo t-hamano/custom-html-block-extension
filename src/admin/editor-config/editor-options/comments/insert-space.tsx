@@ -31,31 +31,29 @@ export default function CommentsInsertSpace() {
 			value={ editorOptions.comments.insertSpace }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/comments_insert-space_1.jpg',
+					description: __(
+						'A space is inserted between the comment characters and the text, such as <!-- text -->.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/comments_insert-space_2.jpg',
+					description: __(
+						'No space is inserted between the comment characters and the text, such as <!--text-->.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether a space character is inserted when commenting.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/comments_insert-space_1.jpg',
-						description: __(
-							'A space is inserted between the comment characters and the text, such as <!-- text -->.',
-							'custom-html-block-extension'
-						),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/comments_insert-space_2.jpg',
-						description: __(
-							'No space is inserted between the comment characters and the text, such as <!--text-->.',
-							'custom-html-block-extension'
-						),
-					},
-				],
 			} }
 		/>
 	);

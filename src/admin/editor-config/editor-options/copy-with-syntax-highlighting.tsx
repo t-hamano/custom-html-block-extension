@@ -28,6 +28,16 @@ export default function CopyWithSyntaxHighlighting() {
 			value={ editorOptions.copyWithSyntaxHighlighting }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/copy-with-syntax-highlighting_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/copy-with-syntax-highlighting_2.jpg',
+				},
+			] }
 			help={ {
 				description: (
 					<>
@@ -45,18 +55,6 @@ export default function CopyWithSyntaxHighlighting() {
 						</Text>
 					</>
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/copy-with-syntax-highlighting_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/copy-with-syntax-highlighting_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

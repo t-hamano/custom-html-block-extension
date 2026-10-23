@@ -27,23 +27,21 @@ export default function ScrollBeyondLastLine() {
 			value={ editorOptions.scrollBeyondLastLine }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/scroll-beyond-last-line_1.gif',
+				},
+				{
+					value: false,
+					image: 'editor-options/scroll-beyond-last-line_2.gif',
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the editor will scroll beyond the last line.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/scroll-beyond-last-line_1.gif',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/scroll-beyond-last-line_2.gif',
-					},
-				],
 			} }
 		/>
 	);

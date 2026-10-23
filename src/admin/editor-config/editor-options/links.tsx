@@ -27,23 +27,21 @@ export default function Links() {
 			value={ editorOptions.links }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					image: 'editor-options/links_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/links_2.jpg',
+					value: false,
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the editor should detect links and make them clickable.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/links_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/links_2.jpg',
-						value: false,
-					},
-				],
 			} }
 		/>
 	);

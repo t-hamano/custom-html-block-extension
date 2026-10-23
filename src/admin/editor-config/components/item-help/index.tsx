@@ -19,7 +19,6 @@ type ItemHelpProps = {
 		value: string | number | boolean;
 		image?: string;
 		isDefault?: boolean;
-		title?: string;
 		description?: ReactNode;
 	}[];
 	colCount?: string | number;
@@ -108,7 +107,7 @@ export default function ItemHelp( {
 										>
 											<img
 												src={ `${ window.chbeObj.pluginUrl }/assets/images/admin/editor-config/${ item.image }` }
-												alt={ item.title }
+												alt={ item.label }
 											/>
 										</Button>
 										{ item.description && (

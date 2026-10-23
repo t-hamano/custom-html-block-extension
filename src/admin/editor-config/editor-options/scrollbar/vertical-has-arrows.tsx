@@ -34,23 +34,21 @@ export default function ScrollbarVerticalHasArrows() {
 			value={ editorOptions.scrollbar.verticalHasArrows }
 			onChange={ onChange }
 			defaultValue={ false }
+			options={ [
+				{
+					image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
+					value: false,
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether arrows are rendered at the top and bottom of the vertical scrollbar.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
-						value: false,
-					},
-				],
 			} }
 		/>
 	);

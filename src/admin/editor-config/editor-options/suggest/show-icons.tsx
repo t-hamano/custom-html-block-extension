@@ -31,23 +31,21 @@ export default function SuggestShowIcons() {
 			value={ editorOptions.suggest.showIcons }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					image: 'editor-options/suggest/show-icons_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/suggest/show-icons_2.jpg',
+					value: false,
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether to show or hide icons in suggestions.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/suggest/show-icons_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/suggest/show-icons_2.jpg',
-						value: false,
-					},
-				],
 			} }
 		/>
 	);

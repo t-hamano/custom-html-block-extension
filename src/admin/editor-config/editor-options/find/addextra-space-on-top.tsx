@@ -31,31 +31,29 @@ export default function FindAddExtraSpaceOnTop() {
 			value={ editorOptions.find.addExtraSpaceOnTop }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/find/addextra-space-on-top_1.jpg',
+					description: __(
+						'While the find widget is open, extra space is added above the first line so the widget does not cover it.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/find/addextra-space-on-top_2.jpg',
+					description: __(
+						'No extra space is added, so the find widget may cover the first lines.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the Find Widget should add extra lines on top of the editor.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/find/addextra-space-on-top_1.jpg',
-						description: __(
-							'While the find widget is open, extra space is added above the first line so the widget does not cover it.',
-							'custom-html-block-extension'
-						),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/find/addextra-space-on-top_2.jpg',
-						description: __(
-							'No extra space is added, so the find widget may cover the first lines.',
-							'custom-html-block-extension'
-						),
-					},
-				],
 			} }
 		/>
 	);

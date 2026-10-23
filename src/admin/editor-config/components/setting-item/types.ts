@@ -13,18 +13,16 @@ export type SettingOption< V extends SettingValue > = {
 	description?: ReactNode;
 };
 
-export type SettingHelpItem< V extends SettingValue > = SettingOption< V > & {
-	title?: string;
-};
+// Choice of a toggle or range in the help dialog. The label is generated from
+// the value.
+export type SettingExample< V extends SettingValue > = Omit< SettingOption< V >, 'label' >;
 
 /**
  * Content of the help dialog (`ItemHelp`).
  */
-export type SettingHelp< V extends SettingValue > = {
+export type SettingHelp = {
 	description?: ReactNode;
 	image?: string;
-	// Choices shown in the help dialog. Defaults to the control's `options`.
-	items?: SettingHelpItem< NoInfer< V > >[];
 	// Show only the description, without the control's options as choices.
 	hideOptions?: boolean;
 	colCount?: 2 | 3 | 4 | 5;
@@ -43,11 +41,13 @@ type BaseSetting< V extends SettingValue > = {
 	// `NoInfer` keeps the value type inferred from `value` alone, so these must
 	// match it.
 	defaultValue?: NoInfer< V >;
-	help?: SettingHelp< V >;
+	help?: SettingHelp;
 };
 
 export type ToggleSetting = BaseSetting< boolean > & {
 	control: 'toggle';
+	// Shown as "Enable" and "Disable" in the help dialog.
+	options?: SettingExample< boolean >[];
 };
 
 export type SelectSetting< V extends SettingValue = SettingValue > = BaseSetting< V > & {
@@ -64,6 +64,8 @@ export type RangeSetting = Omit< BaseSetting< number >, 'onChange' > & {
 	step?: number;
 	// Help text shown below the control.
 	controlHelp?: string;
+	// Shown as "Example: Set the value to N" in the help dialog.
+	options?: SettingExample< number >[];
 };
 
 // Props of `SettingItem`; `control` selects the props each control accepts.

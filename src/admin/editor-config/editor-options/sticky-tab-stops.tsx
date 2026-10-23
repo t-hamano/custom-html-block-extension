@@ -27,31 +27,29 @@ export default function StickyTabStops() {
 			value={ editorOptions.stickyTabStops }
 			onChange={ onChange }
 			defaultValue={ false }
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/sticky-tab-stops_1.gif',
+					description: __(
+						'Within indentation made of spaces, the Left and Right arrow keys move the cursor by a full tab stop, as if the indentation were tab characters.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/sticky-tab-stops_2.gif',
+					description: __(
+						'Within indentation made of spaces, the Left and Right arrow keys move the cursor one space at a time.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
 			help={ {
 				description: __(
 					'Emulate selection behavior of tab characters when using spaces for indentation. Selection will stick to tab stops.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/sticky-tab-stops_1.gif',
-						description: __(
-							'Within indentation made of spaces, the Left and Right arrow keys move the cursor by a full tab stop, as if the indentation were tab characters.',
-							'custom-html-block-extension'
-						),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/sticky-tab-stops_2.gif',
-						description: __(
-							'Within indentation made of spaces, the Left and Right arrow keys move the cursor one space at a time.',
-							'custom-html-block-extension'
-						),
-					},
-				],
 			} }
 		/>
 	);

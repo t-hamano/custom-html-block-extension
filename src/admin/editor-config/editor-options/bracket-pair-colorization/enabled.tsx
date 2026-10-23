@@ -32,6 +32,16 @@ export default function BracketPairColorizationEnabled() {
 			value={ editorOptions.bracketPairColorization.enabled }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/bracket-pair-colorization/enabled_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/bracket-pair-colorization/enabled_2.jpg',
+				},
+			] }
 			help={ {
 				description: (
 					<Text render={ <p /> }>
@@ -46,18 +56,6 @@ export default function BracketPairColorizationEnabled() {
 						) }
 					</Text>
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/bracket-pair-colorization/enabled_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/bracket-pair-colorization/enabled_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

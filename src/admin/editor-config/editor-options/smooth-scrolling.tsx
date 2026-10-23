@@ -27,23 +27,21 @@ export default function SmoothScrolling() {
 			value={ editorOptions.smoothScrolling }
 			onChange={ onChange }
 			defaultValue={ false }
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/smooth-scrolling_1.gif',
+				},
+				{
+					value: false,
+					image: 'editor-options/smooth-scrolling_2.gif',
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether the editor will scroll using an animation.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/smooth-scrolling_1.gif',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/smooth-scrolling_2.gif',
-					},
-				],
 			} }
 		/>
 	);

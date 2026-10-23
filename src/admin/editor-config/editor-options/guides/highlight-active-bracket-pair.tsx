@@ -32,6 +32,16 @@ export default function GuidesHighlightActiveBracketPair() {
 			value={ editorOptions.guides.highlightActiveBracketPair }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/guides/highlight-active-bracket-pair_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/guides/highlight-active-bracket-pair_2.jpg',
+				},
+			] }
 			help={ {
 				description: (
 					<Text render={ <p /> }>
@@ -41,18 +51,6 @@ export default function GuidesHighlightActiveBracketPair() {
 						) }
 					</Text>
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/guides/highlight-active-bracket-pair_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/guides/highlight-active-bracket-pair_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

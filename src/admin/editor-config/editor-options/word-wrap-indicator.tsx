@@ -27,23 +27,21 @@ export default function WordWrapIndicator() {
 			value={ editorOptions.wordWrapIndicator }
 			onChange={ onChange }
 			defaultValue={ false }
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/word-wrap-indicator_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/word-wrap-indicator_2.jpg',
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether an indicator is rendered at the wrapping column of lines that wrap.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/word-wrap-indicator_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/word-wrap-indicator_2.jpg',
-					},
-				],
 			} }
 		/>
 	);

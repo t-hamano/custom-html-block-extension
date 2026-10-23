@@ -27,23 +27,21 @@ export default function OverviewRulerBorder() {
 			value={ editorOptions.overviewRulerBorder }
 			onChange={ onChange }
 			defaultValue
+			options={ [
+				{
+					image: 'editor-options/overview-ruler-border_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/overview-ruler-border_2.jpg',
+					value: false,
+				},
+			] }
 			help={ {
 				description: __(
 					'Controls whether a border should be drawn around the overview ruler.',
 					'custom-html-block-extension'
 				),
-				items: [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/overview-ruler-border_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/overview-ruler-border_2.jpg',
-						value: false,
-					},
-				],
 			} }
 		/>
 	);
