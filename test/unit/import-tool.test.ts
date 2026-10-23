@@ -469,6 +469,29 @@ describe( 'getImportItems', () => {
 		);
 		expect( items.map( isClampedItem ) ).toEqual( [ true, true ] );
 	} );
+
+	it( 'keeps a clamped value equal to the current one, and skips equal values', () => {
+		const items = getImportItems(
+			{
+				editorSettings: {},
+				editorOptions: { fontSize: 100, rulers: [ { color: '#fff', column: 80 } ] },
+			},
+			{
+				editorSettings: {},
+				editorOptions: { fontSize: 30, rulers: [ { color: '#fff', column: 80 } ] },
+			},
+			{
+				editorSettings,
+				editorOptions: {
+					...editorOptions,
+					fontSize: 30,
+					rulers: [ { column: 80, color: '#fff' } ],
+				} as EditorOptions,
+			}
+		);
+		expect( items.map( ( item ) => item.path ) ).toEqual( [ 'fontSize' ] );
+		expect( isClampedItem( items[ 0 ] ) ).toBe( true );
+	} );
 } );
 
 describe( 'buildEditorConfig', () => {

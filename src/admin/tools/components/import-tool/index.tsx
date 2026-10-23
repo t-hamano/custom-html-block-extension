@@ -7,7 +7,7 @@ import type { ChangeEvent } from 'react';
  * WordPress dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { createInterpolateElement, useContext, useState } from '@wordpress/element';
+import { createInterpolateElement, useContext, useRef, useState } from '@wordpress/element';
 import { FormFileUpload } from '@wordpress/components';
 import { Button, Card, CollapsibleCard, Notice, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
@@ -51,9 +51,14 @@ export default function ImportTool() {
 
 	const [ settingsText, setSettingsText ] = useState( '' );
 	const [ confirmation, setConfirmation ] = useState< {
+		text: string;
 		items: ImportItem[];
 		skipped: { path: string; code: string; message: string }[];
 	} | null >( null );
+	// The editor config can be changed while the validation is pending, so
+	// compare the result with the latest one.
+	const currentConfig = useRef( { editorSettings, editorOptions } );
+	currentConfig.current = { editorSettings, editorOptions };
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	// Load the file into the text area. The MIME type of a `.json` file can be
@@ -107,8 +112,8 @@ export default function ImportTool() {
 			return;
 		}
 
-		const items = getImportItems( editorConfig, result, { editorSettings, editorOptions } );
-		if ( items.length === 0 ) {
+		const items = getImportItems( editorConfig, result, currentConfig.current );
+		if ( items.length === 0 && result.skipped.length === 0 ) {
 			createSuccessNotice(
 				__(
 					'The imported settings are the same as the current ones.',
@@ -119,7 +124,7 @@ export default function ImportTool() {
 			return;
 		}
 
-		setConfirmation( { items, skipped: result.skipped } );
+		setConfirmation( { text: settingsText, items, skipped: result.skipped } );
 	};
 
 	// Apply the selected settings as unsaved changes, so that they can be
@@ -128,7 +133,8 @@ export default function ImportTool() {
 		const editorConfig = buildEditorConfig( items );
 		setEditorSettings( ( current ) => ( { ...current, ...editorConfig.editorSettings } ) );
 		setEditorOptions( ( current ) => mergeEditorOptions( current, editorConfig.editorOptions ) );
-		setSettingsText( '' );
+		// Keep the text if it was changed while waiting.
+		setSettingsText( ( currentText ) => ( currentText === confirmation?.text ? '' : currentText ) );
 		setConfirmation( null );
 		createSuccessNotice(
 			sprintf(

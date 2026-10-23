@@ -8,6 +8,7 @@ import { parse, type ParseError } from 'jsonc-parser';
  */
 import type { EditorOptions, EditorSettings } from '../../types';
 import themes from '../../lib/themes';
+import { isDeepEqual } from '../../lib/helper';
 
 // Prefix of the settings that VS Code doesn't have, like an extension's
 // settings, e.g. `customHtmlBlockExtension.theme`.
@@ -646,7 +647,7 @@ function isAdjusted( originalValue: unknown, value: unknown ): boolean {
 
 /**
  * List the values of the validated editor config that differ from the current
- * ones, with each property of an object option, e.g. `minimap.enabled`, as
+ * ones or were clamped, with each property of an object option, e.g. `minimap.enabled`, as
  * one item.
  *
  * @param editorConfig                 The editor config sent to the server.
@@ -678,7 +679,13 @@ export function getImportItems(
 				value,
 				originalValue: getPath( editorConfig[ group ], path ),
 			} ) )
-			.filter( ( item ) => JSON.stringify( item.currentValue ) !== JSON.stringify( item.value ) )
+			// Keep a clamped value even if it equals the current one, so that the
+			// user knows the imported value was out of range.
+			.filter(
+				( item ) =>
+					! isDeepEqual( item.currentValue, item.value ) ||
+					isAdjusted( item.originalValue, item.value )
+			)
 	);
 }
 
