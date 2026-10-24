@@ -11,6 +11,7 @@ import {
 	countEditorConfig,
 	exportEditorConfig,
 	getImportItems,
+	getUnchangedImportItems,
 	isClampedItem,
 	mergeEditorOptions,
 	parseEditorConfig,
@@ -491,6 +492,20 @@ describe( 'getImportItems', () => {
 		);
 		expect( items.map( ( item ) => item.path ) ).toEqual( [ 'fontSize' ] );
 		expect( isClampedItem( items[ 0 ] ) ).toBe( true );
+	} );
+} );
+
+describe( 'getUnchangedImportItems', () => {
+	it( 'lists the values equal to the current ones, except clamped ones', () => {
+		const items = getUnchangedImportItems(
+			{ editorSettings: { tabSize: 2 }, editorOptions: { fontSize: 100, wordWrap: 'off' } },
+			{ editorSettings: { tabSize: 2 }, editorOptions: { fontSize: 30, wordWrap: 'off' } },
+			{
+				editorSettings,
+				editorOptions: { ...editorOptions, fontSize: 30, wordWrap: 'off' } as EditorOptions,
+			}
+		);
+		expect( items.map( ( item ) => item.path ) ).toEqual( [ 'tabSize', 'wordWrap' ] );
 	} );
 } );
 

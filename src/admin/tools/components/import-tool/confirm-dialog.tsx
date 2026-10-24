@@ -20,6 +20,7 @@ type SkippedItem = {
 
 type ImportConfirmDialogProps = {
 	items: ImportItem[];
+	unchanged: ImportItem[];
 	skipped: SkippedItem[];
 	onApply: ( items: ImportItem[] ) => void;
 	onClose: () => void;
@@ -64,6 +65,22 @@ const itemFields: Field< ImportItem >[] = [
 	},
 ];
 
+const unchangedFields: Field< ImportItem >[] = [
+	{
+		id: 'path',
+		label: __( 'Setting', 'custom-html-block-extension' ),
+		enableSorting: false,
+		enableHiding: false,
+	},
+	{
+		id: 'value',
+		label: __( 'Value', 'custom-html-block-extension' ),
+		render: ( { item } ) => formatValue( item.value ),
+		enableSorting: false,
+		enableHiding: false,
+	},
+];
+
 const skippedFields: Field< SkippedItem >[] = [
 	{
 		id: 'path',
@@ -81,6 +98,7 @@ const skippedFields: Field< SkippedItem >[] = [
 
 export default function ImportConfirmDialog( {
 	items,
+	unchanged,
 	skipped,
 	onApply,
 	onClose,
@@ -92,6 +110,13 @@ export default function ImportConfirmDialog( {
 		fields: [ 'currentValue', 'value' ],
 		page: 1,
 		perPage: Math.max( items.length, 1 ),
+	} );
+	const [ unchangedView, setUnchangedView ] = useState< View >( {
+		type: 'table',
+		titleField: 'path',
+		fields: [ 'value' ],
+		page: 1,
+		perPage: Math.max( unchanged.length, 1 ),
 	} );
 	const [ skippedView, setSkippedView ] = useState< View >( {
 		type: 'table',
@@ -137,6 +162,13 @@ export default function ImportConfirmDialog( {
 									items.length
 								) }
 							</Tabs.Tab>
+							<Tabs.Tab value="unchanged">
+								{ sprintf(
+									/* translators: %d: Number of settings. */
+									__( 'Unchanged settings (%d)', 'custom-html-block-extension' ),
+									unchanged.length
+								) }
+							</Tabs.Tab>
 							<Tabs.Tab value="skipped">
 								{ sprintf(
 									/* translators: %d: Number of settings. */
@@ -170,6 +202,28 @@ export default function ImportConfirmDialog( {
 									<DataViewsPicker.Layout />
 									<DataViewsPicker.Footer />
 								</DataViewsPicker>
+							</Stack>
+						</Tabs.Panel>
+						<Tabs.Panel value="unchanged" className="chbe-admin-tools__import-panel">
+							<Stack direction="column" gap="md">
+								<Text render={ <p /> }>
+									{ __(
+										'The following settings are the same as the current ones.',
+										'custom-html-block-extension'
+									) }
+								</Text>
+								<DataViews
+									view={ unchangedView }
+									onChangeView={ setUnchangedView }
+									fields={ unchangedFields }
+									data={ unchanged }
+									getItemId={ getItemKey }
+									paginationInfo={ { totalItems: unchanged.length, totalPages: 1 } }
+									defaultLayouts={ { table: true } }
+									empty={ __( 'No settings are unchanged.', 'custom-html-block-extension' ) }
+								>
+									<DataViews.Layout />
+								</DataViews>
 							</Stack>
 						</Tabs.Panel>
 						<Tabs.Panel value="skipped" className="chbe-admin-tools__import-panel">

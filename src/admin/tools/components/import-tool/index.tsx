@@ -22,6 +22,7 @@ import {
 	buildEditorConfig,
 	countEditorConfig,
 	getImportItems,
+	getUnchangedImportItems,
 	mergeEditorOptions,
 	parseEditorConfig,
 	type ImportItem,
@@ -53,6 +54,7 @@ export default function ImportTool() {
 	const [ confirmation, setConfirmation ] = useState< {
 		text: string;
 		items: ImportItem[];
+		unchanged: ImportItem[];
 		skipped: { path: string; code: string; message: string }[];
 	} | null >( null );
 	// The editor config can be changed while the validation is pending, so
@@ -125,7 +127,8 @@ export default function ImportTool() {
 			return;
 		}
 
-		setConfirmation( { text: settingsText, items, skipped: result.skipped } );
+		const unchanged = getUnchangedImportItems( editorConfig, result, currentConfig.current );
+		setConfirmation( { text: settingsText, items, unchanged, skipped: result.skipped } );
 	};
 
 	// Apply the selected settings as unsaved changes, so that they can be
@@ -209,6 +212,7 @@ export default function ImportTool() {
 				{ confirmation && (
 					<ImportConfirmDialog
 						items={ confirmation.items }
+						unchanged={ confirmation.unchanged }
 						skipped={ confirmation.skipped }
 						onApply={ onApply }
 						onClose={ () => setConfirmation( null ) }

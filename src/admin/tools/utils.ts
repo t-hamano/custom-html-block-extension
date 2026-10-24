@@ -646,18 +646,17 @@ function isAdjusted( originalValue: unknown, value: unknown ): boolean {
 }
 
 /**
- * List the values of the validated editor config that differ from the current
- * ones or were clamped, with each property of an object option, e.g. `minimap.enabled`, as
- * one item.
+ * List the values of the validated editor config, with each property of an
+ * object option, e.g. `minimap.enabled`, as one item.
  *
  * @param editorConfig                 The editor config sent to the server.
  * @param validated                    The editor config that the server accepted.
  * @param currentConfig                The current editor config.
  * @param currentConfig.editorSettings The current editor settings.
  * @param currentConfig.editorOptions  The current editor options.
- * @return The items to apply.
+ * @return The items.
  */
-export function getImportItems(
+function getAllImportItems(
 	editorConfig: EditorConfigPayload,
 	validated: EditorConfigPayload,
 	currentConfig: { editorSettings: EditorSettings; editorOptions: EditorOptions }
@@ -679,13 +678,60 @@ export function getImportItems(
 				value,
 				originalValue: getPath( editorConfig[ group ], path ),
 			} ) )
-			// Keep a clamped value even if it equals the current one, so that the
-			// user knows the imported value was out of range.
-			.filter(
-				( item ) =>
-					! isDeepEqual( item.currentValue, item.value ) ||
-					isAdjusted( item.originalValue, item.value )
-			)
+	);
+}
+
+/**
+ * Check whether the item should be applied. A clamped value is kept even if it
+ * equals the current one, so that the user knows the imported value was out of
+ * range.
+ *
+ * @param item The item.
+ * @return Whether the item should be applied.
+ */
+function isApplicableItem( item: ImportItem ) {
+	return (
+		! isDeepEqual( item.currentValue, item.value ) || isAdjusted( item.originalValue, item.value )
+	);
+}
+
+/**
+ * List the values of the validated editor config that differ from the current
+ * ones or were clamped.
+ *
+ * @param editorConfig                 The editor config sent to the server.
+ * @param validated                    The editor config that the server accepted.
+ * @param currentConfig                The current editor config.
+ * @param currentConfig.editorSettings The current editor settings.
+ * @param currentConfig.editorOptions  The current editor options.
+ * @return The items to apply.
+ */
+export function getImportItems(
+	editorConfig: EditorConfigPayload,
+	validated: EditorConfigPayload,
+	currentConfig: { editorSettings: EditorSettings; editorOptions: EditorOptions }
+): ImportItem[] {
+	return getAllImportItems( editorConfig, validated, currentConfig ).filter( isApplicableItem );
+}
+
+/**
+ * List the values of the validated editor config that are the same as the
+ * current ones and were not clamped.
+ *
+ * @param editorConfig                 The editor config sent to the server.
+ * @param validated                    The editor config that the server accepted.
+ * @param currentConfig                The current editor config.
+ * @param currentConfig.editorSettings The current editor settings.
+ * @param currentConfig.editorOptions  The current editor options.
+ * @return The unchanged items.
+ */
+export function getUnchangedImportItems(
+	editorConfig: EditorConfigPayload,
+	validated: EditorConfigPayload,
+	currentConfig: { editorSettings: EditorSettings; editorOptions: EditorOptions }
+): ImportItem[] {
+	return getAllImportItems( editorConfig, validated, currentConfig ).filter(
+		( item ) => ! isApplicableItem( item )
 	);
 }
 
