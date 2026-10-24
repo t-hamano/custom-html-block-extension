@@ -17,6 +17,10 @@
 		max-width: 300px;
 	}
 
+	.chbe-admin-editor-config__setting-group.is-empty {
+		display: none;
+	}
+
 	.chbe-admin-editor-config__settings {
 		flex: 1;
 	}
