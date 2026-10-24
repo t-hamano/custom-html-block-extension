@@ -26,7 +26,6 @@ declare global {
 		chbeObj: ChbeObj;
 		monaco?: typeof Monaco;
 		MonacoEnvironment?: Monaco.Environment;
-		// Removes the Emmet completion registered to the monaco instance.
 		disposeEmmet?: () => void;
 		editor?: Monaco.editor.IStandaloneCodeEditor;
 		wp?: unknown;
