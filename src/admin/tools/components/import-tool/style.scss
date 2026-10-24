@@ -11,3 +11,13 @@
 .chbe-admin-tools__import-panel {
 	padding-top: 16px;
 }
+
+// Stick the footer to the bottom edge of the dialog instead of the edge of the
+// scroll container's padding, so that rows don't show through below it.
+.chbe-admin-tools__import-panel .dataviews-picker-wrapper .dataviews-footer {
+	$padding: var(--wpds-dimension-padding-2xl);
+
+	bottom: calc(-1 * #{$padding});
+	margin-bottom: calc(-1 * #{$padding});
+	padding-bottom: calc(12px + #{$padding});
+}
