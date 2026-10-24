@@ -3,7 +3,7 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { Dialog, Tabs } from '@wordpress/ui';
+import { Dialog, Stack, Tabs, Text } from '@wordpress/ui';
 import { DataViews, DataViewsPicker } from '@wordpress/dataviews';
 import type { ActionButton, Field, View } from '@wordpress/dataviews';
 
@@ -145,38 +145,54 @@ export default function ImportConfirmDialog( {
 								) }
 							</Tabs.Tab>
 						</Tabs.List>
-						<Tabs.Panel value="apply">
-							<DataViewsPicker
-								view={ itemView }
-								onChangeView={ setItemView }
-								fields={ itemFields }
-								data={ items }
-								getItemId={ getItemKey }
-								paginationInfo={ { totalItems: items.length, totalPages: 1 } }
-								defaultLayouts={ { pickerTable: true } }
-								selection={ selection }
-								onChangeSelection={ setSelection }
-								actions={ actions }
-								itemListLabel={ __( 'Settings to apply', 'custom-html-block-extension' ) }
-								empty={ __( 'No settings to apply.', 'custom-html-block-extension' ) }
-							>
-								<DataViewsPicker.Layout />
-								<DataViewsPicker.Footer />
-							</DataViewsPicker>
+						<Tabs.Panel value="apply" className="chbe-admin-tools__import-panel">
+							<Stack direction="column" gap="md">
+								<Text render={ <p /> }>
+									{ __(
+										'Select the settings to import. They are applied as unsaved changes, so check the preview and save them.',
+										'custom-html-block-extension'
+									) }
+								</Text>
+								<DataViewsPicker
+									view={ itemView }
+									onChangeView={ setItemView }
+									fields={ itemFields }
+									data={ items }
+									getItemId={ getItemKey }
+									paginationInfo={ { totalItems: items.length, totalPages: 1 } }
+									defaultLayouts={ { pickerTable: true } }
+									selection={ selection }
+									onChangeSelection={ setSelection }
+									actions={ actions }
+									itemListLabel={ __( 'Settings to apply', 'custom-html-block-extension' ) }
+									empty={ __( 'No settings to apply.', 'custom-html-block-extension' ) }
+								>
+									<DataViewsPicker.Layout />
+									<DataViewsPicker.Footer />
+								</DataViewsPicker>
+							</Stack>
 						</Tabs.Panel>
-						<Tabs.Panel value="skipped">
-							<DataViews
-								view={ skippedView }
-								onChangeView={ setSkippedView }
-								fields={ skippedFields }
-								data={ skipped }
-								getItemId={ ( item ) => item.path }
-								paginationInfo={ { totalItems: skipped.length, totalPages: 1 } }
-								defaultLayouts={ { table: true } }
-								empty={ __( 'No settings were skipped.', 'custom-html-block-extension' ) }
-							>
-								<DataViews.Layout />
-							</DataViews>
+						<Tabs.Panel value="skipped" className="chbe-admin-tools__import-panel">
+							<Stack direction="column" gap="md">
+								<Text render={ <p /> }>
+									{ __(
+										'The following settings cannot be imported.',
+										'custom-html-block-extension'
+									) }
+								</Text>
+								<DataViews
+									view={ skippedView }
+									onChangeView={ setSkippedView }
+									fields={ skippedFields }
+									data={ skipped }
+									getItemId={ ( item ) => item.path }
+									paginationInfo={ { totalItems: skipped.length, totalPages: 1 } }
+									defaultLayouts={ { table: true } }
+									empty={ __( 'No settings were skipped.', 'custom-html-block-extension' ) }
+								>
+									<DataViews.Layout />
+								</DataViews>
+							</Stack>
 						</Tabs.Panel>
 					</Tabs.Root>
 				</Dialog.Content>
