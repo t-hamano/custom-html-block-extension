@@ -15,12 +15,12 @@ export type SettingOption< V extends SettingValue > = {
 
 // Choice of a toggle or range in the help dialog. The label is generated from
 // the value.
-export type SettingExample< V extends SettingValue > = Omit< SettingOption< V >, 'label' >;
+type SettingExample< V extends SettingValue > = Omit< SettingOption< V >, 'label' >;
 
 /**
  * Content of the help dialog (`ItemHelp`).
  */
-export type SettingHelp = {
+type SettingHelp = {
 	description?: ReactNode;
 	image?: string;
 	// Show only the description, without the control's options as choices.
@@ -43,18 +43,18 @@ type BaseSetting< V extends SettingValue > = {
 	help?: SettingHelp;
 };
 
-export type ToggleSetting = BaseSetting< boolean > & {
+type ToggleSetting = BaseSetting< boolean > & {
 	control: 'toggle';
 	// Shown as "Enable" and "Disable" in the help dialog.
 	options?: SettingExample< boolean >[];
 };
 
-export type SelectSetting< V extends SettingValue = SettingValue > = BaseSetting< V > & {
+type SelectSetting< V extends SettingValue = SettingValue > = BaseSetting< V > & {
 	control: 'select' | 'toggleGroup';
 	options: SettingOption< NoInfer< V > >[];
 };
 
-export type RangeSetting = Omit< BaseSetting< number >, 'onChange' > & {
+type RangeSetting = Omit< BaseSetting< number >, 'onChange' > & {
 	control: 'range';
 	// Receives `undefined` when the control is reset.
 	onChange: ( value: number | undefined ) => void;
