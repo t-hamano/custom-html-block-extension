@@ -11,12 +11,10 @@ import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
 
-type Value = EditorOptions[ 'guides' ][ 'bracketPairs' ];
-
 export default function GuidesBracketPairs() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const onChange = ( value: Value ) => {
+	const onChange = ( value: EditorOptions[ 'guides' ][ 'bracketPairs' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			guides: {

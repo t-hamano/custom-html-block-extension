@@ -11,12 +11,10 @@ import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
 import SettingItem from '../../components/setting-item';
 
-type Value = EditorOptions[ 'guides' ][ 'highlightActiveIndentation' ];
-
 export default function GuidesHighlightActiveIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const onChange = ( value: Value ) => {
+	const onChange = ( value: EditorOptions[ 'guides' ][ 'highlightActiveIndentation' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			guides: {
