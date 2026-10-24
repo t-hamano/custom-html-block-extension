@@ -24,6 +24,7 @@ export default function AutoClosingDelete() {
 	return (
 		<SettingItem
 			control="select"
+			name="autoClosingDelete"
 			label={ __( 'Auto Closing Delete', 'custom-html-block-extension' ) }
 			value={ editorOptions.autoClosingDelete }
 			onChange={ onChange }

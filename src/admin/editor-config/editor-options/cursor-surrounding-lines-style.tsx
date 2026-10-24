@@ -23,6 +23,7 @@ export default function CursorSurroundingLinesStyle() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="cursorSurroundingLinesStyle"
 			label={ __( 'Cursor Surrounding Lines Style', 'custom-html-block-extension' ) }
 			value={ 'all' === editorOptions.cursorSurroundingLinesStyle }
 			onChange={ onChange }

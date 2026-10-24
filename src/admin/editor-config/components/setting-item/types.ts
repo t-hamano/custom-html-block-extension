@@ -29,6 +29,9 @@ export type SettingHelp = {
 };
 
 type BaseSetting< V extends SettingValue > = {
+	// Key of the setting, such as "guides.indentation". The search also matches
+	// it, so searching for an option group such as "Guides" finds the setting.
+	name: string;
 	label: string;
 	value: V;
 	onChange: ( value: V ) => void;

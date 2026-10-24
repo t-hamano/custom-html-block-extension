@@ -23,6 +23,7 @@ export default function UnfoldOnClickAfterEndOfLine() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="unfoldOnClickAfterEndOfLine"
 			label={ __( 'Unfold On Click After End Of Line', 'custom-html-block-extension' ) }
 			value={ editorOptions.unfoldOnClickAfterEndOfLine }
 			onChange={ onChange }

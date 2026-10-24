@@ -24,6 +24,7 @@ export default function MultiCursorModifier() {
 	return (
 		<SettingItem
 			control="toggleGroup"
+			name="multiCursorModifier"
 			label={ __( 'Multi Cursor Modifier', 'custom-html-block-extension' ) }
 			value={ editorOptions.multiCursorModifier }
 			onChange={ onChange }

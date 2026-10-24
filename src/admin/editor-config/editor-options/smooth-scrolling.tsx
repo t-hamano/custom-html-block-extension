@@ -23,6 +23,7 @@ export default function SmoothScrolling() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="smoothScrolling"
 			label={ __( 'Smooth Scrolling', 'custom-html-block-extension' ) }
 			value={ editorOptions.smoothScrolling }
 			onChange={ onChange }

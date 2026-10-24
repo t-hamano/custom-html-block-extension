@@ -23,6 +23,7 @@ export default function HideCursorInOverviewRuler() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="hideCursorInOverviewRuler"
 			label={ __( 'Hide Cursor In Overview Ruler', 'custom-html-block-extension' ) }
 			value={ editorOptions.hideCursorInOverviewRuler }
 			onChange={ onChange }

@@ -41,6 +41,7 @@ export default function Hover() {
 	return (
 		<SettingItem
 			control="select"
+			name="hover.enabled"
 			label={ __( 'Show Hover Information', 'custom-html-block-extension' ) }
 			value={ editorOptions.hover.enabled }
 			onChange={ onChange }

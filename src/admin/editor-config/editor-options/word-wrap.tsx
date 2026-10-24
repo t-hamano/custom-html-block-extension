@@ -24,6 +24,7 @@ export default function WordWrap() {
 	return (
 		<SettingItem
 			control="select"
+			name="wordWrap"
 			label={ __( 'Word Wrap', 'custom-html-block-extension' ) }
 			value={ editorOptions.wordWrap }
 			onChange={ onChange }

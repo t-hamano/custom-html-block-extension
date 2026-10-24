@@ -24,6 +24,7 @@ export default function AutoClosingBrackets() {
 	return (
 		<SettingItem
 			control="select"
+			name="autoClosingBrackets"
 			label={ __( 'Auto Closing Brackets', 'custom-html-block-extension' ) }
 			value={ editorOptions.autoClosingBrackets }
 			onChange={ onChange }

@@ -27,6 +27,7 @@ export default function FontWeight( { fontWeights }: FontWeightProps ) {
 	return (
 		<SettingItem
 			control="select"
+			name="fontWeight"
 			label={ __( 'Font Weight', 'custom-html-block-extension' ) }
 			value={ String( editorOptions.fontWeight ) }
 			onChange={ onChange }

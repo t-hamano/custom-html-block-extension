@@ -23,6 +23,7 @@ export default function InsertSpaces() {
 	return (
 		<SettingItem
 			control="toggleGroup"
+			name="insertSpaces"
 			label={ __( 'Insert Spaces', 'custom-html-block-extension' ) }
 			value={ editorSettings.insertSpaces ? 'space' : 'tab' }
 			onChange={ onChange }

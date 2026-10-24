@@ -24,6 +24,7 @@ export default function LineNumbers() {
 	return (
 		<SettingItem
 			control="select"
+			name="lineNumbers"
 			label={ __( 'Line Numbers', 'custom-html-block-extension' ) }
 			value={ editorOptions.lineNumbers }
 			onChange={ onChange }

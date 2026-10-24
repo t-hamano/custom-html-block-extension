@@ -26,6 +26,7 @@ export default function HoverAbove() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="hover.above"
 			label={ __( 'Prefer Hover Above', 'custom-html-block-extension' ) }
 			value={ editorOptions.hover.above }
 			onChange={ onChange }

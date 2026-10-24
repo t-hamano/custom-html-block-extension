@@ -26,6 +26,7 @@ export default function ScrollbarUseShadows() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="scrollbar.useShadows"
 			label={ __( 'Use Shadows', 'custom-html-block-extension' ) }
 			value={ editorOptions.scrollbar.useShadows }
 			onChange={ onChange }

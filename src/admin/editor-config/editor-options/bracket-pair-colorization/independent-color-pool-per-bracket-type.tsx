@@ -26,6 +26,7 @@ export default function BracketPairColorizationIndependentColorPoolPerBracketTyp
 	return (
 		<SettingItem
 			control="toggle"
+			name="bracketPairColorization.independentColorPoolPerBracketType"
 			label={ __( 'Independent Color Pool Per Bracket Type', 'custom-html-block-extension' ) }
 			value={ editorOptions.bracketPairColorization.independentColorPoolPerBracketType }
 			onChange={ onChange }

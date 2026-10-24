@@ -23,6 +23,7 @@ export default function OverviewRulerBorder() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="overviewRulerBorder"
 			label={ __( 'Overview Ruler Border', 'custom-html-block-extension' ) }
 			value={ editorOptions.overviewRulerBorder }
 			onChange={ onChange }

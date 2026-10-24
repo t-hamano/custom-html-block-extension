@@ -31,6 +31,7 @@ export default function QuickSuggestions() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="quickSuggestions"
 			label={ __( 'Enable Suggestions', 'custom-html-block-extension' ) }
 			value={ isEnabled }
 			onChange={ onChange }

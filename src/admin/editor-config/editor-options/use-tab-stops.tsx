@@ -23,6 +23,7 @@ export default function UseTabStops() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="useTabStops"
 			label={ __( 'Use Tab Stops', 'custom-html-block-extension' ) }
 			value={ editorOptions.useTabStops }
 			onChange={ onChange }

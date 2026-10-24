@@ -35,6 +35,7 @@ export default function ScrollbarHorizontalScrollbarSize() {
 	return (
 		<SettingItem
 			control="range"
+			name="scrollbar.horizontalScrollbarSize"
 			label={ __( 'Horizontal Scrollbar Size (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.scrollbar.horizontalScrollbarSize }
 			onChange={ onChange }

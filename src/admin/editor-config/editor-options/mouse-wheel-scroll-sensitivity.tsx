@@ -24,6 +24,7 @@ export default function MouseWheelScrollSensitivity() {
 	return (
 		<SettingItem
 			control="range"
+			name="mouseWheelScrollSensitivity"
 			label={ __( 'Mouse Wheel Scroll Sensitivity', 'custom-html-block-extension' ) }
 			value={ editorOptions.mouseWheelScrollSensitivity }
 			onChange={ onChange }

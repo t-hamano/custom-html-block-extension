@@ -27,6 +27,7 @@ export default function GuidesHighlightActiveBracketPair() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="guides.highlightActiveBracketPair"
 			label={ __( 'Highlight Active Bracket Pair', 'custom-html-block-extension' ) }
 			value={ editorOptions.guides.highlightActiveBracketPair }
 			onChange={ onChange }

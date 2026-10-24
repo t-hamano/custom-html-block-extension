@@ -23,6 +23,7 @@ export default function CopyWithSyntaxHighlighting() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="copyWithSyntaxHighlighting"
 			label={ __( 'Copy With Syntax Highlighting', 'custom-html-block-extension' ) }
 			value={ editorOptions.copyWithSyntaxHighlighting }
 			onChange={ onChange }

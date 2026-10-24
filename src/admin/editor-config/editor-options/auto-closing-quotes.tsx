@@ -24,6 +24,7 @@ export default function AutoClosingQuotes() {
 	return (
 		<SettingItem
 			control="select"
+			name="autoClosingQuotes"
 			label={ __( 'Auto Closing Quotes', 'custom-html-block-extension' ) }
 			value={ editorOptions.autoClosingQuotes }
 			onChange={ onChange }

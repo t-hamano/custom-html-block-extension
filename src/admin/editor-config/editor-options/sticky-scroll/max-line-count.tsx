@@ -27,6 +27,7 @@ export default function StickyScrollMaxLineCount() {
 	return (
 		<SettingItem
 			control="range"
+			name="stickyScroll.maxLineCount"
 			label={ __( 'Max Line Count', 'custom-html-block-extension' ) }
 			value={ editorOptions.stickyScroll.maxLineCount }
 			onChange={ onChange }

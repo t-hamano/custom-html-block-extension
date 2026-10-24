@@ -23,6 +23,7 @@ export default function Folding() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="folding"
 			label={ __( 'Folding', 'custom-html-block-extension' ) }
 			value={ editorOptions.folding }
 			onChange={ onChange }

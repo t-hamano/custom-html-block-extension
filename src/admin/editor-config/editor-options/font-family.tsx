@@ -24,6 +24,7 @@ export default function FontFamily() {
 	return (
 		<SettingItem
 			control="select"
+			name="fontFamily"
 			label={ __( 'Font Family', 'custom-html-block-extension' ) }
 			value={ editorOptions.fontFamily }
 			onChange={ onChange }

@@ -27,6 +27,7 @@ export default function FindSeedSearchStringFromSelection() {
 	return (
 		<SettingItem
 			control="select"
+			name="find.seedSearchStringFromSelection"
 			label={ __( 'Seed Search String From Selection', 'custom-html-block-extension' ) }
 			value={ editorOptions.find.seedSearchStringFromSelection }
 			onChange={ onChange }

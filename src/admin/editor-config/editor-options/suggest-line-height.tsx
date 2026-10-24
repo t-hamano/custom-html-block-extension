@@ -24,6 +24,7 @@ export default function SuggestLineHeight() {
 	return (
 		<SettingItem
 			control="range"
+			name="suggestLineHeight"
 			label={ __( 'Suggest Line Height (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.suggestLineHeight }
 			onChange={ onChange }

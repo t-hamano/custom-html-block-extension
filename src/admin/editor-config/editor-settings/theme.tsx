@@ -24,6 +24,7 @@ export default function Theme() {
 	return (
 		<SettingItem
 			control="select"
+			name="theme"
 			label={ __( 'Theme', 'custom-html-block-extension' ) }
 			value={ editorSettings.theme }
 			onChange={ onChange }

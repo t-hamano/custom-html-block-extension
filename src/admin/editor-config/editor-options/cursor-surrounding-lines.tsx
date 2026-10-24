@@ -24,6 +24,7 @@ export default function CursorSurroundingLines() {
 	return (
 		<SettingItem
 			control="range"
+			name="cursorSurroundingLines"
 			label={ __( 'Cursor Surrounding Lines', 'custom-html-block-extension' ) }
 			value={ editorOptions.cursorSurroundingLines }
 			onChange={ onChange }

@@ -23,6 +23,7 @@ export default function FormatOnPaste() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="formatOnPaste"
 			label={ __( 'Format On Paste', 'custom-html-block-extension' ) }
 			value={ editorOptions.formatOnPaste }
 			onChange={ onChange }

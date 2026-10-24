@@ -31,7 +31,8 @@ export default function QuickSuggestionsTypes() {
 	];
 	// The title only appears in the help dialog, so also match the labels shown.
 	const isVisible = useSearchVisibility(
-		[ title, ...tokenTypes.map( ( tokenType ) => tokenType.label ) ].join( ' ' )
+		[ title, ...tokenTypes.map( ( tokenType ) => tokenType.label ) ].join( ' ' ),
+		'quickSuggestions'
 	);
 
 	if ( ! isVisible ) {

@@ -24,6 +24,7 @@ export default function LineDecorationsWidth() {
 	return (
 		<SettingItem
 			control="range"
+			name="lineDecorationsWidth"
 			label={ __( 'Line Decorations Width (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.lineDecorationsWidth }
 			onChange={ onChange }

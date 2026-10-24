@@ -27,6 +27,7 @@ export default function PaddingBottom() {
 	return (
 		<SettingItem
 			control="range"
+			name="padding.bottom"
 			label={ __( 'Bottom (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.padding.bottom }
 			onChange={ onChange }

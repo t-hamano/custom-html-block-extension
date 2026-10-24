@@ -23,6 +23,7 @@ export default function DragAndDrop() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="dragAndDrop"
 			label={ __( 'Drag And Drop', 'custom-html-block-extension' ) }
 			value={ editorOptions.dragAndDrop }
 			onChange={ onChange }

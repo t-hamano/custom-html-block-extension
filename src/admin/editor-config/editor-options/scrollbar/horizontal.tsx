@@ -30,6 +30,7 @@ export default function ScrollbarHorizontal() {
 	return (
 		<SettingItem
 			control="select"
+			name="scrollbar.horizontal"
 			label={ __( 'Horizontal', 'custom-html-block-extension' ) }
 			value={ editorOptions.scrollbar.horizontal }
 			onChange={ onChange }

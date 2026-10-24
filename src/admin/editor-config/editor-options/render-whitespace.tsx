@@ -24,6 +24,7 @@ export default function RenderWhitespace() {
 	return (
 		<SettingItem
 			control="select"
+			name="renderWhitespace"
 			label={ __( 'Render Whitespace', 'custom-html-block-extension' ) }
 			value={ editorOptions.renderWhitespace }
 			onChange={ onChange }

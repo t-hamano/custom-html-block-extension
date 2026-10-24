@@ -24,6 +24,7 @@ export default function CursorStyle() {
 	return (
 		<SettingItem
 			control="select"
+			name="cursorStyle"
 			label={ __( 'Cursor Style', 'custom-html-block-extension' ) }
 			value={ editorOptions.cursorStyle }
 			onChange={ onChange }

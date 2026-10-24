@@ -24,6 +24,7 @@ export default function FastScrollSensitivity() {
 	return (
 		<SettingItem
 			control="range"
+			name="fastScrollSensitivity"
 			label={ __( 'Fast Scroll Sensitivity', 'custom-html-block-extension' ) }
 			value={ editorOptions.fastScrollSensitivity }
 			onChange={ onChange }

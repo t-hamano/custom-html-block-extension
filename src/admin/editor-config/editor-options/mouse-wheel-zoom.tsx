@@ -24,6 +24,7 @@ export default function MouseWheelZoom() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="mouseWheelZoom"
 			label={ __( 'Mouse Wheel Zoom', 'custom-html-block-extension' ) }
 			value={ editorOptions.mouseWheelZoom }
 			onChange={ onChange }

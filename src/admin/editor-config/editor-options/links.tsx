@@ -23,6 +23,7 @@ export default function Links() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="links"
 			label={ __( 'Clickable Links', 'custom-html-block-extension' ) }
 			value={ editorOptions.links }
 			onChange={ onChange }

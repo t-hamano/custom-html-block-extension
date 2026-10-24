@@ -24,6 +24,7 @@ export default function ShowFoldingControls() {
 	return (
 		<SettingItem
 			control="select"
+			name="showFoldingControls"
 			label={ __( 'Show Folding Controls', 'custom-html-block-extension' ) }
 			value={ editorOptions.showFoldingControls }
 			onChange={ onChange }

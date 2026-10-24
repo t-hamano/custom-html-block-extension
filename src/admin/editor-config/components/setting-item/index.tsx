@@ -26,10 +26,10 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 	// Inside, the value type of a select is not needed, so widen it.
 	const setting = props as SettingItemProps;
 	const { searchQuery } = useContext( EditorConfigContext );
-	const { label, value } = setting;
+	const { name, label, value } = setting;
 	const panelTitle = useContext( SettingsPanelContext );
 
-	const isVisible = useSearchVisibility( label );
+	const isVisible = useSearchVisibility( label, name );
 	if ( ! isVisible ) {
 		return null;
 	}

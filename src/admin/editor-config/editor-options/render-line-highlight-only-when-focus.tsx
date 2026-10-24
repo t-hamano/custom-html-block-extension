@@ -23,6 +23,7 @@ export default function RenderLineHighlightOnlyWhenFocus() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="renderLineHighlightOnlyWhenFocus"
 			label={ __( 'Render Line Highlight Only When Focus', 'custom-html-block-extension' ) }
 			value={ editorOptions.renderLineHighlightOnlyWhenFocus }
 			onChange={ onChange }

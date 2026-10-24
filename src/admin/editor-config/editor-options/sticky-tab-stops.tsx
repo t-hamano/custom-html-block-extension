@@ -23,6 +23,7 @@ export default function StickyTabStops() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="stickyTabStops"
 			label={ __( 'Sticky Tab Stops', 'custom-html-block-extension' ) }
 			value={ editorOptions.stickyTabStops }
 			onChange={ onChange }

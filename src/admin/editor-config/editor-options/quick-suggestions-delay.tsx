@@ -24,6 +24,7 @@ export default function QuickSuggestionsDelay() {
 	return (
 		<SettingItem
 			control="range"
+			name="quickSuggestionsDelay"
 			label={ __( 'Quick Suggestions Delay (ms)', 'custom-html-block-extension' ) }
 			value={ editorOptions.quickSuggestionsDelay }
 			onChange={ onChange }

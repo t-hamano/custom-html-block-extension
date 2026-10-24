@@ -24,6 +24,7 @@ export default function TabSize() {
 	return (
 		<SettingItem
 			control="range"
+			name="tabSize"
 			label={ __( 'Tab Size', 'custom-html-block-extension' ) }
 			value={ editorSettings.tabSize }
 			onChange={ onChange }

@@ -24,6 +24,7 @@ export default function LineNumbersMinChars() {
 	return (
 		<SettingItem
 			control="range"
+			name="lineNumbersMinChars"
 			label={ __( 'Line Numbers Min Chars', 'custom-html-block-extension' ) }
 			value={ editorOptions.lineNumbersMinChars }
 			onChange={ onChange }

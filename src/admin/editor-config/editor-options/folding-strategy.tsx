@@ -24,6 +24,7 @@ export default function FoldingStrategy() {
 	return (
 		<SettingItem
 			control="select"
+			name="foldingStrategy"
 			label={ __( 'Folding Strategy', 'custom-html-block-extension' ) }
 			value={ editorOptions.foldingStrategy }
 			onChange={ onChange }

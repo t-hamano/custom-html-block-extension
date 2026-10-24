@@ -23,6 +23,7 @@ export default function GlyphMargin() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="glyphMargin"
 			label={ __( 'Glyph Margin', 'custom-html-block-extension' ) }
 			value={ editorOptions.glyphMargin }
 			onChange={ onChange }

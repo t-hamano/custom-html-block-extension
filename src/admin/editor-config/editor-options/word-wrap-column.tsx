@@ -24,6 +24,7 @@ export default function WordWrapColumn() {
 	return (
 		<SettingItem
 			control="range"
+			name="wordWrapColumn"
 			label={ __( 'Word Wrap Column', 'custom-html-block-extension' ) }
 			value={ editorOptions.wordWrapColumn }
 			onChange={ onChange }

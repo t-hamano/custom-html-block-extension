@@ -24,6 +24,7 @@ export default function CursorWidth() {
 	return (
 		<SettingItem
 			control="range"
+			name="cursorWidth"
 			label={ __( 'Cursor Width (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.cursorWidth }
 			onChange={ onChange }

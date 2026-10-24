@@ -26,6 +26,7 @@ export default function MinimapRenderCharacters() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="minimap.renderCharacters"
 			label={ __( 'Render Characters', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.renderCharacters }
 			onChange={ onChange }

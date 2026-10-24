@@ -24,6 +24,7 @@ export default function AutoClosingOvertype() {
 	return (
 		<SettingItem
 			control="select"
+			name="autoClosingOvertype"
 			label={ __( 'Auto Closing Overtype', 'custom-html-block-extension' ) }
 			value={ editorOptions.autoClosingOvertype }
 			onChange={ onChange }

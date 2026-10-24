@@ -24,6 +24,7 @@ export default function WrappingIndent() {
 	return (
 		<SettingItem
 			control="select"
+			name="wrappingIndent"
 			label={ __( 'Wrapping Indent', 'custom-html-block-extension' ) }
 			value={ editorOptions.wrappingIndent }
 			onChange={ onChange }

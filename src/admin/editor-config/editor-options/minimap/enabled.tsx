@@ -26,6 +26,7 @@ export default function MinimapEnabled() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="minimap.enabled"
 			label={ __( 'Minimap', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.enabled }
 			onChange={ onChange }

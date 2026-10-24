@@ -23,6 +23,7 @@ export default function FoldingHighlight() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="foldingHighlight"
 			label={ __( 'Folding Highlight', 'custom-html-block-extension' ) }
 			value={ editorOptions.foldingHighlight }
 			onChange={ onChange }

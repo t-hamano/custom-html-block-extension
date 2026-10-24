@@ -29,6 +29,7 @@ export default function OccurrencesHighlight() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="occurrencesHighlight"
 			label={ __( 'Occurrences Highlight', 'custom-html-block-extension' ) }
 			value={ isEnabled }
 			onChange={ onChange }

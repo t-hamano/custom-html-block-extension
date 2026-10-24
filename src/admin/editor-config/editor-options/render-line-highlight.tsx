@@ -24,6 +24,7 @@ export default function RenderLineHighlight() {
 	return (
 		<SettingItem
 			control="select"
+			name="renderLineHighlight"
 			label={ __( 'Render Line Highlight', 'custom-html-block-extension' ) }
 			value={ editorOptions.renderLineHighlight }
 			onChange={ onChange }

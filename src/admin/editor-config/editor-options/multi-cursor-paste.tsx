@@ -23,6 +23,7 @@ export default function MultiCursorPaste() {
 	return (
 		<SettingItem
 			control="toggleGroup"
+			name="multiCursorPaste"
 			label={ __( 'Multi Cursor Paste', 'custom-html-block-extension' ) }
 			value={ editorOptions.multiCursorPaste }
 			onChange={ onChange }

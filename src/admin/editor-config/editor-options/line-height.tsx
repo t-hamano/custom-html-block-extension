@@ -24,6 +24,7 @@ export default function LineHeight() {
 	return (
 		<SettingItem
 			control="range"
+			name="lineHeight"
 			label={ __( 'Line Height', 'custom-html-block-extension' ) }
 			value={ editorOptions.lineHeight }
 			onChange={ onChange }

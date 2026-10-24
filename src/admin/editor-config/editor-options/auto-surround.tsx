@@ -24,6 +24,7 @@ export default function AutoSurround() {
 	return (
 		<SettingItem
 			control="select"
+			name="autoSurround"
 			label={ __( 'Auto Surround', 'custom-html-block-extension' ) }
 			value={ editorOptions.autoSurround }
 			onChange={ onChange }

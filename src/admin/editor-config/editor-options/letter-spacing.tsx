@@ -24,6 +24,7 @@ export default function LetterSpacing() {
 	return (
 		<SettingItem
 			control="range"
+			name="letterSpacing"
 			label={ __( 'Letter Spacing (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.letterSpacing }
 			onChange={ onChange }

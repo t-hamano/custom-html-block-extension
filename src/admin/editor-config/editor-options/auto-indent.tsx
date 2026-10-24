@@ -30,6 +30,7 @@ export default function AutoIndent() {
 	return (
 		<SettingItem
 			control="select"
+			name="autoIndent"
 			label={ __( 'Auto Indent', 'custom-html-block-extension' ) }
 			value={ editorOptions.autoIndent }
 			onChange={ onChange }

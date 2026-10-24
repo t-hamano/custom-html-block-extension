@@ -28,6 +28,7 @@ export default function FontLigatures() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="fontLigatures"
 			label={ __( 'Font Ligatures', 'custom-html-block-extension' ) }
 			value={ editorOptions.fontLigatures }
 			onChange={ onChange }

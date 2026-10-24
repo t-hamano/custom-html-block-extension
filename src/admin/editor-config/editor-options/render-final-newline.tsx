@@ -24,6 +24,7 @@ export default function RenderFinalNewline() {
 	return (
 		<SettingItem
 			control="select"
+			name="renderFinalNewline"
 			label={ __( 'Render Final Newline', 'custom-html-block-extension' ) }
 			value={ editorOptions.renderFinalNewline }
 			onChange={ onChange }

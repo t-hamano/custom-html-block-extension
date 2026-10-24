@@ -24,6 +24,7 @@ export default function FontSize() {
 	return (
 		<SettingItem
 			control="range"
+			name="fontSize"
 			label={ __( 'Font Size (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.fontSize }
 			onChange={ onChange }

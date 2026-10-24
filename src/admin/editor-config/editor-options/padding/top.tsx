@@ -27,6 +27,7 @@ export default function PaddingTop() {
 	return (
 		<SettingItem
 			control="range"
+			name="padding.top"
 			label={ __( 'Top (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.padding.top }
 			onChange={ onChange }

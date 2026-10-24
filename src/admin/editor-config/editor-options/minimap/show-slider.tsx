@@ -27,6 +27,7 @@ export default function MinimapShowSlider() {
 	return (
 		<SettingItem
 			control="select"
+			name="minimap.showSlider"
 			label={ __( 'Show Slider', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.showSlider }
 			onChange={ onChange }

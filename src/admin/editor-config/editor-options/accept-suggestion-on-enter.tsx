@@ -25,6 +25,7 @@ export default function AcceptSuggestionOnEnter() {
 	return (
 		<SettingItem
 			control="select"
+			name="acceptSuggestionOnEnter"
 			label={ __( 'Accept Suggestion On Enter', 'custom-html-block-extension' ) }
 			value={ editorOptions.acceptSuggestionOnEnter }
 			onChange={ onChange }

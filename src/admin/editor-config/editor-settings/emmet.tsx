@@ -24,6 +24,7 @@ export default function Emmet() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="emmet"
 			label={ __( 'Enable Emmet', 'custom-html-block-extension' ) }
 			value={ editorSettings.emmet }
 			onChange={ onChange }

@@ -26,6 +26,7 @@ export default function GuidesIndentation() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="guides.indentation"
 			label={ __( 'Indentation', 'custom-html-block-extension' ) }
 			value={ editorOptions.guides.indentation }
 			onChange={ onChange }

@@ -24,6 +24,7 @@ export default function MatchBrackets() {
 	return (
 		<SettingItem
 			control="select"
+			name="matchBrackets"
 			label={ __( 'Match Brackets', 'custom-html-block-extension' ) }
 			value={ editorOptions.matchBrackets }
 			onChange={ onChange }

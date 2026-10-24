@@ -23,6 +23,7 @@ export default function RoundedSelection() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="roundedSelection"
 			label={ __( 'Rounded Selection', 'custom-html-block-extension' ) }
 			value={ editorOptions.roundedSelection }
 			onChange={ onChange }

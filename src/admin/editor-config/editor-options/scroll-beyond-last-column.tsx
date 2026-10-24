@@ -24,6 +24,7 @@ export default function ScrollBeyondLastColumn() {
 	return (
 		<SettingItem
 			control="range"
+			name="scrollBeyondLastColumn"
 			label={ __( 'Scroll Beyond Last Column', 'custom-html-block-extension' ) }
 			value={ editorOptions.scrollBeyondLastColumn }
 			onChange={ onChange }

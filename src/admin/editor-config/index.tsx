@@ -62,12 +62,12 @@ function getSearchPatterns( searchQuery: string ): RegExp[] {
 export const SettingsPanelContext = createContext< string | undefined >( undefined );
 
 // Whether a setting with the given title matches the current search query.
-// The panel title is also matched, so searching for a panel finds all of its
-// settings.
-export function useSearchVisibility( title: string ): boolean {
+// The panel title and the setting key are also matched, so searching for a
+// panel or an option group such as "Guides" finds all of its settings.
+export function useSearchVisibility( title: string, name: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
 	const panelTitle = useContext( SettingsPanelContext );
-	const searchText = panelTitle ? `${ panelTitle } ${ title }` : title;
+	const searchText = [ panelTitle, title, name ].filter( Boolean ).join( ' ' );
 	return getSearchPatterns( searchQuery ).every(
 		( pattern ) => searchText.search( pattern ) !== -1
 	);

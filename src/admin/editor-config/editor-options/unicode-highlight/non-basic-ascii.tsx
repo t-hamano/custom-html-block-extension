@@ -26,6 +26,7 @@ export default function UnicodeHighlightNonBasicAscii() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="unicodeHighlight.nonBasicASCII"
 			label={ __( 'Non Basic ASCII', 'custom-html-block-extension' ) }
 			value={ editorOptions.unicodeHighlight.nonBasicASCII }
 			onChange={ onChange }

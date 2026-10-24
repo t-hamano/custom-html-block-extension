@@ -25,6 +25,7 @@ export default function ColumnSelection() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="columnSelection"
 			label={ __( 'Column Selection', 'custom-html-block-extension' ) }
 			value={ editorOptions.columnSelection }
 			onChange={ onChange }

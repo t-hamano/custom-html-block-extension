@@ -24,6 +24,7 @@ export default function CursorSmoothCaretAnimation() {
 	return (
 		<SettingItem
 			control="select"
+			name="cursorSmoothCaretAnimation"
 			label={ __( 'Cursor Smooth Caret Animation', 'custom-html-block-extension' ) }
 			value={ editorOptions.cursorSmoothCaretAnimation }
 			onChange={ onChange }

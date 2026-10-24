@@ -27,6 +27,7 @@ export default function BracketPairColorizationEnabled() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="bracketPairColorization.enabled"
 			label={ __( 'Bracket Pair Colorization', 'custom-html-block-extension' ) }
 			value={ editorOptions.bracketPairColorization.enabled }
 			onChange={ onChange }

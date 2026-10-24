@@ -23,6 +23,7 @@ export default function RenderControlCharacters() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="renderControlCharacters"
 			label={ __( 'Render Control Characters', 'custom-html-block-extension' ) }
 			value={ editorOptions.renderControlCharacters }
 			onChange={ onChange }

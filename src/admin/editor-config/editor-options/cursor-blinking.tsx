@@ -24,6 +24,7 @@ export default function CursorBlinking() {
 	return (
 		<SettingItem
 			control="select"
+			name="cursorBlinking"
 			label={ __( 'Cursor Blinking', 'custom-html-block-extension' ) }
 			value={ editorOptions.cursorBlinking }
 			onChange={ onChange }

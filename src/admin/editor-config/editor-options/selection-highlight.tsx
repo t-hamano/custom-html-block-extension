@@ -23,6 +23,7 @@ export default function SelectionHighlight() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="selectionHighlight"
 			label={ __( 'Selection Highlight', 'custom-html-block-extension' ) }
 			value={ editorOptions.selectionHighlight }
 			onChange={ onChange }

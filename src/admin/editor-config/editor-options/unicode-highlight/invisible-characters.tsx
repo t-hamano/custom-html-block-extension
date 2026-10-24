@@ -26,6 +26,7 @@ export default function UnicodeHighlightInvisibleCharacters() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="unicodeHighlight.invisibleCharacters"
 			label={ __( 'Invisible Characters', 'custom-html-block-extension' ) }
 			value={ editorOptions.unicodeHighlight.invisibleCharacters }
 			onChange={ onChange }

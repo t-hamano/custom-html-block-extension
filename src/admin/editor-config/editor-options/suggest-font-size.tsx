@@ -24,6 +24,7 @@ export default function SuggestFontSize() {
 	return (
 		<SettingItem
 			control="range"
+			name="suggestFontSize"
 			label={ __( 'Suggest Font Size (px)', 'custom-html-block-extension' ) }
 			value={ editorOptions.suggestFontSize }
 			onChange={ onChange }

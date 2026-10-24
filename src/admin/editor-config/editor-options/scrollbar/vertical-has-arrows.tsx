@@ -29,6 +29,7 @@ export default function ScrollbarVerticalHasArrows() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="scrollbar.verticalHasArrows"
 			label={ __( 'Vertical Has Arrows', 'custom-html-block-extension' ) }
 			value={ editorOptions.scrollbar.verticalHasArrows }
 			onChange={ onChange }

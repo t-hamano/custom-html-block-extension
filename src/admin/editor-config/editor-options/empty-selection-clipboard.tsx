@@ -23,6 +23,7 @@ export default function EmptySelectionClipboard() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="emptySelectionClipboard"
 			label={ __( 'Empty Selection Clipboard', 'custom-html-block-extension' ) }
 			value={ editorOptions.emptySelectionClipboard }
 			onChange={ onChange }

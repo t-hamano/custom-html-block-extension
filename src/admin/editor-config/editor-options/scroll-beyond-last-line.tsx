@@ -23,6 +23,7 @@ export default function ScrollBeyondLastLine() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="scrollBeyondLastLine"
 			label={ __( 'Scroll Beyond Last Line', 'custom-html-block-extension' ) }
 			value={ editorOptions.scrollBeyondLastLine }
 			onChange={ onChange }

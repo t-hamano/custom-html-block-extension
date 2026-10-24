@@ -23,6 +23,7 @@ export default function DetectIndentation() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="detectIndentation"
 			label={ __( 'Detect Indentation', 'custom-html-block-extension' ) }
 			value={ editorSettings.detectIndentation }
 			onChange={ onChange }

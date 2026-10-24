@@ -30,6 +30,7 @@ export default function GuidesBracketPairsHorizontal() {
 	return (
 		<SettingItem
 			control="select"
+			name="guides.bracketPairsHorizontal"
 			label={ __( 'Bracket Pairs Horizontal', 'custom-html-block-extension' ) }
 			value={ editorOptions.guides.bracketPairsHorizontal }
 			onChange={ onChange }

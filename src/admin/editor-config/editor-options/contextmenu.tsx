@@ -23,6 +23,7 @@ export default function Contextmenu() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="contextmenu"
 			label={ __( 'Context Menu', 'custom-html-block-extension' ) }
 			value={ editorOptions.contextmenu }
 			onChange={ onChange }

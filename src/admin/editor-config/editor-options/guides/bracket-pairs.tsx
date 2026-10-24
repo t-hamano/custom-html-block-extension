@@ -30,6 +30,7 @@ export default function GuidesBracketPairs() {
 	return (
 		<SettingItem
 			control="select"
+			name="guides.bracketPairs"
 			label={ __( 'Bracket Pairs', 'custom-html-block-extension' ) }
 			value={ editorOptions.guides.bracketPairs }
 			onChange={ onChange }

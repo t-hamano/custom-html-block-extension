@@ -23,6 +23,7 @@ export default function WordWrapIndicator() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="wordWrapIndicator"
 			label={ __( 'Word Wrap Indicator', 'custom-html-block-extension' ) }
 			value={ editorOptions.wordWrapIndicator }
 			onChange={ onChange }

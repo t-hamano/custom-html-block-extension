@@ -29,6 +29,7 @@ export default function ScrollbarScrollByPage() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="scrollbar.scrollByPage"
 			label={ __( 'Scroll By Page', 'custom-html-block-extension' ) }
 			value={ editorOptions.scrollbar.scrollByPage }
 			onChange={ onChange }

@@ -23,6 +23,7 @@ export default function SelectOnLineNumbers() {
 	return (
 		<SettingItem
 			control="toggle"
+			name="selectOnLineNumbers"
 			label={ __( 'Select On Line Numbers', 'custom-html-block-extension' ) }
 			value={ editorOptions.selectOnLineNumbers }
 			onChange={ onChange }
