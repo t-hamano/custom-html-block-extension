@@ -42,20 +42,23 @@ export function isApplyingWrapPreview( editor: Monaco.editor.ICodeEditor ): bool
  *
  * @param monaco The monaco instance.
  * @param editor The editor instance.
+ * @return The disposable to remove the action.
  */
 export default function addWrapWithAbbreviationAction(
 	monaco: typeof Monaco,
 	editor: Monaco.editor.IStandaloneCodeEditor
-) {
+): Monaco.IDisposable {
 	let isOpen = false;
 	let disposeWidget: ( () => void ) | null = null;
 
 	// Close the widget without reverting the preview when the editor or its model is disposed,
 	// e.g. the classic editor disposes the models when switching to the visual mode.
-	editor.onDidDispose( () => disposeWidget?.() );
-	editor.onDidChangeModel( () => disposeWidget?.() );
+	const disposables = [
+		editor.onDidDispose( () => disposeWidget?.() ),
+		editor.onDidChangeModel( () => disposeWidget?.() ),
+	];
 
-	editor.addAction( {
+	const action = editor.addAction( {
 		id: 'chbe.wrapWithAbbreviation',
 		label: __( 'Emmet: Wrap with Abbreviation', 'custom-html-block-extension' ),
 		contextMenuGroupId: '1_modification',
@@ -242,4 +245,11 @@ export default function addWrapWithAbbreviationAction(
 			);
 		},
 	} );
+
+	return {
+		dispose: () => {
+			disposables.forEach( ( disposable ) => disposable.dispose() );
+			action.dispose();
+		},
+	};
 }
