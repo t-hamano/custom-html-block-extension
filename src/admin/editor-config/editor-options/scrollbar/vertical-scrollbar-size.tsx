@@ -36,7 +36,6 @@ export default function ScrollbarVerticalScrollbarSize() {
 		<SettingItem
 			control="range"
 			label={ __( 'Vertical Scrollbar Size (px)', 'custom-html-block-extension' ) }
-			group="scrollbar"
 			value={ editorOptions.scrollbar.verticalScrollbarSize }
 			onChange={ onChange }
 			min={ 5 }

@@ -28,7 +28,6 @@ export default function MinimapScale() {
 		<SettingItem
 			control="range"
 			label={ __( 'Scale', 'custom-html-block-extension' ) }
-			group="minimap"
 			value={ editorOptions.minimap.scale }
 			onChange={ onChange }
 			min={ 1 }

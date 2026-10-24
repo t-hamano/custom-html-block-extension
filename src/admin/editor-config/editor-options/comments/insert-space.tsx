@@ -27,7 +27,6 @@ export default function CommentsInsertSpace() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Comments: Insert Space', 'custom-html-block-extension' ) }
-			group="comments"
 			value={ editorOptions.comments.insertSpace }
 			onChange={ onChange }
 			defaultValue

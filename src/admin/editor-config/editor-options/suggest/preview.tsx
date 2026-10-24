@@ -27,7 +27,6 @@ export default function SuggestPreview() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Preview', 'custom-html-block-extension' ) }
-			group="suggest"
 			value={ editorOptions.suggest.preview }
 			onChange={ onChange }
 			defaultValue={ false }

@@ -28,7 +28,6 @@ export default function MinimapMaxColumn() {
 		<SettingItem
 			control="range"
 			label={ __( 'Max Column', 'custom-html-block-extension' ) }
-			group="minimap"
 			value={ editorOptions.minimap.maxColumn }
 			onChange={ onChange }
 			min={ 10 }

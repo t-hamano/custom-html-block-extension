@@ -28,7 +28,6 @@ export default function GuidesHighlightActiveBracketPair() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Highlight Active Bracket Pair', 'custom-html-block-extension' ) }
-			group="guides"
 			value={ editorOptions.guides.highlightActiveBracketPair }
 			onChange={ onChange }
 			defaultValue

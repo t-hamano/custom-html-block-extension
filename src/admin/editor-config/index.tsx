@@ -57,12 +57,17 @@ function getSearchPatterns( searchQuery: string ): RegExp[] {
 		.map( ( word ) => new RegExp( word.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' ), 'giu' ) );
 }
 
+// Title of the panel a setting is rendered in, such as "Minimap". Undefined
+// in the Basic mode.
+export const SettingsPanelContext = createContext< string | undefined >( undefined );
+
 // Whether a setting with the given title matches the current search query.
-// `parent` is the name of the group a nested setting belongs to (e.g.
-// "Minimap"), so searching for the group still finds its settings.
-export function useSearchVisibility( title: string, parent?: string ): boolean {
+// The panel title is also matched, so searching for a panel finds all of its
+// settings.
+export function useSearchVisibility( title: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
-	const searchText = parent ? `${ parent } ${ title }` : title;
+	const panelTitle = useContext( SettingsPanelContext );
+	const searchText = panelTitle ? `${ panelTitle } ${ title }` : title;
 	return getSearchPatterns( searchQuery ).every(
 		( pattern ) => searchText.search( pattern ) !== -1
 	);
@@ -127,9 +132,11 @@ function SettingsPanel( { title, children }: { title: string; children: ReactNod
 				<Card.Title>{ title }</Card.Title>
 			</CollapsibleCard.Header>
 			<CollapsibleCard.Content>
-				<Stack direction="column" gap="lg">
-					{ children }
-				</Stack>
+				<SettingsPanelContext.Provider value={ title }>
+					<Stack direction="column" gap="lg">
+						{ children }
+					</Stack>
+				</SettingsPanelContext.Provider>
 			</CollapsibleCard.Content>
 		</CollapsibleCard.Root>
 	);

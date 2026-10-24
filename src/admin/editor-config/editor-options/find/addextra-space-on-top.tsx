@@ -27,7 +27,6 @@ export default function FindAddExtraSpaceOnTop() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Add Extra Space On Top', 'custom-html-block-extension' ) }
-			group="find"
 			value={ editorOptions.find.addExtraSpaceOnTop }
 			onChange={ onChange }
 			defaultValue

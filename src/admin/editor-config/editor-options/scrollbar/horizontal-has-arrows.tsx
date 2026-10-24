@@ -30,7 +30,6 @@ export default function ScrollbarHorizontalHasArrows() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Horizontal Has Arrows', 'custom-html-block-extension' ) }
-			group="scrollbar"
 			value={ editorOptions.scrollbar.horizontalHasArrows }
 			onChange={ onChange }
 			defaultValue={ false }

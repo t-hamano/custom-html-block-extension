@@ -13,9 +13,8 @@ import { SelectControl, Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { EditorConfigContext, useSearchVisibility } from '../../index';
+import { EditorConfigContext, SettingsPanelContext, useSearchVisibility } from '../../index';
 import ItemHelp from '../item-help';
-import { getGroupLabel } from './groups';
 import type { SettingItemProps, SettingOption, SettingValue } from './types';
 
 /**
@@ -28,21 +27,21 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 	const setting = props as SettingItemProps;
 	const { searchQuery } = useContext( EditorConfigContext );
 	const { label, value } = setting;
-	const group = setting.group && getGroupLabel( setting.group );
+	const panelTitle = useContext( SettingsPanelContext );
 
-	const isVisible = useSearchVisibility( label, group );
+	const isVisible = useSearchVisibility( label );
 	if ( ! isVisible ) {
 		return null;
 	}
 
-	// While searching, show the group the setting belongs to, so a label such
+	// While searching, show the panel the setting belongs to, so a label such
 	// as "Side" reads as "Minimap: Side".
 	const displayLabel =
-		searchQuery && group && ! label.toLowerCase().includes( group.toLowerCase() )
+		searchQuery && panelTitle && ! label.toLowerCase().includes( panelTitle.toLowerCase() )
 			? sprintf(
-					/* translators: 1: The name of the setting group, such as "Minimap". 2: The setting name. */
+					/* translators: 1: The name of the settings panel, such as "Minimap". 2: The setting name. */
 					__( '%1$s: %2$s', 'custom-html-block-extension' ),
-					group,
+					panelTitle,
 					label
 				)
 			: label;

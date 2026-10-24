@@ -27,7 +27,6 @@ export default function FindLoop() {
 		<SettingItem
 			control="toggle"
 			label={ __( 'Loop', 'custom-html-block-extension' ) }
-			group="find"
 			value={ editorOptions.find.loop }
 			onChange={ onChange }
 			defaultValue
