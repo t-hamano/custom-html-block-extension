@@ -484,4 +484,47 @@ test.describe( 'Editor preview', () => {
 		await expect.poll( getFontFamily ).toContain( 'Source Code Pro' );
 		await expect( page.getByText( /Failed to load the font/ ) ).toHaveCount( 0 );
 	} );
+
+	test( 'toggling Emmet should update the preview without reloading', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		const previewEditor = page.locator( PREVIEW_EDITOR );
+		const emmetSwitch = page.getByRole( 'switch', { name: 'Enable Emmet' } );
+		const suggestion = previewEditor
+			.getByRole( 'listbox', { name: 'Suggest' } )
+			.getByLabel( 'div#id' );
+		const selectAll = await page.evaluate( () =>
+			window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
+		);
+		const typeAbbreviation = async () => {
+			await previewEditor.click();
+			await page.keyboard.press( selectAll );
+			await page.keyboard.press( 'Delete' );
+			await page.keyboard.type( 'div#id' );
+		};
+
+		// The abbreviation is suggested while Emmet is enabled.
+		await expect( emmetSwitch ).toBeChecked();
+		await typeAbbreviation();
+		await expect( suggestion ).toBeVisible();
+		await page.keyboard.press( 'Escape' );
+
+		// Disabling Emmet removes the suggestion and the "Wrap with Abbreviation" action.
+		await emmetSwitch.click();
+		await expect( emmetSwitch ).not.toBeChecked();
+		await typeAbbreviation();
+		await page.keyboard.press( 'Control+Space' );
+		await expect( suggestion ).toBeHidden();
+		await page.keyboard.press( 'Escape' );
+		await previewEditor.click( { button: 'right' } );
+		await expect(
+			page.getByRole( 'menuitem', { name: 'Emmet: Wrap with Abbreviation' } )
+		).toHaveCount( 0 );
+		await page.keyboard.press( 'Escape' );
+
+		// Enabling Emmet again restores the suggestion.
+		await emmetSwitch.click();
+		await expect( emmetSwitch ).toBeChecked();
+		await typeAbbreviation();
+		await expect( suggestion ).toBeVisible();
+	} );
 } );
