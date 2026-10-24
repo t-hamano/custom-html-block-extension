@@ -62,29 +62,21 @@ export default function Hover() {
 			help={ {
 				hideOptions: true,
 				description: (
-					<>
-						<Text render={ <p /> }>
-							{ __(
-								'Shows hints when the mouse is over an element or attribute.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ createInterpolateElement(
-								sprintf(
-									/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
-									__(
-										'If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
-										'custom-html-block-extension'
-									),
-									modifierKey
+					<Text render={ <p /> }>
+						{ createInterpolateElement(
+							sprintf(
+								/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
+								__(
+									'Shows hints when the mouse is over an element or attribute. If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
+									'custom-html-block-extension'
 								),
-								{
-									code: <code />,
-								}
-							) }
-						</Text>
-					</>
+								modifierKey
+							),
+							{
+								code: <code />,
+							}
+						) }
+					</Text>
 				),
 				image: 'editor-options/hover.gif',
 			} }

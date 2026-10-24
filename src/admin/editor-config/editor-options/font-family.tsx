@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Link, Text } from '@wordpress/ui';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -40,25 +40,25 @@ export default function FontFamily() {
 			help={ {
 				hideOptions: true,
 				description: (
-					<>
-						<Text render={ <p /> }>
-							{ __(
-								'You can use your own favorite fonts in addition to the default fonts. Please refer to the following document for instructions on how to add custom fonts.',
+					<Text render={ <p /> }>
+						{ createInterpolateElement(
+							__(
+								'You can use your own favorite fonts in addition to the default fonts. Please refer to the <a>GitHub project page</a> for instructions on how to add custom fonts.',
 								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							<Link
-								href={ __(
-									'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
-									'custom-html-block-extension'
-								) }
-								openInNewTab
-							>
-								{ __( 'GitHub project page', 'custom-html-block-extension' ) }
-							</Link>
-						</Text>
-					</>
+							),
+							{
+								a: (
+									<Link
+										href={ __(
+											'https://github.com/t-hamano/custom-html-block-extension#add-custom-fonts',
+											'custom-html-block-extension'
+										) }
+										openInNewTab
+									/>
+								),
+							}
+						) }
+					</Text>
 				),
 			} }
 		/>

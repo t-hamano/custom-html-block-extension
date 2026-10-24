@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Text } from '@wordpress/ui';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -39,21 +38,9 @@ export default function CopyWithSyntaxHighlighting() {
 				},
 			] }
 			help={ {
-				description: (
-					<>
-						<Text render={ <p /> }>
-							{ __(
-								'Controls whether syntax highlighting should be copied into the clipboard.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ __(
-								'Example: How it looks when pasted into Microsoft Word.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-					</>
+				description: __(
+					'Controls whether syntax highlighting should be copied into the clipboard. Example: How it looks when pasted into Microsoft Word.',
+					'custom-html-block-extension'
 				),
 			} }
 		/>
