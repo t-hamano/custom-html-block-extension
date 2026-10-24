@@ -31,7 +31,6 @@ export default function SuggestLineHeight() {
 			min={ 0 }
 			max={ 60 }
 			defaultValue={ 0 }
-			controlHelp={ __( "0 uses the editor's line height.", 'custom-html-block-extension' ) }
 			options={ [
 				{
 					image: 'editor-options/suggest-line-height_1.jpg',
@@ -43,7 +42,10 @@ export default function SuggestLineHeight() {
 				},
 			] }
 			help={ {
-				description: __( 'Line height for the suggest widget.', 'custom-html-block-extension' ),
+				description: __(
+					"Line height for the suggest widget. 0 uses the editor's line height.",
+					'custom-html-block-extension'
+				),
 			} }
 		/>
 	);

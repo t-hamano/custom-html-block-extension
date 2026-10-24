@@ -32,10 +32,12 @@ export default function LineHeight() {
 			max={ 60 }
 			step={ 0.1 }
 			defaultValue={ 21 }
-			controlHelp={ __(
-				'0 computes the line height from the font size. Values less than 8 are a multiplier of the font size. Values of 8 or more are pixels.',
-				'custom-html-block-extension'
-			) }
+			help={ {
+				description: __(
+					'0 computes the line height from the font size. Values less than 8 are a multiplier of the font size. Values of 8 or more are pixels.',
+					'custom-html-block-extension'
+				),
+			} }
 		/>
 	);
 }

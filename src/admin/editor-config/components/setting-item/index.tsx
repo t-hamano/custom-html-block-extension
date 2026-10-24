@@ -86,7 +86,6 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 					step={ setting.step }
 					allowReset
 					onChange={ setting.onChange }
-					help={ setting.controlHelp }
 				/>
 			);
 			break;

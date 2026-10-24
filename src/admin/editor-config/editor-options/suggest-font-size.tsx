@@ -31,7 +31,6 @@ export default function SuggestFontSize() {
 			min={ 0 }
 			max={ 30 }
 			defaultValue={ 0 }
-			controlHelp={ __( "0 uses the editor's font size.", 'custom-html-block-extension' ) }
 			options={ [
 				{
 					image: 'editor-options/suggest-font-size_1.jpg',
@@ -43,7 +42,10 @@ export default function SuggestFontSize() {
 				},
 			] }
 			help={ {
-				description: __( 'Font size for the suggest widget.', 'custom-html-block-extension' ),
+				description: __(
+					"Font size for the suggest widget. 0 uses the editor's font size.",
+					'custom-html-block-extension'
+				),
 			} }
 		/>
 	);

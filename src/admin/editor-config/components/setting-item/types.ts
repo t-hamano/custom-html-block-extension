@@ -61,8 +61,6 @@ type RangeSetting = Omit< BaseSetting< number >, 'onChange' > & {
 	min: number;
 	max: number;
 	step?: number;
-	// Help text shown below the control.
-	controlHelp?: string;
 	// Shown as "Example: Set the value to N" in the help dialog.
 	options?: SettingExample< number >[];
 };
