@@ -15,6 +15,7 @@ import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
 
 type TokenType = keyof EditorOptions[ 'quickSuggestions' ];
+
 export default function QuickSuggestionsTypes() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
