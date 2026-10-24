@@ -7,7 +7,7 @@ import type { ChangeEvent } from 'react';
  * WordPress dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { createInterpolateElement, useContext, useState } from '@wordpress/element';
+import { createInterpolateElement, useContext, useRef, useState } from '@wordpress/element';
 import { FormFileUpload } from '@wordpress/components';
 import { Button, Card, CollapsibleCard, Notice, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
@@ -18,8 +18,17 @@ import { isAppleOS } from '@wordpress/keycodes';
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { countEditorConfig, mergeEditorOptions, parseEditorConfig } from '../../utils';
+import {
+	buildEditorConfig,
+	countEditorConfig,
+	getImportItems,
+	getUnchangedImportItems,
+	mergeEditorOptions,
+	parseEditorConfig,
+	type ImportItem,
+} from '../../utils';
 import { validateEditorConfig } from '../../../api';
+import ImportConfirmDialog from './confirm-dialog';
 
 function getSettingsFolder() {
 	if ( isAppleOS() ) {
@@ -32,10 +41,26 @@ function getSettingsFolder() {
 }
 
 export default function ImportTool() {
-	const { editorOptions, isWaiting, setEditorSettings, setEditorOptions, setIsWaiting } =
-		useContext( AdminContext );
+	const {
+		editorSettings,
+		editorOptions,
+		isWaiting,
+		setEditorSettings,
+		setEditorOptions,
+		setIsWaiting,
+	} = useContext( AdminContext );
 
 	const [ settingsText, setSettingsText ] = useState( '' );
+	const [ confirmation, setConfirmation ] = useState< {
+		text: string;
+		items: ImportItem[];
+		unchanged: ImportItem[];
+		skipped: { path: string; code: string; message: string }[];
+	} | null >( null );
+	// The editor config can be changed while the validation is pending, so
+	// compare the result with the latest one.
+	const currentConfig = useRef( { editorSettings, editorOptions } );
+	currentConfig.current = { editorSettings, editorOptions };
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 
 	// Load the file into the text area. The MIME type of a `.json` file can be
@@ -55,8 +80,8 @@ export default function ImportTool() {
 		setSettingsText( await file.text() );
 	};
 
-	// Import the settings as unsaved changes, so that they can be checked in the
-	// preview before saving. The server validates the values.
+	// Validate the settings on the server, then show the values that differ from
+	// the current ones in the confirmation dialog.
 	const onImport = async () => {
 		const editorConfig = parseEditorConfig( settingsText, editorOptions );
 
@@ -78,50 +103,56 @@ export default function ImportTool() {
 			return;
 		}
 
-		const importedCount = countEditorConfig( result );
-		const skippedCount = result.skipped.length;
-		if ( importedCount === 0 ) {
-			setIsWaiting( false );
+		// Keep the spinner visible briefly so it does not flash on fast responses.
+		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+		setIsWaiting( false );
+
+		// Show the dialog also when every value is skipped, so that the reasons
+		// are visible.
+		const items = getImportItems( editorConfig, result, currentConfig.current );
+		if ( items.length === 0 && result.skipped.length === 0 && countEditorConfig( result ) === 0 ) {
 			createErrorNotice( __( 'No supported settings were found.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
 			return;
 		}
+		if ( items.length === 0 && result.skipped.length === 0 ) {
+			createSuccessNotice(
+				__(
+					'The imported settings are the same as the current ones.',
+					'custom-html-block-extension'
+				),
+				{ type: 'snackbar' }
+			);
+			return;
+		}
 
-		// Apply the settings before the delay, so that edits made while the
-		// spinner is visible are not overwritten.
-		setEditorSettings( ( current ) => ( { ...current, ...result.editorSettings } ) );
-		setEditorOptions( ( current ) => mergeEditorOptions( current, result.editorOptions ) );
+		const unchanged = getUnchangedImportItems( editorConfig, result, currentConfig.current );
+		setConfirmation( { text: settingsText, items, unchanged, skipped: result.skipped } );
+	};
+
+	// Apply the selected settings as unsaved changes, so that they can be
+	// checked in the preview before saving.
+	const onApply = ( items: ImportItem[] ) => {
+		const editorConfig = buildEditorConfig( items );
+		setEditorSettings( ( current ) => ( { ...current, ...editorConfig.editorSettings } ) );
+		setEditorOptions( ( current ) => mergeEditorOptions( current, editorConfig.editorOptions ) );
 		// Keep the text if it was changed while waiting.
-		setSettingsText( ( currentText ) => ( currentText === settingsText ? '' : currentText ) );
-		// Keep the spinner visible briefly so it does not flash on fast responses.
-		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
-		setIsWaiting( false );
-		const message =
-			skippedCount === 1
-				? sprintf(
-						/* translators: 1: Number of imported settings, 2: Number of skipped settings (1). */
-						_n(
-							'Imported %1$d setting and skipped %2$d setting. Check the preview and save the changes.',
-							'Imported %1$d settings and skipped %2$d setting. Check the preview and save the changes.',
-							importedCount,
-							'custom-html-block-extension'
-						),
-						importedCount,
-						skippedCount
-					)
-				: sprintf(
-						/* translators: 1: Number of imported settings, 2: Number of skipped settings. */
-						_n(
-							'Imported %1$d setting and skipped %2$d settings. Check the preview and save the changes.',
-							'Imported %1$d settings and skipped %2$d settings. Check the preview and save the changes.',
-							importedCount,
-							'custom-html-block-extension'
-						),
-						importedCount,
-						skippedCount
-					);
-		createSuccessNotice( message, { type: 'snackbar' } );
+		setSettingsText( ( currentText ) => ( currentText === confirmation?.text ? '' : currentText ) );
+		setConfirmation( null );
+		createSuccessNotice(
+			sprintf(
+				/* translators: %d: Number of applied settings. */
+				_n(
+					'Applied %d setting. Check the preview and save the changes.',
+					'Applied %d settings. Check the preview and save the changes.',
+					items.length,
+					'custom-html-block-extension'
+				),
+				items.length
+			),
+			{ type: 'snackbar' }
+		);
 	};
 
 	return (
@@ -178,6 +209,15 @@ export default function ImportTool() {
 						{ __( 'Import', 'custom-html-block-extension' ) }
 					</Button>
 				</Stack>
+				{ confirmation && (
+					<ImportConfirmDialog
+						items={ confirmation.items }
+						unchanged={ confirmation.unchanged }
+						skipped={ confirmation.skipped }
+						onApply={ onApply }
+						onClose={ () => setConfirmation( null ) }
+					/>
+				) }
 			</CollapsibleCard.Content>
 		</CollapsibleCard.Root>
 	);
