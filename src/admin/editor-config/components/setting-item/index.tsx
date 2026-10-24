@@ -13,7 +13,8 @@ import { SelectControl, Stack, SwitchControl } from '@wordpress/ui';
 /**
  * Internal dependencies
  */
-import { EditorConfigContext, SettingsPanelContext, useSearchVisibility } from '../../index';
+import { EditorConfigContext, useSearchVisibility } from '../../index';
+import { SettingsPanelContext } from '../settings-panel';
 import ItemHelp from '../item-help';
 import type { SettingItemProps, SettingOption, SettingValue } from './types';
 

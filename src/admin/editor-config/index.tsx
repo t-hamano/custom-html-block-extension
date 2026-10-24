@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import type { ReactNode } from 'react';
 import clsx from 'clsx';
 
 /**
@@ -16,7 +15,7 @@ import {
 	useRef,
 	useState,
 } from '@wordpress/element';
-import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
+import { Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -28,6 +27,7 @@ import { updateSettings } from '../api';
 import EditorPreview from './components/editor-preview';
 import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
+import SettingsPanel, { SettingsPanelContext } from './components/settings-panel';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
 import { isDeepEqual } from '../../lib/helper';
@@ -56,10 +56,6 @@ function getSearchPatterns( searchQuery: string ): RegExp[] {
 		.filter( Boolean )
 		.map( ( word ) => new RegExp( word.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' ), 'giu' ) );
 }
-
-// Title of the panel a setting is rendered in, such as "Minimap". Undefined
-// in the Basic mode.
-export const SettingsPanelContext = createContext< string | undefined >( undefined );
 
 // Whether a setting with the given title matches the current search query.
 // The panel title and the setting key are also matched, so searching for a
@@ -114,32 +110,6 @@ function useSearchHighlight( searchQuery: string ) {
 	}, [ searchQuery ] );
 
 	return ref;
-}
-
-// Collapsible panel, forced open while a search query is active and otherwise
-// toggled by the user.
-function SettingsPanel( { title, children }: { title: string; children: ReactNode } ) {
-	const { searchQuery } = useContext( EditorConfigContext );
-	const [ isOpen, setIsOpen ] = useState( false );
-
-	return (
-		<CollapsibleCard.Root
-			className="chbe-admin-editor-config__panel"
-			open={ !! searchQuery || isOpen }
-			onOpenChange={ setIsOpen }
-		>
-			<CollapsibleCard.Header render={ <h2 /> }>
-				<Card.Title>{ title }</Card.Title>
-			</CollapsibleCard.Header>
-			<CollapsibleCard.Content>
-				<SettingsPanelContext.Provider value={ title }>
-					<Stack direction="column" gap="lg">
-						{ children }
-					</Stack>
-				</SettingsPanelContext.Provider>
-			</CollapsibleCard.Content>
-		</CollapsibleCard.Root>
-	);
 }
 
 export default function EditorConfig() {
