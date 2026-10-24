@@ -3,26 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
+import SettingItem from '../components/setting-item';
 
 export default function WordWrapColumn() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Word Wrap Column', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -32,31 +22,22 @@ export default function WordWrapColumn() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.wordWrapColumn }
-				min={ 20 }
-				max={ 200 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="range"
+			name="wordWrapColumn"
+			label={ __( 'Word Wrap Column', 'custom-html-block-extension' ) }
+			value={ editorOptions.wordWrapColumn }
+			onChange={ onChange }
+			min={ 20 }
+			max={ 200 }
+			defaultValue={ 80 }
+			help={ {
+				description: __(
 					'Controls the wrapping column of the editor.',
 					'custom-html-block-extension'
-				) }
-				image="editor-options/word-wrap-column.gif"
-				value={ editorOptions.wordWrapColumn }
-			/>
-		</Stack>
+				),
+				image: 'editor-options/word-wrap-column.gif',
+			} }
+		/>
 	);
 }

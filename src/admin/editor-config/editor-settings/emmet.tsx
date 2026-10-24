@@ -3,24 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import { Link, Stack, SwitchControl, Text } from '@wordpress/ui';
+import { Link } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function Emmet() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
-
-	const title = __( 'Enable Emmet', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorSettings( {
@@ -30,52 +22,26 @@ export default function Emmet() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorSettings.emmet }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={
-					<>
-						<Text render={ <p /> }>
-							{ __(
-								'Emmet is a function for the editor that allows for high-speed coding via content assist. In the block and classic editor, it is only valid for HTML tags and does not support inline CSS. In the theme/plugin editor, it is available if the file extension is html, php, sass, scss, css, or less.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ createInterpolateElement(
-								__(
-									'Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation. In the theme/plugin editor, this is available if the file extension is html or php.',
-									'custom-html-block-extension'
-								),
-								{
-									code: <code />,
-								}
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							<Link href="https://docs.emmet.io/cheat-sheet/" openInNewTab>
-								{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
-							</Link>
-						</Text>
-					</>
-				}
-				isToggle
-				defaultToggle
-				image="editor-settings/emmet.gif"
-				value={ editorSettings.emmet }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="emmet"
+			label={ __( 'Enable Emmet', 'custom-html-block-extension' ) }
+			value={ editorSettings.emmet }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: createInterpolateElement(
+					__(
+						'Type an abbreviation to expand it into HTML or CSS code. In the block and classic editors, only HTML is supported. Select text and run "Emmet: Wrap with Abbreviation" (<code>F1</code>) to wrap it with an abbreviation. <a>Check cheat sheet</a>',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+						a: <Link href="https://docs.emmet.io/cheat-sheet/" openInNewTab />,
+					}
+				),
+				image: 'editor-settings/emmet.gif',
+			} }
+		/>
 	);
 }

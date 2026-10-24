@@ -3,25 +3,17 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { EditorConfigContext, useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import { EditorConfigContext } from '../../index';
+import SettingItem from '../../components/setting-item';
 
 export default function ScrollbarVerticalHasArrows() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
-
-	const title = __( 'Vertical Has Arrows', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		onRefreshEditor();
@@ -35,40 +27,29 @@ export default function ScrollbarVerticalHasArrows() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.scrollbar.verticalHasArrows }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="toggle"
+			name="scrollbar.verticalHasArrows"
+			label={ __( 'Vertical Has Arrows', 'custom-html-block-extension' ) }
+			value={ editorOptions.scrollbar.verticalHasArrows }
+			onChange={ onChange }
+			defaultValue={ false }
+			options={ [
+				{
+					image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
+					value: false,
+				},
+			] }
+			help={ {
+				description: __(
 					'Controls whether arrows are rendered at the top and bottom of the vertical scrollbar.',
 					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/vertical-has-arrows_1.jpg',
-						value: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/scrollbar/vertical-has-arrows_2.jpg',
-						value: false,
-						isDefault: true,
-					},
-				] }
-				value={ editorOptions.scrollbar.verticalHasArrows }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

@@ -3,49 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function RenderLineHighlight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Render Line Highlight', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Line numbers and the editor content', 'custom-html-block-extension' ),
-			value: 'all',
-			image: 'editor-options/render-line-highlight_1.jpg',
-		},
-		{
-			label: __( 'Only the editor content', 'custom-html-block-extension' ),
-			value: 'line',
-			isDefault: true,
-			image: 'editor-options/render-line-highlight_2.jpg',
-		},
-		{
-			label: __( 'Only line numbers', 'custom-html-block-extension' ),
-			value: 'gutter',
-			image: 'editor-options/render-line-highlight_3.jpg',
-		},
-		{
-			label: __( 'None', 'custom-html-block-extension' ),
-			value: 'none',
-			image: 'editor-options/render-line-highlight_4.jpg',
-		},
-	];
 
 	const onChange = ( value: EditorOptions[ 'renderLineHighlight' ] ) => {
 		setEditorOptions( {
@@ -55,31 +22,41 @@ export default function RenderLineHighlight() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ items }
-				value={ items.find( ( item ) => item.value === editorOptions.renderLineHighlight ) ?? null }
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'renderLineHighlight' ] )
-				}
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="select"
+			name="renderLineHighlight"
+			label={ __( 'Render Line Highlight', 'custom-html-block-extension' ) }
+			value={ editorOptions.renderLineHighlight }
+			onChange={ onChange }
+			defaultValue="line"
+			options={ [
+				{
+					label: __( 'Line numbers and the editor content', 'custom-html-block-extension' ),
+					value: 'all',
+					image: 'editor-options/render-line-highlight_1.jpg',
+				},
+				{
+					label: __( 'Only the editor content', 'custom-html-block-extension' ),
+					value: 'line',
+					image: 'editor-options/render-line-highlight_2.jpg',
+				},
+				{
+					label: __( 'Only line numbers', 'custom-html-block-extension' ),
+					value: 'gutter',
+					image: 'editor-options/render-line-highlight_3.jpg',
+				},
+				{
+					label: __( 'None', 'custom-html-block-extension' ),
+					value: 'none',
+					image: 'editor-options/render-line-highlight_4.jpg',
+				},
+			] }
+			help={ {
+				description: __(
 					'Controls how the editor should render the current line highlight.',
 					'custom-html-block-extension'
-				) }
-				items={ items }
-				value={ editorOptions.renderLineHighlight }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

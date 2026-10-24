@@ -19,7 +19,6 @@ type ItemHelpProps = {
 		value: string | number | boolean;
 		image?: string;
 		isDefault?: boolean;
-		title?: string;
 		description?: ReactNode;
 	}[];
 	colCount?: string | number;
@@ -67,14 +66,12 @@ export default function ItemHelp( {
 				<Dialog.Content>
 					<Stack direction="column" align="start" gap="lg">
 						{ description && (
-							<Stack
-								direction="column"
-								render={ typeof description === 'object' ? <div /> : <p /> }
+							<Text
+								render={ <p /> }
 								className="chbe-admin-editor-config-item-help-modal__decription"
-								gap="sm"
 							>
 								{ description }
-							</Stack>
+							</Text>
 						) }
 						{ isToggle && (
 							<Text render={ <p /> }>
@@ -108,7 +105,7 @@ export default function ItemHelp( {
 										>
 											<img
 												src={ `${ window.chbeObj.pluginUrl }/assets/images/admin/editor-config/${ item.image }` }
-												alt={ item.title }
+												alt={ item.label }
 											/>
 										</Button>
 										{ item.description && (
