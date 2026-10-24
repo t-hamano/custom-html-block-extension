@@ -353,22 +353,33 @@ test.describe( 'Editor config', () => {
 }` );
 		await page.getByRole( 'button', { name: 'Import', exact: true } ).click();
 
-		// The confirmation dialog lists the changed and skipped settings.
+		// The confirmation dialog lists the changed and skipped settings in tabs.
 		const dialog = page.getByRole( 'dialog', { name: 'Import editor config' } );
-		await expect( dialog.getByRole( 'heading', { name: 'Settings to apply (7)' } ) ).toBeVisible();
-		await expect( dialog.getByRole( 'heading', { name: 'Skipped settings (2)' } ) ).toBeVisible();
-		await expect(
-			dialog.getByRole( 'list', { name: 'Skipped settings' } ).getByText( 'cursorStyle' )
-		).toBeVisible();
-		await expect( dialog.getByText( '14 → 30', { exact: true } ) ).toBeVisible();
-		await expect(
-			dialog.getByText( '120 → 200 (300 is out of range)', { exact: true } )
-		).toBeVisible();
+		await expect( dialog.getByRole( 'tab', { name: 'Settings to apply (7)' } ) ).toHaveAttribute(
+			'aria-selected',
+			'true'
+		);
+		await expect( dialog.getByRole( 'option' ).filter( { hasText: 'fontSize' } ) ).toContainText(
+			'14'
+		);
+		await expect( dialog.getByRole( 'option' ).filter( { hasText: 'fontSize' } ) ).toContainText(
+			'30'
+		);
+		await expect( dialog.getByRole( 'option' ).filter( { hasText: 'maxColumn' } ) ).toContainText(
+			'200 (300 is out of range)'
+		);
 
-		// An unchecked setting is not applied.
-		const wordWrap = dialog.getByRole( 'checkbox', { name: 'wordWrap', exact: true } );
+		// An unselected setting is not applied.
+		const wordWrap = dialog.getByRole( 'option' ).filter( { hasText: 'wordWrap' } );
+		await expect( wordWrap ).toHaveAttribute( 'aria-selected', 'true' );
 		await wordWrap.click();
-		await expect( wordWrap ).not.toBeChecked();
+		await expect( wordWrap ).toHaveAttribute( 'aria-selected', 'false' );
+
+		await dialog.getByRole( 'tab', { name: 'Skipped settings (2)' } ).click();
+		await expect(
+			dialog.getByRole( 'tabpanel' ).getByText( 'cursorStyle', { exact: true } )
+		).toBeVisible();
+		await dialog.getByRole( 'tab', { name: 'Settings to apply (7)' } ).click();
 		await dialog.getByRole( 'button', { name: 'Apply', exact: true } ).click();
 		await expect( dialog ).toBeHidden();
 		await expect(
@@ -436,12 +447,14 @@ test.describe( 'Editor config', () => {
 		await textbox.fill( '{ "workbench.colorTheme": "One Dark Pro" }' );
 		await importButton.click();
 		const dialog = page.getByRole( 'dialog', { name: 'Import editor config' } );
-		await expect( dialog.getByRole( 'heading', { name: 'Skipped settings (1)' } ) ).toBeVisible();
+		await expect( dialog.getByRole( 'tab', { name: 'Skipped settings (1)' } ) ).toHaveAttribute(
+			'aria-selected',
+			'true'
+		);
 		await expect(
-			dialog.getByRole( 'list', { name: 'Skipped settings' } ).getByText( 'theme' )
+			dialog.getByRole( 'tabpanel' ).getByText( 'theme', { exact: true } )
 		).toBeVisible();
-		await expect( dialog.getByRole( 'button', { name: 'Apply', exact: true } ) ).toBeDisabled();
-		await dialog.getByRole( 'button', { name: 'Cancel', exact: true } ).click();
+		await dialog.getByRole( 'button', { name: 'Close', exact: true } ).click();
 		await expect( dialog ).toBeHidden();
 		await expect( page.getByRole( 'tab', { name: 'Tools' } ) ).toHaveAttribute(
 			'aria-selected',

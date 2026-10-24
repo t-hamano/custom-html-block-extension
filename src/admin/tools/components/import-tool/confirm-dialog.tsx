@@ -3,7 +3,9 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
-import { Button, CheckboxControl, Dialog, Stack, Text } from '@wordpress/ui';
+import { Dialog, Tabs } from '@wordpress/ui';
+import { DataViews, DataViewsPicker } from '@wordpress/dataviews';
+import type { ActionButton, Field, View } from '@wordpress/dataviews';
 
 /**
  * Internal dependencies
@@ -31,23 +33,51 @@ function getItemKey( item: ImportItem ) {
 	return `${ item.group }.${ item.path }`;
 }
 
-function getItemDescription( item: ImportItem ) {
-	if ( isClampedItem( item ) ) {
-		return sprintf(
-			/* translators: 1: Current value, 2: New value, 3: Imported value out of range. */
-			__( '%1$s → %2$s (%3$s is out of range)', 'custom-html-block-extension' ),
-			formatValue( item.currentValue ),
-			formatValue( item.value ),
-			formatValue( item.originalValue )
-		);
-	}
-	return sprintf(
-		/* translators: 1: Current value, 2: New value. */
-		__( '%1$s → %2$s', 'custom-html-block-extension' ),
-		formatValue( item.currentValue ),
-		formatValue( item.value )
-	);
-}
+const itemFields: Field< ImportItem >[] = [
+	{
+		id: 'path',
+		label: __( 'Setting', 'custom-html-block-extension' ),
+		enableSorting: false,
+		enableHiding: false,
+	},
+	{
+		id: 'currentValue',
+		label: __( 'Current', 'custom-html-block-extension' ),
+		render: ( { item } ) => formatValue( item.currentValue ),
+		enableSorting: false,
+		enableHiding: false,
+	},
+	{
+		id: 'value',
+		label: __( 'New', 'custom-html-block-extension' ),
+		render: ( { item } ) =>
+			isClampedItem( item )
+				? sprintf(
+						/* translators: 1: New value, 2: Imported value out of range. */
+						__( '%1$s (%2$s is out of range)', 'custom-html-block-extension' ),
+						formatValue( item.value ),
+						formatValue( item.originalValue )
+					)
+				: formatValue( item.value ),
+		enableSorting: false,
+		enableHiding: false,
+	},
+];
+
+const skippedFields: Field< SkippedItem >[] = [
+	{
+		id: 'path',
+		label: __( 'Setting', 'custom-html-block-extension' ),
+		enableSorting: false,
+		enableHiding: false,
+	},
+	{
+		id: 'message',
+		label: __( 'Reason', 'custom-html-block-extension' ),
+		enableSorting: false,
+		enableHiding: false,
+	},
+];
 
 export default function ImportConfirmDialog( {
 	items,
@@ -55,21 +85,31 @@ export default function ImportConfirmDialog( {
 	onApply,
 	onClose,
 }: ImportConfirmDialogProps ) {
-	const [ checkedKeys, setCheckedKeys ] = useState(
-		() => new Set( items.map( ( item ) => getItemKey( item ) ) )
-	);
+	const [ selection, setSelection ] = useState( () => items.map( ( item ) => getItemKey( item ) ) );
+	const [ itemView, setItemView ] = useState< View >( {
+		type: 'pickerTable',
+		titleField: 'path',
+		fields: [ 'currentValue', 'value' ],
+		page: 1,
+		perPage: Math.max( items.length, 1 ),
+	} );
+	const [ skippedView, setSkippedView ] = useState< View >( {
+		type: 'table',
+		titleField: 'path',
+		fields: [ 'message' ],
+		page: 1,
+		perPage: Math.max( skipped.length, 1 ),
+	} );
 
-	const onCheckedChange = ( item: ImportItem, checked: boolean ) => {
-		setCheckedKeys( ( current ) => {
-			const next = new Set( current );
-			if ( checked ) {
-				next.add( getItemKey( item ) );
-			} else {
-				next.delete( getItemKey( item ) );
-			}
-			return next;
-		} );
-	};
+	const actions: ActionButton< ImportItem >[] = [
+		{
+			id: 'apply',
+			label: __( 'Apply', 'custom-html-block-extension' ),
+			isPrimary: true,
+			supportsBulk: true,
+			callback: ( selectedItems ) => onApply( selectedItems ),
+		},
+	];
 
 	return (
 		<Dialog.Root
@@ -80,7 +120,7 @@ export default function ImportConfirmDialog( {
 				}
 			} }
 		>
-			<Dialog.Popup size="medium">
+			<Dialog.Popup size="large">
 				<Dialog.Header>
 					<Dialog.Title>
 						{ __( 'Import editor config', 'custom-html-block-extension' ) }
@@ -88,69 +128,58 @@ export default function ImportConfirmDialog( {
 					<Dialog.CloseIconButton />
 				</Dialog.Header>
 				<Dialog.Content>
-					<Stack direction="column" gap="lg">
-						<Text render={ <p /> }>
-							{ __(
-								'Select the settings to apply. They are applied as unsaved changes, so check the preview and save them.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Stack direction="column" gap="md">
-							<Text variant="heading-lg" render={ <h3 /> }>
+					<Tabs.Root defaultValue={ items.length > 0 ? 'apply' : 'skipped' }>
+						<Tabs.List>
+							<Tabs.Tab value="apply">
 								{ sprintf(
 									/* translators: %d: Number of settings. */
 									__( 'Settings to apply (%d)', 'custom-html-block-extension' ),
 									items.length
 								) }
-							</Text>
-							{ items.map( ( item ) => (
-								<CheckboxControl
-									key={ getItemKey( item ) }
-									label={ item.path }
-									description={ getItemDescription( item ) }
-									checked={ checkedKeys.has( getItemKey( item ) ) }
-									onCheckedChange={ ( checked ) => onCheckedChange( item, checked ) }
-								/>
-							) ) }
-						</Stack>
-						{ skipped.length > 0 && (
-							<Stack direction="column" gap="md">
-								<Text variant="heading-lg" render={ <h3 /> }>
-									{ sprintf(
-										/* translators: %d: Number of settings. */
-										__( 'Skipped settings (%d)', 'custom-html-block-extension' ),
-										skipped.length
-									) }
-								</Text>
-								<ul
-									className="chbe-admin-tools__import-skipped"
-									aria-label={ __( 'Skipped settings', 'custom-html-block-extension' ) }
-									// Make the scrollable list reachable with the keyboard.
-									tabIndex={ 0 }
-								>
-									{ skipped.map( ( item, index ) => (
-										<li key={ `${ item.path }-${ index }` }>
-											<code>{ item.path }</code>: { item.message }
-										</li>
-									) ) }
-								</ul>
-							</Stack>
-						) }
-					</Stack>
+							</Tabs.Tab>
+							<Tabs.Tab value="skipped">
+								{ sprintf(
+									/* translators: %d: Number of settings. */
+									__( 'Skipped settings (%d)', 'custom-html-block-extension' ),
+									skipped.length
+								) }
+							</Tabs.Tab>
+						</Tabs.List>
+						<Tabs.Panel value="apply">
+							<DataViewsPicker
+								view={ itemView }
+								onChangeView={ setItemView }
+								fields={ itemFields }
+								data={ items }
+								getItemId={ getItemKey }
+								paginationInfo={ { totalItems: items.length, totalPages: 1 } }
+								defaultLayouts={ { pickerTable: true } }
+								selection={ selection }
+								onChangeSelection={ setSelection }
+								actions={ actions }
+								itemListLabel={ __( 'Settings to apply', 'custom-html-block-extension' ) }
+								empty={ __( 'No settings to apply.', 'custom-html-block-extension' ) }
+							>
+								<DataViewsPicker.Layout />
+								<DataViewsPicker.Footer />
+							</DataViewsPicker>
+						</Tabs.Panel>
+						<Tabs.Panel value="skipped">
+							<DataViews
+								view={ skippedView }
+								onChangeView={ setSkippedView }
+								fields={ skippedFields }
+								data={ skipped }
+								getItemId={ ( item ) => item.path }
+								paginationInfo={ { totalItems: skipped.length, totalPages: 1 } }
+								defaultLayouts={ { table: true } }
+								empty={ __( 'No settings were skipped.', 'custom-html-block-extension' ) }
+							>
+								<DataViews.Layout />
+							</DataViews>
+						</Tabs.Panel>
+					</Tabs.Root>
 				</Dialog.Content>
-				<Dialog.Footer>
-					<Dialog.Action variant="outline">
-						{ __( 'Cancel', 'custom-html-block-extension' ) }
-					</Dialog.Action>
-					<Button
-						disabled={ checkedKeys.size === 0 }
-						onClick={ () =>
-							onApply( items.filter( ( item ) => checkedKeys.has( getItemKey( item ) ) ) )
-						}
-					>
-						{ __( 'Apply', 'custom-html-block-extension' ) }
-					</Button>
-				</Dialog.Footer>
 			</Dialog.Popup>
 		</Dialog.Root>
 	);

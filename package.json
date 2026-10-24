@@ -30,6 +30,7 @@
 		"readme.txt"
 	],
 	"dependencies": {
+		"@wordpress/dataviews": "20.0.0",
 		"@wordpress/icons": "^18.0.0",
 		"@wordpress/ui": "0.24.0",
 		"emmet-monaco-es": "^5.7.0",
