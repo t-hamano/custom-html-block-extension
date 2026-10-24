@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import { Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -60,18 +59,14 @@ export default function AcceptSuggestionOnEnter() {
 				},
 			] }
 			help={ {
-				description: (
-					<Text render={ <p /> }>
-						{ createInterpolateElement(
-							__(
-								'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
-								'custom-html-block-extension'
-							),
-							{
-								code: <code />,
-							}
-						) }
-					</Text>
+				description: createInterpolateElement(
+					__(
+						'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
 				),
 				colCount: 3,
 			} }

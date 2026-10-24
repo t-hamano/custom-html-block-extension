@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import { Link, Text } from '@wordpress/ui';
+import { Link } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -30,31 +30,15 @@ export default function Emmet() {
 			onChange={ onChange }
 			defaultValue
 			help={ {
-				description: (
-					<>
-						<Text render={ <p /> }>
-							{ __(
-								'Emmet is a function for the editor that allows for high-speed coding via content assist. In the block and classic editor, it is only valid for HTML tags and does not support inline CSS. In the theme/plugin editor, it is available if the file extension is html, php, sass, scss, css, or less.',
-								'custom-html-block-extension'
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							{ createInterpolateElement(
-								__(
-									'Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation. In the theme/plugin editor, this is available if the file extension is html or php.',
-									'custom-html-block-extension'
-								),
-								{
-									code: <code />,
-								}
-							) }
-						</Text>
-						<Text render={ <p /> }>
-							<Link href="https://docs.emmet.io/cheat-sheet/" openInNewTab>
-								{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
-							</Link>
-						</Text>
-					</>
+				description: createInterpolateElement(
+					__(
+						'Emmet is a function for the editor that allows for high-speed coding via content assist. In the block and classic editor, it is only valid for HTML tags and does not support inline CSS. In the theme/plugin editor, it is available if the file extension is html, php, sass, scss, css, or less. Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation. In the theme/plugin editor, this is available if the file extension is html or php. <a>Check cheat sheet</a>',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+						a: <Link href="https://docs.emmet.io/cheat-sheet/" openInNewTab />,
+					}
 				),
 				image: 'editor-settings/emmet.gif',
 			} }

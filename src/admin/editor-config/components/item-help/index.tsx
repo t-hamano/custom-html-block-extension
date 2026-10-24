@@ -66,14 +66,12 @@ export default function ItemHelp( {
 				<Dialog.Content>
 					<Stack direction="column" align="start" gap="lg">
 						{ description && (
-							<Stack
-								direction="column"
-								render={ typeof description === 'object' ? <div /> : <p /> }
+							<Text
+								render={ <p /> }
 								className="chbe-admin-editor-config-item-help-modal__decription"
-								gap="sm"
 							>
 								{ description }
-							</Stack>
+							</Text>
 						) }
 						{ isToggle && (
 							<Text render={ <p /> }>

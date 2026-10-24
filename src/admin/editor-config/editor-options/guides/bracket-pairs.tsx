@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Text } from '@wordpress/ui';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -53,13 +52,9 @@ export default function GuidesBracketPairs() {
 				},
 			] }
 			help={ {
-				description: (
-					<Text render={ <p /> }>
-						{ __(
-							'Draw vertical lines between matching brackets, so you can see which code is inside each pair.',
-							'custom-html-block-extension'
-						) }
-					</Text>
+				description: __(
+					'Draw vertical lines between matching brackets, so you can see which code is inside each pair.',
+					'custom-html-block-extension'
 				),
 				colCount: 3,
 			} }

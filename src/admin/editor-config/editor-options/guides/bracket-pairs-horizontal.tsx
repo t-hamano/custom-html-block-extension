@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Text } from '@wordpress/ui';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -53,13 +52,9 @@ export default function GuidesBracketPairsHorizontal() {
 				},
 			] }
 			help={ {
-				description: (
-					<Text render={ <p /> }>
-						{ __(
-							'Add horizontal lines to the guides shown by Bracket Pairs, pointing to the brackets that are not at the start of a line.',
-							'custom-html-block-extension'
-						) }
-					</Text>
+				description: __(
+					'Add horizontal lines to the guides shown by Bracket Pairs, pointing to the brackets that are not at the start of a line.',
+					'custom-html-block-extension'
 				),
 				colCount: 3,
 			} }

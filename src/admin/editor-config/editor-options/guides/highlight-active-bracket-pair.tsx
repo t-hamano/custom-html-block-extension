@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Text } from '@wordpress/ui';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -43,13 +42,9 @@ export default function GuidesHighlightActiveBracketPair() {
 				},
 			] }
 			help={ {
-				description: (
-					<Text render={ <p /> }>
-						{ __(
-							'Draw the guide of the bracket pair at the cursor in the highlight color. When disabled, the guide is still shown in the normal color.',
-							'custom-html-block-extension'
-						) }
-					</Text>
+				description: __(
+					'Draw the guide of the bracket pair at the cursor in the highlight color. When disabled, the guide is still shown in the normal color.',
+					'custom-html-block-extension'
 				),
 			} }
 		/>

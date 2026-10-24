@@ -4,7 +4,6 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
-import { Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -62,22 +61,18 @@ export default function Hover() {
 			] }
 			help={ {
 				hideOptions: true,
-				description: (
-					<Text render={ <p /> }>
-						{ createInterpolateElement(
-							sprintf(
-								/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
-								__(
-									'Shows hints when the mouse is over an element or attribute. If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
-									'custom-html-block-extension'
-								),
-								modifierKey
-							),
-							{
-								code: <code />,
-							}
-						) }
-					</Text>
+				description: createInterpolateElement(
+					sprintf(
+						/* translators: %s is replaced with the modifier key name, such as "Ctrl". */
+						__(
+							'Shows hints when the mouse is over an element or attribute. If "Enable only while holding a modifier key" is selected, hints are shown only while holding the <code>%s</code> key.',
+							'custom-html-block-extension'
+						),
+						modifierKey
+					),
+					{
+						code: <code />,
+					}
 				),
 				image: 'editor-options/hover.gif',
 			} }

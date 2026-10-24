@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Text } from '@wordpress/ui';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -65,13 +64,9 @@ export default function GuidesHighlightActiveIndentation() {
 				},
 			] }
 			help={ {
-				description: (
-					<Text render={ <p /> }>
-						{ __(
-							'Highlight the indent guide of the block at the cursor. This applies to the indent guides shown by Indentation, not to the bracket pair guides.',
-							'custom-html-block-extension'
-						) }
-					</Text>
+				description: __(
+					'Highlight the indent guide of the block at the cursor. This applies to the indent guides shown by Indentation, not to the bracket pair guides.',
+					'custom-html-block-extension'
 				),
 				colCount: 3,
 			} }

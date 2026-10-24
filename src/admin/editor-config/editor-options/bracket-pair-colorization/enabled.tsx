@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import { Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -43,18 +42,14 @@ export default function BracketPairColorizationEnabled() {
 				},
 			] }
 			help={ {
-				description: (
-					<Text render={ <p /> }>
-						{ createInterpolateElement(
-							__(
-								'Color matching brackets, such as <code>()</code>, <code>[]</code>, and <code>{}</code>, according to their nesting level, so you can easily see which brackets form a pair.',
-								'custom-html-block-extension'
-							),
-							{
-								code: <code />,
-							}
-						) }
-					</Text>
+				description: createInterpolateElement(
+					__(
+						'Color matching brackets, such as <code>()</code>, <code>[]</code>, and <code>{}</code>, according to their nesting level, so you can easily see which brackets form a pair.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
 				),
 			} }
 		/>
