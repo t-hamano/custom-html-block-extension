@@ -32,7 +32,7 @@ export default function Emmet() {
 			help={ {
 				description: createInterpolateElement(
 					__(
-						'Emmet is a function for the editor that allows for high-speed coding via content assist. In the block and classic editor, it is only valid for HTML tags and does not support inline CSS. In the theme/plugin editor, it is available if the file extension is html, php, sass, scss, css, or less. Select text and run "Emmet: Wrap with Abbreviation" from the context menu or the command palette (<code>F1</code>) to wrap it with an abbreviation. In the theme/plugin editor, this is available if the file extension is html or php. <a>Check cheat sheet</a>',
+						'Type an abbreviation to expand it into HTML or CSS code. In the block and classic editors, only HTML is supported. Select text and run "Emmet: Wrap with Abbreviation" (<code>F1</code>) to wrap it with an abbreviation. <a>Check cheat sheet</a>',
 						'custom-html-block-extension'
 					),
 					{
