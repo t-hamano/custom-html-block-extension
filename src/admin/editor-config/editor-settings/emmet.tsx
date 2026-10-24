@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import { Link, Notice, Text } from '@wordpress/ui';
+import { Link, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -54,14 +54,6 @@ export default function Emmet() {
 								{ __( 'Check cheat sheet', 'custom-html-block-extension' ) }
 							</Link>
 						</Text>
-						<Notice.Root intent="warning">
-							<Notice.Description>
-								{ __(
-									'Save and reload the browser to reflect this settings in the preview editor area.',
-									'custom-html-block-extension'
-								) }
-							</Notice.Description>
-						</Notice.Root>
 					</>
 				),
 				image: 'editor-settings/emmet.gif',
