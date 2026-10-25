@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -48,9 +48,14 @@ export default function FontLigatures() {
 				},
 			] }
 			help={ {
-				description: __(
-					"Enables/Disables font ligatures ('calt' and 'liga' font features). Only Fira Code font supports ligatures.",
-					'custom-html-block-extension'
+				description: createInterpolateElement(
+					__(
+						'Enables/Disables font ligatures (<code>calt</code> and <code>liga</code> font features). Only Fira Code font supports ligatures.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
 				),
 			} }
 		/>

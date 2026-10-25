@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
 import { SelectControl, Stack } from '@wordpress/ui';
 
@@ -63,15 +63,27 @@ export default function QuickSuggestionsTypes() {
 			label: __( 'Disable', 'custom-html-block-extension' ),
 			value: 'off',
 			image: 'editor-options/quick-suggestions-types_3.gif',
-			description: sprintf(
-				/* translators: %s: The keyboard shortcut to show suggestions. */
-				__(
-					'Suggestions appear only after typing a trigger character such as "<", or pressing %s.',
-					'custom-html-block-extension'
-				),
+			description: createInterpolateElement(
 				isAppleOS()
-					? __( 'Control+Space', 'custom-html-block-extension' )
-					: __( 'Ctrl+Space', 'custom-html-block-extension' )
+					? sprintf(
+							/* translators: %s: A trigger character, such as "<". */
+							__(
+								'Suggestions appear only after typing a trigger character such as <code>%s</code>, or pressing <code>Control</code> + <code>Space</code>.',
+								'custom-html-block-extension'
+							),
+							'<'
+						)
+					: sprintf(
+							/* translators: %s: A trigger character, such as "<". */
+							__(
+								'Suggestions appear only after typing a trigger character such as <code>%s</code>, or pressing <code>Ctrl</code> + <code>Space</code>.',
+								'custom-html-block-extension'
+							),
+							'<'
+						),
+				{
+					code: <code />,
+				}
 			),
 		},
 	];

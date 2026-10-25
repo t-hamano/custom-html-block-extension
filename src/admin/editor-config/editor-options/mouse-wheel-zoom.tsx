@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { isAppleOS } from '@wordpress/keycodes';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -31,13 +31,23 @@ export default function MouseWheelZoom() {
 			defaultValue={ false }
 			help={ {
 				description: isAppleOS()
-					? __(
-							'Zoom the font of the editor when using mouse wheel and holding Cmd.',
-							'custom-html-block-extension'
+					? createInterpolateElement(
+							__(
+								'Zoom the font of the editor when using mouse wheel and holding <code>Command</code>.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
 						)
-					: __(
-							'Zoom the font of the editor when using mouse wheel and holding Ctrl.',
-							'custom-html-block-extension'
+					: createInterpolateElement(
+							__(
+								'Zoom the font of the editor when using mouse wheel and holding <code>Ctrl</code>.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
 						),
 				image: 'editor-options/mouse-wheel-zoom.gif',
 			} }

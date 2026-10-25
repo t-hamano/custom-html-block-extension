@@ -34,27 +34,42 @@ export default function AcceptSuggestionOnEnter() {
 					label: __( 'Enable', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/accept-suggestion-on-enter_1.gif',
-					description: __(
-						'Pressing Enter accepts the suggestion, even if it is the same as the word already typed.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							'Pressing <code>Enter</code> accepts the suggestion, even if it is the same as the word already typed.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 				{
 					label: __( 'Only when it makes a text change', 'custom-html-block-extension' ),
 					value: 'smart',
 					image: 'editor-options/accept-suggestion-on-enter_2.gif',
-					description: __(
-						'Only accept a suggestion with Enter when it makes a textual change.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							'Only accept a suggestion with <code>Enter</code> when it makes a textual change.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 				{
 					label: __( 'Disable', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/accept-suggestion-on-enter_3.gif',
-					description: __(
-						'Pressing Enter always inserts a new line. Use Tab to accept the suggestion.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							'Pressing <code>Enter</code> always inserts a new line. Use <code>Tab</code> to accept the suggestion.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 			] }

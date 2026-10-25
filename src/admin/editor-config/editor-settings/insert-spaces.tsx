@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -41,9 +41,14 @@ export default function InsertSpaces() {
 				},
 			] }
 			help={ {
-				description: __(
-					'Controls whether to insert a tab character or spaces when pressing the Tab key.',
-					'custom-html-block-extension'
+				description: createInterpolateElement(
+					__(
+						'Controls whether to insert a tab character or spaces when pressing the <code>Tab</code> key.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
 				),
 			} }
 		/>
