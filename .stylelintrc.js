@@ -1,12 +1,5 @@
 module.exports = {
 	extends: [ '@wordpress/stylelint-config/scss-stylistic' ],
-	ignoreFiles: [
-		'build/**/*.css',
-		'node_modules/**/*.css',
-		'vendor/**/*.css',
-		'**/*.js',
-		'**/*.svg',
-	],
 	rules: {
 		'no-descending-specificity': null,
 		'font-family-no-missing-generic-family-keyword': null,

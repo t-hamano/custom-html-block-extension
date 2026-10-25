@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import type { ReactNode } from 'react';
 import clsx from 'clsx';
 
 /**
@@ -16,7 +15,7 @@ import {
 	useRef,
 	useState,
 } from '@wordpress/element';
-import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
+import { Stack, Text } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 
@@ -28,6 +27,7 @@ import { updateSettings } from '../api';
 import EditorPreview from './components/editor-preview';
 import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
+import SettingsPanel, { SettingsPanelContext } from './components/settings-panel';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
 import { isDeepEqual } from '../../lib/helper';
@@ -58,11 +58,12 @@ function getSearchPatterns( searchQuery: string ): RegExp[] {
 }
 
 // Whether a setting with the given title matches the current search query.
-// `parent` is the name of the group a nested setting belongs to (e.g.
-// "Minimap"), so searching for the group still finds its settings.
-export function useSearchVisibility( title: string, parent?: string ): boolean {
+// The panel title and the setting key are also matched, so searching for a
+// panel or an option group such as "Guides" finds all of its settings.
+export function useSearchVisibility( title: string, name: string ): boolean {
 	const { searchQuery } = useContext( EditorConfigContext );
-	const searchText = parent ? `${ parent } ${ title }` : title;
+	const panelTitle = useContext( SettingsPanelContext );
+	const searchText = [ panelTitle, title, name ].filter( Boolean ).join( ' ' );
 	return getSearchPatterns( searchQuery ).every(
 		( pattern ) => searchText.search( pattern ) !== -1
 	);
@@ -109,30 +110,6 @@ function useSearchHighlight( searchQuery: string ) {
 	}, [ searchQuery ] );
 
 	return ref;
-}
-
-// Collapsible panel, forced open while a search query is active and otherwise
-// toggled by the user.
-function SettingsPanel( { title, children }: { title: string; children: ReactNode } ) {
-	const { searchQuery } = useContext( EditorConfigContext );
-	const [ isOpen, setIsOpen ] = useState( false );
-
-	return (
-		<CollapsibleCard.Root
-			className="chbe-admin-editor-config__panel"
-			open={ !! searchQuery || isOpen }
-			onOpenChange={ setIsOpen }
-		>
-			<CollapsibleCard.Header render={ <h2 /> }>
-				<Card.Title>{ title }</Card.Title>
-			</CollapsibleCard.Header>
-			<CollapsibleCard.Content>
-				<Stack direction="column" gap="lg">
-					{ children }
-				</Stack>
-			</CollapsibleCard.Content>
-		</CollapsibleCard.Root>
-	);
 }
 
 export default function EditorConfig() {

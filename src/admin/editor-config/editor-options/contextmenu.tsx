@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function Contextmenu() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Context Menu', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,39 +21,28 @@ export default function Contextmenu() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.contextmenu }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __( 'Enable custom context menu.', 'custom-html-block-extension' ) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/contextmenu_1.jpg',
-						isDefault: true,
-						description: __( 'Show the editor context menu.', 'custom-html-block-extension' ),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/contextmenu_2.jpg',
-						description: __( 'Show the browser context menu.', 'custom-html-block-extension' ),
-					},
-				] }
-				value={ editorOptions.contextmenu }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="contextmenu"
+			label={ __( 'Context Menu', 'custom-html-block-extension' ) }
+			value={ editorOptions.contextmenu }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/contextmenu_1.jpg',
+					description: __( 'Show the editor context menu.', 'custom-html-block-extension' ),
+				},
+				{
+					value: false,
+					image: 'editor-options/contextmenu_2.jpg',
+					description: __( 'Show the browser context menu.', 'custom-html-block-extension' ),
+				},
+			] }
+			help={ {
+				description: __( 'Enable custom context menu.', 'custom-html-block-extension' ),
+			} }
+		/>
 	);
 }

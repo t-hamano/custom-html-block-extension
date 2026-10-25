@@ -3,26 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
 import { toNumber } from '../../../../lib/helper';
+import SettingItem from '../../components/setting-item';
 
 export default function MinimapScale() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Scale', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -35,31 +25,19 @@ export default function MinimapScale() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.minimap.scale }
-				min={ 1 }
-				max={ 3 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Scale of content drawn in the minimap.',
-					'custom-html-block-extension'
-				) }
-				image="editor-options/minimap/scale.gif"
-				value={ editorOptions.minimap.scale }
-			/>
-		</Stack>
+		<SettingItem
+			control="range"
+			name="minimap.scale"
+			label={ __( 'Scale', 'custom-html-block-extension' ) }
+			value={ editorOptions.minimap.scale }
+			onChange={ onChange }
+			min={ 1 }
+			max={ 3 }
+			defaultValue={ 1 }
+			help={ {
+				description: __( 'Scale of content drawn in the minimap.', 'custom-html-block-extension' ),
+				image: 'editor-options/minimap/scale.gif',
+			} }
+		/>
 	);
 }

@@ -15,7 +15,6 @@ import { useSearchVisibility } from '../index';
 import ItemHelp from '../components/item-help';
 
 type TokenType = keyof EditorOptions[ 'quickSuggestions' ];
-type Value = EditorOptions[ 'quickSuggestions' ][ TokenType ];
 
 export default function QuickSuggestionsTypes() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -31,7 +30,8 @@ export default function QuickSuggestionsTypes() {
 	];
 	// The title only appears in the help dialog, so also match the labels shown.
 	const isVisible = useSearchVisibility(
-		[ title, ...tokenTypes.map( ( tokenType ) => tokenType.label ) ].join( ' ' )
+		[ title, ...tokenTypes.map( ( tokenType ) => tokenType.label ) ].join( ' ' ),
+		'quickSuggestions'
 	);
 
 	if ( ! isVisible ) {
@@ -78,7 +78,10 @@ export default function QuickSuggestionsTypes() {
 
 	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
 
-	const onChange = ( tokenType: TokenType, value: Value ) => {
+	const onChange = (
+		tokenType: TokenType,
+		value: EditorOptions[ 'quickSuggestions' ][ TokenType ]
+	) => {
 		setEditorOptions( {
 			...editorOptions,
 			quickSuggestions: {
@@ -91,7 +94,7 @@ export default function QuickSuggestionsTypes() {
 	const { other, comments, strings } = editorOptions.quickSuggestions;
 	const allValue = other === comments && other === strings ? other : undefined;
 
-	const onChangeAll = ( value: Value ) => {
+	const onChangeAll = ( value: EditorOptions[ 'quickSuggestions' ][ TokenType ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			quickSuggestions: {
@@ -121,7 +124,13 @@ export default function QuickSuggestionsTypes() {
 								( item ) => item.value === editorOptions.quickSuggestions[ tokenType.value ]
 							) ?? null
 						}
-						onValueChange={ ( item ) => item && onChange( tokenType.value, item.value as Value ) }
+						onValueChange={ ( item ) =>
+							item &&
+							onChange(
+								tokenType.value,
+								item.value as EditorOptions[ 'quickSuggestions' ][ TokenType ]
+							)
+						}
 					/>
 				) ) }
 			</Stack>
