@@ -1,19 +1,17 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
 import { useDebounce } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { EditorConfigContext, useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import { EditorConfigContext } from '../../index';
 import { toNumber } from '../../../../lib/helper';
+import SettingItem from '../../components/setting-item';
 
 export default function ScrollbarArrowSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -21,13 +19,6 @@ export default function ScrollbarArrowSize() {
 
 	// Debounce the refresh to avoid refreshing the editor every time the range is changed.
 	const debouncedRefreshEditor = useDebounce( onRefreshEditor, 200 );
-
-	const title = __( 'Arrow Size (px)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title, __( 'Scrollbar', 'custom-html-block-extension' ) );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( newValue: number | undefined ) => {
 		const nextValue = newValue ? toNumber( newValue, 5, 50 ) : 11;
@@ -42,50 +33,31 @@ export default function ScrollbarArrowSize() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.scrollbar.arrowSize }
-				min={ 5 }
-				max={ 50 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="range"
+			name="scrollbar.arrowSize"
+			label={ __( 'Arrow Size (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.scrollbar.arrowSize }
+			onChange={ onChange }
+			min={ 5 }
+			max={ 50 }
+			defaultValue={ 11 }
+			options={ [
+				{
+					image: 'editor-options/scrollbar/arrow-size_1.jpg',
+					value: 10,
+				},
+				{
+					image: 'editor-options/scrollbar/arrow-size_2.jpg',
+					value: 30,
+				},
+			] }
+			help={ {
+				description: __(
 					'Controls the size of the scrollbar arrows.',
 					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'10'
-						),
-						image: 'editor-options/scrollbar/arrow-size_1.jpg',
-						value: 10,
-					},
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'30'
-						),
-						image: 'editor-options/scrollbar/arrow-size_2.jpg',
-						value: 30,
-					},
-				] }
-				value={ editorOptions.scrollbar.arrowSize }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

@@ -3,49 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function LineNumbers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Line Numbers', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Hide', 'custom-html-block-extension' ),
-			value: 'off',
-			image: 'editor-options/line-numbers_1.jpg',
-		},
-		{
-			label: __( 'Show', 'custom-html-block-extension' ),
-			value: 'on',
-			image: 'editor-options/line-numbers_2.jpg',
-			isDefault: true,
-		},
-		{
-			label: __( 'Show number of lines to cursor position', 'custom-html-block-extension' ),
-			value: 'relative',
-			image: 'editor-options/line-numbers_3.gif',
-		},
-		{
-			label: __( 'Show every 10 lines', 'custom-html-block-extension' ),
-			value: 'interval',
-			image: 'editor-options/line-numbers_4.gif',
-		},
-	];
 
 	const onChange = ( value: EditorOptions[ 'lineNumbers' ] ) => {
 		setEditorOptions( {
@@ -55,29 +22,39 @@ export default function LineNumbers() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ items }
-				value={ items.find( ( item ) => item.value === editorOptions.lineNumbers ) ?? null }
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'lineNumbers' ] )
-				}
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __( 'Controls the display of line numbers.', 'custom-html-block-extension' ) }
-				items={ items }
-				colCount="4"
-				value={ editorOptions.lineNumbers }
-			/>
-		</Stack>
+		<SettingItem
+			control="select"
+			name="lineNumbers"
+			label={ __( 'Line Numbers', 'custom-html-block-extension' ) }
+			value={ editorOptions.lineNumbers }
+			onChange={ onChange }
+			defaultValue="on"
+			options={ [
+				{
+					label: __( 'Hide', 'custom-html-block-extension' ),
+					value: 'off',
+					image: 'editor-options/line-numbers_1.jpg',
+				},
+				{
+					label: __( 'Show', 'custom-html-block-extension' ),
+					value: 'on',
+					image: 'editor-options/line-numbers_2.jpg',
+				},
+				{
+					label: __( 'Show number of lines to cursor position', 'custom-html-block-extension' ),
+					value: 'relative',
+					image: 'editor-options/line-numbers_3.gif',
+				},
+				{
+					label: __( 'Show every 10 lines', 'custom-html-block-extension' ),
+					value: 'interval',
+					image: 'editor-options/line-numbers_4.gif',
+				},
+			] }
+			help={ {
+				description: __( 'Controls the display of line numbers.', 'custom-html-block-extension' ),
+				colCount: 4,
+			} }
+		/>
 	);
 }

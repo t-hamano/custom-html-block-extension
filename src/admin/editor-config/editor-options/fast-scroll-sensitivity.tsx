@@ -3,24 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
 import { toNumber } from '../../../lib/helper';
+import SettingItem from '../components/setting-item';
 
 export default function FastScrollSensitivity() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Fast Scroll Sensitivity', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -30,15 +22,15 @@ export default function FastScrollSensitivity() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<RangeControl
-				label={ title }
-				min={ 1 }
-				max={ 10 }
-				value={ editorOptions.fastScrollSensitivity }
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<SettingItem
+			control="range"
+			name="fastScrollSensitivity"
+			label={ __( 'Fast Scroll Sensitivity', 'custom-html-block-extension' ) }
+			value={ editorOptions.fastScrollSensitivity }
+			onChange={ onChange }
+			min={ 1 }
+			max={ 10 }
+			defaultValue={ 5 }
+		/>
 	);
 }

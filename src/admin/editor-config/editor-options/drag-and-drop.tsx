@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function DragAndDrop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Drag And Drop', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,30 +21,20 @@ export default function DragAndDrop() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.dragAndDrop }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="toggle"
+			name="dragAndDrop"
+			label={ __( 'Drag And Drop', 'custom-html-block-extension' ) }
+			value={ editorOptions.dragAndDrop }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
 					'Controls whether the editor should allow moving selections via drag and drop.',
 					'custom-html-block-extension'
-				) }
-				isToggle
-				defaultToggle
-				image="editor-options/drag-and-drop.gif"
-				value={ editorOptions.dragAndDrop }
-			/>
-		</Stack>
+				),
+				image: 'editor-options/drag-and-drop.gif',
+			} }
+		/>
 	);
 }

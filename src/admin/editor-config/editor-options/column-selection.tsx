@@ -4,24 +4,15 @@
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
-import { Stack, SwitchControl, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function ColumnSelection() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Column Selection', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -31,51 +22,35 @@ export default function ColumnSelection() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.columnSelection }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={
-					<>
-						<Text render={ <p /> }>
-							{ isAppleOS()
-								? createInterpolateElement(
-										__(
-											'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Option</code> + drag mouse, or <code>Shift</code> + <code>Option</code> + <code>Command</code> + arrow key.',
-											'custom-html-block-extension'
-										),
-										{
-											code: <code />,
-										}
-									)
-								: createInterpolateElement(
-										__(
-											'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Alt</code> + drag mouse, or <code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key.',
-											'custom-html-block-extension'
-										),
-										{
-											code: <code />,
-										}
-									) }
-						</Text>
-					</>
-				}
-				isToggle
-				defaultToggle={ false }
-				image="editor-options/column-selection.gif"
-				value={ editorOptions.columnSelection }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="columnSelection"
+			label={ __( 'Column Selection', 'custom-html-block-extension' ) }
+			value={ editorOptions.columnSelection }
+			onChange={ onChange }
+			defaultValue={ false }
+			help={ {
+				description: isAppleOS()
+					? createInterpolateElement(
+							__(
+								'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Option</code> + drag mouse, or <code>Shift</code> + <code>Option</code> + <code>Command</code> + arrow key.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
+						)
+					: createInterpolateElement(
+							__(
+								'Always enable column selection. Even when disabled, you can make a column selection with <code>Shift</code> + <code>Alt</code> + drag mouse, or <code>Ctrl</code> + <code>Shift</code> + <code>Alt</code> + arrow key.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
+						),
+				image: 'editor-options/column-selection.gif',
+			} }
+		/>
 	);
 }
