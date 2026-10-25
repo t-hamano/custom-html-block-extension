@@ -12,7 +12,6 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
-	useLayoutEffect,
 	useRef,
 	useState,
 } from '@wordpress/element';
@@ -29,6 +28,7 @@ import EditorPreview from './components/editor-preview';
 import Filter, { type EditorMode } from './components/filter';
 import Controls from './components/controls';
 import SettingsPanel, { SettingsPanelContext } from './components/settings-panel';
+import SettingGroup from './components/setting-group';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
 import { isDeepEqual } from '../../lib/helper';
@@ -40,34 +40,6 @@ import type { EditorConfigContextType } from '../../types';
 export const EditorConfigContext = createContext< EditorConfigContextType >(
 	{} as EditorConfigContextType
 );
-
-// Value for the `inert` attribute; the empty string enables it (React 18 form).
-function inertValue( condition: boolean ): '' | undefined {
-	return condition ? '' : undefined;
-}
-
-// Wrapper for settings that depend on another setting. It is marked as empty
-// when none of its settings match the search query, so it takes no space.
-function SettingGroup( { isDisabled, children }: { isDisabled: boolean; children: ReactNode } ) {
-	const { searchQuery } = useContext( EditorConfigContext );
-	const ref = useRef< HTMLDivElement >( null );
-	const [ isEmpty, setIsEmpty ] = useState( false );
-
-	// The settings decide their own visibility, so check the rendered result.
-	useLayoutEffect( () => {
-		setIsEmpty( ! ref.current?.querySelector( '.chbe-admin-editor-config__setting-item' ) );
-	}, [ searchQuery ] );
-
-	return (
-		<div
-			ref={ ref }
-			className={ clsx( 'chbe-admin-editor-config__setting-group', { 'is-empty': isEmpty } ) }
-			inert={ inertValue( isDisabled ) }
-		>
-			{ children }
-		</div>
-	);
-}
 
 // Name of the CSS custom highlight for the words matching the search query.
 const SEARCH_HIGHLIGHT_NAME = 'chbe-editor-config-search';
