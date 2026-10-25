@@ -161,100 +161,114 @@ export default function ImportConfirmDialog( {
 						className="chbe-admin-tools__import-tabs"
 						defaultValue={ items.length > 0 ? 'apply' : 'skipped' }
 					>
-						<Tabs.List className="chbe-admin-tools__import-tab-list">
-							<Tabs.Tab value="apply">
-								{ sprintf(
-									/* translators: %d: Number of settings. */
-									__( 'Settings to apply (%d)', 'custom-html-block-extension' ),
-									items.length
-								) }
-							</Tabs.Tab>
-							<Tabs.Tab value="unchanged">
-								{ sprintf(
-									/* translators: %d: Number of settings. */
-									__( 'Unchanged settings (%d)', 'custom-html-block-extension' ),
-									unchanged.length
-								) }
-							</Tabs.Tab>
-							<Tabs.Tab value="skipped">
-								{ sprintf(
-									/* translators: %d: Number of settings. */
-									__( 'Skipped settings (%d)', 'custom-html-block-extension' ),
-									skipped.length
-								) }
-							</Tabs.Tab>
-						</Tabs.List>
-						<Tabs.Panel value="apply" className="chbe-admin-tools__import-panel">
-							<Stack direction="column" gap="md" className="chbe-admin-tools__import-panel-content">
-								<Text render={ <p /> }>
-									{ __(
-										'Select the settings to import. They are applied as unsaved changes, so check the preview and save them.',
-										'custom-html-block-extension'
+						<Stack direction="column" gap="lg" className="chbe-admin-tools__import-tabs-content">
+							<Tabs.List className="chbe-admin-tools__import-tab-list">
+								<Tabs.Tab value="apply">
+									{ sprintf(
+										/* translators: %d: Number of settings. */
+										__( 'Settings to apply (%d)', 'custom-html-block-extension' ),
+										items.length
 									) }
-								</Text>
-								<DataViewsPicker
-									view={ itemView }
-									onChangeView={ setItemView }
-									fields={ itemFields }
-									data={ items }
-									getItemId={ ( item ) => `${ item.group }.${ item.path }` }
-									paginationInfo={ { totalItems: items.length, totalPages: 1 } }
-									defaultLayouts={ { pickerTable: true } }
-									selection={ selection }
-									onChangeSelection={ setSelection }
-									actions={ actions }
-									itemListLabel={ __( 'Settings to apply', 'custom-html-block-extension' ) }
-									empty={ __( 'No settings to apply.', 'custom-html-block-extension' ) }
-								>
-									<DataViewsPicker.Layout />
-									<DataViewsPicker.Footer />
-								</DataViewsPicker>
-							</Stack>
-						</Tabs.Panel>
-						<Tabs.Panel value="unchanged" className="chbe-admin-tools__import-panel">
-							<Stack direction="column" gap="md" className="chbe-admin-tools__import-panel-content">
-								<Text render={ <p /> }>
-									{ __(
-										'The following settings are the same as the current ones.',
-										'custom-html-block-extension'
+								</Tabs.Tab>
+								<Tabs.Tab value="unchanged">
+									{ sprintf(
+										/* translators: %d: Number of settings. */
+										__( 'Unchanged settings (%d)', 'custom-html-block-extension' ),
+										unchanged.length
 									) }
-								</Text>
-								<DataViews
-									view={ unchangedView }
-									onChangeView={ setUnchangedView }
-									fields={ unchangedFields }
-									data={ unchanged }
-									getItemId={ ( item ) => `${ item.group }.${ item.path }` }
-									paginationInfo={ { totalItems: unchanged.length, totalPages: 1 } }
-									defaultLayouts={ { table: true } }
-									empty={ __( 'No settings are unchanged.', 'custom-html-block-extension' ) }
-								>
-									<DataViews.Layout />
-								</DataViews>
-							</Stack>
-						</Tabs.Panel>
-						<Tabs.Panel value="skipped" className="chbe-admin-tools__import-panel">
-							<Stack direction="column" gap="md" className="chbe-admin-tools__import-panel-content">
-								<Text render={ <p /> }>
-									{ __(
-										'The following settings cannot be imported.',
-										'custom-html-block-extension'
+								</Tabs.Tab>
+								<Tabs.Tab value="skipped">
+									{ sprintf(
+										/* translators: %d: Number of settings. */
+										__( 'Skipped settings (%d)', 'custom-html-block-extension' ),
+										skipped.length
 									) }
-								</Text>
-								<DataViews
-									view={ skippedView }
-									onChangeView={ setSkippedView }
-									fields={ skippedFields }
-									data={ skipped }
-									getItemId={ ( item ) => item.path }
-									paginationInfo={ { totalItems: skipped.length, totalPages: 1 } }
-									defaultLayouts={ { table: true } }
-									empty={ __( 'No settings were skipped.', 'custom-html-block-extension' ) }
+								</Tabs.Tab>
+							</Tabs.List>
+							<Tabs.Panel value="apply" className="chbe-admin-tools__import-panel">
+								<Stack
+									direction="column"
+									gap="md"
+									className="chbe-admin-tools__import-panel-content"
 								>
-									<DataViews.Layout />
-								</DataViews>
-							</Stack>
-						</Tabs.Panel>
+									<Text render={ <p /> }>
+										{ __(
+											'Select the settings to import. They are applied as unsaved changes, so check the preview and save them.',
+											'custom-html-block-extension'
+										) }
+									</Text>
+									<DataViewsPicker
+										view={ itemView }
+										onChangeView={ setItemView }
+										fields={ itemFields }
+										data={ items }
+										getItemId={ ( item ) => `${ item.group }.${ item.path }` }
+										paginationInfo={ { totalItems: items.length, totalPages: 1 } }
+										defaultLayouts={ { pickerTable: true } }
+										selection={ selection }
+										onChangeSelection={ setSelection }
+										actions={ actions }
+										itemListLabel={ __( 'Settings to apply', 'custom-html-block-extension' ) }
+										empty={ __( 'No settings to apply.', 'custom-html-block-extension' ) }
+									>
+										<DataViewsPicker.Layout />
+										<DataViewsPicker.Footer />
+									</DataViewsPicker>
+								</Stack>
+							</Tabs.Panel>
+							<Tabs.Panel value="unchanged" className="chbe-admin-tools__import-panel">
+								<Stack
+									direction="column"
+									gap="md"
+									className="chbe-admin-tools__import-panel-content"
+								>
+									<Text render={ <p /> }>
+										{ __(
+											'The following settings are the same as the current ones.',
+											'custom-html-block-extension'
+										) }
+									</Text>
+									<DataViews
+										view={ unchangedView }
+										onChangeView={ setUnchangedView }
+										fields={ unchangedFields }
+										data={ unchanged }
+										getItemId={ ( item ) => `${ item.group }.${ item.path }` }
+										paginationInfo={ { totalItems: unchanged.length, totalPages: 1 } }
+										defaultLayouts={ { table: true } }
+										empty={ __( 'No settings are unchanged.', 'custom-html-block-extension' ) }
+									>
+										<DataViews.Layout />
+									</DataViews>
+								</Stack>
+							</Tabs.Panel>
+							<Tabs.Panel value="skipped" className="chbe-admin-tools__import-panel">
+								<Stack
+									direction="column"
+									gap="md"
+									className="chbe-admin-tools__import-panel-content"
+								>
+									<Text render={ <p /> }>
+										{ __(
+											'The following settings cannot be imported.',
+											'custom-html-block-extension'
+										) }
+									</Text>
+									<DataViews
+										view={ skippedView }
+										onChangeView={ setSkippedView }
+										fields={ skippedFields }
+										data={ skipped }
+										getItemId={ ( item ) => item.path }
+										paginationInfo={ { totalItems: skipped.length, totalPages: 1 } }
+										defaultLayouts={ { table: true } }
+										empty={ __( 'No settings were skipped.', 'custom-html-block-extension' ) }
+									>
+										<DataViews.Layout />
+									</DataViews>
+								</Stack>
+							</Tabs.Panel>
+						</Stack>
 					</Tabs.Root>
 				</Dialog.Content>
 			</Dialog.Popup>

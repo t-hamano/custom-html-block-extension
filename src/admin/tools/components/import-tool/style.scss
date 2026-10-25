@@ -22,13 +22,17 @@
 	min-height: 0;
 }
 
+.chbe-admin-tools__import-tabs-content {
+	flex: 1;
+	min-height: 0;
+}
+
 .chbe-admin-tools__import-tab-list {
 	flex-shrink: 0;
 }
 
 .chbe-admin-tools__import-panel {
 	flex: 1;
-	padding-top: 16px;
 
 	&:not([hidden]) {
 		display: flex;
