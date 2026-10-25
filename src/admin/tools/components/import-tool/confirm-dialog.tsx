@@ -107,6 +107,7 @@ export default function ImportConfirmDialog( {
 	);
 	const [ itemView, setItemView ] = useState< View >( {
 		type: 'pickerTable',
+		layout: { enableMoving: false },
 		titleField: 'path',
 		fields: [ 'currentValue', 'value' ],
 		page: 1,
@@ -114,6 +115,7 @@ export default function ImportConfirmDialog( {
 	} );
 	const [ unchangedView, setUnchangedView ] = useState< View >( {
 		type: 'table',
+		layout: { enableMoving: false },
 		titleField: 'path',
 		fields: [ 'value' ],
 		page: 1,
@@ -121,6 +123,7 @@ export default function ImportConfirmDialog( {
 	} );
 	const [ skippedView, setSkippedView ] = useState< View >( {
 		type: 'table',
+		layout: { enableMoving: false },
 		titleField: 'path',
 		fields: [ 'message' ],
 		page: 1,
