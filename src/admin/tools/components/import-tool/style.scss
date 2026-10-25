@@ -11,30 +11,42 @@
 // Let the table fill the remaining height of the dialog and scroll it alone,
 // so that the column headers, the description, the tabs, and the footer stay
 // visible.
-.chbe-admin-tools__import-dialog-content,
-.chbe-admin-tools__import-tabs,
-.chbe-admin-tools__import-panel:not([hidden]),
-.chbe-admin-tools__import-panel-content {
+.chbe-admin-tools__import-dialog-content {
 	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.chbe-admin-tools__import-tabs {
+	display: flex;
+	flex: 1;
 	flex-direction: column;
 	min-height: 0;
 }
 
-.chbe-admin-tools__import-dialog-content {
-	overflow: hidden;
-}
-
-.chbe-admin-tools__import-tabs,
-.chbe-admin-tools__import-panel,
-.chbe-admin-tools__import-panel-content {
-	flex: 1;
+.chbe-admin-tools__import-tab-list {
+	flex-shrink: 0;
 }
 
 .chbe-admin-tools__import-panel {
+	flex: 1;
 	padding-top: 16px;
+
+	&:not([hidden]) {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
 }
 
-.chbe-admin-tools__import-tab-list,
-.chbe-admin-tools__import-panel-content > p {
-	flex-shrink: 0;
+.chbe-admin-tools__import-panel-content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-height: 0;
+
+	> p {
+		flex-shrink: 0;
+	}
 }
