@@ -26,16 +26,8 @@ type ImportConfirmDialogProps = {
 	onClose: () => void;
 };
 
-function formatValue( value: unknown ) {
-	return JSON.stringify( value ) ?? '';
-}
-
 function renderValue( value: unknown ) {
-	return <code>{ formatValue( value ) }</code>;
-}
-
-function getItemKey( item: ImportItem ) {
-	return `${ item.group }.${ item.path }`;
+	return <code>{ JSON.stringify( value ) ?? '' }</code>;
 }
 
 const itemFields: Field< ImportItem >[] = [
@@ -110,7 +102,9 @@ export default function ImportConfirmDialog( {
 	onApply,
 	onClose,
 }: ImportConfirmDialogProps ) {
-	const [ selection, setSelection ] = useState( () => items.map( ( item ) => getItemKey( item ) ) );
+	const [ selection, setSelection ] = useState( () =>
+		items.map( ( item ) => `${ item.group }.${ item.path }` )
+	);
 	const [ itemView, setItemView ] = useState< View >( {
 		type: 'pickerTable',
 		titleField: 'path',
@@ -200,7 +194,7 @@ export default function ImportConfirmDialog( {
 									onChangeView={ setItemView }
 									fields={ itemFields }
 									data={ items }
-									getItemId={ getItemKey }
+									getItemId={ ( item ) => `${ item.group }.${ item.path }` }
 									paginationInfo={ { totalItems: items.length, totalPages: 1 } }
 									defaultLayouts={ { pickerTable: true } }
 									selection={ selection }
@@ -227,7 +221,7 @@ export default function ImportConfirmDialog( {
 									onChangeView={ setUnchangedView }
 									fields={ unchangedFields }
 									data={ unchanged }
-									getItemId={ getItemKey }
+									getItemId={ ( item ) => `${ item.group }.${ item.path }` }
 									paginationInfo={ { totalItems: unchanged.length, totalPages: 1 } }
 									defaultLayouts={ { table: true } }
 									empty={ __( 'No settings are unchanged.', 'custom-html-block-extension' ) }
