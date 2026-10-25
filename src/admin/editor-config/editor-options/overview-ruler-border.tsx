@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function OverviewRulerBorder() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Show border on scrollbar', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,36 +21,29 @@ export default function OverviewRulerBorder() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.overviewRulerBorder }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/overview-ruler-border_1.jpg',
-						value: true,
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/overview-ruler-border_2.jpg',
-						value: false,
-					},
-				] }
-				value={ editorOptions.overviewRulerBorder }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="overviewRulerBorder"
+			label={ __( 'Overview Ruler Border', 'custom-html-block-extension' ) }
+			value={ editorOptions.overviewRulerBorder }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					image: 'editor-options/overview-ruler-border_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/overview-ruler-border_2.jpg',
+					value: false,
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether a border should be drawn around the overview ruler.',
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

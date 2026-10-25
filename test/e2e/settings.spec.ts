@@ -194,7 +194,7 @@ test.describe( 'Editor config', () => {
 	} ) => {
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
-		await page.getByRole( 'spinbutton', { name: 'Indent width' } ).fill( '4' );
+		await page.getByRole( 'spinbutton', { name: 'Tab Size' } ).fill( '3' );
 		await page.getByRole( 'combobox', { name: 'Theme' } ).click();
 		await page.getByRole( 'option', { name: 'GitHub', exact: true } ).click();
 		await page.getByRole( 'button', { name: 'Save settings' } ).click();
@@ -217,7 +217,7 @@ test.describe( 'Editor config', () => {
 					?.getModel()
 					?.getOptions().tabSize
 		);
-		expect( tabSize ).toBe( 4 );
+		expect( tabSize ).toBe( 3 );
 
 		// The GitHub theme is based on the light (`vs`) theme.
 		await expect( monacoEditor ).toHaveClass( /(^|\s)vs(\s|$)/ );
@@ -231,12 +231,12 @@ test.describe( 'Editor config', () => {
 		await requestUtils.rest( {
 			method: 'POST',
 			path: '/wp/v2/settings',
-			data: { [ EDITOR_SETTINGS ]: { tabSize: 4 }, [ EDITOR_OPTIONS ]: { fontSize: 20 } },
+			data: { [ EDITOR_SETTINGS ]: { tabSize: 3 }, [ EDITOR_OPTIONS ]: { fontSize: 20 } },
 		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 
-		const tabSize = page.getByRole( 'spinbutton', { name: 'Indent width' } );
-		await expect( tabSize ).toHaveValue( '4' );
+		const tabSize = page.getByRole( 'spinbutton', { name: 'Tab Size' } );
+		await expect( tabSize ).toHaveValue( '3' );
 
 		// The range controls also have "Reset" buttons, so pick the one opening the dialog.
 		await page
@@ -249,10 +249,10 @@ test.describe( 'Editor config', () => {
 				.getByRole( 'button', { name: 'Dismiss this notice' } )
 				.filter( { hasText: 'Settings have been reset.' } )
 		).toBeVisible();
-		await expect( tabSize ).toHaveValue( '2' );
+		await expect( tabSize ).toHaveValue( '4' );
 
 		const response = await requestUtils.rest( { path: '/wp/v2/settings' } );
-		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 2 } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4 } );
 		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( { fontSize: 14 } );
 	} );
 
@@ -264,7 +264,7 @@ test.describe( 'Editor config', () => {
 		await requestUtils.rest( {
 			method: 'POST',
 			path: '/wp/v2/settings',
-			data: { [ EDITOR_SETTINGS ]: { tabSize: 4 }, [ EDITOR_OPTIONS ]: { fontSize: 20 } },
+			data: { [ EDITOR_SETTINGS ]: { tabSize: 3 }, [ EDITOR_OPTIONS ]: { fontSize: 20 } },
 		} );
 		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
 		await page.getByRole( 'tab', { name: 'Tools' } ).click();
@@ -294,7 +294,7 @@ test.describe( 'Editor config', () => {
 		const exportedJson = await textarea.inputValue();
 		expect( exportedJson ).toMatch( /^{\n\t"customHtmlBlockExtension\.theme": / );
 		expect( JSON.parse( exportedJson ) ).toMatchObject( {
-			'editor.tabSize': 4,
+			'editor.tabSize': 3,
 			'editor.fontSize': 20,
 		} );
 		await page.getByRole( 'button', { name: 'Import', exact: true } ).click();
@@ -314,7 +314,7 @@ test.describe( 'Editor config', () => {
 		).toBeVisible();
 
 		const response = await requestUtils.rest( { path: '/wp/v2/settings' } );
-		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4 } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 3 } );
 		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( { fontSize: 20 } );
 	} );
 
@@ -330,7 +330,7 @@ test.describe( 'Editor config', () => {
 	// Comments and trailing commas are allowed.
 	"editor.fontSize": 20,
 	"editor.minimap": { "enabled": false },
-	"editor.tabSize": 4,
+	"editor.tabSize": 3,
 	"editor.rulers": [ 80 ],
 	// A value of a different type is skipped.
 	"editor.cursorStyle": 3,
@@ -357,9 +357,9 @@ test.describe( 'Editor config', () => {
 			'true'
 		);
 		await page.getByRole( 'tab', { name: 'Editor config' } ).click();
-		await expect( page.getByRole( 'spinbutton', { name: 'Indent width' } ) ).toHaveValue( '4' );
+		await expect( page.getByRole( 'spinbutton', { name: 'Tab Size' } ) ).toHaveValue( '3' );
 		let response = await requestUtils.rest( { path: '/wp/v2/settings' } );
-		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 2 } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4 } );
 
 		await page.getByRole( 'button', { name: 'Save settings' } ).click();
 		await expect(
@@ -369,7 +369,7 @@ test.describe( 'Editor config', () => {
 		).toBeVisible();
 
 		response = await requestUtils.rest( { path: '/wp/v2/settings' } );
-		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 4, theme: 'monokai' } );
+		expect( response[ EDITOR_SETTINGS ] ).toMatchObject( { tabSize: 3, theme: 'monokai' } );
 		expect( response[ EDITOR_OPTIONS ] ).toMatchObject( {
 			fontSize: 30,
 			minimap: { enabled: false },
@@ -465,7 +465,7 @@ test.describe( 'Editor preview', () => {
 				.evaluate( ( element ) => window.getComputedStyle( element ).fontFamily );
 		await expect.poll( getFontFamily ).toContain( 'Fira Code' );
 
-		await page.getByRole( 'combobox', { name: 'Font family' } ).click();
+		await page.getByRole( 'combobox', { name: 'Font Family' } ).click();
 		await page.getByRole( 'option', { name: 'Source Code Pro', exact: true } ).click();
 
 		// The font is loaded and kept in the preview, without falling back to the default font.
@@ -483,5 +483,48 @@ test.describe( 'Editor preview', () => {
 			.toBe( true );
 		await expect.poll( getFontFamily ).toContain( 'Source Code Pro' );
 		await expect( page.getByText( /Failed to load the font/ ) ).toHaveCount( 0 );
+	} );
+
+	test( 'toggling Emmet should update the preview without reloading', async ( { admin, page } ) => {
+		await admin.visitAdminPage( 'options-general.php?page=custom-html-block-extension' );
+		const previewEditor = page.locator( PREVIEW_EDITOR );
+		const emmetSwitch = page.getByRole( 'switch', { name: 'Enable Emmet' } );
+		const suggestion = previewEditor
+			.getByRole( 'listbox', { name: 'Suggest' } )
+			.getByLabel( 'div#id' );
+		const selectAll = await page.evaluate( () =>
+			window.navigator.userAgent.includes( 'Macintosh' ) ? 'Meta+a' : 'Control+a'
+		);
+		const typeAbbreviation = async () => {
+			await previewEditor.click();
+			await page.keyboard.press( selectAll );
+			await page.keyboard.press( 'Delete' );
+			await page.keyboard.type( 'div#id' );
+		};
+
+		// The abbreviation is suggested while Emmet is enabled.
+		await expect( emmetSwitch ).toBeChecked();
+		await typeAbbreviation();
+		await expect( suggestion ).toBeVisible();
+		await page.keyboard.press( 'Escape' );
+
+		// Disabling Emmet removes the suggestion and the "Wrap with Abbreviation" action.
+		await emmetSwitch.click();
+		await expect( emmetSwitch ).not.toBeChecked();
+		await typeAbbreviation();
+		await page.keyboard.press( 'Control+Space' );
+		await expect( suggestion ).toBeHidden();
+		await page.keyboard.press( 'Escape' );
+		await previewEditor.click( { button: 'right' } );
+		await expect(
+			page.getByRole( 'menuitem', { name: 'Emmet: Wrap with Abbreviation' } )
+		).toHaveCount( 0 );
+		await page.keyboard.press( 'Escape' );
+
+		// Enabling Emmet again restores the suggestion.
+		await emmetSwitch.click();
+		await expect( emmetSwitch ).toBeChecked();
+		await typeAbbreviation();
+		await expect( suggestion ).toBeVisible();
 	} );
 } );

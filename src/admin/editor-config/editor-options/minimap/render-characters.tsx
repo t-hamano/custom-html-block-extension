@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function MinimapRenderCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Display actual characters', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -33,42 +24,31 @@ export default function MinimapRenderCharacters() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.minimap.renderCharacters }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'By default, the minimap shows blocks. You can change this to show actual characters.',
+		<SettingItem
+			control="toggle"
+			name="minimap.renderCharacters"
+			label={ __( 'Render Characters', 'custom-html-block-extension' ) }
+			value={ editorOptions.minimap.renderCharacters }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					description: __( 'Show characters.', 'custom-html-block-extension' ),
+					image: 'editor-options/minimap/render-characters_1.jpg',
+				},
+				{
+					value: false,
+					description: __( 'Show blocks.', 'custom-html-block-extension' ),
+					image: 'editor-options/minimap/render-characters_2.jpg',
+				},
+			] }
+			help={ {
+				description: __(
+					'Render the actual characters on a line as opposed to color blocks.',
 					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						description: __( 'Show characters.', 'custom-html-block-extension' ),
-						image: 'editor-options/minimap/render-characters_1.jpg',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						description: __( 'Show blocks.', 'custom-html-block-extension' ),
-						image: 'editor-options/minimap/render-characters_2.jpg',
-					},
-				] }
-				value={ editorOptions.minimap.renderCharacters }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

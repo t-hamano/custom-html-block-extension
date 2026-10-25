@@ -3,58 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
-import { SelectControl, Stack, Text } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function AcceptSuggestionOnEnter() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Accept suggestions on enter key', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Enable', 'custom-html-block-extension' ),
-			value: 'on',
-			image: 'editor-options/accept-suggestion-on-enter_1.gif',
-			description: __(
-				'Pressing Enter accepts the suggestion, even if it is the same as the word already typed.',
-				'custom-html-block-extension'
-			),
-			isDefault: true,
-		},
-		{
-			label: __( 'Only when it makes a text change', 'custom-html-block-extension' ),
-			value: 'smart',
-			image: 'editor-options/accept-suggestion-on-enter_2.gif',
-			description: __(
-				'Pressing Enter accepts the suggestion only when it changes the text. If the suggestion is the same as the word already typed, pressing Enter inserts a new line instead.',
-				'custom-html-block-extension'
-			),
-		},
-		{
-			label: __( 'Disable', 'custom-html-block-extension' ),
-			value: 'off',
-			image: 'editor-options/accept-suggestion-on-enter_3.gif',
-			description: __(
-				'Pressing Enter always inserts a new line. Use Tab to accept the suggestion.',
-				'custom-html-block-extension'
-			),
-		},
-	];
-
-	const selectItems = items.map( ( { label, value } ) => ( { label, value } ) );
 
 	const onChange = ( value: EditorOptions[ 'acceptSuggestionOnEnter' ] ) => {
 		setEditorOptions( {
@@ -64,44 +22,54 @@ export default function AcceptSuggestionOnEnter() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ selectItems }
-				value={
-					selectItems.find( ( item ) => item.value === editorOptions.acceptSuggestionOnEnter ) ??
-					null
-				}
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'acceptSuggestionOnEnter' ] )
-				}
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				colCount="3"
-				value={ editorOptions.acceptSuggestionOnEnter }
-				description={
-					<Text render={ <p /> }>
-						{ createInterpolateElement(
-							__(
-								'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
-								'custom-html-block-extension'
-							),
-							{
-								code: <code />,
-							}
-						) }
-					</Text>
-				}
-			/>
-		</Stack>
+		<SettingItem
+			control="select"
+			name="acceptSuggestionOnEnter"
+			label={ __( 'Accept Suggestion On Enter', 'custom-html-block-extension' ) }
+			value={ editorOptions.acceptSuggestionOnEnter }
+			onChange={ onChange }
+			defaultValue="on"
+			options={ [
+				{
+					label: __( 'Enable', 'custom-html-block-extension' ),
+					value: 'on',
+					image: 'editor-options/accept-suggestion-on-enter_1.gif',
+					description: __(
+						'Pressing Enter accepts the suggestion, even if it is the same as the word already typed.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					label: __( 'Only when it makes a text change', 'custom-html-block-extension' ),
+					value: 'smart',
+					image: 'editor-options/accept-suggestion-on-enter_2.gif',
+					description: __(
+						'Only accept a suggestion with Enter when it makes a textual change.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					label: __( 'Disable', 'custom-html-block-extension' ),
+					value: 'off',
+					image: 'editor-options/accept-suggestion-on-enter_3.gif',
+					description: __(
+						'Pressing Enter always inserts a new line. Use Tab to accept the suggestion.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
+			help={ {
+				description: createInterpolateElement(
+					__(
+						'Accept suggestions on <code>Enter</code> key in addition to <code>Tab</code> key.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
+				),
+				colCount: 3,
+			} }
+		/>
 	);
 }

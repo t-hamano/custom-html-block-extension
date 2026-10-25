@@ -3,68 +3,18 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
-
-type Value = EditorOptions[ 'guides' ][ 'highlightActiveIndentation' ];
+import SettingItem from '../../components/setting-item';
 
 export default function GuidesHighlightActiveIndentation() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Highlight the active indent guide', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items: {
-		label: string;
-		value: Value;
-		image: string;
-		isDefault?: boolean;
-		description?: string;
-	}[] = [
-		{
-			label: __( 'Enable', 'custom-html-block-extension' ),
-			value: true,
-			image: 'editor-options/guides/highlight-active-indentation_1.gif',
-			isDefault: true,
-			description: __(
-				'Not highlighted on lines where a bracket pair guide is shown.',
-				'custom-html-block-extension'
-			),
-		},
-		{
-			label: __( 'Always', 'custom-html-block-extension' ),
-			value: 'always',
-			image: 'editor-options/guides/highlight-active-indentation_2.gif',
-			description: __(
-				'Highlighted even on lines where a bracket pair guide is shown.',
-				'custom-html-block-extension'
-			),
-		},
-		{
-			label: __( 'Disable', 'custom-html-block-extension' ),
-			value: false,
-			image: 'editor-options/guides/highlight-active-indentation_3.gif',
-		},
-	];
-
-	// SelectControl only accepts string values, so convert booleans to strings.
-	const selectItems = items.map( ( item ) => ( {
-		label: item.label,
-		value: String( item.value ),
-	} ) );
-
-	const onChange = ( value: Value ) => {
+	const onChange = ( value: EditorOptions[ 'guides' ][ 'highlightActiveIndentation' ] ) => {
 		setEditorOptions( {
 			...editorOptions,
 			guides: {
@@ -75,35 +25,49 @@ export default function GuidesHighlightActiveIndentation() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ selectItems }
-				value={
-					selectItems.find(
-						( item ) => item.value === String( editorOptions.guides.highlightActiveIndentation )
-					) ?? null
-				}
-				onValueChange={ ( selectItem ) => {
-					const item = items.find( ( { value } ) => String( value ) === selectItem?.value );
-					if ( item ) {
-						onChange( item.value );
-					}
-				} }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				colCount="3"
-				value={ editorOptions.guides.highlightActiveIndentation }
-			/>
-		</Stack>
+		<SettingItem
+			control="select"
+			name="guides.highlightActiveIndentation"
+			label={ __( 'Highlight Active Indentation', 'custom-html-block-extension' ) }
+			value={ editorOptions.guides.highlightActiveIndentation }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					label: __( 'Enable', 'custom-html-block-extension' ),
+					value: true,
+					image: 'editor-options/guides/highlight-active-indentation_1.gif',
+					description: __(
+						'Highlights the active indent guide. Not highlighted on lines where a bracket pair guide is shown.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					label: __( 'Always', 'custom-html-block-extension' ),
+					value: 'always',
+					image: 'editor-options/guides/highlight-active-indentation_2.gif',
+					description: __(
+						'Highlights the active indent guide even if bracket guides are highlighted.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					label: __( 'Disable', 'custom-html-block-extension' ),
+					value: false,
+					image: 'editor-options/guides/highlight-active-indentation_3.gif',
+					description: __(
+						'Do not highlight the active indent guide.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
+			help={ {
+				description: __(
+					'Highlight the indent guide of the block at the cursor. This applies to the indent guides shown by Indentation, not to the bracket pair guides.',
+					'custom-html-block-extension'
+				),
+				colCount: 3,
+			} }
+		/>
 	);
 }

@@ -3,42 +3,34 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
 import { toNumber } from '../../../lib/helper';
+import SettingItem from '../components/setting-item';
 
 export default function TabSize() {
 	const { editorSettings, setEditorSettings } = useContext( AdminContext );
 
-	const title = __( 'Indent width', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
 	const onChange = ( value: number | undefined ) => {
 		setEditorSettings( {
 			...editorSettings,
-			tabSize: value ? toNumber( value, 1, 8 ) : 2,
+			tabSize: value ? toNumber( value, 1, 8 ) : 4,
 		} );
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<RangeControl
-				label={ title }
-				value={ editorSettings.tabSize }
-				min={ 1 }
-				max={ 8 }
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<SettingItem
+			control="range"
+			name="tabSize"
+			label={ __( 'Tab Size', 'custom-html-block-extension' ) }
+			value={ editorSettings.tabSize }
+			onChange={ onChange }
+			min={ 1 }
+			max={ 8 }
+			defaultValue={ 4 }
+		/>
 	);
 }

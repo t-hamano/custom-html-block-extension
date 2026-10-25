@@ -3,54 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function CursorBlinking() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Cursor animation style', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Blink', 'custom-html-block-extension' ),
-			value: 'blink',
-			isDefault: true,
-			image: 'editor-options/cursor-blinking_1.gif',
-		},
-		{
-			label: __( 'Smooth', 'custom-html-block-extension' ),
-			value: 'smooth',
-			image: 'editor-options/cursor-blinking_2.gif',
-		},
-		{
-			label: __( 'Phase', 'custom-html-block-extension' ),
-			value: 'phase',
-			image: 'editor-options/cursor-blinking_3.gif',
-		},
-		{
-			label: __( 'Expand', 'custom-html-block-extension' ),
-			value: 'expand',
-			image: 'editor-options/cursor-blinking_4.gif',
-		},
-		{
-			label: __( 'Solid', 'custom-html-block-extension' ),
-			value: 'solid',
-			image: 'editor-options/cursor-blinking_5.jpg',
-		},
-	];
 
 	const onChange = ( value: EditorOptions[ 'cursorBlinking' ] ) => {
 		setEditorOptions( {
@@ -60,28 +22,44 @@ export default function CursorBlinking() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ items }
-				value={ items.find( ( item ) => item.value === editorOptions.cursorBlinking ) ?? null }
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'cursorBlinking' ] )
-				}
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				colCount="5"
-				value={ editorOptions.cursorBlinking }
-			/>
-		</Stack>
+		<SettingItem
+			control="select"
+			name="cursorBlinking"
+			label={ __( 'Cursor Blinking', 'custom-html-block-extension' ) }
+			value={ editorOptions.cursorBlinking }
+			onChange={ onChange }
+			defaultValue="blink"
+			options={ [
+				{
+					label: __( 'Blink', 'custom-html-block-extension' ),
+					value: 'blink',
+					image: 'editor-options/cursor-blinking_1.gif',
+				},
+				{
+					label: __( 'Smooth', 'custom-html-block-extension' ),
+					value: 'smooth',
+					image: 'editor-options/cursor-blinking_2.gif',
+				},
+				{
+					label: __( 'Phase', 'custom-html-block-extension' ),
+					value: 'phase',
+					image: 'editor-options/cursor-blinking_3.gif',
+				},
+				{
+					label: __( 'Expand', 'custom-html-block-extension' ),
+					value: 'expand',
+					image: 'editor-options/cursor-blinking_4.gif',
+				},
+				{
+					label: __( 'Solid', 'custom-html-block-extension' ),
+					value: 'solid',
+					image: 'editor-options/cursor-blinking_5.jpg',
+				},
+			] }
+			help={ {
+				description: __( 'Controls the cursor animation style.', 'custom-html-block-extension' ),
+				colCount: 5,
+			} }
+		/>
 	);
 }

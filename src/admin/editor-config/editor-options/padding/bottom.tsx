@@ -3,27 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
 import { toNumber } from '../../../../lib/helper';
+import SettingItem from '../../components/setting-item';
 
 export default function PaddingBottom() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Padding bottom (px)', 'custom-html-block-extension' );
-
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -36,30 +25,22 @@ export default function PaddingBottom() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.padding.bottom }
-				min={ 0 }
-				max={ 50 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Spacing between bottom edge of editor and last line. This setting will not work if "Scroll past the last line" is enabled in "Mouse and Scroll" category.',
+		<SettingItem
+			control="range"
+			name="padding.bottom"
+			label={ __( 'Bottom (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.padding.bottom }
+			onChange={ onChange }
+			min={ 0 }
+			max={ 50 }
+			defaultValue={ 0 }
+			help={ {
+				description: __(
+					'Controls the amount of space between the bottom edge of the editor and the last line.',
 					'custom-html-block-extension'
-				) }
-				image="editor-options/padding/bottom.gif"
-			/>
-		</Stack>
+				),
+				image: 'editor-options/padding/bottom.gif',
+			} }
+		/>
 	);
 }

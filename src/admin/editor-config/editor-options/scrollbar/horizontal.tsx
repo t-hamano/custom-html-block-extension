@@ -3,45 +3,18 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
-import { EditorConfigContext, useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import { EditorConfigContext } from '../../index';
+import SettingItem from '../../components/setting-item';
 
 export default function ScrollbarHorizontal() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 	const { onRefreshEditor } = useContext( EditorConfigContext );
-
-	const title = __( 'Horizontal scrollbar', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Auto', 'custom-html-block-extension' ),
-			image: 'editor-options/scrollbar/horizontal_1.gif',
-			value: 'auto',
-			isDefault: true,
-		},
-		{
-			label: __( 'Visible', 'custom-html-block-extension' ),
-			image: 'editor-options/scrollbar/horizontal_2.jpg',
-			value: 'visible',
-		},
-		{
-			label: __( 'Hidden', 'custom-html-block-extension' ),
-			image: 'editor-options/scrollbar/horizontal_3.jpg',
-			value: 'hidden',
-		},
-	];
 
 	const onChange = ( value: EditorOptions[ 'scrollbar' ][ 'horizontal' ] ) => {
 		onRefreshEditor();
@@ -55,30 +28,37 @@ export default function ScrollbarHorizontal() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ items }
-				value={
-					items.find( ( item ) => item.value === editorOptions.scrollbar.horizontal ) ?? null
-				}
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'scrollbar' ][ 'horizontal' ] )
-				}
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				colCount="3"
-				value={ editorOptions.scrollbar.horizontal }
-			/>
-		</Stack>
+		<SettingItem
+			control="select"
+			name="scrollbar.horizontal"
+			label={ __( 'Horizontal', 'custom-html-block-extension' ) }
+			value={ editorOptions.scrollbar.horizontal }
+			onChange={ onChange }
+			defaultValue="auto"
+			options={ [
+				{
+					label: __( 'Auto', 'custom-html-block-extension' ),
+					image: 'editor-options/scrollbar/horizontal_1.gif',
+					value: 'auto',
+				},
+				{
+					label: __( 'Visible', 'custom-html-block-extension' ),
+					image: 'editor-options/scrollbar/horizontal_2.jpg',
+					value: 'visible',
+				},
+				{
+					label: __( 'Hidden', 'custom-html-block-extension' ),
+					image: 'editor-options/scrollbar/horizontal_3.jpg',
+					value: 'hidden',
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls the visibility of the horizontal scrollbar.',
+					'custom-html-block-extension'
+				),
+				colCount: 3,
+			} }
+		/>
 	);
 }

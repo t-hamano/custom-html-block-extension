@@ -16,6 +16,7 @@
 .nvmrc
 .prettierrc.js
 .stylelintrc.js
+.stylelintignore
 .wp-env.json
 .wp-env.test.json
 composer.json
@@ -26,7 +27,7 @@ vitest.config.mjs
 tsconfig.json
 package.json
 package-lock.json
-phpcs.ruleset.xml
+phpcs.xml.dist
 phpunit.xml.dist
 README.md
 webpack.config.js

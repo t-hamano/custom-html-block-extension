@@ -32,8 +32,8 @@ const toRuler = ( column: number, color?: string ): EditorOptions[ 'rulers' ][ n
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
-	const title = __( 'Vertical line position', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const title = __( 'Rulers', 'custom-html-block-extension' );
+	const isVisible = useSearchVisibility( title, 'rulers' );
 
 	if ( ! isVisible ) {
 		return null;
@@ -187,7 +187,14 @@ export default function Rulers() {
 					{ __( 'Add ruler', 'custom-html-block-extension' ) }
 				</Button>
 			</Stack>
-			<ItemHelp title={ title } image="editor-options/rulers.gif" />
+			<ItemHelp
+				title={ title }
+				description={ __(
+					'Render vertical rulers after a certain number of monospace characters. Use multiple values for multiple rulers.',
+					'custom-html-block-extension'
+				) }
+				image="editor-options/rulers.gif"
+			/>
 		</Stack>
 	);
 }

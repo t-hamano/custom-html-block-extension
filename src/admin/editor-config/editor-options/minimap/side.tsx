@@ -9,37 +9,10 @@ import { useContext } from '@wordpress/element';
  */
 import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import {
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function MinimapSide() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Position', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Left', 'custom-html-block-extension' ),
-			image: 'editor-options/minimap/side_1.jpg',
-			value: 'left',
-		},
-		{
-			label: __( 'Right', 'custom-html-block-extension' ),
-			image: 'editor-options/minimap/side_2.jpg',
-			value: 'right',
-			isDefault: true,
-		},
-	];
 
 	const onChange = ( value: string | number | undefined ) => {
 		setEditorOptions( {
@@ -52,29 +25,31 @@ export default function MinimapSide() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<ToggleGroupControl
-				label={ title }
-				value={ editorOptions.minimap.side }
-				onChange={ onChange }
-				isBlock
-			>
-				{ items.map( ( item ) => (
-					<ToggleGroupControlOption key={ item.value } value={ item.value } label={ item.label } />
-				) ) }
-			</ToggleGroupControl>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				value={ editorOptions.minimap.side }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggleGroup"
+			name="minimap.side"
+			label={ __( 'Side', 'custom-html-block-extension' ) }
+			value={ editorOptions.minimap.side }
+			onChange={ onChange }
+			defaultValue="right"
+			options={ [
+				{
+					label: __( 'Left', 'custom-html-block-extension' ),
+					image: 'editor-options/minimap/side_1.jpg',
+					value: 'left',
+				},
+				{
+					label: __( 'Right', 'custom-html-block-extension' ),
+					image: 'editor-options/minimap/side_2.jpg',
+					value: 'right',
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls the side where to render the minimap.',
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

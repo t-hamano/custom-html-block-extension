@@ -3,24 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
 import { toNumber } from '../../../lib/helper';
+import SettingItem from '../components/setting-item';
 
 export default function FontSize() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Font size (px)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -30,15 +22,15 @@ export default function FontSize() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<RangeControl
-				label={ title }
-				value={ editorOptions.fontSize }
-				min={ 10 }
-				max={ 30 }
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<SettingItem
+			control="range"
+			name="fontSize"
+			label={ __( 'Font Size (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.fontSize }
+			onChange={ onChange }
+			min={ 10 }
+			max={ 30 }
+			defaultValue={ 14 }
+		/>
 	);
 }

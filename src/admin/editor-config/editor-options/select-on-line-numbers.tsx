@@ -3,27 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function SelectOnLineNumbers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __(
-		'Select the corresponding line when clicking on the line number',
-		'custom-html-block-extension'
-	);
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -33,36 +21,29 @@ export default function SelectOnLineNumbers() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.selectOnLineNumbers }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/select-on-line-numbers_1.gif',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/select-on-line-numbers_2.gif',
-					},
-				] }
-				value={ editorOptions.selectOnLineNumbers }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="selectOnLineNumbers"
+			label={ __( 'Select On Line Numbers', 'custom-html-block-extension' ) }
+			value={ editorOptions.selectOnLineNumbers }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/select-on-line-numbers_1.gif',
+				},
+				{
+					value: false,
+					image: 'editor-options/select-on-line-numbers_2.gif',
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether the corresponding line is selected when clicking on the line number.',
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

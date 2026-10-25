@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function FindLoop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Loop', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -33,30 +24,20 @@ export default function FindLoop() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.find.loop }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Automatically restart the search from the beginning (or end) when no more matches are found.',
+		<SettingItem
+			control="toggle"
+			name="find.loop"
+			label={ __( 'Loop', 'custom-html-block-extension' ) }
+			value={ editorOptions.find.loop }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __(
+					'Controls whether the search automatically restarts from the beginning (or the end) when no further matches can be found.',
 					'custom-html-block-extension'
-				) }
-				isToggle
-				defaultToggle
-				image="editor-options/find/loop.gif"
-				value={ editorOptions.find.loop }
-			/>
-		</Stack>
+				),
+				image: 'editor-options/find/loop.gif',
+			} }
+		/>
 	);
 }

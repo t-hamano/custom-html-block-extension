@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function SuggestShowIcons() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Show icons', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -33,36 +24,29 @@ export default function SuggestShowIcons() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.suggest.showIcons }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						image: 'editor-options/suggest/show-icons_1.jpg',
-						value: true,
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						image: 'editor-options/suggest/show-icons_2.jpg',
-						value: false,
-					},
-				] }
-				value={ editorOptions.suggest.showIcons }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="suggest.showIcons"
+			label={ __( 'Show Icons', 'custom-html-block-extension' ) }
+			value={ editorOptions.suggest.showIcons }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					image: 'editor-options/suggest/show-icons_1.jpg',
+					value: true,
+				},
+				{
+					image: 'editor-options/suggest/show-icons_2.jpg',
+					value: false,
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether to show or hide icons in suggestions.',
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

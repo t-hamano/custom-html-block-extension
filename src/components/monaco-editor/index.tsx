@@ -148,8 +148,6 @@ export default function MonacoEditor( {
 			if ( ! container || ! monaco ) {
 				return;
 			}
-			const { defaultView } = container.ownerDocument;
-
 			const editor = monaco.editor.create( container, {
 				ariaLabel: isAppleOS()
 					? __(
@@ -187,16 +185,6 @@ export default function MonacoEditor( {
 					const modelOptions = model.getOptions();
 					model.detectIndentation( modelOptions.insertSpaces, modelOptions.tabSize );
 				}
-			}
-
-			// Apply emmet.
-			if ( useEmmet && defaultView && ! defaultView.enabledEmmet ) {
-				defaultView.enabledEmmet = true;
-				emmetHTML( monaco, [ 'html', 'php' ] );
-				emmetCSS( monaco );
-			}
-			if ( useEmmet && [ 'html', 'php' ].includes( language ) ) {
-				addWrapWithAbbreviationAction( monaco, editor );
 			}
 
 			// Ctrl+X shortcut without a range selection will cut the block,
@@ -355,6 +343,44 @@ export default function MonacoEditor( {
 			applyTheme( monaco, theme );
 		}
 	}, [ theme, isEditorReady ] );
+
+	// Enable or disable Emmet. The completion is registered to the monaco
+	// instance, so it's shared by all editors in the window.
+	useEffect( () => {
+		const monaco = monacoRef.current;
+		const defaultView = containerRef.current?.ownerDocument.defaultView;
+		if ( ! isEditorReady || ! monaco || ! defaultView ) {
+			return;
+		}
+		if ( useEmmet && ! defaultView.disposeEmmet ) {
+			const disposeEmmetHTML = emmetHTML( monaco, [ 'html', 'php' ] );
+			const disposeEmmetCSS = emmetCSS( monaco );
+			defaultView.disposeEmmet = () => {
+				disposeEmmetHTML();
+				disposeEmmetCSS();
+			};
+		} else if ( ! useEmmet && defaultView.disposeEmmet ) {
+			defaultView.disposeEmmet();
+			defaultView.disposeEmmet = undefined;
+		}
+	}, [ useEmmet, isEditorReady ] );
+
+	// Add or remove the "Emmet: Wrap with Abbreviation" action.
+	useEffect( () => {
+		const monaco = monacoRef.current;
+		const editor = editorRef.current;
+		if (
+			! isEditorReady ||
+			! monaco ||
+			! editor ||
+			! useEmmet ||
+			! [ 'html', 'php' ].includes( language )
+		) {
+			return;
+		}
+		const action = addWrapWithAbbreviationAction( monaco, editor );
+		return () => action.dispose();
+	}, [ useEmmet, language, isEditorReady ] );
 
 	// Change bracket pair colorization. Changing the indentation options resets
 	// the model's colorization options to the defaults, so apply it again after them.

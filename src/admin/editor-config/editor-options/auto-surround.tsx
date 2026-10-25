@@ -3,52 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../types';
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function AutoSurround() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __(
-		'Automatically surround selection with quotes or brackets',
-		'custom-html-block-extension'
-	);
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Quotes and brackets', 'custom-html-block-extension' ),
-			value: 'languageDefined',
-			isDefault: true,
-			image: 'editor-options/auto-surround_1.gif',
-		},
-		{
-			label: __( 'Quotes only', 'custom-html-block-extension' ),
-			value: 'quotes',
-			image: 'editor-options/auto-surround_2.gif',
-		},
-		{
-			label: __( 'Brackets only', 'custom-html-block-extension' ),
-			value: 'brackets',
-			image: 'editor-options/auto-surround_3.gif',
-		},
-		{
-			label: __( 'Never', 'custom-html-block-extension' ),
-			value: 'never',
-			image: 'editor-options/auto-surround_4.gif',
-		},
-	];
 
 	const onChange = ( value: EditorOptions[ 'autoSurround' ] ) => {
 		setEditorOptions( {
@@ -58,27 +22,41 @@ export default function AutoSurround() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ items }
-				value={ items.find( ( item ) => item.value === editorOptions.autoSurround ) ?? null }
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'autoSurround' ] )
-				}
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				value={ editorOptions.autoSurround }
-			/>
-		</Stack>
+		<SettingItem
+			control="select"
+			name="autoSurround"
+			label={ __( 'Auto Surround', 'custom-html-block-extension' ) }
+			value={ editorOptions.autoSurround }
+			onChange={ onChange }
+			defaultValue="languageDefined"
+			options={ [
+				{
+					label: __( 'Quotes and brackets', 'custom-html-block-extension' ),
+					value: 'languageDefined',
+					image: 'editor-options/auto-surround_1.gif',
+				},
+				{
+					label: __( 'Quotes only', 'custom-html-block-extension' ),
+					value: 'quotes',
+					image: 'editor-options/auto-surround_2.gif',
+				},
+				{
+					label: __( 'Brackets only', 'custom-html-block-extension' ),
+					value: 'brackets',
+					image: 'editor-options/auto-surround_3.gif',
+				},
+				{
+					label: __( 'Never', 'custom-html-block-extension' ),
+					value: 'never',
+					image: 'editor-options/auto-surround_4.gif',
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether the editor should automatically surround selections when typing quotes or brackets.',
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

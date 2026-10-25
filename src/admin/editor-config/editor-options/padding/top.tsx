@@ -3,27 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
 import { toNumber } from '../../../../lib/helper';
+import SettingItem from '../../components/setting-item';
 
 export default function PaddingTop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Padding top (px)', 'custom-html-block-extension' );
-
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -36,30 +25,22 @@ export default function PaddingTop() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.padding.top }
-				min={ 0 }
-				max={ 50 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Spacing between top edge of editor and first line.',
+		<SettingItem
+			control="range"
+			name="padding.top"
+			label={ __( 'Top (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.padding.top }
+			onChange={ onChange }
+			min={ 0 }
+			max={ 50 }
+			defaultValue={ 0 }
+			help={ {
+				description: __(
+					'Controls the amount of space between the top edge of the editor and the first line.',
 					'custom-html-block-extension'
-				) }
-				image="editor-options/padding/top.gif"
-			/>
-		</Stack>
+				),
+				image: 'editor-options/padding/top.gif',
+			} }
+		/>
 	);
 }

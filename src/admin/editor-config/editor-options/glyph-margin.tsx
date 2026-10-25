@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function GlyphMargin() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Show left margin', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,40 +21,29 @@ export default function GlyphMargin() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.glyphMargin }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Margin at the left edge of the editor.',
+		<SettingItem
+			control="toggle"
+			name="glyphMargin"
+			label={ __( 'Glyph Margin', 'custom-html-block-extension' ) }
+			value={ editorOptions.glyphMargin }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/glyph-margin_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/glyph-margin_2.jpg',
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether the editor should render the vertical glyph margin.',
 					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/glyph-margin_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/glyph-margin_2.jpg',
-						isDefault: true,
-					},
-				] }
-				value={ editorOptions.glyphMargin }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

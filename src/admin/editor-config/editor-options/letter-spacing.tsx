@@ -3,24 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
 import { toNumber } from '../../../lib/helper';
+import SettingItem from '../components/setting-item';
 
 export default function LetterSpacing() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Letter spacing (px)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -30,16 +22,16 @@ export default function LetterSpacing() {
 	};
 
 	return (
-		<div className="chbe-admin-editor-config__setting-item">
-			<RangeControl
-				label={ title }
-				value={ editorOptions.letterSpacing }
-				min={ -2 }
-				max={ 2 }
-				step={ 0.1 }
-				allowReset
-				onChange={ onChange }
-			/>
-		</div>
+		<SettingItem
+			control="range"
+			name="letterSpacing"
+			label={ __( 'Letter Spacing (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.letterSpacing }
+			onChange={ onChange }
+			min={ -2 }
+			max={ 2 }
+			step={ 0.1 }
+			defaultValue={ 0 }
+		/>
 	);
 }

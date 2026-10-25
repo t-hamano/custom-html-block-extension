@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function FindAddExtraSpaceOnTop() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Show search widget above the first line', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -33,36 +24,37 @@ export default function FindAddExtraSpaceOnTop() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.find.addExtraSpaceOnTop }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/find/addextra-space-on-top_1.jpg',
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/find/addextra-space-on-top_2.jpg',
-					},
-				] }
-				value={ editorOptions.find.addExtraSpaceOnTop }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="find.addExtraSpaceOnTop"
+			label={ __( 'Add Extra Space On Top', 'custom-html-block-extension' ) }
+			value={ editorOptions.find.addExtraSpaceOnTop }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/find/addextra-space-on-top_1.jpg',
+					description: __(
+						'While the find widget is open, extra space is added above the first line so the widget does not cover it.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/find/addextra-space-on-top_2.jpg',
+					description: __(
+						'No extra space is added, so the find widget may cover the first lines.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether the Find Widget should add extra lines on top of the editor.',
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

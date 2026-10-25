@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function RenderControlCharacters() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Show rendering of control characters', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,36 +21,37 @@ export default function RenderControlCharacters() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.renderControlCharacters }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/render-control-characters_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/render-control-characters_2.jpg',
-						isDefault: true,
-					},
-				] }
-				value={ editorOptions.renderControlCharacters }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="renderControlCharacters"
+			label={ __( 'Render Control Characters', 'custom-html-block-extension' ) }
+			value={ editorOptions.renderControlCharacters }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/render-control-characters_1.jpg',
+					description: __(
+						'Control characters are shown as labeled symbols such as SOH or ETX.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/render-control-characters_2.jpg',
+					description: __(
+						'Control characters are shown as a generic placeholder symbol.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether the editor should render control characters.',
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

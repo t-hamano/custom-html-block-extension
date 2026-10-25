@@ -3,50 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { SelectControl, Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import type { EditorOptions } from '../../../../types';
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function SuggestInsertMode() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __(
-		'Accepting a suggestion in the middle of a word',
-		'custom-html-block-extension'
-	);
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
-
-	const items = [
-		{
-			label: __( 'Insert', 'custom-html-block-extension' ),
-			value: 'insert',
-			isDefault: true,
-			image: 'editor-options/suggest/insert-mode_1.gif',
-			description: __(
-				'The suggestion is inserted, and the rest of the word after the cursor is kept.',
-				'custom-html-block-extension'
-			),
-		},
-		{
-			label: __( 'Replace', 'custom-html-block-extension' ),
-			value: 'replace',
-			image: 'editor-options/suggest/insert-mode_2.gif',
-			description: __(
-				'The suggestion replaces the rest of the word after the cursor.',
-				'custom-html-block-extension'
-			),
-		},
-	];
 
 	const onChange = ( value: EditorOptions[ 'suggest' ][ 'insertMode' ] ) => {
 		setEditorOptions( {
@@ -59,28 +25,40 @@ export default function SuggestInsertMode() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SelectControl
-				label={ title }
-				items={ items }
-				value={ items.find( ( item ) => item.value === editorOptions.suggest.insertMode ) ?? null }
-				onValueChange={ ( item ) =>
-					item && onChange( item.value as EditorOptions[ 'suggest' ][ 'insertMode' ] )
-				}
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				items={ items }
-				colCount="2"
-				value={ editorOptions.suggest.insertMode }
-			/>
-		</Stack>
+		<SettingItem
+			control="select"
+			name="suggest.insertMode"
+			label={ __( 'Insert Mode', 'custom-html-block-extension' ) }
+			value={ editorOptions.suggest.insertMode }
+			onChange={ onChange }
+			defaultValue="insert"
+			options={ [
+				{
+					label: __( 'Insert', 'custom-html-block-extension' ),
+					value: 'insert',
+					image: 'editor-options/suggest/insert-mode_1.gif',
+					description: __(
+						'Insert suggestion without overwriting text right of the cursor.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					label: __( 'Replace', 'custom-html-block-extension' ),
+					value: 'replace',
+					image: 'editor-options/suggest/insert-mode_2.gif',
+					description: __(
+						'Insert suggestion and overwrite text right of the cursor.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
+			help={ {
+				description: __(
+					'Controls whether words are overwritten when accepting completions.',
+					'custom-html-block-extension'
+				),
+				colCount: 2,
+			} }
+		/>
 	);
 }
