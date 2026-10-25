@@ -13,7 +13,6 @@ export default function SettingGroup( {
 	children: ReactNode;
 } ) {
 	return (
-		// The empty string enables the `inert` attribute (React 18 form).
 		<div className="chbe-admin-editor-config__setting-group" inert={ isDisabled ? '' : undefined }>
 			{ children }
 		</div>
