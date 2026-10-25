@@ -31,6 +31,22 @@ export default function MouseWheelScrollSensitivity() {
 			min={ 1 }
 			max={ 10 }
 			defaultValue={ 1 }
+			options={ [
+				{
+					image: 'editor-options/mouse-wheel-scroll-sensitivity_1.gif',
+					value: 1,
+				},
+				{
+					image: 'editor-options/mouse-wheel-scroll-sensitivity_2.gif',
+					value: 3,
+				},
+			] }
+			help={ {
+				description: __(
+					'A multiplier for the distance scrolled by the mouse wheel.',
+					'custom-html-block-extension'
+				),
+			} }
 		/>
 	);
 }

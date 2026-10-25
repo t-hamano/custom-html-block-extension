@@ -2,7 +2,8 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
+import { isAppleOS } from '@wordpress/keycodes';
 
 /**
  * Internal dependencies
@@ -31,6 +32,37 @@ export default function FastScrollSensitivity() {
 			min={ 1 }
 			max={ 10 }
 			defaultValue={ 5 }
+			options={ [
+				{
+					image: 'editor-options/fast-scroll-sensitivity_1.gif',
+					value: 1,
+				},
+				{
+					image: 'editor-options/fast-scroll-sensitivity_2.gif',
+					value: 5,
+				},
+			] }
+			help={ {
+				description: isAppleOS()
+					? createInterpolateElement(
+							__(
+								'Scrolling speed multiplier when pressing <code>Option</code>.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
+						)
+					: createInterpolateElement(
+							__(
+								'Scrolling speed multiplier when pressing <code>Alt</code>.',
+								'custom-html-block-extension'
+							),
+							{
+								code: <code />,
+							}
+						),
+			} }
 		/>
 	);
 }

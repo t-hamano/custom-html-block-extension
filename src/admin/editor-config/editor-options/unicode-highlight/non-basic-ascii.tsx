@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -32,9 +32,14 @@ export default function UnicodeHighlightNonBasicAscii() {
 			onChange={ onChange }
 			defaultValue={ false }
 			help={ {
-				description: __(
-					'Controls whether all non-basic ASCII characters are highlighted. Only characters between U+0020 and U+007E, tab, line-feed and carriage-return are considered basic ASCII.',
-					'custom-html-block-extension'
+				description: createInterpolateElement(
+					__(
+						'Controls whether all non-basic ASCII characters are highlighted. Only characters between <code>U+0020</code> and <code>U+007E</code>, tab, line-feed and carriage-return are considered basic ASCII.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
 				),
 				image: 'editor-options/unicode-highlight/non-basic-ascii.jpg',
 			} }

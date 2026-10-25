@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -32,17 +32,27 @@ export default function StickyTabStops() {
 				{
 					value: true,
 					image: 'editor-options/sticky-tab-stops_1.gif',
-					description: __(
-						'Within indentation made of spaces, the Left and Right arrow keys move the cursor by a full tab stop, as if the indentation were tab characters.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							'Within indentation made of spaces, the <code>Left</code> and <code>Right</code> arrow keys move the cursor by a full tab stop, as if the indentation were tab characters.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 				{
 					value: false,
 					image: 'editor-options/sticky-tab-stops_2.gif',
-					description: __(
-						'Within indentation made of spaces, the Left and Right arrow keys move the cursor one space at a time.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							'Within indentation made of spaces, the <code>Left</code> and <code>Right</code> arrow keys move the cursor one space at a time.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 			] }

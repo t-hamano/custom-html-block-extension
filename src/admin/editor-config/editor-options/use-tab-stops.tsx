@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -31,17 +31,27 @@ export default function UseTabStops() {
 			options={ [
 				{
 					image: 'editor-options/use-tab-stops_1.gif',
-					description: __(
-						'Indenting with Tab aligns to the next tab stop, and Backspace within the indentation deletes back to the previous tab stop.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							'Indenting with <code>Tab</code> aligns to the next tab stop, and <code>Backspace</code> within the indentation deletes back to the previous tab stop.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 					value: true,
 				},
 				{
 					image: 'editor-options/use-tab-stops_2.gif',
-					description: __(
-						'Indenting with Tab always adds a full Tab Size of indentation, and Backspace deletes one character at a time.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							'Indenting with <code>Tab</code> always adds a full Tab Size of indentation, and <code>Backspace</code> deletes one character at a time.',
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 					value: false,
 				},

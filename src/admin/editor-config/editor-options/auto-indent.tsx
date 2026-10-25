@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -67,9 +67,14 @@ export default function AutoIndent() {
 					label: __( 'Advanced', 'custom-html-block-extension' ),
 					value: 'advanced',
 					image: 'editor-options/auto-indent_4.gif',
-					description: __(
-						"The editor will keep the current line's indentation, honor language defined brackets and apply language-specific rules when pressing Enter.",
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						__(
+							"The editor will keep the current line's indentation, honor language defined brackets and apply language-specific rules when pressing <code>Enter</code>.",
+							'custom-html-block-extension'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 			] }

@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -35,17 +35,35 @@ export default function CommentsInsertSpace() {
 				{
 					value: true,
 					image: 'editor-options/comments_insert-space_1.jpg',
-					description: __(
-						'A space is inserted between the comment characters and the text, such as <!-- text -->.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						sprintf(
+							/* translators: %s: An example of a comment, such as "<!-- text -->". */
+							__(
+								'A space is inserted between the comment characters and the text, such as <code>%s</code>.',
+								'custom-html-block-extension'
+							),
+							'<!-- text -->'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 				{
 					value: false,
 					image: 'editor-options/comments_insert-space_2.jpg',
-					description: __(
-						'No space is inserted between the comment characters and the text, such as <!--text-->.',
-						'custom-html-block-extension'
+					description: createInterpolateElement(
+						sprintf(
+							/* translators: %s: An example of a comment, such as "<!--text-->". */
+							__(
+								'No space is inserted between the comment characters and the text, such as <code>%s</code>.',
+								'custom-html-block-extension'
+							),
+							'<!--text-->'
+						),
+						{
+							code: <code />,
+						}
 					),
 				},
 			] }
