@@ -12,7 +12,7 @@ import {
 	exportEditorConfig,
 	getImportItems,
 	getUnchangedImportItems,
-	isClampedItem,
+	isAdjusted,
 	mergeEditorOptions,
 	parseEditorConfig,
 } from '../../src/admin/tools/utils';
@@ -459,7 +459,11 @@ describe( 'getImportItems', () => {
 			},
 		] );
 		// A numeric string converted to the same number is not clamped.
-		expect( items.map( isClampedItem ) ).toEqual( [ false, false, false ] );
+		expect( items.map( ( item ) => isAdjusted( item.originalValue, item.value ) ) ).toEqual( [
+			false,
+			false,
+			false,
+		] );
 	} );
 
 	it( 'detects values clamped to the range', () => {
@@ -468,7 +472,10 @@ describe( 'getImportItems', () => {
 			{ editorSettings: {}, editorOptions: { fontSize: 30, rulers: [ 80, { column: 100 } ] } },
 			currentConfig
 		);
-		expect( items.map( isClampedItem ) ).toEqual( [ true, true ] );
+		expect( items.map( ( item ) => isAdjusted( item.originalValue, item.value ) ) ).toEqual( [
+			true,
+			true,
+		] );
 	} );
 
 	it( 'keeps a clamped value equal to the current one, and skips equal values', () => {
@@ -491,7 +498,7 @@ describe( 'getImportItems', () => {
 			}
 		);
 		expect( items.map( ( item ) => item.path ) ).toEqual( [ 'fontSize' ] );
-		expect( isClampedItem( items[ 0 ] ) ).toBe( true );
+		expect( isAdjusted( items[ 0 ].originalValue, items[ 0 ].value ) ).toBe( true );
 	} );
 } );
 

@@ -630,7 +630,7 @@ function getPath( object: unknown, path: string ) {
  * @param value         The validated value.
  * @return Whether a number of the value was changed.
  */
-function isAdjusted( originalValue: unknown, value: unknown ): boolean {
+export function isAdjusted( originalValue: unknown, value: unknown ): boolean {
 	if ( typeof value === 'number' ) {
 		return Number( originalValue ) !== value;
 	}
@@ -733,16 +733,6 @@ export function getUnchangedImportItems(
 	return getAllImportItems( editorConfig, validated, currentConfig ).filter(
 		( item ) => ! isApplicableItem( item )
 	);
-}
-
-/**
- * Check whether the server clamped a number of the item to the range.
- *
- * @param item The item to apply.
- * @return Whether the value was clamped.
- */
-export function isClampedItem( item: ImportItem ) {
-	return isAdjusted( item.originalValue, item.value );
 }
 
 /**

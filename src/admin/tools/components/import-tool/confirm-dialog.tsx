@@ -10,7 +10,7 @@ import type { ActionButton, Field, View } from '@wordpress/dataviews';
 /**
  * Internal dependencies
  */
-import { isClampedItem, type ImportItem } from '../../utils';
+import { isAdjusted, type ImportItem } from '../../utils';
 
 type SkippedItem = {
 	path: string;
@@ -48,7 +48,7 @@ const itemFields: Field< ImportItem >[] = [
 		id: 'value',
 		label: __( 'New', 'custom-html-block-extension' ),
 		render: ( { item } ) =>
-			isClampedItem( item )
+			isAdjusted( item.originalValue, item.value )
 				? createInterpolateElement(
 						sprintf(
 							/* translators: 1: New value, 2: Imported value out of range. */
