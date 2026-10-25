@@ -26,7 +26,7 @@ declare global {
 		chbeObj: ChbeObj;
 		monaco?: typeof Monaco;
 		MonacoEnvironment?: Monaco.Environment;
-		enabledEmmet?: boolean;
+		disposeEmmet?: () => void;
 		editor?: Monaco.editor.IStandaloneCodeEditor;
 		wp?: unknown;
 		jQuery?: ( callback: () => void ) => unknown;

@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function MinimapEnabled() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Minimap', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title, __( 'Minimap', 'custom-html-block-extension' ) );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -33,30 +24,17 @@ export default function MinimapEnabled() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.minimap.enabled }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Controls whether the minimap is shown.',
-					'custom-html-block-extension'
-				) }
-				isToggle
-				defaultToggle
-				image="editor-options/minimap/enabled.gif"
-				value={ editorOptions.minimap.enabled }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="minimap.enabled"
+			label={ __( 'Minimap', 'custom-html-block-extension' ) }
+			value={ editorOptions.minimap.enabled }
+			onChange={ onChange }
+			defaultValue
+			help={ {
+				description: __( 'Controls whether the minimap is shown.', 'custom-html-block-extension' ),
+				image: 'editor-options/minimap/enabled.gif',
+			} }
+		/>
 	);
 }

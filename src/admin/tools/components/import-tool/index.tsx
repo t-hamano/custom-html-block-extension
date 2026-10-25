@@ -164,9 +164,12 @@ export default function ImportTool() {
 			<CollapsibleCard.Content>
 				<Stack direction="column" align="start" gap="lg">
 					<Text render={ <p /> }>
-						{ __(
-							'Paste the contents of an exported file or the VS Code settings.json file, or upload the file, and click the button below. You can open settings.json in VS Code from the Command Palette with "Preferences: Open User Settings (JSON)".',
-							'custom-html-block-extension'
+						{ createInterpolateElement(
+							__(
+								'Paste the contents of an exported file or the VS Code <code>settings.json</code> file, or upload the file, and click the button below. You can open <code>settings.json</code> in VS Code from the Command Palette with "Preferences: Open User Settings (JSON)".',
+								'custom-html-block-extension'
+							),
+							{ code: <code /> }
 						) }
 					</Text>
 					<Text render={ <p /> }>
@@ -174,7 +177,7 @@ export default function ImportTool() {
 							sprintf(
 								/* translators: %s: Path to the folder containing settings.json. */
 								__(
-									'The settings.json file is located in <code>%s</code>.',
+									'The <code>settings.json</code> file is located in <code>%s</code>.',
 									'custom-html-block-extension'
 								),
 								getSettingsFolder()

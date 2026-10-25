@@ -44,8 +44,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cp "${{ steps.deploy.outputs.zip-path }}" "${{ github.event.repository.name }}.zip"
           gh release create "${{ github.ref_name }}" \
-            "${{ github.event.repository.name }}.zip" \
+            "${{ steps.deploy.outputs.zip-path }}" \
             --title "Release ${{ github.ref_name }}" \
             --target main

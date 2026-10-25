@@ -1,28 +1,18 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
+import SettingItem from '../components/setting-item';
 
 export default function SuggestLineHeight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Suggest Line Height (px)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -32,48 +22,31 @@ export default function SuggestLineHeight() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.suggestLineHeight }
-				min={ 0 }
-				max={ 60 }
-				allowReset
-				onChange={ onChange }
-				help={ __( "0 uses the editor's line height.", 'custom-html-block-extension' ) }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __( 'Line height for the suggest widget.', 'custom-html-block-extension' ) }
-				items={ [
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'10'
-						),
-						image: 'editor-options/suggest-line-height_1.jpg',
-						value: 10,
-					},
-					{
-						label: sprintf(
-							/* translators: %s is replaced with the number. */
-							__( 'Example: Set the value to %s', 'custom-html-block-extension' ),
-							'30'
-						),
-						image: 'editor-options/suggest-line-height_2.jpg',
-						value: 30,
-					},
-				] }
-				value={ editorOptions.suggestLineHeight }
-			/>
-		</Stack>
+		<SettingItem
+			control="range"
+			name="suggestLineHeight"
+			label={ __( 'Suggest Line Height (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.suggestLineHeight }
+			onChange={ onChange }
+			min={ 0 }
+			max={ 60 }
+			defaultValue={ 0 }
+			options={ [
+				{
+					image: 'editor-options/suggest-line-height_1.jpg',
+					value: 10,
+				},
+				{
+					image: 'editor-options/suggest-line-height_2.jpg',
+					value: 30,
+				},
+			] }
+			help={ {
+				description: __(
+					"Line height for the suggest widget. 0 uses the editor's line height.",
+					'custom-html-block-extension'
+				),
+			} }
+		/>
 	);
 }

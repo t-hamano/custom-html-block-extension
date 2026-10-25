@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function CursorSurroundingLinesStyle() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Cursor Surrounding Lines Style', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,48 +21,37 @@ export default function CursorSurroundingLinesStyle() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ 'all' === editorOptions.cursorSurroundingLinesStyle }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="toggle"
+			name="cursorSurroundingLinesStyle"
+			label={ __( 'Cursor Surrounding Lines Style', 'custom-html-block-extension' ) }
+			value={ 'all' === editorOptions.cursorSurroundingLinesStyle }
+			onChange={ onChange }
+			defaultValue={ false }
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/cursor-surrounding-lines-style_1.gif',
+					description: __(
+						'"Cursor Surrounding Lines" is always enforced, including when the cursor is moved by a mouse click.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/cursor-surrounding-lines-style_2.gif',
+					description: __(
+						'"Cursor Surrounding Lines" is enforced only when the cursor is moved with the keyboard.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
+			help={ {
+				description: __(
 					'Controls when "Cursor Surrounding Lines" should be enforced.',
 					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/cursor-surrounding-lines-style_1.gif',
-						description: __(
-							'"Cursor Surrounding Lines" is always enforced, including when the cursor is moved by a mouse click.',
-							'custom-html-block-extension'
-						),
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/cursor-surrounding-lines-style_2.gif',
-						description: __(
-							'"Cursor Surrounding Lines" is enforced only when the cursor is moved with the keyboard.',
-							'custom-html-block-extension'
-						),
-						isDefault: true,
-					},
-				] }
-				value={ 'all' === editorOptions.cursorSurroundingLinesStyle }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

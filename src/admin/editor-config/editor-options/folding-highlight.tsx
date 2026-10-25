@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function FoldingHighlight() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Folding Highlight', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,48 +21,37 @@ export default function FoldingHighlight() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.foldingHighlight }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="toggle"
+			name="foldingHighlight"
+			label={ __( 'Folding Highlight', 'custom-html-block-extension' ) }
+			value={ editorOptions.foldingHighlight }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/folding-highlight_1.jpg',
+					description: __(
+						'Folded lines are shown with a background highlight.',
+						'custom-html-block-extension'
+					),
+				},
+				{
+					value: false,
+					image: 'editor-options/folding-highlight_2.jpg',
+					description: __(
+						'Folded lines are shown without a background highlight.',
+						'custom-html-block-extension'
+					),
+				},
+			] }
+			help={ {
+				description: __(
 					'Controls whether the editor should highlight folded ranges.',
 					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						image: 'editor-options/folding-highlight_1.jpg',
-						description: __(
-							'Folded lines are shown with a background highlight.',
-							'custom-html-block-extension'
-						),
-						isDefault: true,
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/folding-highlight_2.jpg',
-						description: __(
-							'Folded lines are shown without a background highlight.',
-							'custom-html-block-extension'
-						),
-					},
-				] }
-				value={ editorOptions.foldingHighlight }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

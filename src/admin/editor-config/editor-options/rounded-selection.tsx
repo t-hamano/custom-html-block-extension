@@ -3,24 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
+import SettingItem from '../components/setting-item';
 
 export default function RoundedSelection() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Rounded Selection', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -30,40 +21,29 @@ export default function RoundedSelection() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.roundedSelection }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="toggle"
+			name="roundedSelection"
+			label={ __( 'Rounded Selection', 'custom-html-block-extension' ) }
+			value={ editorOptions.roundedSelection }
+			onChange={ onChange }
+			defaultValue
+			options={ [
+				{
+					value: true,
+					image: 'editor-options/rounded-selection_1.jpg',
+				},
+				{
+					value: false,
+					image: 'editor-options/rounded-selection_2.jpg',
+				},
+			] }
+			help={ {
+				description: __(
 					'Controls whether selections should have rounded corners.',
 					'custom-html-block-extension'
-				) }
-				items={ [
-					{
-						label: __( 'Enable', 'custom-html-block-extension' ),
-						value: true,
-						isDefault: true,
-						image: 'editor-options/rounded-selection_1.jpg',
-					},
-					{
-						label: __( 'Disable', 'custom-html-block-extension' ),
-						value: false,
-						image: 'editor-options/rounded-selection_2.jpg',
-					},
-				] }
-				value={ editorOptions.roundedSelection }
-			/>
-		</Stack>
+				),
+			} }
+		/>
 	);
 }

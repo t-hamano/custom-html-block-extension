@@ -34,7 +34,8 @@
 			background-color: Mark;
 		}
 
-		.chbe-admin-editor-config__panel:not(:has(.chbe-admin-editor-config__setting-item)) {
+		.chbe-admin-editor-config__panel:not(:has(.chbe-admin-editor-config__setting-item)),
+		.chbe-admin-editor-config__setting-group:not(:has(.chbe-admin-editor-config__setting-item)) {
 			display: none;
 		}
 	}

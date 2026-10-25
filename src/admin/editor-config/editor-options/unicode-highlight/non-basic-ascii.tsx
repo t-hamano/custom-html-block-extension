@@ -2,28 +2,16 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
-import { Stack, SwitchControl } from '@wordpress/ui';
+import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../../index';
-import { useSearchVisibility } from '../../index';
-import ItemHelp from '../../components/item-help';
+import SettingItem from '../../components/setting-item';
 
 export default function UnicodeHighlightNonBasicAscii() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Non Basic ASCII', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility(
-		title,
-		__( 'Unicode Highlight', 'custom-html-block-extension' )
-	);
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: boolean ) => {
 		setEditorOptions( {
@@ -36,29 +24,25 @@ export default function UnicodeHighlightNonBasicAscii() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<SwitchControl
-				label={ title }
-				checked={ editorOptions.unicodeHighlight.nonBasicASCII }
-				onCheckedChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
-					'Controls whether all non-basic ASCII characters are highlighted. Only characters between U+0020 and U+007E, tab, line-feed and carriage-return are considered basic ASCII.',
-					'custom-html-block-extension'
-				) }
-				isToggle
-				image="editor-options/unicode-highlight/non-basic-ascii.jpg"
-				value={ editorOptions.unicodeHighlight.nonBasicASCII }
-			/>
-		</Stack>
+		<SettingItem
+			control="toggle"
+			name="unicodeHighlight.nonBasicASCII"
+			label={ __( 'Non Basic ASCII', 'custom-html-block-extension' ) }
+			value={ editorOptions.unicodeHighlight.nonBasicASCII }
+			onChange={ onChange }
+			defaultValue={ false }
+			help={ {
+				description: createInterpolateElement(
+					__(
+						'Controls whether all non-basic ASCII characters are highlighted. Only characters between <code>U+0020</code> and <code>U+007E</code>, tab, line-feed and carriage-return are considered basic ASCII.',
+						'custom-html-block-extension'
+					),
+					{
+						code: <code />,
+					}
+				),
+				image: 'editor-options/unicode-highlight/non-basic-ascii.jpg',
+			} }
+		/>
 	);
 }

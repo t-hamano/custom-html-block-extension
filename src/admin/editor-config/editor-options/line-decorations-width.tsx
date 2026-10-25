@@ -3,26 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { RangeControl } from '@wordpress/components';
-import { Stack } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import { AdminContext } from '../../index';
-import { useSearchVisibility } from '../index';
-import ItemHelp from '../components/item-help';
 import { toNumber } from '../../../lib/helper';
+import SettingItem from '../components/setting-item';
 
 export default function LineDecorationsWidth() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
-
-	const title = __( 'Line Decorations Width (px)', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
-
-	if ( ! isVisible ) {
-		return null;
-	}
 
 	const onChange = ( value: number | undefined ) => {
 		setEditorOptions( {
@@ -32,31 +22,22 @@ export default function LineDecorationsWidth() {
 	};
 
 	return (
-		<Stack
-			className="chbe-admin-editor-config__setting-item"
-			justify="start"
-			align="start"
-			wrap="wrap"
-			gap="sm"
-		>
-			<RangeControl
-				label={ title }
-				value={ editorOptions.lineDecorationsWidth }
-				min={ 0 }
-				max={ 30 }
-				allowReset
-				onChange={ onChange }
-			/>
-			<ItemHelp
-				onChange={ onChange }
-				title={ title }
-				description={ __(
+		<SettingItem
+			control="range"
+			name="lineDecorationsWidth"
+			label={ __( 'Line Decorations Width (px)', 'custom-html-block-extension' ) }
+			value={ editorOptions.lineDecorationsWidth }
+			onChange={ onChange }
+			min={ 0 }
+			max={ 30 }
+			defaultValue={ 0 }
+			help={ {
+				description: __(
 					'The width reserved for line decorations. Line decorations are placed between line numbers and the editor content.',
 					'custom-html-block-extension'
-				) }
-				image="editor-options/line-decorations-width.gif"
-				value={ editorOptions.lineDecorationsWidth }
-			/>
-		</Stack>
+				),
+				image: 'editor-options/line-decorations-width.gif',
+			} }
+		/>
 	);
 }

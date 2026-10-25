@@ -33,7 +33,7 @@ export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
 
 	const title = __( 'Rulers', 'custom-html-block-extension' );
-	const isVisible = useSearchVisibility( title );
+	const isVisible = useSearchVisibility( title, 'rulers' );
 
 	if ( ! isVisible ) {
 		return null;
