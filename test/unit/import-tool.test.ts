@@ -10,9 +10,6 @@ import {
 	buildEditorConfig,
 	countEditorConfig,
 	exportEditorConfig,
-	getImportItems,
-	getUnchangedImportItems,
-	isAdjusted,
 	mergeEditorOptions,
 	parseEditorConfig,
 } from '../../src/admin/tools/utils';
@@ -417,102 +414,6 @@ describe( 'mergeEditorOptions', () => {
 			rulers: [],
 			quickSuggestions: { other: 'on', comments: 'on', strings: 'off' },
 		} );
-	} );
-} );
-
-describe( 'getImportItems', () => {
-	const currentConfig = { editorSettings, editorOptions };
-
-	it( 'lists the changed values, with each property of an object option as one item', () => {
-		const items = getImportItems(
-			{
-				editorSettings: { tabSize: 4, theme: 'vs-dark' },
-				editorOptions: { fontSize: '20', quickSuggestions: { other: 'off', comments: 'off' } },
-			},
-			{
-				editorSettings: { tabSize: 4, theme: 'vs-dark' },
-				editorOptions: { fontSize: 20, quickSuggestions: { other: 'off', comments: 'off' } },
-			},
-			currentConfig
-		);
-		expect( items ).toEqual( [
-			{
-				group: 'editorSettings',
-				path: 'tabSize',
-				currentValue: 2,
-				value: 4,
-				originalValue: 4,
-			},
-			{
-				group: 'editorOptions',
-				path: 'fontSize',
-				currentValue: 14,
-				value: 20,
-				originalValue: '20',
-			},
-			{
-				group: 'editorOptions',
-				path: 'quickSuggestions.other',
-				currentValue: 'on',
-				value: 'off',
-				originalValue: 'off',
-			},
-		] );
-		// A numeric string converted to the same number is not clamped.
-		expect( items.map( ( item ) => isAdjusted( item.originalValue, item.value ) ) ).toEqual( [
-			false,
-			false,
-			false,
-		] );
-	} );
-
-	it( 'detects values clamped to the range', () => {
-		const items = getImportItems(
-			{ editorSettings: {}, editorOptions: { fontSize: 40, rulers: [ 80, { column: 120 } ] } },
-			{ editorSettings: {}, editorOptions: { fontSize: 30, rulers: [ 80, { column: 100 } ] } },
-			currentConfig
-		);
-		expect( items.map( ( item ) => isAdjusted( item.originalValue, item.value ) ) ).toEqual( [
-			true,
-			true,
-		] );
-	} );
-
-	it( 'keeps a clamped value equal to the current one, and skips equal values', () => {
-		const items = getImportItems(
-			{
-				editorSettings: {},
-				editorOptions: { fontSize: 100, rulers: [ { color: '#fff', column: 80 } ] },
-			},
-			{
-				editorSettings: {},
-				editorOptions: { fontSize: 30, rulers: [ { color: '#fff', column: 80 } ] },
-			},
-			{
-				editorSettings,
-				editorOptions: {
-					...editorOptions,
-					fontSize: 30,
-					rulers: [ { column: 80, color: '#fff' } ],
-				} as EditorOptions,
-			}
-		);
-		expect( items.map( ( item ) => item.path ) ).toEqual( [ 'fontSize' ] );
-		expect( isAdjusted( items[ 0 ].originalValue, items[ 0 ].value ) ).toBe( true );
-	} );
-} );
-
-describe( 'getUnchangedImportItems', () => {
-	it( 'lists the values equal to the current ones, except clamped ones', () => {
-		const items = getUnchangedImportItems(
-			{ editorSettings: { tabSize: 2 }, editorOptions: { fontSize: 100, wordWrap: 'off' } },
-			{ editorSettings: { tabSize: 2 }, editorOptions: { fontSize: 30, wordWrap: 'off' } },
-			{
-				editorSettings,
-				editorOptions: { ...editorOptions, fontSize: 30, wordWrap: 'off' } as EditorOptions,
-			}
-		);
-		expect( items.map( ( item ) => item.path ) ).toEqual( [ 'tabSize', 'wordWrap' ] );
 	} );
 } );
 

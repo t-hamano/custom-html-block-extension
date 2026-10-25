@@ -21,8 +21,8 @@ import { AdminContext } from '../../../index';
 import {
 	buildEditorConfig,
 	countEditorConfig,
-	getImportItems,
-	getUnchangedImportItems,
+	getAllImportItems,
+	isApplicableItem,
 	mergeEditorOptions,
 	parseEditorConfig,
 	type ImportItem,
@@ -109,7 +109,8 @@ export default function ImportTool() {
 
 		// Show the dialog also when every value is skipped, so that the reasons
 		// are visible.
-		const items = getImportItems( editorConfig, result, currentConfig.current );
+		const allItems = getAllImportItems( editorConfig, result, currentConfig.current );
+		const items = allItems.filter( isApplicableItem );
 		if ( items.length === 0 && result.skipped.length === 0 && countEditorConfig( result ) === 0 ) {
 			createErrorNotice( __( 'No supported settings were found.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
@@ -127,7 +128,7 @@ export default function ImportTool() {
 			return;
 		}
 
-		const unchanged = getUnchangedImportItems( editorConfig, result, currentConfig.current );
+		const unchanged = allItems.filter( ( item ) => ! isApplicableItem( item ) );
 		setConfirmation( { text: settingsText, items, unchanged, skipped: result.skipped } );
 	};
 

@@ -656,7 +656,7 @@ export function isAdjusted( originalValue: unknown, value: unknown ): boolean {
  * @param currentConfig.editorOptions  The current editor options.
  * @return The items.
  */
-function getAllImportItems(
+export function getAllImportItems(
 	editorConfig: EditorConfigPayload,
 	validated: EditorConfigPayload,
 	currentConfig: { editorSettings: EditorSettings; editorOptions: EditorOptions }
@@ -689,49 +689,9 @@ function getAllImportItems(
  * @param item The item.
  * @return Whether the item should be applied.
  */
-function isApplicableItem( item: ImportItem ) {
+export function isApplicableItem( item: ImportItem ) {
 	return (
 		! isDeepEqual( item.currentValue, item.value ) || isAdjusted( item.originalValue, item.value )
-	);
-}
-
-/**
- * List the values of the validated editor config that differ from the current
- * ones or were clamped.
- *
- * @param editorConfig                 The editor config sent to the server.
- * @param validated                    The editor config that the server accepted.
- * @param currentConfig                The current editor config.
- * @param currentConfig.editorSettings The current editor settings.
- * @param currentConfig.editorOptions  The current editor options.
- * @return The items to apply.
- */
-export function getImportItems(
-	editorConfig: EditorConfigPayload,
-	validated: EditorConfigPayload,
-	currentConfig: { editorSettings: EditorSettings; editorOptions: EditorOptions }
-): ImportItem[] {
-	return getAllImportItems( editorConfig, validated, currentConfig ).filter( isApplicableItem );
-}
-
-/**
- * List the values of the validated editor config that are the same as the
- * current ones and were not clamped.
- *
- * @param editorConfig                 The editor config sent to the server.
- * @param validated                    The editor config that the server accepted.
- * @param currentConfig                The current editor config.
- * @param currentConfig.editorSettings The current editor settings.
- * @param currentConfig.editorOptions  The current editor options.
- * @return The unchanged items.
- */
-export function getUnchangedImportItems(
-	editorConfig: EditorConfigPayload,
-	validated: EditorConfigPayload,
-	currentConfig: { editorSettings: EditorSettings; editorOptions: EditorOptions }
-): ImportItem[] {
-	return getAllImportItems( editorConfig, validated, currentConfig ).filter(
-		( item ) => ! isApplicableItem( item )
 	);
 }
 
