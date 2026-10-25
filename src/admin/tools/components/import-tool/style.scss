@@ -12,12 +12,9 @@
 	padding-top: 16px;
 }
 
-// Stick the footer to the bottom edge of the dialog instead of the edge of the
-// scroll container's padding, so that rows don't show through below it.
-.chbe-admin-tools__import-panel .dataviews-picker-wrapper .dataviews-footer {
-	$padding: var(--wpds-dimension-padding-2xl);
-
-	bottom: calc(-1 * #{$padding});
-	margin-bottom: calc(-1 * #{$padding});
-	padding-bottom: calc(12px + #{$padding});
+// Scroll only the table, so that the description, the tabs, and the footer
+// stay visible.
+.chbe-admin-tools__import-table {
+	max-height: 50vh;
+	overflow-y: auto;
 }

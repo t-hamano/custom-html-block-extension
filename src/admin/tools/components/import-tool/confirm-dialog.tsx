@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { createInterpolateElement, useState } from '@wordpress/element';
 import { Dialog, Stack, Tabs, Text } from '@wordpress/ui';
 import { DataViews, DataViewsPicker } from '@wordpress/dataviews';
 import type { ActionButton, Field, View } from '@wordpress/dataviews';
@@ -30,6 +30,10 @@ function formatValue( value: unknown ) {
 	return JSON.stringify( value ) ?? '';
 }
 
+function renderValue( value: unknown ) {
+	return <code>{ formatValue( value ) }</code>;
+}
+
 function getItemKey( item: ImportItem ) {
 	return `${ item.group }.${ item.path }`;
 }
@@ -44,7 +48,7 @@ const itemFields: Field< ImportItem >[] = [
 	{
 		id: 'currentValue',
 		label: __( 'Current', 'custom-html-block-extension' ),
-		render: ( { item } ) => formatValue( item.currentValue ),
+		render: ( { item } ) => renderValue( item.currentValue ),
 		enableSorting: false,
 		enableHiding: false,
 	},
@@ -53,13 +57,16 @@ const itemFields: Field< ImportItem >[] = [
 		label: __( 'New', 'custom-html-block-extension' ),
 		render: ( { item } ) =>
 			isClampedItem( item )
-				? sprintf(
-						/* translators: 1: New value, 2: Imported value out of range. */
-						__( '%1$s (%2$s is out of range)', 'custom-html-block-extension' ),
-						formatValue( item.value ),
-						formatValue( item.originalValue )
+				? createInterpolateElement(
+						sprintf(
+							/* translators: 1: New value, 2: Imported value out of range. */
+							__( '%1$s (%2$s is out of range)', 'custom-html-block-extension' ),
+							'<value />',
+							'<original />'
+						),
+						{ value: renderValue( item.value ), original: renderValue( item.originalValue ) }
 					)
-				: formatValue( item.value ),
+				: renderValue( item.value ),
 		enableSorting: false,
 		enableHiding: false,
 	},
@@ -75,7 +82,7 @@ const unchangedFields: Field< ImportItem >[] = [
 	{
 		id: 'value',
 		label: __( 'Value', 'custom-html-block-extension' ),
-		render: ( { item } ) => formatValue( item.value ),
+		render: ( { item } ) => renderValue( item.value ),
 		enableSorting: false,
 		enableHiding: false,
 	},
@@ -199,7 +206,9 @@ export default function ImportConfirmDialog( {
 									itemListLabel={ __( 'Settings to apply', 'custom-html-block-extension' ) }
 									empty={ __( 'No settings to apply.', 'custom-html-block-extension' ) }
 								>
-									<DataViewsPicker.Layout />
+									<div className="chbe-admin-tools__import-table">
+										<DataViewsPicker.Layout />
+									</div>
 									<DataViewsPicker.Footer />
 								</DataViewsPicker>
 							</Stack>
@@ -222,7 +231,9 @@ export default function ImportConfirmDialog( {
 									defaultLayouts={ { table: true } }
 									empty={ __( 'No settings are unchanged.', 'custom-html-block-extension' ) }
 								>
-									<DataViews.Layout />
+									<div className="chbe-admin-tools__import-table">
+										<DataViews.Layout />
+									</div>
 								</DataViews>
 							</Stack>
 						</Tabs.Panel>
@@ -244,7 +255,9 @@ export default function ImportConfirmDialog( {
 									defaultLayouts={ { table: true } }
 									empty={ __( 'No settings were skipped.', 'custom-html-block-extension' ) }
 								>
-									<DataViews.Layout />
+									<div className="chbe-admin-tools__import-table">
+										<DataViews.Layout />
+									</div>
 								</DataViews>
 							</Stack>
 						</Tabs.Panel>
