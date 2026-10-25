@@ -159,9 +159,12 @@ export default function ImportConfirmDialog( {
 					</Dialog.Title>
 					<Dialog.CloseIconButton />
 				</Dialog.Header>
-				<Dialog.Content>
-					<Tabs.Root defaultValue={ items.length > 0 ? 'apply' : 'skipped' }>
-						<Tabs.List>
+				<Dialog.Content className="chbe-admin-tools__import-dialog-content">
+					<Tabs.Root
+						className="chbe-admin-tools__import-tabs"
+						defaultValue={ items.length > 0 ? 'apply' : 'skipped' }
+					>
+						<Tabs.List className="chbe-admin-tools__import-tab-list">
 							<Tabs.Tab value="apply">
 								{ sprintf(
 									/* translators: %d: Number of settings. */
@@ -185,7 +188,7 @@ export default function ImportConfirmDialog( {
 							</Tabs.Tab>
 						</Tabs.List>
 						<Tabs.Panel value="apply" className="chbe-admin-tools__import-panel">
-							<Stack direction="column" gap="md">
+							<Stack direction="column" gap="md" className="chbe-admin-tools__import-panel-content">
 								<Text render={ <p /> }>
 									{ __(
 										'Select the settings to import. They are applied as unsaved changes, so check the preview and save them.',
@@ -206,15 +209,13 @@ export default function ImportConfirmDialog( {
 									itemListLabel={ __( 'Settings to apply', 'custom-html-block-extension' ) }
 									empty={ __( 'No settings to apply.', 'custom-html-block-extension' ) }
 								>
-									<div className="chbe-admin-tools__import-table">
-										<DataViewsPicker.Layout />
-									</div>
+									<DataViewsPicker.Layout />
 									<DataViewsPicker.Footer />
 								</DataViewsPicker>
 							</Stack>
 						</Tabs.Panel>
 						<Tabs.Panel value="unchanged" className="chbe-admin-tools__import-panel">
-							<Stack direction="column" gap="md">
+							<Stack direction="column" gap="md" className="chbe-admin-tools__import-panel-content">
 								<Text render={ <p /> }>
 									{ __(
 										'The following settings are the same as the current ones.',
@@ -231,14 +232,12 @@ export default function ImportConfirmDialog( {
 									defaultLayouts={ { table: true } }
 									empty={ __( 'No settings are unchanged.', 'custom-html-block-extension' ) }
 								>
-									<div className="chbe-admin-tools__import-table">
-										<DataViews.Layout />
-									</div>
+									<DataViews.Layout />
 								</DataViews>
 							</Stack>
 						</Tabs.Panel>
 						<Tabs.Panel value="skipped" className="chbe-admin-tools__import-panel">
-							<Stack direction="column" gap="md">
+							<Stack direction="column" gap="md" className="chbe-admin-tools__import-panel-content">
 								<Text render={ <p /> }>
 									{ __(
 										'The following settings cannot be imported.',
@@ -255,9 +254,7 @@ export default function ImportConfirmDialog( {
 									defaultLayouts={ { table: true } }
 									empty={ __( 'No settings were skipped.', 'custom-html-block-extension' ) }
 								>
-									<div className="chbe-admin-tools__import-table">
-										<DataViews.Layout />
-									</div>
+									<DataViews.Layout />
 								</DataViews>
 							</Stack>
 						</Tabs.Panel>
