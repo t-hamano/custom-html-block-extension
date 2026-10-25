@@ -74,7 +74,7 @@ export default function ItemHelp( {
 							</Text>
 						) }
 						{ isToggle && (
-							<Badge intent={ defaultToggle ? 'stable' : 'none' }>
+							<Badge intent="informational">
 								{ defaultToggle
 									? __( 'Default: Enabled', 'custom-html-block-extension' )
 									: __( 'Default: Disabled', 'custom-html-block-extension' ) }
@@ -91,7 +91,9 @@ export default function ItemHelp( {
 												{ item.label }
 											</Text>
 											{ item.isDefault && (
-												<Badge>{ __( 'Default', 'custom-html-block-extension' ) }</Badge>
+												<Badge intent="informational">
+													{ __( 'Default', 'custom-html-block-extension' ) }
+												</Badge>
 											) }
 										</Stack>
 										<Button
