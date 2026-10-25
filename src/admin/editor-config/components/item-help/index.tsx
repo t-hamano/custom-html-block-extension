@@ -6,10 +6,10 @@ import type { ReactNode } from 'react';
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
-import { Button, Dialog, IconButton, Stack, SwitchControl, Text } from '@wordpress/ui';
+import { Badge, Button, Dialog, IconButton, Stack, SwitchControl, Text } from '@wordpress/ui';
 
 type ItemHelpProps = {
 	title: string;
@@ -74,11 +74,11 @@ export default function ItemHelp( {
 							</Text>
 						) }
 						{ isToggle && (
-							<Text render={ <p /> }>
+							<Badge intent="informational">
 								{ defaultToggle
-									? __( 'Defaults to enable.', 'custom-html-block-extension' )
-									: __( 'Defaults to disable.', 'custom-html-block-extension' ) }
-							</Text>
+									? __( 'Default: Enabled', 'custom-html-block-extension' )
+									: __( 'Default: Disabled', 'custom-html-block-extension' ) }
+							</Badge>
 						) }
 						{ items.length > 0 && (
 							<div
@@ -86,15 +86,16 @@ export default function ItemHelp( {
 							>
 								{ items.map( ( item, index ) => (
 									<div className="chbe-admin-editor-config-item-help-modal__item" key={ index }>
-										<Text variant="heading-lg" render={ <h3 /> }>
-											{ item.isDefault
-												? sprintf(
-														/* translators: %s is replaced with the setting label. */
-														__( '%s (Default)', 'custom-html-block-extension' ),
-														item.label
-													)
-												: item.label }
-										</Text>
+										<Stack direction="row" align="center" gap="sm">
+											<Text variant="heading-lg" render={ <h3 /> }>
+												{ item.label }
+											</Text>
+											{ item.isDefault && (
+												<Badge intent="informational">
+													{ __( 'Default', 'custom-html-block-extension' ) }
+												</Badge>
+											) }
+										</Stack>
 										<Button
 											className="chbe-admin-editor-config-item-help-modal__item-button"
 											variant={ value === item.value ? 'solid' : 'minimal' }
