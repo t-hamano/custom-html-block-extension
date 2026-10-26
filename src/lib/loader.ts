@@ -103,8 +103,13 @@ function loadMonaco( targetWindow: Window ): Promise< typeof Monaco > {
 		if ( ! monaco || results.some( ( { status } ) => 'rejected' === status ) ) {
 			throw scriptError;
 		}
-		registerWpHtmlTokenizer( monaco );
-		registerWpBlockDelimiters( monaco );
+		// The block editor and text editor scripts each bundle this loader, so
+		// register the extensions only once per window.
+		if ( ! targetWindow.chbeHasMonacoExtensions ) {
+			registerWpHtmlTokenizer( monaco );
+			registerWpBlockDelimiters( monaco );
+			targetWindow.chbeHasMonacoExtensions = true;
+		}
 		return monaco;
 	} );
 }
