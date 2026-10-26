@@ -58,7 +58,6 @@ class Block_Editor {
 
 		$text_editor_asset_file = include CHBE_PATH . '/build/text-editor.asset.php';
 
-		// Depend on the block editor script, which passes `chbeObj`.
 		wp_enqueue_script(
 			CHBE_NAMESPACE . '-text-editor',
 			CHBE_URL . '/build/text-editor.js',
