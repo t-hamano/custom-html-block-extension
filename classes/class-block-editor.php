@@ -52,7 +52,6 @@ class Block_Editor {
 
 		// The widgets editor and the customizer have no code editor. Loading the script
 		// there would also load `wp-editor`, which core doesn't allow with them.
-		// Same check as `wp_check_widget_editor_deps()`.
 		if ( wp_script_is( 'wp-edit-widgets' ) || wp_script_is( 'wp-customize-widgets' ) ) {
 			return;
 		}
