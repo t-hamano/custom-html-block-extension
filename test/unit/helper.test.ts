@@ -1,12 +1,12 @@
 /**
  * External dependencies
  */
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 /**
  * Internal dependencies
  */
-import { isDeepEqual, toNumber } from '../../src/lib/helper';
+import { getSupportedFontWeight, isDeepEqual, toNumber } from '../../src/lib/helper';
 
 describe( 'toNumber', () => {
 	it( 'converts strings to numbers', () => {
@@ -71,5 +71,36 @@ describe( 'isDeepEqual', () => {
 		expect( isDeepEqual( null, {} ) ).toBe( false );
 		expect( isDeepEqual( {}, null ) ).toBe( false );
 		expect( isDeepEqual( { a: null }, { a: {} } ) ).toBe( false );
+	} );
+} );
+
+describe( 'getSupportedFontWeight', () => {
+	beforeAll( () => {
+		vi.stubGlobal( 'window', {
+			chbeObj: {
+				fontFamily: [
+					{ name: 'Fira Code', weight: [ 300, 400, 500, 600, 700 ] },
+					{ name: 'Ubuntu Mono', weight: [ 300, 700 ] },
+					{ name: 'No Weights' },
+				],
+			},
+		} );
+	} );
+
+	it( 'keeps a weight that the font has', () => {
+		expect( getSupportedFontWeight( 'Fira Code', '500' ) ).toBe( '500' );
+		expect( getSupportedFontWeight( 'Ubuntu Mono', '700' ) ).toBe( '700' );
+		expect( getSupportedFontWeight( 'monospace', '700' ) ).toBe( '700' );
+	} );
+
+	it( 'uses the normal weight, or the first one, of the font', () => {
+		expect( getSupportedFontWeight( 'Fira Code', '800' ) ).toBe( '400' );
+		expect( getSupportedFontWeight( 'Ubuntu Mono', '500' ) ).toBe( '300' );
+		expect( getSupportedFontWeight( 'monospace', '300' ) ).toBe( '400' );
+	} );
+
+	it( 'keeps the weight for a font without weights', () => {
+		expect( getSupportedFontWeight( 'No Weights', '500' ) ).toBe( '500' );
+		expect( getSupportedFontWeight( 'Unknown Font', '500' ) ).toBe( '500' );
 	} );
 } );

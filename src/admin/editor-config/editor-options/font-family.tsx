@@ -10,6 +10,7 @@ import { createInterpolateElement, useContext } from '@wordpress/element';
  */
 import { AdminContext } from '../../index';
 import SettingItem from '../components/setting-item';
+import { getSupportedFontWeight } from '../../../lib/helper';
 
 export default function FontFamily() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -18,6 +19,7 @@ export default function FontFamily() {
 		setEditorOptions( {
 			...editorOptions,
 			fontFamily: value,
+			fontWeight: getSupportedFontWeight( value, editorOptions.fontWeight ),
 		} );
 	};
 

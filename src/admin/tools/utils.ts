@@ -8,7 +8,7 @@ import { parse, type ParseError } from 'jsonc-parser';
  */
 import type { EditorOptions, EditorSettings } from '../../types';
 import themes from '../../lib/themes';
-import { isDeepEqual } from '../../lib/helper';
+import { MONOSPACE_FONT_WEIGHTS, getSupportedFontWeight, isDeepEqual } from '../../lib/helper';
 
 // Prefix of the settings that VS Code doesn't have, like an extension's
 // settings, e.g. `customHtmlBlockExtension.theme`.
@@ -29,10 +29,6 @@ const FONT_WEIGHT_KEYWORDS = new Map< unknown, string >( [
 	[ 'normal', '400' ],
 	[ 'bold', '700' ],
 ] );
-
-// Weights of the generic `monospace` font, which usually has only normal and
-// bold faces.
-const MONOSPACE_FONT_WEIGHTS = [ 400, 700 ];
 
 // VS Code's built-in themes that map to Monaco's built-in themes.
 const BUILT_IN_THEMES = new Map( [
@@ -401,18 +397,19 @@ function migrateVSCodeSettings(
 		);
 	}
 
-	// When the imported font doesn't have the current weight, use its normal
-	// weight, or its first one.
+	// When the imported font doesn't have the current weight, import a weight
+	// that it has.
 	if (
 		vscodeSettings.get( 'fontFamily' ) !== undefined &&
-		vscodeSettings.get( 'fontWeight' ) === undefined &&
-		fontWeights?.length &&
-		! fontWeights.includes( Number( currentEditorOptions.fontWeight ) )
+		vscodeSettings.get( 'fontWeight' ) === undefined
 	) {
-		vscodeSettings.set(
-			'fontWeight',
-			String( fontWeights.includes( 400 ) ? 400 : fontWeights[ 0 ] )
+		const supportedFontWeight = getSupportedFontWeight(
+			String( fontName ),
+			currentEditorOptions.fontWeight
 		);
+		if ( supportedFontWeight !== currentEditorOptions.fontWeight ) {
+			vscodeSettings.set( 'fontWeight', supportedFontWeight );
+		}
 	}
 
 	return vscodeSettings;

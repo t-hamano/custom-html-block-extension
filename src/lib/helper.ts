@@ -48,6 +48,24 @@ export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
 	);
 };
 
+// Weights of the generic `monospace` font, which usually has only normal and
+// bold faces.
+export const MONOSPACE_FONT_WEIGHTS = [ 400, 700 ];
+
+// Get a weight that the font has. Keep the weight if the font has it, or the
+// font is not registered with weights. Otherwise use its normal weight, or its
+// first one.
+export const getSupportedFontWeight = ( fontFamily: string, fontWeight: string ): string => {
+	const fontWeights =
+		fontFamily === 'monospace'
+			? MONOSPACE_FONT_WEIGHTS
+			: window.chbeObj.fontFamily.find( ( { name } ) => name === fontFamily )?.weight;
+	if ( ! fontWeights?.length || fontWeights.includes( Number( fontWeight ) ) ) {
+		return fontWeight;
+	}
+	return String( fontWeights.includes( 400 ) ? 400 : fontWeights[ 0 ] );
+};
+
 // Stylesheets added by `loadWebFont()`, mapped to their load state.
 const stylesheetLoads = new WeakMap< HTMLLinkElement, Promise< unknown > >();
 
