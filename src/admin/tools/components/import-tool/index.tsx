@@ -28,7 +28,7 @@ import {
 	type ImportItem,
 } from '../../utils';
 import { validateEditorConfig } from '../../../api';
-import { getSupportedFontWeight } from '../../../../lib/helper';
+import { getSupportedFontWeight, waitForSpinner } from '../../../../lib/helper';
 import ImportConfirmDialog from './confirm-dialog';
 
 function getSettingsFolder() {
@@ -104,8 +104,7 @@ export default function ImportTool() {
 			return;
 		}
 
-		// Keep the spinner visible briefly so it does not flash on fast responses.
-		await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+		await waitForSpinner();
 		setIsWaiting( false );
 
 		// Show the dialog also when every value is skipped, so that the reasons

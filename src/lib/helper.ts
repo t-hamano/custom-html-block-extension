@@ -18,6 +18,11 @@ export const toNumber = ( value: string | number, min = 0, max: number | null = 
 	return num;
 };
 
+// Wait before finishing an operation, so that the spinner shown during it
+// doesn't flash on fast responses.
+export const waitForSpinner = (): Promise< void > =>
+	new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+
 // Whether two JSON-compatible values are deeply equal, regardless of key order.
 export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
 	if ( a === b ) {

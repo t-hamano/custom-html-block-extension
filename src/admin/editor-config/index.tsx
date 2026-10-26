@@ -31,7 +31,7 @@ import SettingsPanel, { SettingsPanelContext } from './components/settings-panel
 import SettingGroup from './components/setting-group';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
-import { isDeepEqual } from '../../lib/helper';
+import { isDeepEqual, waitForSpinner } from '../../lib/helper';
 import type { EditorConfigContextType } from '../../types';
 
 /**
@@ -138,8 +138,7 @@ export default function EditorConfig() {
 		try {
 			await updateSettings( { editorSettings, editorOptions } );
 			setSavedEditorConfig( { editorSettings, editorOptions } );
-			// Keep the spinner visible briefly so it does not flash on fast responses.
-			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			await waitForSpinner();
 			createSuccessNotice( __( 'Settings saved.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
@@ -163,8 +162,7 @@ export default function EditorConfig() {
 				editorSettings: response.editorSettings,
 				editorOptions: response.editorOptions,
 			} );
-			// Keep the spinner visible briefly so it does not flash on fast responses.
-			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			await waitForSpinner();
 			createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
@@ -181,10 +179,17 @@ export default function EditorConfig() {
 		// Some options are not reflected when the state is changed.
 		// So disable the editor for a moment by Disabled component as a workaround.
 		setIsEditorDisabled( true );
-		setTimeout( () => {
+	}, [] );
+
+	useEffect( () => {
+		if ( ! isEditorDisabled ) {
+			return;
+		}
+		const timeoutId = setTimeout( () => {
 			setIsEditorDisabled( false );
 		}, 300 );
-	}, [] );
+		return () => clearTimeout( timeoutId );
+	}, [ isEditorDisabled ] );
 
 	return (
 		<Stack align="start" wrap="wrap" className="chbe-admin-editor-config" gap="xl">

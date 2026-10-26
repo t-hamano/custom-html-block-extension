@@ -10,6 +10,7 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
+import { waitForSpinner } from '../../../../lib/helper';
 import { AdminContext } from '../../../index';
 import { getSettings } from '../../../api';
 import { exportEditorConfig } from '../../utils';
@@ -42,8 +43,7 @@ export default function ExportTool() {
 			link.href = href;
 			link.download = 'chbe-export-' + fileDate + '.json';
 			document.body.appendChild( link );
-			// Keep the spinner visible briefly so it does not flash on fast responses.
-			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			await waitForSpinner();
 			link.click();
 			document.body.removeChild( link );
 			URL.revokeObjectURL( href );

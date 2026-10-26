@@ -10,6 +10,7 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
+import { waitForSpinner } from '../../lib/helper';
 import { AdminContext } from '../index';
 import { updateSettings } from '../api';
 import PermissionEditor from './components/permission-editor';
@@ -25,8 +26,7 @@ export default function Options() {
 
 		try {
 			await updateSettings( { options } );
-			// Keep the spinner visible briefly so it does not flash on fast responses.
-			await new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+			await waitForSpinner();
 			createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
