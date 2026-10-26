@@ -63,7 +63,9 @@
 		outline: none;
 	}
 
-	// stylelint-disable-next-line selector-class-pattern -- Monaco class.
+	// The class name is defined by the Monaco Editor and uses camelCase,
+	// so it can't follow the selector-class-pattern rule.
+	// stylelint-disable-next-line selector-class-pattern
 	.monaco-findInput > .controls {
 		top: 2px;
 	}
