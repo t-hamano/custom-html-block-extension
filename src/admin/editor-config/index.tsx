@@ -222,38 +222,35 @@ export default function EditorConfig() {
 						{ 'basic' === editorMode && ! searchQuery && (
 							<>
 								<EditorSettings.Theme />
-								<EditorSettings.TabSize />
-								<EditorSettings.InsertSpaces />
-								<EditorSettings.DetectIndentation />
 								<EditorSettings.Emmet />
 								<EditorOptions.FontFamily />
 								<EditorOptions.FontWeight fontWeights={ fontWeights } />
 								<EditorOptions.FontSize />
 								<EditorOptions.LineHeight />
+								<EditorSettings.TabSize />
+								<EditorSettings.InsertSpaces />
+								<EditorSettings.DetectIndentation />
+								<EditorOptions.AutoIndent />
 								<EditorOptions.WordWrap />
 								<EditorOptions.LineNumbers />
-								<EditorOptions.RenderWhitespace />
 								<EditorOptions.MinimapEnabled />
-								<EditorOptions.Folding />
 								<EditorOptions.CursorStyle />
-								<EditorOptions.AutoIndent />
+								<EditorOptions.QuickSuggestions />
 								<EditorOptions.AutoClosingBrackets />
 								<EditorOptions.AutoClosingQuotes />
-								<EditorOptions.QuickSuggestions />
+								<EditorOptions.Folding />
+								<EditorOptions.RenderWhitespace />
 							</>
 						) }
 						{ ( 'advanced' === editorMode || searchQuery ) && (
 							<>
-								<SettingsPanel title={ __( 'Editor', 'custom-html-block-extension' ) }>
+								<SettingsPanel title={ __( 'General', 'custom-html-block-extension' ) }>
 									<EditorSettings.Theme />
-									<EditorSettings.TabSize />
-									<EditorSettings.InsertSpaces />
-									<EditorSettings.DetectIndentation />
 									<EditorSettings.Emmet />
 									<EditorOptions.Contextmenu />
-									<EditorOptions.GlyphMargin />
-									<EditorOptions.PaddingTop />
-									<EditorOptions.PaddingBottom />
+									<EditorOptions.Links />
+									<EditorOptions.DragAndDrop />
+									<EditorOptions.MouseWheelZoom />
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Font', 'custom-html-block-extension' ) }>
 									<EditorOptions.FontFamily />
@@ -262,6 +259,14 @@ export default function EditorConfig() {
 									<EditorOptions.FontSize />
 									<EditorOptions.LineHeight />
 									<EditorOptions.LetterSpacing />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Indentation', 'custom-html-block-extension' ) }>
+									<EditorSettings.TabSize />
+									<EditorSettings.InsertSpaces />
+									<EditorSettings.DetectIndentation />
+									<EditorOptions.AutoIndent />
+									<EditorOptions.UseTabStops />
+									<EditorOptions.StickyTabStops />
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Word wrap', 'custom-html-block-extension' ) }>
 									<EditorOptions.WordWrap />
@@ -278,6 +283,27 @@ export default function EditorConfig() {
 											<EditorOptions.WordWrapIndicator />
 										</Stack>
 									</SettingGroup>
+								</SettingsPanel>
+								<SettingsPanel
+									title={ __( 'Line numbers and gutter', 'custom-html-block-extension' ) }
+								>
+									<EditorOptions.LineNumbers />
+									<SettingGroup isDisabled={ 'off' === editorOptions.lineNumbers }>
+										<Stack direction="column" gap="lg">
+											<EditorOptions.LineNumbersMinChars />
+											<EditorOptions.SelectOnLineNumbers />
+											<EditorOptions.RenderFinalNewline />
+										</Stack>
+									</SettingGroup>
+									<EditorOptions.GlyphMargin />
+									<EditorOptions.LineDecorationsWidth />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Layout', 'custom-html-block-extension' ) }>
+									<EditorOptions.PaddingTop />
+									<EditorOptions.PaddingBottom />
+									<EditorOptions.ScrollBeyondLastLine />
+									<EditorOptions.ScrollBeyondLastColumn />
+									<EditorOptions.Rulers />
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Minimap', 'custom-html-block-extension' ) }>
 									<EditorOptions.MinimapEnabled />
@@ -302,30 +328,19 @@ export default function EditorConfig() {
 									<EditorOptions.CursorSurroundingLines />
 									<EditorOptions.CursorSurroundingLinesStyle />
 									<EditorOptions.CursorSmoothCaretAnimation />
+									<EditorOptions.MultiCursorModifier />
+									<EditorOptions.MultiCursorPaste />
+									<EditorOptions.ColumnSelection />
 								</SettingsPanel>
-								<SettingsPanel title={ __( 'Code folding', 'custom-html-block-extension' ) }>
-									<EditorOptions.Folding />
-									<SettingGroup isDisabled={ ! editorOptions.folding }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.ShowFoldingControls />
-											<EditorOptions.FoldingStrategy />
-											<EditorOptions.LineDecorationsWidth />
-											<EditorOptions.FoldingHighlight />
-											<EditorOptions.UnfoldOnClickAfterEndOfLine />
-										</Stack>
-									</SettingGroup>
+								<SettingsPanel
+									title={ __( 'Selection and clipboard', 'custom-html-block-extension' ) }
+								>
+									<EditorOptions.EmptySelectionClipboard />
+									<EditorOptions.CopyWithSyntaxHighlighting />
+									<EditorOptions.RoundedSelection />
+									<EditorOptions.SelectionHighlight />
 								</SettingsPanel>
-								<SettingsPanel title={ __( 'Line number', 'custom-html-block-extension' ) }>
-									<EditorOptions.LineNumbers />
-									<SettingGroup isDisabled={ 'off' === editorOptions.lineNumbers }>
-										<Stack direction="column" gap="lg">
-											<EditorOptions.LineNumbersMinChars />
-											<EditorOptions.SelectOnLineNumbers />
-											<EditorOptions.RenderFinalNewline />
-										</Stack>
-									</SettingGroup>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Suggest', 'custom-html-block-extension' ) }>
+								<SettingsPanel title={ __( 'Suggestions', 'custom-html-block-extension' ) }>
 									<EditorOptions.QuickSuggestions />
 									<SettingGroup isDisabled={ ! editorOptions.suggestOnTriggerCharacters }>
 										<Stack direction="column" gap="lg">
@@ -340,62 +355,33 @@ export default function EditorConfig() {
 										</Stack>
 									</SettingGroup>
 								</SettingsPanel>
-								<SettingsPanel title={ __( 'Auto completion', 'custom-html-block-extension' ) }>
-									<EditorOptions.AutoIndent />
+								<SettingsPanel
+									title={ __( 'Auto closing and formatting', 'custom-html-block-extension' ) }
+								>
 									<EditorOptions.AutoClosingBrackets />
 									<EditorOptions.AutoClosingQuotes />
 									<EditorOptions.AutoClosingDelete />
 									<EditorOptions.AutoClosingOvertype />
 									<EditorOptions.AutoSurround />
 									<EditorOptions.FormatOnPaste />
+									<EditorOptions.CommentsInsertSpace />
 								</SettingsPanel>
-								<SettingsPanel title={ __( 'Mouse and scroll', 'custom-html-block-extension' ) }>
-									<EditorOptions.MouseWheelScrollSensitivity />
-									<EditorOptions.FastScrollSensitivity />
-									<EditorOptions.Hover />
-									<SettingGroup isDisabled={ 'off' === editorOptions.hover.enabled }>
+								<SettingsPanel title={ __( 'Code folding', 'custom-html-block-extension' ) }>
+									<EditorOptions.Folding />
+									<SettingGroup isDisabled={ ! editorOptions.folding }>
 										<Stack direction="column" gap="lg">
-											<EditorOptions.HoverDelay />
-											<EditorOptions.HoverSticky />
-											<EditorOptions.HoverAbove />
+											<EditorOptions.ShowFoldingControls />
+											<EditorOptions.FoldingStrategy />
+											<EditorOptions.FoldingHighlight />
+											<EditorOptions.UnfoldOnClickAfterEndOfLine />
 										</Stack>
 									</SettingGroup>
-									<EditorOptions.SmoothScrolling />
-									<EditorOptions.StickyScrollEnabled />
-									<SettingGroup isDisabled={ ! editorOptions.stickyScroll.enabled }>
-										<EditorOptions.StickyScrollMaxLineCount />
-									</SettingGroup>
-									<EditorOptions.ScrollBeyondLastLine />
-									<EditorOptions.ScrollBeyondLastColumn />
-									<EditorOptions.MouseWheelZoom />
-									<EditorOptions.DragAndDrop />
-									<EditorOptions.HideCursorInOverviewRuler />
-									<EditorOptions.MultiCursorModifier />
 								</SettingsPanel>
-								<SettingsPanel
-									title={ __( 'Select, cut, copy, and paste', 'custom-html-block-extension' ) }
-								>
-									<EditorOptions.EmptySelectionClipboard />
-									<EditorOptions.RoundedSelection />
-									<EditorOptions.SelectionHighlight />
-									<EditorOptions.MultiCursorPaste />
-									<EditorOptions.StickyTabStops />
-									<EditorOptions.CopyWithSyntaxHighlighting />
-									<EditorOptions.ColumnSelection />
-								</SettingsPanel>
-								<SettingsPanel
-									title={ __( 'Highlight and rendering', 'custom-html-block-extension' ) }
-								>
+								<SettingsPanel title={ __( 'Brackets and guides', 'custom-html-block-extension' ) }>
 									<EditorOptions.MatchBrackets />
 									<EditorOptions.BracketPairColorizationEnabled />
 									<SettingGroup isDisabled={ ! editorOptions.bracketPairColorization.enabled }>
 										<EditorOptions.BracketPairColorizationIndependentColorPoolPerBracketType />
-									</SettingGroup>
-									<EditorOptions.OccurrencesHighlight />
-									<EditorOptions.RenderWhitespace />
-									<EditorOptions.RenderLineHighlight />
-									<SettingGroup isDisabled={ 'none' === editorOptions.renderLineHighlight }>
-										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
 									</SettingGroup>
 									<EditorOptions.GuidesIndentation />
 									<SettingGroup isDisabled={ ! editorOptions.guides.indentation }>
@@ -408,20 +394,49 @@ export default function EditorConfig() {
 											<EditorOptions.GuidesHighlightActiveBracketPair />
 										</Stack>
 									</SettingGroup>
+								</SettingsPanel>
+								<SettingsPanel
+									title={ __( 'Highlighting and whitespace', 'custom-html-block-extension' ) }
+								>
+									<EditorOptions.RenderLineHighlight />
+									<SettingGroup isDisabled={ 'none' === editorOptions.renderLineHighlight }>
+										<EditorOptions.RenderLineHighlightOnlyWhenFocus />
+									</SettingGroup>
+									<EditorOptions.OccurrencesHighlight />
+									<EditorOptions.RenderWhitespace />
 									<EditorOptions.RenderControlCharacters />
 									<EditorOptions.UnicodeHighlightInvisibleCharacters />
 									<EditorOptions.UnicodeHighlightAmbiguousCharacters />
 									<EditorOptions.UnicodeHighlightNonBasicAscii />
-									<EditorOptions.Rulers />
+								</SettingsPanel>
+								<SettingsPanel title={ __( 'Hover', 'custom-html-block-extension' ) }>
+									<EditorOptions.Hover />
+									<SettingGroup isDisabled={ 'off' === editorOptions.hover.enabled }>
+										<Stack direction="column" gap="lg">
+											<EditorOptions.HoverDelay />
+											<EditorOptions.HoverSticky />
+											<EditorOptions.HoverAbove />
+										</Stack>
+									</SettingGroup>
 								</SettingsPanel>
 								<SettingsPanel title={ __( 'Find', 'custom-html-block-extension' ) }>
 									<EditorOptions.FindAddExtraSpaceOnTop />
 									<EditorOptions.FindSeedSearchStringFromSelection />
 									<EditorOptions.FindLoop />
 								</SettingsPanel>
-								<SettingsPanel title={ __( 'Scrollbar', 'custom-html-block-extension' ) }>
+								<SettingsPanel title={ __( 'Scrolling', 'custom-html-block-extension' ) }>
+									<EditorOptions.MouseWheelScrollSensitivity />
+									<EditorOptions.FastScrollSensitivity />
+									<EditorOptions.SmoothScrolling />
+									<EditorOptions.StickyScrollEnabled />
+									<SettingGroup isDisabled={ ! editorOptions.stickyScroll.enabled }>
+										<EditorOptions.StickyScrollMaxLineCount />
+									</SettingGroup>
+								</SettingsPanel>
+								<SettingsPanel
+									title={ __( 'Scrollbar and overview ruler', 'custom-html-block-extension' ) }
+								>
 									<EditorOptions.ScrollbarUseShadows />
-									<EditorOptions.OverviewRulerBorder />
 									<EditorOptions.ScrollbarAlwaysConsumeMouseWheel />
 									<EditorOptions.ScrollbarScrollByPage />
 									<EditorOptions.ScrollbarHorizontal />
@@ -451,11 +466,8 @@ export default function EditorConfig() {
 									>
 										<EditorOptions.ScrollbarArrowSize />
 									</SettingGroup>
-								</SettingsPanel>
-								<SettingsPanel title={ __( 'Other', 'custom-html-block-extension' ) }>
-									<EditorOptions.UseTabStops />
-									<EditorOptions.CommentsInsertSpace />
-									<EditorOptions.Links />
+									<EditorOptions.OverviewRulerBorder />
+									<EditorOptions.HideCursorInOverviewRuler />
 								</SettingsPanel>
 							</>
 						) }
