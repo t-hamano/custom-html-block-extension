@@ -26,6 +26,7 @@ module.exports = [
 			'@wordpress/components-no-unsafe-button-disabled': 'error',
 			'@wordpress/components-no-missing-40px-size-prop': 'error',
 			'@wordpress/react-no-unsafe-timeout': 'error',
+			'@wordpress/use-recommended-components': [ 'error', { allowUseWithCaution: true } ],
 			'import/no-extraneous-dependencies': 'off',
 			'@wordpress/no-unsafe-wp-apis': 'off',
 			'@wordpress/dependency-group': 'error',
@@ -79,12 +80,6 @@ module.exports = [
 					],
 				},
 			],
-		},
-	},
-	{
-		files: [ 'src/admin/**' ],
-		rules: {
-			'@wordpress/use-recommended-components': [ 'error', { allowUseWithCaution: true } ],
 		},
 	},
 	{
