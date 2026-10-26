@@ -49,6 +49,7 @@
 		"@wordpress/data": "^11.0.0",
 		"@wordpress/dom-ready": "^5.0.0",
 		"@wordpress/e2e-test-utils-playwright": "^3.1.0",
+		"@wordpress/editor": "^16.0.0",
 		"@wordpress/element": "^10.0.0",
 		"@wordpress/env": "^12.0.0",
 		"@wordpress/hooks": "^5.0.0",
@@ -72,8 +73,8 @@
 	"scripts": {
 		"wp-env": "wp-env",
 		"wp-env-test": "wp-env --config .wp-env.test.json",
-		"start": "npm run clean && npm run build:monaco && wp-scripts start src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build",
-		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run build:monaco",
+		"start": "npm run clean && npm run build:monaco && wp-scripts start src/admin src/block-editor src/text-editor src/classic-editor src/theme-plugin-editor --output-path build",
+		"build": "npm run clean && wp-scripts build src/admin src/block-editor src/text-editor src/classic-editor src/theme-plugin-editor --output-path build && npm run build:monaco",
 		"build:monaco": "wp-scripts build --config webpack.monaco.config.js",
 		"plugin-zip": "npm run build && wp-scripts plugin-zip",
 		"clean": "rimraf build",

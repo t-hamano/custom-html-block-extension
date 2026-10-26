@@ -27,6 +27,7 @@ declare global {
 		monaco?: typeof Monaco;
 		MonacoEnvironment?: Monaco.Environment;
 		disposeEmmet?: () => void;
+		chbeHasMonacoExtensions?: boolean;
 		editor?: Monaco.editor.IStandaloneCodeEditor;
 		wp?: unknown;
 		jQuery?: ( callback: () => void ) => unknown;
