@@ -309,12 +309,14 @@ export default function MonacoEditor( {
 
 	// Change options.
 	useEffect( () => {
-		if ( isEditorReady ) {
-			editorRef.current?.updateOptions( options as Monaco.editor.IEditorOptions );
-			setTimeout( () => {
-				monacoRef.current?.editor.remeasureFonts();
-			}, 300 );
+		if ( ! isEditorReady ) {
+			return;
 		}
+		editorRef.current?.updateOptions( options as Monaco.editor.IEditorOptions );
+		const timeoutId = setTimeout( () => {
+			monacoRef.current?.editor.remeasureFonts();
+		}, 300 );
+		return () => clearTimeout( timeoutId );
 	}, [ options, isEditorReady ] );
 
 	// Change web font.
