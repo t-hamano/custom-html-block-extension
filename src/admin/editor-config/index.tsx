@@ -31,7 +31,7 @@ import SettingsPanel, { SettingsPanelContext } from './components/settings-panel
 import SettingGroup from './components/setting-group';
 import * as EditorSettings from './editor-settings';
 import * as EditorOptions from './editor-options';
-import { isDeepEqual, waitForSpinner } from '../../lib/helper';
+import { isDeepEqual, useWaitForSpinner } from '../../lib/helper';
 import type { EditorConfigContextType } from '../../types';
 
 /**
@@ -126,6 +126,7 @@ export default function EditorConfig() {
 	const settingsRef = useSearchHighlight( searchQuery );
 	const [ fontWeights, setFontWeights ] = useState( [ 300 ] );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
+	const waitForSpinner = useWaitForSpinner();
 
 	const isDirty =
 		! isDeepEqual( editorSettings, savedEditorConfig.editorSettings ) ||
@@ -138,7 +139,9 @@ export default function EditorConfig() {
 		try {
 			await updateSettings( { editorSettings, editorOptions } );
 			setSavedEditorConfig( { editorSettings, editorOptions } );
-			await waitForSpinner();
+			if ( ! ( await waitForSpinner() ) ) {
+				return;
+			}
 			createSuccessNotice( __( 'Settings saved.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
@@ -162,7 +165,9 @@ export default function EditorConfig() {
 				editorSettings: response.editorSettings,
 				editorOptions: response.editorOptions,
 			} );
-			await waitForSpinner();
+			if ( ! ( await waitForSpinner() ) ) {
+				return;
+			}
 			createSuccessNotice( __( 'Settings have been reset.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );

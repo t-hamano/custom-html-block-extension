@@ -10,7 +10,7 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
-import { waitForSpinner } from '../../../../lib/helper';
+import { useWaitForSpinner } from '../../../../lib/helper';
 import { AdminContext } from '../../../index';
 import { getSettings } from '../../../api';
 import { exportEditorConfig } from '../../utils';
@@ -18,6 +18,7 @@ import { exportEditorConfig } from '../../utils';
 export default function ExportTool() {
 	const { setIsWaiting } = useContext( AdminContext );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
+	const waitForSpinner = useWaitForSpinner();
 
 	// Export editor config.
 	const onExportOptions = async () => {
@@ -37,13 +38,15 @@ export default function ExportTool() {
 				null,
 				'\t'
 			);
+			if ( ! ( await waitForSpinner() ) ) {
+				return;
+			}
 			const blob = new window.Blob( [ json ], { type: 'application/json' } );
 			const href = URL.createObjectURL( blob );
 			const link = document.createElement( 'a' );
 			link.href = href;
 			link.download = 'chbe-export-' + fileDate + '.json';
 			document.body.appendChild( link );
-			await waitForSpinner();
 			link.click();
 			document.body.removeChild( link );
 			URL.revokeObjectURL( href );

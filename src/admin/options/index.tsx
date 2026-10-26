@@ -10,7 +10,7 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
-import { waitForSpinner } from '../../lib/helper';
+import { useWaitForSpinner } from '../../lib/helper';
 import { AdminContext } from '../index';
 import { updateSettings } from '../api';
 import PermissionEditor from './components/permission-editor';
@@ -19,6 +19,7 @@ import PermissionUserRole from './components/permission-user-role';
 export default function Options() {
 	const { isWaiting, options, setIsWaiting } = useContext( AdminContext );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
+	const waitForSpinner = useWaitForSpinner();
 
 	// Update options.
 	const onUpdateOptions = async () => {
@@ -26,7 +27,9 @@ export default function Options() {
 
 		try {
 			await updateSettings( { options } );
-			await waitForSpinner();
+			if ( ! ( await waitForSpinner() ) ) {
+				return;
+			}
 			createSuccessNotice( __( 'Options saved.', 'custom-html-block-extension' ), {
 				type: 'snackbar',
 			} );
