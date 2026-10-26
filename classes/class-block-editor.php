@@ -32,7 +32,7 @@ class Block_Editor {
 	 * Enqueue block editor scripts
 	 */
 	public function enqueue_editor_scripts() {
-		$asset_file = include CHBE_PATH . '/build/block-editor.asset.php';
+		$block_editor_asset_file = include CHBE_PATH . '/build/block-editor.asset.php';
 
 		// Abort the process if the user role isn't allowed to use this extension.
 		if ( ! Settings::is_allowed_user() ) {
@@ -42,8 +42,8 @@ class Block_Editor {
 		wp_enqueue_script(
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/block-editor.js',
-			$asset_file['dependencies'],
-			$asset_file['version']
+			$block_editor_asset_file['dependencies'],
+			$block_editor_asset_file['version']
 		);
 
 		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
