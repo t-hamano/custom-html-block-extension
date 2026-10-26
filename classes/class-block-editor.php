@@ -49,6 +49,25 @@ class Block_Editor {
 		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
 
 		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
+
+		// The widgets editor and the customizer have no code editor. Loading the script
+		// there would also load `wp-editor`, which core doesn't allow with them.
+		// Same check as `wp_check_widget_editor_deps()`.
+		if ( wp_script_is( 'wp-edit-widgets' ) || wp_script_is( 'wp-customize-widgets' ) ) {
+			return;
+		}
+
+		$text_editor_asset_file = include CHBE_PATH . '/build/text-editor.asset.php';
+
+		// Depend on the block editor script, which passes `chbeObj`.
+		wp_enqueue_script(
+			CHBE_NAMESPACE . '-text-editor',
+			CHBE_URL . '/build/text-editor.js',
+			array_merge( $text_editor_asset_file['dependencies'], array( CHBE_NAMESPACE ) ),
+			$text_editor_asset_file['version']
+		);
+
+		wp_set_script_translations( CHBE_NAMESPACE . '-text-editor', CHBE_NAMESPACE );
 	}
 
 	/**

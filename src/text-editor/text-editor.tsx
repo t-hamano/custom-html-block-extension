@@ -3,21 +3,14 @@
  */
 import { createPortal, useEffect, useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/core-data';
+import { store as editorStore } from '@wordpress/editor';
 
 /**
  * Internal dependencies
  */
 import MonacoEditor, { type MonacoError } from '../components/monaco-editor';
-import useEditorConfigProps from './use-editor-config-props';
-
-// Selectors of the `core/editor` store used here. `@wordpress/editor` isn't
-// imported, so that the script doesn't depend on it.
-type EditorSelectors = {
-	getEditorMode: () => string;
-	getCurrentPostType: () => string;
-	getCurrentPostId: () => number | string;
-	getEditedPostContent: () => string;
-};
+import useEditorConfigProps from '../block-editor/use-editor-config-props';
 
 // Class names of the core `TextEditor` and `PostTextEditor` components.
 const TEXT_EDITOR_BODY_SELECTOR = '.editor-text-editor__body';
@@ -31,16 +24,14 @@ const MIN_HEIGHT = 200;
 // Monaco version of `PostTextEditor` in `@wordpress/editor`.
 function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void } ) {
 	const { postContent, currentPostType, currentPostId } = useSelect( ( select ) => {
-		const { getCurrentPostType, getCurrentPostId, getEditedPostContent } = select(
-			'core/editor'
-		) as EditorSelectors;
+		const { getCurrentPostType, getCurrentPostId, getEditedPostContent } = select( editorStore );
 		return {
 			postContent: getEditedPostContent(),
 			currentPostType: getCurrentPostType(),
 			currentPostId: getCurrentPostId(),
 		};
 	}, [] );
-	const { editEntityRecord } = useDispatch( 'core' );
+	const { editEntityRecord } = useDispatch( coreStore );
 
 	const editorConfigProps = useEditorConfigProps( ( editorOptions ) => ( {
 		...editorOptions,
@@ -57,6 +48,10 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 	// Write the content the same way as the core `PostTextEditor`. When switching
 	// back to the visual editor, the content is parsed into blocks.
 	const onChange = ( content: string ) => {
+		// The text editor is shown only while a post is being edited.
+		if ( currentPostId === null ) {
+			return;
+		}
 		editEntityRecord( 'postType', currentPostType, currentPostId, {
 			content,
 			blocks: undefined,
@@ -85,8 +80,7 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
  */
 export default function TextEditor() {
 	const isTextMode = useSelect(
-		( select ) =>
-			( select( 'core/editor' ) as EditorSelectors | undefined )?.getEditorMode?.() === 'text',
+		( select ) => select( editorStore ).getEditorMode() === 'text',
 		[]
 	);
 	// Fall back to the core textarea if Monaco fails to load.

@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { addFilter } from '@wordpress/hooks';
-import { registerPlugin } from '@wordpress/plugins';
 import type { BlockConfiguration } from '@wordpress/blocks';
 
 /**
@@ -11,7 +10,6 @@ import type { BlockConfiguration } from '@wordpress/blocks';
 import icon from '../components/block-icon';
 import edit from './edit';
 import { withBlockHTMLListBlock, withBlockHTMLEdit } from './block-html';
-import TextEditor from './text-editor';
 
 const customHtmlRegisterBlockType = ( settings: BlockConfiguration ): BlockConfiguration => {
 	if ( 'core/html' !== settings.name ) {
@@ -50,5 +48,3 @@ addFilter(
 );
 
 addFilter( 'editor.BlockEdit', 'custom-html-block-extension/block-html-edit', withBlockHTMLEdit );
-
-registerPlugin( 'custom-html-block-extension-text-editor', { render: TextEditor } );
