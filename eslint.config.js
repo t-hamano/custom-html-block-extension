@@ -9,6 +9,9 @@ module.exports = [
 	},
 	...defaultConfig.configs.recommended,
 	{
+		linterOptions: {
+			reportUnusedDisableDirectives: 'error',
+		},
 		languageOptions: {
 			globals: {
 				jQuery: 'readonly',
@@ -17,8 +20,9 @@ module.exports = [
 		rules: {
 			'react/jsx-boolean-value': 'error',
 			'react/jsx-curly-brace-presence': [ 'error', { props: 'never', children: 'never' } ],
+			'jsdoc/escape-inline-tags': 'error',
+			'@wordpress/wp-global-usage': 'error',
 			'import/no-extraneous-dependencies': 'off',
-			'import/no-unresolved': 'off',
 			'@wordpress/no-unsafe-wp-apis': 'off',
 			'@wordpress/dependency-group': 'error',
 			'@wordpress/i18n-text-domain': [
@@ -31,13 +35,35 @@ module.exports = [
 				'error',
 				{
 					'@wordpress/components': {
-						__experimentalConfirmDialog: 'ConfirmDialog',
-						__experimentalHeading: 'Heading',
 						__experimentalToggleGroupControl: 'ToggleGroupControl',
 						__experimentalToggleGroupControlOption: 'ToggleGroupControlOption',
 						__experimentalToolsPanel: 'ToolsPanel',
 						__experimentalToolsPanelItem: 'ToolsPanelItem',
 					},
+				},
+			],
+		},
+	},
+	{
+		files: [ '**/*.ts', '**/*.tsx' ],
+		rules: {
+			'@typescript-eslint/consistent-type-imports': [
+				'error',
+				{
+					prefer: 'type-imports',
+					disallowTypeAnnotations: false,
+				},
+			],
+			'@typescript-eslint/no-restricted-imports': [
+				'error',
+				{
+					paths: [
+						{
+							name: 'react',
+							message: 'Please use React API through `@wordpress/element` instead.',
+							allowTypeImports: true,
+						},
+					],
 				},
 			],
 		},
