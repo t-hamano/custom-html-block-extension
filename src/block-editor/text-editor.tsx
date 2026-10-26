@@ -31,6 +31,7 @@ const MIN_HEIGHT = 200;
 // Monaco version of `PostTextEditor` in `@wordpress/editor`.
 function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void } ) {
 	const { postContent, currentPostType, currentPostId } = useSelect( ( select ) => {
+		// eslint-disable-next-line @wordpress/data-no-store-string-literals -- See `EditorSelectors`.
 		const { getCurrentPostType, getCurrentPostId, getEditedPostContent } = select(
 			'core/editor'
 		) as EditorSelectors;
@@ -40,6 +41,7 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 			currentPostId: getCurrentPostId(),
 		};
 	}, [] );
+	// eslint-disable-next-line @wordpress/data-no-store-string-literals -- `@wordpress/core-data` isn't imported either.
 	const { editEntityRecord } = useDispatch( 'core' );
 
 	const editorConfigProps = useEditorConfigProps( ( editorOptions ) => ( {
@@ -86,6 +88,7 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 export default function TextEditor() {
 	const isTextMode = useSelect(
 		( select ) =>
+			// eslint-disable-next-line @wordpress/data-no-store-string-literals -- See `EditorSelectors`.
 			( select( 'core/editor' ) as EditorSelectors | undefined )?.getEditorMode?.() === 'text',
 		[]
 	);
