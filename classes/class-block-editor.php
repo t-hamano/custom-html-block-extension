@@ -61,6 +61,7 @@ class Block_Editor {
 		wp_enqueue_script(
 			CHBE_NAMESPACE . '-text-editor',
 			CHBE_URL . '/build/text-editor.js',
+			// Depend on the block editor script, which passes `chbeObj`.
 			array_merge( $text_editor_asset_file['dependencies'], array( CHBE_NAMESPACE ) ),
 			$text_editor_asset_file['version']
 		);
