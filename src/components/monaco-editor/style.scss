@@ -63,6 +63,7 @@
 		outline: none;
 	}
 
+	// stylelint-disable-next-line selector-class-pattern -- Monaco class.
 	.monaco-findInput > .controls {
 		top: 2px;
 	}

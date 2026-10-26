@@ -17,6 +17,7 @@
 @include mixins.wordpress-admin-schemes();
 
 // WordPress admin
+// stylelint-disable-next-line selector-class-pattern -- WP body class.
 .settings_page_custom-html-block-extension {
 	// Show dialogs above the admin menu and admin bar, like the Modal component.
 	// Remove once `@wordpress/ui` is updated to a release that includes:
