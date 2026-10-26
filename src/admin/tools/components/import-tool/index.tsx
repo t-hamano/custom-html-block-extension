@@ -28,7 +28,7 @@ import {
 	type ImportItem,
 } from '../../utils';
 import { validateEditorConfig } from '../../../api';
-import { getSupportedFontWeight, waitForSpinner } from '../../../../lib/helper';
+import { getSupportedFontWeight, useWaitForSpinner } from '../../../../lib/helper';
 import ImportConfirmDialog from './confirm-dialog';
 
 function getSettingsFolder() {
@@ -63,6 +63,7 @@ export default function ImportTool() {
 	const currentConfig = useRef( { editorSettings, editorOptions } );
 	currentConfig.current = { editorSettings, editorOptions };
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
+	const waitForSpinner = useWaitForSpinner();
 
 	// Load the file into the text area. The MIME type of a `.json` file can be
 	// empty in some environments, so check the extension instead.
@@ -104,8 +105,11 @@ export default function ImportTool() {
 			return;
 		}
 
-		await waitForSpinner();
+		const isMounted = await waitForSpinner();
 		setIsWaiting( false );
+		if ( ! isMounted ) {
+			return;
+		}
 
 		// Show the dialog also when every value is skipped, so that the reasons
 		// are visible.

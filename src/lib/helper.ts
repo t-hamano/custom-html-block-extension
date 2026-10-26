@@ -1,4 +1,9 @@
 /**
+ * WordPress dependencies
+ */
+import { useCallback, useEffect, useRef } from '@wordpress/element';
+
+/**
  * Internal dependencies
  */
 import type { FontFamily } from '../types';
@@ -18,10 +23,45 @@ export const toNumber = ( value: string | number, min = 0, max: number | null = 
 	return num;
 };
 
-// Wait before finishing an operation, so that the spinner shown during it
-// doesn't flash on fast responses.
-export const waitForSpinner = (): Promise< void > =>
-	new Promise( ( resolve ) => setTimeout( resolve, 600 ) );
+// Return a function that waits before finishing an operation, so that the
+// spinner shown during it doesn't flash on fast responses. The wait resolves to
+// `false` when the component unmounts, so that the rest of the operation can
+// be skipped.
+export const useWaitForSpinner = (): ( () => Promise< boolean > ) => {
+	const isMounted = useRef( true );
+	const pendingWaits = useRef( new Map< ReturnType< typeof setTimeout >, () => void >() );
+
+	useEffect( () => {
+		const waits = pendingWaits.current;
+		isMounted.current = true;
+
+		return () => {
+			isMounted.current = false;
+			waits.forEach( ( cancel, timeoutId ) => {
+				clearTimeout( timeoutId );
+				cancel();
+			} );
+			waits.clear();
+		};
+	}, [] );
+
+	return useCallback(
+		() =>
+			new Promise< boolean >( ( resolve ) => {
+				if ( ! isMounted.current ) {
+					resolve( false );
+					return;
+				}
+
+				const timeoutId = setTimeout( () => {
+					pendingWaits.current.delete( timeoutId );
+					resolve( true );
+				}, 600 );
+				pendingWaits.current.set( timeoutId, () => resolve( false ) );
+			} ),
+		[]
+	);
+};
 
 // Whether two JSON-compatible values are deeply equal, regardless of key order.
 export const isDeepEqual = ( a: unknown, b: unknown ): boolean => {
