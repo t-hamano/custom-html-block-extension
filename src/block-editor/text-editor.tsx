@@ -3,6 +3,7 @@
  */
 import { createPortal, useEffect, useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/core-data';
 
 /**
  * Internal dependencies
@@ -41,8 +42,7 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 			currentPostId: getCurrentPostId(),
 		};
 	}, [] );
-	// eslint-disable-next-line @wordpress/data-no-store-string-literals -- `@wordpress/core-data` isn't imported either.
-	const { editEntityRecord } = useDispatch( 'core' );
+	const { editEntityRecord } = useDispatch( coreStore );
 
 	const editorConfigProps = useEditorConfigProps( ( editorOptions ) => ( {
 		...editorOptions,

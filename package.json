@@ -45,6 +45,7 @@
 		"@wordpress/blocks": "^17.0.0",
 		"@wordpress/components": "^43.0.0",
 		"@wordpress/compose": "^9.0.0",
+		"@wordpress/core-data": "^9.0.0",
 		"@wordpress/data": "^11.0.0",
 		"@wordpress/dom-ready": "^5.0.0",
 		"@wordpress/e2e-test-utils-playwright": "^3.1.0",
