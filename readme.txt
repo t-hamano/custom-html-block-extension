@@ -12,11 +12,11 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Extend Custom HTML block to evolve into the advanced code editor.
 
 == Description ==
-Custom HTML Block Extension extends Custom HTML block to evolve into the advanced code editor.
-There are 50 different color themes to choose from, and you can select the one that best suits your taste.
-This plugin features Emmet that expand shortcut input into complete code. This reduces the number of times you have to type and saves keystrokes.
-You can change all kinds of settings to create your ideal editor in advanced mode.
-And supports the classic editor, the theme/plugin editor, and import/export editor settings.
+Custom HTML Block Extension turns the Custom HTML block into an advanced code editor powered by Monaco Editor, the code editor behind VS Code.
+Choose from 50 color themes to suit your taste. Block delimiters and shortcodes are highlighted, too.
+Type short abbreviations and Emmet expands them into full pieces of code. You can also wrap selected code with an abbreviation.
+Fine-tune the look and behavior of the editor to make it your own. You can also import your settings from VS Code, and export them back.
+The same editor is also available in the code editor of the post and site editors, the classic editor, and the theme and plugin file editors.
 
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.
@@ -24,10 +24,10 @@ And supports the classic editor, the theme/plugin editor, and import/export edit
 
 == Screenshots ==
 1. Custom HTML Block Extension
-2. Various color themes
+2. Syntax highlighting with 50 themes
 3. Faster coding with Emmet
 4. High customizability
-5. Classic Editor support
+5. Works everywhere
 
 == Resources ==
 
