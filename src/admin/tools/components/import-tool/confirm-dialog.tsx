@@ -90,15 +90,6 @@ const skippedFields: Field< SkippedItem >[] = [
 	{
 		id: 'message',
 		label: __( 'Reason', 'custom-html-block-extension' ),
-		render: ( { item } ) =>
-			item.message.startsWith( item.path ) ? (
-				<>
-					<code>{ item.path }</code>
-					{ item.message.slice( item.path.length ) }
-				</>
-			) : (
-				item.message
-			),
 		enableSorting: false,
 		enableHiding: false,
 	},
