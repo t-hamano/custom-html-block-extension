@@ -10,15 +10,24 @@
 
 .chbe-admin-tools__import-dialog-content {
 	display: flex;
+	flex-direction: column;
 }
 
 .chbe-admin-tools__import-tabs {
 	display: flex;
 	flex: 1;
+	flex-direction: column;
+	min-height: 0;
 }
 
 .chbe-admin-tools__import-tabs-content {
 	flex: 1;
+	min-height: 0;
+}
+
+.chbe-admin-tools__import-tab-list {
+	flex-shrink: 0;
+	max-width: 100%;
 }
 
 .chbe-admin-tools__import-panel {
@@ -32,4 +41,5 @@
 
 .chbe-admin-tools__import-panel-content {
 	flex: 1;
+	min-height: 0;
 }
