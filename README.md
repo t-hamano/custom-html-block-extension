@@ -5,33 +5,33 @@
 
 ![Custom HTML Block Extension](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_1.gif)
 
-Custom HTML Block Extension extends Custom HTML block to evolve into the advanced code editor.
+Custom HTML Block Extension turns the Custom HTML block into an advanced code editor powered by Monaco Editor, the code editor behind VS Code.
 
 ## Features
 
-### Various color themes
+### Syntax highlighting with 50 themes
 
-![Various color themes](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_2.gif)
+![Syntax highlighting with 50 themes](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_2.gif)
 
-There are 50 different color themes to choose from, and you can select the one that best suits your taste.
+Choose from 50 color themes to suit your taste. Block delimiters and shortcodes are highlighted, too.
 
 ### Faster coding with Emmet
 
 ![Faster coding with Emmet](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_3.gif)
 
-Emmet allows you to type shortcuts that are then expanded into full pieces of code. Type less, saving both keystrokes.
+Type short abbreviations and Emmet expands them into full pieces of code. You can also wrap selected code with an abbreviation.
 
 ### High customizability
 
 ![High customizability](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_4.jpg)
 
-You can change all kinds of settings to create your ideal editor in advanced mode.
+Fine-tune the look and behavior of the editor to make it your own. You can also import your settings from VS Code, and export them back.
 
-### More support
+### Works everywhere
 
-![More support](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_5.jpg)
+![Works everywhere](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_5.gif)
 
-Supports the classic editor, the theme/plugin editor, and import/export editor settings.
+The same editor is also available in the code editor of the post and site editors, the classic editor, and the theme and plugin file editors.
 
 ## Add custom fonts
 

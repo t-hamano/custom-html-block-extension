@@ -7,6 +7,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
  * Internal dependencies
  */
 import {
+	buildEditorConfig,
 	countEditorConfig,
 	exportEditorConfig,
 	mergeEditorOptions,
@@ -412,6 +413,36 @@ describe( 'mergeEditorOptions', () => {
 			fontSize: 20,
 			rulers: [],
 			quickSuggestions: { other: 'on', comments: 'on', strings: 'off' },
+		} );
+	} );
+} );
+
+describe( 'buildEditorConfig', () => {
+	it( 'builds the editor config from the items', () => {
+		expect(
+			JSON.parse(
+				JSON.stringify(
+					buildEditorConfig( [
+						{
+							group: 'editorSettings',
+							path: 'tabSize',
+							currentValue: 2,
+							value: 4,
+							originalValue: 4,
+						},
+						{
+							group: 'editorOptions',
+							path: 'minimap.enabled',
+							currentValue: true,
+							value: false,
+							originalValue: false,
+						},
+					] )
+				)
+			)
+		).toEqual( {
+			editorSettings: { tabSize: 4 },
+			editorOptions: { minimap: { enabled: false } },
 		} );
 	} );
 } );
