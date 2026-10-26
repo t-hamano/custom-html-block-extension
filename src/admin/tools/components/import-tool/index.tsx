@@ -28,6 +28,7 @@ import {
 	type ImportItem,
 } from '../../utils';
 import { validateEditorConfig } from '../../../api';
+import { getSupportedFontWeight } from '../../../../lib/helper';
 import ImportConfirmDialog from './confirm-dialog';
 
 function getSettingsFolder() {
@@ -137,7 +138,14 @@ export default function ImportTool() {
 	const onApply = ( items: ImportItem[] ) => {
 		const editorConfig = buildEditorConfig( items );
 		setEditorSettings( ( current ) => ( { ...current, ...editorConfig.editorSettings } ) );
-		setEditorOptions( ( current ) => mergeEditorOptions( current, editorConfig.editorOptions ) );
+		setEditorOptions( ( current ) => {
+			const options = mergeEditorOptions( current, editorConfig.editorOptions );
+			// The weight may be deselected while the font is selected.
+			return {
+				...options,
+				fontWeight: getSupportedFontWeight( options.fontFamily, options.fontWeight ),
+			};
+		} );
 		// Keep the text if it was changed while waiting.
 		setSettingsText( ( currentText ) => ( currentText === confirmation?.text ? '' : currentText ) );
 		setConfirmation( null );
