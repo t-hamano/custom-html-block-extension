@@ -28,15 +28,15 @@ export const toNumber = ( value: string | number, min = 0, max: number | null = 
 // `false` when the component unmounts, so that the rest of the operation can
 // be skipped.
 export const useWaitForSpinner = (): ( () => Promise< boolean > ) => {
-	const isMounted = useRef( true );
-	const pendingWaits = useRef( new Map< ReturnType< typeof setTimeout >, () => void >() );
+	const isMountedRef = useRef( true );
+	const pendingWaitsRef = useRef( new Map< ReturnType< typeof setTimeout >, () => void >() );
 
 	useEffect( () => {
-		const waits = pendingWaits.current;
-		isMounted.current = true;
+		const waits = pendingWaitsRef.current;
+		isMountedRef.current = true;
 
 		return () => {
-			isMounted.current = false;
+			isMountedRef.current = false;
 			waits.forEach( ( cancel, timeoutId ) => {
 				clearTimeout( timeoutId );
 				cancel();
@@ -48,16 +48,16 @@ export const useWaitForSpinner = (): ( () => Promise< boolean > ) => {
 	return useCallback(
 		() =>
 			new Promise< boolean >( ( resolve ) => {
-				if ( ! isMounted.current ) {
+				if ( ! isMountedRef.current ) {
 					resolve( false );
 					return;
 				}
 
 				const timeoutId = setTimeout( () => {
-					pendingWaits.current.delete( timeoutId );
+					pendingWaitsRef.current.delete( timeoutId );
 					resolve( true );
 				}, 600 );
-				pendingWaits.current.set( timeoutId, () => resolve( false ) );
+				pendingWaitsRef.current.set( timeoutId, () => resolve( false ) );
 			} ),
 		[]
 	);

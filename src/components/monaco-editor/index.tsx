@@ -15,7 +15,7 @@ import type { CSSProperties } from 'react';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect, useLayoutEffect, useRef } from '@wordpress/element';
 import { useResizeObserver } from '@wordpress/compose';
 import { isAppleOS } from '@wordpress/keycodes';
 import { useDispatch } from '@wordpress/data';
@@ -74,6 +74,22 @@ const loadingStyles: CSSProperties = {
 	fontWeight: 'normal',
 };
 
+// Enable or disable Emmet. The completion is registered to the monaco instance,
+// so it's shared by all editors in the window.
+function toggleEmmet( defaultView: Window, monaco: typeof Monaco, useEmmet: boolean ) {
+	if ( useEmmet && ! defaultView.disposeEmmet ) {
+		const disposeEmmetHTML = emmetHTML( monaco, [ 'html', 'php' ] );
+		const disposeEmmetCSS = emmetCSS( monaco );
+		defaultView.disposeEmmet = () => {
+			disposeEmmetHTML();
+			disposeEmmetCSS();
+		};
+	} else if ( ! useEmmet && defaultView.disposeEmmet ) {
+		defaultView.disposeEmmet();
+		defaultView.disposeEmmet = undefined;
+	}
+}
+
 export default function MonacoEditor( {
 	style,
 	language = 'html',
@@ -100,15 +116,67 @@ export default function MonacoEditor( {
 	const [ isMonacoMounting, setIsMonacoMounting ] = useState( true );
 
 	const onChangeRef = useRef( onChange );
-	onChangeRef.current = onChange;
 	const onBlurRef = useRef( onBlur );
-	onBlurRef.current = onBlur;
 	const autoHeightRef = useRef( autoHeight );
-	autoHeightRef.current = autoHeight;
+	useLayoutEffect( () => {
+		onChangeRef.current = onChange;
+		onBlurRef.current = onBlur;
+		autoHeightRef.current = autoHeight;
+	} );
 
 	const { createNotice } = useDispatch( noticesStore );
 
 	const [ resizeListener, size ] = useResizeObserver();
+
+	// Dispose editor.
+	function disposeEditor() {
+		// Unsubscribe first, since disposing the model blurs the editor and
+		// empties its value.
+		subscriptionsRef.current.forEach( ( subscription ) => subscription.dispose() );
+		const editor = editorRef.current;
+		if ( ! editor ) {
+			return;
+		}
+		const model = editor.getModel();
+		if ( model ) {
+			try {
+				model.dispose();
+			} catch {
+				// Firefox throws NS_ERROR_NOT_INITIALIZED when iframe/document
+				// is torn down (e.g. switching to code editor mode).
+			}
+		}
+		editor.dispose();
+		editorRef.current = null;
+	}
+
+	// Resize synchronously so that the editor never renders with the previous height.
+	function updateHeight( contentHeight: number ) {
+		const wrapper = wrapperRef.current;
+		const bounds = autoHeightRef.current;
+		if ( ! wrapper || ! bounds ) {
+			return;
+		}
+		const height = Math.min( Math.max( contentHeight, bounds.min ), bounds.max );
+		wrapper.style.height = `${ height }px`;
+		editorRef.current?.layout();
+	}
+
+	// Load web font.
+	function loadFont( fontFamily?: string ) {
+		const container = containerRef.current;
+		if ( ! container ) {
+			return;
+		}
+		const font = window.chbeObj.fontFamily.find( ( data ) => fontFamily === data.name );
+
+		if ( undefined !== font && 'label' in font ) {
+			loadWebFont( font, container.ownerDocument, options.fontWeight ).then( ( isSuccess ) => {
+				monacoRef.current?.editor.remeasureFonts();
+				onFontLoad( { isSuccess, font } );
+			} );
+		}
+	}
 
 	// Init loader.
 	useEffect( () => {
@@ -346,25 +414,14 @@ export default function MonacoEditor( {
 		}
 	}, [ theme, isEditorReady ] );
 
-	// Enable or disable Emmet. The completion is registered to the monaco
-	// instance, so it's shared by all editors in the window.
+	// Enable or disable Emmet.
 	useEffect( () => {
 		const monaco = monacoRef.current;
 		const defaultView = containerRef.current?.ownerDocument.defaultView;
 		if ( ! isEditorReady || ! monaco || ! defaultView ) {
 			return;
 		}
-		if ( useEmmet && ! defaultView.disposeEmmet ) {
-			const disposeEmmetHTML = emmetHTML( monaco, [ 'html', 'php' ] );
-			const disposeEmmetCSS = emmetCSS( monaco );
-			defaultView.disposeEmmet = () => {
-				disposeEmmetHTML();
-				disposeEmmetCSS();
-			};
-		} else if ( ! useEmmet && defaultView.disposeEmmet ) {
-			defaultView.disposeEmmet();
-			defaultView.disposeEmmet = undefined;
-		}
+		toggleEmmet( defaultView, monaco, useEmmet );
 	}, [ useEmmet, isEditorReady ] );
 
 	// Add or remove the "Emmet: Wrap with Abbreviation" action.
@@ -412,56 +469,6 @@ export default function MonacoEditor( {
 			}
 		}
 	}, [ value, isEditorReady ] );
-
-	// Dispose editor.
-	function disposeEditor() {
-		// Unsubscribe first, since disposing the model blurs the editor and
-		// empties its value.
-		subscriptionsRef.current.forEach( ( subscription ) => subscription.dispose() );
-		const editor = editorRef.current;
-		if ( ! editor ) {
-			return;
-		}
-		const model = editor.getModel();
-		if ( model ) {
-			try {
-				model.dispose();
-			} catch {
-				// Firefox throws NS_ERROR_NOT_INITIALIZED when iframe/document
-				// is torn down (e.g. switching to code editor mode).
-			}
-		}
-		editor.dispose();
-		editorRef.current = null;
-	}
-
-	// Resize synchronously so that the editor never renders with the previous height.
-	function updateHeight( contentHeight: number ) {
-		const wrapper = wrapperRef.current;
-		const bounds = autoHeightRef.current;
-		if ( ! wrapper || ! bounds ) {
-			return;
-		}
-		const height = Math.min( Math.max( contentHeight, bounds.min ), bounds.max );
-		wrapper.style.height = `${ height }px`;
-		editorRef.current?.layout();
-	}
-
-	// Load web font.
-	function loadFont( fontFamily?: string ) {
-		const container = containerRef.current;
-		if ( ! container ) {
-			return;
-		}
-		const font = window.chbeObj.fontFamily.find( ( data ) => fontFamily === data.name );
-
-		if ( undefined !== font && 'label' in font ) {
-			loadWebFont( font, container.ownerDocument, options.fontWeight ).then( ( isSuccess ) => {
-				monacoRef.current?.editor.remeasureFonts();
-				onFontLoad( { isSuccess, font } );
-			} );
-		}
-	}
 
 	return (
 		<div
