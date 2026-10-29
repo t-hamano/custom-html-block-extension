@@ -16,7 +16,7 @@ import type { CSSProperties } from 'react';
  */
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useLayoutEffect, useRef } from '@wordpress/element';
-import { useResizeObserver } from '@wordpress/compose';
+import { useEvent, useResizeObserver } from '@wordpress/compose';
 import { isAppleOS } from '@wordpress/keycodes';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
@@ -74,22 +74,6 @@ const loadingStyles: CSSProperties = {
 	fontWeight: 'normal',
 };
 
-// Enable or disable Emmet. The completion is registered to the monaco instance,
-// so it's shared by all editors in the window.
-function toggleEmmet( defaultView: Window, monaco: typeof Monaco, useEmmet: boolean ) {
-	if ( useEmmet && ! defaultView.disposeEmmet ) {
-		const disposeEmmetHTML = emmetHTML( monaco, [ 'html', 'php' ] );
-		const disposeEmmetCSS = emmetCSS( monaco );
-		defaultView.disposeEmmet = () => {
-			disposeEmmetHTML();
-			disposeEmmetCSS();
-		};
-	} else if ( ! useEmmet && defaultView.disposeEmmet ) {
-		defaultView.disposeEmmet();
-		defaultView.disposeEmmet = undefined;
-	}
-}
-
 export default function MonacoEditor( {
 	style,
 	language = 'html',
@@ -115,12 +99,10 @@ export default function MonacoEditor( {
 	const [ isEditorReady, setIsEditorReady ] = useState( false );
 	const [ isMonacoMounting, setIsMonacoMounting ] = useState( true );
 
-	const onChangeRef = useRef( onChange );
-	const onBlurRef = useRef( onBlur );
+	const handleChange = useEvent( onChange );
+	const handleBlur = useEvent( onBlur );
 	const autoHeightRef = useRef( autoHeight );
 	useLayoutEffect( () => {
-		onChangeRef.current = onChange;
-		onBlurRef.current = onBlur;
 		autoHeightRef.current = autoHeight;
 	} );
 
@@ -311,18 +293,18 @@ export default function MonacoEditor( {
 				}
 			);
 
-			// Subscribe to editor events once; the callbacks are read from refs
-			// so prop changes don't require re-subscribing.
+			// Subscribe to editor events once; the callbacks always call the latest
+			// props so prop changes don't require re-subscribing.
 			subscriptionsRef.current = [
 				editor.onDidChangeModelContent( ( event ) => {
 					// Don't notify the preview of "Wrap with Abbreviation" until it's confirmed.
 					if ( isApplyingWrapPreview( editor ) ) {
 						return;
 					}
-					onChangeRef.current?.( editor.getValue(), event );
+					handleChange( editor.getValue(), event );
 				} ),
 				editor.onDidBlurEditorWidget( () => {
-					onBlurRef.current?.( editor.getValue() );
+					handleBlur( editor.getValue() );
 				} ),
 				editor.onDidContentSizeChange( ( { contentHeight, contentHeightChanged } ) => {
 					if ( contentHeightChanged ) {
@@ -414,14 +396,27 @@ export default function MonacoEditor( {
 		}
 	}, [ theme, isEditorReady ] );
 
-	// Enable or disable Emmet.
+	// Enable or disable Emmet. The completion is registered to the monaco
+	// instance, so it's shared by all editors in the window.
 	useEffect( () => {
 		const monaco = monacoRef.current;
 		const defaultView = containerRef.current?.ownerDocument.defaultView;
 		if ( ! isEditorReady || ! monaco || ! defaultView ) {
 			return;
 		}
-		toggleEmmet( defaultView, monaco, useEmmet );
+		/* eslint-disable react-hooks/immutability -- `defaultView` is the window object, not a value managed by React. */
+		if ( useEmmet && ! defaultView.disposeEmmet ) {
+			const disposeEmmetHTML = emmetHTML( monaco, [ 'html', 'php' ] );
+			const disposeEmmetCSS = emmetCSS( monaco );
+			defaultView.disposeEmmet = () => {
+				disposeEmmetHTML();
+				disposeEmmetCSS();
+			};
+		} else if ( ! useEmmet && defaultView.disposeEmmet ) {
+			defaultView.disposeEmmet();
+			defaultView.disposeEmmet = undefined;
+		}
+		/* eslint-enable react-hooks/immutability */
 	}, [ useEmmet, isEditorReady ] );
 
 	// Add or remove the "Emmet: Wrap with Abbreviation" action.
