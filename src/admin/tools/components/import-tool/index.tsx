@@ -7,7 +7,13 @@ import type { ChangeEvent } from 'react';
  * WordPress dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { createInterpolateElement, useContext, useRef, useState } from '@wordpress/element';
+import {
+	createInterpolateElement,
+	useContext,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from '@wordpress/element';
 import { FormFileUpload } from '@wordpress/components';
 import { Button, Card, CollapsibleCard, Notice, Stack, Text, TextareaControl } from '@wordpress/ui';
 import { useDispatch } from '@wordpress/data';
@@ -60,8 +66,10 @@ export default function ImportTool() {
 	} | null >( null );
 	// The editor config can be changed while the validation is pending, so
 	// compare the result with the latest one.
-	const currentConfig = useRef( { editorSettings, editorOptions } );
-	currentConfig.current = { editorSettings, editorOptions };
+	const currentConfigRef = useRef( { editorSettings, editorOptions } );
+	useLayoutEffect( () => {
+		currentConfigRef.current = { editorSettings, editorOptions };
+	} );
 	const { createSuccessNotice, createErrorNotice } = useDispatch( noticesStore );
 	const waitForSpinner = useWaitForSpinner();
 
@@ -113,7 +121,7 @@ export default function ImportTool() {
 
 		// Show the dialog also when every value is skipped, so that the reasons
 		// are visible.
-		const allItems = getAllImportItems( editorConfig, result, currentConfig.current );
+		const allItems = getAllImportItems( editorConfig, result, currentConfigRef.current );
 		const items = allItems.filter( isApplicableItem );
 		if ( items.length === 0 && result.skipped.length === 0 && countEditorConfig( result ) === 0 ) {
 			createErrorNotice( __( 'No supported settings were found.', 'custom-html-block-extension' ), {
