@@ -3,9 +3,9 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ColorIndicator, ColorPicker, Dropdown, RangeControl } from '@wordpress/components';
+import { ColorIndicator, ColorPicker, RangeControl } from '@wordpress/components';
 import { plus, trash } from '@wordpress/icons';
-import { Button, IconButton, Stack, Tooltip } from '@wordpress/ui';
+import { Button, IconButton, Popover, Stack, Tooltip, VisuallyHidden } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -28,6 +28,13 @@ const getColor = ( ruler: EditorOptions[ 'rulers' ][ number ] ) =>
 // A ruler without a color is stored as a plain number so existing settings stay valid.
 const toRuler = ( column: number, color?: string ): EditorOptions[ 'rulers' ][ number ] =>
 	color ? { column, color } : column;
+
+const getColorLabel = ( index: number ) =>
+	sprintf(
+		/* translators: %d: The ruler number. */
+		__( 'Vertical line %d color', 'custom-html-block-extension' ),
+		index + 1
+	);
 
 export default function Rulers() {
 	const { editorOptions, setEditorOptions } = useContext( AdminContext );
@@ -110,17 +117,11 @@ export default function Rulers() {
 								onChange={ ( newValue ) => onChange( index, newValue ) }
 							/>
 						</div>
-						<Dropdown
-							popoverProps={ { placement: 'bottom-end' } }
-							renderToggle={ ( { isOpen, onToggle } ) => {
-								const label = sprintf(
-									/* translators: %d: The ruler number. */
-									__( 'Vertical line %d color', 'custom-html-block-extension' ),
-									index + 1
-								);
-								return (
-									<Tooltip.Root>
-										<Tooltip.Trigger
+						<Popover.Root>
+							<Tooltip.Root>
+								<Tooltip.Trigger
+									render={
+										<Popover.Trigger
 											render={
 												<Button
 													variant="minimal"
@@ -128,9 +129,7 @@ export default function Rulers() {
 													size="compact"
 													disabled={ ! rulers.length }
 													focusableWhenDisabled
-													aria-expanded={ isOpen }
-													aria-label={ label }
-													onClick={ onToggle }
+													aria-label={ getColorLabel( index ) }
 													style={ {
 														marginBottom: 4,
 														// Make the button square like `IconButton`. The default
@@ -141,14 +140,17 @@ export default function Rulers() {
 													} }
 												/>
 											}
-										>
-											<ColorIndicator colorValue={ getColor( ruler ) } />
-										</Tooltip.Trigger>
-										<Tooltip.Popup>{ label }</Tooltip.Popup>
-									</Tooltip.Root>
-								);
-							} }
-							renderContent={ () => (
+										/>
+									}
+								>
+									<ColorIndicator colorValue={ getColor( ruler ) } />
+								</Tooltip.Trigger>
+								<Tooltip.Popup>{ getColorLabel( index ) }</Tooltip.Popup>
+							</Tooltip.Root>
+							<Popover.Popup positioner={ <Popover.Positioner side="bottom" align="end" /> }>
+								<VisuallyHidden render={ <Popover.Title /> }>
+									{ getColorLabel( index ) }
+								</VisuallyHidden>
 								<Stack direction="column" align="end">
 									<ColorPicker
 										color={ getColor( ruler ) ?? '#fff' }
@@ -163,8 +165,8 @@ export default function Rulers() {
 										{ __( 'Reset', 'custom-html-block-extension' ) }
 									</Button>
 								</Stack>
-							) }
-						/>
+							</Popover.Popup>
+						</Popover.Root>
 						<IconButton
 							icon={ trash }
 							label={ __( 'Remove ruler', 'custom-html-block-extension' ) }
