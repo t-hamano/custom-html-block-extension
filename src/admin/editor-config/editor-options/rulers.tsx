@@ -3,9 +3,9 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ColorIndicator, ColorPicker, Dropdown, RangeControl } from '@wordpress/components';
+import { ColorIndicator, ColorPicker, RangeControl } from '@wordpress/components';
 import { plus, trash } from '@wordpress/icons';
-import { Button, IconButton, Stack, Tooltip } from '@wordpress/ui';
+import { Button, IconButton, Popover, Stack, Tooltip, VisuallyHidden } from '@wordpress/ui';
 
 /**
  * Internal dependencies
@@ -90,93 +90,93 @@ export default function Rulers() {
 			gap="sm"
 		>
 			<Stack direction="column" align="start" gap="sm" style={ { width: '100%', maxWidth: 300 } }>
-				{ values.map( ( ruler, index ) => (
-					<Stack key={ index } align="end" gap="xs" style={ { width: '100%' } }>
-						<div style={ { flex: 1 } }>
-							<RangeControl
-								label={
-									0 === index
-										? title
-										: sprintf(
-												/* translators: %d: The ruler number. */
-												__( 'Vertical line position %d', 'custom-html-block-extension' ),
-												index + 1
-											)
-								}
-								hideLabelFromVision={ 0 !== index }
-								value={ getColumn( ruler ) }
-								min={ isSingle ? 0 : 1 }
-								max={ MAX_COLUMN }
-								onChange={ ( newValue ) => onChange( index, newValue ) }
-							/>
-						</div>
-						<Dropdown
-							popoverProps={ { placement: 'bottom-end' } }
-							renderToggle={ ( { isOpen, onToggle } ) => {
-								const label = sprintf(
-									/* translators: %d: The ruler number. */
-									__( 'Vertical line %d color', 'custom-html-block-extension' ),
-									index + 1
-								);
-								return (
-									<Tooltip.Root>
-										<Tooltip.Trigger
-											render={
-												<Button
-													variant="minimal"
-													tone="neutral"
-													size="compact"
-													disabled={ ! rulers.length }
-													focusableWhenDisabled
-													aria-expanded={ isOpen }
-													aria-label={ label }
-													onClick={ onToggle }
-													style={ {
-														marginBottom: 4,
-														// Make the button square like `IconButton`. The default
-														// `min-width` and inline padding make it wider than its height.
-														width: 'var(--wpds-dimension-size-md)',
-														minWidth: 0,
-														paddingInline: 0,
-													} }
-												/>
-											}
-										>
-											<ColorIndicator colorValue={ getColor( ruler ) } />
-										</Tooltip.Trigger>
-										<Tooltip.Popup>{ label }</Tooltip.Popup>
-									</Tooltip.Root>
-								);
-							} }
-							renderContent={ () => (
-								<Stack direction="column" align="end">
-									<ColorPicker
-										color={ getColor( ruler ) ?? '#fff' }
-										onChange={ ( color ) => onChangeColor( index, color ) }
-									/>
-									<Button
-										variant="outline"
-										size="compact"
-										disabled={ ! getColor( ruler ) }
-										onClick={ () => onChangeColor( index ) }
+				{ values.map( ( ruler, index ) => {
+					const colorLabel = sprintf(
+						/* translators: %d: The ruler number. */
+						__( 'Vertical line %d color', 'custom-html-block-extension' ),
+						index + 1
+					);
+					return (
+						<Stack key={ index } align="end" gap="xs" style={ { width: '100%' } }>
+							<div style={ { flex: 1 } }>
+								<RangeControl
+									label={
+										0 === index
+											? title
+											: sprintf(
+													/* translators: %d: The ruler number. */
+													__( 'Vertical line position %d', 'custom-html-block-extension' ),
+													index + 1
+												)
+									}
+									hideLabelFromVision={ 0 !== index }
+									value={ getColumn( ruler ) }
+									min={ isSingle ? 0 : 1 }
+									max={ MAX_COLUMN }
+									onChange={ ( newValue ) => onChange( index, newValue ) }
+								/>
+							</div>
+							<Popover.Root>
+								<Tooltip.Root>
+									<Tooltip.Trigger
+										render={
+											<Popover.Trigger
+												render={
+													<Button
+														variant="minimal"
+														tone="neutral"
+														size="compact"
+														disabled={ ! rulers.length }
+														focusableWhenDisabled
+														aria-label={ colorLabel }
+														style={ {
+															marginBottom: 4,
+															// Make the button square like `IconButton`. The default
+															// `min-width` and inline padding make it wider than its height.
+															width: 'var(--wpds-dimension-size-md)',
+															minWidth: 0,
+															paddingInline: 0,
+														} }
+													/>
+												}
+											/>
+										}
 									>
-										{ __( 'Reset', 'custom-html-block-extension' ) }
-									</Button>
-								</Stack>
-							) }
-						/>
-						<IconButton
-							icon={ trash }
-							label={ __( 'Remove ruler', 'custom-html-block-extension' ) }
-							variant="minimal"
-							tone="neutral"
-							size="compact"
-							disabled={ isSingle }
-							onClick={ () => onRemove( index ) }
-							style={ { marginBottom: 4 } }
-						/>
-					</Stack>
-				) ) }
+										<ColorIndicator colorValue={ getColor( ruler ) } />
+									</Tooltip.Trigger>
+									<Tooltip.Popup>{ colorLabel }</Tooltip.Popup>
+								</Tooltip.Root>
+								<Popover.Popup positioner={ <Popover.Positioner side="bottom" align="end" /> }>
+									<VisuallyHidden render={ <Popover.Title /> }>{ colorLabel }</VisuallyHidden>
+									<Stack direction="column" align="end">
+										<ColorPicker
+											color={ getColor( ruler ) ?? '#fff' }
+											onChange={ ( color ) => onChangeColor( index, color ) }
+										/>
+										<Button
+											variant="outline"
+											size="compact"
+											disabled={ ! getColor( ruler ) }
+											onClick={ () => onChangeColor( index ) }
+										>
+											{ __( 'Reset', 'custom-html-block-extension' ) }
+										</Button>
+									</Stack>
+								</Popover.Popup>
+							</Popover.Root>
+							<IconButton
+								icon={ trash }
+								label={ __( 'Remove ruler', 'custom-html-block-extension' ) }
+								variant="minimal"
+								tone="neutral"
+								size="compact"
+								disabled={ isSingle }
+								onClick={ () => onRemove( index ) }
+								style={ { marginBottom: 4 } }
+							/>
+						</Stack>
+					);
+				} ) }
 				<Button
 					variant="outline"
 					size="compact"
