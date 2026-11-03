@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
@@ -31,7 +31,7 @@ export default function AcceptSuggestionOnEnter() {
 			defaultValue="on"
 			options={ [
 				{
-					label: __( 'Enable', 'custom-html-block-extension' ),
+					label: _x( 'Enable', 'setting value', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/accept-suggestion-on-enter_1.gif',
 					description: createInterpolateElement(
@@ -59,7 +59,7 @@ export default function AcceptSuggestionOnEnter() {
 					),
 				},
 				{
-					label: __( 'Disable', 'custom-html-block-extension' ),
+					label: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/accept-suggestion-on-enter_3.gif',
 					description: createInterpolateElement(

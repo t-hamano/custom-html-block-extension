@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,12 +31,12 @@ export default function MatchBrackets() {
 			defaultValue="always"
 			options={ [
 				{
-					label: __( 'Always', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/match-brackets_1.gif',
 				},
 				{
-					label: __( 'Never', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/match-brackets_2.gif',
 				},

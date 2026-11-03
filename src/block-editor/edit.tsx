@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { useSelect, useDispatch, useRegistry } from '@wordpress/data';
 import { useViewportMatch } from '@wordpress/compose';
@@ -224,11 +224,11 @@ export default function HTMLEdit( {
 						>
 							<ToggleGroupControlOption
 								value="html"
-								label={ __( 'HTML', 'custom-html-block-extension' ) }
+								label={ _x( 'HTML', 'editor mode', 'custom-html-block-extension' ) }
 							/>
 							<ToggleGroupControlOption
 								value="preview"
-								label={ __( 'Preview', 'custom-html-block-extension' ) }
+								label={ _x( 'Preview', 'editor mode', 'custom-html-block-extension' ) }
 							/>
 						</ToggleGroupControl>
 					</ToolsPanelItem>
@@ -244,10 +244,10 @@ export default function HTMLEdit( {
 				</ToolbarGroup>
 				<ToolbarGroup>
 					<ToolbarButton isPressed={ ! isPreview } onClick={ switchToHTML }>
-						{ __( 'HTML', 'custom-html-block-extension' ) }
+						{ _x( 'HTML', 'editor mode', 'custom-html-block-extension' ) }
 					</ToolbarButton>
 					<ToolbarButton isPressed={ isPreview } onClick={ switchToPreview }>
-						{ __( 'Preview', 'custom-html-block-extension' ) }
+						{ _x( 'Preview', 'editor mode', 'custom-html-block-extension' ) }
 					</ToolbarButton>
 				</ToolbarGroup>
 			</BlockControls>

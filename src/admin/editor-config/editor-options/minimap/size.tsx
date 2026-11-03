@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -28,7 +28,7 @@ export default function MinimapSize() {
 		<SettingItem
 			control="select"
 			name="minimap.size"
-			label={ __( 'Size', 'custom-html-block-extension' ) }
+			label={ _x( 'Size', 'minimap', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.size }
 			onChange={ onChange }
 			defaultValue="proportional"

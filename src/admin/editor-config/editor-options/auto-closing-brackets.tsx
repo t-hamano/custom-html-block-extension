@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,7 +31,7 @@ export default function AutoClosingBrackets() {
 			defaultValue="languageDefined"
 			options={ [
 				{
-					label: __( 'Always', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/auto-closing-brackets_1.gif',
 					description: __( 'Always autoclose brackets.', 'custom-html-block-extension' ),
@@ -58,7 +58,7 @@ export default function AutoClosingBrackets() {
 					),
 				},
 				{
-					label: __( 'Never', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/auto-closing-brackets_4.gif',
 					description: __( 'Never autoclose brackets.', 'custom-html-block-extension' ),

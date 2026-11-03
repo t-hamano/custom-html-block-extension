@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { isAppleOS } from '@wordpress/keycodes';
 import { useContext } from '@wordpress/element';
 
@@ -32,14 +32,14 @@ export default function MultiCursorModifier() {
 			options={ [
 				{
 					label: isAppleOS()
-						? __( 'Option', 'custom-html-block-extension' )
-						: __( 'Alt', 'custom-html-block-extension' ),
+						? _x( 'Option', 'keyboard key', 'custom-html-block-extension' )
+						: _x( 'Alt', 'keyboard key', 'custom-html-block-extension' ),
 					value: 'alt',
 				},
 				{
 					label: isAppleOS()
-						? __( 'Command', 'custom-html-block-extension' )
-						: __( 'Ctrl', 'custom-html-block-extension' ),
+						? _x( 'Command', 'keyboard key', 'custom-html-block-extension' )
+						: _x( 'Ctrl', 'keyboard key', 'custom-html-block-extension' ),
 					value: 'ctrlCmd',
 				},
 			] }

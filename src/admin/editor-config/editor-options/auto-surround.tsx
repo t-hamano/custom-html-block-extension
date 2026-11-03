@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -46,7 +46,7 @@ export default function AutoSurround() {
 					image: 'editor-options/auto-surround_3.gif',
 				},
 				{
-					label: __( 'Never', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/auto-surround_4.gif',
 				},

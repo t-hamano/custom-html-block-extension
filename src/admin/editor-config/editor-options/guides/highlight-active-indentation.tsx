@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -34,7 +34,7 @@ export default function GuidesHighlightActiveIndentation() {
 			defaultValue
 			options={ [
 				{
-					label: __( 'Enable', 'custom-html-block-extension' ),
+					label: _x( 'Enable', 'setting value', 'custom-html-block-extension' ),
 					value: true,
 					image: 'editor-options/guides/highlight-active-indentation_1.gif',
 					description: __(
@@ -43,7 +43,7 @@ export default function GuidesHighlightActiveIndentation() {
 					),
 				},
 				{
-					label: __( 'Always', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/guides/highlight-active-indentation_2.gif',
 					description: __(
@@ -52,7 +52,7 @@ export default function GuidesHighlightActiveIndentation() {
 					),
 				},
 				{
-					label: __( 'Disable', 'custom-html-block-extension' ),
+					label: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
 					value: false,
 					image: 'editor-options/guides/highlight-active-indentation_3.gif',
 					description: __(

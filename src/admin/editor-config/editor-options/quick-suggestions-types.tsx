@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __, sprintf, _x } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
 import { SelectControl, Stack } from '@wordpress/ui';
@@ -60,7 +60,7 @@ export default function QuickSuggestionsTypes() {
 			),
 		},
 		{
-			label: __( 'Disable', 'custom-html-block-extension' ),
+			label: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
 			value: 'off',
 			image: 'editor-options/quick-suggestions-types_3.gif',
 			description: createInterpolateElement(

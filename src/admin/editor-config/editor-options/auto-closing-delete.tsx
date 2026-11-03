@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,7 +31,7 @@ export default function AutoClosingDelete() {
 			defaultValue="auto"
 			options={ [
 				{
-					label: __( 'Always', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/auto-closing-delete_1.gif',
 					description: __(
@@ -49,7 +49,7 @@ export default function AutoClosingDelete() {
 					),
 				},
 				{
-					label: __( 'Never', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/auto-closing-delete_3.gif',
 					description: __(

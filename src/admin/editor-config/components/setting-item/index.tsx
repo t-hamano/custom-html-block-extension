@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __, sprintf, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
 	RangeControl,
@@ -58,8 +58,8 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 			options = ( setting.options ?? [] ).map( ( option ) => ( {
 				...option,
 				label: option.value
-					? __( 'Enable', 'custom-html-block-extension' )
-					: __( 'Disable', 'custom-html-block-extension' ),
+					? _x( 'Enable', 'setting value', 'custom-html-block-extension' )
+					: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
 			} ) );
 			control = (
 				<SwitchControl

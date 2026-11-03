@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,27 +31,27 @@ export default function CursorBlinking() {
 			defaultValue="blink"
 			options={ [
 				{
-					label: __( 'Blink', 'custom-html-block-extension' ),
+					label: _x( 'Blink', 'cursor blinking animation', 'custom-html-block-extension' ),
 					value: 'blink',
 					image: 'editor-options/cursor-blinking_1.gif',
 				},
 				{
-					label: __( 'Smooth', 'custom-html-block-extension' ),
+					label: _x( 'Smooth', 'cursor blinking animation', 'custom-html-block-extension' ),
 					value: 'smooth',
 					image: 'editor-options/cursor-blinking_2.gif',
 				},
 				{
-					label: __( 'Phase', 'custom-html-block-extension' ),
+					label: _x( 'Phase', 'cursor blinking animation', 'custom-html-block-extension' ),
 					value: 'phase',
 					image: 'editor-options/cursor-blinking_3.gif',
 				},
 				{
-					label: __( 'Expand', 'custom-html-block-extension' ),
+					label: _x( 'Expand', 'cursor blinking animation', 'custom-html-block-extension' ),
 					value: 'expand',
 					image: 'editor-options/cursor-blinking_4.gif',
 				},
 				{
-					label: __( 'Solid', 'custom-html-block-extension' ),
+					label: _x( 'Solid', 'cursor blinking animation', 'custom-html-block-extension' ),
 					value: 'solid',
 					image: 'editor-options/cursor-blinking_5.jpg',
 				},

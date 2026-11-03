@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -34,7 +34,7 @@ export default function SuggestInsertMode() {
 			defaultValue="insert"
 			options={ [
 				{
-					label: __( 'Insert', 'custom-html-block-extension' ),
+					label: _x( 'Insert', 'suggestion insert mode', 'custom-html-block-extension' ),
 					value: 'insert',
 					image: 'editor-options/suggest/insert-mode_1.gif',
 					description: __(
@@ -43,7 +43,7 @@ export default function SuggestInsertMode() {
 					),
 				},
 				{
-					label: __( 'Replace', 'custom-html-block-extension' ),
+					label: _x( 'Replace', 'suggestion insert mode', 'custom-html-block-extension' ),
 					value: 'replace',
 					image: 'editor-options/suggest/insert-mode_2.gif',
 					description: __(
