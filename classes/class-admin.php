@@ -60,7 +60,7 @@ class Admin {
 				CHBE_NAMESPACE . '-pointer',
 				CHBE_URL . '/assets/js/pointer.js',
 				array( 'wp-pointer' ),
-				filemtime( CHBE_PATH . '/assets/js/pointer.js' ),
+				CHBE_VERSION,
 				true
 			);
 
