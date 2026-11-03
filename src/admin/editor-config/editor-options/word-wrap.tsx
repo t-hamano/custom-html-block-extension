@@ -55,7 +55,7 @@ export default function WordWrap() {
 					),
 				},
 				{
-					label: _x( 'Flexible', 'setting option label, word wrap', 'custom-html-block-extension' ),
+					label: _x( 'Flexible', 'setting option label', 'custom-html-block-extension' ),
 					value: 'bounded',
 					image: 'editor-options/word-wrap_4.gif',
 					description: __(

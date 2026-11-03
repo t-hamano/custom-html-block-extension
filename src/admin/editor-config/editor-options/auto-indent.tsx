@@ -37,7 +37,7 @@ export default function AutoIndent() {
 			defaultValue="advanced"
 			options={ [
 				{
-					label: _x( 'None', 'setting option label, auto indent', 'custom-html-block-extension' ),
+					label: _x( 'None', 'setting option label', 'custom-html-block-extension' ),
 					value: 'none',
 					image: 'editor-options/auto-indent_1.gif',
 					description: __(
@@ -46,7 +46,7 @@ export default function AutoIndent() {
 					),
 				},
 				{
-					label: _x( 'Keep', 'setting option label, auto indent', 'custom-html-block-extension' ),
+					label: _x( 'Keep', 'setting option label', 'custom-html-block-extension' ),
 					value: 'keep',
 					image: 'editor-options/auto-indent_2.gif',
 					description: __(
@@ -55,11 +55,7 @@ export default function AutoIndent() {
 					),
 				},
 				{
-					label: _x(
-						'Brackets',
-						'setting option label, auto indent',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Brackets', 'setting option label', 'custom-html-block-extension' ),
 					value: 'brackets',
 					image: 'editor-options/auto-indent_3.gif',
 					description: __(
@@ -68,11 +64,7 @@ export default function AutoIndent() {
 					),
 				},
 				{
-					label: _x(
-						'Advanced',
-						'setting option label, auto indent',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Advanced', 'setting option label', 'custom-html-block-extension' ),
 					value: 'advanced',
 					image: 'editor-options/auto-indent_4.gif',
 					description: createInterpolateElement(

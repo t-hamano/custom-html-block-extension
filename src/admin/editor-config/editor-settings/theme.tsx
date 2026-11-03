@@ -31,7 +31,7 @@ export default function Theme() {
 			options={ [
 				{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
 				{
-					label: _x( 'Light', 'setting option label, editor theme', 'custom-html-block-extension' ),
+					label: _x( 'Light', 'setting option label', 'custom-html-block-extension' ),
 					value: 'light',
 				},
 				...themes,

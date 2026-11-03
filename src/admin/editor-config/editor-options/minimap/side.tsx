@@ -28,18 +28,18 @@ export default function MinimapSide() {
 		<SettingItem
 			control="toggleGroup"
 			name="minimap.side"
-			label={ _x( 'Side', 'setting label, minimap', 'custom-html-block-extension' ) }
+			label={ _x( 'Side', 'setting label', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.side }
 			onChange={ onChange }
 			defaultValue="right"
 			options={ [
 				{
-					label: _x( 'Left', 'setting option label, minimap side', 'custom-html-block-extension' ),
+					label: _x( 'Left', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/minimap/side_1.jpg',
 					value: 'left',
 				},
 				{
-					label: _x( 'Right', 'setting option label, minimap side', 'custom-html-block-extension' ),
+					label: _x( 'Right', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/minimap/side_2.jpg',
 					value: 'right',
 				},

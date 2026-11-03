@@ -19,12 +19,12 @@ export default function Hover() {
 	let modifierKey;
 	if ( 'alt' === editorOptions.multiCursorModifier ) {
 		modifierKey = isAppleOS()
-			? _x( 'Command', 'setting option label, keyboard key', 'custom-html-block-extension' )
-			: _x( 'Ctrl', 'setting option label, keyboard key', 'custom-html-block-extension' );
+			? _x( 'Command', 'setting option label', 'custom-html-block-extension' )
+			: _x( 'Ctrl', 'setting option label', 'custom-html-block-extension' );
 	} else {
 		modifierKey = isAppleOS()
-			? _x( 'Option', 'setting option label, keyboard key', 'custom-html-block-extension' )
-			: _x( 'Alt', 'setting option label, keyboard key', 'custom-html-block-extension' );
+			? _x( 'Option', 'setting option label', 'custom-html-block-extension' )
+			: _x( 'Alt', 'setting option label', 'custom-html-block-extension' );
 	}
 
 	const onChange = ( value: EditorOptions[ 'hover' ][ 'enabled' ] ) => {

@@ -37,29 +37,17 @@ export default function ScrollbarHorizontal() {
 			defaultValue="auto"
 			options={ [
 				{
-					label: _x(
-						'Auto',
-						'setting option label, scrollbar visibility',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Auto', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/scrollbar/horizontal_1.gif',
 					value: 'auto',
 				},
 				{
-					label: _x(
-						'Visible',
-						'setting option label, scrollbar visibility',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Visible', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/scrollbar/horizontal_2.jpg',
 					value: 'visible',
 				},
 				{
-					label: _x(
-						'Hidden',
-						'setting option label, scrollbar visibility',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Hidden', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/scrollbar/horizontal_3.jpg',
 					value: 'hidden',
 				},

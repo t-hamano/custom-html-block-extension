@@ -28,7 +28,7 @@ export default function MinimapSize() {
 		<SettingItem
 			control="select"
 			name="minimap.size"
-			label={ _x( 'Size', 'setting label, minimap', 'custom-html-block-extension' ) }
+			label={ _x( 'Size', 'setting label', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.size }
 			onChange={ onChange }
 			defaultValue="proportional"

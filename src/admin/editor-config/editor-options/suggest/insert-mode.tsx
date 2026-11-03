@@ -34,11 +34,7 @@ export default function SuggestInsertMode() {
 			defaultValue="insert"
 			options={ [
 				{
-					label: _x(
-						'Insert',
-						'setting option label, suggestion insert mode',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Insert', 'setting option label', 'custom-html-block-extension' ),
 					value: 'insert',
 					image: 'editor-options/suggest/insert-mode_1.gif',
 					description: __(
@@ -47,11 +43,7 @@ export default function SuggestInsertMode() {
 					),
 				},
 				{
-					label: _x(
-						'Replace',
-						'setting option label, suggestion insert mode',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Replace', 'setting option label', 'custom-html-block-extension' ),
 					value: 'replace',
 					image: 'editor-options/suggest/insert-mode_2.gif',
 					description: __(

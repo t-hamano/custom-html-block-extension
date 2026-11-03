@@ -31,11 +31,7 @@ export default function WrappingIndent() {
 			defaultValue="same"
 			options={ [
 				{
-					label: _x(
-						'None',
-						'setting option label, wrapping indent',
-						'custom-html-block-extension'
-					),
+					label: _x( 'None', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/wrapping-indent_1.jpg',
 					description: __(
 						'No indentation. Wrapped lines begin at column 1.',
@@ -44,11 +40,7 @@ export default function WrappingIndent() {
 					value: 'none',
 				},
 				{
-					label: _x(
-						'Same',
-						'setting option label, wrapping indent',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Same', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/wrapping-indent_2.jpg',
 					description: __(
 						'Wrapped lines get the same indentation as the parent.',
@@ -57,11 +49,7 @@ export default function WrappingIndent() {
 					value: 'same',
 				},
 				{
-					label: _x(
-						'Indent',
-						'setting option label, wrapping indent',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Indent', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/wrapping-indent_3.jpg',
 					description: __(
 						'Wrapped lines get +1 indentation toward the parent.',

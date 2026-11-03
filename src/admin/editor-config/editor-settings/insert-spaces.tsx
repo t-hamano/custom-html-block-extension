@@ -30,20 +30,12 @@ export default function InsertSpaces() {
 			defaultValue="space"
 			options={ [
 				{
-					label: _x(
-						'Tab',
-						'setting option label, indent character',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Tab', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-settings/insert-spaces_1.jpg',
 					value: 'tab',
 				},
 				{
-					label: _x(
-						'Space',
-						'setting option label, indent character',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Space', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-settings/insert-spaces_2.jpg',
 					value: 'space',
 				},

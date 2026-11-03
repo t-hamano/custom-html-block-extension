@@ -30,11 +30,7 @@ export default function MultiCursorPaste() {
 			defaultValue="spread"
 			options={ [
 				{
-					label: _x(
-						'Spread',
-						'setting option label, multi cursor paste mode',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Spread', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/multi-cursor-paste_1.gif',
 					value: 'spread',
 					description: __(
@@ -43,11 +39,7 @@ export default function MultiCursorPaste() {
 					),
 				},
 				{
-					label: _x(
-						'Full',
-						'setting option label, multi cursor paste mode',
-						'custom-html-block-extension'
-					),
+					label: _x( 'Full', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/multi-cursor-paste_2.gif',
 					value: 'full',
 					description: __( 'Each cursor pastes the full text.', 'custom-html-block-extension' ),
