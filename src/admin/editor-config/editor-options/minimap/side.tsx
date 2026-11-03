@@ -34,12 +34,12 @@ export default function MinimapSide() {
 			defaultValue="right"
 			options={ [
 				{
-					label: __( 'Left', 'custom-html-block-extension' ),
+					label: _x( 'Left', 'minimap side', 'custom-html-block-extension' ),
 					image: 'editor-options/minimap/side_1.jpg',
 					value: 'left',
 				},
 				{
-					label: __( 'Right', 'custom-html-block-extension' ),
+					label: _x( 'Right', 'minimap side', 'custom-html-block-extension' ),
 					image: 'editor-options/minimap/side_2.jpg',
 					value: 'right',
 				},

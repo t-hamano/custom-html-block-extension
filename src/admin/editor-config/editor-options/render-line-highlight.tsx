@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -46,7 +46,7 @@ export default function RenderLineHighlight() {
 					image: 'editor-options/render-line-highlight_3.jpg',
 				},
 				{
-					label: __( 'None', 'custom-html-block-extension' ),
+					label: _x( 'None', 'setting value', 'custom-html-block-extension' ),
 					value: 'none',
 					image: 'editor-options/render-line-highlight_4.jpg',
 				},
