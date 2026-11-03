@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,7 +31,7 @@ export default function CursorStyle() {
 			defaultValue="line"
 			options={ [
 				{
-					label: __( 'Line', 'custom-html-block-extension' ),
+					label: _x( 'Line', 'setting option label', 'custom-html-block-extension' ),
 					value: 'line',
 					image: 'editor-options/cursor-style_1.jpg',
 				},
@@ -41,17 +41,17 @@ export default function CursorStyle() {
 					image: 'editor-options/cursor-style_2.jpg',
 				},
 				{
-					label: __( 'Block', 'custom-html-block-extension' ),
+					label: _x( 'Block', 'setting option label', 'custom-html-block-extension' ),
 					value: 'block',
 					image: 'editor-options/cursor-style_3.jpg',
 				},
 				{
-					label: __( 'Outline', 'custom-html-block-extension' ),
+					label: _x( 'Outline', 'setting option label', 'custom-html-block-extension' ),
 					value: 'block-outline',
 					image: 'editor-options/cursor-style_4.jpg',
 				},
 				{
-					label: __( 'Underline', 'custom-html-block-extension' ),
+					label: _x( 'Underline', 'setting option label', 'custom-html-block-extension' ),
 					value: 'underline',
 					image: 'editor-options/cursor-style_5.jpg',
 				},

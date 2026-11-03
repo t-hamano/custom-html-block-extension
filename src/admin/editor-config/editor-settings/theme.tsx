@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -30,7 +30,10 @@ export default function Theme() {
 			onChange={ onChange }
 			options={ [
 				{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
-				{ label: __( 'Light', 'custom-html-block-extension' ), value: 'light' },
+				{
+					label: _x( 'Light', 'setting option label', 'custom-html-block-extension' ),
+					value: 'light',
+				},
 				...themes,
 			] }
 		/>

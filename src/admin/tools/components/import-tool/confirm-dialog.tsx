@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __, sprintf, _x } from '@wordpress/i18n';
 import { createInterpolateElement, useState } from '@wordpress/element';
 import { Dialog, Stack, Tabs, Text } from '@wordpress/ui';
 import { DataViews, DataViewsPicker } from '@wordpress/dataviews';
@@ -39,14 +39,14 @@ const itemFields: Field< ImportItem >[] = [
 	},
 	{
 		id: 'currentValue',
-		label: __( 'Current', 'custom-html-block-extension' ),
+		label: _x( 'Current', 'setting value', 'custom-html-block-extension' ),
 		render: ( { item } ) => renderValue( item.currentValue ),
 		enableSorting: false,
 		enableHiding: false,
 	},
 	{
 		id: 'value',
-		label: __( 'New', 'custom-html-block-extension' ),
+		label: _x( 'New', 'setting value', 'custom-html-block-extension' ),
 		render: ( { item } ) =>
 			isAdjusted( item.originalValue, item.value )
 				? createInterpolateElement(
@@ -73,7 +73,7 @@ const unchangedFields: Field< ImportItem >[] = [
 	},
 	{
 		id: 'value',
-		label: __( 'Value', 'custom-html-block-extension' ),
+		label: _x( 'Value', 'setting value', 'custom-html-block-extension' ),
 		render: ( { item } ) => renderValue( item.value ),
 		enableSorting: false,
 		enableHiding: false,

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,13 +31,13 @@ export default function WordWrap() {
 			defaultValue="off"
 			options={ [
 				{
-					label: __( 'Off', 'custom-html-block-extension' ),
+					label: _x( 'Off', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/word-wrap_1.gif',
 					description: __( 'Lines will never wrap.', 'custom-html-block-extension' ),
 				},
 				{
-					label: __( 'On', 'custom-html-block-extension' ),
+					label: _x( 'On', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/word-wrap_2.gif',
 					description: __(
@@ -55,7 +55,7 @@ export default function WordWrap() {
 					),
 				},
 				{
-					label: __( 'Flexible', 'custom-html-block-extension' ),
+					label: _x( 'Flexible', 'setting option label', 'custom-html-block-extension' ),
 					value: 'bounded',
 					image: 'editor-options/word-wrap_4.gif',
 					description: __(

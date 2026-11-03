@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -28,18 +28,18 @@ export default function MinimapSide() {
 		<SettingItem
 			control="toggleGroup"
 			name="minimap.side"
-			label={ __( 'Side', 'custom-html-block-extension' ) }
+			label={ _x( 'Side', 'setting label', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.side }
 			onChange={ onChange }
 			defaultValue="right"
 			options={ [
 				{
-					label: __( 'Left', 'custom-html-block-extension' ),
+					label: _x( 'Left', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/minimap/side_1.jpg',
 					value: 'left',
 				},
 				{
-					label: __( 'Right', 'custom-html-block-extension' ),
+					label: _x( 'Right', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/minimap/side_2.jpg',
 					value: 'right',
 				},

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __, sprintf, _x } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
 
@@ -19,12 +19,12 @@ export default function Hover() {
 	let modifierKey;
 	if ( 'alt' === editorOptions.multiCursorModifier ) {
 		modifierKey = isAppleOS()
-			? __( 'Command', 'custom-html-block-extension' )
-			: __( 'Ctrl', 'custom-html-block-extension' );
+			? _x( 'Command', 'setting option label', 'custom-html-block-extension' )
+			: _x( 'Ctrl', 'setting option label', 'custom-html-block-extension' );
 	} else {
 		modifierKey = isAppleOS()
-			? __( 'Option', 'custom-html-block-extension' )
-			: __( 'Alt', 'custom-html-block-extension' );
+			? _x( 'Option', 'setting option label', 'custom-html-block-extension' )
+			: _x( 'Alt', 'setting option label', 'custom-html-block-extension' );
 	}
 
 	const onChange = ( value: EditorOptions[ 'hover' ][ 'enabled' ] ) => {
@@ -47,7 +47,7 @@ export default function Hover() {
 			defaultValue="on"
 			options={ [
 				{
-					label: __( 'Enable', 'custom-html-block-extension' ),
+					label: _x( 'Enable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 				},
 				{
@@ -55,7 +55,7 @@ export default function Hover() {
 					value: 'onKeyboardModifier',
 				},
 				{
-					label: __( 'Disable', 'custom-html-block-extension' ),
+					label: _x( 'Disable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 				},
 			] }

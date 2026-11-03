@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { createInterpolateElement, useContext } from '@wordpress/element';
 
 /**
@@ -30,12 +30,12 @@ export default function InsertSpaces() {
 			defaultValue="space"
 			options={ [
 				{
-					label: __( 'Tab', 'custom-html-block-extension' ),
+					label: _x( 'Tab', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-settings/insert-spaces_1.jpg',
 					value: 'tab',
 				},
 				{
-					label: __( 'Space', 'custom-html-block-extension' ),
+					label: _x( 'Space', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-settings/insert-spaces_2.jpg',
 					value: 'space',
 				},

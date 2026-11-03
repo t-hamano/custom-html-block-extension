@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -37,17 +37,17 @@ export default function ScrollbarVertical() {
 			defaultValue="auto"
 			options={ [
 				{
-					label: __( 'Auto', 'custom-html-block-extension' ),
+					label: _x( 'Auto', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/scrollbar/vertical_1.gif',
 					value: 'auto',
 				},
 				{
-					label: __( 'Visible', 'custom-html-block-extension' ),
+					label: _x( 'Visible', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/scrollbar/vertical_2.jpg',
 					value: 'visible',
 				},
 				{
-					label: __( 'Hidden', 'custom-html-block-extension' ),
+					label: _x( 'Hidden', 'setting option label', 'custom-html-block-extension' ),
 					image: 'editor-options/scrollbar/vertical_3.jpg',
 					value: 'hidden',
 				},

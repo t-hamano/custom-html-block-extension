@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -28,7 +28,7 @@ export default function MinimapScale() {
 		<SettingItem
 			control="range"
 			name="minimap.scale"
-			label={ __( 'Scale', 'custom-html-block-extension' ) }
+			label={ _x( 'Scale', 'setting label', 'custom-html-block-extension' ) }
 			value={ editorOptions.minimap.scale }
 			onChange={ onChange }
 			min={ 1 }

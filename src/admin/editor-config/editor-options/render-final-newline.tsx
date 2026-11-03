@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,7 +31,7 @@ export default function RenderFinalNewline() {
 			defaultValue="on"
 			options={ [
 				{
-					label: __( 'Enable', 'custom-html-block-extension' ),
+					label: _x( 'Enable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/render-final-newline_1.jpg',
 					description: __(
@@ -40,7 +40,7 @@ export default function RenderFinalNewline() {
 					),
 				},
 				{
-					label: __( 'Dimmed', 'custom-html-block-extension' ),
+					label: _x( 'Dimmed', 'setting option label', 'custom-html-block-extension' ),
 					value: 'dimmed',
 					image: 'editor-options/render-final-newline_2.jpg',
 					description: __(
@@ -49,7 +49,7 @@ export default function RenderFinalNewline() {
 					),
 				},
 				{
-					label: __( 'Disable', 'custom-html-block-extension' ),
+					label: _x( 'Disable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/render-final-newline_3.jpg',
 					description: __(

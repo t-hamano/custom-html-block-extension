@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 
 /**
@@ -31,12 +31,12 @@ export default function LineNumbers() {
 			defaultValue="on"
 			options={ [
 				{
-					label: __( 'Hide', 'custom-html-block-extension' ),
+					label: _x( 'Hide', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/line-numbers_1.jpg',
 				},
 				{
-					label: __( 'Show', 'custom-html-block-extension' ),
+					label: _x( 'Show', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/line-numbers_2.jpg',
 				},
