@@ -31,13 +31,13 @@ export default function WordWrap() {
 			defaultValue="off"
 			options={ [
 				{
-					label: _x( 'Off', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Off', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/word-wrap_1.gif',
 					description: __( 'Lines will never wrap.', 'custom-html-block-extension' ),
 				},
 				{
-					label: _x( 'On', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'On', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/word-wrap_2.gif',
 					description: __(
@@ -55,7 +55,7 @@ export default function WordWrap() {
 					),
 				},
 				{
-					label: _x( 'Flexible', 'word wrap', 'custom-html-block-extension' ),
+					label: _x( 'Flexible', 'setting option label, word wrap', 'custom-html-block-extension' ),
 					value: 'bounded',
 					image: 'editor-options/word-wrap_4.gif',
 					description: __(

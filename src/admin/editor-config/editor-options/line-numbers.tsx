@@ -31,12 +31,12 @@ export default function LineNumbers() {
 			defaultValue="on"
 			options={ [
 				{
-					label: _x( 'Hide', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Hide', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/line-numbers_1.jpg',
 				},
 				{
-					label: _x( 'Show', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Show', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/line-numbers_2.jpg',
 				},

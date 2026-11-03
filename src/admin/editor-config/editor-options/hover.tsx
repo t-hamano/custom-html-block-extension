@@ -19,12 +19,12 @@ export default function Hover() {
 	let modifierKey;
 	if ( 'alt' === editorOptions.multiCursorModifier ) {
 		modifierKey = isAppleOS()
-			? _x( 'Command', 'keyboard key', 'custom-html-block-extension' )
-			: _x( 'Ctrl', 'keyboard key', 'custom-html-block-extension' );
+			? _x( 'Command', 'setting option label, keyboard key', 'custom-html-block-extension' )
+			: _x( 'Ctrl', 'setting option label, keyboard key', 'custom-html-block-extension' );
 	} else {
 		modifierKey = isAppleOS()
-			? _x( 'Option', 'keyboard key', 'custom-html-block-extension' )
-			: _x( 'Alt', 'keyboard key', 'custom-html-block-extension' );
+			? _x( 'Option', 'setting option label, keyboard key', 'custom-html-block-extension' )
+			: _x( 'Alt', 'setting option label, keyboard key', 'custom-html-block-extension' );
 	}
 
 	const onChange = ( value: EditorOptions[ 'hover' ][ 'enabled' ] ) => {
@@ -47,7 +47,7 @@ export default function Hover() {
 			defaultValue="on"
 			options={ [
 				{
-					label: _x( 'Enable', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Enable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 				},
 				{
@@ -55,7 +55,7 @@ export default function Hover() {
 					value: 'onKeyboardModifier',
 				},
 				{
-					label: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Disable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 				},
 			] }

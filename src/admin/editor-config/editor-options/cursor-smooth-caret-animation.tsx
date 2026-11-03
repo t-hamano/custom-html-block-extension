@@ -31,7 +31,7 @@ export default function CursorSmoothCaretAnimation() {
 			defaultValue="off"
 			options={ [
 				{
-					label: _x( 'Enable', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Enable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'on',
 					image: 'editor-options/cursor-smooth-caret-animation_1.gif',
 					description: __(
@@ -52,7 +52,7 @@ export default function CursorSmoothCaretAnimation() {
 					),
 				},
 				{
-					label: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Disable', 'setting option label', 'custom-html-block-extension' ),
 					value: 'off',
 					image: 'editor-options/cursor-smooth-caret-animation_3.gif',
 					description: __( 'Smooth caret animation is disabled.', 'custom-html-block-extension' ),

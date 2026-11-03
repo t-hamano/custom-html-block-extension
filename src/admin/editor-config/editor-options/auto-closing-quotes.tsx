@@ -31,7 +31,7 @@ export default function AutoClosingQuotes() {
 			defaultValue="languageDefined"
 			options={ [
 				{
-					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting option label', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/auto-closing-quotes_1.gif',
 					description: __( 'Always autoclose quotes.', 'custom-html-block-extension' ),
@@ -58,7 +58,7 @@ export default function AutoClosingQuotes() {
 					),
 				},
 				{
-					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting option label', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/auto-closing-quotes_4.gif',
 					description: __( 'Never autoclose quotes.', 'custom-html-block-extension' ),

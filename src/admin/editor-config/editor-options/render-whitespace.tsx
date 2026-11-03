@@ -31,7 +31,7 @@ export default function RenderWhitespace() {
 			defaultValue="selection"
 			options={ [
 				{
-					label: _x( 'All', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'All', 'setting option label', 'custom-html-block-extension' ),
 					value: 'all',
 					image: 'editor-options/render-whitespace_1.jpg',
 				},
@@ -54,7 +54,7 @@ export default function RenderWhitespace() {
 					image: 'editor-options/render-whitespace_4.jpg',
 				},
 				{
-					label: _x( 'None', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'None', 'setting option label', 'custom-html-block-extension' ),
 					value: 'none',
 					image: 'editor-options/render-whitespace_5.jpg',
 				},

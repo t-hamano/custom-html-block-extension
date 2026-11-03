@@ -46,7 +46,7 @@ export default function RenderLineHighlight() {
 					image: 'editor-options/render-line-highlight_3.jpg',
 				},
 				{
-					label: _x( 'None', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'None', 'setting option label', 'custom-html-block-extension' ),
 					value: 'none',
 					image: 'editor-options/render-line-highlight_4.jpg',
 				},

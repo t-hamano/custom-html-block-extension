@@ -34,7 +34,7 @@ export default function GuidesHighlightActiveIndentation() {
 			defaultValue
 			options={ [
 				{
-					label: _x( 'Enable', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Enable', 'setting option label', 'custom-html-block-extension' ),
 					value: true,
 					image: 'editor-options/guides/highlight-active-indentation_1.gif',
 					description: __(
@@ -43,7 +43,7 @@ export default function GuidesHighlightActiveIndentation() {
 					),
 				},
 				{
-					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting option label', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/guides/highlight-active-indentation_2.gif',
 					description: __(
@@ -52,7 +52,7 @@ export default function GuidesHighlightActiveIndentation() {
 					),
 				},
 				{
-					label: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Disable', 'setting option label', 'custom-html-block-extension' ),
 					value: false,
 					image: 'editor-options/guides/highlight-active-indentation_3.gif',
 					description: __(

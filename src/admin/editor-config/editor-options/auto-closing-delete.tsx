@@ -31,7 +31,7 @@ export default function AutoClosingDelete() {
 			defaultValue="auto"
 			options={ [
 				{
-					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting option label', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/auto-closing-delete_1.gif',
 					description: __(
@@ -49,7 +49,7 @@ export default function AutoClosingDelete() {
 					),
 				},
 				{
-					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting option label', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/auto-closing-delete_3.gif',
 					description: __(

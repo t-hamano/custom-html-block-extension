@@ -58,8 +58,8 @@ export default function SettingItem< V extends SettingValue >( props: SettingIte
 			options = ( setting.options ?? [] ).map( ( option ) => ( {
 				...option,
 				label: option.value
-					? _x( 'Enable', 'setting value', 'custom-html-block-extension' )
-					: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
+					? _x( 'Enable', 'setting option label', 'custom-html-block-extension' )
+					: _x( 'Disable', 'setting option label', 'custom-html-block-extension' ),
 			} ) );
 			control = (
 				<SwitchControl

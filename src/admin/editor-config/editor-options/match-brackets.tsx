@@ -31,12 +31,12 @@ export default function MatchBrackets() {
 			defaultValue="always"
 			options={ [
 				{
-					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting option label', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/match-brackets_1.gif',
 				},
 				{
-					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting option label', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/match-brackets_2.gif',
 				},

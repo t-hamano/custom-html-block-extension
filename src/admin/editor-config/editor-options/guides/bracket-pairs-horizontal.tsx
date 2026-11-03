@@ -44,7 +44,7 @@ export default function GuidesBracketPairsHorizontal() {
 					image: 'editor-options/guides/bracket-pairs-horizontal_2.jpg',
 				},
 				{
-					label: _x( 'None', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'None', 'setting option label', 'custom-html-block-extension' ),
 					value: false,
 					image: 'editor-options/guides/bracket-pairs-horizontal_3.jpg',
 				},

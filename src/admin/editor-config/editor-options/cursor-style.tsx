@@ -31,7 +31,7 @@ export default function CursorStyle() {
 			defaultValue="line"
 			options={ [
 				{
-					label: _x( 'Line', 'cursor style', 'custom-html-block-extension' ),
+					label: _x( 'Line', 'setting option label, cursor style', 'custom-html-block-extension' ),
 					value: 'line',
 					image: 'editor-options/cursor-style_1.jpg',
 				},
@@ -41,17 +41,25 @@ export default function CursorStyle() {
 					image: 'editor-options/cursor-style_2.jpg',
 				},
 				{
-					label: _x( 'Block', 'cursor style', 'custom-html-block-extension' ),
+					label: _x( 'Block', 'setting option label, cursor style', 'custom-html-block-extension' ),
 					value: 'block',
 					image: 'editor-options/cursor-style_3.jpg',
 				},
 				{
-					label: _x( 'Outline', 'cursor style', 'custom-html-block-extension' ),
+					label: _x(
+						'Outline',
+						'setting option label, cursor style',
+						'custom-html-block-extension'
+					),
 					value: 'block-outline',
 					image: 'editor-options/cursor-style_4.jpg',
 				},
 				{
-					label: _x( 'Underline', 'cursor style', 'custom-html-block-extension' ),
+					label: _x(
+						'Underline',
+						'setting option label, cursor style',
+						'custom-html-block-extension'
+					),
 					value: 'underline',
 					image: 'editor-options/cursor-style_5.jpg',
 				},

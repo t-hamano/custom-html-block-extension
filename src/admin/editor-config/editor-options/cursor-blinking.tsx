@@ -31,27 +31,47 @@ export default function CursorBlinking() {
 			defaultValue="blink"
 			options={ [
 				{
-					label: _x( 'Blink', 'cursor blinking animation', 'custom-html-block-extension' ),
+					label: _x(
+						'Blink',
+						'setting option label, cursor blinking animation',
+						'custom-html-block-extension'
+					),
 					value: 'blink',
 					image: 'editor-options/cursor-blinking_1.gif',
 				},
 				{
-					label: _x( 'Smooth', 'cursor blinking animation', 'custom-html-block-extension' ),
+					label: _x(
+						'Smooth',
+						'setting option label, cursor blinking animation',
+						'custom-html-block-extension'
+					),
 					value: 'smooth',
 					image: 'editor-options/cursor-blinking_2.gif',
 				},
 				{
-					label: _x( 'Phase', 'cursor blinking animation', 'custom-html-block-extension' ),
+					label: _x(
+						'Phase',
+						'setting option label, cursor blinking animation',
+						'custom-html-block-extension'
+					),
 					value: 'phase',
 					image: 'editor-options/cursor-blinking_3.gif',
 				},
 				{
-					label: _x( 'Expand', 'cursor blinking animation', 'custom-html-block-extension' ),
+					label: _x(
+						'Expand',
+						'setting option label, cursor blinking animation',
+						'custom-html-block-extension'
+					),
 					value: 'expand',
 					image: 'editor-options/cursor-blinking_4.gif',
 				},
 				{
-					label: _x( 'Solid', 'cursor blinking animation', 'custom-html-block-extension' ),
+					label: _x(
+						'Solid',
+						'setting option label, cursor blinking animation',
+						'custom-html-block-extension'
+					),
 					value: 'solid',
 					image: 'editor-options/cursor-blinking_5.jpg',
 				},

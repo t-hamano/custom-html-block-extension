@@ -60,7 +60,7 @@ export default function QuickSuggestionsTypes() {
 			),
 		},
 		{
-			label: _x( 'Disable', 'setting value', 'custom-html-block-extension' ),
+			label: _x( 'Disable', 'setting option label', 'custom-html-block-extension' ),
 			value: 'off',
 			image: 'editor-options/quick-suggestions-types_3.gif',
 			description: createInterpolateElement(

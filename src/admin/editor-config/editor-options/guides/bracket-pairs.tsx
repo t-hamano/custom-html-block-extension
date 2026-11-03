@@ -44,7 +44,7 @@ export default function GuidesBracketPairs() {
 					image: 'editor-options/guides/bracket-pairs_2.jpg',
 				},
 				{
-					label: _x( 'None', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'None', 'setting option label', 'custom-html-block-extension' ),
 					value: false,
 					image: 'editor-options/guides/bracket-pairs_3.jpg',
 				},

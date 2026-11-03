@@ -30,7 +30,10 @@ export default function Theme() {
 			onChange={ onChange }
 			options={ [
 				{ label: __( 'Visual Studio Dark', 'custom-html-block-extension' ), value: 'vs-dark' },
-				{ label: _x( 'Light', 'editor theme', 'custom-html-block-extension' ), value: 'light' },
+				{
+					label: _x( 'Light', 'setting option label, editor theme', 'custom-html-block-extension' ),
+					value: 'light',
+				},
 				...themes,
 			] }
 		/>

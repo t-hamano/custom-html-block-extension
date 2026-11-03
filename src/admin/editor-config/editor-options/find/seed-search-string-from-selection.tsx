@@ -34,7 +34,7 @@ export default function FindSeedSearchStringFromSelection() {
 			defaultValue="always"
 			options={ [
 				{
-					label: _x( 'Always', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Always', 'setting option label', 'custom-html-block-extension' ),
 					value: 'always',
 					image: 'editor-options/find/seed-search-string-from-selection_1.gif',
 					description: __(
@@ -52,7 +52,7 @@ export default function FindSeedSearchStringFromSelection() {
 					),
 				},
 				{
-					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting option label', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/find/seed-search-string-from-selection_3.gif',
 					description: __(

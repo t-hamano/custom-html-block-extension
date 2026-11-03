@@ -46,7 +46,7 @@ export default function AutoSurround() {
 					image: 'editor-options/auto-surround_3.gif',
 				},
 				{
-					label: _x( 'Never', 'setting value', 'custom-html-block-extension' ),
+					label: _x( 'Never', 'setting option label', 'custom-html-block-extension' ),
 					value: 'never',
 					image: 'editor-options/auto-surround_4.gif',
 				},

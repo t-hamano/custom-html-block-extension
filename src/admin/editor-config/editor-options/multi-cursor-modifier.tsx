@@ -32,14 +32,14 @@ export default function MultiCursorModifier() {
 			options={ [
 				{
 					label: isAppleOS()
-						? _x( 'Option', 'keyboard key', 'custom-html-block-extension' )
-						: _x( 'Alt', 'keyboard key', 'custom-html-block-extension' ),
+						? _x( 'Option', 'setting option label, keyboard key', 'custom-html-block-extension' )
+						: _x( 'Alt', 'setting option label, keyboard key', 'custom-html-block-extension' ),
 					value: 'alt',
 				},
 				{
 					label: isAppleOS()
-						? _x( 'Command', 'keyboard key', 'custom-html-block-extension' )
-						: _x( 'Ctrl', 'keyboard key', 'custom-html-block-extension' ),
+						? _x( 'Command', 'setting option label, keyboard key', 'custom-html-block-extension' )
+						: _x( 'Ctrl', 'setting option label, keyboard key', 'custom-html-block-extension' ),
 					value: 'ctrlCmd',
 				},
 			] }
