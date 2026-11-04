@@ -124,6 +124,8 @@ class Theme_Plugin_Editor {
 				)
 			)
 		);
+
+		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
 	}
 }
 
