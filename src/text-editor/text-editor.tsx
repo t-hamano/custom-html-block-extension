@@ -61,6 +61,7 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 
 	return (
 		<MonacoEditor
+			className="chbe-text-editor"
 			language="html"
 			{ ...editorConfigProps }
 			value={ postContent }
