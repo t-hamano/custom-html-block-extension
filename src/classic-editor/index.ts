@@ -46,7 +46,7 @@ initLoader( window, {
 		const mediaSyncRetries = 100;
 		const mediaSyncInterval = 100;
 		let pendingSync: number | undefined;
-		let toolbarObservers: { disconnect: () => void }[] = [];
+		let toolbarObserver: MutationObserver | undefined;
 
 		// Enable Emmet once, since the editor is recreated on every switch to the text mode.
 		if ( window.chbeObj.editorSettings.emmet ) {
@@ -234,10 +234,11 @@ initLoader( window, {
 			}
 		};
 
-		// Update the margin whenever the toolbar position or height changes. editor-expand.js
-		// pins the toolbar some time after the page loads, which can be after the editor is created.
+		// Update the margin whenever editor-expand.js changes the toolbar position or width, which
+		// can be after the editor is created. The toolbar only overlaps the editor while
+		// editor-expand.js positions it, and it also sets the width, so this covers toolbar wrapping.
 		const observeToolbar = () => {
-			disconnectToolbarObservers();
+			disconnectToolbarObserver();
 			updateToolbarMargin();
 
 			const toolbar = document.getElementById( 'ed_toolbar' );
@@ -245,19 +246,13 @@ initLoader( window, {
 				return;
 			}
 
-			const mutationObserver = new MutationObserver( updateToolbarMargin );
-			mutationObserver.observe( toolbar, {
-				attributes: true,
-				attributeFilter: [ 'style', 'class' ],
-			} );
-			const resizeObserver = new ResizeObserver( updateToolbarMargin );
-			resizeObserver.observe( toolbar );
-			toolbarObservers = [ mutationObserver, resizeObserver ];
+			toolbarObserver = new MutationObserver( updateToolbarMargin );
+			toolbarObserver.observe( toolbar, { attributes: true, attributeFilter: [ 'style' ] } );
 		};
 
-		const disconnectToolbarObservers = () => {
-			toolbarObservers.forEach( ( observer ) => observer.disconnect() );
-			toolbarObservers = [];
+		const disconnectToolbarObserver = () => {
+			toolbarObserver?.disconnect();
+			toolbarObserver = undefined;
 		};
 
 		// Apply changes in the original textarea to the editor.
@@ -330,7 +325,7 @@ initLoader( window, {
 					tabHtml.onclick = toHtml;
 				}
 				window.clearTimeout( pendingSync );
-				disconnectToolbarObservers();
+				disconnectToolbarObserver();
 				isMonacoEditorEnabled = false;
 			}
 		};
