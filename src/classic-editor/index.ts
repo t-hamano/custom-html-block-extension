@@ -46,6 +46,7 @@ initLoader( window, {
 		const mediaSyncRetries = 100;
 		const mediaSyncInterval = 100;
 		let pendingSync: number | undefined;
+		let toolbarObserver: MutationObserver | undefined;
 
 		// Enable Emmet once, since the editor is recreated on every switch to the text mode.
 		if ( window.chbeObj.editorSettings.emmet ) {
@@ -212,9 +213,7 @@ initLoader( window, {
 				} );
 			}
 
-			window.addEventListener( 'resize', onWindowResize );
-
-			updateToolbarMargin();
+			observeToolbar();
 			isMonacoEditorEnabled = true;
 		};
 
@@ -235,11 +234,25 @@ initLoader( window, {
 			}
 		};
 
-		// Window resize event.
-		const onWindowResize = () => {
-			setTimeout( () => {
-				updateToolbarMargin();
-			}, 300 );
+		// Update the margin whenever editor-expand.js changes the toolbar position or width, which
+		// can be after the editor is created. The toolbar only overlaps the editor while
+		// editor-expand.js positions it, and it also sets the width, so this covers toolbar wrapping.
+		const observeToolbar = () => {
+			disconnectToolbarObserver();
+			updateToolbarMargin();
+
+			const toolbar = document.getElementById( 'ed_toolbar' );
+			if ( ! toolbar ) {
+				return;
+			}
+
+			toolbarObserver = new MutationObserver( updateToolbarMargin );
+			toolbarObserver.observe( toolbar, { attributes: true, attributeFilter: [ 'style' ] } );
+		};
+
+		const disconnectToolbarObserver = () => {
+			toolbarObserver?.disconnect();
+			toolbarObserver = undefined;
 		};
 
 		// Apply changes in the original textarea to the editor.
@@ -312,7 +325,7 @@ initLoader( window, {
 					tabHtml.onclick = toHtml;
 				}
 				window.clearTimeout( pendingSync );
-				window.removeEventListener( 'resize', onWindowResize );
+				disconnectToolbarObserver();
 				isMonacoEditorEnabled = false;
 			}
 		};
@@ -327,10 +340,6 @@ initLoader( window, {
 					tabTmce.onclick = toVisual;
 				}
 			}
-
-			setTimeout( () => {
-				updateToolbarMargin();
-			}, 300 );
 		};
 
 		// Initialize
