@@ -34,13 +34,4 @@
 	// Keep the border outside of the height calculated from the content.
 	box-sizing: content-box;
 	border: variables.$border-width solid colors.$gray-600;
-
-	@media not (prefers-reduced-motion) {
-		transition: border 0.1s ease-out, box-shadow 0.1s linear;
-	}
-
-	&:focus-within {
-		border-color: var(--wp-admin-theme-color);
-		box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-	}
 }
