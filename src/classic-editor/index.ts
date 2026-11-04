@@ -46,6 +46,7 @@ initLoader( window, {
 		const mediaSyncRetries = 100;
 		const mediaSyncInterval = 100;
 		let pendingSync: number | undefined;
+		let toolbarObservers: { disconnect: () => void }[] = [];
 
 		// Enable Emmet once, since the editor is recreated on every switch to the text mode.
 		if ( window.chbeObj.editorSettings.emmet ) {
@@ -212,9 +213,7 @@ initLoader( window, {
 				} );
 			}
 
-			window.addEventListener( 'resize', onWindowResize );
-
-			updateToolbarMargin();
+			observeToolbar();
 			isMonacoEditorEnabled = true;
 		};
 
@@ -235,11 +234,30 @@ initLoader( window, {
 			}
 		};
 
-		// Window resize event.
-		const onWindowResize = () => {
-			setTimeout( () => {
-				updateToolbarMargin();
-			}, 300 );
+		// Update the margin whenever the toolbar position or height changes. editor-expand.js
+		// pins the toolbar some time after the page loads, which can be after the editor is created.
+		const observeToolbar = () => {
+			disconnectToolbarObservers();
+			updateToolbarMargin();
+
+			const toolbar = document.getElementById( 'ed_toolbar' );
+			if ( ! toolbar ) {
+				return;
+			}
+
+			const mutationObserver = new MutationObserver( updateToolbarMargin );
+			mutationObserver.observe( toolbar, {
+				attributes: true,
+				attributeFilter: [ 'style', 'class' ],
+			} );
+			const resizeObserver = new ResizeObserver( updateToolbarMargin );
+			resizeObserver.observe( toolbar );
+			toolbarObservers = [ mutationObserver, resizeObserver ];
+		};
+
+		const disconnectToolbarObservers = () => {
+			toolbarObservers.forEach( ( observer ) => observer.disconnect() );
+			toolbarObservers = [];
 		};
 
 		// Apply changes in the original textarea to the editor.
@@ -312,7 +330,7 @@ initLoader( window, {
 					tabHtml.onclick = toHtml;
 				}
 				window.clearTimeout( pendingSync );
-				window.removeEventListener( 'resize', onWindowResize );
+				disconnectToolbarObservers();
 				isMonacoEditorEnabled = false;
 			}
 		};
@@ -327,10 +345,6 @@ initLoader( window, {
 					tabTmce.onclick = toVisual;
 				}
 			}
-
-			setTimeout( () => {
-				updateToolbarMargin();
-			}, 300 );
 		};
 
 		// Initialize
