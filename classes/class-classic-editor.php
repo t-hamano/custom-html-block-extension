@@ -66,6 +66,8 @@ class Classic_Editor {
 
 		Assets::enqueue_font_stylesheet();
 		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
+
+		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
 	}
 }
 
