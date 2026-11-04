@@ -46,7 +46,7 @@ class Assets {
 			CHBE_NAMESPACE . '-font',
 			CHBE_URL . '/assets/css/fira-code.css',
 			array(),
-			filemtime( CHBE_PATH . '/assets/css/fira-code.css' )
+			CHBE_VERSION
 		);
 	}
 }
