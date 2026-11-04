@@ -191,12 +191,14 @@ export default function ImportConfirmDialog( {
 									gap="md"
 									className="chbe-admin-tools__import-panel-content"
 								>
-									<Text render={ <p /> }>
-										{ __(
-											'Select the settings to import. They are applied as unsaved changes, so check the preview and save them.',
-											'custom-html-block-extension'
-										) }
-									</Text>
+									{ items.length > 0 && (
+										<Text render={ <p /> }>
+											{ __(
+												'Select the settings to import. They are applied as unsaved changes, so check the preview and save them.',
+												'custom-html-block-extension'
+											) }
+										</Text>
+									) }
 									<DataViewsPicker
 										view={ itemView }
 										onChangeView={ setItemView }
@@ -222,12 +224,14 @@ export default function ImportConfirmDialog( {
 									gap="md"
 									className="chbe-admin-tools__import-panel-content"
 								>
-									<Text render={ <p /> }>
-										{ __(
-											'The following settings are the same as the current ones.',
-											'custom-html-block-extension'
-										) }
-									</Text>
+									{ unchanged.length > 0 && (
+										<Text render={ <p /> }>
+											{ __(
+												'The following settings are the same as the current ones.',
+												'custom-html-block-extension'
+											) }
+										</Text>
+									) }
 									<DataViews
 										view={ unchangedView }
 										onChangeView={ setUnchangedView }
@@ -248,12 +252,14 @@ export default function ImportConfirmDialog( {
 									gap="md"
 									className="chbe-admin-tools__import-panel-content"
 								>
-									<Text render={ <p /> }>
-										{ __(
-											'The following settings cannot be imported.',
-											'custom-html-block-extension'
-										) }
-									</Text>
+									{ skipped.length > 0 && (
+										<Text render={ <p /> }>
+											{ __(
+												'The following settings cannot be imported.',
+												'custom-html-block-extension'
+											) }
+										</Text>
+									) }
 									<DataViews
 										view={ skippedView }
 										onChangeView={ setSkippedView }
