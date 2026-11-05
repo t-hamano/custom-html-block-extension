@@ -84,8 +84,11 @@ The same editor is also available in the code editor of the post and site editor
 * Enhancement: Revise the setting labels, help descriptions, and help images
 * Enhancement: Update the welcome guide, and don't open it automatically on the settings page
 * Enhancement: Improve typing performance in the Custom HTML block
+* Enhancement: Show a confirmation dialog with the changes before applying imported settings
+* Enhancement: Validate the editor settings on the server when saving and importing
 * Remove: Custom REST API routes. Settings are now saved through the WordPress settings REST API
 * Clean: Update Monaco Editor to 0.57.0
+* Clean: Replace webfontloader with the CSS Font Loading API
 * Fix: Emmet suggestions are duplicated after switching modes in the classic editor
 * Fix: Top lines of the code editor are hidden behind the toolbar in the classic editor
 * Fix: Cursor goes back to the top after saving in the classic editor
