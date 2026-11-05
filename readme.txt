@@ -66,6 +66,7 @@ The same editor is also available in the code editor of the post and site editor
 == Changelog ==
 
 = 5.0.0 =
+* Tested up to WordPress 7.1
 * Drop support for WordPress 7.0
 * Drop support for PHP 8.0 and 8.1
 * Feature: Use the advanced editor in the code editor of the post and site editors
