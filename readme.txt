@@ -74,20 +74,15 @@ The same editor is also available in the code editor of the post and site editor
 * Feature: Add the "Emmet: Wrap with Abbreviation" command
 * Feature: Import settings from the VS Code settings.json file, and export them in the same format
 * Enhancement: Match the default editor settings to VS Code
-* Enhancement: Add 21 new editor settings, from 94 to 115
+* Enhancement: Add 21 new editor settings
 * Enhancement: Update the existing settings to follow the latest Monaco Editor
 * Enhancement: Validate and autocomplete theme.json and block.json with their schemas in the theme/plugin editor
 * Enhancement: Add the Ctrl+S shortcut to update the file in the theme/plugin editor
 * Enhancement: Add a language switcher to the editor preview on the settings page
-* Enhancement: Revise the setting labels, help descriptions, and help images, and show the default values in the help dialogs
-* Enhancement: Reorganize the setting panels
-* Enhancement: Match search words in any order and highlight them when filtering settings
-* Enhancement: Disable the "Save settings" button when there are no changes
+* Enhancement: Improve the overall design and usability of the settings page
+* Enhancement: Revise the setting labels, help descriptions, and help images
 * Enhancement: Update the welcome guide, and don't open it automatically on the settings page
-* Enhancement: Use @wordpress/ui components on the settings page
 * Enhancement: Improve typing performance in the Custom HTML block
-* Enhancement: Center snackbars on the settings page
-* Enhancement: Show the admin pointer only to users who can manage options
 * Remove: Custom REST API routes. Settings are now saved through the WordPress settings REST API
 * Clean: Update Monaco Editor to 0.57.0
 * Fix: Emmet suggestions are duplicated after switching modes in the classic editor
@@ -99,6 +94,7 @@ The same editor is also available in the code editor of the post and site editor
 * Fix: Resetting the line height doesn't restore the default value
 * Fix: Scrollbar size settings show the old values after resetting settings
 * Fix: Font weight isn't adjusted when changing to a font family that doesn't have it
+* Fix: Admin pointer is shown to users who can't access the settings page
 
 = 4.1.0 =
 * Tested up to WordPress 7.1
