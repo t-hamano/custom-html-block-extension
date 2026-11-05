@@ -56,6 +56,8 @@ export type MonacoEditorProps = {
 const wrapperStyles: CSSProperties = {
 	position: 'relative',
 	height: '100%',
+	// Keep the border inside of the height of the parent element.
+	boxSizing: 'border-box',
 };
 
 const loadingStyles: CSSProperties = {
@@ -469,7 +471,15 @@ export default function MonacoEditor( {
 		<div
 			ref={ wrapperRef }
 			style={ {
-				...( autoHeight ? { position: 'relative', minHeight: autoHeight.min } : wrapperStyles ),
+				...( autoHeight
+					? {
+							position: 'relative',
+							minHeight: autoHeight.min,
+							// Keep the border outside of the height calculated from the content.
+							boxSizing: 'content-box',
+						}
+					: wrapperStyles ),
+				border: 'var(--wpds-border-width-xs) solid var(--wpds-color-stroke-surface-neutral-strong)',
 				...style,
 			} }
 		>
