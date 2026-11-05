@@ -42,4 +42,8 @@
 .chbe-admin-tools__import-panel-content {
 	flex: 1;
 	min-height: 0;
+
+	&.is-empty {
+		padding-block: var(--wpds-dimension-padding-3xl);
+	}
 }
