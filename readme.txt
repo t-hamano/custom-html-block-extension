@@ -3,8 +3,8 @@ Contributors: wildworks
 Tags: gutenberg, block, html, highlighting, emmet
 Donate link: https://www.paypal.me/thamanoJP
 Requires at least: 7.1
-Tested up to: 7.1
-Stable tag: 4.1.0
+Tested up to: 7.2
+Stable tag: 5.0.0
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,42 @@ The same editor is also available in the code editor of the post and site editor
 * Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
+
+= 5.0.0 =
+* Tested up to WordPress 7.2
+* Drop support for WordPress 7.0
+* Drop support for PHP 8.0 and 8.1
+* Feature: Use the advanced editor in the code editor of the post and site editors
+* Feature: Use the advanced editor in the "Edit as HTML" mode of all blocks
+* Feature: Highlight block delimiters and shortcodes
+* Feature: Add the "Emmet: Wrap with Abbreviation" command
+* Feature: Import settings from the VS Code settings.json file, and export them in the same format
+* Enhancement: Match the default editor settings to VS Code
+* Enhancement: Add 21 new editor settings
+* Enhancement: Update the existing settings to follow the latest Monaco Editor
+* Enhancement: Validate and autocomplete theme.json and block.json with their schemas in the theme/plugin editor
+* Enhancement: Add the Ctrl+S shortcut to update the file in the theme/plugin editor
+* Enhancement: Add a language switcher to the editor preview on the settings page
+* Enhancement: Improve the overall design and usability of the settings page
+* Enhancement: Revise the setting labels, help descriptions, and help images
+* Enhancement: Update the welcome guide, and don't open it automatically on the settings page
+* Enhancement: Improve typing performance in the Custom HTML block
+* Enhancement: Show a confirmation dialog with the changes before applying imported settings
+* Enhancement: Validate the editor settings on the server when saving and importing
+* Remove: Custom REST API routes for getting, saving, and resetting settings. Settings are now saved through the WordPress settings REST API
+* Clean: Update Monaco Editor to 0.57.0
+* Clean: Replace webfontloader with the CSS Font Loading API
+* Fix: Emmet suggestions are duplicated after switching modes in the classic editor
+* Fix: Top lines of the code editor are hidden behind the toolbar in the classic editor
+* Fix: Cursor goes back to the top after saving in the classic editor
+* Fix: Some strings are not translated in the classic editor and the theme/plugin editor
+* Fix: Some editors keep waiting when the editor script fails to load
+* Fix: Loading overlay doesn't disappear when resetting or exporting settings fails on the settings page
+* Fix: Resetting the line height doesn't restore the default value
+* Fix: Scrollbar size settings show the old values after resetting settings
+* Fix: Font weight isn't adjusted when changing to a font family that doesn't have it
+* Fix: Admin pointer is shown to users who can't access the settings page
+* Fix: Admin pointer keeps showing after visiting the settings page
 
 = 4.1.0 =
 * Tested up to WordPress 7.1
