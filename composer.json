@@ -1,6 +1,6 @@
 {
 	"name": "t-hamano/custom-html-block-extension",
-	"description": "Extend Custom HTML block to evolve into the advanced code editor.",
+	"description": "Turn the Custom HTML block into an advanced code editor.",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{

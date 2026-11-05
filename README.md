@@ -19,13 +19,13 @@ Choose from 50 color themes to suit your taste. Block delimiters and shortcodes 
 
 ![Faster coding with Emmet](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_3.gif)
 
-Type short abbreviations and Emmet expands them into full pieces of code. You can also wrap selected code with an abbreviation.
+Type short abbreviations, and Emmet expands them into full code snippets. You can also wrap selected code with an abbreviation.
 
 ### High customizability
 
 ![High customizability](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_4.jpg)
 
-Fine-tune the look and behavior of the editor to make it your own. You can also import your settings from VS Code, and export them back.
+Fine-tune the look and behavior of the editor to make it your own. You can also import your settings from VS Code and export them back.
 
 ### Works everywhere
 
@@ -35,55 +35,45 @@ The same editor is also available in the code editor of the post and site editor
 
 ## Add custom fonts
 
-You can use your own favorite fonts in addition to the default fonts.
+In addition to the bundled fonts, you can add your own fonts to the font family options.
 
-### STEP1: Place font files
+### Step 1: Place the font files
 
-Place the font files in **the public directory** of the server where WordPress is installed.
-It is recommended to create `fonts` folder directly under the theme and place the fonts there.
-Like this:
+Place the font files where browsers can load them, such as a `fonts` folder in your theme. If you use a theme from the theme directory, use a child theme so that theme updates don't remove the files.
 
-```sh
-html
-└── wp-content
-    └── themes
-        └── twentytwentyone
-            └── fonts
-                ├── FantasqueSansMono-Bold.woff2
-                ├── FantasqueSansMono-BoldItalic.woff2
-                ├── FantasqueSansMono-Italic.woff2
-                ├── FantasqueSansMono-Bold.woff2
-                └── FantasqueSansMono-Regular.woff2
+```text
+wp-content
+└── themes
+    └── your-theme
+        └── fonts
+            ├── FantasqueSansMono-Bold.woff2
+            ├── FantasqueSansMono-BoldItalic.woff2
+            ├── FantasqueSansMono-Italic.woff2
+            └── FantasqueSansMono-Regular.woff2
 ```
 
-### STEP2: Create CSS file
+### Step 2: Create a CSS file
 
-Create a CSS file in order to load the placed fonts.
-It is recommend to place the CSS file in `css` folder directly under the theme, just as you did when you placed the font files.
-Like this:
+Create a CSS file to load the fonts, such as `chbe-fonts.css` in a `css` folder in the same theme.
 
-```sh
-html
-├── wp-content
-│   └── themes
-│       └── twentytwentyone
-│           └── fonts
-│               ├── FantasqueSansMono-Bold.woff2
-│               ├── FantasqueSansMono-BoldItalic.woff2
-│               ├── FantasqueSansMono-Italic.woff2
-│               ├── FantasqueSansMono-Bold.woff2
-│               └── FantasqueSansMono-Regular.woff2
-└── css
-    └── cheb-fonts.css
+```text
+wp-content
+└── themes
+    └── your-theme
+        ├── css
+        │   └── chbe-fonts.css
+        └── fonts
+            ├── FantasqueSansMono-Bold.woff2
+            ├── FantasqueSansMono-BoldItalic.woff2
+            ├── FantasqueSansMono-Italic.woff2
+            └── FantasqueSansMono-Regular.woff2
 ```
 
-### STEP3: Define @font-face
+### Step 3: Define the fonts with `@font-face`
 
-Define the fonts using `@font-face` in the CSS file you placed.
-In the `url` of the `src` property, enter the relative path to the font you placed in STEP 1.
-Like this:
+Define the fonts with `@font-face` in the CSS file. In the `src` property, set the path to each font file relative to the CSS file.
 
-```CSS:chbe-fonts.css
+```css
 @font-face {
 	font-family: "Fantasque Sans Mono";
 	src: url(../fonts/FantasqueSansMono-Regular.woff2) format("woff2");
@@ -91,7 +81,7 @@ Like this:
 }
 @font-face {
 	font-family: "Fantasque Sans Mono";
-	src: url(../fonts/FantasqueSansMono-Regular.woff2) format("woff2");
+	src: url(../fonts/FantasqueSansMono-Bold.woff2) format("woff2");
 	font-weight: 700;
 }
 @font-face {
@@ -106,49 +96,45 @@ Like this:
 }
 ```
 
-**Note:** This plugin does not support `font-style: italic` . So **name the font-family as a dedicated italic font** if you want to use the italic fonts. You do not need to specify `font-style: italic` instead.
+**Note:** This plugin doesn't support `font-style: italic`. To use an italic font, define it as a separate font family, such as `Fantasque Sans Mono Italic` above, without `font-style: italic`.
 
-### STEP4: Add filter hook
+### Step 4: Register the fonts with the filter hook
 
-Use `chbe_additional_font_families` filter hook to define a custom font to load.
-Fonts are defined individually in each array.
-Put the following in `functions.php` of your active theme.
+Register the fonts with the `chbe_additional_font_families` filter hook, one array for each font family. For example, add the following to the `functions.php` file of your theme.
 
-```php:functions.php
+```php
 function my_chbe_additional_font_families( $font_families ) {
-	$font_families = array(
-		// Normal Font
-		array(
-			'label'      => 'Fantasque Sans Mono',
-			'name'       => 'Fantasque Sans Mono',
-			'stylesheet' => get_template_directory_uri() . '/css/chbe-fonts.css',
-			'weight'     => array( 300, 700 ),
-		),
-		// Italic Font
-		array(
-			'label'      => 'Fantasque Sans Mono (Italic)',
-			'name'       => 'Fantasque Sans Mono Italic',
-			'stylesheet' => get_template_directory_uri() . '/css/chbe-fonts.css',
-			'weight'     => array( 300, 700 ),
-		),
+	// Regular font
+	$font_families[] = array(
+		'label'      => 'Fantasque Sans Mono',
+		'name'       => 'Fantasque Sans Mono',
+		'stylesheet' => get_stylesheet_directory_uri() . '/css/chbe-fonts.css',
+		'weight'     => array( 300, 700 ),
+	);
+	// Italic font
+	$font_families[] = array(
+		'label'      => 'Fantasque Sans Mono (Italic)',
+		'name'       => 'Fantasque Sans Mono Italic',
+		'stylesheet' => get_stylesheet_directory_uri() . '/css/chbe-fonts.css',
+		'weight'     => array( 300, 700 ),
 	);
 	return $font_families;
 }
 add_filter( 'chbe_additional_font_families', 'my_chbe_additional_font_families' );
 ```
 
-#### Property description
+#### Properties
 
-| Name       | Type   | Description                                                                                                                                                           |
-| ---------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| label      | string | The label that appears in the font family pull-down in the plugin settings screen.                                                                                    |
-| name       | string | Enter **the value of the font-family property** that you defined in the CSS file in STEP3.                                                                            |
-| stylesheet | string | Describe **the URL of the CSS file** you placed in STEP2. We recommend using `get_template_directory_uri` function if you've placed the CSS file in the theme folder, |
-| weight     | array  | Write font weight variations according to the fonts defined in the CSS file. It is recommended to use numeric values 100 to 900 instead of weight names.              |
+| Name       | Type   | Description                                                                                                                         |
+| ---------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| label      | string | The label shown in the font family dropdown on the settings page.                                                                   |
+| name       | string | **The `font-family` name** defined in the CSS file in Step 3.                                                                       |
+| stylesheet | string | **The URL of the CSS file** created in Step 2. If the file is in your theme, use `get_stylesheet_directory_uri()` to build the URL. |
+| weight     | array  | The font weights defined in the CSS file, as numbers from 100 to 900.                                                               |
 
-### STEP5: Sets custom font
+### Step 5: Check the fonts
 
-Make sure that the custom font is displayed in the font family pull-down of the settings page. And the font is applied to the preview area when you select it.
+Open **Settings > Custom HTML Block Extension** and check that the fonts appear in the "Font Family" dropdown on the "Editor config" tab. When you select one, the preview editor uses the font.
 
 ## How to build
 
@@ -174,11 +160,6 @@ npm run build
 * License: MIT License
 * Source: <https://github.com/brijeshb42/monaco-themes>
 
-### webfontloader
-
-* License: Apache-2.0 License
-* Source: <https://github.com/typekit/webfontloader>
-
 ### Web Font (Fira Code)
 
 * License: OFL-1.1 License
@@ -201,4 +182,4 @@ npm run build
 
 ## Author
 
-[Aki Hamano (Github)](https://github.com/t-hamano)
+[Aki Hamano (GitHub)](https://github.com/t-hamano)
