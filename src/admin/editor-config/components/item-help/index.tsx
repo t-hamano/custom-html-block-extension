@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useRef, useState } from '@wordpress/element';
 import { info } from '@wordpress/icons';
 import { Badge, Button, Dialog, IconButton, Stack, SwitchControl, Text } from '@wordpress/ui';
 
@@ -43,6 +43,9 @@ export default function ItemHelp( {
 	onChange,
 }: ItemHelpProps ) {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
+	// Focus the dialog itself on open instead of the first choice, so that
+	// opening the help does not look like a choice is already selected.
+	const popupRef = useRef< HTMLDivElement >( null );
 
 	return (
 		<Dialog.Root open={ isModalOpen } onOpenChange={ setIsModalOpen }>
@@ -58,7 +61,12 @@ export default function ItemHelp( {
 					/>
 				}
 			/>
-			<Dialog.Popup className="chbe-admin-editor-config-item-help-modal" size="large">
+			<Dialog.Popup
+				ref={ popupRef }
+				className="chbe-admin-editor-config-item-help-modal"
+				size="large"
+				initialFocus={ popupRef }
+			>
 				<Dialog.Header>
 					<Dialog.Title>{ title }</Dialog.Title>
 					<Dialog.CloseIconButton />

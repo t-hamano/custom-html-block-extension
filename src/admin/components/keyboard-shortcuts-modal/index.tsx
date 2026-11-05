@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { useRef } from '@wordpress/element';
 import { isAppleOS } from '@wordpress/keycodes';
 import { Dialog, Link, Stack, Text } from '@wordpress/ui';
 
@@ -10,9 +11,16 @@ type KeyboardShortcutsModalProps = {
 };
 
 export default function KeyboardShortcutsModal( { onClose }: KeyboardShortcutsModalProps ) {
+	// Focus the dialog itself on open instead of the link inside it.
+	const popupRef = useRef< HTMLDivElement >( null );
+
 	return (
 		<Dialog.Root open onOpenChange={ onClose }>
-			<Dialog.Popup className="chbe-admin-keyboard-shortcuts-modal">
+			<Dialog.Popup
+				ref={ popupRef }
+				className="chbe-admin-keyboard-shortcuts-modal"
+				initialFocus={ popupRef }
+			>
 				<Dialog.Header>
 					<Dialog.Title>{ __( 'About shortcut', 'custom-html-block-extension' ) }</Dialog.Title>
 					<Dialog.CloseIconButton />
