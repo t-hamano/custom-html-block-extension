@@ -30,8 +30,8 @@ The same editor is also available in the code editor of the post and site editor
 1. Custom HTML Block Extension
 2. Syntax highlighting with 50 themes
 3. Faster coding with Emmet
-4. High customizability
-5. Works everywhere
+4. Customize the editor to your liking, and import your settings from VS Code
+5. Works in the code editor, the "Edit as HTML" mode of all blocks, the classic editor, and the theme and plugin file editors
 
 == Resources ==
 
