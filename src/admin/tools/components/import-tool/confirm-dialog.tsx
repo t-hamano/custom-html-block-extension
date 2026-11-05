@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import clsx from 'clsx';
+
+/**
  * WordPress dependencies
  */
 import { __, sprintf, _x } from '@wordpress/i18n';
@@ -189,7 +194,9 @@ export default function ImportConfirmDialog( {
 								<Stack
 									direction="column"
 									gap="md"
-									className="chbe-admin-tools__import-panel-content"
+									className={ clsx( 'chbe-admin-tools__import-panel-content', {
+										'is-empty': items.length === 0,
+									} ) }
 								>
 									{ items.length > 0 && (
 										<Text render={ <p /> }>
@@ -222,7 +229,9 @@ export default function ImportConfirmDialog( {
 								<Stack
 									direction="column"
 									gap="md"
-									className="chbe-admin-tools__import-panel-content"
+									className={ clsx( 'chbe-admin-tools__import-panel-content', {
+										'is-empty': unchanged.length === 0,
+									} ) }
 								>
 									{ unchanged.length > 0 && (
 										<Text render={ <p /> }>
@@ -250,7 +259,9 @@ export default function ImportConfirmDialog( {
 								<Stack
 									direction="column"
 									gap="md"
-									className="chbe-admin-tools__import-panel-content"
+									className={ clsx( 'chbe-admin-tools__import-panel-content', {
+										'is-empty': skipped.length === 0,
+									} ) }
 								>
 									{ skipped.length > 0 && (
 										<Text render={ <p /> }>
