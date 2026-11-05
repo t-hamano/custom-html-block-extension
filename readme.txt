@@ -73,17 +73,14 @@ The same editor is also available in the code editor of the post and site editor
 * Feature: Highlight block delimiters and shortcodes
 * Feature: Add the "Emmet: Wrap with Abbreviation" command
 * Feature: Import settings from the VS Code settings.json file, and export them in the same format
-* Enhancement: Match the default editor settings to VS Code. Saved settings are kept
-* Enhancement: Add new editor settings, including sticky scroll, bracket pair colorization and guides, multiple rulers with colors, Unicode highlighting, indentation detection, and quick suggestions for each token type
-* Enhancement: Offer every value that Monaco Editor supports in the existing settings
-* Enhancement: Show a confirmation dialog with the changes before applying imported settings
-* Enhancement: Validate the editor settings on the server
-* Enhancement: Validate and autocomplete JSON files, such as theme.json, with the schema in "$schema" in the theme/plugin editor
+* Enhancement: Match the default editor settings to VS Code
+* Enhancement: Add 21 new editor settings, from 94 to 115
+* Enhancement: Update the existing settings to follow the latest Monaco Editor
+* Enhancement: Validate and autocomplete theme.json and block.json with their schemas in the theme/plugin editor
 * Enhancement: Add the Ctrl+S shortcut to update the file in the theme/plugin editor
-* Enhancement: Keep the cursor position after saving in the classic editor
 * Enhancement: Add a language switcher to the editor preview on the settings page
 * Enhancement: Revise the setting labels, help descriptions, and help images, and show the default values in the help dialogs
-* Enhancement: Reorganize the setting panels, and show more settings in Basic mode
+* Enhancement: Reorganize the setting panels
 * Enhancement: Match search words in any order and highlight them when filtering settings
 * Enhancement: Disable the "Save settings" button when there are no changes
 * Enhancement: Update the welcome guide, and don't open it automatically on the settings page
@@ -91,14 +88,15 @@ The same editor is also available in the code editor of the post and site editor
 * Enhancement: Improve typing performance in the Custom HTML block
 * Enhancement: Center snackbars on the settings page
 * Enhancement: Show the admin pointer only to users who can manage options
-* Remove the custom REST API routes. Settings are now saved through the WordPress settings REST API
+* Remove: Custom REST API routes. Settings are now saved through the WordPress settings REST API
 * Clean: Update Monaco Editor to 0.57.0
 * Fix: Emmet suggestions are duplicated after switching modes in the classic editor
 * Fix: Top lines of the code editor are hidden behind the toolbar in the classic editor
+* Fix: Cursor goes back to the top after saving in the classic editor
 * Fix: Some strings are not translated in the classic editor and the theme/plugin editor
 * Fix: Some editors keep waiting when the editor script fails to load
 * Fix: Loading overlay doesn't disappear when resetting or exporting settings fails on the settings page
-* Fix: Line height settings are reset to 24 instead of 21
+* Fix: Resetting the line height doesn't restore the default value
 * Fix: Scrollbar size settings show the old values after resetting settings
 * Fix: Font weight isn't adjusted when changing to a font family that doesn't have it
 
