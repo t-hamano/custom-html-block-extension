@@ -36,7 +36,6 @@ export type MonacoError = {
 };
 
 export type MonacoEditorProps = {
-	className?: string;
 	style?: CSSProperties;
 	language?: string;
 	theme?: string;
@@ -76,7 +75,6 @@ const loadingStyles: CSSProperties = {
 };
 
 export default function MonacoEditor( {
-	className,
 	style,
 	language = 'html',
 	theme = 'vs-dark',
@@ -470,7 +468,6 @@ export default function MonacoEditor( {
 	return (
 		<div
 			ref={ wrapperRef }
-			className={ className }
 			style={ {
 				...( autoHeight ? { position: 'relative', minHeight: autoHeight.min } : wrapperStyles ),
 				...style,

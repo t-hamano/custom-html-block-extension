@@ -26,10 +26,3 @@
 		display: none !important;
 	}
 }
-
-// Same border as the title field of the code editor.
-.chbe-text-editor {
-	// Keep the border outside of the height calculated from the content.
-	box-sizing: content-box;
-	border: var(--wpds-border-width-xs) solid var(--wpds-color-stroke-surface-neutral-strong);
-}

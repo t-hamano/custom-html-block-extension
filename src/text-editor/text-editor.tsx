@@ -61,16 +61,21 @@ function PostTextEditor( { onError }: { onError: ( error: MonacoError ) => void 
 
 	return (
 		<MonacoEditor
-			className="chbe-text-editor"
 			language="html"
 			{ ...editorConfigProps }
 			value={ postContent }
 			onChange={ onChange }
 			autoHeight={ { min: MIN_HEIGHT, max: Infinity } }
 			onError={ onError }
-			// Keep the z-indexes inside the editor, such as the minimap, from stacking
-			// above the sticky toolbar of the code editor.
-			style={ { isolation: 'isolate' } }
+			style={ {
+				// Keep the z-indexes inside the editor, such as the minimap, from stacking
+				// above the sticky toolbar of the code editor.
+				isolation: 'isolate',
+				// Same border as the title field. Keep the border outside of the height
+				// calculated from the content.
+				boxSizing: 'content-box',
+				border: 'var(--wpds-border-width-xs) solid var(--wpds-color-stroke-surface-neutral-strong)',
+			} }
 		/>
 	);
 }
