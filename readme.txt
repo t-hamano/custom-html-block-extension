@@ -99,6 +99,7 @@ The same editor is also available in the code editor of the post and site editor
 * Fix: Scrollbar size settings show the old values after resetting settings
 * Fix: Font weight isn't adjusted when changing to a font family that doesn't have it
 * Fix: Admin pointer is shown to users who can't access the settings page
+* Fix: Admin pointer keeps showing after visiting the settings page
 
 = 4.1.0 =
 * Tested up to WordPress 7.1
