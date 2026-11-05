@@ -70,7 +70,7 @@ The same editor is also available in the code editor of the post and site editor
 * Drop support for PHP 8.0 and 8.1
 * Feature: Use the advanced editor in the code editor of the post and site editors
 * Feature: Use the advanced editor in the "Edit as HTML" mode of all blocks
-* Feature: Highlight block delimiters and shortcodes, and show warnings for unclosed block delimiters
+* Feature: Highlight block delimiters and shortcodes
 * Feature: Add the "Emmet: Wrap with Abbreviation" command
 * Feature: Import settings from the VS Code settings.json file, and export them in the same format
 * Enhancement: Match the default editor settings to VS Code. Saved settings are kept
