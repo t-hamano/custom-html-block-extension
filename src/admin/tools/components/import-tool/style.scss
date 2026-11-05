@@ -43,3 +43,7 @@
 	flex: 1;
 	min-height: 0;
 }
+
+.chbe-admin-tools__import-panel-content .dataviews-no-results {
+	padding-block: var(--wpds-dimension-padding-3xl);
+}
