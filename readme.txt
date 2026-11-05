@@ -13,9 +13,13 @@ Turn the Custom HTML block into an advanced code editor.
 
 == Description ==
 Custom HTML Block Extension turns the Custom HTML block into an advanced code editor powered by Monaco Editor, the code editor behind VS Code.
+
 Choose from 50 color themes to suit your taste. Block delimiters and shortcodes are highlighted, too.
+
 Type short abbreviations, and Emmet expands them into full code snippets. You can also wrap selected code with an abbreviation.
+
 Fine-tune the look and behavior of the editor to make it your own. You can also import your settings from VS Code and export them back.
+
 The same editor is also available in the code editor of the post and site editors, the "Edit as HTML" mode of all blocks, the classic editor, and the theme and plugin file editors.
 
 == Installation ==
@@ -32,32 +36,32 @@ The same editor is also available in the code editor of the post and site editor
 == Resources ==
 
 = monaco-editor =
-License: MIT License
-Source: https://github.com/microsoft/monaco-editor
+* License: MIT License
+* Source: https://github.com/microsoft/monaco-editor
 
 = emmet-monaco-es =
-License: MIT License
-Source: https://github.com/troy351/emmet-monaco-es
+* License: MIT License
+* Source: https://github.com/troy351/emmet-monaco-es
 
 = monaco-themes =
-License: MIT License
-Source: https://github.com/brijeshb42/monaco-themes
+* License: MIT License
+* Source: https://github.com/brijeshb42/monaco-themes
 
 = Web Font (Fira Code) =
-License: OFL-1.1 License
-Source: https://github.com/tonsky/FiraCode
+* License: OFL-1.1 License
+* Source: https://github.com/tonsky/FiraCode
 
 = Web Font (Source Code Pro) =
-License: OFL-1.1 License
-Source: https://github.com/adobe-fonts/source-code-pro
+* License: OFL-1.1 License
+* Source: https://github.com/adobe-fonts/source-code-pro
 
 = Web Font (Ubuntu Mono) =
-License: OFL-1.1 License
-Source: https://ubuntu.com/legal/font-licence
+* License: OFL-1.1 License
+* Source: https://ubuntu.com/legal/font-licence
 
 = Web Font (Anonymous Pro) =
-License: OFL License
-Source: https://www.marksimonson.com/fonts/view/anonymous-pro
+* License: OFL License
+* Source: https://www.marksimonson.com/fonts/view/anonymous-pro
 
 == Changelog ==
 
