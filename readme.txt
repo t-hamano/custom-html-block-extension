@@ -16,7 +16,7 @@ Custom HTML Block Extension turns the Custom HTML block into an advanced code ed
 Choose from 50 color themes to suit your taste. Block delimiters and shortcodes are highlighted, too.
 Type short abbreviations, and Emmet expands them into full code snippets. You can also wrap selected code with an abbreviation.
 Fine-tune the look and behavior of the editor to make it your own. You can also import your settings from VS Code and export them back.
-The same editor is also available in the code editor of the post and site editors, the classic editor, and the theme and plugin file editors.
+The same editor is also available in the code editor of the post and site editors, the "Edit as HTML" mode of all blocks, the classic editor, and the theme and plugin file editors.
 
 == Installation ==
 1. Upload the `custom-html-block-extension` folder to the `/wp-content/plugins/` directory.

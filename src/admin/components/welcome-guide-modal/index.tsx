@@ -122,7 +122,7 @@ export default function WelcomeGuideModal( { onClose }: WelcomeGuideModalProps )
 							</Text>
 							<Text render={ <p /> }>
 								{ __(
-									'The same editor is also available in the code editor of the post and site editors, the classic editor, and the theme and plugin file editors.',
+									'The same editor is also available in the code editor of the post and site editors, the "Edit as HTML" mode of all blocks, the classic editor, and the theme and plugin file editors.',
 									'custom-html-block-extension'
 								) }
 							</Text>

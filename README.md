@@ -31,7 +31,7 @@ Fine-tune the look and behavior of the editor to make it your own. You can also 
 
 ![Works everywhere](https://raw.githubusercontent.com/t-hamano/custom-html-block-extension/main/assets/images/admin/welcome-guide/slide_5.gif)
 
-The same editor is also available in the code editor of the post and site editors, the classic editor, and the theme and plugin file editors.
+The same editor is also available in the code editor of the post and site editors, the "Edit as HTML" mode of all blocks, the classic editor, and the theme and plugin file editors.
 
 ## Add custom fonts
 
