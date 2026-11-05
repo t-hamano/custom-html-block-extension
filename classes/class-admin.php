@@ -39,8 +39,18 @@ class Admin {
 	 */
 	public function admin_enqueue_scripts( $hook_suffix ) {
 		// Enqueue pointer.
-		$dismissed = explode( ',', get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-		if ( current_user_can( 'manage_options' ) && ! in_array( CHBE_NAMESPACE . '-pointer', $dismissed, true ) ) {
+		$pointer      = CHBE_NAMESPACE . '-pointer';
+		$dismissed    = array_filter( explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) ) );
+		$is_dismissed = in_array( $pointer, $dismissed, true );
+
+		// Dismiss the pointer once the user visits the settings page.
+		if ( ! $is_dismissed && 'settings_page_' . CHBE_NAMESPACE === $hook_suffix ) {
+			$dismissed[] = $pointer;
+			update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', implode( ',', $dismissed ) );
+			$is_dismissed = true;
+		}
+
+		if ( current_user_can( 'manage_options' ) && ! $is_dismissed ) {
 			$content  = '<h3>' . __( 'Custom HTML Block Extension', 'custom-html-block-extension' ) . '</h3>';
 			$content .= '<p>';
 			$content .= sprintf(
@@ -69,7 +79,7 @@ class Admin {
 				'chbePointer',
 				array(
 					'content' => $content,
-					'name'    => CHBE_NAMESPACE . '-pointer',
+					'name'    => $pointer,
 				)
 			);
 		}
