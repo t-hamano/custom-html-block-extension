@@ -7,6 +7,8 @@
 
 namespace Custom_Html_Block_Extension;
 
+defined( 'ABSPATH' ) || exit;
+
 class Admin {
 
 	/**

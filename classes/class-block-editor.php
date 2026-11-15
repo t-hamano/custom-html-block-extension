@@ -7,6 +7,8 @@
 
 namespace Custom_Html_Block_Extension;
 
+defined( 'ABSPATH' ) || exit;
+
 class Block_Editor {
 
 	/**
@@ -43,7 +45,8 @@ class Block_Editor {
 			CHBE_NAMESPACE,
 			CHBE_URL . '/build/block-editor.js',
 			$block_editor_asset_file['dependencies'],
-			$block_editor_asset_file['version']
+			$block_editor_asset_file['version'],
+			array( 'in_footer' => false )
 		);
 
 		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
@@ -63,7 +66,8 @@ class Block_Editor {
 			CHBE_URL . '/build/text-editor.js',
 			// Depend on the block editor script, which passes `chbeObj`.
 			array_merge( $text_editor_asset_file['dependencies'], array( CHBE_NAMESPACE ) ),
-			$text_editor_asset_file['version']
+			$text_editor_asset_file['version'],
+			array( 'in_footer' => false )
 		);
 
 		wp_set_script_translations( CHBE_NAMESPACE . '-text-editor', CHBE_NAMESPACE );
