@@ -87,8 +87,9 @@ class Theme_Plugin_Editor {
 		// Set the language name of the monaco editor
 		$language = null;
 
-		if ( isset( $_GET['file'] ) ) {
-			$file = sanitize_text_field( wp_unslash( $_GET['file'] ) );
+		// The file name only picks the editor language and changes nothing, so no nonce is needed.
+		if ( isset( $_GET['file'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$file = sanitize_text_field( wp_unslash( $_GET['file'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$ext  = pathinfo( $file, PATHINFO_EXTENSION );
 			if ( isset( $map_to_lang[ $ext ] ) ) {
 				$language = $map_to_lang[ $ext ];
