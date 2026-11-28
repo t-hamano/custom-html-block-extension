@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$chbe_data = get_file_data(
+$custom_html_block_extension_data = get_file_data(
 	__FILE__,
 	array(
 		'Version'    => 'Version',
@@ -25,11 +25,11 @@ $chbe_data = get_file_data(
 	)
 );
 
-define( 'CHBE_VERSION', $chbe_data['Version'] );
-define( 'CHBE_NAMESPACE', $chbe_data['TextDomain'] );
-define( 'CHBE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'CHBE_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
-define( 'CHBE_BASENAME', plugin_basename( __FILE__ ) );
+define( 'CUSTOM_HTML_BLOCK_EXTENSION_VERSION', $custom_html_block_extension_data['Version'] );
+define( 'CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE', $custom_html_block_extension_data['TextDomain'] );
+define( 'CUSTOM_HTML_BLOCK_EXTENSION_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( 'CUSTOM_HTML_BLOCK_EXTENSION_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
+define( 'CUSTOM_HTML_BLOCK_EXTENSION_BASENAME', plugin_basename( __FILE__ ) );
 
 require_once __DIR__ . '/classes/class-init.php';
 new Custom_Html_Block_Extension\Init();

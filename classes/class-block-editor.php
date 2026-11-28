@@ -34,7 +34,7 @@ class Block_Editor {
 	 * Enqueue block editor scripts
 	 */
 	public function enqueue_editor_scripts() {
-		$block_editor_asset_file = include CHBE_PATH . '/build/block-editor.asset.php';
+		$block_editor_asset_file = include CUSTOM_HTML_BLOCK_EXTENSION_PATH . '/build/block-editor.asset.php';
 
 		// Abort the process if the user role isn't allowed to use this extension.
 		if ( ! Settings::is_allowed_user() ) {
@@ -42,16 +42,16 @@ class Block_Editor {
 		}
 
 		wp_enqueue_script(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/block-editor.js',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/block-editor.js',
 			$block_editor_asset_file['dependencies'],
 			$block_editor_asset_file['version'],
 			array( 'in_footer' => false )
 		);
 
-		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
+		Assets::add_script_data( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, Assets::get_script_data() );
 
-		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
+		wp_set_script_translations( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE );
 
 		// The widgets editor and the customizer have no code editor. Loading the script
 		// there would also load `wp-editor`, which core doesn't allow with them.
@@ -59,25 +59,25 @@ class Block_Editor {
 			return;
 		}
 
-		$text_editor_asset_file = include CHBE_PATH . '/build/text-editor.asset.php';
+		$text_editor_asset_file = include CUSTOM_HTML_BLOCK_EXTENSION_PATH . '/build/text-editor.asset.php';
 
 		wp_enqueue_script(
-			CHBE_NAMESPACE . '-text-editor',
-			CHBE_URL . '/build/text-editor.js',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-text-editor',
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/text-editor.js',
 			// Depend on the block editor script, which passes `chbeObj`.
-			array_merge( $text_editor_asset_file['dependencies'], array( CHBE_NAMESPACE ) ),
+			array_merge( $text_editor_asset_file['dependencies'], array( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE ) ),
 			$text_editor_asset_file['version'],
 			array( 'in_footer' => false )
 		);
 
-		wp_set_script_translations( CHBE_NAMESPACE . '-text-editor', CHBE_NAMESPACE );
+		wp_set_script_translations( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-text-editor', CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE );
 	}
 
 	/**
 	 * Enqueue block editor styles
 	 */
 	public function enqueue_editor_styles() {
-		$asset_file = include CHBE_PATH . '/build/block-editor.asset.php';
+		$asset_file = include CUSTOM_HTML_BLOCK_EXTENSION_PATH . '/build/block-editor.asset.php';
 
 		// Abort the process if the user role permission is disabled.
 		if ( ! Settings::is_allowed_user() ) {
@@ -85,8 +85,8 @@ class Block_Editor {
 		}
 
 		wp_enqueue_style(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/style-block-editor.css',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/style-block-editor.css',
 			array(),
 			$asset_file['version']
 		);

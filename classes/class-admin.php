@@ -31,7 +31,7 @@ class Admin {
 			__( 'Custom HTML Block Extension', 'custom-html-block-extension' ),
 			__( 'Custom HTML Block Extension', 'custom-html-block-extension' ),
 			'manage_options',
-			CHBE_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
 			array( $this, 'create_admin_page' )
 		);
 	}
@@ -41,12 +41,12 @@ class Admin {
 	 */
 	public function admin_enqueue_scripts( $hook_suffix ) {
 		// Enqueue pointer.
-		$pointer      = CHBE_NAMESPACE . '-pointer';
+		$pointer      = CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-pointer';
 		$dismissed    = array_filter( explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) ) );
 		$is_dismissed = in_array( $pointer, $dismissed, true );
 
 		// Dismiss the pointer once the user visits the settings page.
-		if ( ! $is_dismissed && 'settings_page_' . CHBE_NAMESPACE === $hook_suffix ) {
+		if ( ! $is_dismissed && 'settings_page_' . CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE === $hook_suffix ) {
 			$dismissed[] = $pointer;
 			update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', implode( ',', $dismissed ) );
 			$is_dismissed = true;
@@ -61,7 +61,7 @@ class Admin {
 					'Custom HTML Block Extension enabled. You can customize the editor in <a href="%s">setting page</a>.',
 					'custom-html-block-extension'
 				),
-				admin_url( 'options-general.php?page=' . CHBE_NAMESPACE )
+				admin_url( 'options-general.php?page=' . CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE )
 			);
 			$content .= '</p>';
 
@@ -69,15 +69,15 @@ class Admin {
 			wp_enqueue_script( 'wp-pointer' );
 
 			wp_enqueue_script(
-				CHBE_NAMESPACE . '-pointer',
-				CHBE_URL . '/assets/js/pointer.js',
+				CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-pointer',
+				CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/js/pointer.js',
 				array( 'wp-pointer' ),
-				CHBE_VERSION,
+				CUSTOM_HTML_BLOCK_EXTENSION_VERSION,
 				true
 			);
 
 			wp_localize_script(
-				CHBE_NAMESPACE . '-pointer',
+				CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-pointer',
 				'chbePointer',
 				array(
 					'content' => $content,
@@ -86,23 +86,23 @@ class Admin {
 			);
 		}
 
-		if ( 'settings_page_' . CHBE_NAMESPACE !== $hook_suffix ) {
+		if ( 'settings_page_' . CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE !== $hook_suffix ) {
 			return;
 		}
 
 		// Enqueue option page scripts.
-		$asset_file = include CHBE_PATH . '/build/admin.asset.php';
+		$asset_file = include CUSTOM_HTML_BLOCK_EXTENSION_PATH . '/build/admin.asset.php';
 
 		wp_enqueue_style(
-			CHBE_NAMESPACE . '-admin',
-			CHBE_URL . '/build/style-admin.css',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-admin',
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/style-admin.css',
 			array( 'wp-components' ),
 			$asset_file['version']
 		);
 
 		wp_enqueue_script(
-			CHBE_NAMESPACE . '-admin',
-			CHBE_URL . '/build/admin.js',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-admin',
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/admin.js',
 			$asset_file['dependencies'],
 			$asset_file['version'],
 			true
@@ -111,18 +111,18 @@ class Admin {
 		// Enqueue option page scripts (related to constants)
 		Assets::enqueue_font_stylesheet();
 		Assets::add_script_data(
-			CHBE_NAMESPACE . '-admin',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-admin',
 			array_merge(
 				Assets::get_script_data(),
 				array(
-					'version'   => CHBE_VERSION,
+					'version'   => CUSTOM_HTML_BLOCK_EXTENSION_VERSION,
 					'options'   => Settings::get_options(),
 					'userRoles' => Settings::get_user_roles(),
 				)
 			)
 		);
 
-		wp_set_script_translations( CHBE_NAMESPACE . '-admin', CHBE_NAMESPACE );
+		wp_set_script_translations( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-admin', CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE );
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Admin {
 			'default'      => $default_editor_settings,
 		);
 
-		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_settings'], $args_editor_settings );
+		register_setting( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, Option::OPTION_NAMES['editor_settings'], $args_editor_settings );
 
 		// Register editor options.
 		$default_editor_options = Settings::get_defaults( Settings::DEFAULT_EDITOR_OPTIONS );
@@ -155,7 +155,7 @@ class Admin {
 			'default'      => $default_editor_options,
 		);
 
-		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );
+		register_setting( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, Option::OPTION_NAMES['editor_options'], $args_editor_options );
 
 		// Register options.
 		$default_options = Settings::get_defaults( Settings::DEFAULT_OPTIONS );
@@ -169,7 +169,7 @@ class Admin {
 			'default'      => $default_options,
 		);
 
-		register_setting( CHBE_NAMESPACE, Option::OPTION_NAMES['options'], $args_options );
+		register_setting( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, Option::OPTION_NAMES['options'], $args_options );
 	}
 
 	/**

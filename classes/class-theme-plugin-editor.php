@@ -22,7 +22,7 @@ class Theme_Plugin_Editor {
 		}
 
 		// Disable Syntax Highlighting (CodeMirror)
-		add_filter( 'wp_code_editor_settings', array( $this, 'wp_code_editor_settings' ), 10, 2 );
+		add_filter( 'wp_code_editor_settings', array( $this, 'wp_code_editor_settings' ) );
 
 		// Enqueue theme and plugin editor scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -31,7 +31,7 @@ class Theme_Plugin_Editor {
 	/**
 	 * Disable Syntax Highlighting (CodeMirror)
 	 */
-	public function wp_code_editor_settings( $settings, $args ) {
+	public function wp_code_editor_settings( $settings ) {
 		// Return the default settings if theme/plugin editor is not displayed.
 		global $pagenow;
 		if ( 'theme-editor.php' !== $pagenow && 'plugin-editor.php' !== $pagenow ) {
@@ -100,18 +100,18 @@ class Theme_Plugin_Editor {
 			$language = 'php';
 		}
 
-		$asset_file = include CHBE_PATH . '/build/theme-plugin-editor.asset.php';
+		$asset_file = include CUSTOM_HTML_BLOCK_EXTENSION_PATH . '/build/theme-plugin-editor.asset.php';
 
 		wp_enqueue_style(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/style-theme-plugin-editor.css',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/style-theme-plugin-editor.css',
 			array( 'wp-theme' ),
 			$asset_file['version']
 		);
 
 		wp_enqueue_script(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/theme-plugin-editor.js',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/theme-plugin-editor.js',
 			$asset_file['dependencies'],
 			$asset_file['version'],
 			true
@@ -119,7 +119,7 @@ class Theme_Plugin_Editor {
 
 		Assets::enqueue_font_stylesheet();
 		Assets::add_script_data(
-			CHBE_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
 			array_merge(
 				Assets::get_script_data(),
 				array(
@@ -128,7 +128,7 @@ class Theme_Plugin_Editor {
 			)
 		);
 
-		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
+		wp_set_script_translations( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE );
 	}
 }
 
