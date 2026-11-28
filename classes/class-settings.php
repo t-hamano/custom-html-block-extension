@@ -1037,13 +1037,7 @@ class Settings {
 	 * Get editor font family variations.
 	 */
 	public static function get_font_families() {
-		$additional_font_families = apply_filters_deprecated(
-			'chbe_additional_font_families', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Kept for backward compatibility.
-			array( array() ),
-			'5.1.0',
-			'custom_html_block_extension_additional_font_families'
-		);
-		$additional_font_families = apply_filters( 'custom_html_block_extension_additional_font_families', $additional_font_families );
+		$additional_font_families = apply_filters( 'chbe_additional_font_families', array() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Kept for backward compatibility.
 		return array_merge( self::DEFAULT_FONT_FAMILIES, $additional_font_families );
 	}
 

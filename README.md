@@ -100,10 +100,10 @@ Define the fonts with `@font-face` in the CSS file. In the `src` property, set t
 
 ### Step 4: Register the fonts with the filter hook
 
-Register the fonts with the `custom_html_block_extension_additional_font_families` filter hook, one array for each font family. For example, add the following to the `functions.php` file of your theme.
+Register the fonts with the `chbe_additional_font_families` filter hook, one array for each font family. For example, add the following to the `functions.php` file of your theme.
 
 ```php
-function my_custom_html_block_extension_additional_font_families( $font_families ) {
+function my_chbe_additional_font_families( $font_families ) {
 	// Regular font
 	$font_families[] = array(
 		'label'      => 'Fantasque Sans Mono',
@@ -120,7 +120,7 @@ function my_custom_html_block_extension_additional_font_families( $font_families
 	);
 	return $font_families;
 }
-add_filter( 'custom_html_block_extension_additional_font_families', 'my_custom_html_block_extension_additional_font_families' );
+add_filter( 'chbe_additional_font_families', 'my_chbe_additional_font_families' );
 ```
 
 #### Properties
