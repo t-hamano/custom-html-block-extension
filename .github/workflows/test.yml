@@ -120,14 +120,14 @@ jobs:
     strategy:
       matrix:
         php: ['8.2', '8.4', '8.5']
-        wp: ['WordPress', 'WordPress#7.2-branch', 'WordPress#7.1.3']
+        wp: ['WordPress', 'WordPress#7.2-branch', 'WordPress#7.1.5']
         include:
           - wp: WordPress
             label: WP trunk
           - wp: WordPress#7.2-branch
             label: WP 7.2
-          - wp: WordPress#7.1.3
-            label: WP 7.1.3
+          - wp: WordPress#7.1.5
+            label: WP 7.1.5
 
     name: PHP Unit / PHP ${{ matrix.php }} / ${{ matrix.label }}
 
@@ -175,8 +175,8 @@ jobs:
             label: WP 7.2
             browsers: chromium
           - php: '8.2'
-            wp: WordPress#7.1.3
-            label: WP 7.1.3
+            wp: WordPress#7.1.5
+            label: WP 7.1.5
             browsers: chromium
 
           - php: '8.4'
@@ -188,8 +188,8 @@ jobs:
             label: WP 7.2
             browsers: chromium
           - php: '8.4'
-            wp: WordPress#7.1.3
-            label: WP 7.1.3
+            wp: WordPress#7.1.5
+            label: WP 7.1.5
             browsers: chromium
 
           - php: '8.5'
@@ -201,8 +201,8 @@ jobs:
             label: WP 7.2
             browsers: chromium firefox webkit
           - php: '8.5'
-            wp: WordPress#7.1.3
-            label: WP 7.1.3
+            wp: WordPress#7.1.5
+            label: WP 7.1.5
             browsers: chromium firefox webkit
 
     name: E2E / PHP ${{ matrix.php }} / ${{ matrix.label }}
