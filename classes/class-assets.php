@@ -13,10 +13,10 @@ class Assets {
 	 * Get the data shared by the editor scripts as `chbeObj`.
 	 */
 	public static function get_script_data() {
-		$monaco_asset_file = include CHBE_PATH . '/build/monaco/monaco.asset.php';
+		$monaco_asset_file = include CUSTOM_HTML_BLOCK_EXTENSION_PATH . '/build/monaco/monaco.asset.php';
 
 		return array(
-			'pluginUrl'      => CHBE_URL,
+			'pluginUrl'      => CUSTOM_HTML_BLOCK_EXTENSION_URL,
 			'monacoVersion'  => $monaco_asset_file['version'],
 			'editorSettings' => Settings::get_editor_settings(),
 			'editorOptions'  => Settings::get_editor_options(),
@@ -43,10 +43,10 @@ class Assets {
 	 */
 	public static function enqueue_font_stylesheet() {
 		wp_enqueue_style(
-			CHBE_NAMESPACE . '-font',
-			CHBE_URL . '/assets/css/fira-code.css',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '-font',
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/css/fira-code.css',
 			array(),
-			CHBE_VERSION
+			CUSTOM_HTML_BLOCK_EXTENSION_VERSION
 		);
 	}
 }

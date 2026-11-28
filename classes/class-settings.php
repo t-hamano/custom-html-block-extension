@@ -683,37 +683,37 @@ class Settings {
 		array(
 			'label'      => 'Source Code Pro',
 			'name'       => 'Source Code Pro',
-			'stylesheet' => CHBE_URL . '/assets/css/source-code-pro.css',
+			'stylesheet' => CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/css/source-code-pro.css',
 			'weight'     => array( 200, 300, 400, 500, 600, 700, 900 ),
 		),
 		array(
 			'label'      => 'Source Code Pro (Italic)',
 			'name'       => 'Source Code Pro Italic',
-			'stylesheet' => CHBE_URL . '/assets/css/source-code-pro-italic.css',
+			'stylesheet' => CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/css/source-code-pro-italic.css',
 			'weight'     => array( 200, 300, 400, 500, 600, 700, 900 ),
 		),
 		array(
 			'label'      => 'Ubuntu Mono',
 			'name'       => 'Ubuntu Mono',
-			'stylesheet' => CHBE_URL . '/assets/css/ubuntu-mono.css',
+			'stylesheet' => CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/css/ubuntu-mono.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Ubuntu Mono (Italic)',
 			'name'       => 'Ubuntu Mono Italic',
-			'stylesheet' => CHBE_URL . '/assets/css/ubuntu-mono-italic.css',
+			'stylesheet' => CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/css/ubuntu-mono-italic.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Anonymous Pro',
 			'name'       => 'Anonymous Pro',
-			'stylesheet' => CHBE_URL . '/assets/css/anonymous-pro.css',
+			'stylesheet' => CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/css/anonymous-pro.css',
 			'weight'     => array( 300, 700 ),
 		),
 		array(
 			'label'      => 'Anonymous Pro (Italic)',
 			'name'       => 'Anonymous Pro Italic',
-			'stylesheet' => CHBE_URL . '/assets/css/anonymous-pro-italic.css',
+			'stylesheet' => CUSTOM_HTML_BLOCK_EXTENSION_URL . '/assets/css/anonymous-pro-italic.css',
 			'weight'     => array( 300, 700 ),
 		),
 	);
@@ -1037,7 +1037,13 @@ class Settings {
 	 * Get editor font family variations.
 	 */
 	public static function get_font_families() {
-		$additional_font_families = apply_filters( 'chbe_additional_font_families', array() );
+		$additional_font_families = apply_filters_deprecated(
+			'chbe_additional_font_families', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Kept for backward compatibility.
+			array( array() ),
+			'5.1.0',
+			'custom_html_block_extension_additional_font_families'
+		);
+		$additional_font_families = apply_filters( 'custom_html_block_extension_additional_font_families', $additional_font_families );
 		return array_merge( self::DEFAULT_FONT_FAMILIES, $additional_font_families );
 	}
 

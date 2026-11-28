@@ -27,7 +27,7 @@ class Api {
 	 */
 	public function register_routes() {
 		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '/v1',
 			'/get_json_schema',
 			array(
 				array(
@@ -48,7 +48,7 @@ class Api {
 		);
 
 		register_rest_route(
-			CHBE_NAMESPACE . '/v1',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE . '/v1',
 			'/validate_editor_config',
 			array(
 				array(

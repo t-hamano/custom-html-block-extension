@@ -7,16 +7,16 @@
 
 // `WP_TESTS_DIR` is provided by wp-env and points to the WordPress PHPUnit
 // test library matching the installed WordPress version.
-$chbe_tests_dir = getenv( 'WP_TESTS_DIR' );
+$custom_html_block_extension_tests_dir = getenv( 'WP_TESTS_DIR' );
 
-if ( ! $chbe_tests_dir || ! file_exists( $chbe_tests_dir . '/includes/functions.php' ) ) {
+if ( ! $custom_html_block_extension_tests_dir || ! file_exists( $custom_html_block_extension_tests_dir . '/includes/functions.php' ) ) {
 	echo 'Could not find the WordPress test library. Run the tests with `npm run test:php`.' . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	exit( 1 );
 }
 
-define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', dirname( __DIR__, 2 ) . '/vendor/yoast/phpunit-polyfills' );
+define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', dirname( __DIR__, 2 ) . '/vendor/yoast/phpunit-polyfills' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant name required by the WordPress test library.
 
-require_once $chbe_tests_dir . '/includes/functions.php';
+require_once $custom_html_block_extension_tests_dir . '/includes/functions.php';
 
 tests_add_filter(
 	'muplugins_loaded',
@@ -25,4 +25,4 @@ tests_add_filter(
 	}
 );
 
-require $chbe_tests_dir . '/includes/bootstrap.php';
+require $custom_html_block_extension_tests_dir . '/includes/bootstrap.php';

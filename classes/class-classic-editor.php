@@ -49,27 +49,27 @@ class Classic_Editor {
 			return;
 		}
 
-		$asset_file = include CHBE_PATH . '/build/classic-editor.asset.php';
+		$asset_file = include CUSTOM_HTML_BLOCK_EXTENSION_PATH . '/build/classic-editor.asset.php';
 
 		wp_enqueue_style(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/style-classic-editor.css',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/style-classic-editor.css',
 			array( 'wp-theme' ),
 			$asset_file['version']
 		);
 
 		wp_enqueue_script(
-			CHBE_NAMESPACE,
-			CHBE_URL . '/build/classic-editor.js',
+			CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE,
+			CUSTOM_HTML_BLOCK_EXTENSION_URL . '/build/classic-editor.js',
 			array_merge( $asset_file['dependencies'], array( 'wp-backbone' ) ),
 			$asset_file['version'],
 			true
 		);
 
 		Assets::enqueue_font_stylesheet();
-		Assets::add_script_data( CHBE_NAMESPACE, Assets::get_script_data() );
+		Assets::add_script_data( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, Assets::get_script_data() );
 
-		wp_set_script_translations( CHBE_NAMESPACE, CHBE_NAMESPACE );
+		wp_set_script_translations( CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE, CUSTOM_HTML_BLOCK_EXTENSION_NAMESPACE );
 	}
 }
 

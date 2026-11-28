@@ -5,7 +5,7 @@
  * Usage: php defaults.php <plugin root>
  */
 
-define( 'CHBE_URL', '' );
+define( 'CUSTOM_HTML_BLOCK_EXTENSION_URL', '' );
 
 function apply_filters( $hook_name, $value ) {
 	return $value;
